@@ -84,3 +84,82 @@
 - Sonidos y musica:
     * Se debera reproducir una musica de fondo
     * Se deberan reproducir sonidos ante explosiones o ataques.
+
+
+# Responsabilidades
+
+## Cliente
+
+- Interfaz grafica:
+    * Pantalla de login, permitiendole al usuario definir el servidor a conectarse.
+    * Mostrar inventario, barra de estado, mini-chat, mapa, NPCs, jugadores y al personaje en el centro.
+- Controles:
+    * Tomar los inputs de teclado y mouse, codificarlos y enviarlos al servidor mediante protocolo.
+- Comandos:
+    * Tomar los comandos del mini-chat, codificarlos y enviarlos al servidor mediante protocolo
+- Mini-chat:
+    * Mostrar los mensajes del mini-chat recibidos desde el servidor.
+- Acciones:
+    * Cada nueva accion debera ser reportada al servidor y esperar la respuesta antes de actualizar la interfaz:
+        1. Movimiento del personaje.
+        2. Ataque del personaje.
+        3. Seleccion de elementos, jugadores o NPCs. (incluido elementos del inventario).
+
+
+## Servidor
+
+
+- Razas y Clases:
+    * Debera llevar la logica de la interaccion de las distintas razas y clases.
+- Items:
+    * Debera llevar la logica de los efectos de los distintos items del juego.
+- Creacion de pj y logueo:
+    * Debera permitir la creacion de un nuevo personaje, respetando su raza y nombre.
+    * Los personajes creados deberan ser almacenados en un fichero (persistir)
+    * Debera llevar la logica de logueo de un personaje ya creado, buscando en los ficheros.
+- Movimiento:
+    * Debera llevar la logica del movimiento del jugador y NPCs, las cuales reportara al mapa.
+- Ataque:
+    * Permitir realizar un ataque jugador-jugador o jugador-NPC, ambos dentro del mismo mapa.
+    * Llevar la logica de los distintos ataques posibles, a distancia y cuerpo a cuerpo.
+    * Llevar la logica del daño del ataque y la defensa al mismo.
+    * Llevar la logica de "fair-play".
+    * Llevar la logica de zonas no ofensivas.
+- Drop y experiencia:
+    * Llevar la logica de el drop de items u oro.
+    * Llevar la logica del drop de experiencia.
+- Mapa:
+    * Debera soportar la carga de todas las entidades dibujables, permitiendo cierta logica de seleccion y colision.
+    * Debera actualizarse constantemente con el movimiento de NPCs y jugadores. Estos ultimos reportaran su movimiento por conexion TCP.
+    * Un mapa puede o no ser una ciudad, debera permitir diferenciar.
+- Ciudades:
+    * Las ciudades seran zonas no ofensivas.
+    * Debera manejarse la logica de los NPCs de las ciudades.
+
+
+
+
+# Modelo del mapa
+
+## Primer modelo
+
+### Servidor
+
+- Cada mapa consistira en una matriz de N*M donde cada posicion sera un puntero a un objeto `Posicionable`. Las posiciones vacias son representadas por `0` y las invalidas con un `-1`.
+- Cada objeto `Posicionable` almacenara su posicion en coordenadas.
+- El servidor cargara una matriz en memoria por cada mapa del juego al mismo tiempo.
+- Los Clientes se encargaran de reportar al servidor la nueva posicion que desean adquirir, el servidor se encargara de chequear que esa posicion sea valida y que no haya colision con NPCs u otros jugadores.
+- Ante un movimiento valido el servidor mueve el puntero al objeto `Posicionable` a su nueva posicion y responde al Cliente con las coordenadas correspondientes.
+- Ante un cambio de mapa el servidor le indicara al Cliente la nueva posicion en coordenadas junto al id del archivo a cargar.
+
+### Cliente
+
+- El cliente cargara en memoria unicamente el mapa sobre el cual se encuentra el personaje.
+- El mapa consistira de:
+    1. Una imagen preprocesada que sera mostrada estaticamente en el fondo del canvas.
+    2. Un Quad-tree que permitira hacer chequeo de colisiones estaticas de forma mas eficiente.
+    3. Un hash que guardara la posicion de los objetos dinamicos utilizando sus `id` como clave.
+- El hash almacenara en cada posicion un objeto que contendra la informacion necesaria para dibujar a ese objeto por pantalla. El `id` podra ser una concatenacion del tipo de clase y numero de instancia o nombre de jugador. (Hay que prohibir ciertos nombres de jugador que nos pueden romper el parseo). 
+- El cliente tomara el input del usuario, realizara por si mismo un chequeo de colisiones con las barreras estaticas del juego (borde del mapa, un arbol, una casa, etc) y solo enviara una peticion al servidor si no hay colision.
+- El serivdor respondera con la nueva posicion de todos los objetos dinamicos constantemente, por lo tanto es importante ser eficientes al actualizar el hash.
+- La seleccion de un objeto del mapa con el mouse implicara buscar el `id` de dicho objeto dentro del hash para poder enviar una peticion al servidor. Esta busqueda debera realizarse linealmente ya que el hash tiene acceso directo por `id` y no por `posicion`. (pensar optimizacion).
