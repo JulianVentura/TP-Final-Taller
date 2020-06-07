@@ -29,5 +29,4 @@ private:
     EntornoGrafico& entorno;
     friend class Renderer;
 };
-
 #endif

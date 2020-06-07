@@ -11,7 +11,7 @@ class Ventana;
 
 class Renderer {
 public:
-    Renderer(EntornoGrafico& entorno);
+    explicit Renderer(EntornoGrafico& entorno);
     ~Renderer();
     void clear();
     void present();
@@ -30,6 +30,7 @@ public:
                                                         SDL_Rect& render_clip);
     SDL_Texture* textureFromSurface(SDL_Surface* surface, 
                                                         SDL_Rect* render_clip);
+
 private:
     SDL_Renderer* renderer;
     EntornoGrafico& entorno;

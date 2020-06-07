@@ -7,5 +7,4 @@ class IInteractivo {
 public:
     virtual void manejarEvento(const SDL_Event& event) = 0;
 };
-
 #endif

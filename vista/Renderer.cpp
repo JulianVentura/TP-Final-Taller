@@ -54,7 +54,8 @@ void Renderer::fillRect(SDL_Rect& rect) {
     SDL_RenderFillRect(renderer, &rect);
 }
 
-SDL_Texture* Renderer::textureFromSurface(SDL_Surface* surface, SDL_Rect* render_clip) {
+SDL_Texture* Renderer::textureFromSurface(SDL_Surface* surface, 
+                                                        SDL_Rect* render_clip) {
     SDL_Texture* texture = SDL_CreateTextureFromSurface(renderer, surface);
     if (!texture) {
         SDL_FreeSurface(surface);
@@ -68,11 +69,14 @@ SDL_Texture* Renderer::textureFromSurface(SDL_Surface* surface, SDL_Rect* render
 
 void Renderer::text(const std::string& text) {
     TTF_Font* font = entorno.getFont();
-    SDL_Surface* loaded_surface = TTF_RenderText_Blended(font, text.c_str(), color);
+    SDL_Surface* loaded_surface = TTF_RenderText_Blended(font, text.c_str(), 
+                                                                        color);
     if (!loaded_surface) 
-        throw ErrorGrafico("No se pudo cargar generar textura de texto%s\n", TTF_GetError());
+        throw ErrorGrafico("No se pudo cargar generar textura de texto%s\n",
+                                                                TTF_GetError());
     SDL_Rect render_clip = {};
-    SDL_Texture* text_texture = textureFromSurface(loaded_surface, &render_clip);
+    SDL_Texture* text_texture = textureFromSurface(loaded_surface, 
+                                                                &render_clip);
     renderTexture(text_texture, render_clip, render_clip);
     SDL_DestroyTexture(text_texture); // Se podría bufferear
 }

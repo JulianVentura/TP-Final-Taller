@@ -6,17 +6,16 @@
 #include "Ventana.h"
 
 EntornoGrafico::EntornoGrafico() {
-    if (SDL_Init(SDL_INIT_VIDEO) < 0) 
+    if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO) < 0) 
         throw ErrorGrafico("No se pudo inicializar video %s\n", SDL_GetError());
 }
 
 EntornoGrafico::~EntornoGrafico() {
-    for (auto& texture: textures) {
-        SDL_DestroyTexture(texture.second);
-    }
-    TTF_CloseFont(font);
     if (is_img_enabled) IMG_Quit();
-    if (is_ttf_enabled) TTF_Quit();
+    if (is_ttf_enabled) {
+        TTF_CloseFont(font);
+        TTF_Quit();
+    }
     SDL_Quit();
 }
 
@@ -67,8 +66,7 @@ SDL_Texture* EntornoGrafico::loadImagen(const std::string& path,
             loaded_surface->format, 
             key_color->r, 
             key_color->g, 
-            key_color->g
-        ));
+            key_color->g));
     SDL_Texture* img_texture = renderer->textureFromSurface(loaded_surface, 
                                                                 render_clip);
     textures[path] = img_texture;
