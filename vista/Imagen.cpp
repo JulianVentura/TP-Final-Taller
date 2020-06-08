@@ -1,14 +1,22 @@
 #include "Imagen.h"
 
 Imagen::Imagen(EntornoGrafico& entorno, const std::string& path, 
-                                                        SDL_Color* key_color) {
-    src_clip = {};
-    render_clip = {};
-    texture = entorno.loadImagen(path, &src_clip, key_color);
-    render_clip = src_clip;
+                                                            SDL_Color* color) {
     entorno.addRenderable(this);
+    texture = entorno.loadImagen(path, color);
+    iniciarDimension(texture);
 }
 
+Imagen::Imagen(EntornoGrafico& entorno, const std::string& path) {
+    entorno.addRenderable(this);
+    texture = entorno.loadImagen(path);
+    iniciarDimension(texture);
+}
+
+void Imagen::iniciarDimension(SDL_Texture* texture) {
+    SDL_QueryTexture(texture, NULL, NULL, &src_clip.w, &src_clip.h);
+    render_clip = src_clip;
+}
 void Imagen::setClip(int x, int y, int ancho, int alto) {
     src_clip.x = x;
     src_clip.x = y;
@@ -24,7 +32,7 @@ void Imagen::setPosicion(int x, int y) {
 }
 
 void Imagen::render() {
-    renderer->renderTexture(texture, src_clip, render_clip);
+    renderer->renderTextura(texture, src_clip, render_clip);
 }
 
 int Imagen::getAncho() {

@@ -52,27 +52,34 @@ void EntornoGrafico::enableTtf() {
     is_ttf_enabled = true;
 }
 
-SDL_Texture* EntornoGrafico::loadImagen(const std::string& path, 
-        SDL_Rect* render_clip, SDL_Color* key_color) {
-    if (!is_img_enabled) enableImg();
-    if (textures.count(path) > 0) return textures[path];
-    SDL_Surface* loaded_surface = IMG_Load(path.c_str());
-    if (!loaded_surface) 
+static SDL_Surface* superficieDeImagenColorKey(const std::string& path, 
+                                                        SDL_Color* color) {
+    SDL_Surface* superficie = IMG_Load(path.c_str());
+    if (!superficie) 
         throw ErrorGrafico("No se pudo cargar imagen %s: Error %s\n", 
                                                 path.c_str(), IMG_GetError());
-    if (key_color)
-        SDL_SetColorKey(loaded_surface, SDL_TRUE, 
-        SDL_MapRGB(
-            loaded_surface->format, 
-            key_color->r, 
-            key_color->g, 
-            key_color->g));
-    SDL_Texture* img_texture = renderer->textureFromSurface(loaded_surface, 
-                                                                render_clip);
+    auto key = SDL_MapRGB(superficie->format, color->r, color->g, color->g);
+    SDL_SetColorKey(superficie, SDL_TRUE, key);
+    return superficie;
+}
+SDL_Texture* EntornoGrafico::loadImagen(const std::string& path, 
+                                                        SDL_Color* key_color) {
+    if (!is_img_enabled) enableImg();
+    if (textures.count(path) > 0) return textures[path];
+    SDL_Surface* superficie = superficieDeImagenColorKey(path, key_color);
+    SDL_Texture* img_texture = renderer->texturaDesdeSuperficie(superficie);
+    SDL_FreeSurface(superficie);
     textures[path] = img_texture;
     return textures[path];
 }
 
+SDL_Texture* EntornoGrafico::loadImagen(const std::string& path) {
+    if (!is_img_enabled) enableImg();
+    if (textures.count(path) > 0) return textures[path]; // Puede traer problemas
+    SDL_Texture* img_texture = renderer->loadImage(path);
+    textures[path] = img_texture;
+    return textures[path];
+}
 void EntornoGrafico::loadFont(const std::string& path, int size) {
     if (!is_ttf_enabled) enableTtf();
     font = TTF_OpenFont(path.c_str(), size);

@@ -7,7 +7,7 @@
 ################
 
 # Nombre del ejecutable.
-target = vista
+target = vista.out
 
 # Extensión de los archivos a compilar (c para C, cpp o cc o cxx para C++).
 extension = cpp

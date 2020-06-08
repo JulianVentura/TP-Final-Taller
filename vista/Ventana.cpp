@@ -27,12 +27,10 @@ Ventana::~Ventana() {
     SDL_DestroyWindow(ventana);
 }
 
-Ventana::Ventana(EntornoGrafico& entorno, const char* title)
-        : entorno(entorno) {
+Ventana::Ventana(EntornoGrafico& entorno, const char* title): entorno(entorno) {
     ventana = SDL_CreateWindow(title, 
         SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED,
-        width, height,
-        SDL_WINDOW_SHOWN | SDL_WINDOW_RESIZABLE);
+        width, height, SDL_WINDOW_SHOWN | SDL_WINDOW_RESIZABLE);
     if (!ventana)
         throw ErrorGrafico("No se pudo crear la ventana %s\n", SDL_GetError());
     entorno.setVentana(this);
@@ -43,13 +41,8 @@ void Ventana::manejarEvento(const SDL_Event& event) {
         if (event.key.keysym.sym == SDLK_ESCAPE) {
             SDL_SetWindowFullscreen(ventana, 0);
         }
-
-        if (event.key.keysym.sym == SDLK_F11) { // way to go :D
+        if (event.key.keysym.sym == SDLK_F11) {
             SDL_SetWindowFullscreen(ventana, SDL_WINDOW_FULLSCREEN_DESKTOP);
-        }
-        
-        if (event.key.keysym.sym == SDLK_F12) { // ugly :<
-            SDL_SetWindowFullscreen(ventana, SDL_WINDOW_FULLSCREEN);
         }
     }
     if (event.type == SDL_MOUSEBUTTONDOWN) {
