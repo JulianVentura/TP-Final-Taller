@@ -45,18 +45,17 @@ void Ventana::manejarEvento(const SDL_Event& event) {
             SDL_SetWindowFullscreen(ventana, SDL_WINDOW_FULLSCREEN_DESKTOP);
         }
     }
+
     if (event.type == SDL_MOUSEBUTTONDOWN) {
     }
     if (event.type == SDL_MOUSEBUTTONUP) {   
     }
-
     for (auto& interactivo: interactivos) {
         interactivo->manejarEvento(event);
     }
 }
 
 void Ventana::render() {
-
     renderer->setColor(color_fondo);
     renderer->limpiar();
     for (auto& renderable: renderables) {

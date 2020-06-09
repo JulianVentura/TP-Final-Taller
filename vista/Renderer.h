@@ -29,10 +29,11 @@ public:
     void texto(const std::string& text);
     void texto(const std::string& text, int x, int y);
     void renderTextura(SDL_Texture* texture, SDL_Rect& src_clip, 
-                                                        SDL_Rect& render_clip); // Maybe x, y
+                                        SDL_Rect& render_clip); // Maybe x, y
     
     SDL_Texture* texturaDesdeSuperficie(SDL_Surface* surface);
     SDL_Texture* texturaDesdeArchivoImagen(const std::string& path);
+    
 private:
     void transformar(SDL_Rect& clip);
     void renderTexturaTexto(SDL_Surface* superficie, int x, int y);

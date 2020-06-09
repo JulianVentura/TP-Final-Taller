@@ -8,7 +8,7 @@
 class Camara {
 public:
     Camara() = default;
-    Camara(IDimensionable* contenedor): contenedor(contenedor){}
+    explicit Camara(IDimensionable* contenedor): contenedor(contenedor){}
     void setTarget(ITargeteable& target);
     void centrar(Renderer* renderer);
     void reiniciar(Renderer* renderer);
@@ -19,5 +19,4 @@ private:
     int xoff = 0;
     int yoff = 0;
 };
-
 #endif

@@ -1,4 +1,5 @@
 #include "Mapa.h"
+#include <string>
 
 Mapa::Mapa(EntornoGrafico& entorno) {
     entorno.agregarRenderable(this);
@@ -19,5 +20,4 @@ void Mapa::render() {
 }
 
 void Mapa::manejarEvento(const SDL_Event& event) {
-    
 }

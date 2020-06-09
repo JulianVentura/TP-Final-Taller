@@ -75,7 +75,8 @@ SDL_Texture* EntornoGrafico::cargarImagen(const std::string& path,
 
 SDL_Texture* EntornoGrafico::cargarImagen(const std::string& path, bool cache) {
     if (!is_img_enabled) enableImg();
-    if (cache && textures.count(path) > 0) return textures[path]; // Puede traer problemas
+    if (cache && textures.count(path) > 0) return textures[path]; 
+                                                        // Puede traer problemas
     SDL_Texture* img_texture = renderer->texturaDesdeArchivoImagen(path);
     textures[path] = img_texture;
     return textures[path];

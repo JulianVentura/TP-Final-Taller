@@ -1,6 +1,7 @@
 #include "Personaje.h"
 #include <SDL2/SDL_timer.h>
-
+#include <vector>
+#include <string>
 
 std::vector<SDL_Rect> clips{
     {10, 15, 90, 115},
@@ -12,7 +13,7 @@ int i = 0;
 class Animacion {
 public:
     Animacion() = default;
-    Animacion(Imagen& imagen): imagen(&imagen), 
+    explicit Animacion(Imagen& imagen): imagen(&imagen), 
                                             ultimo_cambio(SDL_GetTicks()) {}
     void reproducir();
 private:
@@ -35,7 +36,6 @@ void Animacion::reproducir() {
             ultima_reproduccion = tiempo_transcurrido;
             i = 0;
         }
-
     }
 }
 
@@ -65,7 +65,6 @@ void Personaje::render() {
     // imagen.render();
     // DEBUG
     renderer->rect(x, y, ancho, alto);
-
 }
 
 void Personaje::manejarEvento(const SDL_Event& event) {

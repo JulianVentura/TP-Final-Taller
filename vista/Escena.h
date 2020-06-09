@@ -8,7 +8,7 @@
 
 class Escena: public IRenderable, public IInteractivo {
 public:
-    Escena(EntornoGrafico& entorno);
+    explicit Escena(EntornoGrafico& entorno);
     void render() override;
     void actualizar() override;
     void manejarEvento(const SDL_Event& event) override;
