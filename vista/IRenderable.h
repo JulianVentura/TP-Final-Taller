@@ -5,6 +5,7 @@
 class IRenderable {
 public:
     virtual void render() = 0;
+    virtual void actualizar();
     virtual void setRenderer(Renderer* renderer);
     virtual void setVentana(Ventana* ventana);
 protected:

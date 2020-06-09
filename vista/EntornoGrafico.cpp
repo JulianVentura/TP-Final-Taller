@@ -31,7 +31,7 @@ void EntornoGrafico::run() {
     }
 }
 
-void EntornoGrafico::addRenderable(IRenderable* renderable) {
+void EntornoGrafico::agregarRenderable(IRenderable* renderable) {
     renderable->setRenderer(renderer);
     renderable->setVentana(ventana);
 }
@@ -62,7 +62,7 @@ static SDL_Surface* superficieDeImagenColorKey(const std::string& path,
     SDL_SetColorKey(superficie, SDL_TRUE, key);
     return superficie;
 }
-SDL_Texture* EntornoGrafico::loadImagen(const std::string& path, 
+SDL_Texture* EntornoGrafico::cargarImagen(const std::string& path, 
                                             SDL_Color* key_color, bool cache) {
     if (!is_img_enabled) enableImg();
     if (cache && textures.count(path) > 0) return textures[path];
@@ -73,7 +73,7 @@ SDL_Texture* EntornoGrafico::loadImagen(const std::string& path,
     return textures[path];
 }
 
-SDL_Texture* EntornoGrafico::loadImagen(const std::string& path, bool cache) {
+SDL_Texture* EntornoGrafico::cargarImagen(const std::string& path, bool cache) {
     if (!is_img_enabled) enableImg();
     if (cache && textures.count(path) > 0) return textures[path]; // Puede traer problemas
     SDL_Texture* img_texture = renderer->texturaDesdeArchivoImagen(path);
@@ -81,7 +81,7 @@ SDL_Texture* EntornoGrafico::loadImagen(const std::string& path, bool cache) {
     return textures[path];
 }
 
-void EntornoGrafico::loadFont(const std::string& path, int size) {
+void EntornoGrafico::cargarFuente(const std::string& path, int size) {
     if (!is_ttf_enabled) enableTtf();
     font = TTF_OpenFont(path.c_str(), size);
     if (!font) 
@@ -89,6 +89,6 @@ void EntornoGrafico::loadFont(const std::string& path, int size) {
                                                 path.c_str(), TTF_GetError());
 }
 
-TTF_Font* EntornoGrafico::getFont() {
+TTF_Font* EntornoGrafico::getFuente() {
     return font;
 }

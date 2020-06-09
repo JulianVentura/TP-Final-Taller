@@ -3,13 +3,13 @@
 #include <SDL2/SDL_render.h>
 #include <SDL2/SDL_timer.h>
 
-void Ventana::addRenderable(IRenderable* renderable) {
+void Ventana::agregarRenderable(IRenderable* renderable) {
     renderables.push_back(renderable);
     renderable->setRenderer(renderer);
     renderable->setVentana(this);
 }
 
-void Ventana::addInteractivo(IInteractivo* interactivo) {
+void Ventana::agregarInteractivo(IInteractivo* interactivo) {
     interactivos.push_back(interactivo);  
 }
 
@@ -56,9 +56,11 @@ void Ventana::manejarEvento(const SDL_Event& event) {
 }
 
 void Ventana::render() {
+
     renderer->setColor(color_fondo);
     renderer->limpiar();
     for (auto& renderable: renderables) {
+        renderable->actualizar();
         renderable->render();
     }
     renderer->presentar();

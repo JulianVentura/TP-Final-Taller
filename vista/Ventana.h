@@ -18,8 +18,8 @@ public:
     void render();
     int getAncho() override;
     int getAlto() override;
-    void addRenderable(IRenderable* renderable);
-    void addInteractivo(IInteractivo* interactivo);
+    void agregarRenderable(IRenderable* renderable);
+    void agregarInteractivo(IInteractivo* interactivo);
 private:
     int width = 650;
     int height = 650;

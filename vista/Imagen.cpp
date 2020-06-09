@@ -2,14 +2,14 @@
 
 Imagen::Imagen(EntornoGrafico& entorno, const std::string& path, 
                                                             SDL_Color* color) {
-    entorno.addRenderable(this);
-    texture = entorno.loadImagen(path, color);
+    entorno.agregarRenderable(this);
+    texture = entorno.cargarImagen(path, color);
     iniciarDimension(texture);
 }
 
 Imagen::Imagen(EntornoGrafico& entorno, const std::string& path) {
-    entorno.addRenderable(this);
-    texture = entorno.loadImagen(path);
+    entorno.agregarRenderable(this);
+    texture = entorno.cargarImagen(path);
     iniciarDimension(texture);
 }
 
@@ -20,7 +20,7 @@ void Imagen::iniciarDimension(SDL_Texture* texture) {
 
 void Imagen::setClip(int x, int y, int ancho, int alto) {
     src_clip.x = x;
-    src_clip.x = y;
+    src_clip.y = y;
     src_clip.w = ancho;
     src_clip.h = alto;
     render_clip.w = ancho;

@@ -6,8 +6,9 @@
 # CONFIGURACION
 ################
 
+filename = vista
 # Nombre del ejecutable.
-target = vista.out
+target = $(filename).out
 
 # Extensión de los archivos a compilar (c para C, cpp o cc o cxx para C++).
 extension = cpp
@@ -35,7 +36,7 @@ CFLAGS += -ggdb -DDEBUG -fno-inline
 # flags para SDL
 LDFLAGS = -lSDL2 -lSDL2_image -lSDL2_ttf -lSDL2_mixer
 
-SUPRESSIONFILE = util/$(target).supp
+SUPRESSIONFILE = util/$(filename).supp
 VALGRINDFLAGS = --leak-check=full --suppressions=$(SUPRESSIONFILE)
 
 # Estandar de C++ a usar

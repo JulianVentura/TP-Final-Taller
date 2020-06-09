@@ -40,7 +40,7 @@ void Renderer::setColor(Uint8 rojo, Uint8 verde, Uint8 azul) {
 }
 
 void Renderer::setColor(Uint8 rojo, Uint8 verde, Uint8 azul, Uint8 alpha) {
-    color = {rojo, verde, azul, alpha};
+    color = { rojo, verde, azul, alpha };
     SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_BLEND);
     SDL_SetRenderDrawColor(renderer, rojo, verde, azul, alpha);
 }
@@ -104,7 +104,7 @@ void Renderer::renderTexturaTexto(SDL_Surface* superficie, int x, int y) {
 }
 
 void Renderer::texto(const std::string& text, int x, int y) {
-    TTF_Font* font = entorno.getFont(); 
+    TTF_Font* font = entorno.getFuente(); 
     SDL_Surface* superficie = TTF_RenderText_Blended(font, text.c_str(), color);
     if (!superficie) 
         throw ErrorGrafico("No se pudo cargar generar textura de texto%s\n",
