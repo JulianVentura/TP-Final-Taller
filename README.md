@@ -82,8 +82,8 @@
     * Todas las ecuaciones deben pertenecer a una misma clase o modulo.
     * Todos los valores numericos deberan ser cargados desde un archivo de configuracion de texto.
 - Sonidos y musica:
-    * Se debera reproducir una musica de fondo
-    * Se deberan reproducir sonidos ante explosiones o ataques.
+    * Se debera reproducir una musica de fondo                    :heavy_check_mark:
+    * Se deberan reproducir sonidos ante explosiones o ataques.   :heavy_check_mark:
 
 
 # Responsabilidades
