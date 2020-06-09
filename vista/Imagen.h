@@ -12,10 +12,10 @@ public:
     Imagen(EntornoGrafico& entorno, const std::string& path, SDL_Color* color);
     void render() override;
     void setPosicion(int x, int y);
-    int getAncho();
-    int getAlto();
-    void setAncho(int ancho);
-    void setAlto(int alto);
+    virtual int getAncho();
+    virtual int getAlto();
+    virtual void setAncho(int ancho);
+    virtual void setAlto(int alto);
     void setClip(int x, int y, int ancho, int alto);
 private:
     void iniciarDimension(SDL_Texture* texture);

@@ -18,8 +18,9 @@ public:
     void run();
     void setVentana(Ventana* ventana);
     void addRenderable(IRenderable* renderable);
-    SDL_Texture* loadImagen(const std::string& path);
-    SDL_Texture* loadImagen(const std::string& path, SDL_Color* key_color);
+    SDL_Texture* loadImagen(const std::string& path, bool cache = true);
+    SDL_Texture* loadImagen(const std::string& path, SDL_Color* key_color, 
+                                                            bool cache = true);
     void loadFont(const std::string& path, int size);
     TTF_Font* getFont();
 private:

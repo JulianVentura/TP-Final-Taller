@@ -57,9 +57,9 @@ void Ventana::manejarEvento(const SDL_Event& event) {
 
 void Ventana::render() {
     renderer->setColor(color_fondo);
-    renderer->clear();
+    renderer->limpiar();
     for (auto& renderable: renderables) {
         renderable->render();
     }
-    renderer->present();
+    renderer->presentar();
 }

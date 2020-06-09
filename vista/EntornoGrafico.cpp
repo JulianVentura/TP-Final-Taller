@@ -63,9 +63,9 @@ static SDL_Surface* superficieDeImagenColorKey(const std::string& path,
     return superficie;
 }
 SDL_Texture* EntornoGrafico::loadImagen(const std::string& path, 
-                                                        SDL_Color* key_color) {
+                                            SDL_Color* key_color, bool cache) {
     if (!is_img_enabled) enableImg();
-    if (textures.count(path) > 0) return textures[path];
+    if (cache && textures.count(path) > 0) return textures[path];
     SDL_Surface* superficie = superficieDeImagenColorKey(path, key_color);
     SDL_Texture* img_texture = renderer->texturaDesdeSuperficie(superficie);
     SDL_FreeSurface(superficie);
@@ -73,13 +73,14 @@ SDL_Texture* EntornoGrafico::loadImagen(const std::string& path,
     return textures[path];
 }
 
-SDL_Texture* EntornoGrafico::loadImagen(const std::string& path) {
+SDL_Texture* EntornoGrafico::loadImagen(const std::string& path, bool cache) {
     if (!is_img_enabled) enableImg();
-    if (textures.count(path) > 0) return textures[path]; // Puede traer problemas
-    SDL_Texture* img_texture = renderer->loadImage(path);
+    if (cache && textures.count(path) > 0) return textures[path]; // Puede traer problemas
+    SDL_Texture* img_texture = renderer->texturaDesdeArchivoImagen(path);
     textures[path] = img_texture;
     return textures[path];
 }
+
 void EntornoGrafico::loadFont(const std::string& path, int size) {
     if (!is_ttf_enabled) enableTtf();
     font = TTF_OpenFont(path.c_str(), size);

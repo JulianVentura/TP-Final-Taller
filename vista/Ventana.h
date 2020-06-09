@@ -4,18 +4,20 @@
 #include "EntornoGrafico.h"
 #include "IInteractivo.h"
 #include "IRenderable.h"
+#include "IDimensionable.h"
 #include "Renderer.h"
 #include <SDL2/SDL_events.h>
 #include <vector>
 
-class Ventana {
+
+class Ventana: public IDimensionable {
 public:
     Ventana(EntornoGrafico& entorno, const char* title);
     ~Ventana();
     void manejarEvento(const SDL_Event& event);
     void render();
-    int getAncho();
-    int getAlto();
+    int getAncho() override;
+    int getAlto() override;
     void addRenderable(IRenderable* renderable);
     void addInteractivo(IInteractivo* interactivo);
 private:

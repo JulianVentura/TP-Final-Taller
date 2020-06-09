@@ -17,6 +17,7 @@ void Imagen::iniciarDimension(SDL_Texture* texture) {
     SDL_QueryTexture(texture, NULL, NULL, &src_clip.w, &src_clip.h);
     render_clip = src_clip;
 }
+
 void Imagen::setClip(int x, int y, int ancho, int alto) {
     src_clip.x = x;
     src_clip.x = y;
@@ -38,12 +39,15 @@ void Imagen::render() {
 int Imagen::getAncho() {
     return render_clip.w;
 }
+
 int Imagen::getAlto() {
     return render_clip.h;
 }
+
 void Imagen::setAncho(int ancho) {
     render_clip.w = ancho;
 }
+
 void Imagen::setAlto(int alto) {
     render_clip.h = alto;
 }
