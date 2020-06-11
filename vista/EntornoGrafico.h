@@ -9,7 +9,7 @@
 
 class Ventana;
 class Renderer;
-class IRenderable;
+class IRendereable;
 
 class EntornoGrafico {
 public:
@@ -17,7 +17,7 @@ public:
     ~EntornoGrafico();
     void run();
     void setVentana(Ventana* ventana);
-    void agregarRenderable(IRenderable* renderable);
+    void agregarRendereable(IRendereable* rendereable);
     SDL_Texture* cargarImagen(const std::string& path, bool cache = true);
     SDL_Texture* cargarImagen(const std::string& path, SDL_Color* key_color, 
                                                             bool cache = true);

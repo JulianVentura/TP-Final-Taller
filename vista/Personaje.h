@@ -1,12 +1,12 @@
 #ifndef PERSONAJE_H
 #define PERSONAJE_H
 
-#include "IRenderable.h"
+#include "IRendereable.h"
 #include "IInteractivo.h"
 #include "ITargeteable.h"
 #include "Imagen.h"
 
-class Personaje: public IRenderable, public IInteractivo, public ITargeteable {
+class Personaje: public IRendereable, public IInteractivo, public ITargeteable {
 public:
     explicit Personaje(EntornoGrafico& entorno);
     void render() override;

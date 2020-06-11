@@ -3,10 +3,10 @@
 #include <SDL2/SDL_render.h>
 #include <SDL2/SDL_timer.h>
 
-void Ventana::agregarRenderable(IRenderable* renderable) {
-    renderables.push_back(renderable);
-    renderable->setRenderer(renderer);
-    renderable->setVentana(this);
+void Ventana::agregarRendereable(IRendereable* rendereable) {
+    rendereables.push_back(rendereable);
+    rendereable->setRenderer(renderer);
+    rendereable->setVentana(this);
 }
 
 void Ventana::agregarInteractivo(IInteractivo* interactivo) {
@@ -14,13 +14,11 @@ void Ventana::agregarInteractivo(IInteractivo* interactivo) {
 }
 
 int Ventana::getAlto() {
-    SDL_GetWindowSize(ventana, &width, &height);
-    return height;
+    return alto;
 }
 
 int Ventana::getAncho() {
-    SDL_GetWindowSize(ventana, &width, &height);
-    return width;
+    return ancho;
 }
 
 Ventana::~Ventana() {
@@ -30,7 +28,7 @@ Ventana::~Ventana() {
 Ventana::Ventana(EntornoGrafico& entorno, const char* title): entorno(entorno) {
     ventana = SDL_CreateWindow(title, 
         SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED,
-        width, height, SDL_WINDOW_SHOWN | SDL_WINDOW_RESIZABLE);
+        ancho, alto, SDL_WINDOW_SHOWN | SDL_WINDOW_RESIZABLE);
     if (!ventana)
         throw ErrorGrafico("No se pudo crear la ventana %s\n", SDL_GetError());
     entorno.setVentana(this);
@@ -45,11 +43,13 @@ void Ventana::manejarEvento(const SDL_Event& event) {
             SDL_SetWindowFullscreen(ventana, SDL_WINDOW_FULLSCREEN_DESKTOP);
         }
     }
+    
+    if (event.type == SDL_WINDOWEVENT) { 
+        if (event.window.event == SDL_WINDOWEVENT_RESIZED) {
+            SDL_GetWindowSize(ventana, &ancho, &alto);
+        }
+    }
 
-    if (event.type == SDL_MOUSEBUTTONDOWN) {
-    }
-    if (event.type == SDL_MOUSEBUTTONUP) {   
-    }
     for (auto& interactivo: interactivos) {
         interactivo->manejarEvento(event);
     }
@@ -58,9 +58,10 @@ void Ventana::manejarEvento(const SDL_Event& event) {
 void Ventana::render() {
     renderer->setColor(color_fondo);
     renderer->limpiar();
-    for (auto& renderable: renderables) {
-        renderable->actualizar();
-        renderable->render();
+    // unsigned int tiempo_actual = SDL_GetTicks();
+    for (auto& rendereable: rendereables) {
+        rendereable->actualizar();
+        rendereable->render();
     }
     renderer->presentar();
 }

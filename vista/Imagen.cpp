@@ -2,52 +2,59 @@
 
 Imagen::Imagen(EntornoGrafico& entorno, const std::string& path, 
                                                             SDL_Color* color) {
-    entorno.agregarRenderable(this);
-    texture = entorno.cargarImagen(path, color);
-    iniciarDimension(texture);
+    entorno.agregarRendereable(this);
+    textura = entorno.cargarImagen(path, color);
+    iniciarDimension(textura);
 }
 
 Imagen::Imagen(EntornoGrafico& entorno, const std::string& path) {
-    entorno.agregarRenderable(this);
-    texture = entorno.cargarImagen(path);
-    iniciarDimension(texture);
+    entorno.agregarRendereable(this);
+    textura = entorno.cargarImagen(path);
+    iniciarDimension(textura);
 }
 
-void Imagen::iniciarDimension(SDL_Texture* texture) {
-    SDL_QueryTexture(texture, NULL, NULL, &src_clip.w, &src_clip.h);
-    render_clip = src_clip;
+void Imagen::iniciarDimension(SDL_Texture* textura) {
+    SDL_QueryTexture(textura, NULL, NULL, &mascara.w, &mascara.h);
+    render_mascara = mascara;
 }
 
-void Imagen::setClip(int x, int y, int ancho, int alto) {
-    src_clip.x = x;
-    src_clip.y = y;
-    src_clip.w = ancho;
-    src_clip.h = alto;
-    render_clip.w = ancho;
-    render_clip.h = alto;
+void Imagen::setMascara(int x, int y, int ancho, int alto) {
+    mascara.x = x;
+    mascara.y = y;
+    mascara.w = ancho;
+    mascara.h = alto;
+    render_mascara.w = ancho;
+    render_mascara.h = alto;
 }
 
 void Imagen::setPosicion(int x, int y) {
-    render_clip.x = x;
-    render_clip.y = y;
+    render_mascara.x = x;
+    render_mascara.y = y;
+}
+
+void Imagen::centrarRelativoA(IDimensionable& contenedor) {
+    // Debería estar en una clase más abstracta
+    int desplazamientoX = contenedor.getAncho() / 2 - this->getAncho() / 2;
+    int desplazamientoY = contenedor.getAlto() / 2 - this->getAlto() / 2;
+    this->setPosicion(desplazamientoX, desplazamientoY);
 }
 
 void Imagen::render() {
-    renderer->renderTextura(texture, src_clip, render_clip);
+    renderer->renderTextura(textura, mascara, render_mascara);
 }
 
 int Imagen::getAncho() {
-    return render_clip.w;
+    return render_mascara.w;
 }
 
 int Imagen::getAlto() {
-    return render_clip.h;
+    return render_mascara.h;
 }
 
 void Imagen::setAncho(int ancho) {
-    render_clip.w = ancho;
+    render_mascara.w = ancho;
 }
 
 void Imagen::setAlto(int alto) {
-    render_clip.h = alto;
+    render_mascara.h = alto;
 }

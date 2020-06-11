@@ -3,7 +3,7 @@
 #include <vector>
 #include <string>
 
-std::vector<SDL_Rect> clips{
+std::vector<SDL_Rect> mascaras{
     {10, 15, 90, 115},
     {130, 15, 90, 115},
     {250, 15, 90, 115}
@@ -29,8 +29,8 @@ void Animacion::reproducir() {
     if (tiempo_transcurrido - ultima_reproduccion < 1500) return;
     if (tiempo_transcurrido - ultimo_cambio > 150) {
         i++;
-        SDL_Rect clip = clips[i % 3];
-        imagen->setClip(clip.x, clip.y, clip.w, clip.h);
+        SDL_Rect mascara = mascaras[i % 3];
+        imagen->setMascara(mascara.x, mascara.y, mascara.w, mascara.h);
         ultimo_cambio = tiempo_transcurrido;
         if (i == 3) {
             ultima_reproduccion = tiempo_transcurrido;
@@ -42,10 +42,10 @@ void Animacion::reproducir() {
 Animacion animacion;
 
 Personaje::Personaje(EntornoGrafico& entorno) {
-    entorno.agregarRenderable(this);
+    entorno.agregarRendereable(this);
     std::string path("assets/personaje.png"); 
     imagen = Imagen(entorno, path);
-    imagen.setClip(10, 15, 90, 115);
+    imagen.setMascara(10, 15, 90, 115);
     ancho = imagen.getAncho();
     alto = imagen.getAlto();
     x = (ventana->getAncho() - imagen.getAncho()) / 2;
@@ -56,14 +56,15 @@ Personaje::Personaje(EntornoGrafico& entorno) {
 void Personaje::actualizar() {
     x += velocidadX;
     y += velocidadY;
+    imagen.setPosicion(x, y);
 }
 
 void Personaje::render() {
-    renderer->setColor(100, 51, 100);
-    imagen.setPosicion(x, y);
     animacion.reproducir();
+
     // imagen.render();
     // DEBUG
+    renderer->setColor(100, 51, 100);
     renderer->rect(x, y, ancho, alto);
 }
 

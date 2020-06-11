@@ -1,12 +1,12 @@
 #ifndef ESCENA_H
 #define ESCENA_H
-#include "IRenderable.h"
+#include "IRendereable.h"
 #include "IInteractivo.h"
 #include "Camara.h"
 #include "Mapa.h"
 #include "Personaje.h"
 
-class Escena: public IRenderable, public IInteractivo {
+class Escena: public IRendereable, public IInteractivo {
 public:
     explicit Escena(EntornoGrafico& entorno);
     void render() override;

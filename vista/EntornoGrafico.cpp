@@ -31,9 +31,9 @@ void EntornoGrafico::run() {
     }
 }
 
-void EntornoGrafico::agregarRenderable(IRenderable* renderable) {
-    renderable->setRenderer(renderer);
-    renderable->setVentana(ventana);
+void EntornoGrafico::agregarRendereable(IRendereable* rendereable) {
+    rendereable->setRenderer(renderer);
+    rendereable->setVentana(ventana);
 }
 
 void EntornoGrafico::setVentana(Ventana* ventana) {

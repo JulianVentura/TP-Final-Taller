@@ -8,15 +8,17 @@
 class Camara {
 public:
     Camara() = default;
-    explicit Camara(IDimensionable* contenedor): contenedor(contenedor){}
-    void setTarget(ITargeteable& target);
+    explicit Camara(IDimensionable* contenedor, IDimensionable* marco): 
+                contenedor(contenedor), marco(marco) {}
+    void setObjetivo(ITargeteable& objetivo);
     void centrar(Renderer* renderer);
     void reiniciar(Renderer* renderer);
 
 private:
     IDimensionable* contenedor;
-    ITargeteable* target;
-    int xoff = 0;
-    int yoff = 0;
+    IDimensionable* marco;
+    ITargeteable* objetivo;
+    int desplazamientoX = 0;
+    int desplazamientoY = 0;
 };
 #endif

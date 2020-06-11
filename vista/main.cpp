@@ -16,7 +16,7 @@ int main(int argc, const char* argv[]) {
         Escena escena(entorno);
 
         ventana.agregarInteractivo(&escena);
-        ventana.agregarRenderable(&escena);
+        ventana.agregarRendereable(&escena);
         entorno.run();
     } catch(std::exception& e) {
         std::cerr << e.what() << std::endl;

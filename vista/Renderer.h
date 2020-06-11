@@ -15,7 +15,7 @@ public:
     ~Renderer();
     void limpiar();
     void presentar();
-    void desplazar(int xoff, int yoff);
+    void desplazar(int desplazamientoX, int desplazamientoY);
 
     void rect(int x, int y, int ancho, int alto);
     void rectSolido(int x, int y, int ancho, int alto);
@@ -28,22 +28,24 @@ public:
 
     void texto(const std::string& text);
     void texto(const std::string& text, int x, int y);
-    void renderTextura(SDL_Texture* texture, SDL_Rect& src_clip, 
-                                        SDL_Rect& render_clip); // Maybe x, y
+    void renderTextura(SDL_Texture* texture, SDL_Rect& origen_mascara, 
+                                        SDL_Rect& render_mascara); // Maybe x, y
     
     SDL_Texture* texturaDesdeSuperficie(SDL_Surface* surface);
     SDL_Texture* texturaDesdeArchivoImagen(const std::string& path);
     
 private:
-    void transformar(SDL_Rect& clip);
+    SDL_Rect transformar(SDL_Rect& rect);
+    SDL_Rect transformar(int x, int y, int ancho, int alto);
+    SDL_Point transformar(SDL_Point& punto);
     void renderTexturaTexto(SDL_Surface* superficie, int x, int y);
     SDL_Renderer* renderer;
     EntornoGrafico& entorno;
     
     SDL_Color color = {};
 
-    int xoff = 0;
-    int yoff = 0;
+    int desplazamientoX = 0;
+    int desplazamientoY = 0;
     SDL_Rect rect_render = {};
 };
 
