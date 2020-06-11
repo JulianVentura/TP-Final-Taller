@@ -11,13 +11,13 @@ int main(int argc, const char* argv[]) {
         Ventana ventana(entorno, "Ejemplo");
         Renderer renderer(entorno);
 
-        std::string font_path("assets/DejaVuSansMono.ttf"); 
-        entorno.cargarFuente(font_path, 15);
+        std::string font_ruta("assets/DejaVuSansMono.ttf"); 
+        entorno.cargarFuente(font_ruta, 15);
         Escena escena(entorno);
 
         ventana.agregarInteractivo(&escena);
         ventana.agregarRendereable(&escena);
-        entorno.run();
+        entorno.correr();
     } catch(std::exception& e) {
         std::cerr << e.what() << std::endl;
     }

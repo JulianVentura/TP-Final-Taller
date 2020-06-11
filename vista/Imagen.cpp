@@ -1,15 +1,15 @@
 #include "Imagen.h"
 
-Imagen::Imagen(EntornoGrafico& entorno, const std::string& path, 
+Imagen::Imagen(EntornoGrafico& entorno, const std::string& ruta, 
                                                             SDL_Color* color) {
     entorno.agregarRendereable(this);
-    textura = entorno.cargarImagen(path, color);
+    textura = entorno.cargarImagen(ruta, color);
     iniciarDimension(textura);
 }
 
-Imagen::Imagen(EntornoGrafico& entorno, const std::string& path) {
+Imagen::Imagen(EntornoGrafico& entorno, const std::string& ruta) {
     entorno.agregarRendereable(this);
-    textura = entorno.cargarImagen(path);
+    textura = entorno.cargarImagen(ruta);
     iniciarDimension(textura);
 }
 

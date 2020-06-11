@@ -8,18 +8,33 @@
 class Imagen: public IRendereable, public IDimensionable {
 public:
     Imagen() = default;
-    Imagen(EntornoGrafico& entorno, const std::string& path);
-    Imagen(EntornoGrafico& entorno, const std::string& path, SDL_Color* color);
+    /**
+     * @brief Crea una imagen desde el archivo que corresponde a ruta.
+     * @throw ErrorGrafico en caso de error.
+     */
+    Imagen(EntornoGrafico& entorno, const std::string& ruta);
+
+    /**
+     * @brief Crea una imagen desde el archivo que corresponde a ruta. Se 
+     * borrarán los pixeles del color que se pasa por parámetro.
+     * @throw ErrorGrafico en caso de error.
+     */
+    Imagen(EntornoGrafico& entorno, const std::string& ruta, SDL_Color* color);
     void render() override;
     void setPosicion(int x, int y);
     virtual int getAncho() override;
     virtual int getAlto() override;
     void setAncho(int ancho);
     void setAlto(int alto);
+    
+    /**
+     * @brief Determina la porción de imagen que se va a renderear.
+     */
     void setMascara(int x, int y, int ancho, int alto);
 
     // Debería estar en una clase más abstracta
     void centrarRelativoA(IDimensionable& contenedor);
+    
 private:
     void iniciarDimension(SDL_Texture* texture);
     EntornoGrafico* entorno;

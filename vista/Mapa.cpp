@@ -3,9 +3,8 @@
 
 Mapa::Mapa(EntornoGrafico& entorno) {
     entorno.agregarRendereable(this);
-    const std::string path("assets/map.jpg");
-    imagen = Imagen(entorno, path);
-    // imagen.setMascara(0, 0, ventana->getAncho(), ventana->getAlto());
+    const std::string ruta("assets/map.jpg");
+    imagen = Imagen(entorno, ruta);
     imagen.setAncho(imagen.getAncho() * 3);
     imagen.setAlto(imagen.getAlto() * 3);
     ancho = 2 * imagen.getAncho();
@@ -29,7 +28,7 @@ void Mapa::render() {
     // DEBUG
     renderer->setColor(0);
     renderer->rect(x + 10, y + 10, ancho - 20, alto - 20);
-}
+}   
 
 void Mapa::manejarEvento(const SDL_Event& event) {
 }

@@ -15,23 +15,52 @@ class EntornoGrafico {
 public:
     EntornoGrafico();
     ~EntornoGrafico();
-    void run();
+    void correr();
+    /**
+     * @brief Asocia la ventana al entorno.
+     */
     void setVentana(Ventana* ventana);
+
+    /**
+     * @brief A rendereable se le asignan tanto el Renderer como la Ventana.
+     * @post rendereable podrá usar el renderer y la ventana.
+     */
     void agregarRendereable(IRendereable* rendereable);
-    SDL_Texture* cargarImagen(const std::string& path, bool cache = true);
-    SDL_Texture* cargarImagen(const std::string& path, SDL_Color* key_color, 
+    
+    /**
+     * @brief Carga un archivo de imagen desde ruta. 
+     * Si la imagen fue previante cargada, se devolverá la textura previamente 
+     * caragada, salvo que cache sea false.
+     * @throw ErrorGrafico en caso de error.
+     */
+    SDL_Texture* cargarImagen(const std::string& ruta, bool cache = true);
+    
+    /**
+     * @brief Carga un archivo de imagen desde ruta. Se borrarán los pixeles 
+     * del color que se pasa por parámetro.
+     * Si la imagen fue previante cargada, se devolverá la textura previamente 
+     * caragada, salvo que cache sea false.
+     * @throw ErrorGrafico en caso de error.
+     */
+    SDL_Texture* cargarImagen(const std::string& ruta, SDL_Color* color, 
                                                             bool cache = true);
-    void cargarFuente(const std::string& path, int size);
+    /**
+     * @brief Carga desde un archivo una fuente y se establece como la fuente 
+     * que utilizará el entorno.
+     * @throw ErrorGrafico en caso de error.
+     */
+    void cargarFuente(const std::string& ruta, int size);
     TTF_Font* getFuente();
+
 private:
     void enableImg();
     void enableTtf();
-    bool is_img_enabled = false;
-    bool is_ttf_enabled = false;
-    std::unordered_map<std::string, SDL_Texture*> textures;
-    TTF_Font* font;
     Ventana* ventana;
     Renderer* renderer;
+    bool is_img_enabled = false;
+    bool is_ttf_enabled = false;
+    TTF_Font* font;
+    std::unordered_map<std::string, SDL_Texture*> textures;
     friend class Renderer;
 };
 #endif

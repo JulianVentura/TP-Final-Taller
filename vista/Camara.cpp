@@ -1,5 +1,9 @@
 #include "Camara.h"
 
+
+Camara::Camara(IDimensionable* contenedor, IDimensionable* marco): 
+                                    contenedor(contenedor), marco(marco) {}
+
 void Camara::setObjetivo(ITargeteable& objetivo) {
     this->objetivo = &objetivo;
 }
@@ -15,10 +19,10 @@ void Camara::centrar(Renderer* renderer) {
     int margen_vertical = (marco->getAlto() - objetivo->getAlto()) / 2;
     desplazamientoX = objetivo->getX() - margen_horizontal;
     desplazamientoY = objetivo->getY() - margen_vertical;
-    // desplazamientoX = acotar(desplazamientoX, 0, contenedor->getAncho() - 2 * margen_horizontal - objetivo->getAncho());
-    // desplazamientoY = acotar(desplazamientoY, 0, contenedor->getAlto() - 2 * margen_vertical - objetivo->getAlto());
-    desplazamientoX = acotar(desplazamientoX, 0, abs(contenedor->getAncho() - marco->getAncho()));
-    desplazamientoY = acotar(desplazamientoY, 0, abs(contenedor->getAlto() - marco->getAlto()));
+    desplazamientoX = acotar(desplazamientoX, 0, abs(contenedor->getAncho() - 
+                                                            marco->getAncho()));
+    desplazamientoY = acotar(desplazamientoY, 0, abs(contenedor->getAlto() - 
+                                                            marco->getAlto()));
     renderer->desplazar(-desplazamientoX, -desplazamientoY);
 }
 

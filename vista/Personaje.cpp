@@ -43,8 +43,8 @@ Animacion animacion;
 
 Personaje::Personaje(EntornoGrafico& entorno) {
     entorno.agregarRendereable(this);
-    std::string path("assets/personaje.png"); 
-    imagen = Imagen(entorno, path);
+    std::string ruta("assets/personaje.png"); 
+    imagen = Imagen(entorno, ruta);
     imagen.setMascara(10, 15, 90, 115);
     ancho = imagen.getAncho();
     alto = imagen.getAlto();

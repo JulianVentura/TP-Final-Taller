@@ -34,18 +34,18 @@ void Renderer::presentar() {
     // Se podría reiniciar el desplazamientoX, desplazamientoY
 }
 
-SDL_Texture* Renderer::texturaDesdeSuperficie(SDL_Surface* surface) {
-    SDL_Texture* texture = SDL_CreateTextureFromSurface(renderer, surface);
+SDL_Texture* Renderer::texturaDesdeSuperficie(SDL_Surface* superficie) {
+    SDL_Texture* texture = SDL_CreateTextureFromSurface(renderer, superficie);
     if (!texture) 
         throw ErrorGrafico("No se pudo crear textura %s\n", SDL_GetError());
     return texture;
 }
 
-SDL_Texture* Renderer::texturaDesdeArchivoImagen(const std::string& path) {
-    SDL_Texture* texture = IMG_LoadTexture(renderer, path.c_str());
+SDL_Texture* Renderer::texturaDesdeArchivoImagen(const std::string& ruta) {
+    SDL_Texture* texture = IMG_LoadTexture(renderer, ruta.c_str());
     if (!texture) 
         throw ErrorGrafico("No se pudo cargar el archivo %s: Error %s\n", 
-                                                path.c_str(), IMG_GetError());
+                                                ruta.c_str(), IMG_GetError());
     return texture;
 }
 
@@ -136,7 +136,6 @@ SDL_Point Renderer::transformar(SDL_Point& punto) {
 
 void Renderer::renderTextura(SDL_Texture* texture, SDL_Rect& origen_mascara, 
                                                     SDL_Rect& render_mascara) {
-    
     rect_render = transformar(render_mascara);
     SDL_RenderCopy(renderer, texture, &origen_mascara, &this->rect_render);
 }
