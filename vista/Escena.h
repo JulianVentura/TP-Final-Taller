@@ -3,8 +3,8 @@
 #include "IRendereable.h"
 #include "IInteractivo.h"
 #include "Camara.h"
-#include "Mapa.h"
-#include "Personaje.h"
+#include "MapaVista.h"
+#include "PersonajeVista.h"
 
 class Escena: public IRendereable, public IInteractivo {
 public:
@@ -15,8 +15,8 @@ public:
 
 private:
     Camara camara;
-    Personaje personaje;
-    Mapa mapa;
+    PersonajeVista personaje;
+    MapaVista mapa;
 };
 
 

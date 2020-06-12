@@ -30,7 +30,7 @@ public:
     /**
      * @brief Carga un archivo de imagen desde ruta. 
      * Si la imagen fue previante cargada, se devolverá la textura previamente 
-     * caragada, salvo que cache sea false.
+     * cargada, salvo que cache sea false.
      * @throw ErrorGrafico en caso de error.
      */
     SDL_Texture* cargarImagen(const std::string& ruta, bool cache = true);
@@ -39,7 +39,7 @@ public:
      * @brief Carga un archivo de imagen desde ruta. Se borrarán los pixeles 
      * del color que se pasa por parámetro.
      * Si la imagen fue previante cargada, se devolverá la textura previamente 
-     * caragada, salvo que cache sea false.
+     * cargada, salvo que cache sea false.
      * @throw ErrorGrafico en caso de error.
      */
     SDL_Texture* cargarImagen(const std::string& ruta, SDL_Color* color, 

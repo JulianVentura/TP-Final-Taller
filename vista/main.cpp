@@ -11,8 +11,8 @@ int main(int argc, const char* argv[]) {
         Ventana ventana(entorno, "Ejemplo");
         Renderer renderer(entorno);
 
-        std::string font_ruta("assets/DejaVuSansMono.ttf"); 
-        entorno.cargarFuente(font_ruta, 15);
+        std::string fuente_ruta("assets/DejaVuSansMono.ttf"); 
+        entorno.cargarFuente(fuente_ruta, 15);
         Escena escena(entorno);
 
         ventana.agregarInteractivo(&escena);
