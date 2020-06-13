@@ -6,21 +6,20 @@
 #include "Ventana.h"
 
 EntornoGrafico::EntornoGrafico() {
-    if (SDL_Init(SDL_INIT_VIDEO) < 0) 
+    if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO) < 0) 
         throw ErrorGrafico("No se pudo inicializar video %s\n", SDL_GetError());
 }
 
 EntornoGrafico::~EntornoGrafico() {
-    for (auto& texture: textures) {
-        SDL_DestroyTexture(texture.second);
-    }
-    TTF_CloseFont(font);
     if (is_img_enabled) IMG_Quit();
-    if (is_ttf_enabled) TTF_Quit();
+    if (is_ttf_enabled) {
+        TTF_CloseFont(font);
+        TTF_Quit();
+    }
     SDL_Quit();
 }
 
-void EntornoGrafico::run() {
+void EntornoGrafico::correr() {
     bool quit = false;
     SDL_Event e;
     while (!quit) {
@@ -32,9 +31,9 @@ void EntornoGrafico::run() {
     }
 }
 
-void EntornoGrafico::addRenderable(IRenderable* renderable) {
-    renderable->setRenderer(renderer);
-    renderable->setVentana(ventana);
+void EntornoGrafico::agregarRendereable(IRendereable* rendereable) {
+    rendereable->setRenderer(renderer);
+    rendereable->setVentana(ventana);
 }
 
 void EntornoGrafico::setVentana(Ventana* ventana) {
@@ -53,36 +52,44 @@ void EntornoGrafico::enableTtf() {
     is_ttf_enabled = true;
 }
 
-SDL_Texture* EntornoGrafico::loadImagen(const std::string& path, 
-        SDL_Rect* render_clip, SDL_Color* key_color) {
-    if (!is_img_enabled) enableImg();
-    if (textures.count(path) > 0) return textures[path];
-    SDL_Surface* loaded_surface = IMG_Load(path.c_str());
-    if (!loaded_surface) 
+static SDL_Surface* superficieDeImagenColorKey(const std::string& ruta, 
+                                                        SDL_Color* color) {
+    SDL_Surface* superficie = IMG_Load(ruta.c_str());
+    if (!superficie) 
         throw ErrorGrafico("No se pudo cargar imagen %s: Error %s\n", 
-                                                path.c_str(), IMG_GetError());
-    if (key_color)
-        SDL_SetColorKey(loaded_surface, SDL_TRUE, 
-        SDL_MapRGB(
-            loaded_surface->format, 
-            key_color->r, 
-            key_color->g, 
-            key_color->g
-        ));
-    SDL_Texture* img_texture = renderer->textureFromSurface(loaded_surface, 
-                                                                render_clip);
-    textures[path] = img_texture;
-    return textures[path];
+                                                ruta.c_str(), IMG_GetError());
+    auto key = SDL_MapRGB(superficie->format, color->r, color->g, color->g);
+    SDL_SetColorKey(superficie, SDL_TRUE, key);
+    return superficie;
+}
+SDL_Texture* EntornoGrafico::cargarImagen(const std::string& ruta, 
+                                            SDL_Color* color, bool cache) {
+    if (!is_img_enabled) enableImg();
+    if (cache && textures.count(ruta) > 0) return textures[ruta];
+    SDL_Surface* superficie = superficieDeImagenColorKey(ruta, color);
+    SDL_Texture* img_texture = renderer->texturaDesdeSuperficie(superficie);
+    SDL_FreeSurface(superficie);
+    textures[ruta] = img_texture;
+    return textures[ruta];
 }
 
-void EntornoGrafico::loadFont(const std::string& path, int size) {
+SDL_Texture* EntornoGrafico::cargarImagen(const std::string& ruta, bool cache) {
+    if (!is_img_enabled) enableImg();
+    if (cache && textures.count(ruta) > 0) return textures[ruta]; 
+                                                        // Puede traer problemas
+    SDL_Texture* img_texture = renderer->texturaDesdeArchivoImagen(ruta);
+    textures[ruta] = img_texture;
+    return textures[ruta];
+}
+
+void EntornoGrafico::cargarFuente(const std::string& ruta, int size) {
     if (!is_ttf_enabled) enableTtf();
-    font = TTF_OpenFont(path.c_str(), size);
+    font = TTF_OpenFont(ruta.c_str(), size);
     if (!font) 
         throw ErrorGrafico("No se pudo cargar la fuente %s: Error %s\n", 
-                                                path.c_str(), TTF_GetError());
+                                                ruta.c_str(), TTF_GetError());
 }
 
-TTF_Font* EntornoGrafico::getFont() {
+TTF_Font* EntornoGrafico::getFuente() {
     return font;
 }

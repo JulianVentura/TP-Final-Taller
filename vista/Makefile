@@ -6,32 +6,18 @@
 # CONFIGURACION
 ################
 
+filename = vista
 # Nombre del ejecutable.
-target = vista
+target = $(filename).out
 
 # Extensión de los archivos a compilar (c para C, cpp o cc o cxx para C++).
 extension = cpp
-
-# Archivos con el código fuente que componen el ejecutable. Si no se especifica,
-# toma todos los archivos con la extensión mencionada. Para especificar hay que
-# descomentar la línea (quitarle el '#' del principio).
-# NOTA: No poner cabeceras (.h).
-#fuentes = entrada.cpp
 
 # Si usa funciones de math.h, descomentar (quitar el '#' a) la siguiente línea.
 math = si
 
 # Si usa threads, descomentar (quitar el '#' a) la siguiente línea.
 threads = si
-
-# Si es un programa GTK+, descomentar (quitar el '#' a) la siguiente línea.
-#gtk = si
-
-# Si es un programa gtkmm, descomentar (quitar el '#' a) la siguiente línea.
-#gtkmm = si
-
-# Descomentar si se quiere ver como se invoca al compilador
-#verbose = si
 
 
 # CONFIGURACION "AVANZADA"
@@ -50,8 +36,8 @@ CFLAGS += -ggdb -DDEBUG -fno-inline
 # flags para SDL
 LDFLAGS = -lSDL2 -lSDL2_image -lSDL2_ttf -lSDL2_mixer
 
-# Estandar de C a usar
-CSTD = c99
+SUPRESSIONFILE = util/$(filename).supp
+VALGRINDFLAGS = --leak-check=full --suppressions=$(SUPRESSIONFILE)
 
 # Estandar de C++ a usar
 CXXSTD = c++11
@@ -62,28 +48,6 @@ CXXSTD = c++11
 
 # VARIABLES CALCULADAS A PARTIR DE LA CONFIGURACION
 ####################################################
-
-# Agrega flags y libs de GTK+ de ser necesario.
-ifdef gtk
-CFLAGS += $(shell pkg-config --cflags gtk+-3.0) \
-	-DG_DISABLE_DEPRECATED 	 	\
-	-DGDK_DISABLE_DEPRECATED 	\
-	-DGDK_PIXBUF_DISABLE_DEPRECATED \
-	-DGTK_DISABLE_DEPRECATED
-LDFLAGS += $(shell pkg-config --libs gtk+-3.0)
-endif
-
-# Agrega flags y libs de GTK+ de ser necesario.
-ifdef gtkmm
-CFLAGS += $(shell pkg-config --cflags gtkmm-3.0) \
-	-DG_DISABLE_DEPRECATED 	 	\
-	-DGDK_DISABLE_DEPRECATED 	\
-	-DGDK_PIXBUF_DISABLE_DEPRECATED \
-	-DGTK_DISABLE_DEPRECATED	\
-	-DGDKMM_DISABLE_DEPRECATED 	\
-	-DGTKMM_DISABLE_DEPRECATED
-LDFLAGS += $(shell pkg-config --libs gtkmm-3.0)
-endif
 
 # Linkea con libm de ser necesario.
 ifdef math
@@ -128,10 +92,8 @@ RM =  @echo "  CLEAN"; $(orm)
 LD =  @echo "  LD  $@"; $(old)
 endif
 
-
 # REGLAS
 #########
-
 .PHONY: all clean
 
 all: $(target)
@@ -153,5 +115,11 @@ clean:
 lint:
 	python ./cpplint.py --extensions=h,hpp,c,cpp --filter=`cat filter_options` `find -regextype posix-egrep -regex '.*\.(h|hpp|c|cpp)'`
 
-entregar: clean client server lint
+entregar: clean all lint
 	zip tp *.c *.h
+
+valgrind:
+	valgrind $(VALGRINDFLAGS) ./$(target)
+
+valgreen:
+	valgreen $(VALGRINDFLAGS) ./$(target)
