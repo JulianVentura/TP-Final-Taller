@@ -6,11 +6,12 @@
 
 class BuclePrincipal {
 public:
+	std::vector<GUI_BotonControlador*> botones;
     BuclePrincipal(Ventana& ventana) : ventana(&ventana) {}
     void correr();
 private:
     Ventana* ventana;
-    std::vector<GUI_BotonControlador*> botones;
+    
 };
 
 #endif

@@ -15,8 +15,7 @@ GUI_BotonControlador::GUI_BotonControlador(int x, int y, int ancho, int alto){
 
 bool GUI_BotonControlador::operator()(SDL_Event& evento){
 	if(!enRectangulo(rect, evento.button.x, evento.button.y)) return false;
-	enClick();
-	return true;
+	return enClick();
 }
 
 GUI_BotonControlador::~GUI_BotonControlador(){

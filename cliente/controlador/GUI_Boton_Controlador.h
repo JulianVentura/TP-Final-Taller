@@ -8,9 +8,9 @@ bool enRectangulo(SDL_Rect& rect, int x, int y);
 class GUI_BotonControlador{
 private:
 	SDL_Rect rect;
-	virtual void enClick() = 0;
+	virtual bool enClick() = 0;
 public:
-	GUI_BotonControlador(int x, int y, int ancho, int largo);
+	GUI_BotonControlador(int x, int y, int ancho, int alto);
 	bool operator()(SDL_Event& evento);
 	virtual ~GUI_BotonControlador();
 };
