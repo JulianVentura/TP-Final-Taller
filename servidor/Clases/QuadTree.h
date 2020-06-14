@@ -24,7 +24,8 @@ class QuadTree{
     int obtenerIndice(Rectangulo &rectangulo);
 
     /*
-
+    Divide el QuadTree en 4 QuadTree hijos, los cuales seran almacenados en
+    el atributo nodos.
     */
     void dividir();
 
@@ -32,7 +33,16 @@ class QuadTree{
     Auxiliar de obtener()
     */
     void _obtener(std::list<Colisionable*> &listaResultado, Rectangulo &rectangulo);
+    /*
+    Auxiliar de remover())
+    */
+    void _remover(Colisionable* colisionable, bool &objetoEncontrado);
+
     public:
+    /*
+    Crea un QuadTree de tamanio 10, 10.
+    */
+    QuadTree();
     /*
     Crea un QuadTree en el area especificada por el rectangulo tamanio.
     */
@@ -46,7 +56,10 @@ class QuadTree{
     Inserta un colisionable en el QuadTree.
     */
     void insertar(Colisionable* colisionable);
-
+    /*
+    Remueve un colisionable del QuadTree.
+    */
+    bool remover(Colisionable* colisionable);
     /*
     Devuelve una lista con todos los colisionables que se encuentran
     en el area definida por Rectangulo.

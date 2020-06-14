@@ -8,10 +8,17 @@ Rectangulo::Rectangulo(const float inicioX,
                        inicioY(inicioY),
                        ancho(ancho),
                        alto(alto){}
-
+Rectangulo::Rectangulo(){}
 Rectangulo::Rectangulo(Rectangulo &&otro) : 
 Rectangulo(otro.inicioX, otro.inicioY, otro.ancho, otro.alto){}
 
+Rectangulo& Rectangulo::operator=(Rectangulo &&otro){
+    inicioX = otro.inicioX;
+    inicioY = otro.inicioY;
+    ancho   = otro.ancho;
+    alto    = otro.alto;
+    return *this;
+}   
 
 bool Rectangulo::seSuperponeCon(Rectangulo &rectangulo){
     bool seSuperponeX = false;
@@ -55,3 +62,10 @@ float Rectangulo::obtenerX(){ return inicioX; }
 float Rectangulo::obtenerY(){ return inicioY; }
 float Rectangulo::obtenerAncho(){ return ancho; }
 float Rectangulo::obtenerAlto(){ return alto; }
+
+void Rectangulo::set(float x, float y, float ancho, float alto){
+    x = x;
+    y = y;
+    ancho = ancho;
+    alto = alto;
+}
