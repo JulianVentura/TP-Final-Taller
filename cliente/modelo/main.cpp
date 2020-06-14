@@ -8,6 +8,7 @@
 #include "../vista/GUI_Principal.h"
 #include "../vista/GUI_BotonInventario.h"
 #include "../controlador/GUI_BotonInventario_Controlador.h"
+
 int main(int argc, const char* argv[]) {
     try {
         EntornoGrafico entorno;
@@ -32,7 +33,7 @@ int main(int argc, const char* argv[]) {
 
 
         bucle.correr();
-    } catch(std::exception& e) {
+    } catch (std::exception& e) {
         std::cerr << e.what() << std::endl;
     }
     return 0;

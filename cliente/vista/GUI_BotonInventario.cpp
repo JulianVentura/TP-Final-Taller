@@ -5,7 +5,11 @@
 #include "GUI_BotonInventario.h"
 
 GUI_BotonInventario::GUI_BotonInventario(EntornoGrafico& entorno, int x, int y)
+<<<<<<< HEAD
 : x(x), y(y), imagen(entorno,"assets/botonInventario.png"){
+=======
+: imagen(entorno,"assets/botonInventario.png") {
+>>>>>>> 455cdae512be681ed43e16cf7a4e218dce1d1d97
 	imagen.setPosicion(x,y);
 	ancho = 3; alto = 6; //HARDCODEO
 	visible = false;

@@ -11,7 +11,7 @@ MapaVista::MapaVista(EntornoGrafico& entorno) {
     alto = 2 * imagen.getAlto();
 }
 
-void MapaVista::actualizar() {
+void MapaVista::actualizar(unsigned int delta_t) {
     // imagen.centrarRelativoA(*ventana);   
 }
 
@@ -24,10 +24,6 @@ void MapaVista::render() {
     imagen.render();
     imagen.setPosicion(imagen.getAncho(), imagen.getAlto());
     imagen.render();
-
-    // DEBUG
-    renderer->setColor(0);
-    renderer->rect(x + 10, y + 10, ancho - 20, alto - 20);
 }   
 
 void MapaVista::manejarEvento(const SDL_Event& event) {

@@ -8,7 +8,7 @@
 
 filename = cliente
 # Nombre del ejecutable.
-target = bin/$(filename)
+target = bin/$(filename).out
 
 # Extensión de los archivos a compilar (c para C, cpp o cc o cxx para C++).
 extension = cpp
@@ -113,10 +113,10 @@ clean:
 	$(RM) $(o_files) $(target)
 
 lint:
-	python ./cpplint.py --extensions=h,hpp,c,cpp --filter=`cat filter_options` `find -regextype posix-egrep -regex '.*\.(h|hpp|c|cpp)'`
+	python ./cpplint.py --extensions=h,hpp,$(extension) --filter=`cat filter_options` `find -regextype posix-egrep -regex '.*\.(h|hpp|c|cpp)'`
 
 entregar: clean all lint
-	zip tp *.c *.h
+	zip tp *.$(extension) *.h
 
 valgrind:
 	valgrind $(VALGRINDFLAGS) ./$(target)

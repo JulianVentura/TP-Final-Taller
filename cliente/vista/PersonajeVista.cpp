@@ -1,14 +1,13 @@
 #include "PersonajeVista.h"
+#include "Animacion.h"
+#include "AnimacionEnteDireccionable.h"
+
 #include <SDL2/SDL_timer.h>
 #include <vector>
 #include <string>
+#include <unordered_map>
 
-#define ARRIBA    "Arriba"
-#define ABAJO     "Abajo"
-#define DERECHA   "Derecha"
-#define IZQUIERDA "Izquierda"
-#define QUIETO    "-Quieto"
-
+// Esto quizas debería estar en otra clase.
 // La idea es que esto se levante de un json.
 std::unordered_map<std::string, std::vector<SDL_Rect>> mascaras {
     {
@@ -103,108 +102,9 @@ std::unordered_map<std::string, std::vector<SDL_Rect>> mascaras {
     }
 };
 
-class Animacion {
-public:
-    Animacion() = default;
-    Animacion(Imagen& imagen, const std::string& animacion): imagen(&imagen), 
-                animacion_actual(animacion), ultimo_cambio(SDL_GetTicks()) {}
-    void actualizar(unsigned int delta_t);
-    void setAnimacion(const std::string& animacion);
 
-private:
-    Imagen* imagen = NULL;
-    std::string animacion_actual;
-    unsigned int cuadro = 0;
-    unsigned int ultimo_cambio = 0;
-    unsigned int ultima_reproduccion = 0;
-    unsigned int tiempo_transcurrido = 0;
-    unsigned int intervalo_animacion = 1500;
-    unsigned int tiempo_por_frame = 150;
-};
-
-void Animacion::setAnimacion(const std::string& animacion) {
-    if (animacion == animacion_actual) return;
-    animacion_actual = animacion;
-    cuadro = 0;
-
-    ultima_reproduccion = 0;
-    ultimo_cambio = 0;
-}
-
-// TODO: Agregar frecuencia entre reproducción y reproducción 
-// TODO: Usar el delta_t 
-void Animacion::actualizar(unsigned int delta_t) {
-    tiempo_transcurrido = SDL_GetTicks();
-    // if (tiempo_transcurrido - ultima_reproduccion < intervalo_animacion) return;
-    if (tiempo_transcurrido - ultimo_cambio > tiempo_por_frame) {
-        SDL_Rect mascara = mascaras[animacion_actual][cuadro];
-        imagen->setMascara(mascara.x, mascara.y, mascara.w, mascara.h);
-        ultimo_cambio = tiempo_transcurrido;
-        ++cuadro;
-        if (cuadro == mascaras[animacion_actual].size()) {
-            ultima_reproduccion = tiempo_transcurrido;
-            cuadro = 0;
-        }
-    }
-}
-
-class Personaje/*Mock*/ {
-public:
-    void actualizar();
-    void moverDerecha();
-    void moverIzquierda();
-    void moverArriba();
-    void moverAbajo();
-    void detenerse();
-
-private:
-    int x = 0;
-    int y = 0;
-    int velocidadX = 0; // Esto estaría en el servidor
-    int velocidadY = 0; // Esto estaría en el servidor
-    friend class PersonajeVista;
-};
-
-// Todo esto se consultaría al servidor.
-void Personaje::actualizar() {
-    x += velocidadX;
-    y += velocidadY;
-
-    // Pared imaginaria, funciona medio feo.
-    if (x <= 0 || x > 1500)
-        x -= velocidadX;
-
-}
-
-void Personaje::moverDerecha() {
-    velocidadY = 0;
-    velocidadX = 3;
-}
-
-void Personaje::moverIzquierda() {
-    velocidadY = 0;
-    velocidadX = -3;
-}
-
-void Personaje::moverArriba() {
-    velocidadX = 0;
-    velocidadY = -3;
-}
-
-void Personaje::moverAbajo() {
-    velocidadX = 0;
-    velocidadY = 3;
-}
-void Personaje::detenerse() {
-    velocidadX = 0;
-    velocidadY = 0;
-}
-
-Animacion animacion;
-Personaje personajeModelo;
-
-std::string ultimo_estado;
-PersonajeVista::PersonajeVista(EntornoGrafico& entorno) {
+PersonajeVista::PersonajeVista(EntornoGrafico& entorno, Personaje& modelo)
+        : personajeModelo(modelo) {
     entorno.agregarRendereable(this);
     std::string ruta("assets/personaje.png");
     imagen = Imagen(entorno, ruta);
@@ -213,79 +113,60 @@ PersonajeVista::PersonajeVista(EntornoGrafico& entorno) {
     alto = imagen.getAlto();
 
     // Esto después se cambiaría
-    personajeModelo.x = (ventana->getAncho() - imagen.getAncho()) / 2;
-    personajeModelo.y = (ventana->getAlto() - imagen.getAlto()) / 2;
-
     personajeModelo.x = 960;
     personajeModelo.y = 300;
 
     this->x = personajeModelo.x;
     this->y = personajeModelo.y;
-    
-    animacion = Animacion(imagen, std::string(ABAJO));
+    animacion = AnimacionEnteDireccionable(imagen, std::move(mascaras), 
+                                                        std::string(ABAJO));
     ultimo_estado = ABAJO;
 }
 
-static void nuevo_estado(std::string& ultimo_estado, int delta_x, int delta_y) {
-    if (delta_x > 0) 
-        ultimo_estado = DERECHA;
-    else if (delta_x < 0) 
-        ultimo_estado = IZQUIERDA;
-    else if (delta_y > 0) 
-        ultimo_estado = ABAJO;
-    else if (delta_y < 0) 
-        ultimo_estado = ARRIBA;
-}
-
-void PersonajeVista::actualizar() {
+void PersonajeVista::actualizar(unsigned int delta_t) {
     int ultimo_x = this->x;
     int ultimo_y = this->y;
     personajeModelo.actualizar();
     this->x = personajeModelo.x;
     this->y = personajeModelo.y;
-
     int delta_x = x - ultimo_x;
     int delta_y = y - ultimo_y;
-    std::string agregado;
-    if (delta_x == 0 && delta_y == 0)
-        agregado = QUIETO;
-
-    nuevo_estado(ultimo_estado, delta_x, delta_y);
-    animacion.setAnimacion(ultimo_estado + agregado);
-    
+    animacion.actualizarEstado(delta_t, delta_x, delta_y);
     imagen.setPosicion(x, y);
-    animacion.actualizar(0);
 }
 
 void PersonajeVista::render() {
     imagen.render();
-
-    // DEBUG
-    renderer->setColor(100, 51, 100);
-    renderer->rect(x, y, imagen.getAncho(), imagen.getAlto());
 }
+
 
 // Esto podría ser un Controlador
 int ultima_tecla_presionada;
+enum TECLAS_DIRECCIONES {
+    TECLA_ARRIBA = SDLK_w,
+    TECLA_DERECHA = SDLK_d,
+    TECLA_ABAJO = SDLK_s,
+    TECLA_IZQUIERDA = SDLK_a
+};
+
 #include <unordered_set>
 const std::unordered_set<int> teclas_direccionables {
-    SDLK_UP,
-    SDLK_DOWN,
-    SDLK_LEFT,
-    SDLK_RIGHT
+    TECLA_ARRIBA,
+    TECLA_DERECHA,
+    TECLA_ABAJO,
+    TECLA_IZQUIERDA
 };
 
 void PersonajeVista::manejarEvento(const SDL_Event& event) {
-
     if (event.type == SDL_KEYDOWN) {
         auto& tecla_presionada = event.key.keysym.sym;
-        if (tecla_presionada == SDLK_UP) 
+        if (tecla_presionada == TECLA_ARRIBA) 
             personajeModelo.moverArriba();
-        else if (tecla_presionada == SDLK_DOWN) 
+        else if (tecla_presionada == TECLA_ABAJO) 
             personajeModelo.moverAbajo();
-        else if (tecla_presionada == SDLK_LEFT) 
+        else if (tecla_presionada == TECLA_IZQUIERDA) 
             personajeModelo.moverIzquierda();
-        else if (tecla_presionada == SDLK_RIGHT) 
+        else if (tecla_presionada == TECLA_DERECHA) 
             personajeModelo.moverDerecha();
 
         if (teclas_direccionables.count(tecla_presionada) > 0)
