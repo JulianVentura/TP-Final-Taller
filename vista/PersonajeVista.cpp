@@ -14,7 +14,7 @@ std::unordered_map<std::string, std::vector<SDL_Rect>> mascaras {
     {
         std::string(ABAJO QUIETO), 
         std::vector<SDL_Rect>{
-            {10, 15, 90, 115},
+            {10,  15, 90, 115},
             {130, 15, 90, 115},
             {250, 15, 90, 115}
         }
@@ -22,7 +22,7 @@ std::unordered_map<std::string, std::vector<SDL_Rect>> mascaras {
     {
         std::string(DERECHA QUIETO), 
         std::vector<SDL_Rect>{
-            {15, 410, 85, 110},
+            {15,  410, 85, 110},
             {130, 410, 85, 110},
             {255, 410, 85, 110}
         }
@@ -30,7 +30,7 @@ std::unordered_map<std::string, std::vector<SDL_Rect>> mascaras {
     {
         std::string(IZQUIERDA QUIETO), 
         std::vector<SDL_Rect>{
-            {20, 150, 85, 110},
+            {20,  150, 85, 110},
             {140, 150, 85, 110},
             {260, 150, 85, 110}
         }
@@ -60,14 +60,14 @@ std::unordered_map<std::string, std::vector<SDL_Rect>> mascaras {
         std::string(IZQUIERDA), 
         std::vector<SDL_Rect>{
             {5,    670, 115, 110},
-            {130,  670, 95, 105},
-            {245,  665, 95, 100},
-            {370,  665, 95, 110},
+            {130,  670, 95,  105},
+            {245,  665, 95,  100},
+            {370,  665, 95,  110},
             {490,  665, 100, 110},
             {605,  670, 115, 110},
-            {735,  670, 95, 110},
-            {850,  665, 90, 105},
-            {975,  665, 95, 105},
+            {735,  670, 95,  110},
+            {850,  665, 90,  105},
+            {975,  665, 95,  105},
             {1090, 665, 100, 110}
         }
     },
@@ -75,14 +75,14 @@ std::unordered_map<std::string, std::vector<SDL_Rect>> mascaras {
         std::string(DERECHA), 
         std::vector<SDL_Rect>{
             {5,    925, 100, 110},
-            {135,  925, 95, 110},
-            {255,  925, 95, 110},
-            {370,  930, 95, 110},
+            {135,  925, 95,  110},
+            {255,  925, 95,  110},
+            {370,  930, 95,  110},
             {480,  930, 115, 110},
             {610,  925, 100, 110},
-            {730,  925, 95, 110},
-            {860,  925, 95, 100},
-            {980,  930, 95, 105},
+            {730,  925, 95,  110},
+            {860,  925, 95,  100},
+            {980,  930, 95,  105},
             {1080, 930, 115, 110}
         }
     },
@@ -106,8 +106,8 @@ std::unordered_map<std::string, std::vector<SDL_Rect>> mascaras {
 class Animacion {
 public:
     Animacion() = default;
-    explicit Animacion(Imagen& imagen, const std::string& animacion): 
-        imagen(&imagen), animacion_actual(animacion), ultimo_cambio(SDL_GetTicks()) {}
+    Animacion(Imagen& imagen, const std::string& animacion): imagen(&imagen), 
+                animacion_actual(animacion), ultimo_cambio(SDL_GetTicks()) {}
     void actualizar(unsigned int delta_t);
     void setAnimacion(const std::string& animacion);
 
@@ -169,6 +169,11 @@ private:
 void Personaje::actualizar() {
     x += velocidadX;
     y += velocidadY;
+
+    // Pared imaginaria, funciona medio feo.
+    if (x <= 0 || x > 1500)
+        x -= velocidadX;
+
 }
 
 void Personaje::moverDerecha() {
@@ -213,6 +218,7 @@ PersonajeVista::PersonajeVista(EntornoGrafico& entorno) {
 
     personajeModelo.x = 960;
     personajeModelo.y = 300;
+
     this->x = personajeModelo.x;
     this->y = personajeModelo.y;
     
@@ -262,7 +268,7 @@ void PersonajeVista::render() {
 // Esto podría ser un Controlador
 int ultima_tecla_presionada;
 #include <unordered_set>
-std::unordered_set<int> teclas_direccionables {
+const std::unordered_set<int> teclas_direccionables {
     SDLK_UP,
     SDLK_DOWN,
     SDLK_LEFT,
@@ -270,6 +276,7 @@ std::unordered_set<int> teclas_direccionables {
 };
 
 void PersonajeVista::manejarEvento(const SDL_Event& event) {
+
     if (event.type == SDL_KEYDOWN) {
         auto& tecla_presionada = event.key.keysym.sym;
         if (tecla_presionada == SDLK_UP) 
@@ -287,16 +294,8 @@ void PersonajeVista::manejarEvento(const SDL_Event& event) {
 
     if (event.type == SDL_KEYUP) {
         auto& tecla_soltada = event.key.keysym.sym;
-        if (teclas_direccionables.count(tecla_soltada) <= 0) return;
         if (tecla_soltada != ultima_tecla_presionada) return;
-        if (tecla_soltada == SDLK_UP) 
+        if (teclas_direccionables.count(tecla_soltada) > 0)
             personajeModelo.detenerse();
-        else if (tecla_soltada == SDLK_DOWN)
-            personajeModelo.detenerse();
-        else if (tecla_soltada == SDLK_LEFT)
-            personajeModelo.detenerse();
-        else if (tecla_soltada == SDLK_RIGHT)
-            personajeModelo.detenerse();
-        SDL_Log("Keyup");
     }
 }

@@ -6,7 +6,8 @@
 #include "ITargeteable.h"
 #include "Imagen.h"
 
-class PersonajeVista: public IRendereable, public IInteractivo, public ITargeteable {
+class PersonajeVista: public IRendereable, public IInteractivo, 
+                                                        public ITargeteable {
 public:
     explicit PersonajeVista(EntornoGrafico& entorno);
     void render() override;

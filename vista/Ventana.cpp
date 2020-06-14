@@ -10,7 +10,7 @@ void Ventana::agregarRendereable(IRendereable* rendereable) {
 }
 
 void Ventana::agregarInteractivo(IInteractivo* interactivo) {
-    interactivos.push_back(interactivo);  
+    interactivos.push_back(interactivo);
 }
 
 int Ventana::getAlto() {

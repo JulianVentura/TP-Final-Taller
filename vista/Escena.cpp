@@ -10,13 +10,7 @@ Escena::Escena(EntornoGrafico& entorno): personaje(entorno), mapa(entorno) {
 void Escena::render() {
     camara.centrar(renderer);
     mapa.render();
-    renderer->setColor(0, 0, 51);
-    for (int i = 0; i < mapa.getAncho(); i += 20) {
-        renderer->linea(i, 0, i, mapa.getAlto());
-    }
-    for (int j = 0; j < mapa.getAlto(); j += 20) {
-        renderer->linea(0, j, mapa.getAncho(), j);
-    }
+    
     personaje.render();
     camara.reiniciar(renderer);
 

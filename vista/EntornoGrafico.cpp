@@ -19,18 +19,6 @@ EntornoGrafico::~EntornoGrafico() {
     SDL_Quit();
 }
 
-void EntornoGrafico::correr() {
-    bool quit = false;
-    SDL_Event e;
-    while (!quit) {
-        while (SDL_PollEvent(&e) != 0) {
-            if (e.type == SDL_QUIT) quit = true;
-            ventana->manejarEvento(e);
-        }
-        ventana->render();
-    }
-}
-
 void EntornoGrafico::agregarRendereable(IRendereable* rendereable) {
     rendereable->setRenderer(renderer);
     rendereable->setVentana(ventana);

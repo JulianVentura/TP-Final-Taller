@@ -15,7 +15,6 @@ class EntornoGrafico {
 public:
     EntornoGrafico();
     ~EntornoGrafico();
-    void correr();
     /**
      * @brief Asocia la ventana al entorno.
      */
