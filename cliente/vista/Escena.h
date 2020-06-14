@@ -10,7 +10,7 @@ class Escena: public IRendereable, public IInteractivo {
 public:
     explicit Escena(EntornoGrafico& entorno);
     void render() override;
-    void actualizar() override;
+    void actualizar(unsigned int delta_t) override;
     void manejarEvento(const SDL_Event& event) override;
 
 private:

@@ -11,13 +11,12 @@ class PersonajeVista: public IRendereable, public IInteractivo,
 public:
     explicit PersonajeVista(EntornoGrafico& entorno);
     void render() override;
-    void actualizar() override;
+    void actualizar(unsigned int delta_t) override;
     void manejarEvento(const SDL_Event& event) override;
 
 private:
     Imagen imagen;
-    int velocidadY = 0;
-    int velocidadX = 0;
+    std::string ultimo_estado;
 };
 
 #endif

@@ -20,6 +20,7 @@ public:
      * en el orden que fueron agregados. Luego se presentará en pantalla.
      */
     void render() override;
+    void actualizar(unsigned int delta_t) override;
 
     int getAncho() override;
     int getAlto() override;

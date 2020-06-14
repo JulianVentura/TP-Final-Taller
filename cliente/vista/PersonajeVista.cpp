@@ -1,8 +1,10 @@
 #include "PersonajeVista.h"
+#include "Animacion.h"
+
 #include <SDL2/SDL_timer.h>
 #include <vector>
 #include <string>
-
+#include <unordered_map>
 #define ARRIBA    "Arriba"
 #define ABAJO     "Abajo"
 #define DERECHA   "Derecha"
@@ -103,51 +105,6 @@ std::unordered_map<std::string, std::vector<SDL_Rect>> mascaras {
     }
 };
 
-class Animacion {
-public:
-    Animacion() = default;
-    Animacion(Imagen& imagen, const std::string& animacion): imagen(&imagen), 
-                animacion_actual(animacion), ultimo_cambio(SDL_GetTicks()) {}
-    void actualizar(unsigned int delta_t);
-    void setAnimacion(const std::string& animacion);
-
-private:
-    Imagen* imagen = NULL;
-    std::string animacion_actual;
-    unsigned int cuadro = 0;
-    unsigned int ultimo_cambio = 0;
-    unsigned int ultima_reproduccion = 0;
-    unsigned int tiempo_transcurrido = 0;
-    unsigned int intervalo_animacion = 1500;
-    unsigned int tiempo_por_frame = 150;
-};
-
-void Animacion::setAnimacion(const std::string& animacion) {
-    if (animacion == animacion_actual) return;
-    animacion_actual = animacion;
-    cuadro = 0;
-
-    ultima_reproduccion = 0;
-    ultimo_cambio = 0;
-}
-
-// TODO: Agregar frecuencia entre reproducción y reproducción 
-// TODO: Usar el delta_t 
-void Animacion::actualizar(unsigned int delta_t) {
-    tiempo_transcurrido = SDL_GetTicks();
-    // if (tiempo_transcurrido - ultima_reproduccion < intervalo_animacion) return;
-    if (tiempo_transcurrido - ultimo_cambio > tiempo_por_frame) {
-        SDL_Rect mascara = mascaras[animacion_actual][cuadro];
-        imagen->setMascara(mascara.x, mascara.y, mascara.w, mascara.h);
-        ultimo_cambio = tiempo_transcurrido;
-        ++cuadro;
-        if (cuadro == mascaras[animacion_actual].size()) {
-            ultima_reproduccion = tiempo_transcurrido;
-            cuadro = 0;
-        }
-    }
-}
-
 class Personaje/*Mock*/ {
 public:
     void actualizar();
@@ -173,7 +130,6 @@ void Personaje::actualizar() {
     // Pared imaginaria, funciona medio feo.
     if (x <= 0 || x > 1500)
         x -= velocidadX;
-
 }
 
 void Personaje::moverDerecha() {
@@ -203,7 +159,6 @@ void Personaje::detenerse() {
 Animacion animacion;
 Personaje personajeModelo;
 
-std::string ultimo_estado;
 PersonajeVista::PersonajeVista(EntornoGrafico& entorno) {
     entorno.agregarRendereable(this);
     std::string ruta("assets/personaje.png");
@@ -222,7 +177,7 @@ PersonajeVista::PersonajeVista(EntornoGrafico& entorno) {
     this->x = personajeModelo.x;
     this->y = personajeModelo.y;
     
-    animacion = Animacion(imagen, std::string(ABAJO));
+    animacion = Animacion(imagen, std::move(mascaras), std::string(ABAJO));
     ultimo_estado = ABAJO;
 }
 
@@ -237,7 +192,7 @@ static void nuevo_estado(std::string& ultimo_estado, int delta_x, int delta_y) {
         ultimo_estado = ARRIBA;
 }
 
-void PersonajeVista::actualizar() {
+void PersonajeVista::actualizar(unsigned int delta_t) {
     int ultimo_x = this->x;
     int ultimo_y = this->y;
     personajeModelo.actualizar();
@@ -246,6 +201,7 @@ void PersonajeVista::actualizar() {
 
     int delta_x = x - ultimo_x;
     int delta_y = y - ultimo_y;
+        
     std::string agregado;
     if (delta_x == 0 && delta_y == 0)
         agregado = QUIETO;
@@ -254,15 +210,11 @@ void PersonajeVista::actualizar() {
     animacion.setAnimacion(ultimo_estado + agregado);
     
     imagen.setPosicion(x, y);
-    animacion.actualizar(0);
+    animacion.actualizar(delta_t);
 }
 
 void PersonajeVista::render() {
     imagen.render();
-
-    // DEBUG
-    renderer->setColor(100, 51, 100);
-    renderer->rect(x, y, imagen.getAncho(), imagen.getAlto());
 }
 
 // Esto podría ser un Controlador
@@ -276,7 +228,6 @@ const std::unordered_set<int> teclas_direccionables {
 };
 
 void PersonajeVista::manejarEvento(const SDL_Event& event) {
-
     if (event.type == SDL_KEYDOWN) {
         auto& tecla_presionada = event.key.keysym.sym;
         if (tecla_presionada == SDLK_UP) 

@@ -13,11 +13,6 @@ void Escena::render() {
     
     personaje.render();
     camara.reiniciar(renderer);
-
-    // DEBUG
-    renderer->setColor(51, 0, 51);
-    renderer->rectSolido(ventana->getAncho() / 2, ventana->getAlto() / 2, 
-                                                                        10, 10);
 }
 
 void Escena::manejarEvento(const SDL_Event& event) {
@@ -25,7 +20,7 @@ void Escena::manejarEvento(const SDL_Event& event) {
     personaje.manejarEvento(event);
 }
 
-void Escena::actualizar() {
-    mapa.actualizar();
-    personaje.actualizar();
+void Escena::actualizar(unsigned int delta_t) {
+    mapa.actualizar(delta_t);
+    personaje.actualizar(delta_t);
 }

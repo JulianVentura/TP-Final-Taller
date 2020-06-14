@@ -25,7 +25,7 @@ int main(int argc, const char* argv[]) {
         ventana.agregarRendereable(&gui);
 
         bucle.correr();
-    } catch(std::exception& e) {
+    } catch (std::exception& e) {
         std::cerr << e.what() << std::endl;
     }
     return 0;

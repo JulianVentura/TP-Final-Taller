@@ -5,10 +5,12 @@
 
 class BuclePrincipal {
 public:
-    BuclePrincipal(Ventana& ventana) : ventana(&ventana) {}
+    explicit BuclePrincipal(Ventana& ventana);
     void correr();
+
 private:
     Ventana* ventana;
+    unsigned int ultima_actualizacion;
 };
 
 #endif

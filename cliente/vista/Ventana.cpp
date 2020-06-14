@@ -55,13 +55,15 @@ void Ventana::manejarEvento(const SDL_Event& event) {
     }
 }
 
+void Ventana::actualizar(unsigned int delta_t) {
+    for (auto& rendereable: rendereables) 
+        rendereable->actualizar(delta_t);
+}
+
 void Ventana::render() {
     renderer->setColor(color_fondo);
     renderer->limpiar();
-    // unsigned int tiempo_actual = SDL_GetTicks();
-    for (auto& rendereable: rendereables) {
-        rendereable->actualizar();
+    for (auto& rendereable: rendereables) 
         rendereable->render();
-    }
     renderer->presentar();
 }
