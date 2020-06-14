@@ -15,7 +15,10 @@ public:
 
 private:
     Camara camara;
+    Personaje personajeModelo;
     PersonajeVista personaje;
+    // Personaje enemigoModelo;
+    // EnemigoVista enemigo;
     MapaVista mapa;
 };
 

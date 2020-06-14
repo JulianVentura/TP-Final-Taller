@@ -1,6 +1,7 @@
 #include "Escena.h"
 
-Escena::Escena(EntornoGrafico& entorno): personaje(entorno), mapa(entorno) {
+Escena::Escena(EntornoGrafico& entorno): personaje(entorno, personajeModelo), 
+                                                                mapa(entorno) {
     entorno.agregarRendereable(this);
 
     camara = Camara(&mapa, ventana);
