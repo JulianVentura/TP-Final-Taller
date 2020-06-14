@@ -13,20 +13,21 @@ int main(int argc, const char* argv[]) {
         EntornoGrafico entorno;
         Ventana ventana(entorno, "Ejemplo");
         Renderer renderer(entorno);
-        GUI_Principal gui(entorno); 
-
         BuclePrincipal bucle(ventana);
+
         std::string fuente_ruta("assets/DejaVuSansMono.ttf"); 
         entorno.cargarFuente(fuente_ruta, 15);
-        Escena escena(entorno);
 
+        Escena escena(entorno);
         ventana.agregarInteractivo(&escena);
         ventana.agregarRendereable(&escena);
+
+        GUI_Principal gui(entorno, bucle); 
         ventana.agregarRendereable(&gui);
 
         //Perdida monumental de memoria
-        GUI_BotonInventario boton_inventario(entorno, 50, 50);
-        bucle.botones.push_back(new GUI_BotonInventarioControlador(boton_inventario,50, 50, 50, 50));
+        GUI_BotonInventario boton_inventario(entorno, 100,500 );
+        bucle.botones.push_back(new GUI_BotonInventarioControlador(boton_inventario,100, 500, 50, 50));
         ventana.agregarRendereable(&boton_inventario);
 
 

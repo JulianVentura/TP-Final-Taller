@@ -4,8 +4,12 @@
 #include "GUI_Boton_Controlador.h"
 #include "../vista/GUI_BotonInventario.h"
 
+#define ALTO_INVENTARIO  5
+#define ANCHO_INVENTARIO 3
+
 class GUI_BotonInventarioControlador : public GUI_BotonControlador{
 private:
+	char inventario[ANCHO_INVENTARIO][ALTO_INVENTARIO];
 	GUI_BotonInventario& vista;
 	bool enClick();
 public:
