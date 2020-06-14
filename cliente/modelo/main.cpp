@@ -2,10 +2,10 @@
 #include <string>
 
 #include "BuclePrincipal.h"
-#include "EntornoGrafico.h"
-#include "Ventana.h"
-#include "Escena.h"
-#include "GUI_Principal.h"
+#include "../vista/EntornoGrafico.h"
+#include "../vista/Ventana.h"
+#include "../vista/Escena.h"
+#include "../vista/GUI_Principal.h"
 
 int main(int argc, const char* argv[]) {
     try {
