@@ -3,17 +3,16 @@
 #include "Rectangulo.h"
 
 class Colisionable{
-    private:
-    Rectangulo area;
     public:
-    Colisionable(Rectangulo &&rectangulo);
+    Colisionable();
     Colisionable(Colisionable &&otro) = delete;
     Colisionable(Colisionable &otro) = delete;
     Colisionable& operator=(Colisionable &&otro) = delete;
     Colisionable& operator=(Colisionable &otro) = delete;
-    Rectangulo& obtenerArea();
-    bool colisionaCon(Colisionable &otro);
-
-
+    virtual ~Colisionable();
+    virtual Rectangulo& obtenerArea() = 0;
+    virtual bool colisionaCon(Colisionable &otro) = 0;
+    virtual bool colisionaCon(Rectangulo &area) = 0;
 };
+
 #endif

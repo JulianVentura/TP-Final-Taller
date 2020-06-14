@@ -1,6 +1,14 @@
 #include "QuadTree.h"
-#define MAX_OBJETOS 10
-#define MAX_NIVELES 5
+#define MAX_OBJETOS 4
+#define MAX_NIVELES 10
+
+/*
+QuadTree migrado desde java.
+Version original: https://gamedevelopment.tutsplus.com/tutorials/quick-tip-use-quadtrees-to-detect-likely-collisions-in-2d-space--gamedev-374
+*/
+
+
+QuadTree::QuadTree() : nivel(0), limites(Rectangulo(0, 0, 10, 10)){}
 
 QuadTree::QuadTree(unsigned int nivel, Rectangulo tamanio) : limites(std::move(tamanio)){
     for (unsigned int i=0; i<CANTIDAD_NODOS; i++){
@@ -51,18 +59,19 @@ void QuadTree::dividir(){
     int subAlto  = (int)(limites.obtenerAlto()  / 2);
     int x = (int)limites.obtenerX();
     int y = (int)limites.obtenerY();
-
+    
     nodos[0] = std::unique_ptr<QuadTree>(new QuadTree(nivel+1, Rectangulo(x + subAncho, y, subAncho, subAlto)));
     nodos[1] = std::unique_ptr<QuadTree>(new QuadTree(nivel+1, Rectangulo(x, y, subAncho, subAlto)));
     nodos[2] = std::unique_ptr<QuadTree>(new QuadTree(nivel+1, Rectangulo(x, y + subAlto, subAncho, subAlto)));
     nodos[3] = std::unique_ptr<QuadTree>(new QuadTree(nivel+1, Rectangulo(x + subAncho, y + subAlto, subAncho, subAlto)));
+
 }
 
 
 void QuadTree::limpiar(){
     for (unsigned int i=0; i<CANTIDAD_NODOS; i++){
-        if (nodos[i].get() != nullptr){
-            nodos[i].get()->limpiar();
+        if (nodos[i] != nullptr){
+            nodos[i]->limpiar();
             nodos[i] = nullptr;
         }
     }
@@ -73,23 +82,23 @@ void QuadTree::insertar(Colisionable* colisionable){
     if (nodos[0] != nullptr){
         int indice = obtenerIndice(colisionable->obtenerArea());
         if (indice != -1){
-            nodos[indice].get()->insertar(colisionable);
+            nodos[indice]->insertar(colisionable);
             return;
         }
     }
     objetos.push_back(colisionable);
     if (objetos.size() > MAX_OBJETOS && nivel < MAX_NIVELES){
         if (nodos[0] == nullptr) dividir();
-    }
-
-    std::list<Colisionable*>::iterator it = objetos.begin();
-    while (it != objetos.end()){
-        int indice = obtenerIndice((*it)->obtenerArea());
-        if (indice != -1){
-            nodos[indice].get()->insertar((*it));
-            it = objetos.erase(it);
-        }else{
-            ++it;
+    
+        std::list<Colisionable*>::iterator it = objetos.begin();
+        while (it != objetos.end()){
+            int indice = obtenerIndice((*it)->obtenerArea());
+            if (indice != -1){
+                nodos[indice]->insertar((*it));
+                it = objetos.erase(it);
+            }else{
+                ++it;
+            }
         }
     }
 }
@@ -98,11 +107,9 @@ void QuadTree::_obtener(std::list<Colisionable*> &listaResultado,
                         Rectangulo &rectangulo){
     int indice = obtenerIndice(rectangulo);
     if (indice != -1 && nodos[0] != nullptr){
-        nodos[indice].get()->_obtener(listaResultado, rectangulo);
+        nodos[indice]->_obtener(listaResultado, rectangulo);
     }
-    
     listaResultado.insert(listaResultado.end(), objetos.begin(), objetos.end());
-
 }
 
 std::list<Colisionable*> QuadTree::obtener(Rectangulo &rectangulo){
@@ -114,4 +121,28 @@ std::list<Colisionable*> QuadTree::obtener(Rectangulo &rectangulo){
 
 std::list<Colisionable*> QuadTree::obtener(Colisionable& colisionable){
     return obtener(colisionable.obtenerArea());
+}
+
+bool QuadTree::remover(Colisionable* colisionable){
+    bool objetoEncontrado = false;
+    _remover(colisionable, objetoEncontrado);
+    return objetoEncontrado;
+}
+
+
+void QuadTree::_remover(Colisionable* colisionable, bool &objetoEncontrado){
+    int indice = obtenerIndice(colisionable->obtenerArea());
+    if (indice != -1 && nodos[0] != nullptr){
+        nodos[indice]->_remover(colisionable, objetoEncontrado);
+    }
+    if (objetoEncontrado) return;
+    std::list<Colisionable*>::iterator it = objetos.begin();
+    while (it != objetos.end()){
+        if ((*it) == colisionable){
+            it = objetos.erase(it);
+            objetoEncontrado = true;
+        }else{
+            ++it;
+        }
+    }
 }
