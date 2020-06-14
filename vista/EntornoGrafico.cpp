@@ -93,3 +93,4 @@ void EntornoGrafico::cargarFuente(const std::string& ruta, int size) {
 TTF_Font* EntornoGrafico::getFuente() {
     return font;
 }
+

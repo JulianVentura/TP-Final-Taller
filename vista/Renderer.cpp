@@ -92,6 +92,10 @@ void Renderer::rectSolido(int x, int y, int ancho, int alto) {
     SDL_RenderFillRect(renderer, &rect_render);
 }
 
+void Renderer::rectSolido(SDL_Rect& rect){
+    SDL_RenderFillRect(renderer, &rect);
+}
+
 void Renderer::renderTexturaTexto(SDL_Surface* superficie, int x, int y) {
     SDL_Rect render_mascara = {};
     SDL_Texture* textura = texturaDesdeSuperficie(superficie);

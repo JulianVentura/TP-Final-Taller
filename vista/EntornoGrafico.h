@@ -14,6 +14,8 @@ class IRendereable;
 class EntornoGrafico {
 public:
     EntornoGrafico();
+    EntornoGrafico(const EntornoGrafico&) = delete;
+    EntornoGrafico(EntornoGrafico&) = delete;
     ~EntornoGrafico();
     void correr();
     /**

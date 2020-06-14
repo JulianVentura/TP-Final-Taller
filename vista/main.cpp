@@ -4,6 +4,7 @@
 #include "EntornoGrafico.h"
 #include "Ventana.h"
 #include "Escena.h"
+#include "GUI_Principal.h"
 
 int main(int argc, const char* argv[]) {
     try {
@@ -17,6 +18,9 @@ int main(int argc, const char* argv[]) {
 
         ventana.agregarInteractivo(&escena);
         ventana.agregarRendereable(&escena);
+
+        GUI_Principal gui(entorno, ventana);
+
         entorno.correr();
     } catch(std::exception& e) {
         std::cerr << e.what() << std::endl;
