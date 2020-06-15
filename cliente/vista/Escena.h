@@ -17,10 +17,9 @@ private:
     Camara camara;
     Personaje personajeModelo;
     PersonajeVista personaje;
-    // Personaje enemigoModelo;
-    // EnemigoVista enemigo;
+    Personaje enemigoModelo;
+    MovibleVista enemigo;
     MapaVista mapa;
 };
-
 
 #endif

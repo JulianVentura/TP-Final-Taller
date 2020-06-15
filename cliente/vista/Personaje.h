@@ -1,6 +1,8 @@
 #ifndef PERSONAJE_H
 #define PERSONAJE_H
 
+class MovibleVista;
+
 class Personaje/*Mock*/ {
 public:
     void actualizar();
@@ -16,6 +18,7 @@ private:
     int velocidadX = 0; // Esto estaría en el servidor
     int velocidadY = 0; // Esto estaría en el servidor
     friend class PersonajeVista;
+    friend class MovibleVista;
 };
 
 #endif
