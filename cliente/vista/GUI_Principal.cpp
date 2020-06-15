@@ -19,11 +19,12 @@ GUI_Principal::GUI_Principal(EntornoGrafico& entorno) {
 	barra_vida = new Barra(entorno, marco, color, 10, 1);
 	
 	color.r = 20; color.g = 20; color.b = 120; color.a = 255;
-	marco.y = ventana_alto*0.9 - 10 - 12; marco.h = 12;
+	marco.y = ventana_alto*0.9 - 10 - 12; marco.h = 6;
 	barra_mana = new Barra(entorno, marco, color, 10, 8);
 }
 
 void GUI_Principal::render() {
+	SDL_Rect marco;
 	barra_mana->render();
 	barra_vida->render();
 }
