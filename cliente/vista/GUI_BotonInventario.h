@@ -9,10 +9,10 @@
 
 class GUI_BotonInventario final : public IRendereable{
 public:
+	Imagen imagen;
 	int x,y;
 	int x_cuadro,y_cuadro;
 	int ancho, alto;
-	Imagen imagen;
 	SDL_Color frente, fondo, sombra, luz;
 	bool visible;
 	GUI_BotonInventario(EntornoGrafico& entorno, int x, int y);

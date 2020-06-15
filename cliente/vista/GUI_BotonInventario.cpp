@@ -5,7 +5,7 @@
 #include "GUI_BotonInventario.h"
 
 GUI_BotonInventario::GUI_BotonInventario(EntornoGrafico& entorno, int x, int y)
-: imagen(entorno,"assets/botonInventario.png") {
+: imagen(entorno,"assets/botonInventario.png"), x(x), y(y) {
 	imagen.setPosicion(x,y);
 	ancho = 3; alto = 6; //HARDCODEO
 	visible = false;
@@ -15,7 +15,7 @@ GUI_BotonInventario::GUI_BotonInventario(EntornoGrafico& entorno, int x, int y)
 	luz.r = 94;luz.g = 75; luz.b = 51;luz.a = 255;
 }
 
-void GUI_BotonInventario::render(){
+void GUI_BotonInventario::render() {
 	imagen.render();
 	if(!visible) return;
 
@@ -26,21 +26,21 @@ void GUI_BotonInventario::render(){
 
 	for(int i = 0;i < ancho;i++){
 		for(int j = 0; j < alto;j++){
-				renderer -> setColor(fondo);
-				renderer -> rectSolido(x - 2*SEPARACION - LADO_BOTON
-				 + SEPARACION + i*(LADO_BOTON + SEPARACION),
-				 y - SEPARACION - 6*(SEPARACION + LADO_BOTON) +
-				   j*(LADO_BOTON + SEPARACION), LADO_BOTON, LADO_BOTON);
-				renderer -> setColor(luz);
-				renderer -> rectSolido(x - 2*SEPARACION - LADO_BOTON
-				 + SEPARACION + i*(LADO_BOTON + SEPARACION),
-				 y - SEPARACION - 6*(SEPARACION + LADO_BOTON) +
-				   j*(LADO_BOTON + SEPARACION) - 2,LADO_BOTON,2);
-				renderer -> setColor(sombra);
-				renderer -> rectSolido(x - 2*SEPARACION - LADO_BOTON
-				 + SEPARACION + i*(LADO_BOTON + SEPARACION),
-				 y - SEPARACION - 6*(SEPARACION + LADO_BOTON) +
-				   j*(LADO_BOTON + SEPARACION) + 1,LADO_BOTON,2);
+			renderer -> setColor(fondo);
+			renderer -> rectSolido(x - 2*SEPARACION - LADO_BOTON
+				+ SEPARACION + i*(LADO_BOTON + SEPARACION),
+				y - SEPARACION - 6*(SEPARACION + LADO_BOTON) +
+				j*(LADO_BOTON + SEPARACION), LADO_BOTON, LADO_BOTON);
+			renderer -> setColor(luz);
+			renderer -> rectSolido(x - 2*SEPARACION - LADO_BOTON
+				+ SEPARACION + i*(LADO_BOTON + SEPARACION),
+				y - SEPARACION - 6*(SEPARACION + LADO_BOTON) +
+				j*(LADO_BOTON + SEPARACION) - 2,LADO_BOTON,2);
+			renderer -> setColor(sombra);
+			renderer -> rectSolido(x - 2*SEPARACION - LADO_BOTON
+				+ SEPARACION + i*(LADO_BOTON + SEPARACION),
+				y - SEPARACION - 6*(SEPARACION + LADO_BOTON) +
+				j*(LADO_BOTON + SEPARACION) + 1,LADO_BOTON,2);
 		}
 	}
 
