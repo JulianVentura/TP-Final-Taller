@@ -20,8 +20,13 @@ class Mapa{
     QuadTree quadTreeDinamico;
     std::vector<ObjetoColisionable> objetosEstaticos;
     unsigned int cantidadDeCriaturas;
-    std::map<std::string, Personaje*> personajes;
-    std::map<std::string, Criatura> criaturas;
+    std::map<std::string, Personaje*> personajes; 
+    std::map<std::string, Criatura*> criaturas; // Con punteros funciona
+                                                // Por lo que estuve viendo
+                                                // Una de las clases de las que
+                                                // hereda, tiene deleteado
+                                                // un constructor que se ve que
+                                                // `pair` del map necesita.
 
     bool posicionValida(Posicion &nuevaPosicion);
 

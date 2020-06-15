@@ -55,21 +55,23 @@ void Mapa::actualizarPosicion(Entidad *entidad, Posicion &&nuevaPosicion){
 }
 std::string Mapa::recolectarPosiciones(){
     std::string resultado;
-    for (std::map<std::string, Criatura>::iterator it = criaturas.begin();
+
+    for (std::map<std::string, Criatura*>::iterator it = criaturas.begin();
          it != criaturas.end();
          ++it){
-        resultado + it->first + '/' + it->second.imprimirPosicion() + '$';
+        resultado += it->first + '/' + it->second->imprimirPosicion() + '$';
     }
+
     for (std::map<std::string, Personaje*>::iterator it = personajes.begin();
          it != personajes.end();
          ++it){
-        resultado + it->first + '/' + it->second->imprimirPosicion() + '$';
+        resultado += it->first + '/' + it->second->imprimirPosicion() + '$';
     }
     return resultado;
 }
 
 Entidad* Mapa::obtener(const char* id){
-    std::map<std::string, Criatura>::iterator Cit = criaturas.find(id);
+    std::map<std::string, Criatura*>::iterator Cit = criaturas.find(id);
     std::map<std::string, Personaje*>::iterator Pit = personajes.find(id);
     if (Cit == criaturas.end()){
         if (Pit == personajes.end()){
@@ -78,7 +80,7 @@ Entidad* Mapa::obtener(const char* id){
             return Pit->second;
         }
     }else{
-        return &Cit->second;
+        return Cit->second;
     }
 }
 
