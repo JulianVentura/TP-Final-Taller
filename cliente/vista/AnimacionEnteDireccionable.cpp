@@ -17,7 +17,6 @@ void AnimacionEnteDireccionable::actualizarEstado(unsigned int delta_t,
     actualizar(delta_t);
 }
 
-
 void AnimacionEnteDireccionable::nuevoEstado(int delta_x, int delta_y) {
     if (delta_x > 0) 
         animacion_actual = DERECHA;

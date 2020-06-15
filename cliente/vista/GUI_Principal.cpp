@@ -24,7 +24,7 @@ GUI_Principal::GUI_Principal(EntornoGrafico& entorno) {
 }
 
 void GUI_Principal::render() {
-	SDL_Rect marco;
+	// SDL_Rect marco;
 	barra_mana->render();
 	barra_vida->render();
 }

@@ -23,7 +23,7 @@ int main(int argc, const char* argv[]) {
         ventana.agregarInteractivo(&escena);
         ventana.agregarRendereable(&escena);
 
-        GUI_Principal gui(entorno, bucle); 
+        GUI_Principal gui(entorno); 
         ventana.agregarRendereable(&gui);
 
         //Perdida monumental de memoria
