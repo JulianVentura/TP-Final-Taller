@@ -12,7 +12,7 @@
 int main(int argc, const char* argv[]) {
     try {
         EntornoGrafico entorno;
-        Ventana ventana(entorno, "Ejemplo");
+        Ventana ventana(entorno, "Argentum");
         Renderer renderer(entorno);
         BuclePrincipal bucle(ventana);
 
@@ -30,7 +30,6 @@ int main(int argc, const char* argv[]) {
         GUI_BotonInventario boton_inventario(entorno, 100,500 );
         bucle.botones.push_back(new GUI_BotonInventarioControlador(boton_inventario,100, 500, 50, 50));
         ventana.agregarRendereable(&boton_inventario);
-
 
         bucle.correr();
     } catch (std::exception& e) {

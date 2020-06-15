@@ -15,42 +15,36 @@ const bool terreno[FILAS][COLUMNAS] {
 MapaVista::MapaVista(EntornoGrafico& entorno) {
     entorno.agregarRendereable(this);
 
-    const std::string ruta("assets/map.jpg");
-    imagen = Imagen(entorno, ruta);
-    
-    // imagen.setAncho(imagen.getAncho() * 3);
-    // imagen.setAlto(imagen.getAlto() * 3);
-    // ancho = 2 * imagen.getAncho();
-    // alto = 2 * imagen.getAlto();
+    const std::string ruta_azul("assets/tile_azul.png");
+    const std::string ruta_verde("assets/tile_verde.png");
 
+    imagen_tile_azul = Imagen(entorno, ruta_azul);
+    imagen_tile_verde = Imagen(entorno, ruta_verde);
+
+    for (int i = 0; i < COLUMNAS; ++i) {
+        for (int j = 0; j < FILAS; ++j) {
+            int x = i * ANCHO_TILE;
+            int y = j * ANCHO_TILE;
+            if (terreno[i][j])
+                tiles.push_back(std::move(Tile(entorno, &imagen_tile_azul, x, y)));
+            else 
+                tiles.push_back(std::move(Tile(entorno, &imagen_tile_verde, x, y)));
+        }
+    }
     ancho = COLUMNAS * ANCHO_TILE;
     alto = FILAS * ANCHO_TILE;
 
 }
 
 void MapaVista::actualizar(unsigned int delta_t) {
-    // imagen.centrarRelativoA(*ventana);   
+    for (auto& tile: tiles) 
+        tile.actualizar(delta_t);
 }
 
 void MapaVista::render() {
-    // imagen.setPosicion(0, 0);
-    // imagen.render();
-    // imagen.setPosicion(0, imagen.getAlto());
-    // imagen.render();
-    // imagen.setPosicion(imagen.getAncho(), 0);
-    // imagen.render();
-    // imagen.setPosicion(imagen.getAncho(), imagen.getAlto());
-    // imagen.render();
-
-    for (int i = 0; i < COLUMNAS; ++i) {
-        for (int j = 0; j < FILAS; ++j) {
-            if (terreno[i][j])
-                renderer->setColor(51);
-            else 
-                renderer->setColor(51, 0, 51);
-            renderer->rectSolido(i * ANCHO_TILE, j * ANCHO_TILE, ANCHO_TILE, ANCHO_TILE);
-        }
-    }
+    for (auto& tile: tiles)
+        tile.render();
+    imagen_tile_azul.render();
 }   
 
 void MapaVista::manejarEvento(const SDL_Event& event) {

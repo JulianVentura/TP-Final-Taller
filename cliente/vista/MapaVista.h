@@ -4,6 +4,7 @@
 #include "IRendereable.h"
 #include "IInteractivo.h"
 #include "Imagen.h"
+#include "Tile.h"
 
 class MapaVista: public IRendereable, public IInteractivo, 
                                                         public IDimensionable {
@@ -19,5 +20,10 @@ private:
     int y = 0;
     int velocidadY = 0;
     int velocidadX = 0;
+
+    Imagen imagen_tile_azul; // Provisorio
+    Imagen imagen_tile_verde; // Provisorio
+    std::vector<Tile> tiles; // Provisorio
 };
+
 #endif
