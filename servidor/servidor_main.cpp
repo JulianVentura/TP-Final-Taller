@@ -77,7 +77,6 @@ int main(){
             std::cin >> c;
             if (c == 'q') break;
             moverPersonaje(&personaje1, mapa, c);
-
             imprimirPosiciones(mapa);
         }
     }catch(std::exception &e){

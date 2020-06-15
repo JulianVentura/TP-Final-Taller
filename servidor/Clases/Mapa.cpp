@@ -1,4 +1,5 @@
 #include "Mapa.h"
+#include "ErrorServidor.h"
 #include "Rectangulo.h"
 //#include "../nlohmann_json/include/nlohmann/json.hpp"
 #include <nlohmann/json.hpp>
@@ -30,8 +31,10 @@ Mapa::Mapa(const char* nombreArchivo) : tiles(),
                                         criaturas(){
     std::ifstream archivo(nombreArchivo);
     if (!archivo.is_open()){
-        //Cambiar por excepcion propia
-        throw std::exception();
+        throw ErrorServidor("No se pudo abrir el archivo %s\n", nombreArchivo); 
+        // Cambiar por una propia
+        // throw std::exception();
+        // TODO: No sé si te convence esta exception
     }
     json archivoJson;
     archivo >> archivoJson;
@@ -75,7 +78,10 @@ Entidad* Mapa::obtener(const char* id){
     std::map<std::string, Personaje*>::iterator Pit = personajes.find(id);
     if (Cit == criaturas.end()){
         if (Pit == personajes.end()){
-            throw std::exception(); //Cambiar por una propia
+            throw ErrorServidor("No se encontró id %s\n", id); 
+            // Cambiar por una propia
+            // throw std::exception();
+            // TODO: No sé si te convence esta exception
         }else{
             return Pit->second;
         }

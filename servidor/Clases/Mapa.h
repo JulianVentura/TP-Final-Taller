@@ -16,8 +16,8 @@ class Mapa{
     std::vector<char> tiles;
     unsigned int ancho;
     unsigned int alto;
-    QuadTree quadTreeEstatico;
-    QuadTree quadTreeDinamico;
+    QuadTree<Colisionable*> quadTreeEstatico;
+    QuadTree<Colisionable*> quadTreeDinamico;
     std::vector<ObjetoColisionable> objetosEstaticos;
     unsigned int cantidadDeCriaturas;
     std::map<std::string, Personaje*> personajes; 

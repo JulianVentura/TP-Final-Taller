@@ -8,17 +8,16 @@
 #include "Rectangulo.h"
 #include "Colisionable.h"
 
-template<typename T>
-class QuadTree{
+class QuadTreeOriginal {
     private:
     unsigned int nivel;
-    std::list<T> objetos;
+    std::list<Colisionable*> objetos;
     Rectangulo limites;
-    std::unique_ptr<QuadTree> nodos[CANTIDAD_NODOS];
+    std::unique_ptr<QuadTreeOriginal> nodos[CANTIDAD_NODOS];
     /*
     Constructor privado para usar internamente.
     */
-    QuadTree(unsigned int nivel, Rectangulo tamanio);
+    QuadTreeOriginal(unsigned int nivel, Rectangulo tamanio);
     /*
 
     */
@@ -33,21 +32,21 @@ class QuadTree{
     /*
     Auxiliar de obtener()
     */
-    void _obtener(std::list<T> &listaResultado, Rectangulo &rectangulo);
+    void _obtener(std::list<Colisionable*> &listaResultado, Rectangulo &rectangulo);
     /*
     Auxiliar de remover())
     */
-    void _remover(T dato, bool &objetoEncontrado);
+    void _remover(Colisionable* colisionable, bool &objetoEncontrado);
 
     public:
     /*
     Crea un QuadTree de tamanio 10, 10.
     */
-    QuadTree();
+    QuadTreeOriginal();
     /*
     Crea un QuadTree en el area especificada por el rectangulo tamanio.
     */
-    QuadTree(Rectangulo tamanio);
+    QuadTreeOriginal(Rectangulo tamanio);
     /*
     Elimina todos los colisionables del QuadTree, dejandolo vacio.
     */
@@ -56,22 +55,22 @@ class QuadTree{
     /*
     Inserta un colisionable en el QuadTree.
     */
-    void insertar(T dato);
+    void insertar(Colisionable* colisionable);
     /*
     Remueve un colisionable del QuadTree.
     */
-    bool remover(T dato);
+    bool remover(Colisionable* colisionable);
     /*
     Devuelve una lista con todos los colisionables que se encuentran
     en el area definida por Rectangulo.
     */
-    std::list<T> obtener(Rectangulo &rectangulo);
+    std::list<Colisionable*> obtener(Rectangulo &rectangulo);
 
     /*
     Devuelve una lista con todos los colisionables que estan colisionando
     con colisionable.
     */
-    std::list<T> obtener(T& colisionable);
+    std::list<Colisionable*> obtener(Colisionable& colisionable);
 
 };
 
