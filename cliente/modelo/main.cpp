@@ -23,14 +23,9 @@ int main(int argc, const char* argv[]) {
         ventana.agregarInteractivo(&escena);
         ventana.agregarRendereable(&escena);
 
-        GUI_Principal gui(entorno); 
+        GUI_Principal gui(entorno, bucle); 
         ventana.agregarRendereable(&gui);
-
-        //Perdida monumental de memoria
-        GUI_BotonInventario boton_inventario(entorno, 100,500 );
-        bucle.botones.push_back(new GUI_BotonInventarioControlador(boton_inventario,100, 500, 50, 50));
-        ventana.agregarRendereable(&boton_inventario);
-
+        
         bucle.correr();
     } catch (std::exception& e) {
         std::cerr << e.what() << std::endl;

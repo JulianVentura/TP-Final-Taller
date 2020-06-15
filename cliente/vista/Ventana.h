@@ -35,7 +35,7 @@ public:
     
 private:
     int ancho = 650;
-    int alto = 650;
+    int alto = 500;
     SDL_Window* ventana;
     Renderer* renderer;
     SDL_Color color_fondo = {51, 51, 51, 255};

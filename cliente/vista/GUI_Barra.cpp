@@ -8,7 +8,6 @@ Barra::Barra(EntornoGrafico& entorno, SDL_Rect& marco, SDL_Color& color ,
 	int capacidad_max, int capacidad_actual) : marco(marco), principal(color),
 	 capacidad_max(capacidad_max) , capacidad_actual(capacidad_actual){
 		entorno.agregarRendereable(this);
-
 		secundario.r = principal.r*2;  
 		secundario.g = principal.g*2;
 		secundario.b = principal.b*2;

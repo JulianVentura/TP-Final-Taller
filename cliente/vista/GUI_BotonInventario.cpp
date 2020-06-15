@@ -6,6 +6,7 @@
 
 GUI_BotonInventario::GUI_BotonInventario(EntornoGrafico& entorno, int x, int y)
 : imagen(entorno,"assets/botonInventario.png"), x(x), y(y) {
+	entorno.agregarRendereable(this);
 	imagen.setPosicion(x,y);
 	ancho = 3; alto = 6; //HARDCODEO
 	visible = false;
@@ -18,7 +19,6 @@ GUI_BotonInventario::GUI_BotonInventario(EntornoGrafico& entorno, int x, int y)
 void GUI_BotonInventario::render() {
 	imagen.render();
 	if(!visible) return;
-
 	renderer -> setColor(frente);
 	renderer -> rectSolido(x - 2*SEPARACION - LADO_BOTON,
 	 y - 2*SEPARACION - 6*(SEPARACION + LADO_BOTON),SEPARACION +
@@ -46,6 +46,7 @@ void GUI_BotonInventario::render() {
 
 	renderer -> setColor(luz);
 	renderer -> rectSolido(x - 2*SEPARACION - LADO_BOTON,
-	 y - 2*SEPARACION - 6*(SEPARACION + LADO_BOTON), LADO_BOTON, SEPARACION);
+	 y - 2*SEPARACION - 6*(SEPARACION + LADO_BOTON), SEPARACION +
+	3*(SEPARACION + LADO_BOTON), SEPARACION);
 
 }
