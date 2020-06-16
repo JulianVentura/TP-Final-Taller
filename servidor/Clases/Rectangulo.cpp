@@ -1,4 +1,5 @@
 #include "Rectangulo.h"
+#include <cstdio>
 
 Rectangulo::Rectangulo(const float inicioX, 
                        const float inicioY, 
