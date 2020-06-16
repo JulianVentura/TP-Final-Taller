@@ -151,5 +151,5 @@ std::string Mapa::aCadena() {
     for (auto& personaje: personajes) {
         poblarCadena(personaje.second, ancho, '#', resultado);
     }
-    return std::move(resultado);
+    return resultado;
 }

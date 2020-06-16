@@ -52,9 +52,9 @@ void imprimirPosiciones(Mapa &mapa){
     delimitador = "/";
     for (std::size_t i=0; i<vector.size() - 1; i++){ // Creo que debería ser -1
                                                      // Porque si tenes 
-                                                     // osvaldo/x/y$edgardo/x/y$
+                                                     // jugador1/x/y$jugador2/x/y$
                                                      // Te en el split te quedan
-                                                     // 3: ["osvaldo/x/y", "edgardo/x/y", ""]
+                                                     // 3: ["jugador1/x/y", "jugador2/x/y", ""]
         std::vector<std::string> subVector = split(vector[i], delimitador);
         std::cout << std::endl;
         std::cout << "Nombre: " << subVector[0] << std::endl;
@@ -69,8 +69,8 @@ int main(){
         bool continuar = true;
         char c;
         Mapa mapa("mapa1.json");
-        Personaje personaje1(0, 0, "osvaldo");
-        Personaje personaje2(20, 60, "edgardo");
+        Personaje personaje1(0, 0, "jugador1");
+        Personaje personaje2(20, 60, "jugador2");
         mapa.cargarPersonaje(&personaje1);
         mapa.cargarPersonaje(&personaje2);
         while (continuar) {
