@@ -3,6 +3,7 @@
 
 #include "IRendereable.h"
 #include "Imagen.h"
+#include "Colores.h"
 
 #define LADO_BOTON 50
 #define SEPARACION 4
@@ -10,12 +11,12 @@
 class GUI_BotonInventario final : public IRendereable{
 public:
 	Imagen imagen;
+	Colores& paleta;
 	int x,y;
 	int x_cuadro,y_cuadro;
 	int ancho, alto;
-	SDL_Color frente, fondo, sombra, luz;
 	bool visible;
-	GUI_BotonInventario(EntornoGrafico& entorno, int x, int y);
+	GUI_BotonInventario(EntornoGrafico& entorno, Colores& paleta, int x, int y);
 	void render();
 };
 

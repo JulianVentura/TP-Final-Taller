@@ -1,12 +1,10 @@
 #include <SDL2/SDL_render.h>
 #include "GUI_Barra.h"
 
-#include <iostream>
-
 int capacidad_actual,capacidad_max;
-Barra::Barra(EntornoGrafico& entorno, SDL_Rect& marco, SDL_Color& color ,
-	int capacidad_max, int capacidad_actual) : marco(marco), principal(color),
-	 capacidad_max(capacidad_max) , capacidad_actual(capacidad_actual){
+GUI_Barra::GUI_Barra(EntornoGrafico& entorno, SDL_Color& color,
+ int& capacidad_max, int& capacidad_actual) : principal(color),
+  capacidad_max(capacidad_max), capacidad_actual(capacidad_actual){
 		entorno.agregarRendereable(this);
 		secundario.r = principal.r*2;  
 		secundario.g = principal.g*2;
@@ -14,12 +12,23 @@ Barra::Barra(EntornoGrafico& entorno, SDL_Rect& marco, SDL_Color& color ,
 		secundario.a = principal.a;
 }
 	
-void Barra::render(){
+void GUI_Barra::render(){
 	int w = marco.w;
+	int h = marco.h;
+	int y2 = marco.y;
+	renderer -> setColor(24,24,24,255);
+	renderer -> rectSolido(marco);
+
+	marco.w = (float)(marco.w*capacidad_actual)/(float)capacidad_max; 
 	renderer -> setColor(principal);
 	renderer -> rectSolido(marco);
-	marco.w *= (float)capacidad_actual/(float)capacidad_max; 
+
+	marco.y += marco.h/3; marco.h /= 3;
 	renderer -> setColor(secundario);
 	renderer -> rectSolido(marco);
 	marco.w = w;
+	marco.h = h;
+	marco.y = y2;
 }
+
+GUI_Barra::~GUI_Barra(){}

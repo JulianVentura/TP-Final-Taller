@@ -6,17 +6,26 @@
 #include "GUI_Barra.h"
 #include "EntornoGrafico.h"
 #include "GUI_BotonInventario.h"
+#include "Colores.h"
+#include "../vista/GUI_Dock.h"
+#include "../vista/GUI_BarraVida.h"
+#include "../vista/GUI_BarraMana.h"
+#include "../vista/GUI_BarraExp.h"
 #include "../modelo/BuclePrincipal.h"
 #include "../controlador/GUI_BotonInventario_Controlador.h"
 
 
 class GUI_Principal : public IRendereable {
 private:
-	Barra *barra_vida, *barra_mana, *barra_exp;
+	GUI_Dock dock;
+	GUI_BarraVida barra_vida;
+	GUI_BarraMana barra_mana;
+	GUI_BarraExp barra_exp;
 	GUI_BotonInventarioControlador *inventario_controlador;
 	GUI_BotonInventario *inventario_vista;
 public:
-	GUI_Principal(EntornoGrafico& entorno, BuclePrincipal& bucle);
+	GUI_Principal(EntornoGrafico& entorno, BuclePrincipal& bucle,
+	 Colores& paleta);
 	~GUI_Principal();
 	void render() override;
 };
