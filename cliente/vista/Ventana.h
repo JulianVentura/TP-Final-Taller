@@ -20,6 +20,7 @@ public:
      * en el orden que fueron agregados. Luego se presentará en pantalla.
      */
     void render() override;
+    void actualizar(unsigned int delta_t) override;
 
     int getAncho() override;
     int getAlto() override;
@@ -34,7 +35,7 @@ public:
     
 private:
     int ancho = 650;
-    int alto = 650;
+    int alto = 500;
     SDL_Window* ventana;
     Renderer* renderer;
     SDL_Color color_fondo = {51, 51, 51, 255};

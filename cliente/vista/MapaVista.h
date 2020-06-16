@@ -4,12 +4,14 @@
 #include "IRendereable.h"
 #include "IInteractivo.h"
 #include "Imagen.h"
+#include "Tile.h"
 
-class MapaVista: public IRendereable, public IInteractivo, public IDimensionable {
+class MapaVista: public IRendereable, public IInteractivo, 
+                                                        public IDimensionable {
 public:
     explicit MapaVista(EntornoGrafico& entorno);
     void render() override;
-    void actualizar() override;
+    void actualizar(unsigned int delta_t) override;
     void manejarEvento(const SDL_Event& event) override;
 
 private:
@@ -18,7 +20,10 @@ private:
     int y = 0;
     int velocidadY = 0;
     int velocidadX = 0;
-};
 
+    Imagen imagen_tile_azul; // Provisorio
+    Imagen imagen_tile_verde; // Provisorio
+    std::vector<Tile> tiles; // Provisorio
+};
 
 #endif

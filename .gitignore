@@ -36,3 +36,5 @@
 filter_options
 
 .vscode/
+
+build/

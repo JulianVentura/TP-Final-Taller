@@ -6,7 +6,7 @@
 Posicionable::Posicionable() : posicion(0,0){}
 
 void Posicionable::actualizarPosicion(Posicion &&posicion){
-    posicion = std::move(posicion);
+    this->posicion = std::move(posicion);
 }
 
 Rectangulo& Posicionable::obtenerAreaQueOcupa(){

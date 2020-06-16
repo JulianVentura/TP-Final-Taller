@@ -6,9 +6,9 @@
 # CONFIGURACION
 ################
 
-filename = vista
+filename = cliente
 # Nombre del ejecutable.
-target = $(filename).out
+target = bin/$(filename).out
 
 # Extensión de los archivos a compilar (c para C, cpp o cc o cxx para C++).
 extension = cpp

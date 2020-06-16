@@ -4,7 +4,7 @@
 #include "Colisionable.h"
 #include <string>
 
-class Entidad : public Colisionable, public Posicionable{
+class Entidad : public Colisionable, public Posicionable {
     protected:
     unsigned int vidaMaxima;
     unsigned int manaMaximo;
