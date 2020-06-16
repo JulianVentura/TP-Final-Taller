@@ -27,6 +27,10 @@ Posicion&& Entidad::avanzar(){
     return std::move(posicion);
 }
 
+void Entidad::actualizarEstado(double tiempo){
+    /* Actualizar estado */
+}
+
 Entidad::~Entidad(){}
 
 
