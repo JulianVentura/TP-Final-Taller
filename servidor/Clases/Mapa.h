@@ -64,6 +64,12 @@ class Mapa{
     */
     void cargarPersonaje(Personaje *personaje);
 
+    /*
+    Actualiza los estados de todas las entidades que se encuentren en el mapa
+    segun tiempo.
+    */
+    void entidadesActualizarEstados(double tiempo);
+
     // DEBUG
     std::string aCadena();
 };

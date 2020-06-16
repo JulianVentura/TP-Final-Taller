@@ -36,16 +36,16 @@ void GameLoop::procesar(){
         lag += transcurrido.count();
         //Proceso las operaciones de la cola
         procesarOperaciones();
-        /*
+        
         while (lag >= MS_POR_ACTUALIZACION){
             //Esto puede implicar un movimiento en el mapa
-            mapa.entidadesActualizarEstados();
+            mapa.entidadesActualizarEstados(MS_POR_ACTUALIZACION);
             lag -= MS_POR_ACTUALIZACION;
         }
-        */
+        
         //Reordeno el mapa (se actualiza el quadTree)
         //mapa.reordenar();
-        //actualizarPosiciones();
+        actualizarPosiciones();
         //dormirThread(previo.count());
     }
 }

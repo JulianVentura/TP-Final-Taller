@@ -22,6 +22,7 @@ class Entidad : public Colisionable, public Posicionable {
     //Por ser posicionable
     virtual Posicion&& avanzar() override;
     std::string obtenerId();
+    void actualizarEstado(double tiempo);
 };
 
 #endif

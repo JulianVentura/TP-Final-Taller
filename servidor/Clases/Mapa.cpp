@@ -153,3 +153,13 @@ std::string Mapa::aCadena() {
     }
     return resultado;
 }
+
+
+void Mapa::entidadesActualizarEstados(double tiempo){
+    for (auto& criatura: criaturas) {
+        criatura.second->actualizarEstado(tiempo);
+    }
+    for (auto& personaje: personajes) {
+        personaje.second->actualizarEstado(tiempo);
+    }
+}
