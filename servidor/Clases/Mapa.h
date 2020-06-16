@@ -16,6 +16,7 @@ class Mapa{
     std::vector<char> tiles;
     unsigned int ancho;
     unsigned int alto;
+    Rectangulo frontera;
     QuadTree<Colisionable*> quadTreeEstatico;
     QuadTree<Colisionable*> quadTreeDinamico;
     std::vector<ObjetoColisionable> objetosEstaticos;
@@ -63,6 +64,8 @@ class Mapa{
     */
     void cargarPersonaje(Personaje *personaje);
 
+    // DEBUG
+    std::string aCadena();
 };
 
 #endif

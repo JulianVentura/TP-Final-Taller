@@ -5,6 +5,7 @@
 #include <nlohmann/json.hpp>
 #include <fstream>
 #include <utility>
+#include <sstream>
 // Por conveniencia
 using json = nlohmann::json;
 
@@ -19,6 +20,15 @@ static void from_json(const json& j, Rectangulo& rectangulo) {
     j.at("x").get_to(x);
     j.at("y").get_to(y);
     rectangulo.set(x, y, ancho, alto);
+}
+
+static Rectangulo inicializarFrontera(json& archivoJson, unsigned int ancho, 
+                                                            unsigned int alto) {
+    unsigned int anchoTile;
+    archivoJson["tilewidth"].get_to(anchoTile);
+    unsigned int altoTile;
+    archivoJson["tileheight"].get_to(altoTile);
+    return std::move(Rectangulo(0, 0, ancho * anchoTile, alto * altoTile));
 }
 
 Mapa::Mapa(const char* nombreArchivo) : tiles(),
@@ -40,8 +50,10 @@ Mapa::Mapa(const char* nombreArchivo) : tiles(),
     archivo >> archivoJson;
     alto  = archivoJson.at("height").get<unsigned int>();
     ancho = archivoJson.at("width").get<unsigned int>();
+    frontera = inicializarFrontera(archivoJson, alto, ancho);
     tiles = archivoJson.at("layers")[0].at("data").get<std::vector<char>>();
     std::vector<Rectangulo> objetos = archivoJson.at("layers")[1].at("objects").get<std::vector<Rectangulo>>();
+    // TODO: Acá los rectangulos están iniciando en {0, 0} con ancho {0, 0}.
     for (std::size_t i=0; i<objetos.size(); i++){
         objetosEstaticos.push_back(std::move(objetos[i]));
     }
@@ -99,6 +111,7 @@ void Mapa::cargarPersonaje(Personaje *personaje){
 
 
 bool Mapa::posicionValida(Posicion &nuevaPosicion){
+    if (!frontera.contieneA(nuevaPosicion.obtenerAreaQueOcupa())) return false;
     std::list<Colisionable*> resultado = quadTreeEstatico.obtener(nuevaPosicion.obtenerAreaQueOcupa());
     for (std::list<Colisionable*>::iterator it = resultado.begin();
          it != resultado.end();
@@ -112,4 +125,31 @@ bool Mapa::posicionValida(Posicion &nuevaPosicion){
         if ((*it)->colisionaCon(nuevaPosicion.obtenerAreaQueOcupa())) return false;
     }
     return true;
+}
+
+// DEBUG
+#define ANCHO_TILE 32.0f // Esto dice en mapa.json
+#define DEFINICION 10.0f // Pixeles equivalentes por caracter
+static void poblarCadena(Entidad* entidad, unsigned int ancho, char c, 
+                                                    std::string& resultado) {
+    float x = entidad->obtenerAreaQueOcupa().obtenerX() / DEFINICION;
+    float y = entidad->obtenerAreaQueOcupa().obtenerY() / DEFINICION;
+    int index = y * ((float) ancho * ANCHO_TILE / DEFINICION + 1) + x;
+    resultado[index] = c;
+}
+std::string Mapa::aCadena() {
+    std::stringstream buffer;
+    for (unsigned int i = 0; i < ancho * ANCHO_TILE / DEFINICION; ++i) {
+        for (unsigned int j = 0; j < alto * ANCHO_TILE / DEFINICION; ++j)
+            buffer << ".";
+        buffer << "\n";
+    }
+    std::string resultado = buffer.str();
+    for (auto& criatura: criaturas) {
+        poblarCadena(criatura.second, ancho, '?', resultado);
+    }
+    for (auto& personaje: personajes) {
+        poblarCadena(personaje.second, ancho, '#', resultado);
+    }
+    return std::move(resultado);
 }
