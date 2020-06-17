@@ -29,6 +29,7 @@ public:
      */
     void desplazar(int desplazamientoX, int desplazamientoY);
 
+    void rect(SDL_Rect& rect);
     void rect(int x, int y, int ancho, int alto);
     void rectSolido(SDL_Rect& rect);
     void rectSolido(int x, int y, int ancho, int alto);

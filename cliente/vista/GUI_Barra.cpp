@@ -2,33 +2,34 @@
 #include "GUI_Barra.h"
 
 int capacidad_actual,capacidad_max;
-GUI_Barra::GUI_Barra(EntornoGrafico& entorno, SDL_Color& color,
- int& capacidad_max, int& capacidad_actual) : principal(color),
-  capacidad_max(capacidad_max), capacidad_actual(capacidad_actual){
+GUI_Barra::GUI_Barra(EntornoGrafico& entorno, Colores& paleta,
+ SDL_Color& principal, SDL_Color& secundario, int& capacidad_max,
+  int& capacidad_actual) :
+   paleta(paleta),
+   principal(principal),
+   secundario(secundario),
+   capacidad_max(capacidad_max),
+   capacidad_actual(capacidad_actual){
 		entorno.agregarRendereable(this);
-		secundario.r = principal.r*2;  
-		secundario.g = principal.g*2;
-		secundario.b = principal.b*2;
-		secundario.a = principal.a;
 }
 	
 void GUI_Barra::render(){
-	int w = marco.w;
-	int h = marco.h;
-	int y2 = marco.y;
-	renderer -> setColor(24,24,24,255);
+	renderer -> setColor(paleta.barra_fondo);
 	renderer -> rectSolido(marco);
 
-	marco.w = (float)(marco.w*capacidad_actual)/(float)capacidad_max; 
-	renderer -> setColor(principal);
-	renderer -> rectSolido(marco);
-
-	marco.y += marco.h/3; marco.h /= 3;
 	renderer -> setColor(secundario);
-	renderer -> rectSolido(marco);
-	marco.w = w;
-	marco.h = h;
-	marco.y = y2;
+	renderer -> rectSolido(marco.x, marco.y, (marco.w*capacidad_actual)/
+		capacidad_max, marco.h);
+
+	renderer -> setColor(principal);
+	renderer -> rectSolido(marco.x, marco.y + marco.h/3,
+	(marco.w*capacidad_actual)/capacidad_max, marco.h/3);
+
+	renderer -> setColor(paleta.inv_frente);
+	renderer -> rect(marco.x - 1,marco.y - 1, marco.w + 1,marco.h + 1);
+
+	renderer -> setColor(paleta.inv_fondo);
+	renderer -> rect(marco.x - 1,marco.y + marco.h, marco.w + 1, 1);
 }
 
 GUI_Barra::~GUI_Barra(){}

@@ -6,13 +6,19 @@
 class Colores{
 public:
 	Colores();
-	SDL_Color vida;
-	SDL_Color mana;
-	SDL_Color exp;
-	SDL_Color inv_frente;
-	SDL_Color inv_fondo;
-	SDL_Color inv_sombra;
-	SDL_Color inv_luz;
+	SDL_Color 
+	barra_vida,
+	barra_vida2,
+	barra_mana,
+	barra_mana2,
+	barra_exp,
+	barra_exp2,
+	barra_fondo,
+	inv_frente,
+	inv_fondo,
+	inv_fondo2,
+	inv_sombra,
+	inv_luz;
 };
 
 #endif /*__COLORES_H__*/

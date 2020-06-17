@@ -13,8 +13,9 @@ GUI_Principal::GUI_Principal(EntornoGrafico& entorno, BuclePrincipal& bucle
 	dock(entorno, paleta),
 	barra_vida(entorno, paleta),
 	barra_mana(entorno, paleta),
-	barra_exp(entorno, paleta)
-{
+	barra_exp(entorno, paleta),
+	oro(entorno, paleta){
+	oro.oro = 0;
 	entorno.agregarRendereable(this);
 	inventario_vista = new GUI_BotonInventario(entorno, paleta,
 	 ventana->getAncho()*0.2 + 4, ventana->getAlto() - 50);
@@ -25,11 +26,13 @@ GUI_Principal::GUI_Principal(EntornoGrafico& entorno, BuclePrincipal& bucle
 }
 
 void GUI_Principal::render() {
+	oro.oro += 1;
+	barra_exp.render();
 	dock.render();
 	barra_vida.render();
 	barra_mana.render();
-	barra_exp.render();
 	inventario_vista -> render();
+	oro.render();
 }
 
 GUI_Principal::~GUI_Principal(){

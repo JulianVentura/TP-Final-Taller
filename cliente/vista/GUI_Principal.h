@@ -3,10 +3,11 @@
 
 #include <SDL2/SDL_render.h>
 #include <vector>
-#include "GUI_Barra.h"
-#include "EntornoGrafico.h"
-#include "GUI_BotonInventario.h"
-#include "Colores.h"
+#include "../vista/GUI_Barra.h"
+#include "../vista/EntornoGrafico.h"
+#include "../vista/GUI_BotonInventario.h"
+#include "../vista/Colores.h"
+#include "../vista/GUI_Oro.h"
 #include "../vista/GUI_Dock.h"
 #include "../vista/GUI_BarraVida.h"
 #include "../vista/GUI_BarraMana.h"
@@ -21,6 +22,7 @@ private:
 	GUI_BarraVida barra_vida;
 	GUI_BarraMana barra_mana;
 	GUI_BarraExp barra_exp;
+	GUI_Oro oro;
 	GUI_BotonInventarioControlador *inventario_controlador;
 	GUI_BotonInventario *inventario_vista;
 public:

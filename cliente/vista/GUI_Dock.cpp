@@ -3,7 +3,10 @@
 #include "Ventana.h"
 #include "../vista/GUI_Dock.h"
 
-GUI_Dock::GUI_Dock(EntornoGrafico& entorno, Colores& paleta) : paleta(paleta){
+GUI_Dock::GUI_Dock(EntornoGrafico& entorno, Colores& paleta) :
+fondo(entorno,"assets/fondoDock.png"),
+borde(entorno,"assets/bordeDock.png"),
+paleta(paleta){
 	entorno.agregarRendereable(this);
 	actualizar_dimensiones();
 }
@@ -11,16 +14,30 @@ GUI_Dock::GUI_Dock(EntornoGrafico& entorno, Colores& paleta) : paleta(paleta){
 void GUI_Dock::actualizar_dimensiones(){
 	int ventana_ancho = ventana -> getAncho();
 	int ventana_alto = ventana -> getAlto();
-
-	x = ventana_ancho*0.2;
-	y = ventana_alto*0.9;
 	ancho = ventana_ancho*0.6;
-	alto = ventana_alto*0.1;
+	alto = 50;
+	nimg = ancho / 50;
+	x = ventana_ancho*0.2;
+	y = ventana_alto - alto;
+
 }
 
 void GUI_Dock::render(){
-	renderer -> setColor(paleta.inv_frente);
-	renderer -> rectSolido(x, y, ancho, alto);
-	renderer -> setColor(paleta.inv_luz);
-	renderer -> rectSolido(x, y, ancho, alto/3);
+	for(int i = 0; i < nimg;i++){
+		fondo.setPosicion(x + i*50,y);
+		fondo.render();
+	}
+
+	fondo.setMascara(0,0,ancho - nimg*50, 50);
+	fondo.setPosicion(x + nimg*50,y);
+	fondo.render();
+	fondo.setMascara(0,0, 50, 50);
+
+	borde.setPosicion(x - 6,y - 8);
+	borde.setMascara(0, 0, 21, 58);
+	borde.render();
+
+	borde.setPosicion(x + ancho - 15,y - 8);
+	borde.setMascara(21, 0,21,58);
+	borde.render();
 }

@@ -9,12 +9,14 @@
 #define SEPARACION 4
 
 class GUI_BotonInventario final : public IRendereable{
-public:
+private:
 	Imagen imagen;
 	Colores& paleta;
 	int x,y;
 	int x_cuadro,y_cuadro;
 	int ancho, alto;
+	void dibujarCasilla(int i, int j, SDL_Color& fondo);
+public:
 	bool visible;
 	GUI_BotonInventario(EntornoGrafico& entorno, Colores& paleta, int x, int y);
 	void render();
