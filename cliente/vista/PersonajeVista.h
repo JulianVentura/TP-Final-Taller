@@ -13,15 +13,7 @@ class PersonajeVista: public MovibleVista, public IInteractivo {
 public:
     PersonajeVista(EntornoGrafico& entorno, Personaje& modelo): 
                                     MovibleVista(entorno, modelo) {}
-    // void render() override;
-    // void actualizar(unsigned int delta_t) override;
     void manejarEvento(const SDL_Event& event) override;
-
-// private:
-    // Personaje& personajeModelo;
-    // Imagen imagen;
-    // AnimacionEnteDireccionable animacion;
-    // std::string ultimo_estado;
 };
 
 #endif
