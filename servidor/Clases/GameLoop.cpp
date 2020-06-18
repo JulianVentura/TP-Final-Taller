@@ -66,12 +66,12 @@ void GameLoop::actualizarPosiciones(){
 
 void GameLoop::procesarOperaciones(){
     bool continuar = true;
-    Operacion *operacionActual = nullptr;
+    OperacionEncapsulada operacionActual;
     while (continuar){
-        operacionActual = colaDeOperaciones.pop();
-        if (operacionActual){
-            operacionActual->ejecutar();
-        }else{
+        try{
+            operacionActual = colaDeOperaciones.pop();
+            operacionActual.obtenerOperacion()->ejecutar();
+        }catch(const ExcepcionColaVacia &e){
             continuar = false;
         }
     }

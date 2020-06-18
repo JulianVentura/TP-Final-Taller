@@ -2,13 +2,13 @@
 #define __GAME_LOOP_H__
 #include "Thread.h"
 #include "Mapa.h"
-#include "ColaBloqueante.h"
+#include "ColaSegura.h"
 #include <atomic>
 
 class GameLoop : Thread{
 
     private:
-    ColaBloqueante colaDeOperaciones;
+    ColaSegura colaDeOperaciones;
     Mapa mapa;
     std::atomic<bool> continuar;
     /*

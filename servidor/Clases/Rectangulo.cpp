@@ -65,8 +65,8 @@ float Rectangulo::obtenerAncho(){ return ancho; }
 float Rectangulo::obtenerAlto(){ return alto; }
 
 void Rectangulo::set(float x, float y, float ancho, float alto){
-    x = x;
-    y = y;
-    ancho = ancho;
-    alto = alto;
+    this->inicioX = x;
+    this->inicioY = y;
+    this->ancho = ancho;
+    this->alto = alto;
 }

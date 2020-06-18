@@ -42,9 +42,6 @@ Mapa::Mapa(const char* nombreArchivo) : tiles(),
     std::ifstream archivo(nombreArchivo);
     if (!archivo.is_open()){
         throw ErrorServidor("No se pudo abrir el archivo %s\n", nombreArchivo); 
-        // Cambiar por una propia
-        // throw std::exception();
-        // TODO: No sé si te convence esta exception
     }
     json archivoJson;
     archivo >> archivoJson;
