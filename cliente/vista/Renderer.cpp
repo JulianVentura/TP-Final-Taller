@@ -87,6 +87,10 @@ void Renderer::rect(int x, int y, int ancho, int alto) {
     SDL_RenderDrawRect(renderer, &rect_render);
 }
 
+void Renderer::rect(SDL_Rect& rect){
+    SDL_RenderDrawRect(renderer, &rect);
+}
+
 void Renderer::rectSolido(int x, int y, int ancho, int alto) {
     rect_render = transformar(x, y, ancho, alto);
     SDL_RenderFillRect(renderer, &rect_render);
@@ -97,13 +101,17 @@ void Renderer::rectSolido(SDL_Rect& rect){
 }
 
 void Renderer::renderTexturaTexto(SDL_Surface* superficie, int x, int y) {
+    SDL_Rect textura_mascara = {};
     SDL_Rect render_mascara = {};
     SDL_Texture* textura = texturaDesdeSuperficie(superficie);
     SDL_FreeSurface(superficie);
-    SDL_QueryTexture(textura, NULL, NULL, &render_mascara.w, &render_mascara.h);
+    SDL_QueryTexture(textura, NULL, NULL, &textura_mascara.w,
+     &textura_mascara.h);
     render_mascara.x = x;
     render_mascara.y = y;
-    renderTextura(textura, render_mascara, render_mascara);
+    render_mascara.w = textura_mascara.w;
+    render_mascara.h = textura_mascara.h;
+    renderTextura(textura, textura_mascara, render_mascara);
     SDL_DestroyTexture(textura); // Se podría bufferear
 }
 

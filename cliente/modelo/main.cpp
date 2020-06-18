@@ -2,6 +2,7 @@
 #include <string>
 
 #include "BuclePrincipal.h"
+#include "../vista/Colores.h"
 #include "../vista/EntornoGrafico.h"
 #include "../vista/Ventana.h"
 #include "../vista/Escena.h"
@@ -19,11 +20,12 @@ int main(int argc, const char* argv[]) {
         std::string fuente_ruta("assets/DejaVuSansMono.ttf"); 
         entorno.cargarFuente(fuente_ruta, 15);
 
+        Colores paleta;
         Escena escena(entorno);
         ventana.agregarInteractivo(&escena);
         ventana.agregarRendereable(&escena);
 
-        GUI_Principal gui(entorno, bucle); 
+        GUI_Principal gui(entorno, bucle, paleta); 
         ventana.agregarRendereable(&gui);
         
         bucle.correr();

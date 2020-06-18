@@ -4,7 +4,7 @@
 #include "Colisionable.h"
 #include <string>
 
-class Entidad : public Colisionable, public Posicionable{
+class Entidad : public Colisionable, public Posicionable {
     protected:
     unsigned int vidaMaxima;
     unsigned int manaMaximo;
@@ -22,6 +22,7 @@ class Entidad : public Colisionable, public Posicionable{
     //Por ser posicionable
     virtual Posicion&& avanzar() override;
     std::string obtenerId();
+    void actualizarEstado(double tiempo);
 };
 
 #endif

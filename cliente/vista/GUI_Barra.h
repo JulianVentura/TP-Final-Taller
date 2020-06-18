@@ -3,18 +3,23 @@
 
 #include <SDL2/SDL_render.h>
 
-#include "EntornoGrafico.h"
-#include "IRendereable.h"
+#include "../vista/EntornoGrafico.h"
+#include "../vista/IRendereable.h"
+#include "../vista/Colores.h"
 
-class Barra final: public IRendereable{
+class GUI_Barra : public IRendereable{
 private:
+	Colores& paleta;
+	SDL_Color& principal,secundario;
+protected:
 	SDL_Rect marco;
-	SDL_Color principal,secundario;
+	int& capacidad_max;
+	int& capacidad_actual;
 public:
-	int capacidad_max, capacidad_actual;
-	Barra(EntornoGrafico& entorno, SDL_Rect& marco, SDL_Color& color,
-	int capacidad_max, int capacidad_actual);
+	GUI_Barra(EntornoGrafico& entorno, Colores& paleta, SDL_Color& principal,
+	 SDL_Color& secundario, int& capacidad_max, int& capacidad_actual);
 	void render();
+	virtual ~GUI_Barra() = 0;
 };
 
 #endif /*__GUI_BARRA_H__*/

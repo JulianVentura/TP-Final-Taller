@@ -3,10 +3,10 @@
 
 class Rectangulo{
     private:
-    float inicioX;
-    float inicioY;
-    float ancho;
-    float alto;
+    float inicioX = 0; // Lo agrego porque con el constr sin parametros
+    float inicioY = 0; // quede sin inicializarse y valgrind jode
+    float ancho = 0;
+    float alto = 0;
     public:
     /*
     El constructor sin parametros me permite parsear con JSON

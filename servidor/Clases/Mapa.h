@@ -16,12 +16,18 @@ class Mapa{
     std::vector<char> tiles;
     unsigned int ancho;
     unsigned int alto;
-    QuadTree quadTreeEstatico;
-    QuadTree quadTreeDinamico;
+    Rectangulo frontera;
+    QuadTree<Colisionable*> quadTreeEstatico;
+    QuadTree<Colisionable*> quadTreeDinamico;
     std::vector<ObjetoColisionable> objetosEstaticos;
     unsigned int cantidadDeCriaturas;
-    std::map<std::string, Personaje*> personajes;
-    std::map<std::string, Criatura> criaturas;
+    std::map<std::string, Personaje*> personajes; 
+    std::map<std::string, Criatura*> criaturas; // Con punteros funciona
+                                                // Por lo que estuve viendo
+                                                // Una de las clases de las que
+                                                // hereda, tiene deleteado
+                                                // un constructor que se ve que
+                                                // `pair` del map necesita.
 
     bool posicionValida(Posicion &nuevaPosicion);
 
@@ -58,6 +64,14 @@ class Mapa{
     */
     void cargarPersonaje(Personaje *personaje);
 
+    /*
+    Actualiza los estados de todas las entidades que se encuentren en el mapa
+    segun tiempo.
+    */
+    void entidadesActualizarEstados(double tiempo);
+
+    // DEBUG
+    std::string aCadena();
 };
 
 #endif
