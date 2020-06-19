@@ -31,7 +31,7 @@ static Rectangulo inicializarFrontera(json& archivoJson, unsigned int ancho,
     return std::move(Rectangulo(0, 0, ancho * anchoTile, alto * altoTile));
 }
 
-Mapa::Mapa(const char* nombreArchivo) : tiles(),
+Mapa::Mapa(std::string nombreArchivo) : tiles(),
                                         ancho(0),
                                         alto(0),
                                         quadTreeEstatico(),
@@ -39,7 +39,7 @@ Mapa::Mapa(const char* nombreArchivo) : tiles(),
                                         cantidadDeCriaturas(0),
                                         personajes(),
                                         criaturas(){
-    std::ifstream archivo(nombreArchivo);
+    std::ifstream archivo(nombreArchivo.c_str());
     if (!archivo.is_open()){
         throw ErrorServidor("No se pudo abrir el archivo %s\n", nombreArchivo); 
     }

@@ -1,7 +1,11 @@
 #include "Clases/Mapa.h"
 #include "Clases/Personaje.h"
+#include "Clases/Reloj.h"
+#include "Clases/GameLoop.h"
 #include <iostream>
 #include <vector>
+#include <chrono>
+#include <thread>
 #define ARRIBA 'w'
 #define ABAJO   's'
 #define DERECHA 'd'
@@ -64,7 +68,7 @@ void imprimirPosiciones(Mapa &mapa){
 }
 
 
-int main(){
+void pruebaMapa(){
     try{
         bool continuar = true;
         char c;
@@ -83,6 +87,54 @@ int main(){
     }catch(std::exception &e){
         std::cerr << e.what() << std::endl;
     }
+}
 
+void pruebaReloj1(){
+    Reloj reloj;
+    double transcurrido = 0;
+    unsigned int i = 0;
+    double MS_SLEEP = 10;
+    while(i < 20){
+        transcurrido = reloj.actualizar();
+        reloj.dormir(MS_SLEEP);
+        std::cout << "Se indico sleep por " << transcurrido << " y se durmio por " << reloj.tiempoTranscurrido() << std::endl;
+        i++;
+    }
+}
+
+void pruebaReloj(){
+    Reloj reloj;
+    double transcurrido = 0;
+    unsigned int i = 0;
+    double MS_SLEEP = 10;
+    while(i < 20){
+        transcurrido = reloj.actualizar();
+        reloj.dormir(MS_SLEEP);
+        std::cout << "Se indico sleep por " << transcurrido << " y se durmio por " << reloj.tiempoTranscurrido() << std::endl;
+        i++;
+    }
+}
+/*
+void pruebaRelojGameLoop(){
+    
+    try{
+        GameLoop gameloop("mapa1.json");
+        bool continuar = true;
+        char c = 0;
+        gameloop.comenzar();
+        while (continuar) {
+            std::cin >> c;
+            if (c == 'q'){
+                continuar = false;
+                gameloop.finalizar();
+            }
+        }
+    }catch(const std::exception &e){
+        std::cerr << e.what() << std::endl;
+    }
+}
+*/
+int main(){
+    //pruebaRelojGameLoop();
     return 0;
 }

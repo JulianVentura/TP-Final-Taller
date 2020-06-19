@@ -32,7 +32,7 @@ class Mapa{
     bool posicionValida(Posicion &nuevaPosicion);
 
     public:
-    Mapa(const char* nombreArchivo);
+    Mapa(std::string nombreArchivo);
     Mapa(Mapa &otroMapa) = delete;
     Mapa(Mapa &&otroMapa) = delete;
     /*

@@ -3,14 +3,27 @@
 #include "Thread.h"
 #include "Mapa.h"
 #include "ColaSegura.h"
+#include "Reloj.h"
+#include "Cliente.h"
+#include "Sala.h"
 #include <atomic>
+#include <random> //DEBUG
+#include <map>
 
-class GameLoop : Thread{
+
+class GameLoop : public Thread{
 
     private:
-    ColaSegura colaDeOperaciones;
-    Mapa mapa;
+    ColaSegura &colaDeOperaciones;
+    Mapa &mapa;
     std::atomic<bool> continuar;
+    Reloj reloj;
+    Sala &miSala;
+
+    //DEBUG
+    std::default_random_engine generator;
+    std::uniform_int_distribution<int> distribution;
+    int simularTrabajo();
     /*
     Le enviara a cada cliente conectado a la sala las posiciones
     de las entidades en el mapa, ademas de 
@@ -20,9 +33,8 @@ class GameLoop : Thread{
     Procesa todas las operaciones que encuentre en la colaDeOperaciones
     */
     void procesarOperaciones();
-    
     public:
-    GameLoop(const char* nombreMapa);
+    GameLoop(ColaSegura &cola, Mapa &unMapa, Sala &unaSala);
     GameLoop(GameLoop &otro) = delete;
     GameLoop(GameLoop &&otro) = delete;
     GameLoop& operator=(GameLoop &otro) = delete;
