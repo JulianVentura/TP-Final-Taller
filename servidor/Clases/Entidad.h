@@ -15,7 +15,7 @@ class Entidad : public Colisionable, public Posicionable {
     public:
     virtual ~Entidad();
     //Por ser colisionable
-    Entidad(unsigned int vidaMaxima, unsigned int manaMaximo, const char* id);
+    Entidad(unsigned int vidaMaxima, unsigned int manaMaximo, std::string &id);
     virtual Rectangulo& obtenerArea() override;
     virtual bool colisionaCon(Colisionable &otro) override;
     virtual bool colisionaCon(Rectangulo &area) override;

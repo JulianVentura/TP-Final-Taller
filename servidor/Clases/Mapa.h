@@ -69,7 +69,11 @@ class Mapa{
     segun tiempo.
     */
     void entidadesActualizarEstados(double tiempo);
-
+    /*
+    Elimina la identidad del mapa
+    */
+    void eliminarEntidad(Entidad *entidad);
+    void eliminarEntidad(const std::string &id);
     // DEBUG
     std::string aCadena();
 };

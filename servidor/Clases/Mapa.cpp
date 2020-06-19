@@ -124,6 +124,15 @@ bool Mapa::posicionValida(Posicion &nuevaPosicion){
     return true;
 }
 
+
+void Mapa::eliminarEntidad(Entidad *entidad){
+
+}
+void Mapa::eliminarEntidad(const std::string &id){
+
+}
+
+
 // DEBUG
 #define ANCHO_TILE 32.0f // Esto dice en mapa.json
 #define DEFINICION 10.0f // Pixeles equivalentes por caracter

@@ -5,12 +5,12 @@
 #include "ColaSegura.h"
 #include "Reloj.h"
 #include "Cliente.h"
-#include "Sala.h"
 #include <atomic>
 #include <random> //DEBUG
 #include <map>
 
 
+class Sala;
 class GameLoop : public Thread{
 
     private:
@@ -24,11 +24,7 @@ class GameLoop : public Thread{
     std::default_random_engine generator;
     std::uniform_int_distribution<int> distribution;
     int simularTrabajo();
-    /*
-    Le enviara a cada cliente conectado a la sala las posiciones
-    de las entidades en el mapa, ademas de 
-    */
-    void actualizarPosiciones();
+    //FIN DEBUG
     /*
     Procesa todas las operaciones que encuentre en la colaDeOperaciones
     */

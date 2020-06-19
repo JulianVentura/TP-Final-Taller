@@ -6,14 +6,14 @@ class Cliente{
     Personaje personaje;
     std::string id;
     public:
-    Cliente();
+    Cliente(std::string &id);
     Cliente(Cliente &&otro) = delete;
     Cliente(Cliente &otro) = delete;
     Cliente& operator=(Cliente &&otro) = delete;
     Cliente& operator=(Cliente &otro) = delete;
     void enviarPosiciones(std::string &posiciones);
     std::string obtenerId();
-
+    Personaje* obtenerPersonaje();
 };
 
 #endif

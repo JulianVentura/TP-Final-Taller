@@ -5,7 +5,7 @@
 class Personaje : public Entidad{
 
     public:
-    Personaje(float x, float y, const char* id);
+    Personaje(float x, float y, std::string id);
     Personaje(Personaje &otro) = delete;
     Personaje(Personaje &&otro) = delete;
     Personaje& operator=(Personaje &otro) = delete;

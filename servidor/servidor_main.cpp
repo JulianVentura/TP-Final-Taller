@@ -1,7 +1,6 @@
 #include "Clases/Mapa.h"
 #include "Clases/Personaje.h"
-#include "Clases/Reloj.h"
-#include "Clases/GameLoop.h"
+#include "Clases/Sala.h"
 #include <iostream>
 #include <vector>
 #include <chrono>
@@ -114,27 +113,24 @@ void pruebaReloj(){
         i++;
     }
 }
-/*
-void pruebaRelojGameLoop(){
-    
+
+void pruebaSala(){
     try{
-        GameLoop gameloop("mapa1.json");
+        Sala sala("mapa1");
         bool continuar = true;
         char c = 0;
-        gameloop.comenzar();
         while (continuar) {
             std::cin >> c;
             if (c == 'q'){
                 continuar = false;
-                gameloop.finalizar();
             }
         }
     }catch(const std::exception &e){
         std::cerr << e.what() << std::endl;
     }
 }
-*/
+
 int main(){
-    //pruebaRelojGameLoop();
+    pruebaSala();
     return 0;
 }

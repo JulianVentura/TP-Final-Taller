@@ -1,5 +1,6 @@
 #include "GameLoop.h"
 #include "Operacion.h"
+#include "Sala.h"
 #include <random>
 #include <iostream> //DEBUG
 
@@ -25,7 +26,6 @@ int GameLoop::simularTrabajo(){
 }
 
 void GameLoop::procesar(){
-    
     double lag = 0.0;
     double transcurrido = 0.0;
     try{
@@ -35,7 +35,6 @@ void GameLoop::procesar(){
             std::cout << "FPS: " << (1/transcurrido)*1000 << std::endl;
             //Proceso las operaciones de la cola
             procesarOperaciones();
-        
             while (lag >= MS_POR_ACTUALIZACION){
                 //Esto puede implicar un movimiento en el mapa
                 mapa.entidadesActualizarEstados(MS_POR_ACTUALIZACION);
@@ -43,13 +42,14 @@ void GameLoop::procesar(){
             }
             //Reordeno el mapa (se actualiza el quadTree)
             //mapa.reordenar();
-            actualizarPosiciones();
+            miSala.actualizarClientes();
             reloj.dormir(MS_DESCANSO);
     }
     }catch (const Excepcion &e){
         std::cerr << e.what() << std::endl;
+    }catch (...){
+        std::cerr << "Error desconocido capturado en GameLoop" <<std::endl;
     }
-    
 }
 
 void GameLoop::finalizar(){
@@ -57,19 +57,24 @@ void GameLoop::finalizar(){
 }
 
 
-void GameLoop::actualizarPosiciones(){
-    //Simulo trabajo
-    //std::this_thread::sleep_for(std::chrono::milliseconds(simularTrabajo()));
-    std::string posiciones = mapa.recolectarPosiciones();
-    miSala.actualizarClientes(posiciones);
-}
-
 void GameLoop::procesarOperaciones(){
     //Simulo trabajo
     //std::this_thread::sleep_for(std::chrono::milliseconds(simularTrabajo()));
-    
     bool continuar = true;
     OperacionEncapsulada operacionActual;
+    /*
+    TODO:
+    Pensar bien en esto, quizas no conviene lanzar una excepcion en cada iteracion
+    del gameloop, puede llegar a ser muy caro.
+    Quizas se puede hacer un nuevo tipo de cola que contenga *operacion y que se encargue
+    de liberarlas a medida que las van sacando de la cola.
+    Cuando se pide un nuveo elemento de la cola se puede liberar al anterior.
+    De esta forma cuando la cola se queda sin elementos puede devolver nullptr, no hay necesidad
+    de usar excepciones.
+    Se puede implementar utilizando una std::queue<Operacion*> y un puntero a la ultima operacion
+    extraida, que sera liberada cuando se vuelva a llamar al metodo pop() 
+    Ademas no se pierde memoria dinamica y ya no seria necesaria la clase OperacionEncapsulada.
+    */
     while (continuar){
         try{
             operacionActual = colaDeOperaciones.pop();
@@ -79,7 +84,3 @@ void GameLoop::procesarOperaciones(){
         }
     }
 }
-
-
-
-

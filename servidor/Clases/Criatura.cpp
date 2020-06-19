@@ -4,10 +4,10 @@
 #define MANA_MAXIMO 100 //cambiar
 #define DESPLAZAMIENTO 20 //cambiar
 
-Criatura::Criatura(float x, float y, const char* id) : 
+Criatura::Criatura(float x, float y, std::string &unId) : 
                                        Entidad(VIDA_MAXIMA,
                                                MANA_MAXIMO,
-                                               id){
+                                               unId){
     actualizarPosicion(std::move(Posicion(x, y)));
 }
 

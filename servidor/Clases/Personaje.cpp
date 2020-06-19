@@ -4,7 +4,7 @@
 #define MANA_MAXIMO 100
 #define DESPLAZAMIENTO 20
 
-Personaje::Personaje(float x, float y, const char* id) : 
+Personaje::Personaje(float x, float y, std::string id) : 
                                        Entidad(VIDA_MAXIMA,
                                                MANA_MAXIMO,
                                                id){

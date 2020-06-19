@@ -1,10 +1,10 @@
 #include "Entidad.h"
 
 
-Entidad::Entidad(unsigned int vida, unsigned int mana, const char* id) : 
+Entidad::Entidad(unsigned int vida, unsigned int mana, std::string &unId) : 
                                                             vidaMaxima(vida),
                                                             manaMaximo(mana),
-                                                            id(id){}
+                                                            id(unId){}
 
 
 Rectangulo& Entidad::obtenerArea(){
