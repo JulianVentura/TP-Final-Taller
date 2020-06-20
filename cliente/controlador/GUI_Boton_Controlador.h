@@ -6,12 +6,12 @@
 bool enRectangulo(SDL_Rect& rect, int x, int y);
 
 class GUI_BotonControlador{
-private:
+protected:
 	SDL_Rect rect;
 	virtual bool enClick() = 0;
 public:
 	GUI_BotonControlador(int x, int y, int ancho, int alto);
-	bool operator()(SDL_Event& evento);
+	virtual bool operator()(SDL_Event& evento);
 	virtual ~GUI_BotonControlador();
 };
 

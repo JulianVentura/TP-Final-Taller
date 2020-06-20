@@ -6,10 +6,10 @@ GUI_BarraMana::GUI_BarraMana(EntornoGrafico& entorno, Colores& paleta)
   capacidad_max, capacidad){
  	capacidad = 5;
  	capacidad_max = 10;
- 	actualizar_dimension();
+ 	actualizarDimension();
 }
 
-void GUI_BarraMana::actualizar_dimension(){
+void GUI_BarraMana::actualizarDimension(){
 	int ventana_ancho = ventana->getAncho();
 	int ventana_alto  = ventana->getAlto();
 	marco.x = ventana_ancho*0.2 + 3*(50 + 4) + 16;

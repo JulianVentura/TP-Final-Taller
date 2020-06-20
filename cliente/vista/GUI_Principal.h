@@ -12,6 +12,7 @@
 #include "../vista/GUI_BarraVida.h"
 #include "../vista/GUI_BarraMana.h"
 #include "../vista/GUI_BarraExp.h"
+#include "../vista/GUI_Chat.h"
 #include "../modelo/BuclePrincipal.h"
 #include "../controlador/GUI_BotonInventario_Controlador.h"
 
@@ -23,6 +24,8 @@ private:
 	GUI_BarraMana barra_mana;
 	GUI_BarraExp barra_exp;
 	GUI_Oro oro;
+	GUI_Chat chat_vista;
+	GUI_ChatControlador chat_controlador;
 	GUI_BotonInventarioControlador *inventario_controlador;
 	GUI_BotonInventario *inventario_vista;
 public:

@@ -18,6 +18,7 @@ public:
      */
     void limpiar();
 
+    void limpiarTextura(SDL_Texture* textura);
     /**
      * @brief Muestra en pantalla lo que se fue rendereando.
      */
@@ -52,6 +53,8 @@ public:
      */
     void texto(const std::string& text);
     void texto(const std::string& text, int x, int y);
+    void textoATextura(SDL_Texture* textura, const std::string& text,
+     int x, int y);
     
     /**
      * @brief Muestra en pantalla la textura.
@@ -63,6 +66,7 @@ public:
     void renderTextura(SDL_Texture* texture, SDL_Rect& origen_mascara, 
                                         SDL_Rect& render_mascara); // Maybe x, y
     
+    SDL_Texture* textura(int ancho, int alto);
 
     /**
      * @brief Dada una superficie, se crea una textura.

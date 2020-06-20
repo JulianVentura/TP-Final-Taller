@@ -8,10 +8,10 @@ fondo(entorno,"assets/fondoDock.png"),
 borde(entorno,"assets/bordeDock.png"),
 paleta(paleta){
 	entorno.agregarRendereable(this);
-	actualizar_dimensiones();
+	actualizarDimension();
 }
 
-void GUI_Dock::actualizar_dimensiones(){
+void GUI_Dock::actualizarDimension(){
 	int ventana_ancho = ventana -> getAncho();
 	int ventana_alto = ventana -> getAlto();
 	ancho = ventana_ancho*0.6;
