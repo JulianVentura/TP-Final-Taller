@@ -18,7 +18,11 @@ public:
 	inv_fondo,
 	inv_fondo2,
 	inv_sombra,
-	inv_luz;
+	inv_luz,
+	chat_fondo,
+	chat_entrada,
+	chat_borde,
+	chat_texto;
 };
 
 #endif /*__COLORES_H__*/

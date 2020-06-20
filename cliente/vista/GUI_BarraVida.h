@@ -11,7 +11,7 @@ private:
 	int capacidad, capacidad_max;
 public:
 	GUI_BarraVida(EntornoGrafico& entorno, Colores& paleta);
-	void actualizar_dimension();
+	void actualizarDimension();
 	~GUI_BarraVida();
 };
 

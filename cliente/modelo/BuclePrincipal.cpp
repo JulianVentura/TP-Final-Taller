@@ -8,6 +8,7 @@ BuclePrincipal::BuclePrincipal(Ventana& ventana) : ventana(&ventana) {
 
 void BuclePrincipal::correr() {
     SDL_Event event;
+     SDL_StopTextInput();
     while (!salir) {
         while (SDL_PollEvent(&event) != 0) {
 			despacharEventos(event);
@@ -29,5 +30,14 @@ void BuclePrincipal::despacharEventos(SDL_Event& event) {
 			for(auto& boton : botones)
 				if((*boton)(event)) break;
 			break;
+
+        case SDL_MOUSEWHEEL:
+            chat -> scroll(event);
+            break;
+
+        case SDL_KEYDOWN:
+        case SDL_TEXTINPUT:
+            chat -> ingresarCaracter(event);
+            break;
 	}
 }

@@ -12,5 +12,9 @@ Colores::Colores(){
 	inv_fondo = {46,31,21,255};
 	inv_fondo2 = {57,38,26,255};
 	inv_sombra = {33,22,14,255};
-	inv_luz = {94,75,51,255}; 
+	inv_luz = {94,75,51,255};
+	chat_fondo = {0,0,0,125};
+	chat_entrada = {0,0,0,80};
+	chat_borde = {0,0,0,255};
+	chat_texto = {255,255,255,240};
 }

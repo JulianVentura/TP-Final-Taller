@@ -29,9 +29,30 @@ void Renderer::limpiar() {
     SDL_RenderClear(renderer);
 }
 
+void Renderer::limpiarTextura(SDL_Texture* textura){
+    SDL_Texture* objetivo_actual = SDL_GetRenderTarget(renderer);
+    SDL_SetRenderTarget(renderer, textura);
+    setColor(0,0,0,0);
+    SDL_RenderClear(renderer);
+    SDL_SetRenderTarget(renderer,objetivo_actual);
+}
+
 void Renderer::presentar() {
     SDL_RenderPresent(renderer);
     // Se podría reiniciar el desplazamientoX, desplazamientoY
+}
+
+SDL_Texture* Renderer::textura(int ancho, int alto){
+    SDL_Texture* retorno = SDL_CreateTexture(renderer, SDL_PIXELFORMAT_RGBA8888,
+        SDL_TEXTUREACCESS_TARGET, ancho, alto);
+    SDL_Texture* objetivo_actual = SDL_GetRenderTarget(renderer);
+    SDL_SetRenderTarget(renderer, retorno);
+    SDL_SetRenderDrawColor(renderer, 0, 0, 0, 0);
+    SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_NONE);
+    SDL_RenderClear(renderer);
+    SDL_SetRenderTarget(renderer, objetivo_actual);
+    SDL_SetTextureBlendMode(retorno, SDL_BLENDMODE_BLEND);
+    return retorno;
 }
 
 SDL_Texture* Renderer::texturaDesdeSuperficie(SDL_Surface* superficie) {
@@ -128,6 +149,14 @@ void Renderer::texto(const std::string& text, int x, int y) {
     renderTexturaTexto(superficie, x, y);
 }
 
+void  Renderer::textoATextura(SDL_Texture* textura, const std::string& text,
+     int x, int y){
+    SDL_Texture* objetivo_actual = SDL_GetRenderTarget(renderer);
+    SDL_SetRenderTarget(renderer, textura);
+    texto(text, x, y);
+    SDL_SetRenderTarget(renderer, objetivo_actual);
+}
+
 SDL_Rect Renderer::transformar(SDL_Rect& rect) {
     return transformar(rect.x, rect.y, rect.w, rect.h);
 }
@@ -149,5 +178,6 @@ SDL_Point Renderer::transformar(SDL_Point& punto) {
 void Renderer::renderTextura(SDL_Texture* texture, SDL_Rect& origen_mascara, 
                                                     SDL_Rect& render_mascara) {
     rect_render = transformar(render_mascara);
+    SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_BLEND);
     SDL_RenderCopy(renderer, texture, &origen_mascara, &this->rect_render);
 }

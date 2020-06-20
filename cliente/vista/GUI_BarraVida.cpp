@@ -6,10 +6,10 @@ GUI_BarraVida::GUI_BarraVida(EntornoGrafico& entorno, Colores& paleta)
   capacidad_max, capacidad){
  	capacidad = 4;
  	capacidad_max = 10;
- 	actualizar_dimension();
+ 	actualizarDimension();
 }
 
-void GUI_BarraVida::actualizar_dimension(){
+void GUI_BarraVida::actualizarDimension(){
 	int ventana_ancho = ventana->getAncho();
 	int ventana_alto  = ventana->getAlto();
 	marco.x = ventana_ancho*0.2 + 3*(50 + 4) + 16;

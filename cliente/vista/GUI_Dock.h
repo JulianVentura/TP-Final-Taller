@@ -15,7 +15,7 @@ private:
 	bool visible;
 public:
 	GUI_Dock(EntornoGrafico& entorno, Colores& paleta);
-	void actualizar_dimensiones();
+	void actualizarDimension();
 	void render();
 };
 
