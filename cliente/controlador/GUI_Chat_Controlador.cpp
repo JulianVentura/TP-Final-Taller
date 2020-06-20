@@ -43,3 +43,7 @@ void GUI_ChatControlador::ingresarCaracter(SDL_Event& evento){
 void GUI_ChatControlador::scroll(SDL_Event& evento){
 	chat_vista.scroll(evento.wheel.y);
 }
+
+void GUI_ChatControlador::actualizarDimension(){
+	rect = chat_vista.marco_entrada;
+}

@@ -5,7 +5,7 @@
 
 GUI_Oro::GUI_Oro(EntornoGrafico& entorno, Colores& paleta) : paleta(paleta) {
 	entorno.agregarRendereable(this);
-	actualizar_dimension();
+	actualizarDimension();
 }
 
 void GUI_Oro::render(){
@@ -17,7 +17,7 @@ void GUI_Oro::render(){
 	renderer -> texto(std::to_string(oro), marco.x, marco.y);
 }
 
-void GUI_Oro::actualizar_dimension(){
+void GUI_Oro::actualizarDimension(){
 	int ventana_ancho = ventana->getAncho();
 	int ventana_alto  = ventana->getAlto();
 	marco.x = ventana_ancho*0.2 + 4;

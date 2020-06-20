@@ -10,10 +10,11 @@
 class GUI_BotonInventarioControlador : public GUI_BotonControlador{
 private:
 	char inventario[ANCHO_INVENTARIO][ALTO_INVENTARIO];
-	GUI_BotonInventario& vista;
+	GUI_BotonInventario& inventario_vista;
 	bool enClick();
 public:
-	GUI_BotonInventarioControlador(GUI_BotonInventario& vista, int x, int y, int ancho, int largo);
+	void actualizarDimension();
+	GUI_BotonInventarioControlador(GUI_BotonInventario& vista);
 };
 
 #endif /*__GUI_BOTON_INVENTARIO_CONTROLADOR_H__*/

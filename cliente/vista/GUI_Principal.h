@@ -13,8 +13,8 @@
 #include "../vista/GUI_BarraMana.h"
 #include "../vista/GUI_BarraExp.h"
 #include "../vista/GUI_Chat.h"
-#include "../modelo/BuclePrincipal.h"
 #include "../controlador/GUI_BotonInventario_Controlador.h"
+#include "../controlador/GUI_Chat_Controlador.h"
 
 
 class GUI_Principal : public IRendereable {
@@ -24,14 +24,16 @@ private:
 	GUI_BarraMana barra_mana;
 	GUI_BarraExp barra_exp;
 	GUI_Oro oro;
+	GUI_BotonInventario inventario_vista;
+	GUI_BotonInventarioControlador inventario_controlador;
 	GUI_Chat chat_vista;
-	GUI_ChatControlador chat_controlador;
-	GUI_BotonInventarioControlador *inventario_controlador;
-	GUI_BotonInventario *inventario_vista;
+
 public:
-	GUI_Principal(EntornoGrafico& entorno, BuclePrincipal& bucle,
-	 Colores& paleta);
+	GUI_ChatControlador chat_controlador;
+	std::vector<GUI_BotonControlador*> botones;
+	GUI_Principal(EntornoGrafico& entorno, Colores& paleta);
 	~GUI_Principal();
+	void actualizarDimension();
 	void render() override;
 };
 
