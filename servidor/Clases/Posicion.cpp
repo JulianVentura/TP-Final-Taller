@@ -2,8 +2,8 @@
 #include <utility>
 #include <sstream>
 #include <cmath>
-#define ANCHO 1
-#define ALTO 1
+#define ANCHO 3
+#define ALTO 3
 Posicion::Posicion(float x, float y) : 
                    areaQueOcupa(x - ANCHO/2, y - ALTO/2, ANCHO, ALTO),
                    x(x), 
@@ -48,7 +48,7 @@ const quadtree::Box<float>& Posicion::obtenerAreaQueOcupa() const{
 }
 
 float Posicion::longitudMaximaDeColision() const{
-    return sqrt(ANCHO + ALTO);
+    return sqrt(ANCHO * ANCHO + ALTO * ALTO);
 }
 
 Posicion Posicion::nuevaPosicionDesplazada(float x, float y) const{
@@ -59,4 +59,11 @@ std::string Posicion::imprimirPosicion(){
     std::stringstream resultado;
     resultado << x << "/" << y;
     return std::move(resultado.str());
+}
+
+const float Posicion::obtenerX() const{
+    return x;
+}
+const float Posicion::obtenerY() const{
+    return y;
 }

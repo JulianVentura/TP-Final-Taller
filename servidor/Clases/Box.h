@@ -86,6 +86,14 @@ public:
         this->height = height;
     }
 
+    Box<T>& operator=(Box<T> &otro){
+        top     = otro.top;
+        left    = otro.left;
+        width   = otro.width;
+        height  = otro.height;
+        return *this;
+    }
+
     Box<T>& operator=(Box<T> &&otro){
         top     = otro.top;
         left    = otro.left;

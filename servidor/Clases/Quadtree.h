@@ -22,9 +22,10 @@ class Quadtree
 public:
     Quadtree(const Box<Float>& box, const GetBox& getBox = GetBox(),
         const Equal& equal = Equal()) :
-        mBox(box), mRoot(std::make_unique<Node>()), mGetBox(getBox), mEqual(equal)
-    {
+        mBox(box), mRoot(std::make_unique<Node>()), mGetBox(getBox), mEqual(equal){}
 
+    void setFrontera(Box<Float>& box){
+        mBox = box;
     }
 
     void add(const T& value)
@@ -61,7 +62,7 @@ private:
         std::vector<T> values;
     };
 
-    const Box<Float> &mBox;
+    Box<Float> mBox;
     std::unique_ptr<Node> mRoot;
     GetBox mGetBox;
     Equal mEqual;

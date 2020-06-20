@@ -20,3 +20,11 @@ std::string Posicionable::imprimirPosicion(){
 const Posicion& Posicionable::obtenerPosicion() const{
     return posicion;
 }
+
+const float Posicionable::obtenerX() const{
+    return posicion.obtenerX();
+}
+
+const float Posicionable::obtenerY() const{
+    return posicion.obtenerY();
+}

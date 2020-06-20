@@ -53,6 +53,8 @@ Mapa::Mapa(std::string nombreArchivo) : tiles(),
     alto  = archivoJson.at("height").get<unsigned int>();
     ancho = archivoJson.at("width").get<unsigned int>();
     frontera = inicializarFrontera(archivoJson, alto, ancho);
+    quadTreeEstatico.setFrontera(frontera);
+    quadTreeDinamico.setFrontera(frontera);
     tiles = archivoJson.at("layers")[0].at("data").get<std::vector<char>>();
     std::vector<quadtree::Box<float>> objetos = archivoJson.at("layers")[1].at("objects").get<std::vector<quadtree::Box<float>>>();
     // TODO: Acá los rectangulos están iniciando en {0, 0} con ancho {0, 0}.
@@ -121,6 +123,7 @@ void Mapa::cargarCriatura(Criatura *criatura){
 }
 
 bool Mapa::posicionValida(const quadtree::Box<float> &area){
+    if (!frontera.contains(area)) return false;
     std::vector<Colisionable*> resultado = quadTreeEstatico.query(area);
     for (std::vector<Colisionable*>::iterator it = resultado.begin();
          it != resultado.end();
@@ -137,7 +140,6 @@ bool Mapa::posicionValida(const quadtree::Box<float> &area){
 }
 
 bool Mapa::posicionValida(const Posicion &nuevaPosicion){
-    //if (!frontera.contains(nuevaPosicion.obtenerAreaQueOcupa())) return false;
     return posicionValida(nuevaPosicion.obtenerAreaQueOcupa());
 }
 
@@ -196,28 +198,69 @@ void Mapa::entidadesActualizarEstados(double tiempo){
 
 // DEBUG
 #define ANCHO_TILE 32.0f // Esto dice en mapa.json
+//Indica la cantidad de celdas que hay en una coordenada de cada tile, tal que NUM_CELDAS_POR_ANCHO_TILE**2 = NUM_CELDAS_POR_TILE
+#define NUM_CELDAS_POR_ANCHO_TILE 4
+#define ANCHO_CELDA (ANCHO_TILE / NUM_CELDAS_POR_ANCHO_TILE)
 #define DEFINICION 10.0f // Pixeles equivalentes por caracter
+#define ID_COLISION 16
+
+
 static void poblarCadena(Entidad* entidad, unsigned int ancho, char c, 
                                                     std::string& resultado) {
-    float x = entidad->obtenerAreaQueOcupa().obtenerX() / DEFINICION;
-    float y = entidad->obtenerAreaQueOcupa().obtenerY() / DEFINICION;
-    int index = y * ((float) ancho * ANCHO_TILE / DEFINICION + 1) + x;
+    int x = std::floor(entidad->obtenerPosicion().obtenerX()/ANCHO_CELDA);
+    int y = std::floor(entidad->obtenerPosicion().obtenerY()/ANCHO_CELDA);
+    int index = y * ancho + x;
     resultado[index] = c;
 }
-std::string Mapa::aCadena() {
-    std::stringstream buffer;
-    for (unsigned int i = 0; i < ancho * ANCHO_TILE / DEFINICION; ++i) {
-        for (unsigned int j = 0; j < alto * ANCHO_TILE / DEFINICION; ++j)
-            buffer << ".";
-        buffer << "\n";
+
+static void poblarColisiones(std::vector<char> &tiles, 
+                             std::string &resultado, unsigned int alto, unsigned int ancho){
+    unsigned int indice = 0;
+    unsigned int ancho_celda = ancho * NUM_CELDAS_POR_ANCHO_TILE;
+    unsigned int x = 0;
+    unsigned int y = 0;
+    for (auto& tile : tiles){
+        if (tile == ID_COLISION){
+            x = indice % ancho;
+            y = indice / ancho;
+            y *= NUM_CELDAS_POR_ANCHO_TILE;
+            x *= NUM_CELDAS_POR_ANCHO_TILE;
+            for (int j=0; j<NUM_CELDAS_POR_ANCHO_TILE; j++){
+                for (int i=0; i<NUM_CELDAS_POR_ANCHO_TILE; i++){
+                    resultado[(y+j) * ancho_celda + x + i] = '#';
+                }
+            }
+        }
+        indice++;
     }
-    std::string resultado = buffer.str();
-    for (auto& criatura: criaturas) {
-        poblarCadena(criatura.second, ancho, '?', resultado);
-    }
-    for (auto& personaje: personajes) {
-        poblarCadena(personaje.second, ancho, '#', resultado);
-    }
-    return resultado;
 }
 
+std::string Mapa::aCadena() {
+    std::stringstream tablero;
+    unsigned int ancho_celdas = ancho * NUM_CELDAS_POR_ANCHO_TILE;
+    unsigned int alto_celdas = alto * NUM_CELDAS_POR_ANCHO_TILE;
+    for (unsigned int j = 0; j < alto_celdas; ++j) {
+        for (unsigned int i = 0; i < ancho_celdas; ++i){
+            tablero <<  ".";
+        }
+    }
+    std::string resultado = tablero.str();
+    poblarColisiones(tiles, resultado, alto, ancho);
+    for (auto& criatura: criaturas) {
+        poblarCadena(criatura.second, ancho_celdas, 'C', resultado);
+    }
+    for (auto& personaje: personajes) {
+        poblarCadena(personaje.second, ancho_celdas, 'J', resultado);
+    }
+    //Como se va a imprimir
+    std::stringstream mapa_resultado;
+    unsigned int indice = 0;
+    for (unsigned int j = 0; j < alto_celdas; ++j) {
+        for (unsigned int i = 0; i < ancho_celdas; ++i){
+            indice = j * ancho_celdas + i;
+            mapa_resultado << " " << resultado[indice];
+        }
+        mapa_resultado << "\n";
+    }
+    return mapa_resultado.str();
+}

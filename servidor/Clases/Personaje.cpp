@@ -2,7 +2,7 @@
 #include <utility>
 #define VIDA_MAXIMA 50
 #define MANA_MAXIMO 100
-#define DESPLAZAMIENTO 20
+#define DESPLAZAMIENTO 8
 
 Personaje::Personaje(float x, float y, std::string id) : 
                                        Entidad(VIDA_MAXIMA,

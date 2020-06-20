@@ -25,6 +25,8 @@ class Posicion{
     float longitudMaximaDeColision() const;
     Posicion nuevaPosicionDesplazada(float x, float y) const;
     std::string imprimirPosicion();
+    const float obtenerX() const;
+    const float obtenerY() const;
 
 };
 

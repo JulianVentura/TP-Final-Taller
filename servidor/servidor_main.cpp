@@ -65,8 +65,12 @@ void imprimirPosiciones(Mapa &mapa){
         std::cout << "y: " << subVector[2] << std::endl;
     }
 }
-
-
+/*
+void imprimirMapa(Mapa &mapa){
+    double ancho = mapa.obtenerAncho();
+    double alto = mapa.obtenerAlto();
+}
+*/
 void pruebaMapa(){
     try{
         bool continuar = true;
@@ -81,6 +85,7 @@ void pruebaMapa(){
             if (c == 'q') break;
             moverPersonaje(&personaje1, mapa, c);
             imprimirPosiciones(mapa);
+            //imprimirMapa(mapa);
             std::cout << mapa.aCadena();
         }
     }catch(std::exception &e){
@@ -131,6 +136,6 @@ void pruebaSala(){
 }
 
 int main(){
-    pruebaSala();
+    pruebaMapa();
     return 0;
 }
