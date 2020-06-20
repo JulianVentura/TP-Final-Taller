@@ -1,15 +1,10 @@
 #pragma once
-#ifndef __BOX_H__
-#define __BOX_H__
 
 #include "Vector2.h"
-#include <nlohmann/json.hpp>
-// Por conveniencia
-using json = nlohmann::json;
-
 
 namespace quadtree
 {
+
 template<typename T>
 class Box
 {
@@ -80,8 +75,8 @@ public:
     constexpr T obtenerAlto() const noexcept { return height; }
 
     constexpr void set(T x, T y, T width, T height){
-        this->left = x;
-        this->top = y;
+        this->x = x;
+        this->y = y;
         this->width = width;
         this->height = height;
     }
@@ -92,8 +87,7 @@ public:
         width   = otro.width;
         height  = otro.height;
         return *this;
-    }
+    } 
 };
-}
 
-#endif
+}

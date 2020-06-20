@@ -61,7 +61,7 @@ private:
         std::vector<T> values;
     };
 
-    const Box<Float> &mBox;
+    Box<Float> mBox;
     std::unique_ptr<Node> mRoot;
     GetBox mGetBox;
     Equal mEqual;

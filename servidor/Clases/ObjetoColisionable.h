@@ -1,16 +1,17 @@
 #ifndef __OBJETO_COLISIONABLE_H__
 #define __OBJETO_COLISIONABLE_H__
 #include "Colisionable.h"
+#include "Box.h"
 class ObjetoColisionable : public Colisionable{
     private:
-    Rectangulo areaQueOcupa;
+    quadtree::Box<float> areaQueOcupa;
     public:
-    ObjetoColisionable(Rectangulo &&rectangulo);
+    ObjetoColisionable(quadtree::Box<float> &&rectangulo);
     ObjetoColisionable(ObjetoColisionable &&otro);
     virtual ~ObjetoColisionable();
-    Rectangulo& obtenerArea() override;
-    bool colisionaCon(Colisionable &otro) override;
-    bool colisionaCon(Rectangulo &otroArea) override;
+    const quadtree::Box<float>& obtenerArea() const override;
+    bool colisionaCon(const Colisionable &otro) const override;
+    bool colisionaCon(const quadtree::Box<float> &otroArea) const override;
 };
 
 #endif

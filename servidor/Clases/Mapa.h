@@ -1,12 +1,14 @@
 #ifndef __MAPA__
 #define __MAPA__
-#include "QuadTree.h"
+#include "Quadtree.h"
+#include "ObtenerCaja.h"
 #include "Posicion.h"
 #include "ObjetoColisionable.h"
 #include "Posicionable.h"
 #include "Entidad.h"
 #include "Personaje.h"
 #include "Criatura.h"
+#include "Box.h"
 #include <vector>
 #include <string>
 #include <map>
@@ -16,9 +18,10 @@ class Mapa{
     std::vector<char> tiles;
     unsigned int ancho;
     unsigned int alto;
-    Rectangulo frontera;
-    QuadTree<Colisionable*> quadTreeEstatico;
-    QuadTree<Colisionable*> quadTreeDinamico;
+    quadtree::Box<float> frontera;
+    ObtenerCaja obtenerCaja;
+    quadtree::Quadtree<Colisionable*, ObtenerCaja> quadTreeEstatico;
+    quadtree::Quadtree<Colisionable*, ObtenerCaja> quadTreeDinamico;
     std::vector<ObjetoColisionable> objetosEstaticos;
     unsigned int cantidadDeCriaturas;
     std::map<std::string, Personaje*> personajes; 
@@ -29,8 +32,16 @@ class Mapa{
                                                 // un constructor que se ve que
                                                 // `pair` del map necesita.
 
-    bool posicionValida(Posicion &nuevaPosicion);
-
+    /*
+    Devuelve true si la nueva posicion o el area no colisiona con
+    algun Colisionable ya presente en el mapa.
+    */
+    bool posicionValida(const Posicion &nuevaPosicion);
+    bool posicionValida(const quadtree::Box<float> &area);
+    /*
+    Busca la posicion valida mas cercana a la posicion actual.
+    */
+    Posicion buscarPosicionValida(const Posicion &posicion);
     public:
     Mapa(std::string nombreArchivo);
     Mapa(Mapa &otroMapa) = delete;
@@ -74,6 +85,9 @@ class Mapa{
     */
     void eliminarEntidad(Entidad *entidad);
     void eliminarEntidad(const std::string &id);
+    void cargarEntidad(Entidad *entidad);
+    void cargarCriatura(Criatura *criatura);
+    
     // DEBUG
     std::string aCadena();
 };

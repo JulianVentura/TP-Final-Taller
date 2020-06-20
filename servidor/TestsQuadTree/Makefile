@@ -6,9 +6,9 @@
 # CONFIGURACION
 ################
 
-filename = cliente
+filename = test
 # Nombre del ejecutable.
-target = bin/$(filename).out
+target = $(filename).out
 
 # Extensión de los archivos a compilar (c para C, cpp o cc o cxx para C++).
 extension = cpp
@@ -40,7 +40,7 @@ SUPRESSIONFILE = util/$(filename).supp
 VALGRINDFLAGS = --leak-check=full --suppressions=$(SUPRESSIONFILE)
 
 # Estandar de C++ a usar
-CXXSTD = c++11
+CXXSTD = c++17
 
 # Si se quiere compilar estaticamente, descomentar la siguiente linea
 #static = si

@@ -22,8 +22,6 @@ class Posicion{
     void PosicionAvanzarHaciaDerecha(float desplazamiento);
     void PosicionAvanzarHaciaIzquierda(float desplazamiento);
     const quadtree::Box<float>& obtenerAreaQueOcupa() const;
-    float longitudMaximaDeColision() const;
-    Posicion nuevaPosicionDesplazada(float x, float y) const;
     std::string imprimirPosicion();
 
 };

@@ -1,7 +1,6 @@
 #include "Posicion.h"
 #include <utility>
 #include <sstream>
-#include <cmath>
 #define ANCHO 1
 #define ALTO 1
 Posicion::Posicion(float x, float y) : 
@@ -45,14 +44,6 @@ void Posicion::actualizarArea(){
 
 const quadtree::Box<float>& Posicion::obtenerAreaQueOcupa() const{
     return areaQueOcupa;
-}
-
-float Posicion::longitudMaximaDeColision() const{
-    return sqrt(ANCHO + ALTO);
-}
-
-Posicion Posicion::nuevaPosicionDesplazada(float x, float y) const{
-    return std::move(Posicion(this->x + x, this->y + y));
 }
 
 std::string Posicion::imprimirPosicion(){
