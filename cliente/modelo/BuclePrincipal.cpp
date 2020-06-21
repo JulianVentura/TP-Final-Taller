@@ -2,24 +2,28 @@
 #include "../vista/GUI_Principal.h"
 
 #include <SDL2/SDL_timer.h>
+#include <thread>
+#define FPS 60
+#define SEG_A_MILLI 1000
+#define MILLIS_POR_FRAME SEG_A_MILLI / FPS
 
 BuclePrincipal::BuclePrincipal(Ventana& ventana, GUI_Principal& gui)
- : ventana(&ventana), gui(gui) {
-    ultima_actualizacion = SDL_GetTicks();
-}
+ : ventana(&ventana), gui(gui) {}
 
 void BuclePrincipal::correr() {
     SDL_Event event;
-     SDL_StopTextInput();
+    SDL_StopTextInput();
     while (!salir) {
         while (SDL_PollEvent(&event) != 0) {
             ventana->manejarEvento(event);
 			despacharEventos(event);
         }
-        unsigned int actualizacion_temp = SDL_GetTicks();
-        ventana->actualizar(actualizacion_temp - ultima_actualizacion);
+        int tiempo = reloj.medir() * SEG_A_MILLI;
+        ventana->actualizar(tiempo);
         ventana->render();
-        ultima_actualizacion = actualizacion_temp;
+        int diferencia = MILLIS_POR_FRAME - tiempo;
+        if (diferencia > 0) 
+            std::this_thread::sleep_for(std::chrono::milliseconds(diferencia));
     }
 }
 
