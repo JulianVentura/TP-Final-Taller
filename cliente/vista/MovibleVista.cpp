@@ -110,7 +110,6 @@ MovibleVista::MovibleVista(EntornoGrafico& entorno, Personaje& modelo)
     entorno.agregarRendereable(this);
     std::string ruta("assets/personaje.png");
     imagen = Imagen(entorno, ruta);
-    imagen.setMascara(10, 15, 90, 115);
     // Esto después se cambiaría
     personajeModelo.x = 960;
     personajeModelo.y = 300;

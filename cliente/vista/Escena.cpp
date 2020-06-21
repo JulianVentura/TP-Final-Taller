@@ -11,7 +11,6 @@ Escena::Escena(EntornoGrafico& entorno): personaje(entorno, personajeModelo),
 void Escena::render() {
     camara.centrar(renderer);
     mapa.render();
-    
     personaje.render();
     enemigo.render();
     camara.reiniciar(renderer);

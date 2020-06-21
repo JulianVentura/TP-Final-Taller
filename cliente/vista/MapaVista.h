@@ -6,6 +6,8 @@
 #include "Imagen.h"
 #include "Tile.h"
 
+
+
 class MapaVista: public IRendereable, public IInteractivo, 
                                                         public IDimensionable {
 public:
@@ -15,15 +17,11 @@ public:
     void manejarEvento(const SDL_Event& event) override;
 
 private:
-    Imagen imagen;
-    int x = 0;
-    int y = 0;
-    int velocidadY = 0;
-    int velocidadX = 0;
-
-    Imagen imagen_tile_azul; // Provisorio
-    Imagen imagen_tile_verde; // Provisorio
     std::vector<Tile> tiles; // Provisorio
+    unsigned int columnas;
+    unsigned int filas;
+    unsigned int ancho_tile;
+    unsigned int alto_tile;
 };
 
 #endif

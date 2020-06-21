@@ -21,6 +21,7 @@ public:
     void limpiarTextura(SDL_Texture* textura);
     /**
      * @brief Muestra en pantalla lo que se fue rendereando.
+     * @post se reicinician las transformaciones de escalado y desplazamiento.
      */
     void presentar();
 
@@ -44,6 +45,17 @@ public:
     void setColor(Uint8 escala);
     void setColor(Uint8 rojo, Uint8 verde, Uint8 azul);
     void setColor(Uint8 rojo, Uint8 verde, Uint8 azul, Uint8 alpha);
+    /**
+     * @brief Determina el color que va a utilizar el renderer para el resto de
+     * métodos.
+     * @param hexa cadena con el color en forma hexadecimal, de la forma:
+     * #RRGGBB, donde RR, GG, BB, son números hexadecimales que determinan la 
+     * combinación de rojo, verde, azul, respectivamente. 
+     * Aplicable a: limpiar, rect, rectSolido, linea, texto.
+     */
+    void setColor(std::string hexa);
+    
+    SDL_Color colorDesdeHexa(std::string hexa);
     
     /**
      * @brief Muestra texto en la pantalla. Opcionalmente se le puede establecer
