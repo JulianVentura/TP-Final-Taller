@@ -4,15 +4,15 @@
 #include "Mapa.h"
 #include "ColaSegura.h"
 #include "Reloj.h"
-#include "Cliente.h"
+//#include "Cliente.h"
 #include <atomic>
 #include <random> //DEBUG
 #include <map>
 
 
 class Sala;
+class Cliente;
 class GameLoop : public Thread{
-
     private:
     ColaSegura &colaDeOperaciones;
     Mapa &mapa;

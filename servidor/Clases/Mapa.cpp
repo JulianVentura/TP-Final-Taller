@@ -188,10 +188,10 @@ void Mapa::eliminarEntidad(const std::string &id){
 
 void Mapa::entidadesActualizarEstados(double tiempo){
     for (auto& criatura: criaturas) {
-        criatura.second->actualizarEstado(tiempo);
+        criatura.second->actualizarEstado(tiempo, this);
     }
     for (auto& personaje: personajes) {
-        personaje.second->actualizarEstado(tiempo);
+        personaje.second->actualizarEstado(tiempo, this);
     }
 }
 
@@ -199,7 +199,7 @@ void Mapa::entidadesActualizarEstados(double tiempo){
 // DEBUG
 #define ANCHO_TILE 32.0f // Esto dice en mapa.json
 //Indica la cantidad de celdas que hay en una coordenada de cada tile, tal que NUM_CELDAS_POR_ANCHO_TILE**2 = NUM_CELDAS_POR_TILE
-#define NUM_CELDAS_POR_ANCHO_TILE 4
+#define NUM_CELDAS_POR_ANCHO_TILE 2
 #define ANCHO_CELDA (ANCHO_TILE / NUM_CELDAS_POR_ANCHO_TILE)
 #define DEFINICION 10.0f // Pixeles equivalentes por caracter
 #define ID_COLISION 16

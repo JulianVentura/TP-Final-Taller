@@ -1,4 +1,5 @@
 #include "Sala.h"
+#include "Cliente.h"
 
 Sala::Sala(const char* nombreMapa) : mapa(std::string(nombreMapa) + ".json"),
                                      colaOperaciones(),
@@ -34,6 +35,16 @@ std::string& Sala::obtenerNombre(){
     return this->nombre;
 }
 
+void Sala::finalizar(){
+    gameLoop.finalizar();
+    gameLoop.recuperar();
+}
+
+
+//DEBUG
+ColaSegura& Sala::obtenerCola(){
+    return colaOperaciones;
+}
 
 /*
 El GameLoop va a iterar constantemente y le pedira a la sala que le fowardee las posiciones a todos los clientes.

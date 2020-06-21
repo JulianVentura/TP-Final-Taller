@@ -1,6 +1,11 @@
 #include "Clases/Mapa.h"
 #include "Clases/Personaje.h"
 #include "Clases/Sala.h"
+#include "Clases/OperacionMover.h"
+#include "Clases/ColaSegura.h"
+#include "Clases/OperacionEncapsulada.h"
+#include "Clases/OperacionDetenerse.h"
+#include "Clases/Cliente.h"
 #include <iostream>
 #include <vector>
 #include <chrono>
@@ -10,26 +15,24 @@
 #define DERECHA 'd'
 #define IZQUIERDA 'a'
 
-
-void moverPersonaje(Personaje *personaje, Mapa &mapa, char c){
-    Posicion posicion;
+void moverPersonaje(char c, ColaSegura &cola, Personaje *personaje){
+    //Posicion posicion;
     switch (c){
         case ARRIBA:
-            posicion = personaje->moverHaciaArriba();
+            cola.push(OperacionEncapsulada(new OperacionMover(personaje, MOVER_ARRIBA)));
             break;
         case ABAJO:
-            posicion = personaje->moverHaciaAbajo();
+            cola.push(OperacionEncapsulada(new OperacionMover(personaje, MOVER_ABAJO)));
             break;
         case DERECHA:
-            posicion = personaje->moverHaciaDerecha();
+            cola.push(OperacionEncapsulada(new OperacionMover(personaje, MOVER_DERECHA)));
             break;
         case IZQUIERDA:
-            posicion = personaje->moverHaciaIzquierda();
+            cola.push(OperacionEncapsulada(new OperacionMover(personaje, MOVER_IZQUIERDA)));
             break;
         default:
-            return;
+            cola.push(OperacionEncapsulada(new OperacionDetenerse(personaje)));
     }
-    mapa.actualizarPosicion(personaje, std::move(posicion));
 }
 
 std::vector<std::string> split(std::string &s, std::string &delimiter){
@@ -71,6 +74,7 @@ void imprimirMapa(Mapa &mapa){
     double alto = mapa.obtenerAlto();
 }
 */
+/*
 void pruebaMapa(){
     try{
         bool continuar = true;
@@ -92,6 +96,7 @@ void pruebaMapa(){
         std::cerr << e.what() << std::endl;
     }
 }
+*/
 
 void pruebaReloj1(){
     Reloj reloj;
@@ -135,7 +140,29 @@ void pruebaSala(){
     }
 }
 
+void pruebaSalaYMapa(){
+    try{
+        bool continuar = true;
+        char c;
+        std::string nombre_mapa("mapa2");
+        Sala sala(nombre_mapa.c_str());
+        ColaSegura &cola = sala.obtenerCola();
+        Cliente cliente1("jugador1", nombre_mapa, sala);
+        Cliente cliente2("jugador2", nombre_mapa, sala);
+        Personaje *personaje1 = cliente1.obtenerPersonaje();
+        while (continuar) {
+            std::cin >> c;
+            if (c == 'q') break;
+            moverPersonaje(c, cola, personaje1);
+        }
+        sala.finalizar();
+    }catch(std::exception &e){
+        std::cerr << e.what() << std::endl;
+    }
+}
+
+
 int main(){
-    pruebaMapa();
+    pruebaSalaYMapa();
     return 0;
 }

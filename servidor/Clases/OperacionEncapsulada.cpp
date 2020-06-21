@@ -37,6 +37,7 @@ OperacionEncapsulada& OperacionEncapsulada::operator=(OperacionEncapsulada &&otr
             delete this->operacion;
         }
         this->operacion = otro.operacion;
+        punteroValido = true;
         otro.operacion = nullptr;
         otro.punteroValido = false;
     }

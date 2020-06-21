@@ -11,7 +11,7 @@ Posicion::Posicion(float x, float y) :
 
 Posicion::Posicion() : areaQueOcupa(0, 0, 0, 0), x(0), y(0){} 
 
-Posicion::Posicion(Posicion &otro) : Posicion(otro.x, otro.y) {}
+//Posicion::Posicion(Posicion &otro) : Posicion(otro.x, otro.y) {}
 
 Posicion::Posicion(Posicion &&otro) : Posicion(otro.x, otro.y) {}
 
@@ -22,21 +22,32 @@ Posicion& Posicion::operator=(Posicion &&otro){
     return *this;
 }
 
-void Posicion::PosicionAvanzarHaciaArriba(float desplazamiento){
-    y -= desplazamiento;
-    actualizarArea(); 
+void Posicion::moverHaciaArriba(float desplazamiento){
+    desplazamientoY = -1 * desplazamiento;
+    desplazamientoX = 0;
 }
-void Posicion::PosicionAvanzarHaciaAbajo(float desplazamiento){
-    y += desplazamiento;
-    actualizarArea(); 
+void Posicion::moverHaciaAbajo(float desplazamiento){
+    desplazamientoY = desplazamiento;
+    desplazamientoX = 0;
 }
-void Posicion::PosicionAvanzarHaciaDerecha(float desplazamiento){
-    x += desplazamiento;
-    actualizarArea(); 
+void Posicion::moverHaciaDerecha(float desplazamiento){
+    desplazamientoX = desplazamiento;
+    desplazamientoY = 0;
 }
-void Posicion::PosicionAvanzarHaciaIzquierda(float desplazamiento){
-    x -= desplazamiento;
-    actualizarArea(); 
+void Posicion::moverHaciaIzquierda(float desplazamiento){
+    desplazamientoX = -1 * desplazamiento;
+    desplazamientoY = 0;
+}
+
+Posicion Posicion::mover(){
+    Posicion nuevaPosicion(x + desplazamientoX, y + desplazamientoY);
+    return nuevaPosicion;
+}
+
+
+void Posicion::detenerse(){
+    desplazamientoX = 0;
+    desplazamientoY = 0;
 }
 
 void Posicion::actualizarArea(){

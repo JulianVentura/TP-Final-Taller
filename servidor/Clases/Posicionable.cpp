@@ -28,3 +28,19 @@ const float Posicionable::obtenerX() const{
 const float Posicionable::obtenerY() const{
     return posicion.obtenerY();
 }
+
+void Posicionable::moverHaciaArriba(){
+    posicion.moverHaciaArriba(desplazamiento);
+}
+void Posicionable::moverHaciaAbajo(){
+    posicion.moverHaciaAbajo(desplazamiento);
+}
+void Posicionable::moverHaciaDerecha(){
+    posicion.moverHaciaDerecha(desplazamiento);
+}
+void Posicionable::moverHaciaIzquierda(){
+    posicion.moverHaciaIzquierda(desplazamiento);
+}
+void Posicionable::detenerse(){
+    posicion.detenerse();
+}

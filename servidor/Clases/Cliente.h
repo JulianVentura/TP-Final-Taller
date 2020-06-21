@@ -1,12 +1,14 @@
 #ifndef __CLIENTE_H__
 #define __CLIENTE_H__
 #include "Personaje.h"
+#include "Sala.h"
+
 class Cliente{
     private:
     Personaje personaje;
     std::string id;
     public:
-    Cliente(std::string &id);
+    Cliente(std::string id, std::string nombreMapa, Sala &sala);
     Cliente(Cliente &&otro) = delete;
     Cliente(Cliente &otro) = delete;
     Cliente& operator=(Cliente &&otro) = delete;

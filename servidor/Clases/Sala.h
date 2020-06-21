@@ -1,6 +1,5 @@
 #ifndef __SALA_H__
 #define __SALA_H__
-#include "Cliente.h"
 #include "Mapa.h"
 #include "Excepcion.h"
 #include "ColaSegura.h"
@@ -8,7 +7,7 @@
 #include <map>
 #include <mutex>
 
-
+class Cliente;
 class Sala{
     private:
     std::string nombre;
@@ -28,6 +27,9 @@ class Sala{
     void actualizarClientes();
     void eliminarCliente(const std::string &id);
     std::string& obtenerNombre();
+    void finalizar();
+    //DEBUG
+    ColaSegura& obtenerCola();
 };
 
 
