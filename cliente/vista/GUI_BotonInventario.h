@@ -12,13 +12,13 @@ class GUI_BotonInventario final : public IRendereable{
 private:
 	Imagen imagen;
 	Colores& paleta;
-	int x,y;
-	int x_cuadro,y_cuadro;
-	int ancho, alto;
 	void dibujarCasilla(int i, int j, SDL_Color& fondo);
 public:
+	int x,y;
+	int ancho, alto;
 	bool visible;
-	GUI_BotonInventario(EntornoGrafico& entorno, Colores& paleta, int x, int y);
+	GUI_BotonInventario(EntornoGrafico& entorno, Colores& paleta);
+	void actualizarDimension();
 	void render();
 };
 

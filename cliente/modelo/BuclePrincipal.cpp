@@ -1,8 +1,10 @@
 #include "BuclePrincipal.h"
+#include "../vista/GUI_Principal.h"
 
 #include <SDL2/SDL_timer.h>
 
-BuclePrincipal::BuclePrincipal(Ventana& ventana) : ventana(&ventana) {
+BuclePrincipal::BuclePrincipal(Ventana& ventana, GUI_Principal& gui)
+ : ventana(&ventana), gui(gui) {
     ultima_actualizacion = SDL_GetTicks();
 }
 
@@ -11,8 +13,8 @@ void BuclePrincipal::correr() {
      SDL_StopTextInput();
     while (!salir) {
         while (SDL_PollEvent(&event) != 0) {
-			despacharEventos(event);
             ventana->manejarEvento(event);
+			despacharEventos(event);
         }
         unsigned int actualizacion_temp = SDL_GetTicks();
         ventana->actualizar(actualizacion_temp - ultima_actualizacion);
@@ -27,17 +29,22 @@ void BuclePrincipal::despacharEventos(SDL_Event& event) {
 			salir = true;
 			break;
 		case SDL_MOUSEBUTTONDOWN:
-			for(auto& boton : botones)
+			for(auto& boton : gui.botones)
 				if((*boton)(event)) break;
 			break;
 
         case SDL_MOUSEWHEEL:
-            chat -> scroll(event);
+            gui.chat_controlador.scroll(event);
             break;
 
         case SDL_KEYDOWN:
         case SDL_TEXTINPUT:
-            chat -> ingresarCaracter(event);
+            gui.chat_controlador.ingresarCaracter(event);
+            break;
+        
+        case SDL_WINDOWEVENT:
+            if(event.window.event == SDL_WINDOWEVENT_SIZE_CHANGED)
+                 gui.actualizarDimension();
             break;
 	}
 }

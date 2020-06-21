@@ -3,14 +3,14 @@
 #include "Imagen.h"
 #include "IRendereable.h"
 #include "GUI_BotonInventario.h"
+#include "Ventana.h"
 
 GUI_BotonInventario::GUI_BotonInventario(EntornoGrafico& entorno,
- Colores& paleta, int x, int y)
-: imagen(entorno,"assets/botonInventario.png"), paleta(paleta), x(x), y(y) {
+ Colores& paleta) : imagen(entorno,"assets/botonInventario.png"),
+  paleta(paleta){
 	entorno.agregarRendereable(this);
-	imagen.setPosicion(x,y - 10);
-	ancho = 3; alto = 6; //HARDCODEO
 	visible = false;
+	actualizarDimension();
 }
 
 void GUI_BotonInventario::dibujarCasilla(int i, int j, SDL_Color& fondo){
@@ -18,6 +18,13 @@ void GUI_BotonInventario::dibujarCasilla(int i, int j, SDL_Color& fondo){
 	renderer -> rectSolido(i, j, LADO_BOTON, LADO_BOTON);
 	renderer -> setColor(paleta.inv_sombra);
 	renderer -> rectSolido(i,j,LADO_BOTON,2);
+}
+
+void GUI_BotonInventario::actualizarDimension(){
+	x = ventana->getAncho()*0.2 + 4;
+	y = ventana->getAlto() - 50;
+	imagen.setPosicion(x,y - 10);
+	ancho = 3; alto = 6; //HARDCODEO
 }
 
 void GUI_BotonInventario::render() {

@@ -12,4 +12,5 @@ public:
 	void scroll(SDL_Event& evento);
 	bool operator()(SDL_Event& evento) override;
 	bool enClick();
+	void actualizarDimension();
 };

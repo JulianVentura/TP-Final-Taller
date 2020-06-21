@@ -44,6 +44,7 @@ void GUI_Chat::actualizarDimension(){
 	marco_textura.w = marco_mensajes.w;
 	marco_textura.h = marco_mensajes.h;
 	caracteres_max = marco_mensajes.w/ANCHO_CARACTER;
+	renderizarTexto();
 }
 
 void GUI_Chat::renderizarTexto(){

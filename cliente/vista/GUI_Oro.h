@@ -11,11 +11,12 @@ class GUI_Oro  : public IRendereable{
 private:
 	SDL_Rect marco;
 	Colores& paleta;
-	void actualizar_dimension();
+	
 public:
 	int oro;
 	explicit GUI_Oro(EntornoGrafico& entorno, Colores& paleta);
 	void render();
+	void actualizarDimension();
 };
 
 #endif /*__GUI_ORO_H__*/

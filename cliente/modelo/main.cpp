@@ -13,19 +13,18 @@
 int main(int argc, const char* argv[]) {
     try {
         EntornoGrafico entorno;
-        Ventana ventana(entorno, "Argentum");
-        Renderer renderer(entorno);
-        BuclePrincipal bucle(ventana);
-
         std::string fuente_ruta("assets/DejaVuSansMono.ttf"); 
         entorno.cargarFuente(fuente_ruta, 15);
 
+        Ventana ventana(entorno, "Argentum");
+        Renderer renderer(entorno);
         Colores paleta;
+        GUI_Principal gui(entorno, paleta); 
+        BuclePrincipal bucle(ventana, gui);
+
         Escena escena(entorno);
         ventana.agregarInteractivo(&escena);
         ventana.agregarRendereable(&escena);
-
-        GUI_Principal gui(entorno, bucle, paleta); 
         ventana.agregarRendereable(&gui);
         
         bucle.correr();
