@@ -12,22 +12,22 @@ void Personaje::actualizar() {
 
 void Personaje::moverDerecha() {
     velocidadY = 0;
-    velocidadX = 3;
+    velocidadX = 2;
 }
 
 void Personaje::moverIzquierda() {
     velocidadY = 0;
-    velocidadX = -3;
+    velocidadX = -2;
 }
 
 void Personaje::moverArriba() {
     velocidadX = 0;
-    velocidadY = -3;
+    velocidadY = -2;
 }
 
 void Personaje::moverAbajo() {
     velocidadX = 0;
-    velocidadY = 3;
+    velocidadY = 2;
 }
 void Personaje::detenerse() {
     velocidadX = 0;
