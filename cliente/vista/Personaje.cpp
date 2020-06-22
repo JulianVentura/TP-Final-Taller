@@ -4,10 +4,6 @@
 void Personaje::actualizar() {
     x += velocidadX;
     y += velocidadY;
-
-    // Pared imaginaria, funciona medio feo.
-    // if (x <= 0 || x > 1500)
-        // x -= velocidadX;
 }
 
 void Personaje::moverDerecha() {

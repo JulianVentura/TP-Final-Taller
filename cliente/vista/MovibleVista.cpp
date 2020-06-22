@@ -111,8 +111,8 @@ MovibleVista::MovibleVista(EntornoGrafico& entorno, Personaje& modelo)
     std::string ruta("assets/personaje.png");
     imagen = Imagen(entorno, ruta);
     // Esto después se cambiaría
-    personajeModelo.x = 960;
-    personajeModelo.y = 300;
+    personajeModelo.x = 935;
+    personajeModelo.y = 1851;
 
     this->x = personajeModelo.x;
     this->y = personajeModelo.y;                    // mascaras Habría que ver  

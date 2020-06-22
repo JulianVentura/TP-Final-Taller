@@ -13,7 +13,7 @@ public:
      * @param contenedor: determina el límite donde se puede mover de la cámara.
      * @param marco: Determina el campo visual de la cámara.
      */
-    Camara(IDimensionable* contenedor, IDimensionable* marco);
+    Camara(IDimensionable* contenedor, IDimensionable* marco, float zoom);
 
     /**
      * @brief Determina el objetivo, es decir, lo que seguirá la cámara.
@@ -38,5 +38,6 @@ private:
     ITargeteable* objetivo;
     int desplazamientoX = 0;
     int desplazamientoY = 0;
+    float zoom = 1.0f;
 };
 #endif

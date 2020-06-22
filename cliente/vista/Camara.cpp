@@ -1,8 +1,8 @@
 #include "Camara.h"
 
-
-Camara::Camara(IDimensionable* contenedor, IDimensionable* marco): 
-                                    contenedor(contenedor), marco(marco) {}
+float alpha = 0.01f;
+Camara::Camara(IDimensionable* contenedor, IDimensionable* marco, float zoom): 
+                            contenedor(contenedor), marco(marco), zoom(zoom) {}
 
 void Camara::setObjetivo(ITargeteable& objetivo) {
     this->objetivo = &objetivo;
@@ -15,17 +15,19 @@ static int acotar(int x, int inferior, int superior) {
 }
 
 void Camara::centrar(Renderer* renderer) {
-    int margen_horizontal = (marco->getAncho() - objetivo->getAncho()) / 2;
-    int margen_vertical = (marco->getAlto() - objetivo->getAlto()) / 2;
-    desplazamientoX = objetivo->getX() - margen_horizontal;
-    desplazamientoY = objetivo->getY() - margen_vertical;
-    desplazamientoX = acotar(desplazamientoX, 0, abs(contenedor->getAncho() - 
-                                                            marco->getAncho()));
-    desplazamientoY = acotar(desplazamientoY, 0, abs(contenedor->getAlto() - 
-                                                            marco->getAlto()));
+    renderer->escalar(zoom);
+    int margen_horizontal = (marco->getAncho() / zoom - objetivo->getAncho()) / 2;
+    int margen_vertical = (marco->getAlto() / zoom - objetivo->getAlto()) / 2;
+    desplazamientoX = (objetivo->getX() - margen_horizontal) * zoom;
+    desplazamientoY = (objetivo->getY() - margen_vertical) * zoom;
+    int maxX = abs(contenedor->getAncho() * zoom - marco->getAncho());
+    int maxY = abs(contenedor->getAlto() * zoom - marco->getAlto());
+    desplazamientoX = acotar(desplazamientoX, 0, maxX);
+    desplazamientoY = acotar(desplazamientoY, 0, maxY);
     renderer->desplazar(-desplazamientoX, -desplazamientoY);
 }
 
 void Camara::reiniciar(Renderer* renderer) {
     renderer->desplazar(desplazamientoX, desplazamientoY);
+    renderer->escalar(1 / zoom);
 }

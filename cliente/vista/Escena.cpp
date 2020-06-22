@@ -1,10 +1,12 @@
 #include "Escena.h"
 #include "MovibleVista.h"
 
+#define FACTOR 1.5f
+
 Escena::Escena(EntornoGrafico& entorno): personaje(entorno, personajeModelo), 
                             enemigo(entorno, enemigoModelo), mapa(entorno) {
     entorno.agregarRendereable(this);
-    camara = Camara(&mapa, ventana);
+    camara = Camara(&mapa, ventana, FACTOR);
     camara.setObjetivo(personaje);
 }
 

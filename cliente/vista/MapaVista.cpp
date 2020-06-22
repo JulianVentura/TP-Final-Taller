@@ -4,7 +4,6 @@
 #include <fstream>
 #include <nlohmann/json.hpp>
 
-#define FACTOR 2.0f
 
 using json = nlohmann::json;
 
@@ -51,7 +50,7 @@ std::vector<TileConjunto> conjuntosTiles;
 MapaVista::MapaVista(EntornoGrafico& entorno) {
     entorno.agregarRendereable(this);
 
-    std::ifstream data("assets/mapa.json");
+    std::ifstream data("assets/mapa2.json");
     json parser;
     data >> parser;
     for (auto& grupo: parser["layers"]) {
@@ -61,6 +60,7 @@ MapaVista::MapaVista(EntornoGrafico& entorno) {
             }
         } else if (grupo["type"] == "group" && grupo["name"] == "frente") {
             for (auto& capa: grupo["layers"]) {
+                if (capa["type"] != "tilelayer") continue;
                 capasFrente.push_back(capa["data"].get<std::vector<int>>());
             }
         }
@@ -98,20 +98,19 @@ MapaVista::MapaVista(EntornoGrafico& entorno) {
     parser["tileheight"].get_to(alto_tile);
     parser["tilewidth"].get_to(ancho_tile);
 
-    ancho = columnas * ancho_tile * FACTOR;
-    alto = filas * alto_tile * FACTOR;
-
+    ancho = columnas * ancho_tile;
+    alto = filas * alto_tile;
 }
 
 void MapaVista::actualizar(unsigned int delta_t) {
 }
 
 void MapaVista::render() {
-    renderer->escalar(FACTOR);
     for (unsigned int i = 0; i < columnas * filas; ++i) {
         for (auto& capa: capasFondo) {
             unsigned int id = capa[i];
             for (auto& conjunto_tile: conjuntosTiles) {
+                if (id == 0) break;
                 if (!conjunto_tile.contieneId(id)) continue;
                 Imagen* tile = conjunto_tile.imagenPorId(id);
                 int x = i % columnas;
@@ -132,7 +131,6 @@ void MapaVista::render() {
            }
         }
     }
-    renderer->escalar(1 / FACTOR);
 }
 
 void MapaVista::manejarEvento(const SDL_Event& event) {

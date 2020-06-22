@@ -192,10 +192,8 @@ SDL_Rect Renderer::transformar(SDL_Rect& rect) {
 
 SDL_Rect Renderer::transformar(int x, int y, int ancho, int alto) {
     SDL_Rect transformado = {x, y, ancho, alto};
-    transformado.x += desplazamientoX;
-    transformado.y += desplazamientoY;
-    transformado.x *= escala;
-    transformado.y *= escala;
+    transformado.x = transformado.x * escala + desplazamientoX;
+    transformado.y = transformado.y * escala + desplazamientoY;
     transformado.w *= escala;
     transformado.h *= escala;
     return transformado;
@@ -203,8 +201,8 @@ SDL_Rect Renderer::transformar(int x, int y, int ancho, int alto) {
 
 SDL_Point Renderer::transformar(SDL_Point& punto) {
     SDL_Point transformado = punto;
-    transformado.x += desplazamientoX;
-    transformado.y += desplazamientoY;
+    transformado.x = transformado.x * escala + desplazamientoX;
+    transformado.y = transformado.y * escala + desplazamientoY;
     return transformado;
 }
 
