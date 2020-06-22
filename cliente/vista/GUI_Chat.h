@@ -4,6 +4,8 @@
 #include <SDL2/SDL_render.h>
 #include <string>
 #include <list>
+#include <mutex>
+#include <atomic>
 
 #include "../vista/EntornoGrafico.h"
 #include "../vista/IRendereable.h"
@@ -16,6 +18,8 @@
 
 class GUI_Chat : public IRendereable{
 private:
+	std::mutex m;
+	std::atomic<bool> actualizar;
 	std::list<std::string> mensajes;
 	Colores& paleta;
 	SDL_Texture* textura;

@@ -1,7 +1,8 @@
 #include <iostream>
 #include <string>
 
-#include "BuclePrincipal.h"
+#include "../modelo/BuclePrincipal.h"
+#include "../modelo/ServidorProxy.h"
 #include "../vista/Colores.h"
 #include "../vista/EntornoGrafico.h"
 #include "../vista/Ventana.h"
@@ -20,7 +21,8 @@ int main(int argc, const char* argv[]) {
         Renderer renderer(entorno);
         Colores paleta;
         GUI_Principal gui(entorno, paleta); 
-        BuclePrincipal bucle(ventana, gui);
+        ServidorProxy servidor("localhost", "80", gui.chat_controlador);
+        BuclePrincipal bucle(ventana, gui, servidor);
 
         Escena escena(entorno);
         ventana.agregarInteractivo(&escena);

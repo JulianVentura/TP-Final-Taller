@@ -3,8 +3,9 @@
 
 #include <SDL2/SDL_timer.h>
 
-BuclePrincipal::BuclePrincipal(Ventana& ventana, GUI_Principal& gui)
- : ventana(&ventana), gui(gui) {
+BuclePrincipal::BuclePrincipal(Ventana& ventana, GUI_Principal& gui,
+    ServidorProxy& servidor)
+ : ventana(&ventana), gui(gui), servidor(servidor) {
     ultima_actualizacion = SDL_GetTicks();
 }
 
@@ -39,12 +40,11 @@ void BuclePrincipal::despacharEventos(SDL_Event& event) {
 
         case SDL_KEYDOWN:
         case SDL_TEXTINPUT:
-            gui.chat_controlador.ingresarCaracter(event);
+            gui.chat_controlador.ingresarCaracter(event, servidor);
             break;
         
         case SDL_WINDOWEVENT:
-            if(event.window.event == SDL_WINDOWEVENT_SIZE_CHANGED)
-                 gui.actualizarDimension();
+            gui.actualizarDimension();
             break;
 	}
 }
