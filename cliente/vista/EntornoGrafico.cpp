@@ -46,7 +46,7 @@ static SDL_Surface* superficieDeImagenColorKey(const std::string& ruta,
     if (!superficie) 
         throw ErrorGrafico("No se pudo cargar imagen %s: Error %s\n", 
                                                 ruta.c_str(), IMG_GetError());
-    auto key = SDL_MapRGB(superficie->format, color->r, color->g, color->g);
+    auto key = SDL_MapRGB(superficie->format, color->r, color->g, color->b);
     SDL_SetColorKey(superficie, SDL_TRUE, key);
     return superficie;
 }
