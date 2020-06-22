@@ -11,10 +11,6 @@ class Personaje : public Entidad{
     Personaje& operator=(Personaje &otro) = delete;
     Personaje& operator=(Personaje &&otro) = delete;
     ~Personaje();
-    Posicion moverHaciaArriba();
-    Posicion moverHaciaAbajo();
-    Posicion moverHaciaIzquierda();
-    Posicion moverHaciaDerecha();
 };
 
 #endif
