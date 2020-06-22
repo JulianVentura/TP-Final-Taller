@@ -121,8 +121,8 @@ MovibleVista::MovibleVista(EntornoGrafico& entorno, Personaje& modelo)
     animacion = AnimacionEnteDireccionable(imagen, (mascaras), 
                                                         std::string(ABAJO));
     ultimo_estado = ABAJO;
-    ancho = imagen.getAncho();
-    alto = imagen.getAlto();
+    this->ancho = imagen.getAncho();
+    this->alto = imagen.getAlto();
 }
 
 void MovibleVista::actualizar(unsigned int delta_t) {
