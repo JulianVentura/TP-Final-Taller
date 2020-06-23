@@ -15,7 +15,7 @@ GUI_Principal::GUI_Principal(EntornoGrafico& entorno, Colores& paleta,
 	barra_mana(entorno, paleta, datos_personaje.mana_max, datos_personaje.mana),
 	barra_exp(entorno, paleta, datos_personaje.exp_max, datos_personaje.exp),
 	oro(entorno, paleta, datos_personaje.oro),
-	inventario_vista(entorno, paleta),
+	inventario_vista(entorno, paleta, datos_personaje.inventario),
 	inventario_controlador(inventario_vista),
 	chat_vista(entorno, paleta),
 	chat_controlador(chat_vista){

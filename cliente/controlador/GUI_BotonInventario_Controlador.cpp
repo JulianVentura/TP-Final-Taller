@@ -3,7 +3,7 @@
 
 GUI_BotonInventarioControlador::GUI_BotonInventarioControlador
 (GUI_BotonInventario& vista)
- : GUI_BotonControlador(vista.x, vista.y, LADO_BOTON, LADO_BOTON),
+ : GUI_BotonControlador(vista.x, vista.y, LADO_CASILLA, LADO_CASILLA),
   inventario_vista(vista){}
 
 bool GUI_BotonInventarioControlador::enClick(){
