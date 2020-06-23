@@ -200,11 +200,12 @@ void Obstaculo::render() {
         for (int j = fila; j <= ultima_fila; ++j) {
             int indice = j * columnas + i;
             unsigned int id = guids[indice];
-            Imagen* tile;
+            Imagen* tile = NULL;
             for (auto& conjunto_tile: conjuntosTiles) {
                 if (!conjunto_tile.contieneId(id)) continue;
-                Imagen* tile = conjunto_tile.imagenPorId(id);
+                tile = conjunto_tile.imagenPorId(id);
             }
+            if (!tile) continue;
             tile->setPosicion(i * ancho_tile, j * alto_tile);
             tile->render();
         }
@@ -222,11 +223,12 @@ void Escena::render() {
             int id = capa.second[i];
             int x = i % columnas;
             int y = (i - x) / columnas;
-            Imagen* tile;
+            Imagen* tile = NULL;
             for (auto& conjunto_tile: conjuntosTiles) {
                 if (!conjunto_tile.contieneId(id)) continue;
                 tile = conjunto_tile.imagenPorId(id);
             }
+            if (!tile) continue;
             tile->setPosicion(x * ancho_tile, y * alto_tile);
             tile->render();
         }
