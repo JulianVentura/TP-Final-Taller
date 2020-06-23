@@ -2,13 +2,12 @@
 #include "MovibleVista.h"
 #include <nlohmann/json.hpp>
 #include <fstream>
+#include <string>
 #include "IObstruible.h"
 
-#define FACTOR 1.0f
+#define FACTOR 2.0f
 
 using json = nlohmann::json;
-
-
 
 class Obstaculo: public IObstruible {
 public:
@@ -98,11 +97,13 @@ int filas;
 int ancho_tile;
 int alto_tile;
 std::vector<IObstruible*> obstruibles;
+std::string personaje_id("human");
+std::string enemigo_id("golum");
 
-Escena::Escena(EntornoGrafico& entorno): personaje(entorno, personajeModelo), 
-                            enemigo(entorno, enemigoModelo) /*, mapa(entorno)*/ {
+Escena::Escena(EntornoGrafico& entorno): personaje(entorno, personajeModelo, personaje_id), 
+                            enemigo(entorno, enemigoModelo, enemigo_id) /*, mapa(entorno)*/ {
     entorno.agregarRendereable(this);
-    camara = Camara(&mapa, ventana, FACTOR);
+    camara = Camara(&mapa, ventana);
     camara.setObjetivo(personaje);
     std::ifstream fuente("assets/mapa.json");
     json parser;
@@ -183,7 +184,6 @@ Escena::Escena(EntornoGrafico& entorno): personaje(entorno, personajeModelo),
 
 }
 
-
 Obstaculo::Obstaculo(SDL_Rect& dimension, std::vector<int>& guids, int ancho_tile, int alto_tile): guids(guids) {
     columna = dimension.x / ancho_tile;
     fila = dimension.y / alto_tile;
@@ -212,8 +212,12 @@ void Obstaculo::render() {
     }
 }
 
+#define RADIO 16.0f
+
 void Escena::render() {
-    camara.centrar(renderer);
+    float zoom = ventana->getAncho() / (mapa.getAnchoTile() * RADIO);
+    zoom = round(zoom * mapa.getAnchoTile()) / mapa.getAnchoTile();
+    camara.centrar(renderer, zoom);
 
     mapa.render();
 
@@ -263,13 +267,13 @@ void Escena::actualizar(unsigned int delta_t) {
 
     int direccion = 4 * i / maximo;
     if (direccion == 0)
-        enemigoModelo.moverAbajo();
-    else if (direccion == 1)
-        enemigoModelo.moverIzquierda();
-    else if (direccion == 2)
         enemigoModelo.moverArriba();
-    else if (direccion == 3)
+    else if (direccion == 1)
         enemigoModelo.moverDerecha();
+    else if (direccion == 2)
+        enemigoModelo.moverAbajo();
+    else if (direccion == 3)
+        enemigoModelo.moverIzquierda();
     i++;
     if (i == maximo) {
         i = 0;

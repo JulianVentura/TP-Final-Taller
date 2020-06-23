@@ -16,15 +16,14 @@ int main(int argc, const char* argv[]) {
 
         Ventana ventana(entorno, "Argentum");
         Renderer renderer(entorno);
-        // Colores paleta;
-        // GUI_Principal gui(entorno, paleta); 
-        // BuclePrincipal bucle(ventana, gui);
-        BuclePrincipal bucle(ventana/*, gui*/);
+        Colores paleta;
+        GUI_Principal gui(entorno, paleta); 
+        BuclePrincipal bucle(ventana, gui);
 
         Escena escena(entorno);
         ventana.agregarInteractivo(&escena);
         ventana.agregarRendereable(&escena);
-        // ventana.agregarRendereable(&gui);
+        ventana.agregarRendereable(&gui);
         
         bucle.correr();
     } catch (std::exception& e) {

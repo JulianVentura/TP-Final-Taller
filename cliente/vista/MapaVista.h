@@ -18,6 +18,10 @@ public:
     void render() override;
     void actualizar(unsigned int delta_t) override;
     void manejarEvento(const SDL_Event& event) override;
+    int getColumnas();
+    int getFilas();
+    int getAnchoTile();
+    int getAltoTile();
 
 private:
     std::vector<TileConjunto> conjuntosTiles;
@@ -27,7 +31,6 @@ private:
     int filas;
     int ancho_tile;
     int alto_tile;
-
 };
 
 #endif

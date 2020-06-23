@@ -81,7 +81,7 @@ void Renderer::desplazar(int desplazamientoX, int desplazamientoY) {
 }
 
 void Renderer::escalar(float factor) {
-    this->escala *= factor;
+    this->escala = factor;
 }
 
 SDL_Color Renderer::colorDesdeHexa(std::string hexa) {
