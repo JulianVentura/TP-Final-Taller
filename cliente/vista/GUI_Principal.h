@@ -3,6 +3,7 @@
 
 #include <SDL2/SDL_render.h>
 #include <vector>
+#include "../modelo/DatosPersonaje.h"
 #include "../vista/GUI_Barra.h"
 #include "../vista/EntornoGrafico.h"
 #include "../vista/GUI_BotonInventario.h"
@@ -31,7 +32,8 @@ private:
 public:
 	GUI_ChatControlador chat_controlador;
 	std::vector<GUI_BotonControlador*> botones;
-	GUI_Principal(EntornoGrafico& entorno, Colores& paleta);
+	GUI_Principal(EntornoGrafico& entorno, Colores& paleta,
+		DatosPersonaje& datos_personaje);
 	~GUI_Principal();
 	void actualizarDimension();
 	void render() override;

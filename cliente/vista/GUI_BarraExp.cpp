@@ -1,11 +1,9 @@
 #include "GUI_BarraExp.h"
 #include "Ventana.h"
 
-GUI_BarraExp::GUI_BarraExp(EntornoGrafico& entorno, Colores& paleta)
- :  GUI_Barra(entorno, paleta, paleta.barra_exp, paleta.barra_exp2,
-  capacidad_max, capacidad){
- 	capacidad = 9;
- 	capacidad_max = 10;
+GUI_BarraExp::GUI_BarraExp(EntornoGrafico& entorno, Colores& paleta,
+	std::atomic<int>& exp_max , std::atomic<int>& exp) : GUI_Barra(entorno,
+	 paleta, paleta.barra_exp, paleta.barra_exp2, exp_max, exp){
  	actualizarDimension();
 }
 

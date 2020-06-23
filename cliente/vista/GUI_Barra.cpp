@@ -2,9 +2,9 @@
 #include "GUI_Barra.h"
 
 int capacidad_actual,capacidad_max;
-GUI_Barra::GUI_Barra(EntornoGrafico& entorno, Colores& paleta,
- SDL_Color& principal, SDL_Color& secundario, int& capacidad_max,
-  int& capacidad_actual) :
+GUI_Barra::GUI_Barra(EntornoGrafico& entorno, Colores& paleta, SDL_Color& principal,
+	 SDL_Color& secundario, std::atomic<int>& capacidad_max,
+	  std::atomic<int>& capacidad_actual) :
    paleta(paleta),
    principal(principal),
    secundario(secundario),

@@ -4,7 +4,8 @@
 
 #ifndef OFFLINE
 ServidorProxy::ServidorProxy(std::string direccion, std::string servicio,
-	GUI_ChatControlador& chat) : chat(chat){
+	 DatosPersonaje& datos_personaje, GUI_ChatControlador& chat):
+	 datos_personaje(datos_personaje), chat(chat){
 	salir = false;
 	socket.conectar(direccion.c_str(), servicio.c_str());
 	hilo_recepcion = new std::thread(&ServidorProxy::recibirMensaje, this);
@@ -32,7 +33,8 @@ void ServidorProxy::terminar(){
 }
 #else
 ServidorProxy::ServidorProxy(std::string direccion, std::string servicio,
-	GUI_ChatControlador& chat) : chat(chat){}
+	 DatosPersonaje& datos_personaje, GUI_ChatControlador& chat):
+	 datos_personaje(datos_personaje), chat(chat){}
 
 void ServidorProxy::enviarMensaje(std::string mensaje){}
 

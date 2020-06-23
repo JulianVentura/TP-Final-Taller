@@ -15,6 +15,7 @@
 #define MENSAJES_MAX   10
 #define ALTO_CARACTER  12
 #define ANCHO_CARACTER 10
+#define ALTO_TEXTURA 1000
 
 class GUI_Chat : public IRendereable{
 private:

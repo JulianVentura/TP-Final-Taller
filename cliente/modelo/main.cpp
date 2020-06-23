@@ -3,6 +3,7 @@
 
 #include "../modelo/BuclePrincipal.h"
 #include "../modelo/ServidorProxy.h"
+#include "../modelo/DatosPersonaje.h"
 #include "../vista/Colores.h"
 #include "../vista/EntornoGrafico.h"
 #include "../vista/Ventana.h"
@@ -20,8 +21,10 @@ int main(int argc, const char* argv[]) {
         Ventana ventana(entorno, "Argentum");
         Renderer renderer(entorno);
         Colores paleta;
-        GUI_Principal gui(entorno, paleta); 
-        ServidorProxy servidor("localhost", "80", gui.chat_controlador);
+        DatosPersonaje datos_personaje;
+        GUI_Principal gui(entorno, paleta, datos_personaje); 
+        ServidorProxy servidor("localhost", "80", datos_personaje,
+         gui.chat_controlador);
         BuclePrincipal bucle(ventana, gui, servidor);
 
         Escena escena(entorno);

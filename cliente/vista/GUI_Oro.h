@@ -2,19 +2,21 @@
 #define __GUI_ORO_H__
 
 #include <SDL2/SDL_render.h>
+#include <atomic>
 
+#include "../vista/Imagen.h"
 #include "../vista/Colores.h"
 #include "../vista/EntornoGrafico.h"
 #include "../vista/IRendereable.h"
 
 class GUI_Oro  : public IRendereable{
 private:
+	Imagen imagen;
 	SDL_Rect marco;
 	Colores& paleta;
-	
+	std::atomic<int>& oro;
 public:
-	int oro;
-	explicit GUI_Oro(EntornoGrafico& entorno, Colores& paleta);
+	GUI_Oro(EntornoGrafico& entorno, Colores& paleta, std::atomic<int>& oro);
 	void render();
 	void actualizarDimension();
 };

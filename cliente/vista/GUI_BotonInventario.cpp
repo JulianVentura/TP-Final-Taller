@@ -32,31 +32,30 @@ void GUI_BotonInventario::render() {
 
 	for(int i = 1;i < 3;i++){
 		renderer -> setColor(paleta.barra_fondo);
-		renderer -> rectSolido(x + i*(LADO_BOTON + SEPARACION),
+		renderer -> rectSolido(x + 2*SEPARACION + i*(LADO_BOTON + SEPARACION),
 		 y, LADO_BOTON, LADO_BOTON);
 		renderer -> setColor(paleta.inv_frente);
-				renderer -> rect(x + i*(LADO_BOTON + SEPARACION),
+				renderer -> rect(x + 2*SEPARACION + i*(LADO_BOTON + SEPARACION),
 		 y, LADO_BOTON, LADO_BOTON);
 	}
 
 	if(!visible) return;
+	int xx = x - 2*SEPARACION - LADO_BOTON;
+	int yy = y - 4*SEPARACION - 6*(SEPARACION + LADO_BOTON);
 	renderer -> setColor(paleta.inv_frente);
-	renderer -> rectSolido(x - 2*SEPARACION - LADO_BOTON,
-	 y - 2*SEPARACION - 6*(SEPARACION + LADO_BOTON),SEPARACION +
-	3*(SEPARACION + LADO_BOTON), SEPARACION + 6*(SEPARACION + LADO_BOTON));
+	renderer -> rectSolido(xx, yy, SEPARACION + 3*(SEPARACION + LADO_BOTON),
+	 SEPARACION + 6*(SEPARACION + LADO_BOTON));
 
 	SDL_Color fondo;
 	for(int j = 0; j < alto;j++){
 		fondo = (j % 2) ? paleta.inv_fondo2 : paleta.inv_fondo; 
 		for(int i = 0;i < ancho;i++){
-			dibujarCasilla(x - 2*SEPARACION - LADO_BOTON + SEPARACION +
-			 i*(LADO_BOTON + SEPARACION), y - SEPARACION - 6*(SEPARACION
-			  + LADO_BOTON) + j*(LADO_BOTON + SEPARACION), fondo);
+			dibujarCasilla(xx + SEPARACION + i*(LADO_BOTON + SEPARACION),
+			 yy + SEPARACION + j*(LADO_BOTON + SEPARACION), fondo);
 		}
 	}
 
 	renderer -> setColor(paleta.inv_luz);
-	renderer -> rectSolido(x - 2*SEPARACION - LADO_BOTON,
-	 y - 2*SEPARACION - 6*(SEPARACION + LADO_BOTON), SEPARACION +
-	3*(SEPARACION + LADO_BOTON), SEPARACION);
+	renderer -> rectSolido(xx, yy, SEPARACION + 3*(SEPARACION + LADO_BOTON),
+	 SEPARACION);
 }

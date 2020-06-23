@@ -1,12 +1,12 @@
 #include "../vista/GUI_Chat.h"
 #include "../vista/Ventana.h"
+
 GUI_Chat::GUI_Chat(EntornoGrafico& entorno, Colores& paleta)
 : paleta(paleta) {
 	entorno.agregarRendereable(this);
 	actualizarDimension();
 	actualizar = false;
-	textura = renderer -> textura(marco_mensajes.w,
-		 1000);
+	textura = renderer -> textura(marco_mensajes.w, ALTO_TEXTURA);
 }
 
 void GUI_Chat::render(){
@@ -79,7 +79,6 @@ void GUI_Chat::agregarMensaje(std::string mensaje){
 	mensajes.push_back(mensaje);
 	if( mensajes.size() > MENSAJES_MAX) mensajes.pop_front();
 	actualizar = true;
-	//renderizarTexto();
 }
 
 

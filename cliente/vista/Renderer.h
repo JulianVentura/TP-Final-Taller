@@ -46,9 +46,9 @@ public:
     void setColor(Uint8 rojo, Uint8 verde, Uint8 azul, Uint8 alpha);
     
     /**
-     * @brief Muestra texto en la pantalla. Opcionalmente se le puede establecer
-     * un x e y, indicando dónde se mostrará, donde esta es la esquina superior 
-     * izquierda.
+     * @brief Muestra texto en la pantalla en la esquina superior izquierda. 
+     * Opcionalmente se le puede establecer coordenadas o renderizar hacia una
+     * textura.
      * @pre El EntornoGrafico cuenta con una fuente establecida.
      */
     void texto(const std::string& text);
@@ -56,6 +56,13 @@ public:
     void textoATextura(SDL_Texture* textura, const std::string& text,
      int x, int y);
     
+    /**
+     * @brief Devuelve por referencia las dimensiones que ocupará el texto
+     * indicado empleando la fuente actual del entorno. Admite NULL.
+     * @pre El EntornoGrafico cuenta con una fuente establecida.
+     */
+   void calcularDimensionTexto(const std::string& text, int* ancho, int* alto);
+
     /**
      * @brief Muestra en pantalla la textura.
      * @param origen_mascara: Porción de la textura que se mostrará. NULL para 

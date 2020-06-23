@@ -157,6 +157,11 @@ void  Renderer::textoATextura(SDL_Texture* textura, const std::string& text,
     SDL_SetRenderTarget(renderer, objetivo_actual);
 }
 
+ void Renderer::calcularDimensionTexto(const std::string& text,
+  int* ancho, int* alto){
+    TTF_SizeText(entorno.getFuente(), text.c_str(), ancho, alto);
+ }
+
 SDL_Rect Renderer::transformar(SDL_Rect& rect) {
     return transformar(rect.x, rect.y, rect.w, rect.h);
 }
