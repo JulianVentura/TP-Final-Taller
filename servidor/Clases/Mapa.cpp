@@ -7,11 +7,11 @@
 #include <utility>
 #include <sstream>
 #include <cmath>
+#include <cstring> //Para memcpy
 //pi/4
 #define PI_4 0.7853982
 // Por conveniencia
 using json = nlohmann::json;
-
 static quadtree::Box<float> inicializarFrontera(json& archivoJson, 
                                                 unsigned int ancho, 
                                                 unsigned int alto) {
@@ -50,6 +50,7 @@ Mapa::Mapa(std::string nombreArchivo) : tiles(),
     }
     json archivoJson;
     archivo >> archivoJson;
+    contenido_archivo = std::string((std::istreambuf_iterator<char>(archivo)), std::istreambuf_iterator<char>());
     alto  = archivoJson.at("height").get<unsigned int>();
     ancho = archivoJson.at("width").get<unsigned int>();
     frontera = inicializarFrontera(archivoJson, alto, ancho);
@@ -72,7 +73,7 @@ void Mapa::actualizarPosicion(Entidad *entidad, Posicion &&nuevaPosicion){
     quadTreeDinamico.add(entidad);
 }
 
-std::string Mapa::recolectarPosiciones(){
+std::string Mapa::posicionesACadena(){
     std::string resultado;
 
     for (std::map<std::string, Criatura*>::iterator it = criaturas.begin();
@@ -89,6 +90,26 @@ std::string Mapa::recolectarPosiciones(){
     return resultado;
 }
 
+std::vector<struct PosicionEncapsulada> Mapa::recolectarPosiciones(){
+    std::vector<struct PosicionEncapsulada> resultado;
+    for (std::map<std::string, Criatura*>::iterator it = criaturas.begin();
+         it != criaturas.end();
+         ++it){
+        struct PosicionEncapsulada pos = {{0}, it->second->obtenerX(), it->second->obtenerX()};
+        //Copio dejando espacio para el `\0`
+        memcpy(pos.id, it->first.c_str(), TAM_ID - 1);
+        resultado.push_back(std::move(pos));
+    }
+    for (std::map<std::string, Personaje*>::iterator it = personajes.begin();
+         it != personajes.end();
+         ++it){
+        struct PosicionEncapsulada pos = {{0}, it->second->obtenerX(), it->second->obtenerX()};
+        //Copio dejando espacio para el `\0`
+        memcpy(pos.id, it->first.c_str(), TAM_ID - 1);
+        resultado.push_back(std::move(pos));
+    }
+    return resultado;
+}
 Entidad* Mapa::obtener(const char* id){
     std::map<std::string, Criatura*>::iterator Cit = criaturas.find(id);
     std::map<std::string, Personaje*>::iterator Pit = personajes.find(id);

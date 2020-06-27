@@ -7,11 +7,11 @@
 Posicion::Posicion(float x, float y) : 
                    areaQueOcupa(x - ANCHO/2, y - ALTO/2, ANCHO, ALTO),
                    x(x), 
-                   y(y){}
+                   y(y),
+                   desplazamientoX(0),
+                   desplazamientoY(0){}
 
 Posicion::Posicion() : areaQueOcupa(0, 0, 0, 0), x(0), y(0){} 
-
-//Posicion::Posicion(Posicion &otro) : Posicion(otro.x, otro.y) {}
 
 Posicion::Posicion(Posicion &&otro) : Posicion(otro.x, otro.y) {}
 

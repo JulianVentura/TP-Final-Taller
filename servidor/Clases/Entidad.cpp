@@ -2,8 +2,11 @@
 #include "Mapa.cpp"
 
 Entidad::Entidad(unsigned int vida, 
-                 unsigned int mana, 
+                 unsigned int mana,
+                 float x,
+                 float y, 
                  std::string &unId) : 
+                 Posicionable(x, y),
                  vidaMaxima(vida),
                  manaMaximo(mana),
                  id(unId){}

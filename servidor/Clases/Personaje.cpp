@@ -7,9 +7,10 @@
 Personaje::Personaje(float x, float y, std::string id) : 
                                        Entidad(VIDA_MAXIMA,
                                                MANA_MAXIMO,
+                                               x,
+                                               y,
                                                id){
     desplazamiento = DESPLAZAMIENTO;
-    actualizarPosicion(std::move(Posicion(x, y)));
 }
 
 Personaje::~Personaje(){}

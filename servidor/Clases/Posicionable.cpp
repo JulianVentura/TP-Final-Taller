@@ -3,7 +3,7 @@
 #include <string>
 
 
-Posicionable::Posicionable() : posicion(0,0){}
+Posicionable::Posicionable(float x, float y) : posicion(x,y){}
 
 void Posicionable::actualizarPosicion(Posicion &&posicion){
     this->posicion = std::move(posicion);
