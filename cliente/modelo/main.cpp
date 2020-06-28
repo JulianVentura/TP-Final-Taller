@@ -19,8 +19,6 @@ int main(int argc, const char* argv[]) {
         Ventana ventana(entorno, "Argentum");
         Renderer renderer(entorno);
         Colores paleta;
-        GUI_Principal gui(entorno, paleta); 
-        BuclePrincipal bucle(ventana, gui);
         DatosPersonaje datos_personaje;
         GUI_Principal gui(entorno, paleta, datos_personaje); 
         ServidorProxy servidor("localhost", "80", datos_personaje,
