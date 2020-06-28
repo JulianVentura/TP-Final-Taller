@@ -8,7 +8,7 @@ class Posicionable{
     float desplazamiento;
 
     public:
-    Posicionable();
+    Posicionable(float x, float y);
     void actualizarPosicion(Posicion &&posicion);
     const quadtree::Box<float>& obtenerAreaQueOcupa();
     const Posicion& obtenerPosicion() const;

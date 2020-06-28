@@ -6,6 +6,7 @@
 #include "Clases/OperacionEncapsulada.h"
 #include "Clases/OperacionDetenerse.h"
 #include "Clases/Cliente.h"
+#include "Clases/Criatura.h"
 #include <iostream>
 #include <vector>
 #include <chrono>
@@ -52,7 +53,7 @@ std::vector<std::string> split(std::string &s, std::string &delimiter){
 
 
 void imprimirPosiciones(Mapa &mapa){
-    std::string posiciones = mapa.recolectarPosiciones();
+    std::string posiciones = mapa.posicionesACadena();
     std::string delimitador = "$";
     std::vector<std::string> vector = split(posiciones, delimitador);
     delimitador = "/";
@@ -143,17 +144,18 @@ void pruebaSala(){
 void pruebaSalaYMapa(){
     try{
         bool continuar = true;
-        char c;
+        char c = 0;
         std::string nombre_mapa("mapa2");
         Sala sala(nombre_mapa.c_str());
         ColaSegura &cola = sala.obtenerCola();
-        Cliente cliente1("jugador1", nombre_mapa, sala);
+        Cliente cliente("jugador", nombre_mapa, sala);
         Cliente cliente2("jugador2", nombre_mapa, sala);
-        Personaje *personaje1 = cliente1.obtenerPersonaje();
-        while (continuar) {
+        //Criatura criatura(10, 10, "Araña");
+        Personaje *personaje = cliente.obtenerPersonaje();
+        while (continuar){
             std::cin >> c;
             if (c == 'q') break;
-            moverPersonaje(c, cola, personaje1);
+            moverPersonaje(c, cola, personaje);
         }
         sala.finalizar();
     }catch(std::exception &e){

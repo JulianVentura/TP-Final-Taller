@@ -15,8 +15,7 @@ class Posicion{
     public:
     Posicion();
     Posicion(float x, float y);
-    //Puede tener sentido hacer una copia, ademas es una clase ligera.
-    //Posicion(Posicion &otro);
+    Posicion(Posicion &otro) = delete;
     Posicion(Posicion &&otro);
     Posicion& operator=(Posicion &&otro);
     void moverHaciaArriba(float desplazamiento);

@@ -9,8 +9,8 @@ Cliente::Cliente(std::string unId,
     sala.cargarCliente(this);
 }
 
-void Cliente::enviarPosiciones(std::string &posiciones){
-    //std::cout << "Se actualiza el cliente" << id << std::endl;
+void Cliente::enviarPosiciones(std::vector<struct PosicionEncapsulada> &posiciones){
+    //Enviar las posiciones a traves de ClienteProxy
 }   
 std::string Cliente::obtenerId(){
     return this->id;

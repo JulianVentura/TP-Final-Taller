@@ -18,7 +18,9 @@ class Entidad : public Colisionable, public Posicionable {
     virtual ~Entidad();
     //Por ser colisionable
     Entidad(unsigned int vidaMaxima, 
-            unsigned int manaMaximo, 
+            unsigned int manaMaximo,
+            float x,
+            float y, 
             std::string &id);
     virtual const quadtree::Box<float>& obtenerArea() const override;
     virtual bool colisionaCon(const Colisionable &otro) const override;

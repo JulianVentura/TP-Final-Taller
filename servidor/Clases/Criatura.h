@@ -5,7 +5,7 @@
 class Criatura : public Entidad{
     
     public:
-    Criatura(float x, float y, std::string &id);
+    Criatura(float x, float y, std::string id);
     Criatura(Criatura &&otro) = delete;
     Criatura(Criatura &otro) = delete;
     Criatura& operator=(Criatura &&otro) = delete;

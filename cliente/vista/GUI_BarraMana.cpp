@@ -1,11 +1,10 @@
 #include "GUI_BarraMana.h"
 #include "Ventana.h"
 
-GUI_BarraMana::GUI_BarraMana(EntornoGrafico& entorno, Colores& paleta)
+GUI_BarraMana::GUI_BarraMana(EntornoGrafico& entorno, Colores& paleta,
+	std::atomic<int>& mana_max , std::atomic<int>& mana)
  :  GUI_Barra(entorno, paleta, paleta.barra_mana, paleta.barra_mana2,
-  capacidad_max, capacidad){
- 	capacidad = 5;
- 	capacidad_max = 10;
+  mana_max, mana){
  	actualizarDimension();
 }
 

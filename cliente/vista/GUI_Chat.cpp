@@ -1,14 +1,16 @@
 #include "../vista/GUI_Chat.h"
 #include "../vista/Ventana.h"
+
 GUI_Chat::GUI_Chat(EntornoGrafico& entorno, Colores& paleta)
 : paleta(paleta) {
 	entorno.agregarRendereable(this);
 	actualizarDimension();
-	textura = renderer -> textura(marco_mensajes.w,
-		 1000);
+	actualizar = false;
+	textura = renderer -> textura(marco_mensajes.w, ALTO_TEXTURA);
 }
 
 void GUI_Chat::render(){
+	std::lock_guard<std::mutex> lock(m);
 	renderer -> setColor(paleta.chat_fondo);
 	renderer -> rectSolido(marco_mensajes);
 	renderer -> setColor(paleta.chat_entrada);
@@ -27,9 +29,15 @@ void GUI_Chat::render(){
 			renderer -> texto(entrada, marco_entrada.x, marco_entrada.y);
 		}
 	}
+
+	if(actualizar){
+		actualizar = false;
+		renderizarTexto();
+	}
 }
 
 void GUI_Chat::actualizarDimension(){
+	std::lock_guard<std::mutex> lock(m);
 	int ventana_ancho = ventana -> getAncho();
 	int ventana_alto = ventana -> getAlto();
 	marco_mensajes.x = 0;
@@ -67,13 +75,15 @@ void GUI_Chat::renderizarTexto(){
 }
 
 void GUI_Chat::agregarMensaje(std::string mensaje){
-	mensajes.push_back(std::move(mensaje));
+	std::lock_guard<std::mutex> lock(m);
+	mensajes.push_back(mensaje);
 	if( mensajes.size() > MENSAJES_MAX) mensajes.pop_front();
-	renderizarTexto();
+	actualizar = true;
 }
 
 
 void GUI_Chat::scroll(Sint32& incremento){
+	std::lock_guard<std::mutex> lock(m);
 	if(incremento > 0){
 		marco_textura.y -= 20;
 		if (marco_textura.y < 0) marco_textura.y = 0;

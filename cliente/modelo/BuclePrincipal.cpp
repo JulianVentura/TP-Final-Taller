@@ -7,8 +7,9 @@
 #define SEG_A_MILLI 1000
 #define MILLIS_POR_FRAME SEG_A_MILLI / FPS
 
-BuclePrincipal::BuclePrincipal(Ventana& ventana, GUI_Principal& gui)
- : ventana(&ventana), gui(gui) {}
+BuclePrincipal::BuclePrincipal(Ventana& ventana, GUI_Principal& gui,
+    ServidorProxy& servidor)
+ : ventana(&ventana), gui(gui), servidor(servidor) {}
 
 void BuclePrincipal::correr() {
     SDL_Event event;
@@ -43,12 +44,11 @@ void BuclePrincipal::despacharEventos(SDL_Event& event) {
 
         case SDL_KEYDOWN:
         case SDL_TEXTINPUT:
-            gui.chat_controlador.ingresarCaracter(event);
+            gui.chat_controlador.ingresarCaracter(event, servidor);
             break;
         
         case SDL_WINDOWEVENT:
-            if(event.window.event == SDL_WINDOWEVENT_SIZE_CHANGED)
-                 gui.actualizarDimension();
+            gui.actualizarDimension();
             break;
 	}
 }

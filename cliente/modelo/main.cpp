@@ -1,7 +1,9 @@
 #include <iostream>
 #include <string>
 
-#include "BuclePrincipal.h"
+#include "../modelo/BuclePrincipal.h"
+#include "../modelo/ServidorProxy.h"
+#include "../modelo/DatosPersonaje.h"
 #include "../vista/Colores.h"
 #include "../vista/EntornoGrafico.h"
 #include "../vista/Ventana.h"
@@ -19,11 +21,16 @@ int main(int argc, const char* argv[]) {
         Colores paleta;
         GUI_Principal gui(entorno, paleta); 
         BuclePrincipal bucle(ventana, gui);
+        DatosPersonaje datos_personaje;
+        GUI_Principal gui(entorno, paleta, datos_personaje); 
+        ServidorProxy servidor("localhost", "80", datos_personaje,
+        gui.chat_controlador);
+        BuclePrincipal bucle(ventana, gui, servidor);
         Escena escena(entorno);
 
         ventana.agregarInteractivo(&escena);
         ventana.agregarRendereable(&escena);
-        // ventana.agregarRendereable(&gui);
+        ventana.agregarRendereable(&gui);
 
         bucle.correr();
     } catch (std::exception& e) {

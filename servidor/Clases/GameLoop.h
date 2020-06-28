@@ -4,7 +4,6 @@
 #include "Mapa.h"
 #include "ColaSegura.h"
 #include "Reloj.h"
-//#include "Cliente.h"
 #include <atomic>
 #include <random> //DEBUG
 #include <map>

@@ -2,6 +2,7 @@
 #define __CLIENTE_H__
 #include "Personaje.h"
 #include "Sala.h"
+#include "PosicionEncapsulada.h"
 
 class Cliente{
     private:
@@ -13,7 +14,7 @@ class Cliente{
     Cliente(Cliente &otro) = delete;
     Cliente& operator=(Cliente &&otro) = delete;
     Cliente& operator=(Cliente &otro) = delete;
-    void enviarPosiciones(std::string &posiciones);
+    void enviarPosiciones(std::vector<struct PosicionEncapsulada> &posiciones);
     std::string obtenerId();
     Personaje* obtenerPersonaje();
 };

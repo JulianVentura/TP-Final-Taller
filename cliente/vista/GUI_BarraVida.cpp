@@ -1,11 +1,10 @@
 #include "GUI_BarraVida.h"
 #include "Ventana.h"
 
-GUI_BarraVida::GUI_BarraVida(EntornoGrafico& entorno, Colores& paleta)
+GUI_BarraVida::GUI_BarraVida(EntornoGrafico& entorno, Colores& paleta,
+	  std::atomic<int>& vida_max , std::atomic<int>& vida)
  :  GUI_Barra(entorno, paleta, paleta.barra_vida, paleta.barra_vida2,
-  capacidad_max, capacidad){
- 	capacidad = 4;
- 	capacidad_max = 10;
+  vida_max, vida){
  	actualizarDimension();
 }
 

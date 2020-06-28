@@ -4,6 +4,8 @@
 #include <SDL2/SDL_render.h>
 #include <string>
 #include <list>
+#include <mutex>
+#include <atomic>
 
 #include "../vista/EntornoGrafico.h"
 #include "../vista/IRendereable.h"
@@ -13,9 +15,12 @@
 #define MENSAJES_MAX   10
 #define ALTO_CARACTER  12
 #define ANCHO_CARACTER 10
+#define ALTO_TEXTURA 1000
 
 class GUI_Chat : public IRendereable{
 private:
+	std::mutex m;
+	std::atomic<bool> actualizar;
 	std::list<std::string> mensajes;
 	Colores& paleta;
 	SDL_Texture* textura;
