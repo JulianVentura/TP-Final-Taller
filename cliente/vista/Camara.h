@@ -24,7 +24,7 @@ public:
      * @brief Centra el renderer en el foco de la cámara. Para salir de foco se debe 
      * llamar a reiniciar.
      */
-    void centrar(Renderer* renderer);
+    void centrar(Renderer* renderer, float zoom);
 
     /**
      * @brief Reinicia las transformaciones de renderer. Se debería llamar después de 
@@ -38,5 +38,6 @@ private:
     ITargeteable* objetivo;
     int desplazamientoX = 0;
     int desplazamientoY = 0;
+    float zoom = 1.0f;
 };
 #endif

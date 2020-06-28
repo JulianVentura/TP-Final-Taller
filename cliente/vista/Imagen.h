@@ -32,13 +32,13 @@ public:
      */
     void setMascara(int x, int y, int ancho, int alto);
 
-    // Debería estar en una clase más abstracta
+    // TODO: Debería estar en una clase más abstracta
     void centrarRelativoA(IDimensionable& contenedor);
-    
+
 private:
     void iniciarDimension(SDL_Texture* texture);
     EntornoGrafico* entorno;
-    SDL_Texture* textura;
+    SDL_Texture* textura = NULL;
     SDL_Rect mascara = {};
     SDL_Rect render_mascara = {};
 };

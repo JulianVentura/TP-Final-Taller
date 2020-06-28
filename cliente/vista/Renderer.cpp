@@ -9,6 +9,8 @@
 #include "Ventana.h"
 
 #define MAX_COLOR_VALUE 0xFF
+#define HEXA_INICIO '#'
+
 #define RENDER_INDEX -1
 #define RENDER_FLAGS (SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC)
 
@@ -39,7 +41,9 @@ void Renderer::limpiarTextura(SDL_Texture* textura){
 
 void Renderer::presentar() {
     SDL_RenderPresent(renderer);
-    // Se podría reiniciar el desplazamientoX, desplazamientoY
+    desplazamientoX = 0;
+    desplazamientoY = 0;
+    escala = 1.0f;
 }
 
 SDL_Texture* Renderer::textura(int ancho, int alto){
@@ -53,6 +57,7 @@ SDL_Texture* Renderer::textura(int ancho, int alto){
     SDL_SetRenderTarget(renderer, objetivo_actual);
     SDL_SetTextureBlendMode(retorno, SDL_BLENDMODE_BLEND);
     return retorno;
+    SDL_Color colorDesdeHexa(std::string hexa);
 }
 
 SDL_Texture* Renderer::texturaDesdeSuperficie(SDL_Surface* superficie) {
@@ -73,6 +78,27 @@ SDL_Texture* Renderer::texturaDesdeArchivoImagen(const std::string& ruta) {
 void Renderer::desplazar(int desplazamientoX, int desplazamientoY) {
     this->desplazamientoX += desplazamientoX;    
     this->desplazamientoY += desplazamientoY;    
+}
+
+void Renderer::escalar(float factor) {
+    this->escala = factor;
+}
+
+SDL_Color Renderer::colorDesdeHexa(std::string hexa) {
+    if (hexa[0] == HEXA_INICIO) 
+        hexa.erase(0, 1);
+    unsigned long valor = std::stoul(hexa, nullptr, 16);
+    SDL_Color temp_color = {};
+    temp_color.a = MAX_COLOR_VALUE;
+    temp_color.r = (valor >> 16) & MAX_COLOR_VALUE;
+    temp_color.g = (valor >> 8) & MAX_COLOR_VALUE;
+    temp_color.b = (valor >> 0) & MAX_COLOR_VALUE;
+    return temp_color;
+}
+
+void Renderer::setColor(std::string hexa) {
+    SDL_Color temp = this->colorDesdeHexa(hexa);
+    this->setColor(temp);
 }
 
 void Renderer::setColor(SDL_Color& color) {
@@ -96,11 +122,14 @@ void Renderer::setColor(Uint8 rojo, Uint8 verde, Uint8 azul, Uint8 alpha) {
 
 
 void Renderer::linea(int x1, int y1, int x2, int y2) {
-    SDL_Point comienzo = { x1, y1 };
-    SDL_Point fin = { x2, y2 };
-    comienzo = transformar(comienzo);
-    fin = transformar(fin);
-    SDL_RenderDrawLine(renderer, comienzo.x, comienzo.y, fin.x, fin.y);
+    int min_x = std::min(x1, x2);
+    int min_y = std::min(y1, y2);
+    int ancho = abs(x1 - x2);
+    int alto = abs(y1 - y2);
+    SDL_Rect rectangulo = {min_x, min_y, ancho, alto};
+    rectangulo = transformar(rectangulo);
+    SDL_RenderDrawLine(renderer, rectangulo.x, rectangulo.y, rectangulo.x + 
+                                    rectangulo.w, rectangulo.y + rectangulo.h);
 }
 
 void Renderer::rect(int x, int y, int ancho, int alto) {
@@ -168,15 +197,17 @@ SDL_Rect Renderer::transformar(SDL_Rect& rect) {
 
 SDL_Rect Renderer::transformar(int x, int y, int ancho, int alto) {
     SDL_Rect transformado = {x, y, ancho, alto};
-    transformado.x += desplazamientoX;
-    transformado.y += desplazamientoY;
+    transformado.x = transformado.x * escala + desplazamientoX;
+    transformado.y = transformado.y * escala + desplazamientoY;
+    transformado.w *= escala;
+    transformado.h *= escala;
     return transformado;
 }
 
 SDL_Point Renderer::transformar(SDL_Point& punto) {
     SDL_Point transformado = punto;
-    transformado.x += desplazamientoX;
-    transformado.y += desplazamientoY;
+    transformado.x = transformado.x * escala + desplazamientoX;
+    transformado.y = transformado.y * escala + desplazamientoY;
     return transformado;
 }
 

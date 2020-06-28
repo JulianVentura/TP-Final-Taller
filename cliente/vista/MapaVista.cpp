@@ -1,51 +1,36 @@
 #include "MapaVista.h"
+#include <iostream>
 #include <string>
-const int FILAS = 5;
-const int COLUMNAS = 5;
-const int ANCHO_TILE = 500;
+#include "TileConjunto.h"
 
-const bool terreno[FILAS][COLUMNAS] {
-    {true, true, true, true, true},
-    {true, false, true, false, true},
-    {true, false, true, false, true},
-    {true, false, false, false, true},
-    {true, true, true, true, true}
-};
+int MapaVista::getColumnas() { return columnas; }
+int MapaVista::getFilas() { return filas; }
+int MapaVista::getAnchoTile() { return ancho_tile; }
+int MapaVista::getAltoTile() { return alto_tile; }
 
-MapaVista::MapaVista(EntornoGrafico& entorno) {
+MapaVista::MapaVista(EntornoGrafico& entorno, MapaParser& parser, 
+                                        LibreriaConjuntoTiles& conjuntosTiles): 
+        conjuntosTiles(&conjuntosTiles),
+        capasFondo(std::move(parser.getCapas())), 
+        columnas(parser.getColumnas()), 
+        filas(parser.getFilas()), 
+        ancho_tile(parser.getAnchoTile()), 
+        alto_tile(parser.getAltoTile()) {
     entorno.agregarRendereable(this);
-
-    const std::string ruta_azul("assets/tile_azul.png");
-    const std::string ruta_verde("assets/tile_verde.png");
-
-    imagen_tile_azul = Imagen(entorno, ruta_azul);
-    imagen_tile_verde = Imagen(entorno, ruta_verde);
-
-    for (int i = 0; i < COLUMNAS; ++i) {
-        for (int j = 0; j < FILAS; ++j) {
-            int x = i * ANCHO_TILE;
-            int y = j * ANCHO_TILE;
-            if (terreno[i][j])
-                tiles.push_back(std::move(Tile(entorno, &imagen_tile_azul, x, y)));
-            else 
-                tiles.push_back(std::move(Tile(entorno, &imagen_tile_verde, x, y)));
-        }
-    }
-    ancho = COLUMNAS * ANCHO_TILE;
-    alto = FILAS * ANCHO_TILE;
-
-}
-
-void MapaVista::actualizar(unsigned int delta_t) {
-    for (auto& tile: tiles) 
-        tile.actualizar(delta_t);
+    this->ancho = columnas * ancho_tile;
+    this->alto = filas * alto_tile;
 }
 
 void MapaVista::render() {
-    for (auto& tile: tiles)
-        tile.render();
-    imagen_tile_azul.render();
-}   
-
-void MapaVista::manejarEvento(const SDL_Event& event) {
+    for (int i = 0; i < columnas * filas; ++i) {
+        for (auto& capa: capasFondo) {
+            int id = capa[i];
+            Imagen* tile = conjuntosTiles->getTile(id);
+            if (!tile) continue;
+            int x = i % columnas;
+            int y = (i - x) / columnas;
+            tile->setPosicion(x * ancho_tile, y * alto_tile);
+            tile->render();
+        }
+    }
 }

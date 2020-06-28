@@ -1,14 +1,13 @@
 #ifndef MOVIBLEVISTA_H
 #define MOVIBLEVISTA_H
 #include "AnimacionEnteDireccionable.h"
-#include "IRendereable.h"
-#include "ITargeteable.h"
+#include "IObstruible.h"
 #include "Imagen.h"
 #include "Personaje.h"
 
-class MovibleVista: public IRendereable, public ITargeteable {
+class MovibleVista: public IObstruible {
 public:
-    MovibleVista(EntornoGrafico& entorno, Personaje& modelo);
+    MovibleVista(EntornoGrafico& entorno, Personaje& modelo, std::string& id);
     void render() override;
     void actualizar(unsigned int delta_t) override;
     
