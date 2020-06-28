@@ -9,17 +9,21 @@
 #include "MapaParser.h"
 #include "LibreriaConjuntoTiles.h"
 
-class MapaVista: public IRendereable, public IInteractivo, 
-                                                        public IDimensionable {
+class MapaVista: public IRendereable, public IDimensionable {
 public:
-    MapaVista() {} // TODO: provisorio
-    MapaVista(EntornoGrafico& entorno, MapaParser& parser, LibreriaConjuntoTiles& conjuntosTiles);
+    MapaVista() {
+    } // TODO: provisorio
+    MapaVista(EntornoGrafico& entorno, MapaParser& parser, 
+                                        LibreriaConjuntoTiles& conjuntosTiles);
     void render() override;
-    void manejarEvento(const SDL_Event& event) override;
+    int getColumnas();
+    int getFilas();
+    int getAnchoTile();
+    int getAltoTile();
 
 private:
     // LibreriaConjuntoTiles& conjuntosTiles;
-    LibreriaConjuntoTiles conjuntosTiles;
+    LibreriaConjuntoTiles* conjuntosTiles;
     std::vector<std::vector<int>> capasFondo;
     int columnas;
     int filas;

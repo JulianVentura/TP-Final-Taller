@@ -17,9 +17,12 @@ void Obstaculo::render() {
     for (int i = columna; i <= ultima_columna; ++i) {
         for (int j = fila; j <= ultima_fila; ++j) {
             int indice = j * conjuntosTiles.getColumnas() + i;
-            unsigned int id = guids[indice];
+            int id = guids[indice];
+            if (id == 0) continue;
             Imagen* tile = conjuntosTiles.getTile(id);
-            tile->setPosicion(i * conjuntosTiles.getAnchoTile(), j * conjuntosTiles.getAltoTile());
+            if (tile == nullptr) continue;
+            tile->setPosicion(i * conjuntosTiles.getAnchoTile(), 
+                              j * conjuntosTiles.getAltoTile());
             tile->render();
         }
     }

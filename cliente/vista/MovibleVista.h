@@ -7,7 +7,7 @@
 
 class MovibleVista: public IObstruible {
 public:
-    MovibleVista(EntornoGrafico& entorno, Personaje& modelo);
+    MovibleVista(EntornoGrafico& entorno, Personaje& modelo, std::string& id);
     void render() override;
     void actualizar(unsigned int delta_t) override;
     

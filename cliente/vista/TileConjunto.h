@@ -5,19 +5,19 @@
 
 class TileConjunto {
 public:
-    TileConjunto(Imagen imagen, unsigned int columnas, unsigned int primer_id, 
-        unsigned int cantidad_tiles, unsigned int ancho_tile,
-        unsigned int alto_tile);
-    bool contieneId(unsigned int id);
-    Imagen* imagenPorId(unsigned int id);
+    TileConjunto(Imagen imagen, int columnas, int primer_id, int cantidad_tiles, 
+        int ancho_tile, int alto_tile);
+    int getColumnas();
+    bool contieneId(int id);
+    Imagen* imagenPorId(int id);
 
 private:
     Imagen imagen;
-    unsigned int columnas;
-    unsigned int primer_id;
-    unsigned int cantidad_tiles;
-    unsigned int ancho_tile;
-    unsigned int alto_tile;
+    int columnas;
+    int primer_id;
+    int cantidad_tiles;
+    int ancho_tile;
+    int alto_tile;
 };
 
 #endif

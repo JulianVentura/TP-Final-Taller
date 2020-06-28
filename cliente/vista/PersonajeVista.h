@@ -11,8 +11,8 @@
 
 class PersonajeVista: public MovibleVista, public IInteractivo {
 public:
-    PersonajeVista(EntornoGrafico& entorno, Personaje& modelo): 
-                                    MovibleVista(entorno, modelo) {}
+    PersonajeVista(EntornoGrafico& entorno, Personaje& modelo, std::string& id): 
+                                    MovibleVista(entorno, modelo, id) {}
     void manejarEvento(const SDL_Event& event) override;
 };
 

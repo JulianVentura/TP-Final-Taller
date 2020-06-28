@@ -8,7 +8,8 @@
                                 // TODO: provisorio
 class LibreriaConjuntoTiles : public IRendereable {
 public:
-    LibreriaConjuntoTiles() {} // TODO: provisorio
+    LibreriaConjuntoTiles() {
+    } // TODO: provisorio
     LibreriaConjuntoTiles(EntornoGrafico& entorno, LibreriaConjuntoTileParser& parser);
     Imagen* getTile(int id);
     void render() {} // TODO: provisorio

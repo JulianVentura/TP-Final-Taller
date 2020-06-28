@@ -1,8 +1,7 @@
 #include "Camara.h"
 
-float alpha = 0.01f;
-Camara::Camara(IDimensionable* contenedor, IDimensionable* marco, float zoom): 
-                            contenedor(contenedor), marco(marco), zoom(zoom) {}
+Camara::Camara(IDimensionable* contenedor, IDimensionable* marco): 
+                            contenedor(contenedor), marco(marco) {}
 
 void Camara::setObjetivo(ITargeteable& objetivo) {
     this->objetivo = &objetivo;
@@ -14,7 +13,8 @@ static int acotar(int x, int inferior, int superior) {
     return x;
 }
 
-void Camara::centrar(Renderer* renderer) {
+void Camara::centrar(Renderer* renderer, float zoom) {
+    this->zoom = zoom;
     renderer->escalar(zoom);
     int margen_horizontal = (marco->getAncho() / zoom - objetivo->getAncho()) / 2;
     int margen_vertical = (marco->getAlto() / zoom - objetivo->getAlto()) / 2;
@@ -29,5 +29,5 @@ void Camara::centrar(Renderer* renderer) {
 
 void Camara::reiniciar(Renderer* renderer) {
     renderer->desplazar(desplazamientoX, desplazamientoY);
-    renderer->escalar(1 / zoom);
+    renderer->escalar(1.0f);
 }

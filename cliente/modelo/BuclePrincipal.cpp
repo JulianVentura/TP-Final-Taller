@@ -7,8 +7,8 @@
 #define SEG_A_MILLI 1000
 #define MILLIS_POR_FRAME SEG_A_MILLI / FPS
 
-BuclePrincipal::BuclePrincipal(Ventana& ventana/*, GUI_Principal& gui*/)
- : ventana(&ventana)/*, gui(gui)*/ {}
+BuclePrincipal::BuclePrincipal(Ventana& ventana, GUI_Principal& gui)
+ : ventana(&ventana), gui(gui) {}
 
 void BuclePrincipal::correr() {
     SDL_Event event;
@@ -33,22 +33,22 @@ void BuclePrincipal::despacharEventos(SDL_Event& event) {
 			salir = true;
 			break;
 		case SDL_MOUSEBUTTONDOWN:
-			// for(auto& boton : gui.botones)
-				// if((*boton)(event)) break;
+			for(auto& boton : gui.botones)
+				if((*boton)(event)) break;
 			break;
 
         case SDL_MOUSEWHEEL:
-            // gui.chat_controlador.scroll(event);
+            gui.chat_controlador.scroll(event);
             break;
 
         case SDL_KEYDOWN:
         case SDL_TEXTINPUT:
-            // gui.chat_controlador.ingresarCaracter(event);
+            gui.chat_controlador.ingresarCaracter(event);
             break;
         
         case SDL_WINDOWEVENT:
             if(event.window.event == SDL_WINDOWEVENT_SIZE_CHANGED)
-                //  gui.actualizarDimension();
+                 gui.actualizarDimension();
             break;
 	}
 }

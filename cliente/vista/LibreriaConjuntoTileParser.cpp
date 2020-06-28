@@ -21,15 +21,12 @@ LibreriaConjuntoTileParser::LibreriaConjuntoTileParser(std::istream& fuente) {
     parser["width"].get_to(columnas);
     for (auto& conjunto_tile: parser["tilesets"]) {
         InformacionConjuntoTile info;
-        // conjunto_tile["columns"].get_to(info.columnas);
-
+        conjunto_tile["columns"].get_to(info.columnas);
         conjunto_tile["firstgid"].get_to(info.primer_id);
         conjunto_tile["image"].get_to(info.ruta);
-
         conjunto_tile["tilecount"].get_to(info.cantidad_tiles);
-
-        // conjunto_tile["tileheight"].get_to(info.alto_tile);
-        // conjunto_tile["tilewidth"].get_to(info.ancho_tile);
+        conjunto_tile["tileheight"].get_to(info.alto_tile);
+        conjunto_tile["tilewidth"].get_to(info.ancho_tile);
 
         if (conjunto_tile.count("transparentcolor") > 0) {
             conjunto_tile["transparentcolor"].get_to(info.color_transparente);

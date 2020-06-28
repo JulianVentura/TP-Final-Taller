@@ -13,7 +13,7 @@ public:
      * @param contenedor: determina el límite donde se puede mover de la cámara.
      * @param marco: Determina el campo visual de la cámara.
      */
-    Camara(IDimensionable* contenedor, IDimensionable* marco, float zoom);
+    Camara(IDimensionable* contenedor, IDimensionable* marco);
 
     /**
      * @brief Determina el objetivo, es decir, lo que seguirá la cámara.
@@ -24,7 +24,7 @@ public:
      * @brief Centra el renderer en el foco de la cámara. Para salir de foco se debe 
      * llamar a reiniciar.
      */
-    void centrar(Renderer* renderer);
+    void centrar(Renderer* renderer, float zoom);
 
     /**
      * @brief Reinicia las transformaciones de renderer. Se debería llamar después de 

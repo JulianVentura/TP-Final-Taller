@@ -8,6 +8,9 @@ typedef struct InformacionConjuntoTile {
     std::string ruta;
     int primer_id;
     int cantidad_tiles;
+    int ancho_tile;
+    int alto_tile;
+    int columnas;
     std::string color_transparente;
 } InformacionConjuntoTile;
 
@@ -21,7 +24,7 @@ public:
     
 private:
     std::vector<InformacionConjuntoTile> conjuntosTiles;
-    int ancho_tile;
+    int ancho_tile; // TODO: provisorio
     int alto_tile;
     int columnas;
 };

@@ -21,7 +21,6 @@ private:
     Personaje enemigoModelo;
     MovibleVista enemigo;
     MapaVista mapa;
-
     std::unordered_map<std::string, std::vector<Obstaculo>> capasObstaculos;
     std::vector<std::string> capasOrdenadas;
     std::unordered_map<std::string, std::vector<int>> capasFrente;
@@ -31,5 +30,4 @@ private:
     int ancho_tile;
     int alto_tile;
 };
-
 #endif
