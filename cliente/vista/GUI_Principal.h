@@ -3,20 +3,22 @@
 
 #include <SDL2/SDL_render.h>
 #include <vector>
+
 #include "../modelo/DatosPersonaje.h"
-#include "../vista/GUI_Barra.h"
 #include "../vista/EntornoGrafico.h"
-#include "../vista/GUI_BotonInventario.h"
+#include "../vista/BancoImagenesEquipo.h"
 #include "../vista/Colores.h"
+#include "../vista/GUI_BotonInventario.h"
 #include "../vista/GUI_Oro.h"
 #include "../vista/GUI_Dock.h"
 #include "../vista/GUI_BarraVida.h"
 #include "../vista/GUI_BarraMana.h"
 #include "../vista/GUI_BarraExp.h"
 #include "../vista/GUI_Chat.h"
+#include "../vista/GUI_PanelInventario.h"
 #include "../controlador/GUI_BotonInventario_Controlador.h"
+#include "../controlador/GUI_Inventario_Controlador.h"
 #include "../controlador/GUI_Chat_Controlador.h"
-
 
 class GUI_Principal : public IRendereable {
 private:
@@ -25,8 +27,11 @@ private:
 	GUI_BarraMana barra_mana;
 	GUI_BarraExp barra_exp;
 	GUI_Oro oro;
-	GUI_BotonInventario inventario_vista;
-	GUI_BotonInventarioControlador inventario_controlador;
+	BancoImagenesEquipo imagenes_equipo;
+	GUI_PanelInventario inventario_vista;
+	GUI_InventarioControlador inventario_controlador;
+	GUI_BotonInventario boton_inventario_vista;
+	GUI_BotonInventarioControlador boton_inventario_controlador;
 	GUI_Chat chat_vista;
 
 public:
