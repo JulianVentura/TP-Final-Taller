@@ -9,10 +9,6 @@ void Ventana::agregarRendereable(IRendereable* rendereable) {
     rendereable->setVentana(this);
 }
 
-void Ventana::agregarInteractivo(IInteractivo* interactivo) {
-    interactivos.push_back(interactivo);
-}
-
 int Ventana::getAlto() {
     return alto;
 }
@@ -48,10 +44,6 @@ void Ventana::manejarEvento(const SDL_Event& event) {
         if (event.window.event == SDL_WINDOWEVENT_RESIZED) {
             SDL_GetWindowSize(ventana, &ancho, &alto);
         }
-    }
-
-    for (auto& interactivo: interactivos) {
-        interactivo->manejarEvento(event);
     }
 }
 

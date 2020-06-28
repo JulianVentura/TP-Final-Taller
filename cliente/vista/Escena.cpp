@@ -16,11 +16,10 @@ std::vector<IObstruible*> obstruibles;
 std::string personaje_id("human");
 std::string enemigo_id("golum");
 
-Escena::Escena(EntornoGrafico& entorno): personaje(entorno, personajeModelo, 
-        personaje_id), enemigo(entorno, enemigoModelo, enemigo_id) /*, mapa(entorno)*/ {
+Escena::Escena(EntornoGrafico& entorno){
     entorno.agregarRendereable(this);
     camara = Camara(&mapa, ventana);
-    camara.setObjetivo(personaje);
+    //camara.setObjetivo(personaje);
     std::ifstream fuente("assets/mapa.json");
     
     CapasParser capasParser(fuente);
@@ -51,8 +50,8 @@ Escena::Escena(EntornoGrafico& entorno): personaje(entorno, personajeModelo,
     this->columnas = mapaParser.getColumnas();
     this->ancho_tile = mapaParser.getAnchoTile();
     this->alto_tile = mapaParser.getAltoTile();
-    obstruibles.push_back(&personaje);
-    obstruibles.push_back(&enemigo);
+    //obstruibles.push_back(&personaje);
+    //obstruibles.push_back(&enemigo);
 }
 
 #define RADIO 16.0f
@@ -89,12 +88,14 @@ void Escena::render() {
 }
 
 void Escena::manejarEvento(const SDL_Event& event) {
-    personaje.manejarEvento(event);
+    //personaje.manejarEvento(event);
 }
 
-int __i = 0;
-int __maximo = 300;
 void Escena::actualizar(unsigned int delta_t) {
+    /*
+    int __i = 0;
+    int __maximo = 300;
+
     mapa.actualizar(delta_t);
     enemigo.actualizar(delta_t);
     personaje.actualizar(delta_t);
@@ -112,4 +113,5 @@ void Escena::actualizar(unsigned int delta_t) {
     if (__i == __maximo) {
         __i = 0;
     }
+    */
 }

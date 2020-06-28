@@ -2,7 +2,6 @@
 #define MAPAVISTA_H
 
 #include "IRendereable.h"
-#include "IInteractivo.h"
 #include "Imagen.h"
 #include "Tile.h"
 #include "TileConjunto.h"

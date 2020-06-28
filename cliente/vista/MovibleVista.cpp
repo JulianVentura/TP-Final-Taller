@@ -1,6 +1,5 @@
 #include "MovibleVista.h"
 
-#include "PersonajeVista.h"
 #include "Animacion.h"
 #include "AnimacionEnteDireccionable.h"
 

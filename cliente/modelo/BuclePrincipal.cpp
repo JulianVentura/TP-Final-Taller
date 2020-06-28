@@ -9,14 +9,13 @@
 
 BuclePrincipal::BuclePrincipal(Ventana& ventana, GUI_Principal& gui,
     ServidorProxy& servidor)
- : ventana(&ventana), gui(gui), servidor(servidor) {}
+ : ventana(&ventana), gui(gui), servidor(servidor), teclas(servidor){}
 
 void BuclePrincipal::correr() {
     SDL_Event event;
     SDL_StopTextInput();
     while (!salir) {
         while (SDL_PollEvent(&event) != 0) {
-            ventana->manejarEvento(event);
 			despacharEventos(event);
         }
         int tiempo = reloj.medir() * SEG_A_MILLI;
@@ -29,26 +28,37 @@ void BuclePrincipal::correr() {
 }
 
 void BuclePrincipal::despacharEventos(SDL_Event& event) {
+    bool evento_consumido = false;
+
 	switch(event.type) {
 		case SDL_QUIT: 
 			salir = true;
-			break;
+		break;
+
 		case SDL_MOUSEBUTTONDOWN:
-			for(auto& boton : gui.botones)
-				if((*boton)(event)) break;
-			break;
+           
+            for(auto& boton : gui.botones){
+                evento_consumido = (*boton)(event);
+                if(evento_consumido) break;
+            }
+            //if(!evento_consumido) escena.manejarEvento(event);
+		break;
 
         case SDL_MOUSEWHEEL:
             gui.chat_controlador.scroll(event);
-            break;
+        break;
 
         case SDL_KEYDOWN:
         case SDL_TEXTINPUT:
-            gui.chat_controlador.ingresarCaracter(event, servidor);
-            break;
+            if(gui.chat_controlador.ingresarCaracter(event, servidor)){
+                ventana->manejarEvento(event);
+                teclas.manejarEvento(event);
+            }
+        break;
         
         case SDL_WINDOWEVENT:
+            ventana->manejarEvento(event);
             gui.actualizarDimension();
-            break;
+        break;
 	}
 }

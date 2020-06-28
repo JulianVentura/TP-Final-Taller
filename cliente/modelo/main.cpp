@@ -26,7 +26,6 @@ int main(int argc, const char* argv[]) {
         BuclePrincipal bucle(ventana, gui, servidor);
         Escena escena(entorno);
 
-        ventana.agregarInteractivo(&escena);
         ventana.agregarRendereable(&escena);
         ventana.agregarRendereable(&gui);
 

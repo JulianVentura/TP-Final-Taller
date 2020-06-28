@@ -5,12 +5,14 @@
 #include "../vista/Ventana.h"
 #include "../vista/GUI_Principal.h"
 #include "../modelo/ServidorProxy.h"
+#include "../controlador/Teclas.h"
 
 class BuclePrincipal {
 private:
     Ventana* ventana;
     GUI_Principal& gui;
     ServidorProxy& servidor;
+    Teclas teclas;
     bool salir = false;
     void despacharEventos(SDL_Event& event);
     Reloj reloj;

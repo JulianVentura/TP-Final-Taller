@@ -1,5 +1,6 @@
 #ifndef MOVIBLEVISTA_H
 #define MOVIBLEVISTA_H
+
 #include "AnimacionEnteDireccionable.h"
 #include "IObstruible.h"
 #include "Imagen.h"

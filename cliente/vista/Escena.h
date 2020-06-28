@@ -1,25 +1,19 @@
 #ifndef ESCENA_H
 #define ESCENA_H
 #include "IRendereable.h"
-#include "IInteractivo.h"
 #include "Camara.h"
 #include "MapaVista.h"
-#include "PersonajeVista.h"
 #include "Obstaculo.h"
 
-class Escena: public IRendereable, public IInteractivo {
+class Escena: public IRendereable{
 public:
     explicit Escena(EntornoGrafico& entorno);
     void render() override;
     void actualizar(unsigned int delta_t) override;
-    void manejarEvento(const SDL_Event& event) override;
+    void manejarEvento(const SDL_Event& event);
 
 private:
     Camara camara;
-    Personaje personajeModelo;
-    PersonajeVista personaje;
-    Personaje enemigoModelo;
-    MovibleVista enemigo;
     MapaVista mapa;
     std::unordered_map<std::string, std::vector<Obstaculo>> capasObstaculos;
     std::vector<std::string> capasOrdenadas;
