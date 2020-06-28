@@ -9,8 +9,6 @@
 #include "../vista/Ventana.h"
 #include "../vista/Escena.h"
 #include "../vista/GUI_Principal.h"
-#include "../vista/GUI_BotonInventario.h"
-#include "../controlador/GUI_BotonInventario_Controlador.h"
 
 int main(int argc, const char* argv[]) {
     try {
@@ -24,14 +22,14 @@ int main(int argc, const char* argv[]) {
         DatosPersonaje datos_personaje;
         GUI_Principal gui(entorno, paleta, datos_personaje); 
         ServidorProxy servidor("localhost", "80", datos_personaje,
-         gui.chat_controlador);
+        gui.chat_controlador);
         BuclePrincipal bucle(ventana, gui, servidor);
-
         Escena escena(entorno);
+
         ventana.agregarInteractivo(&escena);
         ventana.agregarRendereable(&escena);
         ventana.agregarRendereable(&gui);
-        
+
         bucle.correr();
     } catch (std::exception& e) {
         std::cerr << e.what() << std::endl;

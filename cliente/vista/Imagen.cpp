@@ -33,7 +33,7 @@ void Imagen::setPosicion(int x, int y) {
 }
 
 void Imagen::centrarRelativoA(IDimensionable& contenedor) {
-    // Debería estar en una clase más abstracta
+    // TODO: Debería estar en una clase más abstracta
     int desplazamientoX = contenedor.getAncho() / 2 - this->getAncho() / 2;
     int desplazamientoY = contenedor.getAlto() / 2 - this->getAlto() / 2;
     this->setPosicion(desplazamientoX, desplazamientoY);

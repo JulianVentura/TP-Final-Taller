@@ -5,25 +5,30 @@
 #include "IInteractivo.h"
 #include "Imagen.h"
 #include "Tile.h"
+#include "TileConjunto.h"
+#include "MapaParser.h"
+#include "LibreriaConjuntoTiles.h"
 
-class MapaVista: public IRendereable, public IInteractivo, 
-                                                        public IDimensionable {
+class MapaVista: public IRendereable, public IDimensionable {
 public:
-    explicit MapaVista(EntornoGrafico& entorno);
+    MapaVista() {
+    } // TODO: provisorio
+    MapaVista(EntornoGrafico& entorno, MapaParser& parser, 
+                                        LibreriaConjuntoTiles& conjuntosTiles);
     void render() override;
-    void actualizar(unsigned int delta_t) override;
-    void manejarEvento(const SDL_Event& event) override;
+    int getColumnas();
+    int getFilas();
+    int getAnchoTile();
+    int getAltoTile();
 
 private:
-    Imagen imagen;
-    int x = 0;
-    int y = 0;
-    int velocidadY = 0;
-    int velocidadX = 0;
-
-    Imagen imagen_tile_azul; // Provisorio
-    Imagen imagen_tile_verde; // Provisorio
-    std::vector<Tile> tiles; // Provisorio
+    // LibreriaConjuntoTiles& conjuntosTiles;
+    LibreriaConjuntoTiles* conjuntosTiles;
+    std::vector<std::vector<int>> capasFondo;
+    int columnas;
+    int filas;
+    int ancho_tile;
+    int alto_tile;
 };
 
 #endif

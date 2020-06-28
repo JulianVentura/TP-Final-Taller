@@ -21,6 +21,7 @@ public:
     void limpiarTextura(SDL_Texture* textura);
     /**
      * @brief Muestra en pantalla lo que se fue rendereando.
+     * @post se reicinician las transformaciones de escalado y desplazamiento.
      */
     void presentar();
 
@@ -29,6 +30,12 @@ public:
      * Las transformaciones de desplazamiento son acumulaticas.
      */
     void desplazar(int desplazamientoX, int desplazamientoY);
+
+    /**
+     * @brief Transforma el plano aplicando una dilatación en base al factor.
+     * Las transformaciones de escala son acumulaticas.
+     */
+    void escalar(float factor);
 
     void rect(SDL_Rect& rect);
     void rect(int x, int y, int ancho, int alto);
@@ -44,6 +51,17 @@ public:
     void setColor(Uint8 escala);
     void setColor(Uint8 rojo, Uint8 verde, Uint8 azul);
     void setColor(Uint8 rojo, Uint8 verde, Uint8 azul, Uint8 alpha);
+    /**
+     * @brief Determina el color que va a utilizar el renderer para el resto de
+     * métodos.
+     * @param hexa cadena con el color en forma hexadecimal, de la forma:
+     * #RRGGBB, donde RR, GG, BB, son números hexadecimales que determinan la 
+     * combinación de rojo, verde, azul, respectivamente. 
+     * Aplicable a: limpiar, rect, rectSolido, linea, texto.
+     */
+    void setColor(std::string hexa);
+    
+    SDL_Color colorDesdeHexa(std::string hexa);
     
     /**
      * @brief Muestra texto en la pantalla en la esquina superior izquierda. 
@@ -100,6 +118,7 @@ private:
     SDL_Color color = {};
     int desplazamientoX = 0;
     int desplazamientoY = 0;
+    float escala = 1.0f;
     SDL_Rect rect_render = {};
 };
 

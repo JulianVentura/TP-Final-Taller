@@ -3,6 +3,8 @@
 Animacion::Animacion(Imagen& imagen, mascaras_t mascaras, 
     const std::string& animacion_inicial): imagen(&imagen), mascaras(mascaras) {
     animacion_actual = animacion_inicial;
+    SDL_Rect mascara = mascaras[animacion_actual][0];
+    this->imagen->setMascara(mascara.x, mascara.y, mascara.w, mascara.h);
     tiempo_hasta_proximo_cuadro = 0;
     tiempo_hasta_proximo_ciclo = 0;
 }

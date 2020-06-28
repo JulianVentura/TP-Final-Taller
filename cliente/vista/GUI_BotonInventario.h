@@ -9,22 +9,11 @@
 #include "../vista/Imagen.h"
 #include "../vista/Colores.h"
 
-#define LADO_CASILLA 50
-#define SEPARACION 4
-
 class GUI_BotonInventario final : public IRendereable{
-private:
-	Imagen imagen;
-	BancoImagenesEquipo imagenes_equipo;
-	Colores& paleta;
-	std::atomic<int>* inventario;
-	void dibujarCasilla(int i, int j, SDL_Color& fondo);
 public:
 	int x,y;
-	int ancho, alto;
-	bool visible;
-	GUI_BotonInventario(EntornoGrafico& entorno, Colores& paleta,
-		std::atomic<int>* inventario);
+	Imagen imagen;
+	GUI_BotonInventario(EntornoGrafico& entorno, Colores& paleta);
 	void actualizarDimension();
 	void render();
 };
