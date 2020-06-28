@@ -1,5 +1,6 @@
 #include "Sala.h"
 #include "Cliente.h"
+#include "PosicionEncapsulada.h"
 
 Sala::Sala(const char* nombreMapa) : mapa(std::string(nombreMapa) + ".json"),
                                      colaOperaciones(),
@@ -7,6 +8,7 @@ Sala::Sala(const char* nombreMapa) : mapa(std::string(nombreMapa) + ".json"),
     //Pongo a correr el gameloop
     gameLoop.comenzar();
 }
+
 
 void Sala::cargarCliente(Cliente *cliente){
     std::unique_lock<std::mutex> lock(this->mutex);
@@ -18,7 +20,7 @@ void Sala::cargarCliente(Cliente *cliente){
 }
 void Sala::actualizarClientes(){
     std::unique_lock<std::mutex> lock(this->mutex);
-    std::string posiciones = mapa.recolectarPosiciones();
+    std::vector<struct PosicionEncapsulada> posiciones = std::move(mapa.recolectarPosiciones());
     for (auto& cliente : clientes){
         cliente.second->enviarPosiciones(posiciones);
     }

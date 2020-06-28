@@ -9,13 +9,15 @@
 #include "Personaje.h"
 #include "Criatura.h"
 #include "Box.h"
+#include "PosicionEncapsulada.h"
 #include <vector>
 #include <string>
 #include <map>
 
 class Mapa{
     private:
-    std::vector<char> tiles;
+    std::vector<char> tiles; //Esto solo nos sirve para imprimir el ascii art
+    std::string contenido_archivo;
     unsigned int ancho;
     unsigned int alto;
     quadtree::Box<float> frontera;
@@ -25,12 +27,7 @@ class Mapa{
     std::vector<ObjetoColisionable> objetosEstaticos;
     unsigned int cantidadDeCriaturas;
     std::map<std::string, Personaje*> personajes; 
-    std::map<std::string, Criatura*> criaturas; // Con punteros funciona
-                                                // Por lo que estuve viendo
-                                                // Una de las clases de las que
-                                                // hereda, tiene deleteado
-                                                // un constructor que se ve que
-                                                // `pair` del map necesita.
+    std::map<std::string, Criatura*> criaturas;
 
     /*
     Devuelve true si la nueva posicion o el area no colisiona con
@@ -57,8 +54,11 @@ class Mapa{
     El vector estara compuesto de la siguiente forma:
     <id>/<posicionX>/<posicionY>$<id>/<posicionX>/<posicionY>
     */
-    std::string recolectarPosiciones();
-    //Colisionable& obtener(const char* id);
+    std::string posicionesACadena();
+    /*
+    Devuelve un vector de struct PosicionEncapsulada aka posicion_t
+    */
+    std::vector<struct PosicionEncapsulada> recolectarPosiciones();
 
     //Para indicarle a los clientes el tamanio del mapa necesito ancho y alto
     unsigned int obtenerAncho();
