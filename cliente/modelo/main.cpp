@@ -19,6 +19,7 @@ int main(int argc, const char* argv[]) {
         // Colores paleta;
         // GUI_Principal gui(entorno, paleta); 
         // BuclePrincipal bucle(ventana, gui);
+
         BuclePrincipal bucle(ventana/*, gui*/);
 
         Escena escena(entorno);

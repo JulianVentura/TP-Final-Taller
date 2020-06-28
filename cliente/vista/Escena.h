@@ -5,6 +5,7 @@
 #include "Camara.h"
 #include "MapaVista.h"
 #include "PersonajeVista.h"
+#include "Obstaculo.h"
 
 class Escena: public IRendereable, public IInteractivo {
 public:
@@ -20,6 +21,15 @@ private:
     Personaje enemigoModelo;
     MovibleVista enemigo;
     MapaVista mapa;
+
+    std::unordered_map<std::string, std::vector<Obstaculo>> capasObstaculos;
+    std::vector<std::string> capasOrdenadas;
+    std::unordered_map<std::string, std::vector<int>> capasFrente;
+    LibreriaConjuntoTiles conjuntosTiles;
+    int columnas;
+    int filas;
+    int ancho_tile;
+    int alto_tile;
 };
 
 #endif
