@@ -4,9 +4,9 @@
 #include "Clases/OperacionMover.h"
 #include "Clases/ColaSegura.h"
 #include "Clases/OperacionEncapsulada.h"
-#include "Clases/OperacionDetenerse.h"
 #include "Clases/Cliente.h"
 #include "Clases/Criatura.h"
+#include "Clases/Servidor.h"
 #include <iostream>
 #include <vector>
 #include <chrono>
@@ -16,23 +16,21 @@
 #define DERECHA 'd'
 #define IZQUIERDA 'a'
 
-void moverPersonaje(char c, ColaSegura &cola, Personaje *personaje){
+void moverPersonaje(char c, ColaSegura *cola, Personaje *personaje){
     //Posicion posicion;
     switch (c){
         case ARRIBA:
-            cola.push(OperacionEncapsulada(new OperacionMover(personaje, MOVER_ARRIBA)));
+            cola->push(OperacionEncapsulada(new OperacionMover(personaje, MOVER_ARRIBA)));
             break;
         case ABAJO:
-            cola.push(OperacionEncapsulada(new OperacionMover(personaje, MOVER_ABAJO)));
+            cola->push(OperacionEncapsulada(new OperacionMover(personaje, MOVER_ABAJO)));
             break;
         case DERECHA:
-            cola.push(OperacionEncapsulada(new OperacionMover(personaje, MOVER_DERECHA)));
+            cola->push(OperacionEncapsulada(new OperacionMover(personaje, MOVER_DERECHA)));
             break;
         case IZQUIERDA:
-            cola.push(OperacionEncapsulada(new OperacionMover(personaje, MOVER_IZQUIERDA)));
+            cola->push(OperacionEncapsulada(new OperacionMover(personaje, MOVER_IZQUIERDA)));
             break;
-        default:
-            cola.push(OperacionEncapsulada(new OperacionDetenerse(personaje)));
     }
 }
 
@@ -147,15 +145,15 @@ void pruebaSalaYMapa(){
         char c = 0;
         std::string nombre_mapa("mapa2");
         Sala sala(nombre_mapa.c_str());
-        ColaSegura &cola = sala.obtenerCola();
-        Cliente cliente("jugador", nombre_mapa, sala);
-        Cliente cliente2("jugador2", nombre_mapa, sala);
+        //ColaSegura *cola = sala.obtenerCola();
+        //Cliente cliente("jugador", nombre_mapa, sala);
+        //Cliente cliente2("jugador2", nombre_mapa, sala);
         //Criatura criatura(10, 10, "Araña");
-        Personaje *personaje = cliente.obtenerPersonaje();
+        //Personaje *personaje = cliente.obtenerPersonaje();
         while (continuar){
             std::cin >> c;
             if (c == 'q') break;
-            moverPersonaje(c, cola, personaje);
+            //moverPersonaje(c, cola, personaje);
         }
         sala.finalizar();
     }catch(std::exception &e){
@@ -163,8 +161,19 @@ void pruebaSalaYMapa(){
     }
 }
 
+void pruebaServidor(){
+    try{
+        Servidor servidor("8080");
+        servidor.procesar();
+    }catch(const std::exception &e){
+        std::cerr << e.what() <<std::endl;
+    }catch(...){
+        std::cerr << "Error desconocido capturado en pruebaServidor" <<std::endl;
+    }
+}
 
 int main(){
-    pruebaSalaYMapa();
+    //pruebaSalaYMapa();
+    pruebaServidor();
     return 0;
 }

@@ -24,6 +24,9 @@ void OperacionMover::ejecutar(){
         case MOVER_IZQUIERDA:
             personaje->moverHaciaIzquierda();
             break;
+        case DETENERSE:
+            personaje->detenerse();
+            break;
         default:
             return;
     }

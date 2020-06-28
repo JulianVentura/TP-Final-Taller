@@ -5,7 +5,8 @@
 typedef enum MOVIMIENTO {MOVER_ARRIBA, 
                          MOVER_ABAJO, 
                          MOVER_DERECHA, 
-                         MOVER_IZQUIERDA} DireccionMovimiento;
+                         MOVER_IZQUIERDA,
+                         DETENERSE} DireccionMovimiento;
 
 class OperacionMover : public Operacion{
     private:

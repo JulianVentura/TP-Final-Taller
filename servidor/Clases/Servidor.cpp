@@ -1,11 +1,10 @@
 #include "Servidor.h"
 #include <iostream>
 #define TECLA_ESCAPE "q"
-
-Servidor::Servidor(const char* host) : organizadorSalas(),
-                                       baseDeDatos(),
-                                       aceptador(host, organizadorSalas, baseDeDatos){}
-
+#define HOST_DEFAULT "localhost"
+Servidor::Servidor(const char* puerto) : organizadorSalas(),
+                                         baseDeDatos(),
+                                         aceptador(HOST_DEFAULT, puerto, organizadorSalas, baseDeDatos){}
 
 void Servidor::procesar(){
     aceptador.comenzar();
@@ -15,4 +14,5 @@ void Servidor::procesar(){
     }
     aceptador.finalizar();
     aceptador.recuperar();
+    organizadorSalas.finalizar();
 }

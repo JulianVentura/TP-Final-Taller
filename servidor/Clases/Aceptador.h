@@ -1,36 +1,27 @@
 #ifndef __ACEPTADOR_H__
 #define __ACEPTADOR_H__
 #include "Thread.h"
+#include "Socket.h"
 #include "BaseDeDatos.h"
 #include "OrganizadorSalas.h"
+#include "OrganizadorClientes.h"
 #include <atomic>
 class Aceptador : public Thread{
     private:
-    //Socket servidor;
-    //OrganizadorClientes clientes;
+    Socket servidor;
+    OrganizadorClientes organizadorClientes;
+    OrganizadorSalas &organizadorSalas;
+    BaseDeDatos &baseDeDatos;
     std::atomic<bool> continuar;
-    /*
-    Se encarga de recuperar y liberar los clientes que ya han finalizado 
-    su operacion, haciendo el join de los threads correspondientes y 
-    eliminandolos de la lista de clientes.
-    */
-    void recuperarFinalizados();
-    /*
-    Se encarga de recuperar a todos los clientes de la lista de clientes.
-    Si el cliente no ha finalizado su operacion lo esperara y luego realizara
-    el correspondiente join al thread que lo conduce.
-    No eliminara a los clientes de la lista de clientes, esto se hace
-    automaticamente en el destructor de esta clase.
-    */
-    void recuperarTodosLosClientes();
-    
+
     public:
     /*
     Crea un servidor en host y puerto que se encargara de aceptar
     conexiones entrantes.
     En caso de error lanza una instancia de Excepcion.
     */
-    Aceptador(const char* host, 
+    Aceptador(const char* host,
+              const char* puerto,
               OrganizadorSalas &organizadorSalas, 
               BaseDeDatos &baseDeDatos);
     Aceptador(Aceptador &&otro) = delete;

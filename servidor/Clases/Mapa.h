@@ -13,6 +13,7 @@
 #include <vector>
 #include <string>
 #include <map>
+#include <vector>
 
 class Mapa{
     private:
@@ -64,7 +65,7 @@ class Mapa{
     unsigned int obtenerAncho();
     unsigned int obtenerAlto();
     //Para indicarle a los clientes la info de cada Tile del mapa.
-    std::vector<char> obtenerInformacionMapa();
+    const std::vector<char> obtenerInformacionMapa();
     /*
     Obtiene una entidad del mapa dado su id.
     */

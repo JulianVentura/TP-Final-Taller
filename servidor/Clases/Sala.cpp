@@ -13,10 +13,12 @@ Sala::Sala(const char* nombreMapa) : mapa(std::string(nombreMapa) + ".json"),
 void Sala::cargarCliente(Cliente *cliente){
     std::unique_lock<std::mutex> lock(this->mutex);
     if (clientes.count(cliente->obtenerId())){
-        throw Excepcion("El cliente ya esta cargado en el mapa");
+        throw Excepcion("Error en Cliente: "
+        "El cliente de id %s ya esta cargado en el mapa", cliente->obtenerId());
     }
     clientes[cliente->obtenerId()] = cliente;
     mapa.cargarPersonaje(cliente->obtenerPersonaje());
+    cliente->cargarMapa(std::move(mapa.obtenerInformacionMapa()));
 }
 void Sala::actualizarClientes(){
     std::unique_lock<std::mutex> lock(this->mutex);
@@ -42,10 +44,8 @@ void Sala::finalizar(){
     gameLoop.recuperar();
 }
 
-
-//DEBUG
-ColaSegura& Sala::obtenerCola(){
-    return colaOperaciones;
+ColaOperaciones* Sala::obtenerCola(){
+    return &colaOperaciones;
 }
 
 /*

@@ -12,3 +12,10 @@ Sala* OrganizadorSalas::obtenerSala(std::string id){
     }
     return it->second.get();
 }
+
+
+void OrganizadorSalas::finalizar(){
+    for (auto &sala : salas){
+        sala.second->finalizar();
+    }
+}
