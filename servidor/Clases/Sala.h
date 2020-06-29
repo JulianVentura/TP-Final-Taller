@@ -27,6 +27,7 @@ class Sala{
     void actualizarClientes();
     void eliminarCliente(const std::string &id);
     std::string& obtenerNombre();
+    void comenzar();
     void finalizar();
     ColaOperaciones* obtenerCola();
 };

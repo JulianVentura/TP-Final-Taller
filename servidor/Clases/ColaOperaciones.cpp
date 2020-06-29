@@ -28,4 +28,13 @@ ColaOperaciones::~ColaOperaciones(){
         delete ultimaOperacion;
         ultimaOperacion = nullptr;
     }
+    Operacion* operacion = nullptr;
+    while (!cola.empty()){
+        operacion = this->cola.front();
+        this->cola.pop();
+        if (operacion){
+            delete operacion;
+            operacion = nullptr;
+        } 
+    }
 }

@@ -44,11 +44,11 @@ void GameLoop::procesar(){
             }
             miSala.actualizarClientes();
             //DEBUG
-            //std::cout << "\x1B[2J\x1B[H";
-            //std::cout << mapa.aCadena() << std::endl;
+            std::cout << "\x1B[2J\x1B[H";
+            std::cout << mapa.aCadena() << std::endl;
             reloj.dormir(MS_DESCANSO);
         }
-    }catch (const Excepcion &e){
+    }catch (const std::exception &e){
         std::cerr << e.what() << std::endl;
     }catch (...){
         std::cerr << "Error desconocido capturado en GameLoop" <<std::endl;

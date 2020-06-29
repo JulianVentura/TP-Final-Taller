@@ -161,9 +161,9 @@ void pruebaSalaYMapa(){
     }
 }
 
-void pruebaServidor(){
+void pruebaServidor(const char *port){
     try{
-        Servidor servidor("8080");
+        Servidor servidor(port);
         servidor.procesar();
     }catch(const std::exception &e){
         std::cerr << e.what() <<std::endl;
@@ -172,8 +172,8 @@ void pruebaServidor(){
     }
 }
 
-int main(){
+int main(int argc, const char*argv[]){
     //pruebaSalaYMapa();
-    pruebaServidor();
+    pruebaServidor(argv[1]);
     return 0;
 }

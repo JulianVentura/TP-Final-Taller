@@ -26,8 +26,8 @@ void Aceptador::procesar(){
             std::unique_ptr<Cliente> cliente(new Cliente(std::move(socketCliente),
                                                          organizadorSalas,
                                                          baseDeDatos));
-            organizadorClientes.incorporarCliente(std::move(cliente));
             cliente.get()->comenzar();
+            organizadorClientes.incorporarCliente(std::move(cliente));
             organizadorClientes.recuperarFinalizados();
         }
     }catch(const ExcepcionSocket &e){
@@ -42,7 +42,12 @@ void Aceptador::procesar(){
     //para que sea consistente.
     continuar = false;
     servidor.apagar(READ_AND_WRITE);
-    organizadorClientes.recuperarTodosLosClientes();
+    try{
+        organizadorClientes.recuperarTodosLosClientes();
+    }catch(...){
+        std::cerr << "Error al intentar recuperar a los "
+        "clientes en la clase Aceptador" << std::endl;
+    }
 }
 
 void Aceptador::finalizar(){

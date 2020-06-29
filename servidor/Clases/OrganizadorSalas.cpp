@@ -3,7 +3,7 @@
 
 
 OrganizadorSalas::OrganizadorSalas(){
-    salas["mapa1"] = std::unique_ptr<Sala>(new Sala("mapa1"));
+    salas["mapa1"] = std::move(std::unique_ptr<Sala>(new Sala("mapa1")));
 }
 Sala* OrganizadorSalas::obtenerSala(std::string id){
     std::map<std::string, std::unique_ptr<Sala>>::iterator it = salas.find(id);
@@ -13,6 +13,11 @@ Sala* OrganizadorSalas::obtenerSala(std::string id){
     return it->second.get();
 }
 
+void OrganizadorSalas::comenzar(){
+    for (auto &sala : salas){
+        sala.second->comenzar();
+    }
+}
 
 void OrganizadorSalas::finalizar(){
     for (auto &sala : salas){

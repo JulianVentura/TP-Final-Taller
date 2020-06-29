@@ -9,6 +9,7 @@ class OrganizadorSalas{
     public:
     OrganizadorSalas();
     Sala* obtenerSala(std::string id);
+    void comenzar();
     void finalizar();
 };
 

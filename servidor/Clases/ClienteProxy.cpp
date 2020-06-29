@@ -2,6 +2,7 @@
 #include <arpa/inet.h> //Para htons
 #include "OperacionMover.h"
 #include "Cliente.h"
+#include "Excepcion.h"
 #define TAM_CODIGO 4
 typedef enum CODIGOS{
                      CODIGO_POSICIONES,
@@ -9,6 +10,7 @@ typedef enum CODIGOS{
                      CODIGO_CARGA_MAPA,
                      CODIGO_MOVIMIENTO,
                      CODIGO_MENSAJE_CHAT,
+                     CODIGO_DESCONECTAR
 }CodigoPosiciones_t;
 
 ClienteProxy::ClienteProxy(Socket unSocket, Cliente *miCliente) : 
@@ -16,9 +18,13 @@ ClienteProxy::ClienteProxy(Socket unSocket, Cliente *miCliente) :
                            cliente(miCliente),
                            colaOperaciones(nullptr){}
 
+void ClienteProxy::finalizar(){
+    socket.apagar(SHUT_RDWR);
+    socket.cerrar();
+}
 
 void ClienteProxy::actualizarCola(ColaOperaciones *colaDeOperaciones){
-    this->colaOperaciones = colaOperaciones;
+    this->colaOperaciones = colaDeOperaciones;
 }
 
 ////////////////////////RECEPCION DE MENSAJES/////////////////////////
@@ -39,7 +45,7 @@ void ClienteProxy::decodificarMensajeChat(){
 }
 
 
-void ClienteProxy::decodificarCodigo(uint32_t codigo){
+bool ClienteProxy::decodificarCodigo(uint32_t codigo){
     switch (codigo){
         case CODIGO_MOVIMIENTO:{
             decodificarMovimiento();
@@ -49,15 +55,13 @@ void ClienteProxy::decodificarCodigo(uint32_t codigo){
             decodificarMensajeChat();
             break;
         }
+        case CODIGO_DESCONECTAR:
+            return false;
         default: {
-            /*
-            Se pueden hacer varias cosas:
-            1- Enviarle un mensaje al cliente indicando que tiene que reenviar el id.
-            2- Lanzar una excepcion, lo que implica destruir la conexion con el cliente.
-            3- Devolver una excepcion particular y que Cliente decida si quiere reintentar.
-            */
+            //Se ignora el mensaje
         }  
     }
+    return true;
 }
 
 
@@ -67,22 +71,18 @@ std::string ClienteProxy::recibirId(){
     socket.recibirMensaje((char*)&codigo, TAM_CODIGO);
     codigo = ntohl(codigo);
     if (codigo != CODIGO_ID){
-        /*
-        Se pueden hacer varias cosas:
-        1- Enviarle un mensaje al cliente indicando que tiene que reenviar el id.
-        2- Lanzar una excepcion, lo que implica destruir la conexion con el cliente.
-        3- Devolver una excepcion particular y que Cliente decida si quiere reintentar.
-        */   
+        throw Excepcion
+        ("No se ha recibido el id por parte del cliente");   
     }
     socket.recibirMensaje(id_buffer, TAM_ID);
     return std::string(id_buffer);
 }
 
-void ClienteProxy::recibirOperacion(){
+bool ClienteProxy::recibirOperacion(){
     uint32_t codigo = 0;
     socket.recibirMensaje((char*)&codigo, TAM_CODIGO);
     codigo = ntohl(codigo);
-    decodificarCodigo(codigo);
+    return decodificarCodigo(codigo);
 }
 
 //////////////////////////ENVIO DE MENSAJES/////////////////////////////
@@ -93,6 +93,9 @@ void ClienteProxy::enviarPosiciones(const std::vector<struct PosicionEncapsulada
     uint32_t codigo = CODIGO_POSICIONES;
     codigo = htonl(codigo);
     socket.enviarMensaje((char*)&codigo, TAM_CODIGO);
+    uint32_t largo = posiciones.size();
+    largo = htonl(largo);
+    socket.enviarMensaje((char*)&largo, sizeof(largo));
     for (auto &posicion : posiciones){
         socket.enviarMensaje(posicion.id, TAM_ID);
         float temp = htonl(posicion.x);

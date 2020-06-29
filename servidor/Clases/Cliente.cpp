@@ -1,4 +1,5 @@
 #include "Cliente.h"
+#include "ExcepcionSocket.h"
 #include <iostream> //DEBUG
 
 Cliente::Cliente(Socket &&socket,
@@ -9,7 +10,8 @@ Cliente::Cliente(Socket &&socket,
                  clienteProxy(std::move(socket), this),
                  organizadorSalas(unOrganizadorSalas),
                  miBaseDeDatos(unaBaseDeDatos),
-                 finalizado(false){
+                 finalizado(false),
+                 continuar(true){
     /*
     El id del cliente se obtiene a traves de ClienteProxy, con el se accede a BaseDeDatos.
     El id de la sala y toda la informacion del personaje se obtiene con
@@ -18,19 +20,29 @@ Cliente::Cliente(Socket &&socket,
     id = clienteProxy.recibirId();
     //miBaseDeDatos.recuperarInformacion(id);
     //Con la info recuperada de la base de datos creo un Personaje
-    personaje = Personaje(0, 0, id);
+    personaje = Personaje(10, 10, id);
     Sala* miSala = organizadorSalas.obtenerSala("mapa1");
-    miSala->cargarCliente(this);
     ColaOperaciones *colaDeOperaciones = miSala->obtenerCola();
     clienteProxy.actualizarCola(colaDeOperaciones);
+    miSala->cargarCliente(this);
 }
 
 void Cliente::enviarPosiciones(const std::vector<struct PosicionEncapsulada> &posiciones){
-    clienteProxy.enviarPosiciones(posiciones);
+    try{
+        clienteProxy.enviarPosiciones(posiciones);
+    }catch(...){
+        //Cualquier error es motivo suficiente como para cortar la comunicacion con el Cliente
+        continuar = false;
+    }
 }  
 
 void Cliente::cargarMapa(const std::vector<char> &&infoMapa){
-    clienteProxy.enviarInformacionMapa(infoMapa);
+    try{
+        //clienteProxy.enviarInformacionMapa(infoMapa);
+    }catch(...){
+        //Cualquier error es motivo suficiente como para cortar la comunicacion con el Cliente
+        continuar = false;
+    }
 }
 
 std::string Cliente::obtenerId(){
@@ -41,11 +53,21 @@ Personaje* Cliente::obtenerPersonaje(){
 }
 
 void Cliente::procesar(){
-    bool continuar = true;
-    while(continuar){
-        //continuar = clienteProxy.recibirMensaje();
+    try{
+        while(continuar){
+            continuar = clienteProxy.recibirOperacion();
+        }
+    }catch(const ExcepcionSocket &e){
+        //No me interesa reportar un error de socket, no aporta nada.
+    }catch(const std::exception &e){
+        std::cerr << e.what() << std::endl;
+    }catch(...){
+        std::cerr << "Error desconocido capturado en Cliente" << std::endl;
     }
-    //Liberar recursos
+    //Liberar recursos, guardar los datos en BaseDeDatos.
+    Sala *miSala = organizadorSalas.obtenerSala("mapa1");
+    miSala->eliminarCliente(id);
+    clienteProxy.finalizar();
     finalizado = true;
 }
 

@@ -2,12 +2,10 @@
 #include "Cliente.h"
 #include "PosicionEncapsulada.h"
 
-Sala::Sala(const char* nombreMapa) : mapa(std::string(nombreMapa) + ".json"),
+Sala::Sala(const char* nombreMapa) : nombre(nombreMapa),
+                                     mapa(std::string(nombreMapa) + ".json"),
                                      colaOperaciones(),
-                                     gameLoop(colaOperaciones, mapa, *this){
-    //Pongo a correr el gameloop
-    gameLoop.comenzar();
-}
+                                     gameLoop(colaOperaciones, mapa, *this){}
 
 
 void Sala::cargarCliente(Cliente *cliente){
@@ -37,6 +35,10 @@ void Sala::eliminarCliente(const std::string &id){
 std::string& Sala::obtenerNombre(){
     //Aca no es necesario hacer un lock, el nombre no sera modificado.
     return this->nombre;
+}
+
+void Sala::comenzar(){
+    gameLoop.comenzar();
 }
 
 void Sala::finalizar(){

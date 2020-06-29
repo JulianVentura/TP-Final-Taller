@@ -17,6 +17,7 @@ class Cliente : public Thread{
     OrganizadorSalas &organizadorSalas;
     BaseDeDatos &miBaseDeDatos;
     std::atomic<bool> finalizado;
+    std::atomic<bool> continuar;
 
     public:
     Cliente(Socket &&socket,

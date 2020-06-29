@@ -11,15 +11,16 @@ class ClienteProxy{
     Socket socket;
     Cliente *cliente;
     ColaOperaciones *colaOperaciones;
-    void decodificarCodigo(uint32_t codigo);
+    bool decodificarCodigo(uint32_t codigo);
     void decodificarMovimiento();
     void decodificarMensajeChat();
     public:
     ClienteProxy(Socket socket, Cliente *cliente);
     void actualizarCola(ColaOperaciones *colaDeOperaciones);
+    void finalizar();
     //Recepcion
     std::string recibirId();
-    void recibirOperacion();
+    bool recibirOperacion();
     //Envio
     void enviarPosiciones(const std::vector<struct PosicionEncapsulada> &posiciones);
     void enviarInformacionMapa(const std::vector<char> &infoMapa);

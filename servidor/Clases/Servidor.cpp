@@ -7,6 +7,7 @@ Servidor::Servidor(const char* puerto) : organizadorSalas(),
                                          aceptador(HOST_DEFAULT, puerto, organizadorSalas, baseDeDatos){}
 
 void Servidor::procesar(){
+    organizadorSalas.comenzar();
     aceptador.comenzar();
     std::string entrada("");
     while (entrada != TECLA_ESCAPE){
