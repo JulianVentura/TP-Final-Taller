@@ -1,5 +1,8 @@
 #include "Colores.h"
 
+#define MAX_COLOR_VALUE 0xFF
+#define HEXA_INICIO '#'
+
 Colores::Colores(){
 	barra_vida = {134,19,19,255};
 	barra_vida2 = {78,16,16,255};
@@ -17,4 +20,16 @@ Colores::Colores(){
 	chat_entrada = {0,0,0,80};
 	chat_borde = {0,0,0,255};
 	chat_texto = {255,255,255,240};
+}
+
+SDL_Color Colores::colorDesdeHexa(std::string hexa) {
+	if (hexa[0] == HEXA_INICIO) 
+        hexa.erase(0, 1);
+    unsigned long valor = std::stoul(hexa, nullptr, 16);
+    SDL_Color temp_color = {};
+    temp_color.a = MAX_COLOR_VALUE;
+    temp_color.r = (valor >> 16) & MAX_COLOR_VALUE;
+    temp_color.g = (valor >> 8) & MAX_COLOR_VALUE;
+    temp_color.b = (valor >> 0) & MAX_COLOR_VALUE;
+    return temp_color;
 }

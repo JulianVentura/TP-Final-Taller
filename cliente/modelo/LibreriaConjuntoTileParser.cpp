@@ -3,7 +3,6 @@
 
 using json = nlohmann::json;
 
-
 int LibreriaConjuntoTileParser::getAnchoTile() { return ancho_tile; }
 int LibreriaConjuntoTileParser::getAltoTile() { return alto_tile; }
 int LibreriaConjuntoTileParser::getColumnas() { return columnas; }
@@ -12,10 +11,7 @@ std::vector<InformacionConjuntoTile> LibreriaConjuntoTileParser::getInformacionL
     return std::move(this->conjuntosTiles);
 }
 
-LibreriaConjuntoTileParser::LibreriaConjuntoTileParser(std::istream& fuente) {
-    json parser;
-    fuente >> parser;
-
+LibreriaConjuntoTileParser::LibreriaConjuntoTileParser(nlohmann::json& parser) {
     parser["tileheight"].get_to(alto_tile);
     parser["tilewidth"].get_to(ancho_tile);
     parser["width"].get_to(columnas);

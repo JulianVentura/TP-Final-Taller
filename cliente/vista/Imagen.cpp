@@ -3,7 +3,10 @@
 Imagen::Imagen(EntornoGrafico& entorno, const std::string& ruta, 
                                                             SDL_Color* color) {
     entorno.agregarRendereable(this);
-    textura = entorno.cargarImagen(ruta, color);
+    if (color)
+        textura = entorno.cargarImagen(ruta, color);
+    else
+        textura = entorno.cargarImagen(ruta);
     iniciarDimension(textura);
 }
 

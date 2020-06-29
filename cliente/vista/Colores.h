@@ -2,6 +2,7 @@
 #define __COLORES_H__
 
 #include <SDL2/SDL_render.h>
+#include <string>
 
 class Colores{
 public:
@@ -23,6 +24,14 @@ public:
 	chat_entrada,
 	chat_borde,
 	chat_texto;
+
+	/**
+     * @brief Color de SDL dado un color en formato hexadecimal.
+     * @param hexa cadena con el color en forma hexadecimal, de la forma:
+     * #RRGGBB, donde RR, GG, BB, son números hexadecimales que determinan la 
+     * combinación de rojo, verde, azul, respectivamente. 
+     */
+	static SDL_Color colorDesdeHexa(std::string hexa);
 };
 
 #endif /*__COLORES_H__*/

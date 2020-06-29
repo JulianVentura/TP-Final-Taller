@@ -1,5 +1,6 @@
 #include "Obstaculo.h"
 #include "Imagen.h"
+
 Obstaculo::Obstaculo(SDL_Rect& dimension, std::vector<int>& guids, 
         LibreriaConjuntoTiles& conjuntosTiles): guids(guids), 
         conjuntosTiles(conjuntosTiles) {

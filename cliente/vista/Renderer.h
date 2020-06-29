@@ -60,9 +60,7 @@ public:
      * Aplicable a: limpiar, rect, rectSolido, linea, texto.
      */
     void setColor(std::string hexa);
-    
-    SDL_Color colorDesdeHexa(std::string hexa);
-    
+        
     /**
      * @brief Muestra texto en la pantalla en la esquina superior izquierda. 
      * Opcionalmente se le puede establecer coordenadas o renderizar hacia una

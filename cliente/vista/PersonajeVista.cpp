@@ -4,7 +4,7 @@
 
 #include <string>
 
-// Esto podría ser un Controlador
+// TODO: Esto podría ser un Controlador
 int ultima_tecla_presionada;
 enum TECLAS_DIRECCIONES {
     TECLA_ARRIBA = SDLK_w,

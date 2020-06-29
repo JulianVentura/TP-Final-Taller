@@ -13,17 +13,25 @@ static int acotar(int x, int inferior, int superior) {
     return x;
 }
 
-void Camara::centrar(Renderer* renderer, float zoom) {
-    this->zoom = zoom;
+int Camara::maxX() {
+    return abs(contenedor->getAncho() * zoom - marco->getAncho());
+}
+
+int Camara::maxY() {
+    return abs(contenedor->getAlto() * zoom - marco->getAlto());
+}
+
+void Camara::centrar(Renderer* renderer, int ancho_unidad, float radio) {
+    zoom = marco->getAncho() / (ancho_unidad * radio);
+    zoom = round(zoom * ancho_unidad) / ancho_unidad;
     renderer->escalar(zoom);
+
     int margen_horizontal = (marco->getAncho() / zoom - objetivo->getAncho()) / 2;
     int margen_vertical = (marco->getAlto() / zoom - objetivo->getAlto()) / 2;
     desplazamientoX = (objetivo->getX() - margen_horizontal) * zoom;
     desplazamientoY = (objetivo->getY() - margen_vertical) * zoom;
-    int maxX = abs(contenedor->getAncho() * zoom - marco->getAncho());
-    int maxY = abs(contenedor->getAlto() * zoom - marco->getAlto());
-    desplazamientoX = acotar(desplazamientoX, 0, maxX);
-    desplazamientoY = acotar(desplazamientoY, 0, maxY);
+    desplazamientoX = acotar(desplazamientoX, 0, maxX());
+    desplazamientoY = acotar(desplazamientoY, 0, maxY());
     renderer->desplazar(-desplazamientoX, -desplazamientoY);
 }
 

@@ -7,9 +7,9 @@
 #include <string>
 #include "ErrorGrafico.h"
 #include "Ventana.h"
+#include "Colores.h"
 
 #define MAX_COLOR_VALUE 0xFF
-#define HEXA_INICIO '#'
 
 #define RENDER_INDEX -1
 #define RENDER_FLAGS (SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC)
@@ -31,12 +31,13 @@ void Renderer::limpiar() {
     SDL_RenderClear(renderer);
 }
 
-void Renderer::limpiarTextura(SDL_Texture* textura){
+void Renderer::limpiarTextura(SDL_Texture* textura) {
+    if (!textura) return;
     SDL_Texture* objetivo_actual = SDL_GetRenderTarget(renderer);
     SDL_SetRenderTarget(renderer, textura);
-    setColor(0,0,0,0);
+    setColor(0, 0, 0, 0);
     SDL_RenderClear(renderer);
-    SDL_SetRenderTarget(renderer,objetivo_actual);
+    SDL_SetRenderTarget(renderer, objetivo_actual);
 }
 
 void Renderer::presentar() {
@@ -57,7 +58,6 @@ SDL_Texture* Renderer::textura(int ancho, int alto){
     SDL_SetRenderTarget(renderer, objetivo_actual);
     SDL_SetTextureBlendMode(retorno, SDL_BLENDMODE_BLEND);
     return retorno;
-    SDL_Color colorDesdeHexa(std::string hexa);
 }
 
 SDL_Texture* Renderer::texturaDesdeSuperficie(SDL_Surface* superficie) {
@@ -84,20 +84,8 @@ void Renderer::escalar(float factor) {
     this->escala = factor;
 }
 
-SDL_Color Renderer::colorDesdeHexa(std::string hexa) {
-    if (hexa[0] == HEXA_INICIO) 
-        hexa.erase(0, 1);
-    unsigned long valor = std::stoul(hexa, nullptr, 16);
-    SDL_Color temp_color = {};
-    temp_color.a = MAX_COLOR_VALUE;
-    temp_color.r = (valor >> 16) & MAX_COLOR_VALUE;
-    temp_color.g = (valor >> 8) & MAX_COLOR_VALUE;
-    temp_color.b = (valor >> 0) & MAX_COLOR_VALUE;
-    return temp_color;
-}
-
 void Renderer::setColor(std::string hexa) {
-    SDL_Color temp = this->colorDesdeHexa(hexa);
+    SDL_Color temp = Colores::colorDesdeHexa(hexa);
     this->setColor(temp);
 }
 
@@ -162,7 +150,7 @@ void Renderer::renderTexturaTexto(SDL_Surface* superficie, int x, int y) {
     render_mascara.w = textura_mascara.w;
     render_mascara.h = textura_mascara.h;
     renderTextura(textura, textura_mascara, render_mascara);
-    SDL_DestroyTexture(textura); // Se podría bufferear
+    SDL_DestroyTexture(textura); // TODO: Se podría bufferear
 }
 
 void Renderer::texto(const std::string& text) {

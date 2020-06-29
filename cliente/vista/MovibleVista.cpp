@@ -3,8 +3,8 @@
 #include "PersonajeVista.h"
 #include "Animacion.h"
 #include "AnimacionEnteDireccionable.h"
+#include "Colores.h"
 
-#include <SDL2/SDL_timer.h>
 #include <vector>
 #include <string>
 #include <unordered_map>
@@ -32,9 +32,10 @@ MovibleVista::MovibleVista(EntornoGrafico& entorno, Personaje& modelo, std::stri
     parser["personajes"][id.c_str()]["archivo"].get_to(ruta);
     parser["personajes"][id.c_str()]["color-fondo"].get_to(color_fondo);
 
-    SDL_Color color = renderer->colorDesdeHexa(color_fondo);
+    SDL_Color color = Colores::colorDesdeHexa(color_fondo);
     imagen = Imagen(entorno, raiz + ruta, &color);
     std::unordered_map<std::string, std::vector<SDL_Rect>> mascaras;
+
 
     for (auto& mascara: parser["personajes"][id.c_str()]["mascaras"].items()) {
         std::string llave(mascara.key());

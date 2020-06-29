@@ -1,11 +1,12 @@
 #ifndef MAPAPARSER_H
 #define MAPAPARSER_H
 #include <vector>
-#include <fstream>
+#include <string>
+#include <nlohmann/json.hpp>
 
 class MapaParser {
 public:
-    MapaParser(std::istream& fuente);
+    MapaParser(nlohmann::json& parser);
     int getColumnas();
     int getFilas();
     int getAnchoTile();

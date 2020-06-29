@@ -6,7 +6,7 @@
 #include "IInteractivo.h"
 #include "ITargeteable.h"
 #include "Imagen.h"
-#include "Personaje.h"
+#include "../modelo/ServidorProxy.h"
 #include "MovibleVista.h"
 
 class PersonajeVista: public MovibleVista, public IInteractivo {
