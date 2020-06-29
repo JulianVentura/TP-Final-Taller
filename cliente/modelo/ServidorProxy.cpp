@@ -20,7 +20,7 @@ void ServidorProxy::recibirMensaje(){
 	
 	while(!salir){
 		recibirString(socket, mensaje);
-		chat.agregarMensaje(mensaje);
+		salida -> agregarMensaje(mensaje);
 		mensaje.clear();
 	}
 }
