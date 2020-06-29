@@ -96,7 +96,7 @@ std::vector<struct PosicionEncapsulada> Mapa::recolectarPosiciones(){
     for (std::map<std::string, Criatura*>::iterator it = criaturas.begin();
          it != criaturas.end();
          ++it){
-        pos = {{0}, it->second->obtenerX(), it->second->obtenerX()};
+        pos = {{0}, it->second->obtenerX(), it->second->obtenerY()};
         //Copio dejando espacio para el `\0`
         strncpy(pos.id, it->first.c_str(), TAM_ID);
         pos.id[TAM_ID - 1] = 0;
@@ -105,7 +105,7 @@ std::vector<struct PosicionEncapsulada> Mapa::recolectarPosiciones(){
     for (std::map<std::string, Personaje*>::iterator it = personajes.begin();
          it != personajes.end();
          ++it){
-        pos = {{0}, it->second->obtenerX(), it->second->obtenerX()};
+        pos = {{0}, it->second->obtenerX(), it->second->obtenerY()};
         //Copio dejando espacio para el `\0`
         strncpy(pos.id, it->first.c_str(), TAM_ID);
         pos.id[TAM_ID - 1] = 0;
