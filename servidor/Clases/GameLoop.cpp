@@ -18,16 +18,10 @@ GameLoop::GameLoop(ColaOperaciones &cola, Mapa &unMapa, Sala &unaSala) :
                                                 mapa(unMapa),
                                                 continuar(true),
                                                 reloj(),
-                                                miSala(unaSala),
-                                                distribution(5, 20){}
+                                                miSala(unaSala){}
 
 GameLoop::~GameLoop(){
     //Do nothing
-}
-
-int GameLoop::simularTrabajo(){
-    //std::cout << "Numero random: " << distribution(generator) << std::endl;
-    return distribution(generator);
 }
 
 void GameLoop::procesar(){
@@ -37,7 +31,6 @@ void GameLoop::procesar(){
         while (continuar){
             transcurrido = reloj.actualizar();
             lag += transcurrido;
-            //std::cout << "FPS: " << (1/transcurrido)*1000 << std::endl;
             //Proceso las operaciones de la cola
             procesarOperaciones();
             while (lag >= MS_POR_ACTUALIZACION){

@@ -5,7 +5,6 @@
 #include "ColaOperaciones.h"
 #include "Reloj.h"
 #include <atomic>
-#include <random> //DEBUG
 #include <map>
 
 
@@ -18,12 +17,6 @@ class GameLoop : public Thread{
     std::atomic<bool> continuar;
     Reloj reloj;
     Sala &miSala;
-
-    //DEBUG
-    std::default_random_engine generator;
-    std::uniform_int_distribution<int> distribution;
-    int simularTrabajo();
-    //FIN DEBUG
     /*
     Procesa todas las operaciones que encuentre en la colaDeOperaciones
     */
