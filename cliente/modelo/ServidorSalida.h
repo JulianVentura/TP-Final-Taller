@@ -4,6 +4,7 @@
 #include <string>
 
 class ServidorSalida{
+public:
 	virtual void agregarMensaje(std::string& mensaje) = 0;
 };
 
