@@ -52,7 +52,7 @@ void Cliente::enviarPosiciones(const std::vector<struct PosicionEncapsulada> &po
 
 void Cliente::cargarMapa(const std::vector<char> &&infoMapa){
     try{
-        //clienteProxy.enviarInformacionMapa(infoMapa);
+        clienteProxy.enviarInformacionMapa(infoMapa);
     }catch(...){
         //Cualquier error es motivo suficiente como para cortar la comunicacion con el Cliente
         continuar = false;

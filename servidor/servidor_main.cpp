@@ -67,35 +67,6 @@ void imprimirPosiciones(Mapa &mapa){
         std::cout << "y: " << subVector[2] << std::endl;
     }
 }
-/*
-void imprimirMapa(Mapa &mapa){
-    double ancho = mapa.obtenerAncho();
-    double alto = mapa.obtenerAlto();
-}
-*/
-/*
-void pruebaMapa(){
-    try{
-        bool continuar = true;
-        char c;
-        Mapa mapa("mapa1.json");
-        Personaje personaje1(0, 0, "jugador1");
-        Personaje personaje2(20, 60, "jugador2");
-        mapa.cargarPersonaje(&personaje1);
-        mapa.cargarPersonaje(&personaje2);
-        while (continuar) {
-            std::cin >> c;
-            if (c == 'q') break;
-            moverPersonaje(&personaje1, mapa, c);
-            imprimirPosiciones(mapa);
-            //imprimirMapa(mapa);
-            std::cout << mapa.aCadena();
-        }
-    }catch(std::exception &e){
-        std::cerr << e.what() << std::endl;
-    }
-}
-*/
 
 void pruebaReloj1(){
     Reloj reloj;

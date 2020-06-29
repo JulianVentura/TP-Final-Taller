@@ -8,6 +8,7 @@
 #include <sstream>
 #include <cmath>
 #include <cstring> //Para memcpy
+#include <iostream> //DEBUG
 //pi/4
 #define PI_4 0.7853982
 // Por conveniencia
@@ -49,8 +50,10 @@ Mapa::Mapa(std::string nombreArchivo) : tiles(),
         throw ErrorServidor("No se pudo abrir el archivo %s\n", nombreArchivo); 
     }
     json archivoJson;
-    archivo >> archivoJson;
     contenido_archivo = std::string((std::istreambuf_iterator<char>(archivo)), std::istreambuf_iterator<char>());
+    archivo.clear();
+    archivo.seekg(0);
+    archivo >> archivoJson;
     alto  = archivoJson.at("height").get<unsigned int>();
     ancho = archivoJson.at("width").get<unsigned int>();
     frontera = inicializarFrontera(archivoJson, alto, ancho);
@@ -58,7 +61,6 @@ Mapa::Mapa(std::string nombreArchivo) : tiles(),
     quadTreeDinamico.setFrontera(frontera);
     tiles = archivoJson.at("layers")[0].at("data").get<std::vector<char>>();
     std::vector<quadtree::Box<float>> objetos = archivoJson.at("layers")[1].at("objects").get<std::vector<quadtree::Box<float>>>();
-    // TODO: Acá los rectangulos están iniciando en {0, 0} con ancho {0, 0}.
     for (std::size_t i=0; i<objetos.size(); i++){
         objetosEstaticos.push_back(std::move(objetos[i]));
     }
