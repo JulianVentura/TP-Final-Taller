@@ -2,7 +2,7 @@
 #define __SALA_H__
 #include "Mapa.h"
 #include "Excepcion.h"
-#include "ColaSegura.h"
+#include "ColaOperaciones.h"
 #include "GameLoop.h"
 #include <map>
 #include <mutex>
@@ -14,7 +14,7 @@ class Sala{
     std::mutex mutex;
     std::map<std::string, Cliente*> clientes;
     Mapa mapa;
-    ColaSegura colaOperaciones;
+    ColaOperaciones colaOperaciones;
     GameLoop gameLoop;
 
     public:
@@ -27,9 +27,9 @@ class Sala{
     void actualizarClientes();
     void eliminarCliente(const std::string &id);
     std::string& obtenerNombre();
+    void comenzar();
     void finalizar();
-    //DEBUG
-    ColaSegura& obtenerCola();
+    ColaOperaciones* obtenerCola();
 };
 
 

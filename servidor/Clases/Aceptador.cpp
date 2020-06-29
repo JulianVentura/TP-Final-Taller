@@ -1,64 +1,34 @@
 #include "Aceptador.h"
 #include <iostream>
-#include <list>
 #include <utility> //Para std::move
+#include "ExcepcionSocket.h"
 
 #define NUMERO_DE_CONEXIONES_EN_ESPERA 10
 
-///////////////////Metodos privados/////////////////////////////
-
-void Aceptador::recuperarFinalizados(){
-    //De esto se encarga el organizador de clientes
-    /*
-    std::list<ClienteEncapsulado>::iterator it = clientes.begin();
-    while (it != clientes.end()){
-        if ((*it).cliente()->haFinalizado()){
-            (*it).cliente()->recuperar();
-            it = clientes.erase(it);
-        }else{
-            ++it;
-        }
-    }
-    */
-}
-
-void Aceptador::recuperarTodosLosClientes(){
-    /*
-    try{
-        std::list<ClienteEncapsulado>::iterator it = clientes.begin();
-        while (it != clientes.end()){
-            (*it).cliente()->recuperar();
-            ++it;
-        }
-    }catch(...){
-        //Solo catcheo elipsis para no perjudicar legibilidad.
-        std::cerr << "Error al recuperar todos los clientes en Aceptador. "
-                     "Se esperara a que los clientes finalicen."
-                  << std::endl;
-    }
-    */
-}
-
 //////////////////Metodos publicos///////////////////////////////
 
-Aceptador::Aceptador(const char* host, 
-                     OrganizadorSalas &organizadorSalas, 
-                     BaseDeDatos &baseDeDatos) : 
+Aceptador::Aceptador(const char* host,
+                     const char* puerto,
+                     OrganizadorSalas &unOrganizadorSalas, 
+                     BaseDeDatos &unaBaseDeDatos) : 
+                     organizadorSalas(unOrganizadorSalas),
+                     baseDeDatos(unaBaseDeDatos),
                      continuar(true){
-    //servidor.bindYSetearOpciones(host, puerto);
-    //servidor.escuchar(NUMERO_DE_CONEXIONES_EN_ESPERA);
+    servidor.bindYSetearOpciones(host, puerto);
+    servidor.escuchar(NUMERO_DE_CONEXIONES_EN_ESPERA);
 }
 
 
 void Aceptador::procesar(){
-    /*
     try{
         while (continuar){
             Socket socketCliente = servidor.aceptar();
-            ClienteEncapsulado cliente(std::move(socketCliente));
-            cliente.cliente()->comenzar();
-            clientes.push_back(std::move(cliente));
-            recuperarFinalizados();
+            std::unique_ptr<Cliente> cliente(new Cliente(std::move(socketCliente),
+                                                         organizadorSalas,
+                                                         baseDeDatos));
+            cliente.get()->comenzar();
+            organizadorClientes.incorporarCliente(std::move(cliente));
+            organizadorClientes.recuperarFinalizados();
         }
     }catch(const ExcepcionSocket &e){
         //Considero que esto no es un error, no quiero imprimirlo.
@@ -72,8 +42,12 @@ void Aceptador::procesar(){
     //para que sea consistente.
     continuar = false;
     servidor.apagar(READ_AND_WRITE);
-    recuperarTodosLosClientes();
-    */
+    try{
+        organizadorClientes.recuperarTodosLosClientes();
+    }catch(...){
+        std::cerr << "Error al intentar recuperar a los "
+        "clientes en la clase Aceptador" << std::endl;
+    }
 }
 
 void Aceptador::finalizar(){
@@ -82,5 +56,5 @@ void Aceptador::finalizar(){
     Los sockets de C permiten realizar un shutdown y cierre
     sin entrar en una RC, por lo tanto esta operacion es segura.
     */
-    //servidor.apagar(READ_AND_WRITE);
+    servidor.apagar(READ_AND_WRITE);
 }

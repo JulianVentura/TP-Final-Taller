@@ -2,21 +2,21 @@
 #include "Cliente.h"
 #include "PosicionEncapsulada.h"
 
-Sala::Sala(const char* nombreMapa) : mapa(std::string(nombreMapa) + ".json"),
+Sala::Sala(const char* nombreMapa) : nombre(nombreMapa),
+                                     mapa(std::string(nombreMapa) + ".json"),
                                      colaOperaciones(),
-                                     gameLoop(colaOperaciones, mapa, *this){
-    //Pongo a correr el gameloop
-    gameLoop.comenzar();
-}
+                                     gameLoop(colaOperaciones, mapa, *this){}
 
 
 void Sala::cargarCliente(Cliente *cliente){
     std::unique_lock<std::mutex> lock(this->mutex);
     if (clientes.count(cliente->obtenerId())){
-        throw Excepcion("El cliente ya esta cargado en el mapa");
+        throw Excepcion("Error en Cliente: "
+        "El cliente de id %s ya esta cargado en el mapa", cliente->obtenerId());
     }
     clientes[cliente->obtenerId()] = cliente;
     mapa.cargarPersonaje(cliente->obtenerPersonaje());
+    cliente->cargarMapa(std::move(mapa.obtenerInformacionMapa()));
 }
 void Sala::actualizarClientes(){
     std::unique_lock<std::mutex> lock(this->mutex);
@@ -37,15 +37,17 @@ std::string& Sala::obtenerNombre(){
     return this->nombre;
 }
 
+void Sala::comenzar(){
+    gameLoop.comenzar();
+}
+
 void Sala::finalizar(){
     gameLoop.finalizar();
     gameLoop.recuperar();
 }
 
-
-//DEBUG
-ColaSegura& Sala::obtenerCola(){
-    return colaOperaciones;
+ColaOperaciones* Sala::obtenerCola(){
+    return &colaOperaciones;
 }
 
 /*

@@ -9,7 +9,7 @@ class Personaje : public Entidad{
     Personaje(Personaje &otro) = delete;
     Personaje(Personaje &&otro) = delete;
     Personaje& operator=(Personaje &otro) = delete;
-    Personaje& operator=(Personaje &&otro) = delete;
+    Personaje& operator=(Personaje &&otro);
     ~Personaje();
 };
 

@@ -92,20 +92,23 @@ std::string Mapa::posicionesACadena(){
 
 std::vector<struct PosicionEncapsulada> Mapa::recolectarPosiciones(){
     std::vector<struct PosicionEncapsulada> resultado;
+    struct PosicionEncapsulada pos = {{0}, 0, 0};
     for (std::map<std::string, Criatura*>::iterator it = criaturas.begin();
          it != criaturas.end();
          ++it){
-        struct PosicionEncapsulada pos = {{0}, it->second->obtenerX(), it->second->obtenerX()};
+        pos = {{0}, it->second->obtenerX(), it->second->obtenerY()};
         //Copio dejando espacio para el `\0`
-        memcpy(pos.id, it->first.c_str(), TAM_ID - 1);
+        strncpy(pos.id, it->first.c_str(), TAM_ID);
+        pos.id[TAM_ID - 1] = 0;
         resultado.push_back(std::move(pos));
     }
     for (std::map<std::string, Personaje*>::iterator it = personajes.begin();
          it != personajes.end();
          ++it){
-        struct PosicionEncapsulada pos = {{0}, it->second->obtenerX(), it->second->obtenerX()};
+        pos = {{0}, it->second->obtenerX(), it->second->obtenerY()};
         //Copio dejando espacio para el `\0`
-        memcpy(pos.id, it->first.c_str(), TAM_ID - 1);
+        strncpy(pos.id, it->first.c_str(), TAM_ID);
+        pos.id[TAM_ID - 1] = 0;
         resultado.push_back(std::move(pos));
     }
     return resultado;
@@ -216,7 +219,10 @@ void Mapa::entidadesActualizarEstados(double tiempo){
     }
 }
 
-
+const std::vector<char> Mapa::obtenerInformacionMapa(){
+    const std::vector<char> vector(contenido_archivo.begin(), contenido_archivo.end());
+    return vector;
+}
 // DEBUG
 #define ANCHO_TILE 32.0f // Esto dice en mapa.json
 //Indica la cantidad de celdas que hay en una coordenada de cada tile, tal que NUM_CELDAS_POR_ANCHO_TILE**2 = NUM_CELDAS_POR_TILE

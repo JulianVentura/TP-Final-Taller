@@ -1,6 +1,6 @@
 #include "BaseDeDatos.h"
 
 
-BaseDeDatos::BaseDeDatos(){
+BaseDeDatos::BaseDeDatos() : numero(0){
     //Do nothing
 }

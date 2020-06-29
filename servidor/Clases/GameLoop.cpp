@@ -10,13 +10,13 @@
 //#define MS_DESCANSO 33 // 30 FPS 
 #define MS_DESCANSO 200 //Se actualiza 2 veces por segundo
 
-GameLoop::GameLoop(ColaSegura &cola, Mapa &unMapa, Sala &unaSala) : 
-                                             colaDeOperaciones(cola),
-                                             mapa(unMapa),
-                                             continuar(true),
-                                             reloj(),
-                                             miSala(unaSala),
-                                             distribution(5, 20){}
+GameLoop::GameLoop(ColaOperaciones &cola, Mapa &unMapa, Sala &unaSala) : 
+                                                colaDeOperaciones(cola),
+                                                mapa(unMapa),
+                                                continuar(true),
+                                                reloj(),
+                                                miSala(unaSala),
+                                                distribution(5, 20){}
 
 GameLoop::~GameLoop(){
     //Do nothing
@@ -48,7 +48,7 @@ void GameLoop::procesar(){
             std::cout << mapa.aCadena() << std::endl;
             reloj.dormir(MS_DESCANSO);
         }
-    }catch (const Excepcion &e){
+    }catch (const std::exception &e){
         std::cerr << e.what() << std::endl;
     }catch (...){
         std::cerr << "Error desconocido capturado en GameLoop" <<std::endl;
@@ -61,28 +61,13 @@ void GameLoop::finalizar(){
 
 
 void GameLoop::procesarOperaciones(){
-    //Simulo trabajo
-    //std::this_thread::sleep_for(std::chrono::milliseconds(simularTrabajo()));
     bool continuar = true;
-    OperacionEncapsulada operacionActual;
-    /*
-    TODO:
-    Pensar bien en esto, quizas no conviene lanzar una excepcion en cada iteracion
-    del gameloop, puede llegar a ser muy caro.
-    Quizas se puede hacer un nuevo tipo de cola que contenga *operacion y que se encargue
-    de liberarlas a medida que las van sacando de la cola.
-    Cuando se pide un nuveo elemento de la cola se puede liberar al anterior.
-    De esta forma cuando la cola se queda sin elementos puede devolver nullptr, no hay necesidad
-    de usar excepciones.
-    Se puede implementar utilizando una std::queue<Operacion*> y un puntero a la ultima operacion
-    extraida, que sera liberada cuando se vuelva a llamar al metodo pop() 
-    Ademas no se pierde memoria dinamica y ya no seria necesaria la clase OperacionEncapsulada.
-    */
+    Operacion* operacionActual;
     while (continuar){
-        try{
-            operacionActual = colaDeOperaciones.pop();
-            operacionActual.obtenerOperacion()->ejecutar();
-        }catch(const ExcepcionColaVacia &e){
+        operacionActual = colaDeOperaciones.pop();
+        if (operacionActual){
+            operacionActual->ejecutar();
+        }else{
             continuar = false;
         }
     }

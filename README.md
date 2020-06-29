@@ -52,7 +52,7 @@
     * El comerciante puede comprar y vender casi todo.
     * El banquero permite depositar y retirar elementos, que se colocaran en un almacen. Los depositos pueden ser accedidos desde cualquier banquero del juego.
     * Las ciudades son zonas seguras, los NPCs no pueden entrar y los jugadores no pueden atacarse.
-- Items: No vale la pena, esta bien resumido en el enunciado
+- Items: No vale la pena, esta bien resumido en el enunciado  
 - Criaturas:
     * Cada cierto tiempo un grupo de criaturas sera spawneado hasta que la poblacion de estas llegue a un limite.
     * Las criaturas se acercaran y atacaran al jugador mas cercando cuando este entre en un radio de cobertura.
@@ -61,12 +61,12 @@
     * Con la muerte de cada criatura existe la probabilidad de que dropee algun objeto u oro.
     * Las criaturas que existen son: Goblin, Esqueleto, Zombie y Araña.
 - Interfaz de usuario:
-    * El juego muestra al personaje desde una vista de aguila con el personaje en el centro de la pantalla.
+    * El juego muestra al personaje desde una vista de aguila con el personaje en el centro de la pantalla. :heavy_check_mark:
     * El jugador puede moverse usando el teclado y puede atacar haciendo click sobre otro jugador o NPC.
-    * Se deben mostrar el inventario, que objeto esta equipado, cantidad de vida, mana, oro, experiencia y nivel.
+    * Se deben mostrar el inventario, que objeto esta equipado, cantidad de vida, mana, oro, experiencia y nivel. :heavy_check_mark:
 - Mini-chat:
     * Se deberan mostrar los mensajes importantes, como el daño provocado, daño recibido, ataques evadidos por el jugador o su contricante y mensajes enviados por otros jugadores hacia el.
-    * Debera permitir escribir una serie de comandos, entre ellos permitir enviar un mensaje a un jugador.
+    * Debera permitir escribir una serie de comandos, entre ellos permitir enviar un mensaje a un jugador. :heavy_check_mark:
 - Vestimenta:
     * La vestimenta debera mostrarse visualmente segun la pieza que se equipe, contando armas.
     * Si alguna pieza no esta equipada se debera mostrar una vestimenta comun para esa zona.

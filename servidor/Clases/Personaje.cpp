@@ -12,5 +12,15 @@ Personaje::Personaje(float x, float y, std::string id) :
                                                id){
     desplazamiento = DESPLAZAMIENTO;
 }
-
+Personaje& Personaje::operator=(Personaje &&otro){
+    this->vidaActual = otro.vidaActual;
+    this->manaActual = otro.manaActual;
+    this->vidaMaxima = otro.vidaMaxima;
+    this->vidaActual = otro.vidaActual;
+    this->id = std::move(otro.id);
+    this->posicion = std::move(otro.posicion);
+    this->desplazamiento = otro.desplazamiento;
+    //No hay necesidad de modificar a "otro", no puede haber ningun problema.
+    return *this;
+}
 Personaje::~Personaje(){}

@@ -9,6 +9,8 @@ Entidad::Entidad(unsigned int vida,
                  Posicionable(x, y),
                  vidaMaxima(vida),
                  manaMaximo(mana),
+                 vidaActual(0),
+                 manaActual(0),
                  id(unId){}
 
 

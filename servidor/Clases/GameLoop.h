@@ -2,7 +2,7 @@
 #define __GAME_LOOP_H__
 #include "Thread.h"
 #include "Mapa.h"
-#include "ColaSegura.h"
+#include "ColaOperaciones.h"
 #include "Reloj.h"
 #include <atomic>
 #include <random> //DEBUG
@@ -13,7 +13,7 @@ class Sala;
 class Cliente;
 class GameLoop : public Thread{
     private:
-    ColaSegura &colaDeOperaciones;
+    ColaOperaciones &colaDeOperaciones;
     Mapa &mapa;
     std::atomic<bool> continuar;
     Reloj reloj;
@@ -29,7 +29,7 @@ class GameLoop : public Thread{
     */
     void procesarOperaciones();
     public:
-    GameLoop(ColaSegura &cola, Mapa &unMapa, Sala &unaSala);
+    GameLoop(ColaOperaciones &cola, Mapa &unMapa, Sala &unaSala);
     GameLoop(GameLoop &otro) = delete;
     GameLoop(GameLoop &&otro) = delete;
     GameLoop& operator=(GameLoop &otro) = delete;
