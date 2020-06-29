@@ -29,6 +29,10 @@ void Cliente::enviarPosiciones(const std::vector<struct PosicionEncapsulada> &po
     clienteProxy.enviarPosiciones(posiciones);
 }  
 
+ void Cliente::enviarMensaje(const std::string& mensaje){
+    clienteProxy.enviarMensaje(mensaje);
+ }
+
 void Cliente::cargarMapa(const std::vector<char> &&infoMapa){
     clienteProxy.enviarInformacionMapa(infoMapa);
 }

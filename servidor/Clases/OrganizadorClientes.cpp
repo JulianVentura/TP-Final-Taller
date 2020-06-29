@@ -47,3 +47,10 @@ void OrganizadorClientes::recuperarTodosLosClientes(){
            ++it;
     }
 }
+
+ void OrganizadorClientes::aplicarFuncion
+ (std::function<void(std::unique_ptr<Cliente>&, void*)> funcion, void* dato){
+    for (auto& par : clientes){
+        funcion(par.second, dato);
+     }
+ }
