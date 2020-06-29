@@ -10,8 +10,9 @@ bool GUI_InventarioControlador::enClick(){
 }
 
 GUI_InventarioControlador::GUI_InventarioControlador
-(GUI_PanelInventario& vista_inventario) :
- GUI_PanelControlador(vista_inventario), vista_inventario(vista_inventario){}
+(GUI_PanelInventario& vista_inventario, ServidorProxy& servidor) :
+ GUI_PanelControlador(vista_inventario), vista_inventario(vista_inventario), 
+ servidor(servidor){}
 
 void GUI_InventarioControlador::actualizarDimension(){
 	rect.x = vista_inventario.marco.x;

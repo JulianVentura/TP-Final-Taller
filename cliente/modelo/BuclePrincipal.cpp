@@ -12,12 +12,12 @@ BuclePrincipal::BuclePrincipal(Ventana& ventana, GUI_Principal& gui,
  : ventana(&ventana), gui(gui), servidor(servidor) {}
 
 void BuclePrincipal::correr() {
-    SDL_Event event;
+    SDL_Event evento;
     SDL_StopTextInput();
     while (!salir) {
-        while (SDL_PollEvent(&event) != 0) {
-            ventana->manejarEvento(event);
-			despacharEventos(event);
+        while (SDL_PollEvent(&evento) != 0) {
+            ventana->manejarEvento(evento);
+			despacharEventos(evento);
         }
         int tiempo = reloj.medir() * SEG_A_MILLI;
         ventana->actualizar(tiempo);
@@ -28,23 +28,23 @@ void BuclePrincipal::correr() {
     }
 }
 
-void BuclePrincipal::despacharEventos(SDL_Event& event) {
-	switch(event.type) {
+void BuclePrincipal::despacharEventos(SDL_Event& evento) {
+	switch(evento.type) {
 		case SDL_QUIT: 
 			salir = true;
 			break;
 		case SDL_MOUSEBUTTONDOWN:
 			for(auto& boton : gui.botones)
-				if((*boton)(event)) break;
+				if((*boton)(evento)) break;
 			break;
 
         case SDL_MOUSEWHEEL:
-            gui.chat_controlador.scroll(event);
+            gui.chat_controlador.scroll(evento);
             break;
 
         case SDL_KEYDOWN:
         case SDL_TEXTINPUT:
-            gui.chat_controlador.ingresarCaracter(event, servidor);
+            gui.chat_controlador.ingresarCaracter(evento);
             break;
         
         case SDL_WINDOWEVENT:
