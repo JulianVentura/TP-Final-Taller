@@ -60,6 +60,7 @@ void GUI_Principal::actualizarDimension(){
 	boton_inventario_controlador.actualizarDimension();
 	inventario_controlador.actualizarDimension();
 	chat_controlador.actualizarDimension();
+	tienda_controlador.actualizarDimension();
 }
 
 GUI_Principal::~GUI_Principal(){}
