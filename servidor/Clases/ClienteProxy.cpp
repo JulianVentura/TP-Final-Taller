@@ -118,3 +118,6 @@ void ClienteProxy::enviarInformacionMapa(const std::vector<char> &infoMapa){
     socket.enviarMensaje(infoMapa.data(), infoMapa.size());
 }
 
+void ClienteProxy::enviarMensaje(const std::string& mensaje){
+    
+}

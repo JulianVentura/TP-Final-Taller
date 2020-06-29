@@ -24,6 +24,7 @@ class ClienteProxy{
     //Envio
     void enviarPosiciones(const std::vector<struct PosicionEncapsulada> &posiciones);
     void enviarInformacionMapa(const std::vector<char> &infoMapa);
+    void enviarMensaje(const std::string& mensaje);
 };
 
 #endif

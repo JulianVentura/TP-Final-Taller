@@ -18,8 +18,7 @@ class OrganizadorClientes{
     Cliente* obtenerCliente(std::string id);
     void recuperarFinalizados();
     void recuperarTodosLosClientes();
+    void aplicarFuncion(std::function<void(std::unique_ptr<Cliente>&, void*)> funcion, void* dato);
 };
-
-
 
 #endif

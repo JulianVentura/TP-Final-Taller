@@ -15,7 +15,7 @@ void GUI_Oro::render(){
 	renderer -> rectSolido(marco);
 	renderer -> setColor(paleta.inv_frente);
 	renderer -> rect(marco);
-	renderer -> setColor(255,255,255,125);
+	renderer -> setColor(paleta.chat_texto);
 
 	int corrimiento_x;
 	renderer -> calcularDimensionTexto(std::to_string(oro),

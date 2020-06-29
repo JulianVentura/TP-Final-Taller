@@ -5,6 +5,8 @@
 #include <thread>
 
 #include "../modelo/DatosPersonaje.h"
+#include "../modelo/DatosTienda.h"
+#include "../modelo/ServidorSalida.h"
 #include "../modelo/commonProtocolo.h"
 #include "../modelo/commonSocket.h"
 #include "../controlador/GUI_Chat_Controlador.h"
@@ -21,10 +23,11 @@ private:
 	bool salir;
 	Socket socket;
 	DatosPersonaje& datos_personaje;
-	GUI_ChatControlador& chat;
+	DatosTienda& datos_tienda;
 public:
+	ServidorSalida* salida;
 	ServidorProxy(std::string direccion, std::string servicio,
-	 DatosPersonaje& datos_personaje, GUI_ChatControlador& chat);
+	 DatosPersonaje& datos_personaje, DatosTienda& datos_tienda);
 	void enviarMensaje(std::string mensaje);
 	void recibirMensaje();
 	void terminar();

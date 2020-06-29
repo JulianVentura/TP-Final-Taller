@@ -27,12 +27,17 @@ class Cliente : public Thread{
     Cliente(Cliente &otro) = delete;
     Cliente& operator=(Cliente &&otro) = delete;
     Cliente& operator=(Cliente &otro) = delete;
-    void enviarPosiciones(const std::vector<struct PosicionEncapsulada> &posiciones);
+
     std::string obtenerId();
     Personaje* obtenerPersonaje();
     void cargarMapa(const std::vector<char> &&infoMapa);
     void procesar();
     bool haFinalizado();
+
+    //Envio
+    void enviarPosiciones(const std::vector<struct PosicionEncapsulada>
+     &posiciones);
+    void enviarMensaje(const std::string& mensaje);
 
     //ClienteProxy es friend de Cliente
     friend class ClienteProxy;

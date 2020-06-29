@@ -1,8 +1,9 @@
 #include "../controlador/GUI_Chat_Controlador.h"
 
-GUI_ChatControlador::GUI_ChatControlador(GUI_Chat& vista)
- : GUI_BotonControlador(vista.marco_entrada.x, vista.marco_entrada.y,
-  vista.marco_entrada.w, vista.marco_entrada.h), chat_vista(vista){}
+GUI_ChatControlador::GUI_ChatControlador(GUI_Chat& vista,
+ ServidorProxy& servidor) : GUI_BotonControlador(vista.marco_entrada.x,
+  vista.marco_entrada.y, vista.marco_entrada.w, vista.marco_entrada.h),
+   chat_vista(vista), servidor(servidor){}
 
 bool GUI_ChatControlador::operator()(SDL_Event& evento){
 	if(!enRectangulo(rect, evento.button.x, evento.button.y)){
@@ -17,8 +18,7 @@ bool GUI_ChatControlador::enClick(){
 	return true;
 }
 
-void GUI_ChatControlador::ingresarCaracter(SDL_Event& evento,
- ServidorProxy& servidor){
+void GUI_ChatControlador::ingresarCaracter(SDL_Event& evento){
 	if(evento.type == SDL_TEXTINPUT){
 		chat_vista.entrada += evento.text.text;
 		return;

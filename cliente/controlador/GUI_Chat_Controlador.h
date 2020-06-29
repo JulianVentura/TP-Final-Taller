@@ -5,19 +5,21 @@
 #include <string>
 
 #include "../modelo/ServidorProxy.h"
+#include "../modelo/ServidorSalida.h"
 #include "../vista/GUI_Chat.h"
 #include "../controlador/GUI_Boton_Controlador.h"
 
 class GUI_ChatControlador;
 class ServidorProxy;
 
-class GUI_ChatControlador : public GUI_BotonControlador{
+class GUI_ChatControlador : public GUI_BotonControlador, public ServidorSalida{
 private:
 	GUI_Chat& chat_vista;
-
+	ServidorProxy& servidor;
+	
 public:
-	explicit GUI_ChatControlador(GUI_Chat& vista);
-	void ingresarCaracter(SDL_Event& evento, ServidorProxy& servidor);
+	GUI_ChatControlador(GUI_Chat& vista, ServidorProxy& servidor);
+	void ingresarCaracter(SDL_Event& evento);
 	void agregarMensaje(std::string& mensaje);
 	void scroll(SDL_Event& evento);
 	bool operator()(SDL_Event& evento) override;

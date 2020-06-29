@@ -4,6 +4,7 @@
 #include "../modelo/BuclePrincipal.h"
 #include "../modelo/ServidorProxy.h"
 #include "../modelo/DatosPersonaje.h"
+#include "../modelo/DatosTienda.h"
 #include "../vista/Colores.h"
 #include "../vista/EntornoGrafico.h"
 #include "../vista/Ventana.h"
@@ -20,9 +21,15 @@ int main(int argc, const char* argv[]) {
         Renderer renderer(entorno);
         Colores paleta;
         DatosPersonaje datos_personaje;
-        GUI_Principal gui(entorno, paleta, datos_personaje); 
+        DatosTienda datos_tienda;
+
         ServidorProxy servidor("localhost", "80", datos_personaje,
-        gui.chat_controlador);
+        datos_tienda);
+        GUI_Principal gui(entorno, paleta, datos_personaje, datos_tienda,
+         servidor); 
+        servidor.salida = &gui.chat_controlador;
+
+
         BuclePrincipal bucle(ventana, gui, servidor);
         Escena escena(entorno);
 
