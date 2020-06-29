@@ -9,6 +9,7 @@
 #include <atomic>
 #include <vector>
 
+class OrganizadorClientes;
 class Cliente : public Thread{
     private:
     Personaje personaje;
@@ -22,6 +23,7 @@ class Cliente : public Thread{
     public:
     Cliente(Socket &&socket,
             OrganizadorSalas &organizadorSalas,
+            OrganizadorClientes &organizadorClientes,
             BaseDeDatos &unaBaseDeDatos);
     Cliente(Cliente &&otro) = delete;
     Cliente(Cliente &otro) = delete;

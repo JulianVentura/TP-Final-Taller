@@ -48,8 +48,15 @@ void OrganizadorClientes::recuperarTodosLosClientes(){
     }
 }
 
- void OrganizadorClientes::aplicarFuncion
- (std::function<void(std::unique_ptr<Cliente>&, void*)> funcion, void* dato){
+bool OrganizadorClientes::idEnUso(std::string &id){
+    std::unique_lock<std::mutex> lock(this->mutex);
+    std::map<std::string, std::unique_ptr<Cliente>>::iterator it = clientes.find(id);
+    if (it == clientes.end()) return false;
+    return true;
+}
+
+void OrganizadorClientes::aplicarFuncion
+    (std::function<void(std::unique_ptr<Cliente>&, void*)> funcion, void* dato){
     for (auto& par : clientes){
         funcion(par.second, dato);
      }

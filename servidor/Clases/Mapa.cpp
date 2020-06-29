@@ -67,7 +67,7 @@ Mapa::Mapa(std::string nombreArchivo) : tiles(),
     } 
 }
 void Mapa::actualizarPosicion(Entidad *entidad, Posicion &&nuevaPosicion){
-    if (!posicionValida(nuevaPosicion)) return;
+    if (!posicionValida(entidad, nuevaPosicion)) return;
     quadTreeDinamico.remove(entidad);
     entidad->actualizarPosicion(std::move(nuevaPosicion));
     quadTreeDinamico.add(entidad);
@@ -128,7 +128,7 @@ Entidad* Mapa::obtener(const char* id){
 }
 
 void Mapa::cargarEntidad(Entidad *entidad){
-    if (!posicionValida(entidad->obtenerAreaQueOcupa())){
+    if (!posicionValida(entidad, entidad->obtenerAreaQueOcupa())){
         Posicion nuevaPosicion = buscarPosicionValida(entidad->obtenerPosicion());
         entidad->actualizarPosicion(std::move(nuevaPosicion));
     }
@@ -146,7 +146,7 @@ void Mapa::cargarCriatura(Criatura *criatura){
     cargarEntidad(criatura);
 }
 
-bool Mapa::posicionValida(const quadtree::Box<float> &area){
+bool Mapa::posicionValida(Entidad *entidad, const quadtree::Box<float> &area){
     if (!frontera.contains(area)) return false;
     std::vector<Colisionable*> resultado = quadTreeEstatico.query(area);
     for (std::vector<Colisionable*>::iterator it = resultado.begin();
@@ -158,13 +158,18 @@ bool Mapa::posicionValida(const quadtree::Box<float> &area){
     for (std::vector<Colisionable*>::iterator it = resultado.begin();
          it != resultado.end();
          ++it){
-        if ((*it)->colisionaCon(area)) return false;
+        if ((*it)->colisionaCon(area)){
+            //No puedo chocar conmigo mismo, es mi posicion anterior.
+            if ((*it) == entidad)
+                continue;
+            else return false;
+        }
     }
     return true;
 }
 
-bool Mapa::posicionValida(const Posicion &nuevaPosicion){
-    return posicionValida(nuevaPosicion.obtenerAreaQueOcupa());
+bool Mapa::posicionValida(Entidad *entidad, const Posicion &nuevaPosicion){
+    return posicionValida(entidad, nuevaPosicion.obtenerAreaQueOcupa());
 }
 
 Posicion Mapa::buscarPosicionValida(const Posicion &posicion){
@@ -175,7 +180,7 @@ Posicion Mapa::buscarPosicionValida(const Posicion &posicion){
     Posicion nuevaPosicion;
     while (continuar){
         nuevaPosicion = posicion.nuevaPosicionDesplazada(radio*cos(i*PI_4), radio*sin(i*PI_4));
-        if (posicionValida(nuevaPosicion)) continuar = false;
+        if (posicionValida(nullptr, nuevaPosicion)) continuar = false;
         if (i >= 8){
             //Vuelve a empezar, pero duplico la distancia
             i = 0;
@@ -226,7 +231,7 @@ const std::vector<char> Mapa::obtenerInformacionMapa(){
 // DEBUG
 #define ANCHO_TILE 32.0f // Esto dice en mapa.json
 //Indica la cantidad de celdas que hay en una coordenada de cada tile, tal que NUM_CELDAS_POR_ANCHO_TILE**2 = NUM_CELDAS_POR_TILE
-#define NUM_CELDAS_POR_ANCHO_TILE 2
+#define NUM_CELDAS_POR_ANCHO_TILE 4
 #define ANCHO_CELDA (ANCHO_TILE / NUM_CELDAS_POR_ANCHO_TILE)
 #define DEFINICION 10.0f // Pixeles equivalentes por caracter
 #define ID_COLISION 16

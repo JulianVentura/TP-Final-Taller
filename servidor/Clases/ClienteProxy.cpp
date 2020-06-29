@@ -2,7 +2,7 @@
 #include <arpa/inet.h> //Para htons
 #include "OperacionMover.h"
 #include "Cliente.h"
-#include "Excepcion.h"
+#include "ExcepcionCliente.h"
 #define TAM_CODIGO 4
 typedef enum CODIGOS{
                      CODIGO_POSICIONES,
@@ -71,7 +71,7 @@ std::string ClienteProxy::recibirId(){
     socket.recibirMensaje((char*)&codigo, TAM_CODIGO);
     codigo = ntohl(codigo);
     if (codigo != CODIGO_ID){
-        throw Excepcion
+        throw ExcepcionCliente
         ("No se ha recibido el id por parte del cliente");   
     }
     socket.recibirMensaje(id_buffer, TAM_ID);

@@ -5,10 +5,13 @@
 #include <random>
 #include <iostream> //DEBUG
 
-#define MS_POR_ACTUALIZACION 50 /*Ver aca que numero poner*/
+#define MS_POR_ACTUALIZACION 11 /*Ver aca que numero poner*/
 //#define MS_DESCANSO 16.5 // 60 FPS
-//#define MS_DESCANSO 33 // 30 FPS 
-#define MS_DESCANSO 200 //Se actualiza 2 veces por segundo
+#define MS_DESCANSO 33 // 30 FPS 
+
+//DEBUG
+//#define MS_DESCANSO 200 //Se actualiza 2 veces por segundo
+//#define MS_POR_ACTUALIZACION 50
 
 GameLoop::GameLoop(ColaOperaciones &cola, Mapa &unMapa, Sala &unaSala) : 
                                                 colaDeOperaciones(cola),

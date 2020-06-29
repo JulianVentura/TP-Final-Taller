@@ -34,8 +34,8 @@ class Mapa{
     Devuelve true si la nueva posicion o el area no colisiona con
     algun Colisionable ya presente en el mapa.
     */
-    bool posicionValida(const Posicion &nuevaPosicion);
-    bool posicionValida(const quadtree::Box<float> &area);
+    bool posicionValida(Entidad *entidad, const Posicion &nuevaPosicion);
+    bool posicionValida(Entidad *entidad, const quadtree::Box<float> &area);
     /*
     Busca la posicion valida mas cercana a la posicion actual.
     */
