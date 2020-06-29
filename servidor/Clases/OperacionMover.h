@@ -2,11 +2,11 @@
 #define __OPERACION_MOVER__
 #include "Operacion.h"
 #include "Personaje.h"
-typedef enum MOVIMIENTO {MOVER_ARRIBA, 
-                         MOVER_ABAJO, 
-                         MOVER_DERECHA, 
-                         MOVER_IZQUIERDA,
-                         DETENERSE} DireccionMovimiento;
+typedef enum DIR_MOVIMIENTO {MOVER_ARRIBA, 
+                             MOVER_ABAJO, 
+                             MOVER_DERECHA, 
+                             MOVER_IZQUIERDA,
+                             FINALIZAR_MOVIMIENTO} DireccionMovimiento;
 
 class OperacionMover : public Operacion{
     private:

@@ -2,8 +2,8 @@
 #include <utility>
 #include <sstream>
 #include <cmath>
-#define ANCHO 3
-#define ALTO 3
+#define ANCHO 6
+#define ALTO 6
 Posicion::Posicion(float x, float y) : 
                    areaQueOcupa(x - ANCHO/2, y - ALTO/2, ANCHO, ALTO),
                    x(x), 

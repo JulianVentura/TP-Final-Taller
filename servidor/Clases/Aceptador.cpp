@@ -2,7 +2,7 @@
 #include <iostream>
 #include <utility> //Para std::move
 #include "ExcepcionSocket.h"
-
+#include "ExcepcionCliente.h"
 #define NUMERO_DE_CONEXIONES_EN_ESPERA 10
 
 //////////////////Metodos publicos///////////////////////////////
@@ -20,24 +20,27 @@ Aceptador::Aceptador(const char* host,
 
 
 void Aceptador::procesar(){
-    try{
-        while (continuar){
+    while (continuar){
+        try{
             Socket socketCliente = servidor.aceptar();
+            organizadorClientes.recuperarFinalizados();
             std::unique_ptr<Cliente> cliente(new Cliente(std::move(socketCliente),
                                                          organizadorSalas,
+                                                         organizadorClientes,
                                                          baseDeDatos));
             cliente.get()->comenzar();
             organizadorClientes.incorporarCliente(std::move(cliente));
-            organizadorClientes.recuperarFinalizados();
-        }
-    }catch(const ExcepcionSocket &e){
-        //Considero que esto no es un error, no quiero imprimirlo.
-    }catch(const std::exception &e){
-        std::cerr << e.what() << std::endl;
-    }catch(...){
-        std::cerr << "Error desconocido encontrado dentro del "
+        }catch(const ExcepcionSocket &e){
+            //No me aporta nada imprimir un error de socket
+        }catch(const ExcepcionCliente &e){
+            //No me aporta nada imprimir este error.
+        }catch(const std::exception &e){
+            std::cerr << e.what() << std::endl;
+        }catch(...){
+            std::cerr << "Error desconocido encontrado dentro del "
                      "metodo procesar de la clase Aceptador" << std::endl;
-    }
+        }      
+    }    
     //Esto en realidad no es necesario, pero mejor setearlo a false
     //para que sea consistente.
     continuar = false;

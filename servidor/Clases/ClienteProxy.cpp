@@ -2,16 +2,10 @@
 #include <arpa/inet.h> //Para htons
 #include "OperacionMover.h"
 #include "Cliente.h"
-#include "Excepcion.h"
+#include "ExcepcionCliente.h"
+#include "../../common/CodigosOperacion.h"
 #define TAM_CODIGO 4
-typedef enum CODIGOS{
-                     CODIGO_POSICIONES,
-                     CODIGO_ID,
-                     CODIGO_CARGA_MAPA,
-                     CODIGO_MOVIMIENTO,
-                     CODIGO_MENSAJE_CHAT,
-                     CODIGO_DESCONECTAR
-}CodigoPosiciones_t;
+
 
 ClienteProxy::ClienteProxy(Socket unSocket, Cliente *miCliente) : 
                            socket(std::move(unSocket)),
@@ -58,7 +52,8 @@ bool ClienteProxy::decodificarCodigo(uint32_t codigo){
         case CODIGO_DESCONECTAR:
             return false;
         default: {
-            //Se ignora el mensaje
+            enviarError("No se ha podido decodificar el codigo de operacion, finaliza la conexion");
+            return false;
         }  
     }
     return true;
@@ -71,7 +66,8 @@ std::string ClienteProxy::recibirId(){
     socket.recibirMensaje((char*)&codigo, TAM_CODIGO);
     codigo = ntohl(codigo);
     if (codigo != CODIGO_ID){
-        throw Excepcion
+        enviarError("No se ha recibido el id del usuario");
+        throw ExcepcionCliente
         ("No se ha recibido el id por parte del cliente");   
     }
     socket.recibirMensaje(id_buffer, TAM_ID);
@@ -87,7 +83,15 @@ bool ClienteProxy::recibirOperacion(){
 
 //////////////////////////ENVIO DE MENSAJES/////////////////////////////
 
-
+void ClienteProxy::enviarError(std::string mensaje){
+    uint32_t codigo = CODIGO_ERROR;
+    uint32_t largoMensaje = mensaje.length();
+    codigo = htonl(codigo);
+    largoMensaje = htonl(largoMensaje);
+    socket.enviarMensaje((char*)&codigo, sizeof(codigo));
+    socket.enviarMensaje((char*)&largoMensaje, sizeof(largoMensaje));
+    socket.enviarMensaje(mensaje.c_str(), mensaje.length());
+}
 
 void ClienteProxy::enviarPosiciones(const std::vector<struct PosicionEncapsulada> &posiciones){
     uint32_t codigo = CODIGO_POSICIONES;
