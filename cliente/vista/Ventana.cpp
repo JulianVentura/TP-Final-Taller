@@ -36,11 +36,10 @@ Ventana::Ventana(EntornoGrafico& entorno, const char* title): entorno(entorno) {
 
 void Ventana::manejarEvento(const SDL_Event& event) {
     if (event.type == SDL_KEYDOWN) {
-        if (event.key.keysym.sym == SDLK_ESCAPE) {
-            SDL_SetWindowFullscreen(ventana, 0);
-        }
         if (event.key.keysym.sym == SDLK_F11) {
-            SDL_SetWindowFullscreen(ventana, SDL_WINDOW_FULLSCREEN_DESKTOP);
+            pantalla_completa = !pantalla_completa;
+            int flags = (pantalla_completa) ? SDL_WINDOW_FULLSCREEN_DESKTOP : 0;
+            SDL_SetWindowFullscreen(ventana, flags);
         }
     }
     

@@ -10,7 +10,7 @@ int MapaVista::getAltoTile() { return alto_tile; }
 
 MapaVista::MapaVista(EntornoGrafico& entorno, MapaParser& parser, 
                                         LibreriaConjuntoTiles& conjuntosTiles): 
-        conjuntosTiles(&conjuntosTiles),
+        conjuntosTiles(conjuntosTiles),
         capasFondo(std::move(parser.getCapas())), 
         columnas(parser.getColumnas()), 
         filas(parser.getFilas()), 
@@ -25,7 +25,7 @@ void MapaVista::render() {
     for (int i = 0; i < columnas * filas; ++i) {
         for (auto& capa: capasFondo) {
             int id = capa[i];
-            Imagen* tile = conjuntosTiles->getTile(id);
+            Imagen* tile = conjuntosTiles.getTile(id);
             if (!tile) continue;
             int x = i % columnas;
             int y = (i - x) / columnas;

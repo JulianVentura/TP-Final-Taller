@@ -24,15 +24,17 @@ public:
      * @brief Centra el renderer en el foco de la cámara. Para salir de foco se debe 
      * llamar a reiniciar.
      */
-    void centrar(Renderer* renderer, float zoom);
+    void centrar(Renderer* renderer, int ancho_unidad, float radio);
 
     /**
      * @brief Reinicia las transformaciones de renderer. Se debería llamar después de 
      * un centrar. 
      */
     void reiniciar(Renderer* renderer);
-
+    
 private:
+    int maxX();
+    int maxY();
     IDimensionable* contenedor;
     IDimensionable* marco;
     ITargeteable* objetivo;

@@ -15,8 +15,8 @@ public:
 private:
     int x = 0;
     int y = 0;
-    int velocidadX = 0; // Esto estaría en el servidor
-    int velocidadY = 0; // Esto estaría en el servidor
+    int velocidadX = 0; // TODO: Esto estaría en el servidor
+    int velocidadY = 0; // TODO: Esto estaría en el servidor
     friend class PersonajeVista;
     friend class MovibleVista;
 };

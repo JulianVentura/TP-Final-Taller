@@ -1,13 +1,15 @@
 #ifndef OBSTACULOPARSER_H
 #define OBSTACULOPARSER_H
 #include <unordered_map>
-#include <istream>
 #include <vector>
-#include "Obstaculo.h"
+#include <nlohmann/json.hpp>
+
+#include "../vista/Obstaculo.h"
 
 class ObstaculoParser {
 public:
-    ObstaculoParser(std::istream& fuente, std::unordered_map<std::string, 
+    ObstaculoParser() = default;
+    ObstaculoParser(nlohmann::json& parser, std::unordered_map<std::string, 
     std::vector<int>>& capas, LibreriaConjuntoTiles& conjuntosTiles);
     std::unordered_map<std::string, std::vector<Obstaculo>> getCapasObstaculos();
 

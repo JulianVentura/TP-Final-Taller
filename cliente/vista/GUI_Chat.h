@@ -23,7 +23,7 @@ private:
 	std::atomic<bool> actualizar;
 	std::list<std::string> mensajes;
 	Colores& paleta;
-	SDL_Texture* textura;
+	SDL_Texture* textura = nullptr;
 	unsigned int caracteres_max;
 	void renderizarTexto();
 public:

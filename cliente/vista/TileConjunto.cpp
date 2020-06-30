@@ -1,10 +1,12 @@
 #include "TileConjunto.h"
 
-TileConjunto::TileConjunto(Imagen imagen, int columnas, int primer_id, 
-        int cantidad_tiles, int ancho_tile, int alto_tile): 
-        imagen(std::move(imagen)), columnas(columnas), primer_id(primer_id), 
-        cantidad_tiles(cantidad_tiles), ancho_tile(ancho_tile), 
-        alto_tile(ancho_tile) {}
+TileConjunto::TileConjunto(Imagen imagen, InformacionConjuntoTile& info): 
+        imagen(std::move(imagen)), 
+        columnas(info.columnas), 
+        primer_id(info.primer_id), 
+        cantidad_tiles(info.cantidad_tiles), 
+        ancho_tile(info.ancho_tile), 
+        alto_tile(info.ancho_tile) {}
 
 int TileConjunto::getColumnas() {
     return this->columnas;

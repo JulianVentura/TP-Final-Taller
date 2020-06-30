@@ -12,7 +12,7 @@
 #include "../controlador/GUI_Chat_Controlador.h"
 
 //Descomentar para modo offline.
-//#define OFFLINE
+#define OFFLINE
 
 class GUI_ChatControlador;
 class ServidorProxy;

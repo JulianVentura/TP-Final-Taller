@@ -5,29 +5,25 @@
 #include "Camara.h"
 #include "MapaVista.h"
 #include "PersonajeVista.h"
+#include "CapaFrontal.h"
 #include "Obstaculo.h"
 
 class Escena: public IRendereable, public IInteractivo {
 public:
-    explicit Escena(EntornoGrafico& entorno);
+    explicit Escena(EntornoGrafico& entorno, Camara& camara, MapaVista& mapa, 
+                CapaFrontal& capaFrontal, LibreriaConjuntoTiles& conjuntoTiles);
     void render() override;
     void actualizar(unsigned int delta_t) override;
     void manejarEvento(const SDL_Event& event) override;
 
 private:
-    Camara camara;
-    Personaje personajeModelo;
-    PersonajeVista personaje;
-    Personaje enemigoModelo;
-    MovibleVista enemigo;
-    MapaVista mapa;
-    std::unordered_map<std::string, std::vector<Obstaculo>> capasObstaculos;
-    std::vector<std::string> capasOrdenadas;
-    std::unordered_map<std::string, std::vector<int>> capasFrente;
-    LibreriaConjuntoTiles conjuntosTiles;
-    int columnas;
-    int filas;
-    int ancho_tile;
-    int alto_tile;
+    Camara& camara;
+    MapaVista& mapa;
+    CapaFrontal& capaFrontal;
+    LibreriaConjuntoTiles& conjuntoTiles;
+    // Personaje personajeModelo;
+    // PersonajeVista personaje;
+    // Personaje enemigoModelo;
+    // MovibleVista enemigo;
 };
 #endif

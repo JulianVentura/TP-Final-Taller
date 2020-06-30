@@ -7,11 +7,9 @@ ObstaculoParser::getCapasObstaculos() {
     return std::move(this->capasObstaculos);
 }
 
-ObstaculoParser::ObstaculoParser(std::istream& fuente, 
+ObstaculoParser::ObstaculoParser(nlohmann::json& parser, 
     std::unordered_map<std::string, std::vector<int>>& capas, 
     LibreriaConjuntoTiles& conjuntosTiles) {
-    json parser;
-    fuente >> parser;
     for (auto& grupo: parser["layers"]) {
         if (grupo["type"] != "group" || grupo["name"] != "frente") continue;
         for (auto& capa: grupo["layers"]) {

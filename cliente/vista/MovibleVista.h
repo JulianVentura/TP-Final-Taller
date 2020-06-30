@@ -3,7 +3,7 @@
 #include "AnimacionEnteDireccionable.h"
 #include "IObstruible.h"
 #include "Imagen.h"
-#include "Personaje.h"
+#include "../modelo/Personaje.h"
 
 class MovibleVista: public IObstruible {
 public:
