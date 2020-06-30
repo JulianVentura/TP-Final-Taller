@@ -1,7 +1,11 @@
-#ifndef __CONFIGURACIONES__
-#define __CONFIGURACIONES__
-
+#ifndef __CONFIGURACIONES_H__
+#define __CONFIGURACIONES_H__
+class Entidad;
+class Personaje;
+class Arma;
 class Configuraciones{
+    private:
+
     //Atributos publicos
     public:
     //Vida de razas
@@ -40,20 +44,28 @@ class Configuraciones{
     unsigned int FPaladinMeditacion;
     unsigned int FGuerreroMeditacion;
     //Metodos
-    unsigned int calcularVidaMax();
-    unsigned int calcularRecuperacionVida();
-    unsigned int calcularManaMax();
-    unsigned int calcularRecupManaMeditacion();
-    unsigned int calcularRecupManaTiempo();
-    unsigned int calcularDropOro();
-    unsigned int calcularMaxOroSeguro();
-    unsigned int calcularLimiteParaSubir();
-    unsigned int calcularExpPorGolpe();
-    unsigned int calcularExpPorMatar();
-    unsigned int calcularDanioAtaque();
-    bool seEsquivaElGolpe();
+    static Configuraciones* obtenerInstancia();
+    static void crearInstancia(const char *nombreArchivo);
+
+
+    unsigned int calcularVidaMax(Personaje *personaje);
+    unsigned int calcularRecuperacionVida(Personaje *personaje, double tiempo);
+    unsigned int calcularManaMax(Personaje *personaje);
+    unsigned int calcularRecupManaMeditacion(Personaje *personaje, double tiempo);
+    unsigned int calcularRecupManaTiempo(Personaje *personaje, double tiempo);
+    unsigned int calcularDropOro(Entidad *entidad);
+    unsigned int calcularMaxOroSeguro(Personaje *personaje);
+    unsigned int calcularLimiteParaSubir(Personaje *personaje);
+    unsigned int calcularExpPorGolpe(Entidad *objetivo, Entidad *atacante, unsigned int danio);
+    unsigned int calcularExpPorMatar(Entidad *objetivo, Entidad *atacante);
+    unsigned int calcularDanioAtaque(Entidad *objetivo, Entidad *atacante, Arma *arma);
+    bool seEsquivaElGolpe(Entidad *entidad);
     unsigned int calcularDefensa();
 
+    protected:
+    Configuraciones(const char* nombreArchivo);
+    static Configuraciones instancia;
+    static bool instanciaCreada;
 
 };
 

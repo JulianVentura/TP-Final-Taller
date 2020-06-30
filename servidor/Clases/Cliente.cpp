@@ -20,8 +20,8 @@ Cliente::Cliente(Socket &&socket,
     El id de la sala y toda la informacion del personaje se obtiene con
     la base de datos.
     */
-    //id = clienteProxy.recibirId();
-    id = "jugador";
+    id = clienteProxy.recibirId();
+    //id = "jugador";
     if (organizadorClientes.idEnUso(id)){
         socket.apagar(READ_AND_WRITE);
         //TODO: Avisarle al cliente que le pego un tiro
