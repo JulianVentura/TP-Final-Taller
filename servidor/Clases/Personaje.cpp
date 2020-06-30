@@ -2,7 +2,7 @@
 #include <utility>
 #define VIDA_MAXIMA 50
 #define MANA_MAXIMO 100
-#define DESPLAZAMIENTO 0.25
+#define DESPLAZAMIENTO 1.5
 
 Personaje::Personaje(float x, float y, std::string id) : 
                                        Entidad(VIDA_MAXIMA,
@@ -23,4 +23,5 @@ Personaje& Personaje::operator=(Personaje &&otro){
     //No hay necesidad de modificar a "otro", no puede haber ningun problema.
     return *this;
 }
+
 Personaje::~Personaje(){}

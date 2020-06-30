@@ -107,7 +107,7 @@ void Socket::apagar(const int flag_apagado){
 int Socket::bindYSetearOpciones(const char* host, const char* puerto){
     struct addrinfo *resultado = nullptr;
     struct addrinfo *actual = nullptr;
-    int opciones = 0;
+    int opciones = 1;
     obtenerResultadoPorDominioYPuerto(host, puerto, AI_PASSIVE, &resultado);
     int estado = ERROR;
     for (actual=resultado; 

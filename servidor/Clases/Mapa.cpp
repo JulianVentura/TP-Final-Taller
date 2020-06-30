@@ -61,14 +61,26 @@ Mapa::Mapa(std::string nombreArchivo) : tiles(),
     frontera = inicializarFrontera(archivoJson, alto, ancho);
     quadTreeEstatico.setFrontera(frontera);
     quadTreeDinamico.setFrontera(frontera);
-    tiles = archivoJson.at("layers")[0].at("data").get<std::vector<char>>();
-    std::vector<quadtree::Box<float>> objetos = archivoJson.at("layers")[1].at("objects").get<std::vector<quadtree::Box<float>>>();
+
+    // TODO: esto en el mapa nuevo, es más complicado de armar
+    // tiles = archivoJson.at("layers")[0].at("data").get<std::vector<char>>();
+    // std::vector<quadtree::Box<float>> objetos = archivoJson.at("layers")[1].at("objects").get<std::vector<quadtree::Box<float>>>();
+    
+    std::vector<quadtree::Box<float>> objetos; 
+    for (auto& capa: archivoJson["layers"]) {
+        if (capa["type"] != "objectgroup" || 
+            capa["name"] != "colisionables") continue;
+        capa["objects"].get_to(objetos);        
+        break;
+    }
+    
     for (std::size_t i=0; i<objetos.size(); i++){
         objetosEstaticos.push_back(std::move(objetos[i]));
     }
+
     for (std::size_t i=0; i<objetosEstaticos.size(); i++){
         quadTreeEstatico.add(&(objetosEstaticos[i]));
-    } 
+    }
 }
 void Mapa::actualizarPosicion(Entidad *entidad, Posicion &&nuevaPosicion){
     if (!posicionValida(entidad, nuevaPosicion)) return;

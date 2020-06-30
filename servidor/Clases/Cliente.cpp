@@ -30,8 +30,9 @@ Cliente::Cliente(Socket &&socket,
     }
     //miBaseDeDatos.recuperarInformacion(id);
     //Con la info recuperada de la base de datos creo un Personaje
-    personaje = Personaje(30, 30, id);
-    Sala* miSala = organizadorSalas.obtenerSala("mapa1");
+    
+    personaje = Personaje(935, 1851, id);
+    Sala* miSala = organizadorSalas.obtenerSala("mapa");
     ColaOperaciones *colaDeOperaciones = miSala->obtenerCola();
     clienteProxy.actualizarCola(colaDeOperaciones);
     //TODO:
@@ -85,7 +86,7 @@ void Cliente::procesar(){
         std::cerr << "Error desconocido capturado en Cliente" << std::endl;
     }
     //Liberar recursos, guardar los datos en BaseDeDatos.
-    Sala *miSala = organizadorSalas.obtenerSala("mapa1");
+    Sala *miSala = organizadorSalas.obtenerSala("mapa");
     miSala->eliminarCliente(id);
     clienteProxy.finalizar();
     finalizado = true;
