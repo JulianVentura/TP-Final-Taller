@@ -10,7 +10,7 @@ void AnimacionEnteDireccionable::actualizarEstado(unsigned int delta_t,
                                                     int delta_x, int delta_y) {
     std::string agregado;
     if (delta_x == 0 && delta_y == 0)
-        agregado = QUIETO;
+        agregado = ANIMACION_QUIETO;
 
     nuevoEstado(delta_x, delta_y);
     setAnimacion(animacion_actual + agregado);
@@ -19,11 +19,11 @@ void AnimacionEnteDireccionable::actualizarEstado(unsigned int delta_t,
 
 void AnimacionEnteDireccionable::nuevoEstado(int delta_x, int delta_y) {
     if (delta_x > 0) 
-        animacion_actual = DERECHA;
+        animacion_actual = ANIMACION_DERECHA;
     else if (delta_x < 0) 
-        animacion_actual = IZQUIERDA;
+        animacion_actual = ANIMACION_IZQUIERDA;
     else if (delta_y > 0) 
-        animacion_actual = ABAJO;
+        animacion_actual = ANIMACION_ABAJO;
     else if (delta_y < 0) 
-        animacion_actual = ARRIBA;
+        animacion_actual = ANIMACION_ARRIBA;
 }

@@ -14,6 +14,7 @@ std::unordered_map<std::string, std::vector<Obstaculo>>
         CapasParser::getCapasObstaculos() {
     return std::move(obstaculoParser.getCapasObstaculos());
 }
+
 std::vector<std::string> CapasParser::getCapasOrdenadas() {
     return std::move(this->capasOrdenadas);
 }

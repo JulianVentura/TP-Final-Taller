@@ -11,9 +11,15 @@
 
 class PersonajeVista: public MovibleVista, public IInteractivo {
 public:
-    PersonajeVista(EntornoGrafico& entorno, Personaje& modelo, std::string& id): 
-                                    MovibleVista(entorno, modelo, id) {}
+    PersonajeVista(EntornoGrafico& entorno, Personaje& modelo, std::string& id,
+         ServidorProxy& servidor): 
+            MovibleVista(entorno, modelo, id), 
+            servidor(servidor) {}
     void manejarEvento(const SDL_Event& event) override;
+    void actualizar(unsigned int delta_t) override;
+    
+private:
+    ServidorProxy& servidor;
 };
 
 #endif

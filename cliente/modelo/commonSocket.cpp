@@ -98,7 +98,7 @@ int Socket::recibir(char* buffer, size_t largo){
 		retorno = recv(file_descriptor, &buffer[bytes_recibidos],
 			largo - bytes_recibidos, 0);
 		bytes_recibidos += retorno;
-		if(retorno <= 0) throw FallaConexionException();
+		// if(retorno <= 0) throw FallaConexionException();
 	}
 	return bytes_recibidos;
 }

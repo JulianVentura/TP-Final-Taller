@@ -27,7 +27,7 @@ private:
     int tiempo_hasta_proximo_cuadro = 0;
 
     unsigned int tiempo_por_ciclo = REPETIR_INDEFINIDAMENTE;
-    unsigned int tiempo_por_cuadro = 150;
+    unsigned int tiempo_por_cuadro = 120;
 };
 
 #endif

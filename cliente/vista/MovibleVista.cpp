@@ -59,8 +59,8 @@ MovibleVista::MovibleVista(EntornoGrafico& entorno, Personaje& modelo, std::stri
     this->x = personajeModelo.x;
     this->y = personajeModelo.y;
     animacion = AnimacionEnteDireccionable(imagen, std::move(mascaras), 
-                                                        std::string(ABAJO));
-    ultimo_estado = ABAJO;
+                                                std::string(ANIMACION_ABAJO));
+    ultimo_estado = ANIMACION_ABAJO;
     this->ancho = imagen.getAncho();
     this->alto = imagen.getAlto();
 }

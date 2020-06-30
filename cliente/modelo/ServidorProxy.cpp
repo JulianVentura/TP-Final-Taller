@@ -1,4 +1,4 @@
-#include "../modelo/ServidorProxy.h"
+#include "ServidorProxy.h"
 #include <sys/socket.h>
 #include <vector>
 
@@ -12,16 +12,22 @@ ServidorProxy::ServidorProxy(std::string direccion, std::string servicio,
 }
 
 void ServidorProxy::enviarMensaje(std::string mensaje){
-	if(mensaje.size() != 0) enviarString(socket, mensaje);
+	if(mensaje.size() != 0) protocolo.enviarString(socket, mensaje);
+}
+
+void ServidorProxy::enviarMovimiento(uint32_t movimiento) {
+	protocolo.enviarMovimiento(socket, movimiento);
 }
 
 void ServidorProxy::recibirMensaje(){
 	std::string mensaje;
 	
 	while(!salir){
-		recibirString(socket, mensaje);
-		salida -> agregarMensaje(mensaje);
-		mensaje.clear();
+		protocolo.recibirMensaje(socket);
+	//	recibirString(socket, mensaje);
+	// 	salida -> agregarMensaje(mensaje);
+	// 	mensaje.clear();
+
 	}
 }
 
@@ -30,6 +36,14 @@ void ServidorProxy::terminar(){
 	hilo_recepcion -> join();
 	delete hilo_recepcion;
 	socket.cerrar_canal(SHUT_RDWR);
+}
+
+std::string ServidorProxy::obtenerMapa() {
+	return std::move(protocolo.obtenerMapa());
+}
+
+std::vector<struct Posicionable> ServidorProxy::obtenerPosiciones() {
+	return std::move(protocolo.obtenerPosiciones());
 }
 #else
 ServidorProxy::ServidorProxy(std::string direccion, std::string servicio,

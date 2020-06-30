@@ -32,8 +32,8 @@ void GUI_ChatControlador::ingresarCaracter(SDL_Event& evento){
 			break;
 
 			case SDL_SCANCODE_RETURN:
-			servidor.enviarMensaje(std::move(chat_vista.entrada));
-			chat_vista.entrada.clear();
+			// servidor.enviarMensaje(std::move(chat_vista.entrada));
+			// chat_vista.entrada.clear();
 			break;
 
 			default:

@@ -11,12 +11,12 @@ public:
     void render() override;
     void actualizar(unsigned int delta_t) override;
     
-private:
+// private:
+protected:
     Imagen imagen;
     AnimacionEnteDireccionable animacion;
     std::string ultimo_estado;
     
-protected:
     Personaje& personajeModelo;
 };
 

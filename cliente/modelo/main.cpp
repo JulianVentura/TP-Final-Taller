@@ -16,6 +16,7 @@
 #include "../vista/ErrorGrafico.h"
 #include <fstream>
 #include <nlohmann/json.hpp>
+#include <chrono>
 
 using json = nlohmann::json;
 int main(int argc, const char* argv[]) {
@@ -29,7 +30,7 @@ int main(int argc, const char* argv[]) {
         DatosPersonaje datos_personaje;
         DatosTienda datos_tienda;
 
-        ServidorProxy servidor("localhost", "80", datos_personaje,
+        ServidorProxy servidor("localhost", "3080", datos_personaje,
         datos_tienda);
 
         GUI_Principal gui(entorno, paleta, datos_personaje, datos_tienda,
@@ -41,27 +42,34 @@ int main(int argc, const char* argv[]) {
         BuclePrincipal bucle(ventana, gui, servidor);
         
         // TODO: Provisorio
-        std::ifstream archivo("assets/mapa.json");
-        if (!archivo.is_open()) 
-            throw ErrorGrafico("No se puedo abrir archivo de mapa\n");
-        json parser;
-        archivo >> parser;
+        // std::ifstream archivo("assets/mapa.json");
+        // if (!archivo.is_open()) 
+            // throw ErrorGrafico("No se puedo abrir archivo de mapa\n");
+        // json parser;
+        // archivo >> parser;
+        // std::this_thread::sleep_for(std::chrono::milliseconds( 5000 ));
+        // std::string mapa_s = std::move(servidor.obtenerMapa());
+        std::string mapa_s = std::move(servidor.obtenerMapa());
+        // printf("%s\n", mapa_s.c_str());
+        // printf("%c\n", mapa_s.c_str()[0]);   
+        // exit(0);
+        auto parser = json::parse(mapa_s.c_str());
 
         LibreriaConjuntoTileParser libreriaConjuntoTileParser(parser);
-        LibreriaConjuntoTiles conjuntosTiles(entorno, libreriaConjuntoTileParser);
-        CapasParser capasParser(parser, &conjuntosTiles);
-        CapaFrontal capaFrontal(capasParser, &conjuntosTiles);
+        LibreriaConjuntoTiles conjuntoTiles(entorno, libreriaConjuntoTileParser);
+        CapasParser capasParser(parser, &conjuntoTiles);
+        CapaFrontal capaFrontal(capasParser, &conjuntoTiles);
 
 
         MapaParser mapaParser(parser);
-        MapaVista mapa(entorno, mapaParser, conjuntosTiles);
+        MapaVista mapa(entorno, mapaParser, conjuntoTiles);
 
         std::string personaje_id("human");
         std::string enemigo_id("golum");
 
         Personaje personajeModelo;
 
-        PersonajeVista personaje(entorno, personajeModelo, personaje_id);
+        PersonajeVista personaje(entorno, personajeModelo, personaje_id, servidor);
         Personaje enemigoModelo;
         
         MovibleVista enemigo(entorno, enemigoModelo, enemigo_id);
@@ -72,7 +80,7 @@ int main(int argc, const char* argv[]) {
         camara.setObjetivo(personaje);
         // TODO: Provisorio ----^
 
-        Escena escena(entorno, camara, mapa, capaFrontal, conjuntosTiles);
+        Escena escena(entorno, camara, mapa, capaFrontal, conjuntoTiles);
         
         ventana.agregarInteractivo(&escena);
         ventana.agregarRendereable(&escena);
@@ -80,6 +88,7 @@ int main(int argc, const char* argv[]) {
         ventana.agregarInteractivo(&personaje);
 
         bucle.correr();
+        servidor.terminar();
     } catch (std::exception& e) {
         std::cerr << e.what() << std::endl;
     }
