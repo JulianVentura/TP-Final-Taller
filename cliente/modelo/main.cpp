@@ -41,18 +41,12 @@ int main(int argc, const char* argv[]) {
 
         BuclePrincipal bucle(ventana, gui, servidor);
         
+        
         // TODO: Provisorio
-        // std::ifstream archivo("assets/mapa.json");
-        // if (!archivo.is_open()) 
-            // throw ErrorGrafico("No se puedo abrir archivo de mapa\n");
-        // json parser;
-        // archivo >> parser;
-        // std::this_thread::sleep_for(std::chrono::milliseconds( 5000 ));
-        // std::string mapa_s = std::move(servidor.obtenerMapa());
+        // TODO: habría que agregar una cv
+        std::this_thread::sleep_for(std::chrono::milliseconds(2000));
+
         std::string mapa_s = std::move(servidor.obtenerMapa());
-        // printf("%s\n", mapa_s.c_str());
-        // printf("%c\n", mapa_s.c_str()[0]);   
-        // exit(0);
         auto parser = json::parse(mapa_s.c_str());
 
         LibreriaConjuntoTileParser libreriaConjuntoTileParser(parser);

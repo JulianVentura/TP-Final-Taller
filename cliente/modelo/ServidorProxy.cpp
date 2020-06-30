@@ -9,6 +9,8 @@ ServidorProxy::ServidorProxy(std::string direccion, std::string servicio,
 	salir = false;
 	socket.conectar(direccion.c_str(), servicio.c_str());
 	hilo_recepcion = new std::thread(&ServidorProxy::recibirMensaje, this);
+	std::string id("personaje1"); // TODO: harcodeado
+	protocolo.enviarID(socket, id);
 }
 
 void ServidorProxy::enviarMensaje(std::string mensaje){

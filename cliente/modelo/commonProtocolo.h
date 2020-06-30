@@ -26,6 +26,7 @@ public:
     void recibirString(Socket& socket_comunicacion, std::string& string);
     void enviarNumero(Socket& socket_comunicacion, uint16_t n);
     void enviarMovimiento(Socket& socket, uint32_t movimiento);
+    void enviarID(Socket& socket, std::string& id);
     uint16_t recibirNumero(Socket& socket_comunicacion);
     void recibirMensaje(Socket& socket);
     std::string obtenerMapa();

@@ -3,15 +3,18 @@
 
 Entidad::Entidad(unsigned int vida, 
                  unsigned int mana,
+                 unsigned int valorAgilidad,
+                 unsigned int unNivel,
                  float x,
                  float y, 
                  std::string &unId) : 
                  Posicionable(x, y),
                  vidaMaxima(vida),
-                 manaMaximo(mana),
-                 vidaActual(0),
-                 manaActual(0),
-                 id(unId){}
+                 vidaActual(vida),
+                 agilidad(valorAgilidad),
+                 nivel(unNivel),
+                 id(unId),
+                 arma(0,0,0){}
 
 
 const quadtree::Box<float>& Entidad::obtenerArea() const{
@@ -40,6 +43,30 @@ void Entidad::actualizarEstado(double tiempo, Mapa *mapa){
     mapa->actualizarPosicion(this, std::move(nuevaPosicion));
 }
 
+
+void Entidad::atacar(Entidad *objetivo){
+    arma.atacar(objetivo, this);
+}
+void Entidad::recibirDanio(unsigned int danio, Entidad *atacante){
+    Configuraciones *configuraciones = Configuraciones::obtenerInstancia();
+    this->vidaActual -= danio;
+    unsigned int experiencia = configuraciones->calcularExpPorGolpe(this,
+                                                                    atacante,
+                                                                    danio);
+    atacante->obtenerExperiencia(experiencia);
+    if (vidaActual <= 0){
+        experiencia = configuraciones->calcularExpPorMatar(this, atacante);
+        atacante->obtenerExperiencia(experiencia);
+        dropearItems();
+    }
+}
+
+void Entidad::obtenerExperiencia(unsigned int cantidad){
+    //Do nothing
+}
+
+void Entidad::dropearItems(){
+    //TODO
+}
+
 Entidad::~Entidad(){}
-
-

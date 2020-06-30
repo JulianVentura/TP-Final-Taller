@@ -51,6 +51,7 @@ void PersonajeVista::actualizar(unsigned int delta_t) {
     if (posiciones.size() <= 0) return;
     personajeModelo.x = posiciones[0].x;
     personajeModelo.y = posiciones[0].y;
+    
     this->x = personajeModelo.x;
     this->y = personajeModelo.y;
     int delta_x = x - ultimo_x;

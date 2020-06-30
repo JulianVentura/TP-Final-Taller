@@ -78,3 +78,11 @@ const float Posicion::obtenerX() const{
 const float Posicion::obtenerY() const{
     return y;
 }
+
+
+float Posicion::calcularDistancia(const Posicion &otra) const{
+    float deltaX = otra.x - x;
+    float deltaY = otra.y - y;
+    float distancia = deltaX * deltaX + deltaY * deltaY;
+    return sqrt(distancia);
+}

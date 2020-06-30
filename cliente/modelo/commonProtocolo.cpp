@@ -26,7 +26,6 @@ void Protocolo::recibirPosiciones(Socket& socket) {
 	uint32_t longitud;
 	socket.recibir((char *)&longitud, TAM_INT32);
 	longitud = ntohl(longitud);
-	printf("%u\n", longitud);
 	posiciones_temp.reserve(longitud);
 	for (uint32_t i = 0; i < longitud; ++i) {
 		std::string id;
@@ -46,6 +45,13 @@ void Protocolo::recibirPosiciones(Socket& socket) {
 		posiciones_temp.push_back(posicion);
 	}
 	this->posiciones = std::move(posiciones_temp);
+}
+void Protocolo::enviarID(Socket& socket, std::string& id) {
+	uint32_t operacion = CODIGO_ID;
+	operacion = htonl(operacion);
+	socket.enviar((char*) &operacion, TAM_INT32);
+	id.resize(TAM_ID);
+	socket.enviar((char *) &id[0], TAM_ID);
 }
 
 void Protocolo::enviarMovimiento(Socket& socket, uint32_t movimiento) {

@@ -24,6 +24,7 @@ int inicializarServidor(const char *puerto){
 int main(int argc, const char* argv[]){
     if (argc != NUMERO_PARAMETROS){
         std::cerr << "Error en la cantidad de parametros" << std::endl;
+        return ERROR;
     }
     return inicializarServidor(argv[POSICION_PUERTO]);
 }
