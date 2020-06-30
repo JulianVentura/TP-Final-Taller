@@ -2,8 +2,8 @@
 #define __ENTIDAD_H__
 #include "Posicionable.h"
 #include "Colisionable.h"
-//#include "Mapa.h"
 #include <string>
+
 class Mapa;
 class Entidad : public Colisionable, public Posicionable {
     protected:
@@ -12,7 +12,6 @@ class Entidad : public Colisionable, public Posicionable {
     unsigned int vidaActual;
     unsigned int manaActual;
     std::string id;
-    
 
     public:
     virtual ~Entidad();

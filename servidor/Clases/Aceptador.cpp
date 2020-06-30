@@ -3,6 +3,8 @@
 #include <utility> //Para std::move
 #include "ExcepcionSocket.h"
 #include "ExcepcionCliente.h"
+#include <thread>
+
 #define NUMERO_DE_CONEXIONES_EN_ESPERA 10
 
 //////////////////Metodos publicos///////////////////////////////
@@ -13,9 +15,11 @@ Aceptador::Aceptador(const char* host,
                      BaseDeDatos &unaBaseDeDatos) : 
                      organizadorSalas(unOrganizadorSalas),
                      baseDeDatos(unaBaseDeDatos),
+                     divulgador(organizadorClientes),
                      continuar(true){
     servidor.bindYSetearOpciones(host, puerto);
     servidor.escuchar(NUMERO_DE_CONEXIONES_EN_ESPERA);
+    divulgador.comenzar();
 }
 
 
@@ -46,6 +50,8 @@ void Aceptador::procesar(){
     continuar = false;
     servidor.apagar(READ_AND_WRITE);
     try{
+        divulgador.finalizar();
+        divulgador.recuperar();
         organizadorClientes.recuperarTodosLosClientes();
     }catch(...){
         std::cerr << "Error al intentar recuperar a los "

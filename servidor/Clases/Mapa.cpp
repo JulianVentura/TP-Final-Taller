@@ -1,7 +1,7 @@
 #include "Mapa.h"
+#include "Entidad.h"
 #include "ErrorServidor.h"
 #include "Box.h"
-//#include "../nlohmann_json/include/nlohmann/json.hpp"
 #include <nlohmann/json.hpp>
 #include <fstream>
 #include <utility>
@@ -13,6 +13,8 @@
 #define PI_4 0.7853982
 // Por conveniencia
 using json = nlohmann::json;
+
+
 static quadtree::Box<float> inicializarFrontera(json& archivoJson, 
                                                 unsigned int ancho, 
                                                 unsigned int alto) {

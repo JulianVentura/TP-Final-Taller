@@ -14,5 +14,7 @@ void  Thread::comenzar(){
     this->thread = std::thread(&Thread::procesar, this);
     estaCorriendo = true;
 }
-Thread::~Thread(){}
+Thread::~Thread(){
+    recuperar();
+}
 

@@ -2,17 +2,20 @@
 #define __DIVULGADOR_H__
 
 #include <string>
-
+#include "Thread.h"
 #include "colaBloqueante.h"
 #include "OrganizadorClientes.h"
+#include <atomic>
 
-class Divulgador{
+class Divulgador : public Thread{
 private:
 	ColaBloqueante<std::string> mensajes;
 	OrganizadorClientes& clientes;
+	std::atomic<bool> continuar;
 public:
 	Divulgador(OrganizadorClientes& clientes);
-	void operator()();
+	void procesar();
+	void finalizar();
 	void encolarMensaje(std::string mensaje);
 };
 

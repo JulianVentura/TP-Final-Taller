@@ -1,5 +1,5 @@
 #include "Entidad.h"
-#include "Mapa.cpp"
+#include "Mapa.h"
 
 Entidad::Entidad(unsigned int vida, 
                  unsigned int mana,
@@ -19,7 +19,6 @@ const quadtree::Box<float>& Entidad::obtenerArea() const{
 }
 
 bool Entidad::colisionaCon(const Colisionable &otro) const{
-    //quadtree::Box<float> area = std::move(posicion.obtenerAreaQueOcupa());
     return otro.colisionaCon(posicion.obtenerAreaQueOcupa());
 }
 

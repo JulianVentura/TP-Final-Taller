@@ -1,11 +1,10 @@
-#ifndef __MAPA__
-#define __MAPA__
+#ifndef __MAPA_H__
+#define __MAPA_H__
 #include "Quadtree.h"
 #include "ObtenerCaja.h"
 #include "Posicion.h"
 #include "ObjetoColisionable.h"
 #include "Posicionable.h"
-#include "Entidad.h"
 #include "Personaje.h"
 #include "Criatura.h"
 #include "Box.h"
@@ -15,6 +14,7 @@
 #include <map>
 #include <vector>
 
+class Entidad;
 class Mapa{
     private:
     std::vector<char> tiles; //Esto solo nos sirve para imprimir el ascii art
@@ -82,7 +82,7 @@ class Mapa{
     */
     void entidadesActualizarEstados(double tiempo);
     /*
-    Elimina la identidad del mapa
+    Elimina la entidad del mapa
     */
     void eliminarEntidad(Entidad *entidad);
     void eliminarEntidad(const std::string &id);
@@ -94,20 +94,3 @@ class Mapa{
 };
 
 #endif
-
-/*
-Cosas para hacer en mapa
-
-Levantar un JSON en el constructor que tendra los datos de todos los tiles (almacenar en un vector)
-y los datos de todos los colisionables estaticos (Almacenar en el QuadTree).
-
-Levantar del JSON a los comerciantes (mas adelante)
-
-metodo para actualizarPosicion que reciba un Colisionable y un objeto posicion con la nueva posicion.
-
-metodo para recolectar la posicion de todos los colisionables dinamicos.
-
-metodo para obtener 
-
-
-*/

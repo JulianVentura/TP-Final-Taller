@@ -37,7 +37,7 @@ class Cliente : public Thread{
     bool haFinalizado();
 
     //Envio
-    void enviarPosiciones(const std::vector<struct PosicionEncapsulada>
+    void actualizarEstado(const std::vector<struct PosicionEncapsulada>
      &posiciones);
     void enviarMensaje(const std::string& mensaje);
 

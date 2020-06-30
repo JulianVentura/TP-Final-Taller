@@ -20,9 +20,11 @@ Cliente::Cliente(Socket &&socket,
     El id de la sala y toda la informacion del personaje se obtiene con
     la base de datos.
     */
-    id = clienteProxy.recibirId();
+    //id = clienteProxy.recibirId();
+    id = "jugador";
     if (organizadorClientes.idEnUso(id)){
         socket.apagar(READ_AND_WRITE);
+        //TODO: Avisarle al cliente que le pego un tiro
         throw ExcepcionCliente
         ("Error: El id que se ha solicitado ya se encuentra conectado");
     }
@@ -32,13 +34,17 @@ Cliente::Cliente(Socket &&socket,
     Sala* miSala = organizadorSalas.obtenerSala("mapa1");
     ColaOperaciones *colaDeOperaciones = miSala->obtenerCola();
     clienteProxy.actualizarCola(colaDeOperaciones);
+    //TODO:
+    //clienteProxy.enviarDatosPersonaje();
+    //
     miSala->cargarCliente(this);
     finalizado = false;
     continuar = true;
 }
 
-void Cliente::enviarPosiciones(const std::vector<struct PosicionEncapsulada> &posiciones){
+void Cliente::actualizarEstado(const std::vector<struct PosicionEncapsulada> &posiciones){
     try{
+        //clienteProxy.enviarEstado() Aca se envia el estado del personaje, vida, mana, exp, etc.
         clienteProxy.enviarPosiciones(posiciones);
     }catch(...){
         //Cualquier error es motivo suficiente como para cortar la comunicacion con el Cliente

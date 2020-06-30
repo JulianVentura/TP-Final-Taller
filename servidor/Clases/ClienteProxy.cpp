@@ -36,6 +36,13 @@ void ClienteProxy::decodificarMovimiento(){
 void ClienteProxy::decodificarMensajeChat(){
     //Seguir el protocolo de un mensaje
     //Enviarle el mensaje al divulgador.
+
+    /*
+    Estructura mensaje
+
+    CodigoOp IdOrigen IdDestin LargoMensaje Mensaje
+    
+    */
 }
 
 
@@ -123,5 +130,5 @@ void ClienteProxy::enviarInformacionMapa(const std::vector<char> &infoMapa){
 }
 
 void ClienteProxy::enviarMensaje(const std::string& mensaje){
-    
+    //TODO
 }

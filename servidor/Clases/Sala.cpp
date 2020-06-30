@@ -22,7 +22,7 @@ void Sala::actualizarClientes(){
     std::unique_lock<std::mutex> lock(this->mutex);
     std::vector<struct PosicionEncapsulada> posiciones = std::move(mapa.recolectarPosiciones());
     for (auto& cliente : clientes){
-        cliente.second->enviarPosiciones(posiciones);
+        cliente.second->actualizarEstado(posiciones);
     }
 }
 void Sala::eliminarCliente(const std::string &id){
