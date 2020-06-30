@@ -22,7 +22,7 @@ static quadtree::Box<float> inicializarFrontera(json& archivoJson,
     archivoJson["tilewidth"].get_to(anchoTile);
     unsigned int altoTile;
     archivoJson["tileheight"].get_to(altoTile);
-    return std::move(quadtree::Box<float>(0, 0, ancho * anchoTile, alto * altoTile));
+    return std::move(quadtree::Box<float>(0, 0, alto * altoTile, ancho * anchoTile));
 }
 namespace quadtree{
     static void from_json(const json& j, quadtree::Box<float>& caja) {
@@ -61,11 +61,13 @@ Mapa::Mapa(std::string nombreArchivo) : tiles(),
     frontera = inicializarFrontera(archivoJson, alto, ancho);
     quadTreeEstatico.setFrontera(frontera);
     quadTreeDinamico.setFrontera(frontera);
-
-    // TODO: esto en el mapa nuevo, es más complicado de armar
-    // tiles = archivoJson.at("layers")[0].at("data").get<std::vector<char>>();
-    // std::vector<quadtree::Box<float>> objetos = archivoJson.at("layers")[1].at("objects").get<std::vector<quadtree::Box<float>>>();
     
+    //MAPA VIEJO
+    // TODO: esto en el mapa nuevo, es más complicado de armar
+    //tiles = archivoJson.at("layers")[0].at("data").get<std::vector<char>>();
+    //std::vector<quadtree::Box<float>> objetos = archivoJson.at("layers")[1].at("objects").get<std::vector<quadtree::Box<float>>>();
+    
+    //MAPA NUEVO
     std::vector<quadtree::Box<float>> objetos; 
     for (auto& capa: archivoJson["layers"]) {
         if (capa["type"] != "objectgroup" || 
@@ -247,7 +249,7 @@ const std::vector<char> Mapa::obtenerInformacionMapa(){
 // DEBUG
 #define ANCHO_TILE 32.0f // Esto dice en mapa.json
 //Indica la cantidad de celdas que hay en una coordenada de cada tile, tal que NUM_CELDAS_POR_ANCHO_TILE**2 = NUM_CELDAS_POR_TILE
-#define NUM_CELDAS_POR_ANCHO_TILE 4
+#define NUM_CELDAS_POR_ANCHO_TILE 2
 #define ANCHO_CELDA (ANCHO_TILE / NUM_CELDAS_POR_ANCHO_TILE)
 #define DEFINICION 10.0f // Pixeles equivalentes por caracter
 #define ID_COLISION 16

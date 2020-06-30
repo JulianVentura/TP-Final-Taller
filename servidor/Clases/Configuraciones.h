@@ -63,7 +63,8 @@ class Configuraciones{
     unsigned int calcularDefensa();
 
     protected:
-    Configuraciones(const char* nombreArchivo);
+    Configuraciones();
+    void leerArchivo(const char* nombreArchivo);
     static Configuraciones instancia;
     static bool instanciaCreada;
 

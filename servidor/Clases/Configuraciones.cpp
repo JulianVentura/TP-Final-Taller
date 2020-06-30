@@ -9,16 +9,20 @@
 
 #define MILI_A_SEG 0.001
 
-Configuraciones Configuraciones::instancia = nullptr;
+Configuraciones Configuraciones::instancia;
 bool Configuraciones::instanciaCreada = false;
 
-Configuraciones::Configuraciones(const char* nombreArchivo){
+void Configuraciones::leerArchivo(const char* nombreArchivo){
     //Se levanta el archivo
+}
+
+Configuraciones::Configuraciones(){
+    //Se crea
 }
 
 void Configuraciones::crearInstancia(const char* nombreArchivo){
     //Luego hay que levantar el archivo llamando al constructor
-    Configuraciones::instancia = Configuraciones(nombreArchivo);
+    Configuraciones::instancia.leerArchivo(nombreArchivo);
     Configuraciones::instanciaCreada = true;
 }
 
