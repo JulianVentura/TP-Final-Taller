@@ -31,7 +31,8 @@ void Aceptador::procesar(){
             std::unique_ptr<Cliente> cliente(new Cliente(std::move(socketCliente),
                                                          organizadorSalas,
                                                          organizadorClientes,
-                                                         baseDeDatos));
+                                                         baseDeDatos,
+                                                         divulgador));
             cliente.get()->comenzar();
             organizadorClientes.incorporarCliente(std::move(cliente));
         }catch(const ExcepcionSocket &e){

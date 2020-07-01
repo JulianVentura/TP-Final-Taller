@@ -20,7 +20,7 @@ private:
 public:
 	GUI_ChatControlador(GUI_Chat& vista, ServidorProxy& servidor);
 	void ingresarCaracter(SDL_Event& evento);
-	void agregarMensaje(std::string& mensaje);
+	void agregarMensaje(std::string mensaje, bool mensaje_publico);
 	void scroll(SDL_Event& evento);
 	bool operator()(SDL_Event& evento) override;
 	bool enClick();

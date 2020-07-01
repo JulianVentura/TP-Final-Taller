@@ -1,6 +1,7 @@
 #include "../vista/GUI_Chat.h"
 #include "../vista/Ventana.h"
 
+
 GUI_Chat::GUI_Chat(EntornoGrafico& entorno, Colores& paleta)
 : paleta(paleta) {
 	entorno.agregarRendereable(this);
@@ -59,13 +60,16 @@ void GUI_Chat::renderizarTexto(){
 	if (!textura) return;
 	unsigned int i;
 	renderer -> limpiarTextura(textura);
-	renderer -> setColor(paleta.chat_texto);
 	marco_textura.y = 0;
-	for(auto mensaje : mensajes){
+
+	for(auto& mensaje : mensajes){
+		renderer -> setColor((std::get<1>(mensaje)) ?
+		 paleta.chat_texto : paleta.chat_texto_privado);
 		i = 0;
-		while(i < mensaje.size()){
+		while(i < std::get<0>(mensaje).size()){
 			renderer -> textoATextura(textura,
-			 mensaje.substr(i, caracteres_max), 0, marco_textura.y);
+			 std::get<0>(mensaje).substr(i, caracteres_max), 0,
+			  marco_textura.y);
 			i += caracteres_max;
 			marco_textura.y += ALTO_CARACTER;
 		}
@@ -75,9 +79,9 @@ void GUI_Chat::renderizarTexto(){
 	if (marco_textura.y < 0) marco_textura.y = 0;
 }
 
-void GUI_Chat::agregarMensaje(std::string mensaje){
+void GUI_Chat::agregarMensaje(std::string mensaje, bool mensaje_publico){
 	std::lock_guard<std::mutex> lock(m);
-	mensajes.push_back(mensaje);
+	mensajes.push_back(std::make_pair(std::move(mensaje), mensaje_publico));
 	if( mensajes.size() > MENSAJES_MAX) mensajes.pop_front();
 	actualizar = true;
 }

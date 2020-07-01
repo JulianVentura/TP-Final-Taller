@@ -1,16 +1,16 @@
 #include "ClienteProxy.h"
-#include <arpa/inet.h> //Para htons
-#include "OperacionMover.h"
-#include "Cliente.h"
-#include "ExcepcionCliente.h"
-#include "../../common/CodigosOperacion.h"
+#include "Divulgador.h"
+
+#include <iostream>
+
 #define TAM_CODIGO 4
 
-
-ClienteProxy::ClienteProxy(Socket unSocket, Cliente *miCliente) : 
+ClienteProxy::ClienteProxy(Socket unSocket, Cliente *miCliente,
+ Divulgador& divulgador) : 
                            socket(std::move(unSocket)),
                            cliente(miCliente),
-                           colaOperaciones(nullptr){}
+                           colaOperaciones(nullptr),
+                           divulgador(divulgador){}
 
 void ClienteProxy::finalizar(){
     socket.apagar(SHUT_RDWR);
@@ -33,18 +33,40 @@ void ClienteProxy::decodificarMovimiento(){
     colaOperaciones->push(operacion);
 }
 
-void ClienteProxy::decodificarMensajeChat(){
-    //Seguir el protocolo de un mensaje
-    //Enviarle el mensaje al divulgador.
-
-    /*
-    Estructura mensaje
-
-    CodigoOp IdOrigen IdDestin LargoMensaje Mensaje
-    
-    */
+void _enviarString(Socket& socket_comunicacion, const std::string& string){
+        uint32_t tam = string.size();
+        tam = htobe32(tam);
+        socket_comunicacion.enviarMensaje((char*)&tam, TAM_ENCABEZADO_STRING);
+        socket_comunicacion.enviarMensaje(string.c_str(), string.size());
 }
 
+void _recibirString(Socket& socket_comunicacion, std::string& string){
+        uint32_t tam;
+        std::vector<char> buffer;
+        socket_comunicacion.recibirMensaje((char*)&tam, TAM_ENCABEZADO_STRING);
+        tam =  be32toh(tam);
+        buffer.reserve(tam);
+        socket_comunicacion.recibirMensaje(buffer.data(), tam);
+        string.assign(buffer.data(), tam);
+}
+
+void ClienteProxy::decodificarMensajeChat(){
+    std::string origen, destino, mensaje;
+    _recibirString(socket, origen);
+    _recibirString(socket, destino);
+    _recibirString(socket, mensaje);
+    divulgador.encolarMensaje(origen, destino, mensaje);
+}
+
+
+ void ClienteProxy::enviarChat(const std::string& mensaje, bool mensaje_publico){
+    std::lock_guard<std::mutex> lock(m);
+    uint32_t operacion = CODIGO_MENSAJE_CHAT;
+    operacion = htonl(operacion);
+    socket.enviarMensaje((char*) &operacion, TAM_INT32);
+    _enviarString(socket, mensaje);
+    socket.enviarMensaje((char*) &mensaje_publico, 1);
+}
 
 bool ClienteProxy::decodificarCodigo(uint32_t codigo){
     switch (codigo){
@@ -91,6 +113,7 @@ bool ClienteProxy::recibirOperacion(){
 //////////////////////////ENVIO DE MENSAJES/////////////////////////////
 
 void ClienteProxy::enviarError(std::string mensaje){
+    std::lock_guard<std::mutex> lock(m);
     uint32_t codigo = CODIGO_ERROR;
     uint32_t largoMensaje = mensaje.length();
     codigo = htonl(codigo);
@@ -101,6 +124,7 @@ void ClienteProxy::enviarError(std::string mensaje){
 }
 
 void ClienteProxy::enviarPosiciones(const std::vector<struct PosicionEncapsulada> &posiciones){
+    std::lock_guard<std::mutex> lock(m);
     uint32_t codigo = CODIGO_POSICIONES;
     codigo = htonl(codigo);
     socket.enviarMensaje((char*)&codigo, TAM_CODIGO);
@@ -117,6 +141,7 @@ void ClienteProxy::enviarPosiciones(const std::vector<struct PosicionEncapsulada
 }
 
 void ClienteProxy::enviarInformacionMapa(const std::vector<char> &infoMapa){
+    std::lock_guard<std::mutex> lock(m);
     uint32_t codigo = CODIGO_CARGA_MAPA;
     uint32_t largo_mensaje = infoMapa.size();
     //Envio el codigo de operacion

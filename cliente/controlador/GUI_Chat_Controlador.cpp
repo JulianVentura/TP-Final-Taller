@@ -32,8 +32,8 @@ void GUI_ChatControlador::ingresarCaracter(SDL_Event& evento){
 			break;
 
 			case SDL_SCANCODE_RETURN:
-			// servidor.enviarMensaje(std::move(chat_vista.entrada));
-			// chat_vista.entrada.clear();
+			 	servidor.enviarChat(std::move(chat_vista.entrada));
+				chat_vista.entrada.clear();
 			break;
 
 			default:
@@ -41,9 +41,11 @@ void GUI_ChatControlador::ingresarCaracter(SDL_Event& evento){
 	}
 }
 
-void GUI_ChatControlador::agregarMensaje(std::string& mensaje){
-	chat_vista.agregarMensaje(mensaje);
+void GUI_ChatControlador::agregarMensaje(std::string mensaje,
+ bool mensaje_publico){
+	chat_vista.agregarMensaje(mensaje, mensaje_publico);
 }
+
 void GUI_ChatControlador::scroll(SDL_Event& evento){
 	chat_vista.scroll(evento.wheel.y);
 }

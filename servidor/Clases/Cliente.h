@@ -1,15 +1,23 @@
 #ifndef __CLIENTE_H__
 #define __CLIENTE_H__
-#include "Personaje.h"
-#include "OrganizadorSalas.h"
-#include "Socket.h"
-#include "BaseDeDatos.h"
-#include "PosicionEncapsulada.h"
-#include "ClienteProxy.h"
+
 #include <atomic>
 #include <vector>
 
+
+#include "ClienteProxy.h"
+#include "Personaje.h"
+#include "OrganizadorSalas.h"
+
+#include "ExcepcionSocket.h"
+#include "ExcepcionCliente.h"
+#include "Socket.h"
+#include "BaseDeDatos.h"
+#include "PosicionEncapsulada.h"
+
 class OrganizadorClientes;
+class Divulgador;
+
 class Cliente : public Thread{
     private:
     Personaje personaje;
@@ -24,7 +32,8 @@ class Cliente : public Thread{
     Cliente(Socket &&socket,
             OrganizadorSalas &organizadorSalas,
             OrganizadorClientes &organizadorClientes,
-            BaseDeDatos &unaBaseDeDatos);
+            BaseDeDatos &unaBaseDeDatos,
+            Divulgador& divulgador);
     Cliente(Cliente &&otro) = delete;
     Cliente(Cliente &otro) = delete;
     Cliente& operator=(Cliente &&otro) = delete;
@@ -40,6 +49,7 @@ class Cliente : public Thread{
     void actualizarEstado(const std::vector<struct PosicionEncapsulada>
      &posiciones);
     void enviarMensaje(const std::string& mensaje);
+    void enviarChat(const std::string& mensaje, bool mensaje_publico);
 
     //ClienteProxy es friend de Cliente
     friend class ClienteProxy;

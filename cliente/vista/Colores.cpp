@@ -20,6 +20,7 @@ Colores::Colores(){
 	chat_entrada = {0,0,0,80};
 	chat_borde = {0,0,0,255};
 	chat_texto = {255,255,255,240};
+	chat_texto_privado = {237,211,35,240};
 }
 
 SDL_Color Colores::colorDesdeHexa(std::string hexa) {

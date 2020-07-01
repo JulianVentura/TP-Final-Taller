@@ -5,10 +5,7 @@
 
 #include "commonProtocolo.h"
 #include "commonSocket.h"
-#include "../../common/CodigosOperacion.h"
-#define TAM_INT32 4
-#define TAM_ID 20 // TODO: podría estar en common/CodigosOperacion o algo por el 
-				  // estilo.
+#include "CodigosOperacion.h"
 
 // TODO: RC maybe
 void Protocolo::recibirMapa(Socket& socket) {
@@ -54,34 +51,28 @@ void Protocolo::enviarID(Socket& socket, std::string& id) {
 	socket.enviar((char *) &id[0], TAM_ID);
 }
 
+void Protocolo::enviarChat(Socket& socket, std::string& origen,
+	std::string& destino, std::string& mensaje){
+	uint32_t operacion = CODIGO_MENSAJE_CHAT;
+	operacion = htonl(operacion);
+	socket.enviar((char*) &operacion, TAM_INT32);
+	enviarString(socket, origen);
+	enviarString(socket, destino);
+	enviarString(socket, mensaje);
+}
+
+void Protocolo::recibirChat(Socket& socket, std::string& mensaje,
+     bool& mensaje_publico){
+	recibirString(socket, mensaje);
+	socket.recibir((char*) &mensaje_publico, 1);
+}
+
 void Protocolo::enviarMovimiento(Socket& socket, uint32_t movimiento) {
 	uint32_t operacion = CODIGO_MOVIMIENTO;
 	operacion = htonl(operacion);
 	socket.enviar((char*) &operacion, TAM_INT32);
 	movimiento = htonl(movimiento);
 	socket.enviar((char *) &movimiento, TAM_INT32);
-}
-
-void Protocolo::recibirMensaje(Socket& socket) {
-	uint32_t operacion;
-	socket.recibir((char *)&operacion, TAM_INT32);
-	operacion = ntohl(operacion);
-	switch (operacion) {
-		case CODIGO_CARGA_MAPA:
-			recibirMapa(socket);
-			break;
-		
-		case CODIGO_POSICIONES:
-			recibirPosiciones(socket);
-
-			break;
-		case CODIGO_MENSAJE_CHAT: // TODO: no estoy seguro la dirección de este
-			printf("Chat\n");
-			break;
-		default:
-			printf("No reconocido %d\n", operacion);
-			break;
-	}
 }
 
 void Protocolo::enviarString(Socket& socket_comunicacion, const std::string& string){

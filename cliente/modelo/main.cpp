@@ -32,13 +32,9 @@ int main(int argc, const char* argv[]) {
 
         ServidorProxy servidor("localhost", "3080", datos_personaje,
         datos_tienda);
-
         GUI_Principal gui(entorno, paleta, datos_personaje, datos_tienda,
          servidor); 
-
         servidor.salida = &gui.chat_controlador;
-
-
         BuclePrincipal bucle(ventana, gui, servidor);
         
         

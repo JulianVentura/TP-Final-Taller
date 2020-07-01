@@ -23,7 +23,8 @@ public:
 	chat_fondo,
 	chat_entrada,
 	chat_borde,
-	chat_texto;
+	chat_texto,
+	chat_texto_privado;
 
 	/**
      * @brief Color de SDL dado un color en formato hexadecimal.

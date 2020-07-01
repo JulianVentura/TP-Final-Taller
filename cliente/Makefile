@@ -76,7 +76,7 @@ LD = $(CXX)
 endif
 
 # Si no especifica archivos, tomo todos.
-fuentes ?= $(wildcard *.$(extension)) $(wildcard */*.$(extension))
+fuentes ?= $(wildcard *.$(extension)) $(wildcard */*.$(extension)) $(wildcard ../common/*.$(extension))
 directorios = $(shell find . -type d -regex '.*\w+')
 
 occ := $(CC)

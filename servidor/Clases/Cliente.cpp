@@ -1,16 +1,17 @@
 #include "Cliente.h"
 #include "OrganizadorClientes.h"
-#include "ExcepcionSocket.h"
-#include "ExcepcionCliente.h"
+#include "Divulgador.h"
+
 #include <iostream> //DEBUG
 
 Cliente::Cliente(Socket &&socket,
                  OrganizadorSalas &unOrganizadorSalas,
                  OrganizadorClientes &organizadorClientes,
-                 BaseDeDatos &unaBaseDeDatos) : 
+                 BaseDeDatos &unaBaseDeDatos,
+                 Divulgador& divulgador) : 
                  personaje(0, 0, ""),
                  id(""),
-                 clienteProxy(std::move(socket), this),
+                 clienteProxy(std::move(socket), this, divulgador),
                  organizadorSalas(unOrganizadorSalas),
                  miBaseDeDatos(unaBaseDeDatos),
                  finalizado(true),
@@ -56,6 +57,10 @@ void Cliente::actualizarEstado(const std::vector<struct PosicionEncapsulada> &po
  void Cliente::enviarMensaje(const std::string& mensaje){
     clienteProxy.enviarMensaje(mensaje);
  }
+
+ void Cliente::enviarChat(const std::string& mensaje, bool mensaje_publico){
+    clienteProxy.enviarChat(mensaje, mensaje_publico);
+}
 
 void Cliente::cargarMapa(const std::vector<char> &&infoMapa){
     try{

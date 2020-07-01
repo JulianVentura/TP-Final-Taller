@@ -5,7 +5,7 @@
 
 class ServidorSalida{
 public:
-	virtual void agregarMensaje(std::string& mensaje) = 0;
+	virtual void agregarMensaje(std::string mensaje, bool mensaje_publico) = 0;
 };
 
 #endif /*__SERVIDOR_SALIDA_H__*/

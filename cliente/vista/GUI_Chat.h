@@ -6,6 +6,7 @@
 #include <list>
 #include <mutex>
 #include <atomic>
+#include <utility>
 
 #include "../vista/EntornoGrafico.h"
 #include "../vista/IRendereable.h"
@@ -21,7 +22,7 @@ class GUI_Chat : public IRendereable{
 private:
 	std::mutex m;
 	std::atomic<bool> actualizar;
-	std::list<std::string> mensajes;
+	std::list<std::pair<std::string, bool>> mensajes;
 	Colores& paleta;
 	SDL_Texture* textura = nullptr;
 	unsigned int caracteres_max;
@@ -32,7 +33,7 @@ public:
 	GUI_Chat(EntornoGrafico& entorno, Colores& paleta);
 	void render();
 	void actualizarDimension();
-	void agregarMensaje(std::string mensaje);
+	void agregarMensaje(std::string mensaje, bool mensaje_publico);
 	void scroll(Sint32& incremento);
 	~GUI_Chat();
 };
