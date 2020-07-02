@@ -13,23 +13,48 @@ ServidorProxy::ServidorProxy(std::string direccion, std::string servicio,
 	protocolo.enviarID(socket, id);
 }
 
-void ServidorProxy::enviarMensaje(std::string mensaje){
-	if(mensaje.size() != 0) protocolo.enviarString(socket, mensaje);
-}
-
 void ServidorProxy::enviarMovimiento(uint32_t movimiento) {
 	protocolo.enviarMovimiento(socket, movimiento);
 }
 
-void ServidorProxy::recibirMensaje(){
-	std::string mensaje;
-	
-	while(!salir){
-		protocolo.recibirMensaje(socket);
-	//	recibirString(socket, mensaje);
-	// 	salida -> agregarMensaje(mensaje);
-	// 	mensaje.clear();
+void ServidorProxy::enviarChat(std::string mensaje){
+	std::string destino = " ";
+	if(mensaje.size() == 0) return;
+	if(mensaje.front() == '@'){
+		unsigned int pos = mensaje.find_first_of(' ');
+		if(pos == std::string::npos) return;
+		destino = mensaje.substr(1,pos - 1);
+		mensaje = mensaje.substr(pos + 1, std::string::npos);
+	}
 
+	std::string id("personaje1"); // TODO: harcodeado
+	protocolo.enviarChat(socket, id, destino, mensaje);
+}
+
+void ServidorProxy::recibirMensaje(){
+	uint32_t operacion;
+	std::string mensaje;
+	bool mensaje_publico;
+	while(!salir){
+		socket.recibir((char *)&operacion, TAM_INT32);
+		operacion = ntohl(operacion);
+		switch (operacion) {
+			case CODIGO_CARGA_MAPA:
+			protocolo.recibirMapa(socket);
+			break;
+
+			case CODIGO_POSICIONES:
+			protocolo.recibirPosiciones(socket);
+
+			break;
+			case CODIGO_MENSAJE_CHAT:
+			protocolo.recibirChat(socket, mensaje, mensaje_publico);
+			salida -> agregarMensaje(mensaje, mensaje_publico);
+			break;
+		default:
+		printf("No reconocido %d\n", operacion);
+		break;
+		}
 	}
 }
 
@@ -45,16 +70,12 @@ std::string ServidorProxy::obtenerMapa() {
 }
 
 std::vector<struct Posicionable> ServidorProxy::obtenerPosiciones() {
-	return std::move(protocolo.obtenerPosiciones());
+	return protocolo.obtenerPosiciones();
 }
 #else
 ServidorProxy::ServidorProxy(std::string direccion, std::string servicio,
 	 DatosPersonaje& datos_personaje, DatosTienda& datos_tienda):
 	 datos_personaje(datos_personaje), datos_tienda(datos_tienda){}
-
-void ServidorProxy::enviarMensaje(std::string mensaje){}
-
-void ServidorProxy::recibirMensaje(){}
 
 void ServidorProxy::terminar(){}
 #endif

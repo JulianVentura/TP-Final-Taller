@@ -3,16 +3,15 @@
 
 #include <string>
 #include <thread>
+#include <arpa/inet.h>
 
 #include "DatosPersonaje.h"
 #include "DatosTienda.h"
 #include "ServidorSalida.h"
-#include "commonProtocolo.h"
-#include "commonSocket.h"
+#include "../../common/commonProtocolo.h"
+#include "../../common/commonSocket.h"
+#include "../../common/CodigosOperacion.h"
 #include "../controlador/GUI_Chat_Controlador.h"
-
-//Descomentar para modo offline.
-// #define OFFLINE
 
 class GUI_ChatControlador;
 class ServidorProxy;
@@ -31,6 +30,7 @@ public:
 	 DatosPersonaje& datos_personaje, DatosTienda& datos_tienda);
 	void enviarMensaje(std::string mensaje);
 	void recibirMensaje();
+	void enviarChat(std::string mensaje);
 	void terminar();
 	std::string obtenerMapa();
 	std::vector<struct Posicionable> obtenerPosiciones();
