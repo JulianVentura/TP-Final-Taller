@@ -72,3 +72,19 @@ void Personaje::actualizarEstado(double tiempo, Mapa *mapa){
     Posicion nuevaPosicion = posicion.mover();
     mapa->actualizarPosicion(this, std::move(nuevaPosicion));
 }
+
+void Personaje::curar(unsigned int curVida, unsigned int curMana){
+    vidaActual += curVida;
+    if (vidaActual > vidaMaxima) vidaActual = vidaMaxima;
+    manaActual += curMana;
+    if (manaActual > manaMaximo) manaActual = manaMaximo;
+}
+
+void Personaje::eliminarDeInventario(unsigned int pos){
+    inventario.eliminar(pos);
+}
+
+
+void Personaje::recibirOro(unsigned int cantOro){
+    this->cantidadOro += cantOro;
+}

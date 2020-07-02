@@ -8,6 +8,7 @@ class Personaje : public Entidad{
     unsigned int manaActual;
     unsigned int experiencia;
     unsigned int limiteParaSubir;
+    unsigned int cantidadOro;
 
     void actualizarAtributos();
 
@@ -19,6 +20,10 @@ class Personaje : public Entidad{
     Personaje& operator=(Personaje &&otro);
     void obtenerExperiencia(unsigned int cantidad) override;
     void actualizarEstado(double tiempo, Mapa *mapa) override;
+
+    void recibirOro(unsigned int cantOro);
+    void curar(unsigned int curVida, unsigned int curMana);
+    void eliminarDeInventario(unsigned int pos);
     ~Personaje();
 };
 

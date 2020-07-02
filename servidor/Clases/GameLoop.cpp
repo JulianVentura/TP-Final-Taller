@@ -38,10 +38,11 @@ void GameLoop::procesar(){
                 mapa.entidadesActualizarEstados(MS_POR_ACTUALIZACION);
                 lag -= MS_POR_ACTUALIZACION;
             }
+            mapa.cargarCriatura();
             miSala.actualizarClientes();
             //DEBUG
-            //std::cout << "\x1B[2J\x1B[H";
-            //std::cout << mapa.aCadena() << std::endl;
+            std::cout << "\x1B[2J\x1B[H";
+            std::cout << mapa.aCadena() << std::endl;
             reloj.dormir(MS_DESCANSO);
         }
     }catch (const std::exception &e){

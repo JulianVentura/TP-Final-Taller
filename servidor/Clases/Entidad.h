@@ -4,6 +4,7 @@
 #include "Colisionable.h"
 #include "Configuraciones.h"
 #include "Arma.h"
+#include "Inventario.h"
 #include <string>
 
 class Mapa;
@@ -14,7 +15,8 @@ class Entidad : public Colisionable, public Posicionable {
     unsigned int agilidad;
     unsigned int nivel;
     std::string id;
-    Arma arma;
+    Arma *arma;
+    Inventario inventario;
 
     public:
     virtual ~Entidad();
@@ -34,9 +36,12 @@ class Entidad : public Colisionable, public Posicionable {
     virtual void actualizarEstado(double tiempo, Mapa *mapa);
 
     virtual void atacar(Entidad *objetivo);
-    virtual void recibirDanio(unsigned int danio, Entidad *atacante);
+    virtual void recibirDanio(int danio, Entidad *atacante);
     virtual void obtenerExperiencia(unsigned int cantidad);
     virtual void dropearItems();
+
+    void equipar(Arma *arma);
+    void almacenar(std::unique_ptr<Item> item);
     friend class Configuraciones;
 };
 

@@ -44,12 +44,14 @@ Mapa::Mapa(std::string nombreArchivo) : tiles(),
                                         frontera(0, 0, 0, 0),
                                         quadTreeEstatico(frontera, obtenerCaja),
                                         quadTreeDinamico(frontera, obtenerCaja),
-                                        cantidadDeCriaturas(0),
+                                        limiteCriaturas(3),
                                         personajes(),
-                                        criaturas(){
+                                        criaturas(),
+                                        fabricaCriaturas(criaturas),
+                                        motorAleatorio(std::time(0)){
     std::ifstream archivo(nombreArchivo.c_str());
     if (!archivo.is_open()){
-        throw ErrorServidor("No se pudo abrir el archivo %s\n", nombreArchivo); 
+        throw ErrorServidor("Error: No se ha podido abrir el archivo de nombre %s", nombreArchivo); 
     }
     json archivoJson;
     contenido_archivo = std::string((std::istreambuf_iterator<char>(archivo)), std::istreambuf_iterator<char>());
@@ -64,10 +66,11 @@ Mapa::Mapa(std::string nombreArchivo) : tiles(),
     
     //MAPA VIEJO
     // TODO: esto en el mapa nuevo, es más complicado de armar
-    //tiles = archivoJson.at("layers")[0].at("data").get<std::vector<char>>();
-    //std::vector<quadtree::Box<float>> objetos = archivoJson.at("layers")[1].at("objects").get<std::vector<quadtree::Box<float>>>();
-    
+    tiles = archivoJson.at("layers")[0].at("data").get<std::vector<char>>();
+    std::vector<quadtree::Box<float>> objetos = archivoJson.at("layers")[2].at("objects").get<std::vector<quadtree::Box<float>>>();
+    zonasRespawn = archivoJson.at("layers")[1].at("objects").get<std::vector<quadtree::Box<float>>>();
     //MAPA NUEVO
+    /*
     std::vector<quadtree::Box<float>> objetos; 
     for (auto& capa: archivoJson["layers"]) {
         if (capa["type"] != "objectgroup" || 
@@ -75,7 +78,7 @@ Mapa::Mapa(std::string nombreArchivo) : tiles(),
         capa["objects"].get_to(objetos);        
         break;
     }
-    
+    */
     for (std::size_t i=0; i<objetos.size(); i++){
         objetosEstaticos.push_back(std::move(objetos[i]));
     }
@@ -94,7 +97,7 @@ void Mapa::actualizarPosicion(Entidad *entidad, Posicion &&nuevaPosicion){
 std::string Mapa::posicionesACadena(){
     std::string resultado;
 
-    for (std::map<std::string, Criatura*>::iterator it = criaturas.begin();
+    for (std::map<std::string, std::unique_ptr<Criatura>>::iterator it = criaturas.begin();
          it != criaturas.end();
          ++it){
         resultado += it->first + '/' + it->second->imprimirPosicion() + '$';
@@ -111,11 +114,10 @@ std::string Mapa::posicionesACadena(){
 std::vector<struct PosicionEncapsulada> Mapa::recolectarPosiciones(){
     std::vector<struct PosicionEncapsulada> resultado;
     struct PosicionEncapsulada pos = {{0}, 0, 0};
-    for (std::map<std::string, Criatura*>::iterator it = criaturas.begin();
+    for (std::map<std::string, std::unique_ptr<Criatura>>::iterator it = criaturas.begin();
          it != criaturas.end();
          ++it){
         pos = {{0}, it->second->obtenerX(), it->second->obtenerY()};
-        //Copio dejando espacio para el `\0`
         strncpy(pos.id, it->first.c_str(), TAM_ID);
         pos.id[TAM_ID - 1] = 0;
         resultado.push_back(std::move(pos));
@@ -124,7 +126,6 @@ std::vector<struct PosicionEncapsulada> Mapa::recolectarPosiciones(){
          it != personajes.end();
          ++it){
         pos = {{0}, it->second->obtenerX(), it->second->obtenerY()};
-        //Copio dejando espacio para el `\0`
         strncpy(pos.id, it->first.c_str(), TAM_ID);
         pos.id[TAM_ID - 1] = 0;
         resultado.push_back(std::move(pos));
@@ -132,7 +133,7 @@ std::vector<struct PosicionEncapsulada> Mapa::recolectarPosiciones(){
     return resultado;
 }
 Entidad* Mapa::obtener(const char* id){
-    std::map<std::string, Criatura*>::iterator Cit = criaturas.find(id);
+    std::map<std::string, std::unique_ptr<Criatura>>::iterator Cit = criaturas.find(id);
     std::map<std::string, Personaje*>::iterator Pit = personajes.find(id);
     if (Cit == criaturas.end()){
         if (Pit == personajes.end()){
@@ -141,7 +142,7 @@ Entidad* Mapa::obtener(const char* id){
             return Pit->second;
         }
     }else{
-        return Cit->second;
+        return Cit->second.get();
     }
 }
 
@@ -159,10 +160,27 @@ void Mapa::cargarPersonaje(Personaje *personaje){
 }
 
 
-void Mapa::cargarCriatura(Criatura *criatura){
-    criaturas[criatura->obtenerId()] = criatura;
+void Mapa::cargarCriatura(){
+    
+    if (criaturas.size() >= limiteCriaturas) return;
+    // Obtengo un punto de respawn de la lista
+    std::vector<quadtree::Box<float>>::iterator zona = zonasRespawn.begin();
+    std::uniform_int_distribution<> dis(0, std::distance(zona, zonasRespawn.end()) - 1);
+    std::advance(zona, dis(motorAleatorio));
+    
+    //TODO: Cambiar los atributos de publicos a privados.
+    float x = (*zona).getCenter().x;
+    float y = (*zona).getCenter().y;
+
+    //Creo una Criatura aleatoria y la cargo al mapa.
+    std::unique_ptr<Criatura> criaturaEncapsulada = std::move(fabricaCriaturas.obtenerCriaturaAleatoria(x, y));
+    criaturaEncapsulada.get();
+    
+    Criatura *criatura = criaturaEncapsulada.get();
+    criaturas[criatura->obtenerId()] = std::move(criaturaEncapsulada);
     cargarEntidad(criatura);
 }
+
 
 bool Mapa::posicionValida(Entidad *entidad, const quadtree::Box<float> &area){
     if (!frontera.contains(area)) return false;
@@ -216,7 +234,7 @@ void Mapa::eliminarEntidad(Entidad *entidad){
 }
 
 void Mapa::eliminarEntidad(const std::string &id){
-    std::map<std::string, Criatura*>::iterator Cit = criaturas.find(id);
+    std::map<std::string, std::unique_ptr<Criatura>>::iterator Cit = criaturas.find(id);
     std::map<std::string, Personaje*>::iterator Pit = personajes.find(id);
     if (Cit == criaturas.end()){
         if (Pit == personajes.end()){
@@ -228,7 +246,7 @@ void Mapa::eliminarEntidad(const std::string &id){
         }
     }else{
         //Se elimina la criatura
-        quadTreeDinamico.remove(Cit->second);
+        quadTreeDinamico.remove(Cit->second.get());
         criaturas.erase(Cit);
     }
 }
@@ -246,6 +264,9 @@ const std::vector<char> Mapa::obtenerInformacionMapa(){
     const std::vector<char> vector(contenido_archivo.begin(), contenido_archivo.end());
     return vector;
 }
+
+
+
 // DEBUG
 #define ANCHO_TILE 32.0f // Esto dice en mapa.json
 //Indica la cantidad de celdas que hay en una coordenada de cada tile, tal que NUM_CELDAS_POR_ANCHO_TILE**2 = NUM_CELDAS_POR_TILE
@@ -297,7 +318,7 @@ std::string Mapa::aCadena() {
     std::string resultado = tablero.str();
     poblarColisiones(tiles, resultado, alto, ancho);
     for (auto& criatura: criaturas) {
-        poblarCadena(criatura.second, ancho_celdas, 'C', resultado);
+        poblarCadena(criatura.second.get(), ancho_celdas, 'C', resultado);
     }
     for (auto& personaje: personajes) {
         poblarCadena(personaje.second, ancho_celdas, 'J', resultado);

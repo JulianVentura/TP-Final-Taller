@@ -11,7 +11,7 @@ class Servidor{
     Aceptador aceptador;
     public:
     //Luego se recibira un archivo de configuraciones desde donde se levantara el host, entre otras cosas.
-    Servidor(const char* puerto);
+    Servidor(const char* puerto, const char* archivoConfig);
     Servidor(Servidor &&otro) = delete;
     Servidor(Servidor &otro) = delete;
     Servidor& operator=(Servidor &otro) = delete;

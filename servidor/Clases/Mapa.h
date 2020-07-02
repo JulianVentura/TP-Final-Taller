@@ -13,6 +13,10 @@
 #include <string>
 #include <map>
 #include <vector>
+#include <memory>
+#include "FabricaCriaturas.h"
+#include <random>
+#include <ctime>
 
 class Entidad;
 class Mapa{
@@ -26,10 +30,12 @@ class Mapa{
     quadtree::Quadtree<Colisionable*, ObtenerCaja> quadTreeEstatico;
     quadtree::Quadtree<Colisionable*, ObtenerCaja> quadTreeDinamico;
     std::vector<ObjetoColisionable> objetosEstaticos;
-    unsigned int cantidadDeCriaturas;
+    std::vector<quadtree::Box<float>> zonasRespawn;
+    unsigned int limiteCriaturas;
     std::map<std::string, Personaje*> personajes; 
-    std::map<std::string, Criatura*> criaturas;
-
+    std::map<std::string, std::unique_ptr<Criatura>> criaturas;
+    FabricaCriaturas fabricaCriaturas;
+    std::mt19937 motorAleatorio;
     /*
     Devuelve true si la nueva posicion o el area no colisiona con
     algun Colisionable ya presente en el mapa.
@@ -87,7 +93,7 @@ class Mapa{
     void eliminarEntidad(Entidad *entidad);
     void eliminarEntidad(const std::string &id);
     void cargarEntidad(Entidad *entidad);
-    void cargarCriatura(Criatura *criatura);
+    void cargarCriatura();
     
     // DEBUG
     std::string aCadena();

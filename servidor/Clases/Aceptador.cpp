@@ -19,12 +19,12 @@ Aceptador::Aceptador(const char* host,
                      continuar(true){
     servidor.bindYSetearOpciones(host, puerto);
     servidor.escuchar(NUMERO_DE_CONEXIONES_EN_ESPERA);
-    divulgador.comenzar();
 }
 
 
 void Aceptador::procesar(){
     while (continuar){
+        divulgador.comenzar();
         try{
             Socket socketCliente = servidor.aceptar();
             organizadorClientes.recuperarFinalizados();

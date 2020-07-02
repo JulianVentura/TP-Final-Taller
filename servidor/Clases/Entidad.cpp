@@ -14,7 +14,8 @@ Entidad::Entidad(unsigned int vida,
                  agilidad(valorAgilidad),
                  nivel(unNivel),
                  id(unId),
-                 arma(0,0,0){}
+                 arma(nullptr),
+                 inventario(){}
 
 
 const quadtree::Box<float>& Entidad::obtenerArea() const{
@@ -45,9 +46,9 @@ void Entidad::actualizarEstado(double tiempo, Mapa *mapa){
 
 
 void Entidad::atacar(Entidad *objetivo){
-    arma.atacar(objetivo, this);
+    arma->atacar(objetivo, this);
 }
-void Entidad::recibirDanio(unsigned int danio, Entidad *atacante){
+void Entidad::recibirDanio(int danio, Entidad *atacante){
     Configuraciones *configuraciones = Configuraciones::obtenerInstancia();
     this->vidaActual -= danio;
     unsigned int experiencia = configuraciones->calcularExpPorGolpe(this,
@@ -68,5 +69,15 @@ void Entidad::obtenerExperiencia(unsigned int cantidad){
 void Entidad::dropearItems(){
     //TODO
 }
+
+void Entidad::equipar(Arma *unArma){
+    arma = unArma;
+}
+
+void Entidad::almacenar(std::unique_ptr<Item> item){
+    //Guarda que si falla se pierde el item.
+    inventario.almacenar(std::move(item));
+}
+
 
 Entidad::~Entidad(){}

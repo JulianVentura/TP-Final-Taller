@@ -24,15 +24,17 @@ Cliente::Cliente(Socket &&socket,
     //id = "jugador";
     if (organizadorClientes.idEnUso(id)){
         socket.apagar(READ_AND_WRITE);
-        //TODO: Avisarle al cliente que le pego un tiro
+        //Tambien se podria entrar en un bucle en el cual se reciban distintos ids, hasta que el id sea valido
+        //o hasta que el Cliente envie una peticion de logout.
+        clienteProxy.enviarError("Error: El id que ha ingresado ya ha sido logueado. Finaliza la conexion.");
         throw ExcepcionCliente
         ("Error: El id que se ha solicitado ya se encuentra conectado");
     }
     //miBaseDeDatos.recuperarInformacion(id);
     //Con la info recuperada de la base de datos creo un Personaje
     
-    personaje = Personaje(935, 1851, id);
-    Sala* miSala = organizadorSalas.obtenerSala("mapa");
+    personaje = Personaje(0, 0, id);
+    Sala* miSala = organizadorSalas.obtenerSala("mapaPrueba");
     ColaOperaciones *colaDeOperaciones = miSala->obtenerCola();
     clienteProxy.actualizarCola(colaDeOperaciones);
     //TODO:
@@ -86,7 +88,7 @@ void Cliente::procesar(){
         std::cerr << "Error desconocido capturado en Cliente" << std::endl;
     }
     //Liberar recursos, guardar los datos en BaseDeDatos.
-    Sala *miSala = organizadorSalas.obtenerSala("mapa");
+    Sala *miSala = organizadorSalas.obtenerSala("mapaPrueba");
     miSala->eliminarCliente(id);
     clienteProxy.finalizar();
     finalizado = true;

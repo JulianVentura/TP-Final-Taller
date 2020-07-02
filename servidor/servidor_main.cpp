@@ -4,12 +4,13 @@
 #define EXITO 0
 #define ERROR -1
 //Validacion de parametros
-#define NUMERO_PARAMETROS 2
+#define NUMERO_PARAMETROS 3
 #define POSICION_PUERTO 1
+#define POS_ARCHIVO_CONFIG 2
 
-int inicializarServidor(const char *puerto){
+int inicializarServidor(const char *puerto, const char* archivoConfig){
     try{
-        Servidor servidor(puerto);
+        Servidor servidor(puerto, archivoConfig);
         servidor.procesar();
     }catch(const std::exception &e){
         std::cerr << e.what() <<std::endl;
@@ -26,5 +27,5 @@ int main(int argc, const char* argv[]){
         std::cerr << "Error en la cantidad de parametros" << std::endl;
         return ERROR;
     }
-    return inicializarServidor(argv[POSICION_PUERTO]);
+    return inicializarServidor(argv[POSICION_PUERTO], argv[POS_ARCHIVO_CONFIG]);
 }
