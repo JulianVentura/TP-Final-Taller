@@ -40,7 +40,7 @@ void Protocolo::recibirPosiciones(Socket& socket,
 	}
 }
 
-void Protocolo::enviarID(Socket& socket, std::string& id) {
+void Protocolo::enviarID(Socket& socket, std::string id) {
 	uint32_t operacion = CODIGO_ID;
 	operacion = htonl(operacion);
 	socket.enviar((char*) &operacion, TAM_INT32);

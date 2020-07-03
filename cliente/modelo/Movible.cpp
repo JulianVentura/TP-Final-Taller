@@ -1,4 +1,4 @@
-#include "Personaje.h"
+#include "Movible.h"
 #include <vector>
 #include <utility>
 #include <nlohmann/json.hpp>
@@ -8,20 +8,20 @@ using json = nlohmann::json;
 #define RUTA_INFO "assets/cliente.json"
 #include <fstream>
 
-Personaje::Personaje(std::string& id, ServidorProxy& servidor): id(id), 
-        servidor(servidor) {
+Movible::Movible(std::string& id_movible, ServidorProxy& servidor): 
+        id_movible(id_movible), servidor(servidor) {
     std::ifstream fuente(RUTA_INFO);
-    json parser;
-    fuente >> parser;
+    json j;
+    fuente >> j;
     std::string raiz;
-    parser["raiz"].get_to(raiz);
+    j["raiz"].get_to(raiz);
     std::string ruta;
-    parser["personajes"][id.c_str()]["archivo"].get_to(ruta);
-    parser["personajes"][id.c_str()]["color-fondo"].get_to(this->color_fondo);
+    j["personajes"][id_movible]["archivo"].get_to(ruta);
+    j["personajes"][id_movible]["color-fondo"].get_to(color_fondo);
 
     this->ruta_imagen = raiz + ruta;
 
-    for (auto& mascara: parser["personajes"][id.c_str()]["mascaras"].items()) {
+    for (auto& mascara: j["personajes"][id_movible]["mascaras"].items()) {
         std::string llave(mascara.key());
         std::vector<SDL_Rect> vector;
         for (auto& cuadro: mascara.value()) {
@@ -36,6 +36,6 @@ Personaje::Personaje(std::string& id, ServidorProxy& servidor): id(id),
     }
 }
 
-void Personaje::mover(uint32_t direccion) {
+void Movible::mover(uint32_t direccion) {
     servidor.enviarMovimiento(direccion);
 }

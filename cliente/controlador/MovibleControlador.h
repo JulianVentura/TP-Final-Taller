@@ -1,17 +1,17 @@
-#ifndef PERSONAJECONTROLADOR_H
-#define PERSONAJECONTROLADOR_H
+#ifndef MOVIBLECONTROLADOR_H
+#define MOVIBLECONTROLADOR_H
 
 #include <unordered_map>
 #include "IInteractivo.h"
-#include "../modelo/Personaje.h"
+#include "../modelo/Movible.h"
 
-class PersonajeControlador: public IInteractivo {
+class MovibleControlador: public IInteractivo {
 public:
-    explicit PersonajeControlador(Personaje& modelo);
+    explicit MovibleControlador(Movible& modelo);
     void manejarEvento(const SDL_Event& event) override;
 
 private:
-    Personaje& modelo;
+    Movible& modelo;
     int ultima_tecla_presionada;
     static std::unordered_map<int, uint32_t> teclas_direccionables;
 };

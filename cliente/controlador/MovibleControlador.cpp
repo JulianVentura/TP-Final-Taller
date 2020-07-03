@@ -1,4 +1,4 @@
-#include "PersonajeControlador.h"
+#include "MovibleControlador.h"
 #include "../../common/CodigosOperacion.h"
 
 #include <SDL2/SDL_keycode.h>
@@ -12,16 +12,16 @@ enum TECLAS_DIRECCIONES {
     TECLA_IZQUIERDA = SDLK_a
 };
 
-PersonajeControlador::PersonajeControlador(Personaje& modelo): modelo(modelo) {}
+MovibleControlador::MovibleControlador(Movible& modelo): modelo(modelo) {}
 
-std::unordered_map<int, uint32_t> PersonajeControlador::teclas_direccionables {
+std::unordered_map<int, uint32_t> MovibleControlador::teclas_direccionables {
     { TECLA_ARRIBA, MOVIMIENTO::ARRIBA},
     { TECLA_DERECHA, MOVIMIENTO::DERECHA},
     { TECLA_ABAJO, MOVIMIENTO::ABAJO},
     { TECLA_IZQUIERDA, MOVIMIENTO::IZQUIERDA}
 };
 
-void PersonajeControlador::manejarEvento(const SDL_Event& event) {
+void MovibleControlador::manejarEvento(const SDL_Event& event) {
     if (event.type == SDL_KEYDOWN) {
         int tecla_presionada = event.key.keysym.sym;
         if (teclas_direccionables.count(tecla_presionada) > 0)

@@ -3,12 +3,12 @@
 #include "AnimacionEnteDireccionable.h"
 #include "IObstruible.h"
 #include "Imagen.h"
-#include "../modelo/Personaje.h"
+#include "../modelo/Movible.h"
 #include <string>
 
 class MovibleVista: public IObstruible {
 public:
-    MovibleVista(EntornoGrafico& entorno, Personaje& modelo);
+    MovibleVista(EntornoGrafico& entorno, Movible& modelo);
     void render() override;
     void actualizar(unsigned int delta_t) override;
     
@@ -16,7 +16,7 @@ private:
     Imagen imagen;
     AnimacionEnteDireccionable animacion;
     std::string ultimo_estado;
-    Personaje& modelo;
+    Movible& modelo;
 };
 
 #endif

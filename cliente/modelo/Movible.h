@@ -1,5 +1,5 @@
-#ifndef PERSONAJE_H
-#define PERSONAJE_H
+#ifndef MOVIBLE_H
+#define MOVIBLE_H
 
 #include <SDL2/SDL_rect.h>
 #include <string>
@@ -8,13 +8,13 @@
 #include "ServidorProxy.h"
 #include "IPosicionable.h"
 
-class Personaje: public IPosicionable {
+class Movible: public IPosicionable {
 public:
-    Personaje(std::string& id, ServidorProxy& servidor);
+    Movible(std::string& id_personaje, ServidorProxy& servidor);
     void mover(uint32_t direccion);
 
 private:
-    std::string id;
+    std::string id_movible;
     ServidorProxy& servidor;
     std::string color_fondo;
     std::string ruta_imagen;

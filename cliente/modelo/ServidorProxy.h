@@ -23,6 +23,7 @@ private:
 	std::thread* hilo_recepcion;
 	bool salir;
 	Socket socket;
+	std::string& id_usuario;
 	DatosPersonaje& datos_personaje;
 	DatosTienda& datos_tienda;
 	Protocolo protocolo;
@@ -31,8 +32,8 @@ private:
 
 public:
 	ServidorSalida* salida;
-	ServidorProxy(std::string direccion, std::string servicio,
-	 DatosPersonaje& datos_personaje, DatosTienda& datos_tienda);
+	ServidorProxy(std::string& direccion, std::string& servicio, std::string& 
+		id_usuario, DatosPersonaje& datos_personaje, DatosTienda& datos_tienda);
 	void enviarMensaje(std::string mensaje);
 	void recibirMensaje();
 	void enviarChat(std::string mensaje);

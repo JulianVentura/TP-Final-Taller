@@ -9,7 +9,7 @@
 #include <utility>
 #include <unordered_map>
 
-MovibleVista::MovibleVista(EntornoGrafico& entorno, Personaje& modelo)
+MovibleVista::MovibleVista(EntornoGrafico& entorno, Movible& modelo)
         : modelo(modelo) {
     entorno.agregarRendereable(this);
     SDL_Color color = Colores::colorDesdeHexa(modelo.color_fondo);
