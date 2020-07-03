@@ -5,6 +5,7 @@
 #include <SDL2/SDL_timer.h>
 #include <cstdio>
 #include <string>
+#include <algorithm>
 #include "ErrorGrafico.h"
 #include "Ventana.h"
 #include "Colores.h"

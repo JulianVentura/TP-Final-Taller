@@ -1,4 +1,5 @@
 #include "../controlador/GUI_Chat_Controlador.h"
+#include "../modelo/ServidorProxy.h"
 
 GUI_ChatControlador::GUI_ChatControlador(GUI_Chat& vista,
  ServidorProxy& servidor) : GUI_BotonControlador(vista.marco_entrada.x,

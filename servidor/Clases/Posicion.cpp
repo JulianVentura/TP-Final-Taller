@@ -4,7 +4,7 @@
 #include <cmath>
 #define ANCHO 6
 #define ALTO 6
-Posicion::Posicion(float x, float y) : 
+Posicion::Posicion(float x, float y) :
                    areaQueOcupa(x - ANCHO/2, y - ALTO/2, ANCHO, ALTO),
                    x(x), 
                    y(y),

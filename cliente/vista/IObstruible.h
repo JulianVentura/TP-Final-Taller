@@ -4,7 +4,6 @@
 #include "ITargeteable.h"
 
 class IObstruible: public IRendereable, public ITargeteable {
-    
 };
 
 #endif

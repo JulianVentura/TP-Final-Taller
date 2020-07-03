@@ -2,14 +2,14 @@
 #define VENTANA_H
 
 #include "EntornoGrafico.h"
-#include "IInteractivo.h"
+#include "../controlador/IInteractivo.h"
 #include "IRendereable.h"
 #include "IDimensionable.h"
 #include "Renderer.h"
 #include <SDL2/SDL_events.h>
 #include <vector>
 
-class Ventana: public IDimensionable, IInteractivo, IRendereable {
+class Ventana: public IDimensionable, public IInteractivo, public IRendereable {
 public:
     Ventana(EntornoGrafico& entorno, const char* title);
     ~Ventana();
@@ -21,27 +21,12 @@ public:
      */
     void render() override;
     void actualizar(unsigned int delta_t) override;
-
-    int getAncho() override;
-    int getAlto() override;
-
-    /**
-     * @brief A rendereable se le asignan tanto el Renderer como la Ventana.
-     * Se agrega a la lista de renderables de la ventana.
-     * @post rendereable podrá usar el renderer y la ventana.
-     */
-    void agregarRendereable(IRendereable* rendereable);
-    void agregarInteractivo(IInteractivo* interactivo);
     
 private:
-    int ancho = 650;
-    int alto = 500;
     bool pantalla_completa = false;
     SDL_Window* ventana;
     Renderer* renderer;
     SDL_Color color_fondo = {51, 51, 51, 255};
-    std::vector<IInteractivo *> interactivos;
-    std::vector<IRendereable *> rendereables;
     EntornoGrafico& entorno;
     friend class Renderer;
 };

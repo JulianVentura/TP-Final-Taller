@@ -1,6 +1,9 @@
 #include "ServidorProxy.h"
 #include <sys/socket.h>
 #include <vector>
+#include <utility>
+#include <unordered_map>
+#include "../controlador/GUI_Chat_Controlador.h"
 
 #ifndef OFFLINE
 ServidorProxy::ServidorProxy(std::string direccion, std::string servicio,
@@ -21,7 +24,7 @@ void ServidorProxy::enviarChat(std::string mensaje){
 	std::string destino = " ";
 	if(mensaje.size() == 0) return;
 	if(mensaje.front() == '@'){
-		unsigned int pos = mensaje.find_first_of(' ');
+		std::size_t pos = mensaje.find_first_of(' ');
 		if(pos == std::string::npos) return;
 		destino = mensaje.substr(1,pos - 1);
 		mensaje = mensaje.substr(pos + 1, std::string::npos);
@@ -44,16 +47,16 @@ void ServidorProxy::recibirMensaje(){
 			break;
 
 			case CODIGO_POSICIONES:
-			protocolo.recibirPosiciones(socket);
-
+			this->actualizarPosiciones();		
 			break;
+
 			case CODIGO_MENSAJE_CHAT:
 			protocolo.recibirChat(socket, mensaje, mensaje_publico);
 			salida -> agregarMensaje(mensaje, mensaje_publico);
 			break;
 		default:
-		printf("No reconocido %d\n", operacion);
-		break;
+			printf("No reconocido %d\n", operacion);
+			break;
 		}
 	}
 }
@@ -69,9 +72,22 @@ std::string ServidorProxy::obtenerMapa() {
 	return std::move(protocolo.obtenerMapa());
 }
 
-std::vector<struct Posicionable> ServidorProxy::obtenerPosiciones() {
-	return protocolo.obtenerPosiciones();
+void ServidorProxy::actualizarPosiciones() {
+	std::unordered_map<std::string, std::pair<int, int>> posiciones;
+	protocolo.recibirPosiciones(socket, posiciones);
+	for (auto& posicion: posiciones) {
+		if (posicionables.count(posicion.first) == 0) continue;
+		auto& coordenadas = posicion.second;
+		posicionables[posicion.first]->actualizarPosicion(coordenadas.first, 
+															coordenadas.second);
+	}
 }
+
+void ServidorProxy::agregarPosicionable(std::string& id, 
+												IPosicionable* posicionable) {
+	posicionables[id] = posicionable;
+}
+
 #else
 ServidorProxy::ServidorProxy(std::string direccion, std::string servicio,
 	 DatosPersonaje& datos_personaje, DatosTienda& datos_tienda):

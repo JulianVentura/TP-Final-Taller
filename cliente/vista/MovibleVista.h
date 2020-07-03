@@ -4,20 +4,19 @@
 #include "IObstruible.h"
 #include "Imagen.h"
 #include "../modelo/Personaje.h"
+#include <string>
 
 class MovibleVista: public IObstruible {
 public:
-    MovibleVista(EntornoGrafico& entorno, Personaje& modelo, std::string& id);
+    MovibleVista(EntornoGrafico& entorno, Personaje& modelo);
     void render() override;
     void actualizar(unsigned int delta_t) override;
     
-// private:
-protected:
+private:
     Imagen imagen;
     AnimacionEnteDireccionable animacion;
     std::string ultimo_estado;
-    
-    Personaje& personajeModelo;
+    Personaje& modelo;
 };
 
 #endif

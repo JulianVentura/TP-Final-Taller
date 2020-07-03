@@ -2,6 +2,7 @@
 #define ANIMACIONENTEDIRECCIONABLE_H
 
 #include "Animacion.h"
+#include <string>
 
 #define ANIMACION_ARRIBA    "Arriba"
 #define ANIMACION_ABAJO     "Abajo"

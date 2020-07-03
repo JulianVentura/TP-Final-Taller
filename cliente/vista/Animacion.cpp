@@ -1,4 +1,5 @@
 #include "Animacion.h"
+#include <string>
 
 Animacion::Animacion(Imagen& imagen, mascaras_t mascaras, 
     const std::string& animacion_inicial): imagen(&imagen), mascaras(mascaras) {
@@ -8,7 +9,6 @@ Animacion::Animacion(Imagen& imagen, mascaras_t mascaras,
     tiempo_hasta_proximo_cuadro = 0;
     tiempo_hasta_proximo_ciclo = 0;
 }
-
 
 void Animacion::setAnimacion(const std::string& animacion) {
     if (animacion == animacion_actual) return;

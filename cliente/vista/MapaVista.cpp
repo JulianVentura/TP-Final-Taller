@@ -1,7 +1,8 @@
 #include "MapaVista.h"
+#include "TileConjunto.h"
 #include <iostream>
 #include <string>
-#include "TileConjunto.h"
+#include <utility>
 
 int MapaVista::getColumnas() { return columnas; }
 int MapaVista::getFilas() { return filas; }

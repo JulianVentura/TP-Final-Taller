@@ -33,9 +33,6 @@ void Escena::render() {
     camara.reiniciar(renderer);
 }
 
-void Escena::manejarEvento(const SDL_Event& event) {
-}
-
 void Escena::actualizar(unsigned int delta_t) {
     mapa.actualizar(delta_t);
     capaFrontal.actualizar(delta_t);

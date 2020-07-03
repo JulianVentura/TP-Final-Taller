@@ -133,7 +133,7 @@ private:
     void add(Node* node, std::size_t depth, const Box<Float>& box, const T& value)
     {
         assert(node != nullptr);
-        // assert(box.contains(mGetBox(value)));
+        assert(box.contains(mGetBox(value)));
         if (isLeaf(node))
         {
             // Insert the value in this node if possible
@@ -181,7 +181,7 @@ private:
     void remove(Node* node, Node* parent, const Box<Float>& box, const T& value)
     {
         assert(node != nullptr);
-        // assert(box.contains(mGetBox(value)));
+        assert(box.contains(mGetBox(value)));
         if (isLeaf(node))
         {
             // Remove the value from node

@@ -4,7 +4,6 @@
 #include <SDL2/SDL.h>
 #include <string>
 
-#include "../modelo/ServidorProxy.h"
 #include "../modelo/ServidorSalida.h"
 #include "../vista/GUI_Chat.h"
 #include "../controlador/GUI_Boton_Controlador.h"
@@ -20,10 +19,10 @@ private:
 public:
 	GUI_ChatControlador(GUI_Chat& vista, ServidorProxy& servidor);
 	void ingresarCaracter(SDL_Event& evento);
-	void agregarMensaje(std::string mensaje, bool mensaje_publico);
+	void agregarMensaje(std::string mensaje, bool mensaje_publico) override;
 	void scroll(SDL_Event& evento);
 	bool operator()(SDL_Event& evento) override;
-	bool enClick();
+	bool enClick() override;
 	void actualizarDimension();
 };
 

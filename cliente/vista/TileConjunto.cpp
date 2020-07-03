@@ -1,4 +1,5 @@
 #include "TileConjunto.h"
+#include <utility>
 
 TileConjunto::TileConjunto(Imagen imagen, InformacionConjuntoTile& info): 
         imagen(std::move(imagen)), 

@@ -33,8 +33,8 @@ void GUI_PanelTienda::render(){
 	if(!activo) return;
 	GUI_Panel::render();
 
-	for(int j = 0; j < marco.h;j++){
-		for(int i = 0;i < marco.w;i++){
+	for(int j = 0; j < marco.h; j++){
+		for(int i = 0; i < marco.w; i++){
 			dibujarPrecio(precios[j*marco.w + i],
 			 marco.x + SEPARACION + i*(LADO_CASILLA + SEPARACION),
 			 marco.y + SEPARACION + j*(LADO_CASILLA + SEPARACION));

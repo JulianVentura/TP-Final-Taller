@@ -1,4 +1,5 @@
 #include "AnimacionEnteDireccionable.h"
+#include <string>
 
 AnimacionEnteDireccionable::AnimacionEnteDireccionable(Imagen& imagen, 
     mascaras_t mascaras, const std::string& animacion_inicial): Animacion(

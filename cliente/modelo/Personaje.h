@@ -1,23 +1,24 @@
 #ifndef PERSONAJE_H
 #define PERSONAJE_H
 
-class MovibleVista;
+#include <SDL2/SDL_rect.h>
+#include <string>
+#include <unordered_map>
+#include <vector>
+#include "ServidorProxy.h"
+#include "IPosicionable.h"
 
-class Personaje/*Mock*/ {
+class Personaje: public IPosicionable {
 public:
-    void actualizar();
-    void moverDerecha();
-    void moverIzquierda();
-    void moverArriba();
-    void moverAbajo();
-    void detenerse();
+    Personaje(std::string& id, ServidorProxy& servidor);
+    void mover(uint32_t direccion);
 
 private:
-    int x = 0;
-    int y = 0;
-    int velocidadX = 0; // TODO: Esto estaría en el servidor
-    int velocidadY = 0; // TODO: Esto estaría en el servidor
-    friend class PersonajeVista;
+    std::string id;
+    ServidorProxy& servidor;
+    std::string color_fondo;
+    std::string ruta_imagen;
+    std::unordered_map<std::string, std::vector<SDL_Rect>> mascaras;
     friend class MovibleVista;
 };
 

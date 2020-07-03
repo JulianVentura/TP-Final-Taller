@@ -13,7 +13,11 @@
 
 #include "CapasParser.h"
 #include "../vista/CapaFrontal.h"
+#include "../controlador/IInteractivo.h"
+#include "../controlador/PersonajeControlador.h"
 #include "../vista/ErrorGrafico.h"
+#include "../vista/MovibleVista.h"
+#include "Personaje.h"
 #include <fstream>
 #include <nlohmann/json.hpp>
 #include <chrono>
@@ -24,7 +28,7 @@ int main(int argc, const char* argv[]) {
         EntornoGrafico entorno;
         std::string fuente_ruta("assets/DejaVuSansMono.ttf"); 
         entorno.cargarFuente(fuente_ruta, 15);
-        Ventana ventana(entorno, "Argentum");
+        Ventana ventana(entorno, "Argentum Online");
         Renderer renderer(entorno);
         Colores paleta;
         DatosPersonaje datos_personaje;
@@ -46,7 +50,8 @@ int main(int argc, const char* argv[]) {
         auto parser = json::parse(mapa_s.c_str());
 
         LibreriaConjuntoTileParser libreriaConjuntoTileParser(parser);
-        LibreriaConjuntoTiles conjuntoTiles(entorno, libreriaConjuntoTileParser);
+        LibreriaConjuntoTiles conjuntoTiles(entorno, 
+                                                    libreriaConjuntoTileParser);
         CapasParser capasParser(parser, &conjuntoTiles);
         CapaFrontal capaFrontal(capasParser, &conjuntoTiles);
 
@@ -55,27 +60,22 @@ int main(int argc, const char* argv[]) {
         MapaVista mapa(entorno, mapaParser, conjuntoTiles);
 
         std::string personaje_id("human");
-        std::string enemigo_id("golum");
-
-        Personaje personajeModelo;
-
-        PersonajeVista personaje(entorno, personajeModelo, personaje_id, servidor);
-        Personaje enemigoModelo;
-        
-        MovibleVista enemigo(entorno, enemigoModelo, enemigo_id);
-
+        std::string id("personaje1");
+        Personaje personajeModelo(personaje_id, servidor);
+        PersonajeControlador personajeControlador(personajeModelo);
+        MovibleVista personaje(entorno, personajeModelo);
+        servidor.agregarPosicionable(id, &personajeModelo);
         capaFrontal.agregarObstruible(&personaje);
-        capaFrontal.agregarObstruible(&enemigo);
         Camara camara(&mapa, &ventana);
         camara.setObjetivo(personaje);
         // TODO: Provisorio ----^
 
         Escena escena(entorno, camara, mapa, capaFrontal, conjuntoTiles);
         
-        ventana.agregarInteractivo(&escena);
-        ventana.agregarRendereable(&escena);
-        ventana.agregarRendereable(&gui);
-        ventana.agregarInteractivo(&personaje);
+        bucle.agregarRendereable(&escena);
+        bucle.agregarRendereable(&gui);
+
+        bucle.agregarInteractivo(&personajeControlador);
 
         bucle.correr();
         servidor.terminar();

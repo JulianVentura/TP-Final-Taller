@@ -26,10 +26,10 @@ void Camara::centrar(Renderer* renderer, int ancho_unidad, float radio) {
     zoom = round(zoom * ancho_unidad) / ancho_unidad;
     renderer->escalar(zoom);
 
-    int margen_horizontal = (marco->getAncho() / zoom - objetivo->getAncho()) / 2;
-    int margen_vertical = (marco->getAlto() / zoom - objetivo->getAlto()) / 2;
-    desplazamientoX = (objetivo->getX() - margen_horizontal) * zoom;
-    desplazamientoY = (objetivo->getY() - margen_vertical) * zoom;
+    int margen_h = (marco->getAncho() / zoom - objetivo->getAncho()) / 2;
+    int margen_v = (marco->getAlto() / zoom - objetivo->getAlto()) / 2;
+    desplazamientoX = (objetivo->getX() - margen_h) * zoom;
+    desplazamientoY = (objetivo->getY() - margen_v) * zoom;
     desplazamientoX = acotar(desplazamientoX, 0, maxX());
     desplazamientoY = acotar(desplazamientoY, 0, maxY());
     renderer->desplazar(-desplazamientoX, -desplazamientoY);

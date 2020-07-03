@@ -3,7 +3,7 @@
 
 BancoImagenesEquipo::BancoImagenesEquipo(EntornoGrafico& entorno){
 	imagenes.emplace_back(entorno, "assets/equipo/1.png");
-	for(int i = 1; i < CANT_IMG_EQUIPO + 1;i++){
+	for(int i = 1; i < CANT_IMG_EQUIPO + 1; i++){
 		imagenes.emplace_back(entorno, "assets/equipo/" +
 		 std::to_string(i) + ".png");
 	}

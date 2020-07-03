@@ -5,6 +5,8 @@
 #include "../vista/Ventana.h"
 #include "../vista/GUI_Principal.h"
 #include "../modelo/ServidorProxy.h"
+#include "../controlador/IInteractivo.h"
+#include <vector>
 
 class BuclePrincipal {
 private:
@@ -13,11 +15,15 @@ private:
     ServidorProxy& servidor;
     bool salir = false;
     void despacharEventos(SDL_Event& event);
+    std::vector<IInteractivo *> interactivos;
+    std::vector<IRendereable *> rendereables;
     Reloj reloj;
 
 public:
-    explicit BuclePrincipal(Ventana& ventana, GUI_Principal& gui,
-    	ServidorProxy& servidor);
+    BuclePrincipal(Ventana& ventana, GUI_Principal& gui, 
+                                                    ServidorProxy& servidor);
+    void agregarInteractivo(IInteractivo* interactivo);
+    void agregarRendereable(IRendereable* rendereable);
     void correr();
 };
 

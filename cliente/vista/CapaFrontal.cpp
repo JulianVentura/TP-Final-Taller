@@ -1,12 +1,12 @@
 #include "CapaFrontal.h"
 #include <algorithm>
+#include <utility>
 
 CapaFrontal::CapaFrontal(CapasParser& parser, LibreriaConjuntoTiles* tiles):
         capas(std::move(parser.getCapas())),
         tiles(tiles), 
         columnas(parser.getColumnas()), 
         filas(parser.getFilas()) {
-
     capasObstaculos = std::move(parser.getCapasObstaculos());
     for (const auto& nombreCapa: parser.getCapasOrdenadas()) {
         if (capasObstaculos.count(nombreCapa) < 0) continue;
@@ -20,8 +20,7 @@ void CapaFrontal::agregarObstruible(IObstruible* obstruible) {
 }
 
 static bool obstruible_cmp(IObstruible* obstruible,  IObstruible* otro) {
-    return otro->getY() + otro->getAlto() > obstruible->getY() + 
-                                                        obstruible->getAlto();
+    return otro->getY() > obstruible->getY();
 }
 
 void CapaFrontal::render() {
@@ -34,7 +33,9 @@ void CapaFrontal::render() {
             int y = (i - x) / columnas;
             Imagen* tile = tiles->getTile(id);
             if (tile == nullptr) continue;
-            tile->setPosicion(x * tiles->getAnchoTile(), y * tiles->getAltoTile());
+            x *= tiles->getAnchoTile();
+            y *= tiles->getAltoTile();
+            tile->setPosicion(x, y);
             tile->render();
         }
     }
@@ -50,4 +51,3 @@ void CapaFrontal::actualizar(unsigned int delta_t) {
     for (auto& obstruible: obstruibles)
         obstruible->actualizar(delta_t);
 }
-

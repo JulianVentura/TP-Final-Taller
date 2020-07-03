@@ -34,7 +34,7 @@ Cliente::Cliente(Socket &&socket,
     //miBaseDeDatos.recuperarInformacion(id);
     //Con la info recuperada de la base de datos creo un Personaje
     
-    personaje = Personaje(0, 0, id);
+    personaje = Personaje(100, 100, id);
     Sala* miSala = organizadorSalas.obtenerSala("mapaPrueba");
     ColaOperaciones *colaDeOperaciones = miSala->obtenerCola();
     clienteProxy.actualizarCola(colaDeOperaciones);

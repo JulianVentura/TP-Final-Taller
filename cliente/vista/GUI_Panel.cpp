@@ -24,9 +24,9 @@ void GUI_Panel::render(){
 	 SEPARACION + marco.w*(SEPARACION + LADO_CASILLA),
 	 SEPARACION + marco.h*(SEPARACION + LADO_CASILLA));
 
-	for(int j = 0; j < marco.h;j++){
+	for(int j = 0; j < marco.h; j++){
 		color_fondo = (j % 2) ? paleta.inv_fondo2 : paleta.inv_fondo; 
-		for(int i = 0;i < marco.w;i++){
+		for(int i = 0; i < marco.w; i++){
 			dibujarCasilla(marco.x + SEPARACION + i*(LADO_CASILLA + SEPARACION),
 			 marco.y + SEPARACION + j*(LADO_CASILLA + SEPARACION), color_fondo);
 			imagenes_equipo.render(inventario[j*marco.w + i],
