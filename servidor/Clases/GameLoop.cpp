@@ -38,7 +38,7 @@ void GameLoop::procesar(){
                 lag -= msPorActualizacion;
             }
             //mapa.cargarCriatura();
-            miSala.actualizarClientes();
+            //miSala.actualizarClientes();
             //DEBUG
             //std::cout << "\x1B[2J\x1B[H";
             //std::cout << mapa.aCadena() << std::endl;

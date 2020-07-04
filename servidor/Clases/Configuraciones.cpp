@@ -93,8 +93,8 @@ const uint32_t Configuraciones::obtenerPersonajeInteligenciaBase() const{
 const uint32_t Configuraciones::obtenerPersonajeAgilidadBase() const{
     return json.at("Personaje").at("AgilidadBase").get<uint32_t>();
 }
-const uint32_t Configuraciones::obtenerPersonajeComposicionBase() const{
-    return json.at("Personaje").at("ComposicionBase").get<uint32_t>();
+const uint32_t Configuraciones::obtenerPersonajeConstitucionBase() const{
+    return json.at("Personaje").at("ConstitucionBase").get<uint32_t>();
 }
 const float Configuraciones::obtenerPersonajeVelDesplazamiento() const{
     return json.at("Personaje").at("VelDesplazamiento").get<float>();

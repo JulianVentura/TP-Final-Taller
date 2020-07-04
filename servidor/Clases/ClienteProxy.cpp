@@ -13,7 +13,7 @@ ClienteProxy::ClienteProxy(Socket unSocket, Cliente *miCliente,
                            divulgador(divulgador){}
 
 void ClienteProxy::finalizar(){
-    socket.apagar(SHUT_RDWR);
+    socket.apagar(READ_AND_WRITE);
     socket.cerrar();
 }
 
