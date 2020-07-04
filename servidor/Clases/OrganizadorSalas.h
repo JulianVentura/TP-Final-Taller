@@ -7,7 +7,7 @@ class OrganizadorSalas{
     private:
     std::map<std::string, std::unique_ptr<Sala>> salas;
     public:
-    OrganizadorSalas();
+    OrganizadorSalas(const char *archivoConfig);
     Sala* obtenerSala(std::string id);
     void comenzar();
     void finalizar();

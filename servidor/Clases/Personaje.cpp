@@ -7,13 +7,7 @@
 #define NIVEL_INICIAL 1
 
 Personaje::Personaje(float x, float y, std::string id) : 
-                                       Entidad(0,
-                                               0,
-                                               0,
-                                               NIVEL_INICIAL,
-                                               x,
-                                               y,
-                                               id){
+                                       Entidad(id){
     actualizarAtributos();
     agilidad = 2; //Cambiar
     desplazamiento = DESPLAZAMIENTO;
@@ -87,4 +81,21 @@ void Personaje::eliminarDeInventario(unsigned int pos){
 
 void Personaje::recibirOro(unsigned int cantOro){
     this->cantidadOro += cantOro;
+}
+
+
+void Personaje::equipar(Arma *arma){
+    this->arma = arma;
+}
+
+void Personaje::equipar(Armadura *armadura){
+    this->armadura = armadura;
+}
+
+void Personaje::equipar(Casco *casco){
+    this->casco = casco;
+}
+
+void Personaje::equipar(Escudo *escudo){
+    this->escudo = escudo;
 }

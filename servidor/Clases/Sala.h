@@ -18,7 +18,7 @@ class Sala{
     GameLoop gameLoop;
 
     public:
-    Sala(const char* nombreMapa);
+    Sala(std::string nombreMapa);
     Sala(Sala &&otro) = delete;
     Sala(Sala &otro) = delete;
     Sala& operator=(Sala &otro) = delete;

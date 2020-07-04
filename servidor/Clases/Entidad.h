@@ -10,9 +10,14 @@
 class Mapa;
 class Entidad : public Colisionable, public Posicionable {
     protected:
-    unsigned int vidaMaxima;
-    unsigned int vidaActual;
+    int vidaMaxima;
+    int vidaActual;
+    int manaMaximo;
+    int manaActual;
+    unsigned int fuerza;
+    unsigned int inteligencia;
     unsigned int agilidad;
+    unsigned int constitucion;
     unsigned int nivel;
     std::string id;
     Arma *arma;
@@ -21,13 +26,7 @@ class Entidad : public Colisionable, public Posicionable {
     public:
     virtual ~Entidad();
     //Por ser colisionable
-    Entidad(unsigned int vidaMaxima, 
-            unsigned int manaMaximo,
-            unsigned int agilidad,
-            unsigned int nivel,
-            float x,
-            float y, 
-            std::string &id);
+    Entidad(std::string id);
     virtual const quadtree::Box<float>& obtenerArea() const override;
     virtual bool colisionaCon(const Colisionable &otro) const override;
     virtual bool colisionaCon(const quadtree::Box<float> &area) const override;
@@ -39,7 +38,7 @@ class Entidad : public Colisionable, public Posicionable {
     virtual void recibirDanio(int danio, Entidad *atacante);
     virtual void obtenerExperiencia(unsigned int cantidad);
     virtual void dropearItems();
-
+    void consumirMana(unsigned int cantidad);
     void equipar(Arma *arma);
     void almacenar(std::unique_ptr<Item> item);
     friend class Configuraciones;

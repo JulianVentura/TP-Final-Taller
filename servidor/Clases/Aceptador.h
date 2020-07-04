@@ -22,9 +22,7 @@ class Aceptador : public Thread{
     conexiones entrantes.
     En caso de error lanza una instancia de Excepcion.
     */
-    Aceptador(const char* host,
-              const char* puerto,
-              OrganizadorSalas &organizadorSalas, 
+    Aceptador(OrganizadorSalas &organizadorSalas, 
               BaseDeDatos &baseDeDatos);
     Aceptador(Aceptador &&otro) = delete;
     Aceptador(Aceptador &otro) = delete;

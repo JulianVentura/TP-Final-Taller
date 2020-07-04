@@ -5,20 +5,20 @@
 #include "ExcepcionCliente.h"
 #include <thread>
 
-#define NUMERO_DE_CONEXIONES_EN_ESPERA 10
-
 //////////////////Metodos publicos///////////////////////////////
 
-Aceptador::Aceptador(const char* host,
-                     const char* puerto,
-                     OrganizadorSalas &unOrganizadorSalas, 
+Aceptador::Aceptador(OrganizadorSalas &unOrganizadorSalas, 
                      BaseDeDatos &unaBaseDeDatos) : 
                      organizadorSalas(unOrganizadorSalas),
                      baseDeDatos(unaBaseDeDatos),
                      divulgador(organizadorClientes),
                      continuar(true){
-    servidor.bindYSetearOpciones(host, puerto);
-    servidor.escuchar(NUMERO_DE_CONEXIONES_EN_ESPERA);
+    Configuraciones *config = Configuraciones::obtenerInstancia();
+    std::string host = config->obtenerAceptadorHost();
+    std::string puerto = config->obtenerAceptadorPuerto();
+    unsigned int numConexionesEnEspera = config->obtenerAceptadorNumConexionesEnEspera();
+    servidor.bindYSetearOpciones(host.c_str(), puerto.c_str());
+    servidor.escuchar(numConexionesEnEspera);
 }
 
 

@@ -1,18 +1,17 @@
 #include "Entidad.h"
 #include "Mapa.h"
 
-Entidad::Entidad(unsigned int vida, 
-                 unsigned int mana,
-                 unsigned int valorAgilidad,
-                 unsigned int unNivel,
-                 float x,
-                 float y, 
-                 std::string &unId) : 
-                 Posicionable(x, y),
-                 vidaMaxima(vida),
-                 vidaActual(vida),
-                 agilidad(valorAgilidad),
-                 nivel(unNivel),
+Entidad::Entidad(std::string unId) : 
+                 Posicionable(0, 0, 0, 0),
+                 vidaMaxima(0),
+                 vidaActual(0),
+                 manaMaximo(0),
+                 manaActual(0),
+                 fuerza(0),
+                 inteligencia(0),
+                 agilidad(0),
+                 constitucion(0),
+                 nivel(0),
                  id(unId),
                  arma(nullptr),
                  inventario(){}
@@ -60,6 +59,11 @@ void Entidad::recibirDanio(int danio, Entidad *atacante){
         atacante->obtenerExperiencia(experiencia);
         dropearItems();
     }
+}
+
+void Entidad::consumirMana(unsigned int cantidad){
+    manaActual -= cantidad;
+    if (manaActual < 0) manaActual = 0;
 }
 
 void Entidad::obtenerExperiencia(unsigned int cantidad){

@@ -14,13 +14,14 @@
 #include <map>
 #include <vector>
 #include <memory>
-#include "FabricaCriaturas.h"
+#include "FabricaDeCriaturas.h"
 #include <random>
 #include <ctime>
 
 class Entidad;
 class Mapa{
     private:
+    std::string nombreMapa;
     std::vector<char> tiles; //Esto solo nos sirve para imprimir el ascii art
     std::string contenido_archivo;
     unsigned int ancho;
@@ -34,7 +35,7 @@ class Mapa{
     unsigned int limiteCriaturas;
     std::map<std::string, Personaje*> personajes; 
     std::map<std::string, std::unique_ptr<Criatura>> criaturas;
-    FabricaCriaturas fabricaCriaturas;
+    FabricaDeCriaturas fabricaCriaturas;
     std::mt19937 motorAleatorio;
     /*
     Devuelve true si la nueva posicion o el area no colisiona con
@@ -46,8 +47,9 @@ class Mapa{
     Busca la posicion valida mas cercana a la posicion actual.
     */
     Posicion buscarPosicionValida(const Posicion &posicion);
+
     public:
-    Mapa(std::string nombreArchivo);
+    Mapa(std::string nombre);
     Mapa(Mapa &otroMapa) = delete;
     Mapa(Mapa &&otroMapa) = delete;
     /*

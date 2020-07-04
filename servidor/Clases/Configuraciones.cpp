@@ -27,6 +27,7 @@ Configuraciones::Configuraciones(){
 }
 
 void Configuraciones::crearInstancia(const char* nombreArchivo){
+    srand(time(NULL));
     Configuraciones::instancia.leerArchivo(nombreArchivo);
     Configuraciones::instanciaCreada = true;
 }
@@ -39,11 +40,31 @@ Configuraciones* Configuraciones::obtenerInstancia(){
     return &Configuraciones::instancia;
 }
 
-/* GETTERS DEL JUEGO */
+/* METODOS AUXILIARES */
 
+static bool floatComp(float a, float b, float epsilon = 0.0001){
+    return fabs(a - b) < epsilon;
+}
+
+static unsigned int numeroRandom(unsigned int a, unsigned int b){
+    return rand() % (b - a) + a + 1;
+}
+
+
+/* GETTERS DEL JUEGO */
+//Salas
+const std::vector<std::string> Configuraciones::obtenerSalas() const{
+    return json.at("Salas").get<std::vector<std::string>>();
+}
 //Aceptador
 const uint32_t Configuraciones::obtenerAceptadorNumConexionesEnEspera() const{
     return json.at("Aceptador").at("NUM_CONEXIONES_EN_ESPERA").get<uint32_t>();
+}
+const std::string Configuraciones::obtenerAceptadorPuerto() const{
+    return json.at("Aceptador").at("Puerto").get<std::string>();
+}
+const std::string Configuraciones::obtenerAceptadorHost() const{
+    return json.at("Aceptador").at("Host").get<std::string>();
 }
 //GameLoop
 const uint32_t Configuraciones::obtenerGameLoopMSdescanso() const{
@@ -55,9 +76,6 @@ const uint32_t Configuraciones::obtenerGameLoopMSporActualizacion() const{
 //Mapas
 const std::string Configuraciones::obtenerMapaRuta(std::string &id) const{
     return json.at("Mapas").at(id).at("Ruta").get<std::string>();
-}
-const std::vector<std::string> Configuraciones::obtenerMapaSpawnCriaturas(std::string &id) const{
-    return json.at("Mapas").at(id).at("SpawnCriaturas").get<std::vector<std::string>>();
 }
 const uint32_t Configuraciones::obtenerMapaLimiteCriaturas(std::string &id) const{
     return json.at("Mapas").at(id).at("LimiteCriaturas").get<uint32_t>();
@@ -96,7 +114,10 @@ const uint32_t Configuraciones::obtenerCiudadanoAlto(std::string &id) const{
 }
 //Criaturas
 const uint32_t Configuraciones::obtenerCriaturaVidaMax(std::string &id) const{
-    return json.at("Criaturas").at(id).at("VidaMax").get<uint32_t>();
+    return json.at("Criaturas").at(id).at("Vida").get<uint32_t>();
+}
+const uint32_t Configuraciones::obtenerCriaturaManaMax(std::string &id) const{
+    return json.at("Criaturas").at(id).at("Mana").get<uint32_t>();
 }
 const uint32_t Configuraciones::obtenerCriaturaNivel(std::string &id) const{
     return json.at("Criaturas").at(id).at("Nivel").get<uint32_t>();
@@ -121,6 +142,9 @@ const uint32_t Configuraciones::obtenerCriaturaAncho(std::string &id) const{
 }
 const uint32_t Configuraciones::obtenerCriaturaAlto(std::string &id) const{
     return json.at("Criaturas").at(id).at("Alto").get<uint32_t>();
+}
+const std::string Configuraciones::obtenerCriaturaIdArma(std::string &id) const{
+    return json.at("Criaturas").at(id).at("IdArma").get<std::string>();
 }
 //Clases
 const float Configuraciones::obtenerFClaseVida(std::string &id) const{
@@ -173,8 +197,8 @@ const int32_t  Configuraciones::obtenerArmaDanioMax(std::string &id) const{
 const int32_t  Configuraciones::obtenerArmaDanioMin(std::string &id) const{
     return json.at("Items").at("Armas").at(id).at("DanioMin").get<int32_t>();
 }
-const uint32_t Configuraciones::obtenerArmaRangoAtaque(std::string &id) const{
-    return json.at("Items").at("Armas").at(id).at("Rango").get<uint32_t>();
+const float Configuraciones::obtenerArmaRangoAtaque(std::string &id) const{
+    return json.at("Items").at("Armas").at(id).at("Rango").get<float>();
 }
 const uint32_t Configuraciones::obtenerArmaConsumoMana(std::string &id) const{
     return json.at("Items").at("Armas").at(id).at("ConsumoMana").get<uint32_t>();
@@ -205,10 +229,10 @@ const uint32_t  Configuraciones::obtenerOroCantidadMax() const{
     return json.at("Items").at("Oro").at("CantidadMaxima").get<uint32_t>();
 }
 //Pociones
-const uint32_t  Configuraciones::obtenerCuracionVida(std::string &id) const{
+const uint32_t  Configuraciones::obtenerPocionCuracionVida(std::string &id) const{
     return json.at("Items").at("Pociones").at(id).at("CuracionVida").get<uint32_t>();
 }
-const uint32_t  Configuraciones::obtenerCuracionMana(std::string &id) const{
+const uint32_t  Configuraciones::obtenerPocionCuracionMana(std::string &id) const{
     return json.at("Items").at("Pociones").at(id).at("CuracionMana").get<uint32_t>();
 }
 
@@ -240,9 +264,7 @@ unsigned int Configuraciones::calcularRecupManaTiempo(Personaje *personaje, doub
 }
 unsigned int Configuraciones::calcularDropOro(Entidad *entidad){
     //return rand(0, 0.2) * VidaMaxNPC
-    std::mt19937 rng(std::time(0));
-    std::uniform_int_distribution<unsigned int> dist(0, 200);
-    float suerte = dist(rng) / 1000;
+    float suerte = numeroRandom(0, 2000) / 10000;
     return suerte * entidad->vidaMaxima;
 }
 unsigned int Configuraciones::calcularMaxOroSeguro(Personaje *personaje){
@@ -257,28 +279,107 @@ unsigned int Configuraciones::calcularExpPorGolpe(Entidad *objetivo, Entidad *at
 }
 unsigned int Configuraciones::calcularExpPorMatar(Entidad *objetivo, Entidad *atacante){
     //return rand(0, 0.1) * VidaMaxDelOtro * max(NivelDelOtro - Nivel + 10, 0)
-    std::mt19937 rng(std::time(0));
-    std::uniform_int_distribution<unsigned int> dist(0, 100);
-    float suerte = dist(rng) / 1000;
+    float suerte = numeroRandom(0, 1000) / 10000;
     return suerte * objetivo->vidaMaxima * std::max(objetivo->nivel - atacante->nivel + 10, (unsigned int)0);
 }
 unsigned int Configuraciones::calcularDanioAtaque(Entidad *objetivo, Entidad *atacante, Arma *arma){
     //return Fuerza * rand(DanioArmaMin, DanioArmaMax)
-    std::mt19937 rng(std::time(0));
-    std::uniform_int_distribution<unsigned int> dist(arma->danioMin, arma->danioMax);
-    unsigned int danio = dist(rng);
-    return danio;
+    return atacante->fuerza * numeroRandom(arma->danioMin, arma->danioMax);
 }
 bool Configuraciones::seEsquivaElGolpe(Entidad *entidad){
     //return rand(0, 1) ^ Agilidad < 0.001
-    std::mt19937 rng(std::time(0));
-    std::uniform_int_distribution<unsigned int> dist(0, 1000);
-    float suerte = dist(rng) / 1000;
+    float suerte = rand()/RAND_MAX;
     return std::pow(suerte, entidad->agilidad) < 0.001;
 }
 unsigned int Configuraciones::calcularDefensa(){
     //return rand(ArmaduraMin, ArmaduraMax) + rand(EscudoMin, EscudoMax) + rand(CascoMin, CascoMax)
     return 0;
+}
+
+/* DROPS */
+
+std::string Configuraciones::calcularDropArma(std::string &idCriatura){
+    return obtenerItemRandom(idCriatura, "Armas");
+}
+
+std::string Configuraciones::calcularDropArmadura(std::string &idCriatura){
+    return obtenerItemRandom(idCriatura, "Armaduras");
+}
+
+std::string Configuraciones::calcularDropEscudo(std::string &idCriatura){
+    return obtenerItemRandom(idCriatura, "Escudos");
+}
+
+std::string Configuraciones::calcularDropCasco(std::string &idCriatura){
+    return obtenerItemRandom(idCriatura, "Cascos");
+}
+
+std::string Configuraciones::calcularDropPocion(std::string &idCriatura){
+    return obtenerItemRandom(idCriatura, "Pociones");
+}
+
+
+unsigned int Configuraciones::calcularDropOro(std::string &idCriatura){
+    unsigned int dropMax = json.at("Criaturas").at(idCriatura).at("Drops").at("Oro").at("DropMax").get<unsigned int>();
+    unsigned int dropMin = json.at("Criaturas").at(idCriatura).at("Drops").at("Oro").at("DropMin").get<unsigned int>();
+    return numeroRandom(dropMin, dropMax);
+}
+
+std::string Configuraciones::obtenerItemRandom(std::string &idCriatura, std::string idItem){
+    std::vector<std::pair<std::string, float>> posibles = json.at("Criaturas").at(idCriatura).at("Drops").at(idItem).at("Posibles").get<std::vector<std::pair<std::string, float>>>();
+    if (posibles.size() == 0){
+        //Represento un no-drop como una cadena vacia.
+        return "";
+    }
+    std::vector<float> probas;
+    for (std::size_t i=0; i<posibles.size(); i++){
+        if (i == 0){
+            probas.push_back(posibles[0].second);
+            continue;
+        }
+        probas.push_back(posibles[i].second + probas[i-1]);
+    }
+    if (!floatComp(probas[probas.size()-1], 1)){
+        throw Excepcion
+        ("Error: Se ha solicitado el calculo de una probabilidad para el item %s de la criatura %s, "
+        "pero las probabilidades no suman 1");
+    }
+    float resultado = (float) rand()/RAND_MAX;
+
+    if (resultado < probas[0]) return posibles[0].first;   //Devuelvo el id que le corresponde a 0
+    for (std::size_t i=1; i<probas.size(); i++){
+        if (resultado <= probas[i] && resultado >= probas[i-1]) return posibles[i].first;
+    }
+    //Le pifio al 1
+    return posibles[posibles.size()-1].first;
+}
+
+TipoItem Configuraciones::calcularDrop(std::string &idCriatura){
+    float probaArma = json.at("Criaturas").at(idCriatura).at("Drops").at("Armas").at("Probabilidad").get<float>();
+    float probaArmadura = json.at("Criaturas").at(idCriatura).at("Drops").at("Armaduras").at("Probabilidad").get<float>() + probaArma;
+    float probaEscudo = json.at("Criaturas").at(idCriatura).at("Drops").at("Escudos").at("Probabilidad").get<float>() + probaArmadura;
+    float probaCasco = json.at("Criaturas").at(idCriatura).at("Drops").at("Cascos").at("Probabilidad").get<float>() + probaEscudo;
+    float probaPocion = json.at("Criaturas").at(idCriatura).at("Drops").at("Pociones").at("Probabilidad").get<float>() + probaCasco;
+    float probaOro = json.at("Criaturas").at(idCriatura).at("Drops").at("Oro").at("Probabilidad").get<float>() + probaPocion;
+    //Tiro el dado
+    float numero = (float) rand()/RAND_MAX;
+    //Calculo el drop
+    if (numero < probaArma && numero >= 0) return ARMA;
+    if (numero < probaArmadura && numero >= probaArma) return ARMADURA;
+    if (numero < probaEscudo && numero >= probaArmadura) return ESCUDO;
+    if (numero < probaCasco && numero >= probaEscudo) return CASCO;
+    if (numero < probaPocion && numero >= probaCasco) return POCION;
+    if (numero < probaOro && numero >= probaPocion) return ORO;
+    return NADA;
+}
+
+
+const std::string Configuraciones::obtenerMapaSpawnCriaturaAleatoria(const std::string &id) const{
+    std::vector<std::string> posibles = json.at("Mapas").at(id).at("SpawnCriaturas").get<std::vector<std::string>>();
+    std::vector<std::string>::iterator elegido = posibles.begin();
+    unsigned int desplazamiento = numeroRandom(0, std::distance(elegido, posibles.end()) - 1);
+    std::advance(elegido, desplazamiento);
+    return (*elegido);
 }
 
 /*

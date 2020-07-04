@@ -5,19 +5,22 @@
 
 class Posicion{
     private:
-    quadtree::Box<float> areaQueOcupa;
     float x;
     float y;
+    float ancho;
+    float alto;
     float desplazamientoX;
     float desplazamientoY;
+    quadtree::Box<float> areaQueOcupa;
     void actualizarArea();
 
     public:
     Posicion();
-    Posicion(float x, float y);
+    Posicion(float x, float y, float ancho, float alto);
     Posicion(Posicion &otro) = delete;
     Posicion(Posicion &&otro);
     Posicion& operator=(Posicion &&otro);
+    void actualizarPosicion(Posicion &&posicion);
     void moverHaciaArriba(float desplazamiento);
     void moverHaciaAbajo(float desplazamiento);
     void moverHaciaDerecha(float desplazamiento);

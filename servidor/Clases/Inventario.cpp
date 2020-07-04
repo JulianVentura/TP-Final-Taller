@@ -1,9 +1,9 @@
 #include "Inventario.h"
 #include "Excepcion.h"
-
+#define LIMITE_INVENTARIO 20
 //Ver si es necesario levantar el limite de items del archivo de configuraciones
 
-Inventario::Inventario() : limiteItems(0), items(){}
+Inventario::Inventario() : limiteItems(LIMITE_INVENTARIO), items(){}
 
 
 void Inventario::almacenar(std::unique_ptr<Item> item){
