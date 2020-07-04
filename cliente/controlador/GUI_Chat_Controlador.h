@@ -18,7 +18,7 @@ private:
 	
 public:
 	GUI_ChatControlador(GUI_Chat& vista, ServidorProxy& servidor);
-	void ingresarCaracter(SDL_Event& evento);
+	bool ingresarCaracter(SDL_Event& evento);
 	void agregarMensaje(std::string mensaje, bool mensaje_publico) override;
 	void scroll(SDL_Event& evento);
 	bool operator()(SDL_Event& evento) override;
