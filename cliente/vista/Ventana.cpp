@@ -9,10 +9,6 @@ void Ventana::agregarRendereable(IRendereable* rendereable) {
     rendereable->setVentana(this);
 }
 
-void Ventana::agregarInteractivo(IInteractivo* interactivo) {
-    interactivos.push_back(interactivo);
-}
-
 int Ventana::getAlto() {
     return alto;
 }
@@ -25,7 +21,11 @@ Ventana::~Ventana() {
     SDL_DestroyWindow(ventana);
 }
 
-Ventana::Ventana(EntornoGrafico& entorno, const char* title): entorno(entorno) {
+
+Ventana::Ventana(EntornoGrafico& entorno, const char* title): 
+        entorno(entorno) {
+    this->ancho = 650;
+    this->alto = 500;
     ventana = SDL_CreateWindow(title, 
         SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED,
         ancho, alto, SDL_WINDOW_SHOWN | SDL_WINDOW_RESIZABLE);
@@ -42,27 +42,18 @@ void Ventana::manejarEvento(const SDL_Event& event) {
             SDL_SetWindowFullscreen(ventana, flags);
         }
     }
-    
     if (event.type == SDL_WINDOWEVENT) { 
-        if (event.window.event == SDL_WINDOWEVENT_RESIZED) {
+        if (event.window.event == SDL_WINDOWEVENT_RESIZED)
             SDL_GetWindowSize(ventana, &ancho, &alto);
-        }
-    }
 
-    for (auto& interactivo: interactivos) {
-        interactivo->manejarEvento(event);
     }
 }
 
 void Ventana::actualizar(unsigned int delta_t) {
-    for (auto& rendereable: rendereables) 
-        rendereable->actualizar(delta_t);
+    renderer->setColor(color_fondo);
+    renderer->limpiar();
 }
 
 void Ventana::render() {
-    renderer->setColor(color_fondo);
-    renderer->limpiar();
-    for (auto& rendereable: rendereables) 
-        rendereable->render();
     renderer->presentar();
 }

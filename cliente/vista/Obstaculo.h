@@ -8,7 +8,7 @@
 class Obstaculo: public IObstruible {
 public:
     Obstaculo(SDL_Rect& dimension, std::vector<int>& guids, 
-                                    LibreriaConjuntoTiles& conjuntosTiles);
+                                    LibreriaConjuntoTiles& conjuntoTiles);
     void render() override;
 
 private:
@@ -17,7 +17,7 @@ private:
     int ultima_columna;
     int ultima_fila;
     std::vector<int>& guids;
-    LibreriaConjuntoTiles& conjuntosTiles;
+    LibreriaConjuntoTiles& conjuntoTiles;
 };
 
 #endif

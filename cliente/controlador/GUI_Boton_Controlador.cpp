@@ -19,5 +19,4 @@ bool GUI_BotonControlador::operator()(SDL_Event& evento){
 }
 
 GUI_BotonControlador::~GUI_BotonControlador(){
-
 }

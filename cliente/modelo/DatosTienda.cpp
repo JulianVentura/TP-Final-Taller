@@ -3,7 +3,7 @@
 DatosTienda::DatosTienda(){
 	activo = true;
 	
-	for(int i = 0;i < INV_ALTO*INV_ANCHO;i++){
+	for(int i = 0; i < INV_ALTO*INV_ANCHO; i++){
 		inventario[i] = 0;
 		precios[i] = 0;
 	}

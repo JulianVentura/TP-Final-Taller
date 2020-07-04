@@ -4,14 +4,9 @@
 #include <string>
 #include <cstdlib>
 #include <vector>
+#include <unordered_map>
 
 class Socket;
-
-struct Posicionable {
-    std::string id;
-    int x;
-    int y;
-};
 
 /*
 *	Conjunto de métodos y definiciones relacionados al intercambio de datos
@@ -30,19 +25,19 @@ public:
     void recibirString(Socket& socket_comunicacion, std::string& string);
     void enviarNumero(Socket& socket_comunicacion, uint16_t n);
     void enviarMovimiento(Socket& socket, uint32_t movimiento);
-    void enviarID(Socket& socket, std::string& id);
+    void enviarID(Socket& socket, std::string id);
     uint16_t recibirNumero(Socket& socket_comunicacion);
     std::string obtenerMapa();
     void enviarChat(Socket& socket, std::string& origen,
     std::string& destino, std::string& mensaje);
     void recibirChat(Socket& socket, std::string& mensaje,
      bool& mensaje_publico);
-    std::vector<struct Posicionable> obtenerPosiciones();
 
     void recibirMapa(Socket& socket);
-    void recibirPosiciones(Socket& socket);
+	
+    void recibirPosiciones(Socket& socket, 
+            std::unordered_map<std::string, std::pair<int, int>>& posiciones);
 
     std::string mapa;
-    std::vector<struct Posicionable> posiciones;
 };
 #endif /*__PROTOCOLO_ADIVINA_NUMERO_H__*/

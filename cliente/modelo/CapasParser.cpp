@@ -1,5 +1,7 @@
 #include "CapasParser.h"
 #include <nlohmann/json.hpp>
+#include <string>
+#include <utility>
 
 using json = nlohmann::json;
 

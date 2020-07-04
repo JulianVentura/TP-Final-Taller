@@ -7,7 +7,7 @@
 
 class LibreriaConjuntoTileParser {
 public:
-    LibreriaConjuntoTileParser(nlohmann::json& parser);
+    explicit LibreriaConjuntoTileParser(nlohmann::json& parser);
     std::vector<InformacionConjuntoTile> getInformacionLibreria();
     int getColumnas();
     int getAnchoTile();

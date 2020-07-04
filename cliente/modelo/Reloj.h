@@ -5,7 +5,7 @@
 typedef std::chrono::high_resolution_clock reloj_t;
 class Reloj {
 public:
-    explicit Reloj();
+    Reloj();
     double medir();
 private:
     std::chrono::time_point<reloj_t> comienzo;

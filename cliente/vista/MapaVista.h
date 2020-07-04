@@ -2,11 +2,11 @@
 #define MAPAVISTA_H
 
 #include "IRendereable.h"
-#include "IInteractivo.h"
 #include "Imagen.h"
 #include "TileConjunto.h"
-#include "../modelo/MapaParser.h"
 #include "LibreriaConjuntoTiles.h"
+#include "../modelo/MapaParser.h"
+#include <vector>
 
 class MapaVista: public IRendereable, public IDimensionable {
 public:

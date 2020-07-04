@@ -11,7 +11,7 @@ protected:
 	int obtenerIndiceClick();
 	bool enClick();
 public:
-	GUI_PanelControlador(GUI_Panel& panel);
+	explicit GUI_PanelControlador(GUI_Panel& panel);
 };
 
 #endif /*__GUI_PANEL_CONTROLADOR_H__*/

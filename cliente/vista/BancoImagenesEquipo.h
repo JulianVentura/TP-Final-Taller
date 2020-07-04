@@ -12,7 +12,7 @@ class BancoImagenesEquipo{
 private:
 	std::vector<Imagen> imagenes;
 public:
-	BancoImagenesEquipo(EntornoGrafico& entorno);
+	explicit BancoImagenesEquipo(EntornoGrafico& entorno);
 	void render(unsigned int indice, int x, int y);
 };
 

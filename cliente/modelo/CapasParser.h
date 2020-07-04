@@ -3,6 +3,7 @@
 
 #include <unordered_map>
 #include <vector>
+#include <string>
 #include <nlohmann/json.hpp>
 #include "../vista/LibreriaConjuntoTiles.h"
 #include "ObstaculoParser.h"
@@ -12,7 +13,8 @@ public:
     CapasParser(nlohmann::json& parser, LibreriaConjuntoTiles* tiles);
     std::unordered_map<std::string, std::vector<int>> getCapas();
     std::vector<std::string> getCapasOrdenadas();
-    std::unordered_map<std::string, std::vector<Obstaculo>> getCapasObstaculos();
+    std::unordered_map<std::string, std::vector<Obstaculo>> 
+                                                        getCapasObstaculos();
     int getColumnas();
     int getFilas();
 

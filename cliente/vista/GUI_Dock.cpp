@@ -19,11 +19,10 @@ void GUI_Dock::actualizarDimension(){
 	nimg = ancho / 50;
 	x = ventana_ancho*0.2;
 	y = ventana_alto - alto;
-
 }
 
 void GUI_Dock::render(){
-	for(int i = 0; i < nimg;i++){
+	for(int i = 0; i < nimg; i++){
 		fondo.setPosicion(x + i*50,y);
 		fondo.render();
 	}

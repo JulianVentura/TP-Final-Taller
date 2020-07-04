@@ -18,32 +18,29 @@ void Protocolo::recibirMapa(Socket& socket) {
 }
 
 // TODO: RC maybe
-void Protocolo::recibirPosiciones(Socket& socket) {
-	std::vector<Posicionable> posiciones_temp;
+void Protocolo::recibirPosiciones(Socket& socket, 
+            std::unordered_map<std::string, std::pair<int, int>>& posiciones) {
 	uint32_t longitud;
 	socket.recibir((char *)&longitud, TAM_INT32);
 	longitud = ntohl(longitud);
-	posiciones_temp.reserve(longitud);
+	posiciones.reserve(longitud);
 	for (uint32_t i = 0; i < longitud; ++i) {
-		std::string id;
-		id.reserve(TAM_ID);
-		socket.recibir(&id[0], TAM_ID);
-		id[TAM_ID - 1] = 0;
+		std::string id_temp;
+		id_temp.resize(TAM_ID);
+		socket.recibir(&id_temp[0], TAM_ID);
+		id_temp[TAM_ID - 1] = 0;
 		float x;
 		float y;
 		socket.recibir((char *) &x, TAM_INT32);
 		x = (float) ntohl(x);
 		socket.recibir((char *) &y, TAM_INT32);
 		y = (float) ntohl(y);
-		struct Posicionable posicion = {};
-		posicion.id = std::move(id);
-		posicion.x = std::round(x);
-		posicion.y = std::round(y);
-		posiciones_temp.push_back(posicion);
+		std::string id(id_temp.c_str());
+		posiciones[id] = { std::round(x), std::round(y) };
 	}
-	this->posiciones = std::move(posiciones_temp);
 }
-void Protocolo::enviarID(Socket& socket, std::string& id) {
+
+void Protocolo::enviarID(Socket& socket, std::string id) {
 	uint32_t operacion = CODIGO_ID;
 	operacion = htonl(operacion);
 	socket.enviar((char*) &operacion, TAM_INT32);
@@ -108,8 +105,4 @@ uint16_t Protocolo::recibirNumero(Socket& socket_comunicacion){
 // TODO: RC maybe
 std::string Protocolo::obtenerMapa() {
 	return std::move(mapa);
-}
-
-std::vector<struct Posicionable> Protocolo::obtenerPosiciones() {
-	return std::move(posiciones);
 }

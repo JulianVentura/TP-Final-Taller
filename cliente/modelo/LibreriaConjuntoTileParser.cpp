@@ -1,13 +1,14 @@
 #include "LibreriaConjuntoTileParser.h"
 #include <nlohmann/json.hpp>
-
+#include <utility>
 using json = nlohmann::json;
 
 int LibreriaConjuntoTileParser::getAnchoTile() { return ancho_tile; }
 int LibreriaConjuntoTileParser::getAltoTile() { return alto_tile; }
 int LibreriaConjuntoTileParser::getColumnas() { return columnas; }
 
-std::vector<InformacionConjuntoTile> LibreriaConjuntoTileParser::getInformacionLibreria() {
+std::vector<InformacionConjuntoTile> 
+                        LibreriaConjuntoTileParser::getInformacionLibreria() {
     return std::move(this->conjuntosTiles);
 }
 

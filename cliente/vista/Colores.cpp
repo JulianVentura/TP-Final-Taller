@@ -24,8 +24,9 @@ Colores::Colores(){
 }
 
 SDL_Color Colores::colorDesdeHexa(std::string hexa) {
-	if (hexa[0] == HEXA_INICIO) 
+	if (hexa[0] == HEXA_INICIO)
         hexa.erase(0, 1);
+	
     unsigned long valor = std::stoul(hexa, nullptr, 16);
     SDL_Color temp_color = {};
     temp_color.a = MAX_COLOR_VALUE;

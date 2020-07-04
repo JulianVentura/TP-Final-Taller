@@ -3,10 +3,12 @@
 #include "../modelo/LibreriaConjuntoTileParser.h"
 #include "Imagen.h"
 #include "TileConjunto.h"
+#include <vector>
 
 class LibreriaConjuntoTiles {
 public:
-    LibreriaConjuntoTiles(EntornoGrafico& entorno, LibreriaConjuntoTileParser& parser);
+    LibreriaConjuntoTiles(EntornoGrafico& entorno, 
+                                            LibreriaConjuntoTileParser& parser);
     Imagen* getTile(int id);
     int getColumnas();
     int getAnchoTile();

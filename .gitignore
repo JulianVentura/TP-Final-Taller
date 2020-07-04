@@ -35,6 +35,9 @@
 *.py
 filter_options
 
+*.pl
+
+
 .vscode/
 
 build/

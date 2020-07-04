@@ -5,6 +5,7 @@
 #include <SDL2/SDL_timer.h>
 #include <cstdio>
 #include <string>
+#include <algorithm>
 #include "ErrorGrafico.h"
 #include "Ventana.h"
 #include "Colores.h"
@@ -159,7 +160,7 @@ void Renderer::texto(const std::string& text) {
 
 void Renderer::texto(const std::string& text, int x, int y) {
     TTF_Font* font = entorno.getFuente(); 
-    SDL_Surface* superficie = TTF_RenderText_Blended(font, text.c_str(), color);
+    SDL_Surface* superficie = TTF_RenderUTF8_Blended(font, text.c_str(), color);
     if (!superficie) 
         throw ErrorGrafico("No se pudo cargar generar textura de texto%s\n",
                                                                 TTF_GetError());
