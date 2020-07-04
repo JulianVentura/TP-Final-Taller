@@ -70,7 +70,7 @@ int main(int argc, const char* argv[]) {
         
         // TODO: Provisorio
         // TODO: habría que agregar una cv
-        // std::this_thread::sleep_for(std::chrono::milliseconds(2000));
+        // std::this_thread::sleep_for(std::chrono::milliseconds(5000));
 
         std::string mapa_s = std::move(servidor.obtenerMapa());
         auto parser = json::parse(mapa_s.c_str());
@@ -85,8 +85,9 @@ int main(int argc, const char* argv[]) {
         MapaVista mapa(entorno, mapaParser, conjuntoTiles);
 
         std::string id_personaje(argv[PERSONAJE]);
-        Movible movibleModelo(id_personaje, servidor);
-        MovibleControlador movibleControlador(movibleModelo);
+
+        Movible movibleModelo(id_personaje);
+        MovibleControlador movibleControlador(servidor);
         MovibleVista movible(entorno, movibleModelo);
         servidor.agregarPosicionable(id_usuario, &movibleModelo);
 
