@@ -38,20 +38,25 @@ namespace quadtree{
     }
 }
 
-Mapa::Mapa(std::string nombreArchivo) : tiles(),
+Mapa::Mapa(std::string nombre) :        nombreMapa(nombre),
+                                        tiles(),
                                         ancho(0),
                                         alto(0),
                                         frontera(0, 0, 0, 0),
                                         quadTreeEstatico(frontera, obtenerCaja),
                                         quadTreeDinamico(frontera, obtenerCaja),
-                                        limiteCriaturas(3),
+                                        limiteCriaturas(0),
                                         personajes(),
                                         criaturas(),
                                         fabricaCriaturas(criaturas),
                                         motorAleatorio(std::time(0)){
-    std::ifstream archivo(nombreArchivo.c_str());
+
+    Configuraciones *config = Configuraciones::obtenerInstancia();
+    std::string rutaArchivo = config->obtenerMapaRuta(nombreMapa);
+    limiteCriaturas = config->obtenerMapaLimiteCriaturas(nombreMapa);
+    std::ifstream archivo(rutaArchivo.c_str());
     if (!archivo.is_open()){
-        throw ErrorServidor("Error: No se ha podido abrir el archivo de nombre %s", nombreArchivo.c_str()); 
+        throw ErrorServidor("Error: No se ha podido abrir el archivo de nombre %s", nombre); 
     }
     json archivoJson;
     contenido_archivo = std::string((std::istreambuf_iterator<char>(archivo)), std::istreambuf_iterator<char>());
@@ -161,7 +166,6 @@ void Mapa::cargarPersonaje(Personaje *personaje){
 
 
 void Mapa::cargarCriatura(){
-    
     if (criaturas.size() >= limiteCriaturas) return;
     // Obtengo un punto de respawn de la lista
     std::vector<quadtree::Box<float>>::iterator zona = zonasRespawn.begin();
@@ -172,10 +176,9 @@ void Mapa::cargarCriatura(){
     float x = (*zona).getCenter().x;
     float y = (*zona).getCenter().y;
 
-    //Creo una Criatura aleatoria y la cargo al mapa.
-    std::unique_ptr<Criatura> criaturaEncapsulada = std::move(fabricaCriaturas.obtenerCriaturaAleatoria(x, y));
-    criaturaEncapsulada.get();
-    
+    std::unique_ptr<Criatura> criaturaEncapsulada = 
+    std::move(fabricaCriaturas.obtenerCriaturaAleatoria(x, y, nombreMapa));
+
     Criatura *criatura = criaturaEncapsulada.get();
     criaturas[criatura->obtenerId()] = std::move(criaturaEncapsulada);
     cargarEntidad(criatura);

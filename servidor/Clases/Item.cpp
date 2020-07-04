@@ -1,6 +1,6 @@
 #include "Item.h"
 
-Item::Item(){
+Item::Item(std::string unId) : id(unId){
     //Do nothing
 }
 

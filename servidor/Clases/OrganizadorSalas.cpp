@@ -2,8 +2,13 @@
 #include "Excepcion.h"
 
 
-OrganizadorSalas::OrganizadorSalas(){
-    salas["mapaPrueba"] = std::move(std::unique_ptr<Sala>(new Sala("mapaPrueba")));
+OrganizadorSalas::OrganizadorSalas(const char *archivoConfig){
+    Configuraciones::crearInstancia(archivoConfig);
+    Configuraciones *config = Configuraciones::obtenerInstancia();
+    std::vector<std::string> listaSalas = config->obtenerSalas();
+    for (auto &sala : listaSalas){
+        salas[sala] = std::move(std::unique_ptr<Sala>(new Sala(sala)));
+    }
 }
 Sala* OrganizadorSalas::obtenerSala(std::string id){
     std::map<std::string, std::unique_ptr<Sala>>::iterator it = salas.find(id);

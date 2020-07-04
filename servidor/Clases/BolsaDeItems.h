@@ -4,10 +4,10 @@
 #include "Posicion.h"
 #include <list>
 #include <memory>
-class BolsaDeItems : public Item{
+class BolsaDeItems{
     private:
     Posicion posicion;
-    std::list<std::unique_ptr<Item>> items;
+    //std::list<std::unique_ptr<Item>> items;
 
     public:
     BolsaDeItems();

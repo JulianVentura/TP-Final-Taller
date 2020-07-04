@@ -101,8 +101,10 @@ int main(int argc, const char* argv[]) {
         
         bucle.agregarRendereable(&escena);
         bucle.agregarRendereable(&gui);
-
         bucle.agregarInteractivo(&movibleControlador);
+
+        ventana.agregarRendereable(&escena);
+        ventana.agregarRendereable(&gui);
 
         bucle.correr();
         servidor.terminar();

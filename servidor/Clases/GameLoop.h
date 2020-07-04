@@ -12,6 +12,8 @@ class Sala;
 class Cliente;
 class GameLoop : public Thread{
     private:
+    unsigned int msPorActualizacion;
+    unsigned int msDescanso;
     ColaOperaciones &colaDeOperaciones;
     Mapa &mapa;
     std::atomic<bool> continuar;

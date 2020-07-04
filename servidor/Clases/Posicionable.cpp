@@ -3,10 +3,10 @@
 #include <string>
 
 
-Posicionable::Posicionable(float x, float y) : posicion(x,y){}
+Posicionable::Posicionable(float x, float y, float ancho, float alto) : posicion(x, y, ancho, alto){}
 
 void Posicionable::actualizarPosicion(Posicion &&posicion){
-    this->posicion = std::move(posicion);
+    this->posicion.actualizarPosicion(std::move(posicion));
 }
 
 const quadtree::Box<float>& Posicionable::obtenerAreaQueOcupa(){

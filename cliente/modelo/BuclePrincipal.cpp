@@ -19,13 +19,9 @@ void BuclePrincipal::correr() {
     SDL_StopTextInput();
     while (!salir) {
         while (SDL_PollEvent(&evento) != 0) {
-            // TODO: hacerlo de the Franco way
-            ventana->manejarEvento(evento);
-            for (auto& interactivo: interactivos) {
-                interactivo->manejarEvento(evento);
-            }
-            despacharEventos(evento);
+			despacharEventos(evento);
         }
+
         int tiempo = reloj.medir() * SEG_A_MILLI;
         ventana->actualizar(tiempo);
         for (auto& rendereable: rendereables) {
@@ -42,28 +38,41 @@ void BuclePrincipal::correr() {
     }
 }
 
+
 void BuclePrincipal::despacharEventos(SDL_Event& evento) {
+    bool evento_consumido = false;
+
 	switch(evento.type) {
 		case SDL_QUIT: 
 			salir = true;
-			break;
+		break;
+
 		case SDL_MOUSEBUTTONDOWN:
-			for(auto& boton : gui.botones)
-				if((*boton)(evento)) break;
+            for(auto& boton : gui.botones){
+                evento_consumido = (*boton)(evento);
+                if(evento_consumido) break;
+            }
+            //if(!evento_consumido) escena.manejarEvento(evento);
 			break;
 
         case SDL_MOUSEWHEEL:
             gui.chat_controlador.scroll(evento);
-            break;
+        break;
 
         case SDL_KEYDOWN:
         case SDL_TEXTINPUT:
-            gui.chat_controlador.ingresarCaracter(evento);
-            break;
+            if(gui.chat_controlador.ingresarCaracter(evento)){
+                ventana->manejarEvento(evento);
+                for (auto& interactivo : interactivos){
+                    interactivo -> manejarEvento(evento);
+                }
+            }
+        break;
         
         case SDL_WINDOWEVENT:
+            ventana->manejarEvento(evento);
             gui.actualizarDimension();
-            break;
+        break;
 	}
 }
 

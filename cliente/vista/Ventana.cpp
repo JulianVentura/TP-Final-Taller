@@ -3,6 +3,20 @@
 #include <SDL2/SDL_render.h>
 #include <SDL2/SDL_timer.h>
 
+void Ventana::agregarRendereable(IRendereable* rendereable) {
+    rendereables.push_back(rendereable);
+    rendereable->setRenderer(renderer);
+    rendereable->setVentana(this);
+}
+
+int Ventana::getAlto() {
+    return alto;
+}
+
+int Ventana::getAncho() {
+    return ancho;
+}
+
 Ventana::~Ventana() {
     SDL_DestroyWindow(ventana);
 }
@@ -31,6 +45,7 @@ void Ventana::manejarEvento(const SDL_Event& event) {
     if (event.type == SDL_WINDOWEVENT) { 
         if (event.window.event == SDL_WINDOWEVENT_RESIZED)
             SDL_GetWindowSize(ventana, &ancho, &alto);
+
     }
 }
 

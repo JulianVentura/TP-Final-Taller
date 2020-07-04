@@ -6,7 +6,7 @@ class Item{
     protected:
     std::string id;
     public:
-    Item();
+    Item(std::string id);
     virtual ~Item();
     std::string obtenerId();
     virtual void utilizar(Personaje *personaje, unsigned int pos) = 0;

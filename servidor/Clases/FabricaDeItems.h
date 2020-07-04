@@ -2,15 +2,30 @@
 #define __FABRICA_DE_ITEMS_H__
 #include <memory>
 class Item;
-//class Pocion;
+class Pocion;
 class Arma;
+class Armadura;
+class Casco;
+class Escudo;
+class Oro;
 class FabricaDeItems{
     public:
     FabricaDeItems();
-    std::unique_ptr<Item> obtenerItemAleatorio();
-    //std::unique_ptr<Pocion> obtenerPocionDeVida();
-    //Armas
-    std::unique_ptr<Arma> obtenerEspadaDeHierro();
+    std::unique_ptr<Item> obtenerItemAleatorio(std::string &idCriatura);
+
+    //Arma
+    std::unique_ptr<Arma> crearArma(std::string &id);
+    //Armadura
+    std::unique_ptr<Armadura> crearArmadura(std::string &id);
+    //Escudo
+    std::unique_ptr<Escudo> crearEscudo(std::string &id);
+    //Casco
+    std::unique_ptr<Casco> crearCasco(std::string &id);
+    //Pocion
+    std::unique_ptr<Pocion> crearPocion(std::string &id);
+    //Oro
+    std::unique_ptr<Oro> crearOro(unsigned int cantidad);
+    
 };
 
 #endif
@@ -29,45 +44,8 @@ Esto podra ser:
 - Pociones
 - Oro
 
-Por lo tanto no es necesario crear una Fabrica para cada cosa, es tan simple como hacer una FabricaDeItems.
-
 FabricaDeItems::obtenerItemAleatorio(){
     Devuelve un item aleatorio.
-}
-
-Todo item tendra el metodo utilizar, esto permite variar cada item utilizando polimorfismo
-
-virtual Item::utilizar(Personaje *objetivo) = 0;
-
-Por ej:
-Estilo double dispatch
-
-Personaje::utilizar(std::string &id){
-    Item *item = inventario.obtenerItem(id);
-    item->utilizar();
-}
-
-Arma::utilizar(Personaje *objetivo){
-    objetivo->equipar(this);
-}
-
-Armadura::utilizar(Personaje *objetivo){
-    objetivo->equipar(this);
-}
-
-Pocion::utilizar(Personaje *objetivo){
-    objetivo->curar(vidaACurar, manaACurar);
-    personaje->consumir(this->id);
-}
-
-//Equipar un arma/armadura
-
-Personaje::equipar(Arma *arma){
-    if (armaEquipada){
-        inventario.almacenar(armaEquipada);
-        armaEquipada = nullptr;
-    }
-    armaEquipada = arma;
 }
 
 
@@ -161,4 +139,84 @@ Si no se puede obtener el objeto del inventario se lanza una excepcion desde el,
 decidir si se le envia algun mensaje en particular al Cliente.
 
 
+Como sera la estructura de creacion de items.
+
+
+FabricaDeItems::fabricarArma(id){
+    int danioMax = configuraciones.obtenerArmaDanioMax(id);
+    int danioMin = configuraciones.obtenerArmaDanioMax(id);
+    unsigned int rangoAtaque = configuraciones.obtenerArmaDanioMax(id);
+    unsigned int consumoMana = configuraciones.obtenerArmaDanioMax(id);
+    return std::unique_ptr(new Arma(danioMax, danioMin, rangoAtaque, consumoMana));
+}
+
+FabricaDeItems::fabricarArmadura(id){
+    idem al anterior.
+}
+
+FabricaDeItems::fabricarEscudo(id){
+    
+}
+
+FabricaDeItems::fabricarCasco(id){
+    
+}
+
+FabricaDeItems::fabricarPocion(id){
+    
+}
+
+FabricaDeItems::fabricarOro(unsigned int cantidad){
+    
+}
+
+FabricaDeItems::fabricarItemAleatorio(){
+
+}
+
+
+Para los items aleatorios:
+
+Cada criatura podria tener una lista de los items que puede dropear, de la sig forma.
+
+Golum: {
+    Drops: {
+        Armas: {
+            "Probabilidad" = 0.03,
+            "Armas": [["Espada", 0.5],["Varaculo", 0.5]]
+        }
+        Armaduras: {
+            "Probabilidad" = 0.03,
+            "Armaduras":["ArmaduraDeCuero"]
+        }
+        Cascos: {
+            "Probabilidad" = 0,
+            "Cascos" = []
+        }
+        Pociones: ["PocionDeVida"],
+        Oro: ["100"]                        //Esto indica la cant maxima de oro dropeable
+    }
+}
+
+Luego cada Criatura almacenara esta lista en forma de:
+
+std::unordered_map<std::vector<std::string>> drops;
+
+La cual le pasara a FabricaDeItems al momento de necesitar dropear algo.
+
+FabricaDeItems se encargara de llamar a Configuraciones para ver que clase de item debe ser dropeado (puede ser ninguno)
+Luego FabricaDeItems se encargara de dropear un item segun el resultado de Configuraciones, esto es:
+
+Si toca "Armas" entonces dropea un arma fijandose los drops de armas de Golum, seleccionando uno uniformemente.
+Lo mismo si toca "Cascos", "Escudos", "Armaduras" o "Pociones".
+Si toca "Oro" entonces se leera la cantidad maxima dropeable
+
+
+Entonces se tendra que tener un parseo al momento de crear los items dentro de FabricaDeItems, del estilo:
+
+
+
+
+
 */
+

@@ -1,25 +1,37 @@
 #include "Posicion.h"
+#include "Configuraciones.h"
 #include <utility>
 #include <sstream>
 #include <cmath>
-#define ANCHO 6
-#define ALTO 6
-Posicion::Posicion(float x, float y) :
-                   areaQueOcupa(x - ANCHO/2, y - ALTO/2, ANCHO, ALTO),
-                   x(x), 
-                   y(y),
+
+Posicion::Posicion(float unX, float unY, float anch, float alt) : 
+                   x(unX), 
+                   y(unY),
+                   ancho(anch),
+                   alto(alt),
                    desplazamientoX(0),
-                   desplazamientoY(0){}
+                   desplazamientoY(0),
+                   areaQueOcupa(x - ancho/2, y - alto/2, ancho, alto){
+}
 
-Posicion::Posicion() : areaQueOcupa(0, 0, 0, 0), x(0), y(0){} 
+Posicion::Posicion() : x(0), y(0), ancho(0), alto(0), areaQueOcupa(0, 0, 0, 0){} 
 
-Posicion::Posicion(Posicion &&otro) : Posicion(otro.x, otro.y) {}
+Posicion::Posicion(Posicion &&otro) : Posicion(otro.x, otro.y, otro.ancho, otro.alto) {}
 
 Posicion& Posicion::operator=(Posicion &&otro){
     x = otro.x;
     y = otro.y;
+    ancho = otro.ancho;
+    alto = otro.alto;
     areaQueOcupa = std::move(otro.areaQueOcupa);
     return *this;
+}
+
+void Posicion::actualizarPosicion(Posicion &&otro){
+    //Solo actualizo coordenadas, no cambio el area que ocupo.
+    this->x = otro.x;
+    this->y = otro.y;
+    actualizarArea();
 }
 
 void Posicion::moverHaciaArriba(float desplazamiento){
@@ -40,7 +52,7 @@ void Posicion::moverHaciaIzquierda(float desplazamiento){
 }
 
 Posicion Posicion::mover(){
-    Posicion nuevaPosicion(x + desplazamientoX, y + desplazamientoY);
+    Posicion nuevaPosicion(x + desplazamientoX, y + desplazamientoY, ancho, alto);
     return nuevaPosicion;
 }
 
@@ -51,7 +63,7 @@ void Posicion::detenerse(){
 }
 
 void Posicion::actualizarArea(){
-    areaQueOcupa = std::move(quadtree::Box<float>(x - ANCHO/2, y - ALTO/2, ANCHO, ALTO));
+    areaQueOcupa = std::move(quadtree::Box<float>(x - ancho/2, y - alto/2, ancho, alto));
 }
 
 const quadtree::Box<float>& Posicion::obtenerAreaQueOcupa() const{
@@ -59,26 +71,29 @@ const quadtree::Box<float>& Posicion::obtenerAreaQueOcupa() const{
 }
 
 float Posicion::longitudMaximaDeColision() const{
-    return sqrt(ANCHO * ANCHO + ALTO * ALTO);
+    return sqrt(ancho * ancho + alto * alto);
 }
 
+//Se utiliza para algo esto? Muy similar a Posicion::mover()
 Posicion Posicion::nuevaPosicionDesplazada(float x, float y) const{
-    return std::move(Posicion(this->x + x, this->y + y));
+    return std::move(Posicion(this->x + x, this->y + y, ancho, alto));
 }
-
+//DEBUG
 std::string Posicion::imprimirPosicion(){
     std::stringstream resultado;
     resultado << x << "/" << y;
     return std::move(resultado.str());
 }
+//
+
 
 const float Posicion::obtenerX() const{
     return x;
 }
+
 const float Posicion::obtenerY() const{
     return y;
 }
-
 
 float Posicion::calcularDistancia(const Posicion &otra) const{
     float deltaX = otra.x - x;

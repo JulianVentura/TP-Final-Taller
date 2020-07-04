@@ -3,26 +3,37 @@
 #include <nlohmann/json.hpp>
 #include <vector>
 #include <cstdint>
+
+typedef enum ITEM {ARMA,
+                   ARMADURA,
+                   CASCO,
+                   ESCUDO,
+                   ORO,
+                   POCION,
+                   NADA} TipoItem;
 class Entidad;
 class Personaje;
 class Arma;
 class Configuraciones{
     private:
     nlohmann::json json;
-
+    std::string obtenerItemRandom(std::string &idCriatura, std::string idItem);
     public:
     static Configuraciones* obtenerInstancia();
     static void crearInstancia(const char *nombreArchivo);
 
     /* GETTERS DEL JUEGO */
+    //Salas
+    const std::vector<std::string> obtenerSalas() const;
     //Aceptador
     const uint32_t obtenerAceptadorNumConexionesEnEspera() const;
+    const std::string obtenerAceptadorPuerto() const;
+    const std::string obtenerAceptadorHost() const;
     //GameLoop
     const uint32_t obtenerGameLoopMSdescanso() const;
     const uint32_t obtenerGameLoopMSporActualizacion() const;
     //Mapas
     const std::string obtenerMapaRuta(std::string &id) const;
-    const std::vector<std::string> obtenerMapaSpawnCriaturas(std::string &id) const;
     const uint32_t obtenerMapaLimiteCriaturas(std::string &id) const;
     //Personaje
     const uint32_t obtenerPersonajeNivelBase() const;
@@ -38,6 +49,7 @@ class Configuraciones{
     const uint32_t obtenerCiudadanoAlto(std::string &id) const;
     //Criaturas
     const uint32_t obtenerCriaturaVidaMax(std::string &id) const;
+    const uint32_t obtenerCriaturaManaMax(std::string &id) const;
     const uint32_t obtenerCriaturaNivel(std::string &id) const;
     const uint32_t obtenerCriaturaFuerza(std::string &id) const;
     const uint32_t obtenerCriaturaInteligencia(std::string &id) const;
@@ -46,6 +58,7 @@ class Configuraciones{
     const float    obtenerCriaturaVelDesplazamiento(std::string &id) const;
     const uint32_t obtenerCriaturaAncho(std::string &id) const;
     const uint32_t obtenerCriaturaAlto(std::string &id) const;
+    const std::string obtenerCriaturaIdArma(std::string &id) const;
     //Clases
     const float    obtenerFClaseVida(std::string &id) const;
     const float    obtenerFClaseRecuperacion(std::string &id) const;
@@ -65,7 +78,7 @@ class Configuraciones{
     //Armas
     const int32_t  obtenerArmaDanioMax(std::string &id) const;
     const int32_t  obtenerArmaDanioMin(std::string &id) const;
-    const uint32_t obtenerArmaRangoAtaque(std::string &id) const;
+    const float obtenerArmaRangoAtaque(std::string &id) const;
     const uint32_t obtenerArmaConsumoMana(std::string &id) const;
     //Armaduras
     const uint32_t obtenerArmaduraDefensaMax(std::string &id) const;
@@ -79,8 +92,8 @@ class Configuraciones{
     //Oro
     const uint32_t obtenerOroCantidadMax() const;
     //Pociones
-    const uint32_t obtenerCuracionVida(std::string &id) const;
-    const uint32_t obtenerCuracionMana(std::string &id) const;
+    const uint32_t obtenerPocionCuracionVida(std::string &id) const;
+    const uint32_t obtenerPocionCuracionMana(std::string &id) const;
     /* FORMULAS DEL JUEGO */ 
     unsigned int calcularVidaMax(Personaje *personaje);
     unsigned int calcularRecuperacionVida(Personaje *personaje, double tiempo);
@@ -93,8 +106,18 @@ class Configuraciones{
     unsigned int calcularExpPorGolpe(Entidad *objetivo, Entidad *atacante, unsigned int danio);
     unsigned int calcularExpPorMatar(Entidad *objetivo, Entidad *atacante);
     unsigned int calcularDanioAtaque(Entidad *objetivo, Entidad *atacante, Arma *arma);
-    bool seEsquivaElGolpe(Entidad *entidad);
+    std::string calcularDropArma(std::string &idCriatura);
+    std::string calcularDropArmadura(std::string &idCriatura);
+    std::string calcularDropEscudo(std::string &idCriatura);
+    std::string calcularDropCasco(std::string &idCriatura);
+    std::string calcularDropPocion(std::string &idCriatura);
+    unsigned int calcularDropOro(std::string &idCriatura);
     unsigned int calcularDefensa();
+    
+    TipoItem calcularDrop(std::string &idCriatura);
+    bool seEsquivaElGolpe(Entidad *entidad);
+    const std::string obtenerMapaSpawnCriaturaAleatoria(const std::string &id) const;
+    
 
     protected:
     Configuraciones();

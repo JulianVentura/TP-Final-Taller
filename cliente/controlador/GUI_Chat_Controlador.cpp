@@ -19,10 +19,10 @@ bool GUI_ChatControlador::enClick(){
 	return true;
 }
 
-void GUI_ChatControlador::ingresarCaracter(SDL_Event& evento){
+bool GUI_ChatControlador::ingresarCaracter(SDL_Event& evento){
 	if(evento.type == SDL_TEXTINPUT){
 		chat_vista.entrada += evento.text.text;
-		return;
+		return true;
 	}
 	
 	switch(evento.key.keysym.scancode){
@@ -30,16 +30,18 @@ void GUI_ChatControlador::ingresarCaracter(SDL_Event& evento){
 			if(chat_vista.entrada.size() > 0)
 				chat_vista.entrada = chat_vista.entrada.substr(0, 
 					chat_vista.entrada.size() - 1);
-			break;
+			return true;
 
 			case SDL_SCANCODE_RETURN:
-			 	servidor.enviarChat(std::move(chat_vista.entrada));
+				servidor.enviarChat(std::move(chat_vista.entrada));
 				chat_vista.entrada.clear();
-			break;
+			return true;
 
 			default:
 			break;
 	}
+
+	return false;
 }
 
 void GUI_ChatControlador::agregarMensaje(std::string mensaje,

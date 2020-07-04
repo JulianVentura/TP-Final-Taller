@@ -2,8 +2,8 @@
 #include "Cliente.h"
 #include "PosicionEncapsulada.h"
 
-Sala::Sala(const char* nombreMapa) : nombre(nombreMapa),
-                                     mapa(std::string(nombreMapa) + ".json"),
+Sala::Sala(std::string nombreMapa) : nombre(nombreMapa),
+                                     mapa(nombreMapa),
                                      colaOperaciones(),
                                      gameLoop(colaOperaciones, mapa, *this){}
 
