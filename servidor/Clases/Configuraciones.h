@@ -40,7 +40,7 @@ class Configuraciones{
     const uint32_t obtenerPersonajeFuerzaBase() const;
     const uint32_t obtenerPersonajeInteligenciaBase() const;
     const uint32_t obtenerPersonajeAgilidadBase() const;
-    const uint32_t obtenerPersonajeComposicionBase() const;
+    const uint32_t obtenerPersonajeConstitucionBase() const;
     const float    obtenerPersonajeVelDesplazamiento() const;
     const uint32_t obtenerPersonajeAncho() const;
     const uint32_t obtenerPersonajeAlto() const;

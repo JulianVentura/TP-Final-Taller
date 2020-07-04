@@ -54,9 +54,9 @@ Mapa::Mapa(std::string nombre) :        nombreMapa(nombre),
     Configuraciones *config = Configuraciones::obtenerInstancia();
     std::string rutaArchivo = config->obtenerMapaRuta(nombreMapa);
     limiteCriaturas = config->obtenerMapaLimiteCriaturas(nombreMapa);
-    std::ifstream archivo(rutaArchivo.c_str());
+    std::ifstream archivo(rutaArchivo);
     if (!archivo.is_open()){
-        throw ErrorServidor("Error: No se ha podido abrir el archivo de nombre %s", nombre); 
+        throw ErrorServidor("Error: No se ha podido abrir el archivo de nombre %s", nombreMapa); 
     }
     json archivoJson;
     contenido_archivo = std::string((std::istreambuf_iterator<char>(archivo)), std::istreambuf_iterator<char>());
@@ -71,18 +71,20 @@ Mapa::Mapa(std::string nombre) :        nombreMapa(nombre),
     
     //MAPA VIEJO
     // TODO: esto en el mapa nuevo, es más complicado de armar
-    tiles = archivoJson.at("layers")[0].at("data").get<std::vector<char>>();
-    std::vector<quadtree::Box<float>> objetos = archivoJson.at("layers")[2].at("objects").get<std::vector<quadtree::Box<float>>>();
-    zonasRespawn = archivoJson.at("layers")[1].at("objects").get<std::vector<quadtree::Box<float>>>();
+    
+    //tiles = archivoJson.at("layers")[0].at("data").get<std::vector<char>>();
+    //std::vector<quadtree::Box<float>> objetos = archivoJson.at("layers")[2].at("objects").get<std::vector<quadtree::Box<float>>>();
+    //zonasRespawn = archivoJson.at("layers")[1].at("objects").get<std::vector<quadtree::Box<float>>>();
     
     //MAPA NUEVO
-    // std::vector<quadtree::Box<float>> objetos; 
-    // for (auto& capa: archivoJson["layers"]) {
-    //     if (capa["type"] != "objectgroup" || 
-    //         capa["name"] != "colisionables") continue;
-    //     capa["objects"].get_to(objetos);        
-    //     break;
-    // }
+    
+     std::vector<quadtree::Box<float>> objetos; 
+     for (auto& capa: archivoJson["layers"]) {
+         if (capa["type"] != "objectgroup" || 
+             capa["name"] != "colisionables") continue;
+         capa["objects"].get_to(objetos);        
+         break;
+    }
     
     for (std::size_t i=0; i<objetos.size(); i++){
         objetosEstaticos.push_back(std::move(objetos[i]));

@@ -1,4 +1,4 @@
-{   "Salas": ["mapaPrueba"],
+{   "Salas": ["mapa1"],
     "Aceptador": {
         "Puerto": "3080",
         "Host": "localhost",
@@ -9,8 +9,8 @@
         "MS_POR_ACTUALIZACION": 11
     },
     "Mapas": {
-        "mapaPrueba": {
-            "Ruta": "../mapaPrueba.json",
+        "mapa1": {
+            "Ruta": "../mapa1.json",
             "SpawnCriaturas": [
                 "Arania",
                 "Goblin"

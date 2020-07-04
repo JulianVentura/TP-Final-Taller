@@ -1,5 +1,6 @@
 #include "Personaje.h"
 #include "Mapa.h"
+#include "Configuraciones.h"
 #include <utility>
 #define VIDA_MAXIMA 50
 #define MANA_MAXIMO 100
@@ -8,9 +9,21 @@
 
 Personaje::Personaje(float x, float y, std::string id) : 
                                        Entidad(id){
-    actualizarAtributos();
-    agilidad = 2; //Cambiar
-    desplazamiento = DESPLAZAMIENTO;
+    Configuraciones *config = Configuraciones::obtenerInstancia();
+    //Seteo los campos.
+    nivel = NIVEL_INICIAL;
+    fuerza = config->obtenerPersonajeFuerzaBase();
+    inteligencia = config->obtenerPersonajeInteligenciaBase();
+    agilidad = config->obtenerPersonajeAgilidadBase();
+    constitucion = config->obtenerPersonajeConstitucionBase();
+    vidaMaxima = config->calcularVidaMax(this);
+    vidaActual = vidaMaxima;
+    manaMaximo = config->calcularManaMax(this);
+    manaActual = manaMaximo;
+    float ancho = config->obtenerPersonajeAncho();
+    float alto = config->obtenerPersonajeAlto();
+    posicion = std::move(Posicion(x, y, ancho, alto));
+    desplazamiento = config->obtenerPersonajeVelDesplazamiento();
 }
 Personaje& Personaje::operator=(Personaje &&otro){
     this->vidaActual = otro.vidaActual;
