@@ -71,18 +71,18 @@ Mapa::Mapa(std::string nombre) :        nombreMapa(nombre),
     
     //MAPA VIEJO
     // TODO: esto en el mapa nuevo, es más complicado de armar
-    tiles = archivoJson.at("layers")[0].at("data").get<std::vector<char>>();
-    std::vector<quadtree::Box<float>> objetos = archivoJson.at("layers")[2].at("objects").get<std::vector<quadtree::Box<float>>>();
-    zonasRespawn = archivoJson.at("layers")[1].at("objects").get<std::vector<quadtree::Box<float>>>();
+    //tiles = archivoJson.at("layers")[0].at("data").get<std::vector<char>>();
+    //std::vector<quadtree::Box<float>> objetos = archivoJson.at("layers")[2].at("objects").get<std::vector<quadtree::Box<float>>>();
+    //zonasRespawn = archivoJson.at("layers")[1].at("objects").get<std::vector<quadtree::Box<float>>>();
     
     //MAPA NUEVO
-    // std::vector<quadtree::Box<float>> objetos; 
-    // for (auto& capa: archivoJson["layers"]) {
-    //     if (capa["type"] != "objectgroup" || 
-    //         capa["name"] != "colisionables") continue;
-    //     capa["objects"].get_to(objetos);        
-    //     break;
-    // }
+     std::vector<quadtree::Box<float>> objetos; 
+     for (auto& capa: archivoJson["layers"]) {
+         if (capa["type"] != "objectgroup" || 
+             capa["name"] != "colisionables") continue;
+         capa["objects"].get_to(objetos);        
+         break;
+    }
     
     for (std::size_t i=0; i<objetos.size(); i++){
         objetosEstaticos.push_back(std::move(objetos[i]));

@@ -25,6 +25,7 @@ class Cliente : public Thread{
     ClienteProxy clienteProxy;
     OrganizadorSalas &organizadorSalas;
     BaseDeDatos &miBaseDeDatos;
+    std::string salaActual;
     std::atomic<bool> finalizado;
     std::atomic<bool> continuar;
 
