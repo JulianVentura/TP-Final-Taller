@@ -33,7 +33,7 @@ bool GUI_ChatControlador::ingresarCaracter(SDL_Event& evento){
 			return true;
 
 			case SDL_SCANCODE_RETURN:
-				servidor.enviarMensaje(std::move(chat_vista.entrada));
+				servidor.enviarChat(std::move(chat_vista.entrada));
 				chat_vista.entrada.clear();
 			return true;
 
