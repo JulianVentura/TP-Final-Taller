@@ -41,7 +41,10 @@ void BuclePrincipal::correr() {
 
 void BuclePrincipal::despacharEventos(SDL_Event& evento) {
     bool evento_consumido = false;
-
+    ventana->manejarEvento(evento);
+    for (auto& interactivo : interactivos){
+        interactivo -> manejarEvento(evento);
+    }
 	switch(evento.type) {
 		case SDL_QUIT: 
 			salir = true;
@@ -62,15 +65,12 @@ void BuclePrincipal::despacharEventos(SDL_Event& evento) {
         case SDL_KEYDOWN:
         case SDL_TEXTINPUT:
             if(gui.chat_controlador.ingresarCaracter(evento)){
-                ventana->manejarEvento(evento);
-                for (auto& interactivo : interactivos){
-                    interactivo -> manejarEvento(evento);
-                }
+                
             }
         break;
         
         case SDL_WINDOWEVENT:
-            ventana->manejarEvento(evento);
+            // ventana->manejarEvento(evento);
             gui.actualizarDimension();
         break;
 	}

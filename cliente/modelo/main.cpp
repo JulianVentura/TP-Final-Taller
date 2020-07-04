@@ -51,10 +51,12 @@ int main(int argc, const char* argv[]) {
         std::string fuente_ruta("assets/DejaVuSansMono.ttf"); 
         entorno.cargarFuente(fuente_ruta, 15);
         Ventana ventana(entorno, "Argentum Online");
+        
         Renderer renderer(entorno);
         Colores paleta;
         DatosPersonaje datos_personaje;
         DatosTienda datos_tienda;
+
         std::string direccion(argv[DIRECCION]);
         std::string servicio(argv[SERVICIO]);
         std::string id_usuario(argv[ID_USUARIO]);
@@ -67,11 +69,10 @@ int main(int argc, const char* argv[]) {
         servidor.salida = &gui.chat_controlador;
         BuclePrincipal bucle(ventana, gui, servidor);
         
-        
         // TODO: Provisorio
         // TODO: habría que agregar una cv
         // std::this_thread::sleep_for(std::chrono::milliseconds(5000));
-
+        
         std::string mapa_s = std::move(servidor.obtenerMapa());
         auto parser = json::parse(mapa_s.c_str());
 
@@ -103,8 +104,8 @@ int main(int argc, const char* argv[]) {
         bucle.agregarRendereable(&gui);
         bucle.agregarInteractivo(&movibleControlador);
 
-        bucle.agregarRendereable(&escena);
-        bucle.agregarRendereable(&gui);
+        // bucle.agregarRendereable(&escena);
+        // bucle.agregarRendereable(&gui);
 
         bucle.correr();
         servidor.terminar();
