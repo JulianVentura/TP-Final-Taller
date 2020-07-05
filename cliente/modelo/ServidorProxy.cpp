@@ -5,16 +5,14 @@
 #include <unordered_map>
 #include "../controlador/GUI_Chat_Controlador.h"
 
-#ifndef OFFLINE
-ServidorProxy::ServidorProxy(std::string& direccion, std::string& servicio, 
-		std::string& id_usuario, DatosPersonaje& datos_personaje, DatosTienda& 
-		datos_tienda): id_usuario(id_usuario), datos_personaje(datos_personaje), 
-		datos_tienda(datos_tienda) {
+ServidorProxy::ServidorProxy(DatosPersonaje& datos_personaje,
+	DatosTienda& datos_tienda)
+	 : datos_personaje(datos_personaje), datos_tienda(datos_tienda) {
 	salir = false;
-	socket.conectar(direccion.c_str(), servicio.c_str());
+	//socket.conectar(direccion.c_str(), servicio.c_str());
 	// TODO: Preguntar si es necesario que esté en el heap
-	hilo_recepcion = new std::thread(&ServidorProxy::recibirMensaje, this);
-	protocolo.enviarID(socket, id_usuario);
+	//hilo_recepcion = new std::thread(&ServidorProxy::recibirMensaje, this);
+	//protocolo.enviarID(socket, id_usuario);
 }
 
 void ServidorProxy::enviarMovimiento(uint32_t movimiento) {
@@ -30,7 +28,7 @@ void ServidorProxy::enviarChat(std::string mensaje){
 		destino = mensaje.substr(1,pos - 1);
 		mensaje = mensaje.substr(pos + 1, std::string::npos);
 	}
-	protocolo.enviarChat(socket, id_usuario, destino, mensaje);
+	//protocolo.enviarChat(socket, id_usuario, destino, mensaje);
 }
 
 void ServidorProxy::recibirMensaje(){
@@ -89,11 +87,3 @@ void ServidorProxy::agregarPosicionable(std::string& id,
 												IPosicionable* posicionable) {
 	posicionables[id] = posicionable;
 }
-
-#else
-ServidorProxy::ServidorProxy(std::string direccion, std::string servicio,
-	 DatosPersonaje& datos_personaje, DatosTienda& datos_tienda):
-	 datos_personaje(datos_personaje), datos_tienda(datos_tienda){}
-
-void ServidorProxy::terminar(){}
-#endif

@@ -84,11 +84,13 @@ public:
      * @param origen_mascara: Porción de la textura que se mostrará. NULL para 
      * la textura completa.
      * @param render_mascara: Contiene la posición donde se mostrará la textura
-     * y el ancho y alto que ocupará. NULL para ocupar toda la pantalla.
+     * y el ancho y alto que ocupará.
      */
     void renderTextura(SDL_Texture* texture, SDL_Rect& origen_mascara, 
                                         SDL_Rect& render_mascara); // Maybe x, y
     
+    void renderTexturaExpandida(SDL_Texture* texture, SDL_Rect& origen_mascara);
+     
     SDL_Texture* textura(int ancho, int alto);
 
     /**

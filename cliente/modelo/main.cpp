@@ -1,6 +1,7 @@
 #include <iostream>
 #include <string>
 
+#include "BucleLogin.h"
 #include "BuclePrincipal.h"
 #include "ServidorProxy.h"
 #include "DatosPersonaje.h"
@@ -13,6 +14,7 @@
 #include "../vista/Ventana.h"
 #include "../vista/Escena.h"
 #include "../vista/GUI_Principal.h"
+#include "../vista/GUI_Login.h"
 #include "../vista/CapaFrontal.h"
 #include "../vista/ErrorGrafico.h"
 #include "../vista/MovibleVista.h"
@@ -25,28 +27,8 @@
 
 using json = nlohmann::json;
 
-enum PARAMS {
-    EJECUTABLE,
-    DIRECCION,
-    SERVICIO,
-    ID_USUARIO,
-    PERSONAJE,
-    CANT_PARAMS
-};
-
-/**
- * @param argv <direccion> <servicio> <id_usuario> <personaje>
- * @param personaje puede ser human o golum por ahora
- */
 int main(int argc, const char* argv[]) {
-    try {
-        if (argc != CANT_PARAMS) {
-            std::cerr << "Parametros incorrectos: uso <direccion> "
-                    << "<servicio> <id_usuario> <personaje>"
-                    << "\n personaje: human/golum" << std::endl;
-            return -1;
-        }
-
+        try{
         EntornoGrafico entorno;
         std::string fuente_ruta("assets/DejaVuSansMono.ttf"); 
         entorno.cargarFuente(fuente_ruta, 15);
@@ -55,13 +37,19 @@ int main(int argc, const char* argv[]) {
         Colores paleta;
         DatosPersonaje datos_personaje;
         DatosTienda datos_tienda;
-        std::string direccion(argv[DIRECCION]);
-        std::string servicio(argv[SERVICIO]);
-        std::string id_usuario(argv[ID_USUARIO]);
 
-        ServidorProxy servidor(direccion, servicio, id_usuario, datos_personaje,
-        datos_tienda);
+        ServidorProxy servidor(datos_personaje, datos_tienda);
 
+        // PANTALLA DE LOGIN //
+        GUI_Login gui_login(entorno, paleta, servidor);
+        BucleLogin bucle_login(ventana, gui_login, servidor);
+        bucle_login.agregarRendereable(&gui_login);
+        bucle_login.correr();
+
+        /*
+        // JUEGO EN SI //
+
+        
         GUI_Principal gui(entorno, paleta, datos_personaje, datos_tienda,
          servidor); 
         servidor.salida = &gui.chat_controlador;
@@ -108,6 +96,7 @@ int main(int argc, const char* argv[]) {
 
         bucle.correr();
         servidor.terminar();
+        */
     } catch (std::exception& e) {
         std::cerr << e.what() << std::endl;
     }

@@ -3,7 +3,8 @@
 #include "GUI_Boton_Controlador.h"
 
 bool enRectangulo(SDL_Rect& rect, int x, int y){
-	return (x > rect.x && y > rect.y && x < rect.x + rect.w && rect.y + rect.w);
+	return (x > rect.x && y > rect.y && x < rect.x + rect.w
+	 && y < rect.y + rect.h);
 }
 
 GUI_BotonControlador::GUI_BotonControlador(int x, int y, int ancho, int alto){

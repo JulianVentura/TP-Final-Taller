@@ -206,3 +206,9 @@ void Renderer::renderTextura(SDL_Texture* texture, SDL_Rect& origen_mascara,
     SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_BLEND);
     SDL_RenderCopy(renderer, texture, &origen_mascara, &this->rect_render);
 }
+
+void Renderer::renderTexturaExpandida(SDL_Texture* texture,
+ SDL_Rect& origen_mascara) {
+    SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_BLEND);
+    SDL_RenderCopy(renderer, texture, &origen_mascara, NULL);
+}

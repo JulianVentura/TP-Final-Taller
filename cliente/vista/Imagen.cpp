@@ -46,6 +46,10 @@ void Imagen::render() {
     renderer->renderTextura(textura, mascara, render_mascara);
 }
 
+void Imagen::renderExpandido() {
+    renderer->renderTexturaExpandida(textura, mascara);
+}
+
 int Imagen::getAncho() {
     return render_mascara.w;
 }

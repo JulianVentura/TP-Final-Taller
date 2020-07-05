@@ -21,6 +21,7 @@ public:
      */
     Imagen(EntornoGrafico& entorno, const std::string& ruta, SDL_Color* color);
     void render() override;
+    void renderExpandido();
     void setPosicion(int x, int y);
     virtual int getAncho() override;
     virtual int getAlto() override;

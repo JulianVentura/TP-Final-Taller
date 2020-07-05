@@ -1,21 +1,22 @@
-#ifndef BUCLEPRINCIPAL_H
-#define BUCLEPRINCIPAL_H
+#ifndef __BUCLE_LOGIN_H__
+#define __BUCLE_LOGIN_H__
+
+#include <SDL2/SDL_timer.h>
+#include <thread>
+#include <vector>
 
 #include "Reloj.h"
 #include "../vista/Ventana.h"
-#include "../vista/GUI_Principal.h"
+#include "../vista/GUI_Login.h"
+#include "../modelo/BuclePrincipal.h"
 #include "../modelo/ServidorProxy.h"
 #include "../controlador/IInteractivo.h"
-#include <vector>
+#include "../controlador/GUI_CajaTexto_Controlador.h"
 
-#define FPS 60
-#define SEG_A_MILLI 1000
-#define MILLIS_POR_FRAME SEG_A_MILLI / FPS
-
-class BuclePrincipal {
+class BucleLogin {
 private:
     Ventana* ventana;
-    GUI_Principal& gui;
+    GUI_Login& gui;
     ServidorProxy& servidor;
     bool salir = false;
     void despacharEventos(SDL_Event& event);
@@ -24,11 +25,11 @@ private:
     Reloj reloj;
 
 public:
-    BuclePrincipal(Ventana& ventana, GUI_Principal& gui, 
-                                                    ServidorProxy& servidor);
+    BucleLogin(Ventana& ventana, GUI_Login& gui, 
+            ServidorProxy& servidor);
     void agregarInteractivo(IInteractivo* interactivo);
     void agregarRendereable(IRendereable* rendereable);
     void correr();
 };
 
-#endif
+#endif /*__BUCLE_LOGIN_H__*/

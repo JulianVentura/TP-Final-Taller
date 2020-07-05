@@ -3,8 +3,7 @@
 
 
 GUI_Chat::GUI_Chat(EntornoGrafico& entorno, Colores& paleta)
-: paleta(paleta) {
-	entorno.agregarRendereable(this);
+: GUI_CajaTexto(entorno, paleta){
 	actualizarDimension();
 	actualizar = false;
 	textura = renderer -> textura(marco_mensajes.w, ALTO_TEXTURA);

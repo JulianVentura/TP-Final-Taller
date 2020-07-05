@@ -11,21 +11,18 @@
 #include "../vista/EntornoGrafico.h"
 #include "../vista/IRendereable.h"
 #include "../vista/Colores.h"
+#include "../vista/GUI_CajaTexto.h"
 
 #define MENSAJES_TAM_MAX 100
 #define MENSAJES_MAX   10
-#define ALTO_CARACTER  12
-#define ANCHO_CARACTER 10
 #define ALTO_TEXTURA 1000
 
-class GUI_Chat : public IRendereable{
+class GUI_Chat : public GUI_CajaTexto{
 private:
 	std::mutex m;
 	std::atomic<bool> actualizar;
 	std::list<std::pair<std::string, bool>> mensajes;
-	Colores& paleta;
 	SDL_Texture* textura = nullptr;
-	unsigned int caracteres_max;
 	void renderizarTexto();
 public:
 	std::string entrada;

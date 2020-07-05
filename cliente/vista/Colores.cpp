@@ -21,6 +21,9 @@ Colores::Colores(){
 	chat_borde = {0,0,0,255};
 	chat_texto = {255,255,255,240};
 	chat_texto_privado = {237,211,35,240};
+	login_texto = {24,54,73,255};
+	login_fondo = {16,28,99,255};
+	login_alarma = {199,66,37,255};
 }
 
 SDL_Color Colores::colorDesdeHexa(std::string hexa) {

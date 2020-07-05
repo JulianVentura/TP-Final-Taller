@@ -1,20 +1,16 @@
-#include "BuclePrincipal.h"
-#include "../vista/GUI_Principal.h"
+#include "BucleLogin.h"
 
-#include <SDL2/SDL_timer.h>
-#include <thread>
-
-BuclePrincipal::BuclePrincipal(Ventana& ventana, GUI_Principal& gui, 
+BucleLogin::BucleLogin(Ventana& ventana, GUI_Login& gui, 
         ServidorProxy& servidor) : ventana(&ventana), gui(gui), 
         servidor(servidor) {
      agregarInteractivo(&ventana);
  }
 
-void BuclePrincipal::correr() {
+void BucleLogin::correr() {
     SDL_Event evento;
     SDL_StopTextInput();
     while (!salir) {
-        while (SDL_PollEvent(&evento) != 0) {
+        while (SDL_PollEvent(&evento)) {
 			despacharEventos(evento);
         }
 
@@ -35,9 +31,8 @@ void BuclePrincipal::correr() {
 }
 
 
-void BuclePrincipal::despacharEventos(SDL_Event& evento) {
+void BucleLogin::despacharEventos(SDL_Event& evento) {
     bool evento_consumido = false;
-
 	switch(evento.type) {
 		case SDL_QUIT: 
 			salir = true;
@@ -45,37 +40,34 @@ void BuclePrincipal::despacharEventos(SDL_Event& evento) {
 
 		case SDL_MOUSEBUTTONDOWN:
             for(auto& boton : gui.botones){
-                evento_consumido = (*boton)(evento);
-                if(evento_consumido) break;
+                evento_consumido = (*boton)(evento) || evento_consumido;
             }
-            //if(!evento_consumido) escena.manejarEvento(evento);
+            if(evento_consumido){
+                SDL_StartTextInput();
+            } else{
+                SDL_StopTextInput();
+            }
 			break;
-
-        case SDL_MOUSEWHEEL:
-            gui.chat_controlador.scroll(evento);
-        break;
 
         case SDL_KEYDOWN:
         case SDL_TEXTINPUT:
-            if(gui.chat_controlador.manejarEvento(evento)){
-                ventana->manejarEvento(evento);
-                for (auto& interactivo : interactivos){
-                    interactivo -> manejarEvento(evento);
-                }
-            }
+            gui.manejarEvento(evento);
         break;
         
         case SDL_WINDOWEVENT:
             ventana->manejarEvento(evento);
             gui.actualizarDimension();
         break;
+
+        default:
+        break;
 	}
 }
 
-void BuclePrincipal::agregarInteractivo(IInteractivo* interactivo) {
+void BucleLogin::agregarInteractivo(IInteractivo* interactivo) {
     interactivos.push_back(interactivo);
 }
 
-void BuclePrincipal::agregarRendereable(IRendereable* rendereable) {
+void BucleLogin::agregarRendereable(IRendereable* rendereable) {
     rendereables.push_back(rendereable);
 }
