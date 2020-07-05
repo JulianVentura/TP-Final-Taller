@@ -46,10 +46,8 @@ int main(int argc, const char* argv[]) {
         bucle_login.agregarRendereable(&gui_login);
         bucle_login.correr();
 
-        /*
         // JUEGO EN SI //
 
-        
         GUI_Principal gui(entorno, paleta, datos_personaje, datos_tienda,
          servidor); 
         servidor.salida = &gui.chat_controlador;
@@ -72,12 +70,11 @@ int main(int argc, const char* argv[]) {
         MapaParser mapaParser(parser);
         MapaVista mapa(entorno, mapaParser, conjuntoTiles);
 
-        std::string id_personaje(argv[PERSONAJE]);
-
-        Movible movibleModelo(id_personaje);
+        std::string humano = "human";
+        Movible movibleModelo(humano);
         MovibleControlador movibleControlador(servidor);
         MovibleVista movible(entorno, movibleModelo);
-        servidor.agregarPosicionable(id_usuario, &movibleModelo);
+        servidor.agregarPosicionable(datos_personaje.id, &movibleModelo);
 
         capaFrontal.agregarObstruible(&movible);
 
@@ -96,7 +93,6 @@ int main(int argc, const char* argv[]) {
 
         bucle.correr();
         servidor.terminar();
-        */
     } catch (std::exception& e) {
         std::cerr << e.what() << std::endl;
     }

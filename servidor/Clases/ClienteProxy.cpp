@@ -66,45 +66,55 @@ void ClienteProxy::decodificarMensajeChat(){
     socket.enviarMensaje((char*) &mensaje_publico, 1);
 }
 
-void ClienteProxy::decodificarNuevoJugador(char *idBuffer, char *contra_buffer){
-    //Decodificar
-    //cliente->nuevoUsuario()
-}
+
 
 bool ClienteProxy::decodificarCodigo(uint32_t codigo){
     switch (codigo){
-        case CODIGO_MOVIMIENTO:{
+        case CODIGO_MOVIMIENTO:
             decodificarMovimiento();
             break;
-        }
-        case CODIGO_MENSAJE_CHAT:{
+        
+        case CODIGO_MENSAJE_CHAT:
             decodificarMensajeChat();
             break;
-        }
+        
         case CODIGO_DESCONECTAR:
             return false;
-        default: {
+       
+        default:
             enviarError("No se ha podido decodificar el codigo de operacion, finaliza la conexion");
             return false;
-        }  
     }
     return true;
 }
 
 
+void ClienteProxy::decodificarJugador( std::string& id, std::string& clave){
+    _recibirString(socket, id);
+    _recibirString(socket, clave);
+}
+
+void ClienteProxy::decodificarNuevoJugador( std::string& id, std::string& clave){
+    std::string raza, clase;
+    decodificarJugador(id, clave);
+    _recibirString(socket, id);
+    std::pair<std::string, std::string> par(id, clave);
+    _recibirString(socket, raza);
+    _recibirString(socket, clase);
+    cliente -> nuevoUsuario(par, raza, clase);
+}
+
 std::pair<std::string, std::string> ClienteProxy::recibirId(){
+    std::string id, clave;
     uint32_t codigo = 0;
-    char idBuffer[TAM_ID] = {0};
-    char contraBuffer[TAM_CONTRASENIA] = {0};
     socket.recibirMensaje((char*)&codigo, TAM_CODIGO);
     codigo = ntohl(codigo);
     switch (codigo){
         case CODIGO_ID:
-            socket.recibirMensaje(idBuffer, TAM_ID);
-            socket.recibirMensaje(contraBuffer, TAM_ID);
+            decodificarJugador(id, clave);
             break;
         case CODIGO_NUEVO_PERSONAJE:
-            decodificarNuevoJugador(idBuffer, contraBuffer);
+            decodificarNuevoJugador(id, clave);
             break;
         case CODIGO_DESCONECTAR:
             throw ExcepcionCliente
@@ -115,7 +125,7 @@ std::pair<std::string, std::string> ClienteProxy::recibirId(){
             ("No se ha recibido el id por parte del cliente");  
     }
 
-    return std::pair<std::string, std::string>(idBuffer, contraBuffer);
+    return std::pair<std::string, std::string>(id, clave);
 }
 
 bool ClienteProxy::recibirOperacion(){

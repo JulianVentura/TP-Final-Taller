@@ -21,12 +21,22 @@ void ServidorProxy::conectar(std::string& direccion, std::string& servicio){
 }
 
 void ServidorProxy::enviarLogin(std::string nombre, std::string clave){
-
+	uint32_t operacion = CODIGO_ID;
+	operacion = htonl(operacion);
+	socket.enviar((char*) &operacion, TAM_INT32);
+	protocolo.enviarString(socket, nombre);
+	protocolo.enviarString(socket, clave);
 }
 
 void ServidorProxy::enviarNuevaCuenta(std::string nombre, std::string clave,
 		std::string raza, std::string clase){
-
+	uint32_t operacion = CODIGO_NUEVO_PERSONAJE;
+	operacion = htonl(operacion);
+	socket.enviar((char*) &operacion, TAM_INT32);
+	protocolo.enviarString(socket, nombre);
+	protocolo.enviarString(socket, clave);
+	protocolo.enviarString(socket, raza);
+	protocolo.enviarString(socket, clase);
 }
 
 void ServidorProxy::enviarMovimiento(uint32_t movimiento) {
