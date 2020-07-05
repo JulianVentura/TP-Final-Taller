@@ -16,7 +16,6 @@ public:
     CapaFrontal(CapasParser& parser, LibreriaConjuntoTiles* tiles);
     void render() override;
     void actualizar(unsigned int delta_t) override;
-
     void agregarObstruible(IObstruible* obstruible);
 
 private:

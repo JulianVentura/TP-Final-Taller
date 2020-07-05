@@ -8,8 +8,7 @@ using json = nlohmann::json;
 #define RUTA_INFO "assets/cliente.json"
 #include <fstream>
 
-Movible::Movible(std::string& id_movible, ServidorProxy& servidor): 
-        id_movible(id_movible), servidor(servidor) {
+Movible::Movible(std::string& id_movible): id_movible(id_movible) {
     std::ifstream fuente(RUTA_INFO);
     json j;
     fuente >> j;
@@ -34,8 +33,4 @@ Movible::Movible(std::string& id_movible, ServidorProxy& servidor):
         }
         mascaras.insert({std::move(llave), std::move(vector)});
     }
-}
-
-void Movible::mover(uint32_t direccion) {
-    servidor.enviarMovimiento(direccion);
 }

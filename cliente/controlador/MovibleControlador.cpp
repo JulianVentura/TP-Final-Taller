@@ -12,7 +12,8 @@ enum TECLAS_DIRECCIONES {
     TECLA_IZQUIERDA = SDLK_a
 };
 
-MovibleControlador::MovibleControlador(Movible& modelo): modelo(modelo) {}
+MovibleControlador::MovibleControlador(ServidorProxy& servidor): 
+    servidor(servidor) {}
 
 std::unordered_map<int, uint32_t> MovibleControlador::teclas_direccionables {
     { TECLA_ARRIBA, MOVIMIENTO::ARRIBA},
@@ -25,7 +26,7 @@ void MovibleControlador::manejarEvento(const SDL_Event& event) {
     if (event.type == SDL_KEYDOWN) {
         int tecla_presionada = event.key.keysym.sym;
         if (teclas_direccionables.count(tecla_presionada) > 0)
-            modelo.mover(teclas_direccionables.at(tecla_presionada));
+            servidor.enviarMovimiento(teclas_direccionables[tecla_presionada]);
         if (teclas_direccionables.count(tecla_presionada) > 0)
             ultima_tecla_presionada = tecla_presionada;
     }
@@ -33,6 +34,6 @@ void MovibleControlador::manejarEvento(const SDL_Event& event) {
         auto& tecla_soltada = event.key.keysym.sym;
         if (tecla_soltada != ultima_tecla_presionada) return;
         if (teclas_direccionables.count(tecla_soltada) > 0)
-            modelo.mover(MOVIMIENTO::DETENERSE);
+            servidor.enviarMovimiento(MOVIMIENTO::DETENERSE);
     }
 }

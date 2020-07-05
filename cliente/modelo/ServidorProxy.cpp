@@ -12,6 +12,7 @@ ServidorProxy::ServidorProxy(std::string& direccion, std::string& servicio,
 		datos_tienda(datos_tienda) {
 	salir = false;
 	socket.conectar(direccion.c_str(), servicio.c_str());
+	// TODO: Preguntar si es necesario que esté en el heap
 	hilo_recepcion = new std::thread(&ServidorProxy::recibirMensaje, this);
 	protocolo.enviarID(socket, id_usuario);
 }
@@ -36,7 +37,7 @@ void ServidorProxy::recibirMensaje(){
 	uint32_t operacion;
 	std::string mensaje;
 	bool mensaje_publico;
-	while(!salir){
+	while(!salir) {
 		socket.recibir((char *)&operacion, TAM_INT32);
 		operacion = ntohl(operacion);
 		switch (operacion) {
@@ -78,7 +79,6 @@ void ServidorProxy::actualizarPosiciones() {
 	protocolo.recibirPosiciones(socket, posiciones);
 	for (auto& posicion: posiciones) {
 		if (posicionables.count(posicion.first) == 0) continue;
-		printf("%s %d %d\n ", posicion.first.c_str(), posicion.second.first, posicion.second.second);
 		auto& coordenadas = posicion.second;
 		posicionables[posicion.first]->actualizarPosicion(coordenadas.first, 
 															coordenadas.second);

@@ -3,15 +3,15 @@
 
 #include <unordered_map>
 #include "IInteractivo.h"
-#include "../modelo/Movible.h"
+#include "../modelo/ServidorProxy.h"
 
 class MovibleControlador: public IInteractivo {
 public:
-    explicit MovibleControlador(Movible& modelo);
+    explicit MovibleControlador(ServidorProxy& servidor);
     void manejarEvento(const SDL_Event& event) override;
 
 private:
-    Movible& modelo;
+    ServidorProxy& servidor;
     int ultima_tecla_presionada;
     static std::unordered_map<int, uint32_t> teclas_direccionables;
 };
