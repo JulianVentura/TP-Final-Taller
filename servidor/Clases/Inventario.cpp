@@ -3,15 +3,28 @@
 #define LIMITE_INVENTARIO 20
 //Ver si es necesario levantar el limite de items del archivo de configuraciones
 
-Inventario::Inventario() : limiteItems(LIMITE_INVENTARIO), items(){}
+Inventario::Inventario() : limiteItems(LIMITE_INVENTARIO), items(limiteItems){}
 
+
+Inventario& Inventario::operator=(Inventario &&otro){
+    this->items = std::move(otro.items);
+    this->limiteItems = std::move(otro.limiteItems);
+    return *this;
+}
 
 void Inventario::almacenar(std::unique_ptr<Item> item){
-    if (items.size() == limiteItems){
+    bool almacenado = false;
+    for (std::size_t i=0; i<items.size(); i++){
+        if (!items[i]){
+            items[i] = std::move(item);
+            almacenado = true;
+            break;
+        }
+    }
+    if (!almacenado){
         throw Excepcion
         ("Error: Se ha intentado almacenar un nuevo item, pero el inventario esta lleno.");
     }
-    items.push_back(std::move(item));
 }
 
 Item* Inventario::obtenerItem(unsigned int pos){
@@ -27,8 +40,12 @@ void Inventario::eliminar(unsigned int pos){
 
 std::vector<std::string> Inventario::obtenerTodosLosItems(){
     std::vector<std::string> resultado;
-    for (auto &item : items){
-        resultado.push_back(item.get()->obtenerId());
+    for (std::size_t i=0; i<items.size(); i++){
+        if (!items[i]){
+            resultado.push_back("Vacio");
+        }else{
+            resultado.push_back(items[i]->obtenerId());
+        }
     }
     return resultado;
 }

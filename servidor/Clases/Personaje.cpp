@@ -1,29 +1,42 @@
 #include "Personaje.h"
 #include "Mapa.h"
 #include "Configuraciones.h"
+#include "Estado.h"
+#include "EstadoNormal.h"
+#include "EstadoFantasma.h"
+#include "EstadoMeditacion.h"
 #include <utility>
-#define VIDA_MAXIMA 50
-#define MANA_MAXIMO 100
-#define DESPLAZAMIENTO 1.5
+
 #define NIVEL_INICIAL 1
 
-Personaje::Personaje(float x, float y, std::string id) : 
-                                       Entidad(id){
+Personaje::Personaje() : Entidad(""){
+    nivel = NIVEL_INICIAL;
+    fuerza = 0;
+    inteligencia = 0;
+    agilidad = 0;
+    constitucion = 0;
+    vidaMaxima = 0;
+    vidaActual = 0;
+    manaMaximo = 0;
+    manaActual = 0;
+    desplazamiento = 0;
+}
+
+Personaje::Personaje(float x, float y, std::string id, std::string idClase, std::string idRaza) : 
+                                       Entidad(id),
+                                       raza(idRaza),
+                                       clase(idClase),
+                                       estado(nullptr){
     Configuraciones *config = Configuraciones::obtenerInstancia();
     //Seteo los campos.
     nivel = NIVEL_INICIAL;
-    fuerza = config->obtenerPersonajeFuerzaBase();
-    inteligencia = config->obtenerPersonajeInteligenciaBase();
-    agilidad = config->obtenerPersonajeAgilidadBase();
-    constitucion = config->obtenerPersonajeConstitucionBase();
-    vidaMaxima = config->calcularVidaMax(this);
-    vidaActual = vidaMaxima;
-    manaMaximo = config->calcularManaMax(this);
-    manaActual = manaMaximo;
+    experiencia = 0;
+    actualizarAtributos();
     float ancho = config->obtenerPersonajeAncho();
     float alto = config->obtenerPersonajeAlto();
     posicion = std::move(Posicion(x, y, ancho, alto));
     desplazamiento = config->obtenerPersonajeVelDesplazamiento();
+    estado = std::move(std::unique_ptr<Estado>(new EstadoNormal(this)));
 }
 Personaje& Personaje::operator=(Personaje &&otro){
     this->vidaActual = otro.vidaActual;
@@ -37,7 +50,9 @@ Personaje& Personaje::operator=(Personaje &&otro){
     this->id = std::move(otro.id);
     this->posicion = std::move(otro.posicion);
     this->desplazamiento = otro.desplazamiento;
-    //No hay necesidad de modificar a "otro", no puede haber ningun problema.
+    this->estado = std::move(otro.estado);
+    otro.estado = nullptr;
+    
     return *this;
 }
 
@@ -49,6 +64,10 @@ void Personaje::actualizarAtributos(){
     vidaMaxima = configuraciones->calcularVidaMax(this);
     manaMaximo = configuraciones->calcularManaMax(this);
     limiteParaSubir = configuraciones->calcularLimiteParaSubir(this);
+    fuerza = configuraciones->calcularFuerza(this);
+    inteligencia = configuraciones->calcularInteligencia(this);
+    agilidad = configuraciones->calcularAgilidad(this);
+    constitucion = configuraciones->calcularConstitucion(this);
 }
 
 void Personaje::obtenerExperiencia(unsigned int cantidad){
@@ -60,25 +79,13 @@ void Personaje::obtenerExperiencia(unsigned int cantidad){
 }
 
 void Personaje::actualizarEstado(double tiempo, Mapa *mapa){
-    /* Actualizar estado */
-    /*
-    1- Regenerar vida
-    2- Regenerar mana
-    3- Moverse
-    */
-    Configuraciones *configuraciones = Configuraciones::obtenerInstancia();
-    //Ver como cambia esto con la meditacion.
-    //Regenerar
-    unsigned int regenVida = configuraciones->calcularRecuperacionVida(this, tiempo);
-    unsigned int regenMana = configuraciones->calcularRecupManaTiempo(this, tiempo);
-    vidaActual += regenVida;
-    if (vidaActual > vidaMaxima) vidaActual = vidaMaxima;
-    manaActual += regenMana;
-    if (manaActual > manaMaximo) manaActual = manaMaximo;
-    //Mover
-    Posicion nuevaPosicion = posicion.mover();
-    mapa->actualizarPosicion(this, std::move(nuevaPosicion));
+    estado->actualizar(tiempo, mapa);
 }
+
+void Personaje::recibirDanio(int danio, Entidad *atacante){
+    estado->recibirDanio(danio, atacante);
+}
+
 
 void Personaje::curar(unsigned int curVida, unsigned int curMana){
     vidaActual += curVida;
@@ -112,3 +119,75 @@ void Personaje::equipar(Casco *casco){
 void Personaje::equipar(Escudo *escudo){
     this->escudo = escudo;
 }
+
+void Personaje::meditar(){
+    estado->meditar();    
+}
+
+void Personaje::frenarMeditacion(){
+    estado->dejarDeMeditar();
+}
+
+void Personaje::estadoNormal(){
+    estado = std::move(std::unique_ptr<Estado>(new EstadoNormal(this)));
+}
+
+void Personaje::estadoFantasma(){
+    estado = std::move(std::unique_ptr<Estado>(new EstadoFantasma(this)));
+}
+
+void Personaje::estadoMeditacion(){
+    estado = std::move(std::unique_ptr<Estado>(new EstadoMeditacion(this)));
+}
+
+
+/*
+
+Diseño de las tiendas:
+
+Requisitos:
+
+- Se le debe pedir que muestren su contenido, que debe ser un vector de items ordenado.
+- Se le debe poder indicar una compra, direccionada por el orden del item segun el vector antes entregado.
+- Se le debe poder indicar una venta, el item se debera guardar en la primera posicion disponible.
+
+- Las compras y ventas deben manejar transacciones de dinero al personaje que las efectua, las tiendas tienen
+dinero infinito (inflation incoming).
+
+Mas puntualmente:
+
+std::vector<Item*> Tienda::listar(){
+    std::vector<Item*> resultado;
+    for (size_t i=0; i<items.size(); i++){
+        if (items[i] == nullptr) continue;
+        resultado.push_back(items[i].get());
+    }
+
+    return resultado;
+}
+
+Tienda::vender(unsigned int pos, Personaje *comprador){
+    comprador->pagar(items[pos]->obtenerPrecio());
+    std::unique_ptr<Item> compra = std::move(items[pos]);
+    items[pos] = nullptr;
+    return compra;
+}
+
+Tienda::comprar(std::unique_ptr<Item> item, Personaje *vendedor){
+    bool comprado = false;
+    for (size_t i=0; i<items.size(); i++){
+        if (items[i] == nullptr){
+            items[i] = std::move(item);
+            comprado = true;
+        }
+    }
+    if (!comprado){
+        //No hay espacio
+        vendedor->almacenar(std::move(item));
+    }
+    vendedor->cobrar(item->obtenerPrecio());
+}
+
+Tienda::
+
+*/

@@ -6,7 +6,7 @@
 #define TAM_CODIGO 4
 
 ClienteProxy::ClienteProxy(Socket unSocket, Cliente *miCliente,
- Divulgador& divulgador) : 
+                           Divulgador& divulgador) : 
                            socket(std::move(unSocket)),
                            cliente(miCliente),
                            colaOperaciones(nullptr),
@@ -24,30 +24,28 @@ void ClienteProxy::actualizarCola(ColaOperaciones *colaDeOperaciones){
 ////////////////////////RECEPCION DE MENSAJES/////////////////////////
 
 void ClienteProxy::decodificarMovimiento(){
-    //Seguir el protocolo de una operacion de movimiento.
-    //Crear la operacion de movimiento y luego encolar en la cola de operaciones
     uint32_t direccionMovimiento = 0;
     socket.recibirMensaje((char*)&direccionMovimiento, sizeof(uint32_t));
     direccionMovimiento = ntohl(direccionMovimiento);
-    Operacion *operacion = new OperacionMover(&(cliente->personaje), (DireccionMovimiento)direccionMovimiento);
+    Operacion *operacion = new OperacionMover(cliente->personaje.get(), (DireccionMovimiento)direccionMovimiento);
     colaOperaciones->push(operacion);
 }
 
 void _enviarString(Socket& socket_comunicacion, const std::string& string){
-        uint32_t tam = string.size();
-        tam = htobe32(tam);
-        socket_comunicacion.enviarMensaje((char*)&tam, TAM_ENCABEZADO_STRING);
-        socket_comunicacion.enviarMensaje(string.c_str(), string.size());
+    uint32_t tam = string.size();
+    tam = htobe32(tam);
+    socket_comunicacion.enviarMensaje((char*)&tam, TAM_ENCABEZADO_STRING);
+    socket_comunicacion.enviarMensaje(string.c_str(), string.size());
 }
 
 void _recibirString(Socket& socket_comunicacion, std::string& string){
-        uint32_t tam;
-        std::vector<char> buffer;
-        socket_comunicacion.recibirMensaje((char*)&tam, TAM_ENCABEZADO_STRING);
-        tam =  be32toh(tam);
-        buffer.reserve(tam);
-        socket_comunicacion.recibirMensaje(buffer.data(), tam);
-        string.assign(buffer.data(), tam);
+    uint32_t tam;
+    std::vector<char> buffer;
+    socket_comunicacion.recibirMensaje((char*)&tam, TAM_ENCABEZADO_STRING);
+    tam =  be32toh(tam);
+    buffer.reserve(tam);
+    socket_comunicacion.recibirMensaje(buffer.data(), tam);
+    string.assign(buffer.data(), tam);
 }
 
 void ClienteProxy::decodificarMensajeChat(){
@@ -66,6 +64,11 @@ void ClienteProxy::decodificarMensajeChat(){
     socket.enviarMensaje((char*) &operacion, TAM_INT32);
     _enviarString(socket, mensaje);
     socket.enviarMensaje((char*) &mensaje_publico, 1);
+}
+
+void ClienteProxy::decodificarNuevoJugador(char *idBuffer, char *contra_buffer){
+    //Decodificar
+    //cliente->nuevoUsuario()
 }
 
 bool ClienteProxy::decodificarCodigo(uint32_t codigo){
@@ -89,18 +92,30 @@ bool ClienteProxy::decodificarCodigo(uint32_t codigo){
 }
 
 
-std::string ClienteProxy::recibirId(){
+std::pair<std::string, std::string> ClienteProxy::recibirId(){
     uint32_t codigo = 0;
-    char id_buffer[TAM_ID] = {0};
+    char idBuffer[TAM_ID] = {0};
+    char contraBuffer[TAM_CONTRASENIA] = {0};
     socket.recibirMensaje((char*)&codigo, TAM_CODIGO);
     codigo = ntohl(codigo);
-    if (codigo != CODIGO_ID){
-        enviarError("No se ha recibido el id del usuario");
-        throw ExcepcionCliente
-        ("No se ha recibido el id por parte del cliente");   
+    switch (codigo){
+        case CODIGO_ID:
+            socket.recibirMensaje(idBuffer, TAM_ID);
+            socket.recibirMensaje(contraBuffer, TAM_ID);
+            break;
+        case CODIGO_NUEVO_PERSONAJE:
+            decodificarNuevoJugador(idBuffer, contraBuffer);
+            break;
+        case CODIGO_DESCONECTAR:
+            throw ExcepcionCliente
+            ("Conexion no completada por peticion del cliente");  
+        default:
+            enviarError("No se ha interpretado la operacion solicitada. Finaliza la conexion");
+            throw ExcepcionCliente
+            ("No se ha recibido el id por parte del cliente");  
     }
-    socket.recibirMensaje(id_buffer, TAM_ID);
-    return std::string(id_buffer);
+
+    return std::pair<std::string, std::string>(idBuffer, contraBuffer);
 }
 
 bool ClienteProxy::recibirOperacion(){
@@ -157,3 +172,49 @@ void ClienteProxy::enviarInformacionMapa(const std::vector<char> &infoMapa){
 void ClienteProxy::enviarMensaje(const std::string& mensaje){
     //TODO
 }
+
+void ClienteProxy::enviarMensajeConfirmacion(){
+    std::lock_guard<std::mutex> lock(m);
+    uint32_t codigo = CODIGO_CARGA_MAPA;
+    socket.enviarMensaje((char*)&codigo, TAM_CODIGO);
+}
+
+
+
+/*
+
+Como se transmite el estado del personaje hacia el cliente:
+
+En cada iteracion del gameloop se debera actualizar al Cliente con el estado del personaje, esto implica enviar:
+
+- Vida actual, vida max, mana actual, mana max, nivel actual, exp, limite exp, oro.
+
+Ademas se le debera enviar a cada cliente la siguiente linea, para que dibuje a los personajes:
+
+- arma, casco, escudo, armadura, raza, clase, estado.
+
+Luego, cuando el cliente lo indique se le puede mandar info del inventario:
+
+- vector<IdItem> //Es un vector con los ids de cada item ordenados, habra que pensar un id para casilla vacia.
+
+*/
+
+
+/*
+Operaciones:
+
+- OP_NUEVO_JUGADOR
+- OP_LOGIN
+- OP_LOGOUT/DESCONECTAR
+- OP_INFO_JUGADOR
+- OP_ABRIR_INVENTARIO
+- OP_ATACAR
+- OP_TOMAR
+- OP_LISTAR
+- OP_COMPRAR
+- OP_VENDER
+- OP_MEDITAR
+- OP_INTERACTUAR
+- OP_TIRAR
+
+*/

@@ -7,8 +7,8 @@ Arma::Arma(int unDanioMax, int unDanioMin, unsigned int consMana, float unRadioA
 
 void Arma::atacar(Entidad *objetivo, Entidad *atacante){
     float distancia = atacante->obtenerPosicion().calcularDistancia(objetivo->obtenerPosicion());
-    if (distancia > this->radioAtaque) return; //Ver si hay que enviar algun mensaje al cliente
-    atacante->consumirMana(this->consumoMana);  //Esto debe lanzar una excepcion si falla, para que no se ejecute el ataque.
+    if (distancia > this->radioAtaque) return;      //Ver si hay que enviar algun mensaje al cliente
+    atacante->consumirMana(this->consumoMana);      //Esto debe lanzar una excepcion si falla, para que no se ejecute el ataque.
     Configuraciones *configuraciones = Configuraciones::obtenerInstancia();
     unsigned int danio = configuraciones->calcularDanioAtaque(objetivo, 
                                                               atacante,

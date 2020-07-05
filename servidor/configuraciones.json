@@ -1,4 +1,5 @@
-{   "Salas": ["mapa1"],
+{   "MapaInicial": "mapa",
+    "Salas": ["mapa"],
     "Aceptador": {
         "Puerto": "3080",
         "Host": "localhost",
@@ -9,13 +10,14 @@
         "MS_POR_ACTUALIZACION": 11
     },
     "Mapas": {
-        "mapa1": {
-            "Ruta": "../mapa1.json",
+        "mapa": {
+            "Ruta": "../mapa.json",
             "SpawnCriaturas": [
                 "Arania",
                 "Goblin"
             ],
-            "LimiteCriaturas": 3
+            "LimiteCriaturas": 3,
+            "PosicionSpawnInicial": [100, 100]
         }
     },
     "Personaje": {
@@ -207,6 +209,7 @@
     "Clases": {
         "Guerrero": {
             "FClaseVida": 6,
+            "FClaseMana": 6,
             "FClaseRecuperacion": 6,
             "FClaseMeditacion": 6,
             "MejoraFuerzaEnSubida": 6,
@@ -216,6 +219,7 @@
         },
         "Mago": {
             "FClaseVida": 6,
+            "FClaseMana": 6,
             "FClaseRecuperacion": 6,
             "FClaseMeditacion": 6,
             "MejoraFuerzaEnSubida": 6,
@@ -225,6 +229,7 @@
         },
         "Paladin": {
             "FClaseVida": 6,
+            "FClaseMana": 6,
             "FClaseRecuperacion": 6,
             "FClaseMeditacion": 6,
             "MejoraFuerzaEnSubida": 6,
@@ -234,6 +239,7 @@
         },
         "Clerigo": {
             "FClaseVida": 6,
+            "FClaseMana": 6,
             "FClaseRecuperacion": 6,
             "FClaseMeditacion": 6,
             "MejoraFuerzaEnSubida": 6,
@@ -245,6 +251,7 @@
     "Razas": {
         "Humano": {
             "FRazaVida": 6,
+            "FRazaMana": 6,
             "FRazaRecuperacion": 6,
             "FRazaMeditacion": 6,
             "MejoraFuerzaEnSubida": 6,
@@ -254,6 +261,7 @@
         },
         "Elfo": {
             "FRazaVida": 6,
+            "FRazaMana": 6,
             "FRazaRecuperacion": 6,
             "FRazaMeditacion": 6,
             "MejoraFuerzaEnSubida": 6,
@@ -263,6 +271,7 @@
         },
         "Enano": {
             "FRazaVida": 6,
+            "FRazaMana": 6,
             "FRazaRecuperacion": 6,
             "FRazaMeditacion": 6,
             "MejoraFuerzaEnSubida": 6,
@@ -272,6 +281,7 @@
         },
         "Gnomo": {
             "FRazaVida": 6,
+            "FRazaMana": 6,
             "FRazaRecuperacion": 6,
             "FRazaMeditacion": 6,
             "MejoraFuerzaEnSubida": 6,

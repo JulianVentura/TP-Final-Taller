@@ -1,7 +1,12 @@
 #include "Configuraciones.h"
 #include "Entidad.h"
 #include "Personaje.h"
+#include "Raza.h"
+#include "Clase.h"
 #include "Arma.h"
+#include "Armadura.h"
+#include "Escudo.h"
+#include "Casco.h"
 #include "Excepcion.h"
 #include <random>
 #include <algorithm>
@@ -80,6 +85,13 @@ const std::string Configuraciones::obtenerMapaRuta(std::string &id) const{
 const uint32_t Configuraciones::obtenerMapaLimiteCriaturas(std::string &id) const{
     return json.at("Mapas").at(id).at("LimiteCriaturas").get<uint32_t>();
 }
+const std::string Configuraciones::obtenerMapaInicial() const{
+    return json.at("MapaInicial").get<std::string>();
+}
+const std::pair<float, float> Configuraciones::obtenerMapaPosicionSpawn(std::string &id) const{
+    return json.at("Mapas").at(id).at("PosicionSpawnInicial").get<std::pair<float, float>>();
+}
+     
 //Personaje
 const uint32_t Configuraciones::obtenerPersonajeNivelBase() const{
     return json.at("Personaje").at("NivelBase").get<uint32_t>();
@@ -150,6 +162,9 @@ const std::string Configuraciones::obtenerCriaturaIdArma(std::string &id) const{
 const float Configuraciones::obtenerFClaseVida(std::string &id) const{
     return json.at("Clases").at(id).at("FClaseVida").get<float>();
 }
+const float Configuraciones::obtenerFClaseMana(std::string &id) const{
+    return json.at("Clases").at(id).at("FClaseMana").get<float>();
+}
 const float Configuraciones::obtenerFClaseRecuperacion(std::string &id) const{
     return json.at("Clases").at(id).at("FClaseRecuperacion").get<float>();
 }
@@ -171,6 +186,9 @@ const uint32_t Configuraciones::obtenerClaseMejoraConstitucionEnSubida(std::stri
 //Razas
 const float Configuraciones::obtenerFRazaVida(std::string &id) const{
     return json.at("Razas").at(id).at("FRazaVida").get<float>();
+}
+const float Configuraciones::obtenerFRazaMana(std::string &id) const{
+    return json.at("Razas").at(id).at("FRazaMana").get<float>();
 }
 const float Configuraciones::obtenerFRazaRecuperacion(std::string &id) const{
     return json.at("Razas").at(id).at("FRazaRecuperacion").get<float>();
@@ -243,57 +261,88 @@ const uint32_t  Configuraciones::obtenerPocionCuracionMana(std::string &id) cons
 
 
 unsigned int Configuraciones::calcularVidaMax(Personaje *personaje){
-    //return Constitucion * FClaseVida * FRazaVida * Nivel
-    return 100; //Cambiar
+    return personaje->constitucion * personaje->clase.FClaseVida * personaje->raza.FRazaVida * personaje->nivel;
 }
+
 unsigned int Configuraciones::calcularRecuperacionVida(Personaje *personaje, double tiempo){
-    //return FRazaRecuperacion * segundos * MILI_A_SEG
-    return 20; //Cambiar
+    return personaje->raza.FRazaRecuperacion * tiempo * MILI_A_SEG;
 }
+
 unsigned int Configuraciones::calcularManaMax(Personaje *personaje){
-    //return Inteligencia * FClaseMana * FRazaMana * Nivel
-    return 150; //Cambiar
+    return personaje->inteligencia * personaje->clase.FClaseMana * personaje->raza.FRazaMana * personaje->nivel;
 }
+
 unsigned int Configuraciones::calcularRecupManaMeditacion(Personaje *personaje, double tiempo){
-    //return FClaseMeditacion * Inteligencia * segundos * MILI_A_SEG
-    return 40; //Cambiar 
+    return personaje->clase.FClaseMeditacion * personaje->inteligencia * tiempo * MILI_A_SEG;
 }
+
 unsigned int Configuraciones::calcularRecupManaTiempo(Personaje *personaje, double tiempo){
-    //return FRazaRecuperacion * segundos * MILI_A_SEG
-    return 0;
+    return personaje->raza.FRazaRecuperacion * tiempo * MILI_A_SEG;
 }
+
 unsigned int Configuraciones::calcularDropOro(Entidad *entidad){
     //return rand(0, 0.2) * VidaMaxNPC
     float suerte = numeroRandom(0, 2000) / 10000;
     return suerte * entidad->vidaMaxima;
 }
+
 unsigned int Configuraciones::calcularMaxOroSeguro(Personaje *personaje){
     return 100 * std::pow(personaje->nivel, 1.1);
 }
+
 unsigned int Configuraciones::calcularLimiteParaSubir(Personaje *personaje){
     return 1000 * std::pow(personaje->nivel, 1.8);
 }
+
 unsigned int Configuraciones::calcularExpPorGolpe(Entidad *objetivo, Entidad *atacante, unsigned int danio){
     //return Danio * max(NivelDelOtro - Nivel + 10, 0)
     return danio * std::max(objetivo->nivel - atacante->nivel + 10, (unsigned int)0);
 }
+
 unsigned int Configuraciones::calcularExpPorMatar(Entidad *objetivo, Entidad *atacante){
     //return rand(0, 0.1) * VidaMaxDelOtro * max(NivelDelOtro - Nivel + 10, 0)
     float suerte = numeroRandom(0, 1000) / 10000;
     return suerte * objetivo->vidaMaxima * std::max(objetivo->nivel - atacante->nivel + 10, (unsigned int)0);
 }
+
 unsigned int Configuraciones::calcularDanioAtaque(Entidad *objetivo, Entidad *atacante, Arma *arma){
     //return Fuerza * rand(DanioArmaMin, DanioArmaMax)
     return atacante->fuerza * numeroRandom(arma->danioMin, arma->danioMax);
 }
+
 bool Configuraciones::seEsquivaElGolpe(Entidad *entidad){
     //return rand(0, 1) ^ Agilidad < 0.001
     float suerte = rand()/RAND_MAX;
     return std::pow(suerte, entidad->agilidad) < 0.001;
 }
-unsigned int Configuraciones::calcularDefensa(){
-    //return rand(ArmaduraMin, ArmaduraMax) + rand(EscudoMin, EscudoMax) + rand(CascoMin, CascoMax)
-    return 0;
+
+unsigned int Configuraciones::calcularDefensa(Personaje *personaje){
+    unsigned int temp = 0;
+    if (personaje->armadura)
+        temp = numeroRandom(personaje->armadura->defensaMin, personaje->armadura->defensaMin);
+    if (personaje->escudo)
+        temp += numeroRandom(personaje->escudo->defensaMin, personaje->escudo->defensaMin);
+    if (personaje->casco)
+        temp += numeroRandom(personaje->casco->defensaMin, personaje->casco->defensaMin);
+    return temp;
+}
+
+unsigned int Configuraciones::calcularFuerza(Personaje *personaje){
+    unsigned int fuerzaBase = this->obtenerPersonajeFuerzaBase();
+    return fuerzaBase + personaje->nivel * personaje->raza.mejoraFuerzaEnSubida * personaje->clase.mejoraFuerzaEnSubida;
+}
+
+unsigned int Configuraciones::calcularInteligencia(Personaje *personaje){
+    unsigned int inteligenciaBase = this->obtenerPersonajeInteligenciaBase();
+    return inteligenciaBase + personaje->nivel * personaje->raza.mejoraInteligenciaEnSubida * personaje->clase.mejoraInteligenciaEnSubida;
+}
+unsigned int Configuraciones::calcularAgilidad(Personaje *personaje){
+    unsigned int agilidadBase = this->obtenerPersonajeAgilidadBase();
+    return agilidadBase + personaje->nivel * personaje->raza.mejoraAgilidadEnSubida * personaje->clase.mejoraAgilidadEnSubida;
+}
+unsigned int Configuraciones::calcularConstitucion(Personaje *personaje){
+    unsigned int constitucionBase = this->obtenerPersonajeConstitucionBase();
+    return constitucionBase + personaje->nivel * personaje->raza.mejoraConstitucionEnSubida * personaje->clase.mejoraConstitucionEnSubida;
 }
 
 /* DROPS */

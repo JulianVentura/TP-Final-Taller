@@ -8,5 +8,6 @@ class Armadura: public Item, public PiezaDeDefensa{
     public:
     Armadura(unsigned int defMax, unsigned int defMin, std::string unId);
     void utilizar(Personaje *personaje, unsigned int pos) override;
+    friend class Configuraciones;
 };
 #endif

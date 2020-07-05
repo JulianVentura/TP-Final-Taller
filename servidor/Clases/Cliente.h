@@ -14,13 +14,14 @@
 #include "Socket.h"
 #include "BaseDeDatos.h"
 #include "PosicionEncapsulada.h"
+#include <memory>
 
 class OrganizadorClientes;
 class Divulgador;
 
 class Cliente : public Thread{
     private:
-    Personaje personaje;
+    std::unique_ptr<Personaje> personaje;
     std::string id;
     ClienteProxy clienteProxy;
     OrganizadorSalas &organizadorSalas;
@@ -28,6 +29,7 @@ class Cliente : public Thread{
     std::string salaActual;
     std::atomic<bool> finalizado;
     std::atomic<bool> continuar;
+    std::pair<std::string, std::string> login(OrganizadorClientes &organizador);
 
     public:
     Cliente(Socket &&socket,
@@ -40,6 +42,9 @@ class Cliente : public Thread{
     Cliente& operator=(Cliente &&otro) = delete;
     Cliente& operator=(Cliente &otro) = delete;
 
+    void nuevoUsuario(std::pair<std::string, std::string> &credenciales, 
+                      std::string &idRaza, 
+                      std::string &idClase);
     std::string obtenerId();
     Personaje* obtenerPersonaje();
     void cargarMapa(const std::vector<char> &&infoMapa);

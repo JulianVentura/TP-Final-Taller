@@ -11,6 +11,10 @@ class Inventario{
     
     public:
     Inventario();
+    Inventario(Inventario &otro) = delete;
+    Inventario(Inventario &&otro) = delete;
+    Inventario& operator=(Inventario &otro) = delete;
+    Inventario& operator=(Inventario &&otro);
     void almacenar(std::unique_ptr<Item> item);
     Item* obtenerItem(unsigned int pos);
     void eliminar(unsigned int pos);

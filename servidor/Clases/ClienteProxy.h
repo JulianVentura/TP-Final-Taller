@@ -28,12 +28,13 @@ class ClienteProxy{
     bool decodificarCodigo(uint32_t codigo);
     void decodificarMovimiento();
     void decodificarMensajeChat();
+    void decodificarNuevoJugador(char *idBuffer, char *contra_buffer);
     public:
     ClienteProxy(Socket socket, Cliente *cliente, Divulgador& divulgador);
     void actualizarCola(ColaOperaciones *colaDeOperaciones);
     void finalizar();
     //Recepcion
-    std::string recibirId();
+    std::pair<std::string, std::string> recibirId();
     bool recibirOperacion();
     //Envio
     void enviarPosiciones(const std::vector<struct PosicionEncapsulada> &posiciones);
@@ -41,6 +42,7 @@ class ClienteProxy{
     void enviarError(std::string mensaje);
     void enviarMensaje(const std::string& mensaje);
     void enviarChat(const std::string& mensaje, bool mensaje_publico);
+    void enviarMensajeConfirmacion();
 };
 
 #endif
