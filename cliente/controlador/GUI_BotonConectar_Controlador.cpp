@@ -11,7 +11,9 @@ bool GUI_BotonConectarControlador::enClick(){
 	if(conectado) return false;
 
 	try{
-		//servidor.conectar(direccion, puerto);
+		servidor.conectar(direccion, puerto);
+		direccion.clear();
+		puerto.clear();
 		conectado = true;
 	}catch(std::exception& e){
 		salida.agregarMensaje("No se encuentra el servidor", true);

@@ -9,10 +9,24 @@ ServidorProxy::ServidorProxy(DatosPersonaje& datos_personaje,
 	DatosTienda& datos_tienda)
 	 : datos_personaje(datos_personaje), datos_tienda(datos_tienda) {
 	salir = false;
-	//socket.conectar(direccion.c_str(), servicio.c_str());
+	//
 	// TODO: Preguntar si es necesario que esté en el heap
-	//hilo_recepcion = new std::thread(&ServidorProxy::recibirMensaje, this);
+	//
 	//protocolo.enviarID(socket, id_usuario);
+}
+
+void ServidorProxy::conectar(std::string& direccion, std::string& servicio){
+	socket.conectar(direccion.c_str(), servicio.c_str());
+	hilo_recepcion = new std::thread(&ServidorProxy::recibirMensaje, this);
+}
+
+void ServidorProxy::enviarLogin(std::string nombre, std::string clave){
+
+}
+
+void ServidorProxy::enviarNuevaCuenta(std::string nombre, std::string clave,
+		std::string raza, std::string clase){
+
 }
 
 void ServidorProxy::enviarMovimiento(uint32_t movimiento) {
@@ -28,7 +42,7 @@ void ServidorProxy::enviarChat(std::string mensaje){
 		destino = mensaje.substr(1,pos - 1);
 		mensaje = mensaje.substr(pos + 1, std::string::npos);
 	}
-	//protocolo.enviarChat(socket, id_usuario, destino, mensaje);
+	protocolo.enviarChat(socket, datos_personaje.id, destino, mensaje);
 }
 
 void ServidorProxy::recibirMensaje(){
@@ -51,8 +65,7 @@ void ServidorProxy::recibirMensaje(){
 			break;
 		case CODIGO_ERROR:
 			protocolo.recibirString(socket, mensaje);
-			// TODO: temporal. Se debería lanzar excepción
-			printf("Error de servidor: %s\n", mensaje.c_str());
+			salida -> agregarMensaje(mensaje, mensaje_publico);
 			break;
 		default:
 			printf("No reconocido %d\n", operacion);

@@ -45,6 +45,7 @@ private:
 	GUI_SelectorClaseControlador selector_clase;
 	GUI_BotonNuevaCuentaControlador boton_nueva_cuenta;
 	LoginFondo fondo;
+	SDL_Event evento_salida;
 public:
 	std::vector<GUI_BotonControlador*> botones;
 	GUI_Login(EntornoGrafico& entorno, Colores& paleta,

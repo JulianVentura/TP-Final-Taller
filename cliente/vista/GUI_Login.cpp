@@ -21,14 +21,16 @@ GUI_Login::GUI_Login(EntornoGrafico& entorno, Colores& paleta,
 	boton_conectar(boton_conectar_vista, servidor, salida,
 	 entrada_sup_vista.entrada, entrada_inf_vista.entrada, conectado),
 	boton_login(boton_login_vista, servidor, salida,
-	 entrada_sup_vista.entrada, entrada_inf_vista.entrada, conectado),
+	 entrada_sup_vista.entrada, entrada_inf_vista.entrada, conectado,
+	 evento_salida),
 	selector_raza_vista(entorno, paleta),
 	selector_raza(selector_raza_vista),
 	selector_clase_vista(entorno, paleta),
 	selector_clase(selector_clase_vista),
 	boton_nueva_cuenta(boton_nueva_cuenta_vista, servidor, salida,
 	 entrada_sup_vista.entrada, entrada_inf_vista.entrada,
-	 selector_raza.i, selector_clase.i, conectado),
+	 selector_raza_vista.texto, selector_clase_vista.texto, conectado,
+	 evento_salida),
 	fondo(entorno, paleta, conectado){
 	entorno.agregarRendereable(this);
 	conectado = false;
@@ -42,6 +44,7 @@ GUI_Login::GUI_Login(EntornoGrafico& entorno, Colores& paleta,
 	botones.push_back(&selector_clase);
 
 	servidor.salida = &salida;
+	evento_salida.type = SDL_QUIT;
 	actualizarDimension();
 }
 
