@@ -8,7 +8,7 @@
 class MovibleControlador: public IInteractivo {
 public:
     explicit MovibleControlador(ServidorProxy& servidor);
-    void manejarEvento(const SDL_Event& event) override;
+    bool manejarEvento(SDL_Event& evento) override;
 
 private:
     ServidorProxy& servidor;

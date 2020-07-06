@@ -16,7 +16,7 @@ public:
 	SDL_Rect marco_entrada;
 	unsigned int caracteres_max;
 	GUI_CajaTexto(EntornoGrafico& entorno, Colores& paleta);
-	void render();
+	void render() override;
 	void actualizarDimension();
 };
 #endif /*__GUI_CAJA_TEXTO_H__*/

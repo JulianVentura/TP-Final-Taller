@@ -4,7 +4,7 @@ BucleLogin::BucleLogin(Ventana& ventana, GUI_Login& gui,
         ServidorProxy& servidor) : ventana(&ventana), gui(gui), 
         servidor(servidor) {
      agregarInteractivo(&ventana);
- }
+}
 
 void BucleLogin::correr() {
     SDL_Event evento;
@@ -16,12 +16,6 @@ void BucleLogin::correr() {
 
         int tiempo = reloj.medir() * SEG_A_MILLI;
         ventana->actualizar(tiempo);
-        for (auto& rendereable: rendereables) {
-            rendereable->actualizar(tiempo);
-        }
-        for (auto& rendereable: rendereables) {
-            rendereable->render();
-        }
         ventana->render();
         
         int diferencia = MILLIS_POR_FRAME - tiempo;
@@ -68,6 +62,3 @@ void BucleLogin::agregarInteractivo(IInteractivo* interactivo) {
     interactivos.push_back(interactivo);
 }
 
-void BucleLogin::agregarRendereable(IRendereable* rendereable) {
-    rendereables.push_back(rendereable);
-}

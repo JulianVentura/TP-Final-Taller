@@ -1,10 +1,14 @@
 #include <SDL2/SDL.h>
+#include <SDL2/SDL_rect.h>
 
 #include "GUI_Boton_Controlador.h"
 
 bool enRectangulo(SDL_Rect& rect, int x, int y){
-	return (x > rect.x && y > rect.y && x < rect.x + rect.w
-	 && y < rect.y + rect.h);
+	// TODO
+	// return (x > rect.x && y > rect.y && x < rect.x + rect.w
+	//  && y < rect.y + rect.h);
+	SDL_Point punto = {x, y};
+	return SDL_PointInRect(&punto, &rect);
 }
 
 GUI_BotonControlador::GUI_BotonControlador(int x, int y, int ancho, int alto){

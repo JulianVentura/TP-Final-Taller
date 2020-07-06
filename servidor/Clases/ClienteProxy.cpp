@@ -84,6 +84,7 @@ bool ClienteProxy::decodificarCodigo(uint32_t codigo){
         default:
             enviarError("No se ha podido decodificar el codigo de operacion, finaliza la conexion");
             return false;
+        
     }
     return true;
 }
@@ -97,7 +98,7 @@ void ClienteProxy::decodificarJugador( std::string& id, std::string& clave){
 void ClienteProxy::decodificarNuevoJugador( std::string& id, std::string& clave){
     std::string raza, clase;
     decodificarJugador(id, clave);
-    _recibirString(socket, id);
+    // _recibirString(socket, id);
     std::pair<std::string, std::string> par(id, clave);
     _recibirString(socket, raza);
     _recibirString(socket, clase);
@@ -184,9 +185,9 @@ void ClienteProxy::enviarMensaje(const std::string& mensaje){
 }
 
 void ClienteProxy::enviarMensajeConfirmacion(){
-    std::lock_guard<std::mutex> lock(m);
-    uint32_t codigo = CODIGO_CARGA_MAPA;
-    socket.enviarMensaje((char*)&codigo, TAM_CODIGO);
+    // std::lock_guard<std::mutex> lock(m);
+    // uint32_t codigo = CODIGO_CONFIRMACION;
+    // socket.enviarMensaje((char*)&codigo, TAM_CODIGO);
 }
 
 

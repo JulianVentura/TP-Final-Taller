@@ -6,7 +6,6 @@
 
 #include "../modelo/DatosPersonaje.h"
 #include "../modelo/DatosTienda.h"
-#include "../modelo/ServidorProxy.h"
 #include "../vista/EntornoGrafico.h"
 #include "../vista/BancoImagenesEquipo.h"
 #include "../vista/Colores.h"
@@ -19,10 +18,7 @@
 #include "../vista/GUI_Chat.h"
 #include "../vista/GUI_PanelInventario.h"
 #include "../vista/GUI_PanelTienda.h"
-#include "../controlador/GUI_BotonInventario_Controlador.h"
-#include "../controlador/GUI_Inventario_Controlador.h"
-#include "../controlador/GUI_Tienda_Controlador.h"
-#include "../controlador/GUI_Chat_Controlador.h"
+#include "../controlador/GUI_Principal_Controlador.h"
 
 class GUI_Principal : public IRendereable {
 private:
@@ -33,22 +29,19 @@ private:
 	GUI_Oro oro;
 	BancoImagenesEquipo imagenes_equipo;
 	GUI_PanelInventario inventario_vista;
-	GUI_InventarioControlador inventario_controlador;
 	GUI_BotonInventario boton_inventario_vista;
-	GUI_BotonInventarioControlador boton_inventario_controlador;
 	GUI_PanelTienda tienda_vista;
-	GUI_TiendaControlador tienda_controlador;
 	GUI_Chat chat_vista;
 
 public:
-	GUI_ChatControlador chat_controlador;
-	std::vector<GUI_BotonControlador*> botones;
 	GUI_Principal(EntornoGrafico& entorno, Colores& paleta,
-		DatosPersonaje& datos_personaje, DatosTienda& datos_tienda,
-		ServidorProxy& servidor);
+		DatosPersonaje& datos_personaje, DatosTienda& datos_tienda);
 	~GUI_Principal();
 	void actualizarDimension();
 	void render() override;
+	void actualizar(unsigned int delta_t) override;
+
+	friend class GUI_PrincipalControlador;
 };
 
 #endif /*__GUI_PRINCIPAL_H__*/

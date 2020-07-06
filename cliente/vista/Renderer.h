@@ -92,6 +92,7 @@ public:
     void renderTexturaExpandida(SDL_Texture* texture, SDL_Rect& origen_mascara);
      
     SDL_Texture* textura(int ancho, int alto);
+    void dimensionTextura(SDL_Texture* textura, int* ancho, int* alto);
 
     /**
      * @brief Dada una superficie, se crea una textura.

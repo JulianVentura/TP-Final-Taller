@@ -7,29 +7,25 @@ caja_vista(vista){
 	enFoco = false;
 }
 
-bool GUI_CajaTextoControlador::manejarEvento(SDL_Event& evento){
+bool GUI_CajaTextoControlador::manejarEvento(SDL_Event& evento) {
 	if(!enFoco) return false;
-
 	if(evento.type == SDL_TEXTINPUT){
 		caja_vista.entrada += evento.text.text;
 		return true;
-	}
-	
-	switch(evento.key.keysym.scancode){
+	} else if (evento.type == SDL_KEYDOWN) {
+		switch(evento.key.keysym.scancode){
 			case SDL_SCANCODE_BACKSPACE:
-			if(caja_vista.entrada.size() > 0)
+				if(caja_vista.entrada.size() <= 0) break;
 				caja_vista.entrada = caja_vista.entrada.substr(0, 
 					caja_vista.entrada.size() - 1);
-			return true;
-
+				break;
 			case SDL_SCANCODE_RETURN:
 				enEnter();
-			return true;
-
 			default:
 			break;
+		}
+		return true;
 	}
-
 	return false;
 }
 

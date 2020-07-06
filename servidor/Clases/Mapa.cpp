@@ -56,7 +56,7 @@ Mapa::Mapa(std::string nombre) :        nombreMapa(nombre),
     limiteCriaturas = config->obtenerMapaLimiteCriaturas(nombreMapa);
     std::ifstream archivo(rutaArchivo);
     if (!archivo.is_open()){
-        throw ErrorServidor("Error: No se ha podido abrir el archivo de nombre %s", nombreMapa); 
+        throw ErrorServidor("Error: No se ha podido abrir el archivo de nombre %s", nombreMapa.c_str()); 
     }
     json archivoJson;
     contenido_archivo = std::string((std::istreambuf_iterator<char>(archivo)), std::istreambuf_iterator<char>());

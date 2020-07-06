@@ -24,7 +24,7 @@ Aceptador::Aceptador(OrganizadorSalas &unOrganizadorSalas,
 
 void Aceptador::procesar(){
     while (continuar){
-        //divulgador.comenzar();
+        divulgador.comenzar();
         try{
             Socket socketCliente = servidor.aceptar();
             organizadorClientes.recuperarFinalizados();
