@@ -12,6 +12,7 @@
 #include <algorithm>
 #include <ctime>
 #include <fstream>
+#include <cmath>
 
 #define MILI_A_SEG 0.001
 
@@ -343,6 +344,14 @@ unsigned int Configuraciones::calcularAgilidad(Personaje *personaje){
 unsigned int Configuraciones::calcularConstitucion(Personaje *personaje){
     unsigned int constitucionBase = this->obtenerPersonajeConstitucionBase();
     return constitucionBase + personaje->nivel * personaje->raza.mejoraConstitucionEnSubida * personaje->clase.mejoraConstitucionEnSubida;
+}
+
+bool Configuraciones::sePuedeAtacar(Personaje *objetivo, Personaje *atacante){
+    unsigned int nivelDiferenciaMaximo = json.at("FairPlay").at("NivelDiferenciaMaximo").get<uint32_t>();
+    unsigned int nivelNewbie = json.at("FairPlay").at("NivelNewbie").get<uint32_t>();
+    if (objetivo->nivel <= nivelNewbie || atacante->nivel <= nivelNewbie) return false;
+    if (abs(objetivo->nivel - atacante->nivel) > nivelDiferenciaMaximo) return false;
+    return true;
 }
 
 /* DROPS */

@@ -5,6 +5,7 @@
 #include "EstadoNormal.h"
 #include "EstadoFantasma.h"
 #include "EstadoMeditacion.h"
+#include "Criatura.h"
 #include <utility>
 
 #define NIVEL_INICIAL 1
@@ -82,10 +83,15 @@ void Personaje::actualizarEstado(double tiempo, Mapa *mapa){
     estado->actualizar(tiempo, mapa);
 }
 
-void Personaje::recibirDanio(int danio, Entidad *atacante){
+void Personaje::recibirDanio(int danio, Personaje *atacante){
+    Configuraciones *config = Configuraciones::obtenerInstancia();
+    if (!config->sePuedeAtacar(this, atacante)) return;
     estado->recibirDanio(danio, atacante);
 }
 
+void Personaje::recibirDanio(int danio, Criatura *atacante){
+    estado->recibirDanio(danio, atacante);
+}
 
 void Personaje::curar(unsigned int curVida, unsigned int curMana){
     vidaActual += curVida;
@@ -149,7 +155,7 @@ Requisitos:
 
 - Se le debe pedir que muestren su contenido, que debe ser un vector de items ordenado.
 - Se le debe poder indicar una compra, direccionada por el orden del item segun el vector antes entregado.
-- Se le debe poder indicar una venta, el item se debera guardar en la primera posicion disponible.
+- Se le debe poder indicar una venta, el item vendido no tiene por que mostrarse.
 
 - Las compras y ventas deben manejar transacciones de dinero al personaje que las efectua, las tiendas tienen
 dinero infinito (inflation incoming).
@@ -157,37 +163,212 @@ dinero infinito (inflation incoming).
 Mas puntualmente:
 
 std::vector<Item*> Tienda::listar(){
-    std::vector<Item*> resultado;
-    for (size_t i=0; i<items.size(); i++){
-        if (items[i] == nullptr) continue;
-        resultado.push_back(items[i].get());
-    }
-
-    return resultado;
+    return items;
 }
 
 Tienda::vender(unsigned int pos, Personaje *comprador){
+    if (!items[pos]) return nullptr;
     comprador->pagar(items[pos]->obtenerPrecio());
-    std::unique_ptr<Item> compra = std::move(items[pos]);
-    items[pos] = nullptr;
-    return compra;
+    return items[pos];
 }
 
-Tienda::comprar(std::unique_ptr<Item> item, Personaje *vendedor){
-    bool comprado = false;
-    for (size_t i=0; i<items.size(); i++){
-        if (items[i] == nullptr){
-            items[i] = std::move(item);
-            comprado = true;
-        }
-    }
-    if (!comprado){
-        //No hay espacio
-        vendedor->almacenar(std::move(item));
-    }
+Tienda::comprar(Item *item, Personaje *vendedor){
     vendedor->cobrar(item->obtenerPrecio());
 }
 
-Tienda::
+Banquero:
+
+std::vector<Item*> Banquero::listar(){
+    return items;
+}
+
+Banquero::vender(unsigned int pos, Personaje *comprador){
+    return items[pos];
+}
+
+Banquero::comprar(Item* item, Personaje *vendedor){
+    for (size_t i=0; i<items.size(); i++){
+        if (items[i] = nullptr){
+            items[i] = item;
+        }
+    }
+    throw Excepcion("No hay espacio en el almacen");
+}
+
+Sacerdote::sanar(Personaje *personaje){
+    personaje->curar();
+}
+
+Cuando reciba una operacion de listar:
+
+Operacion::ejecutar(){
+    Personaje *personaje = Cliente->obtenerPersonaje();
+    Ciudadano *ciudadano = mapa.obtenerCiudadano(id);
+    ciudadano.interactuar(personaje->estado());
+}
+
+Banquero::interactuar(Fantasma *fantasma){
+    //Lanzar excepcion.
+}
+
+Sacerdote::interactuar(Fantasma *fantasma){
+    fantasma->curar();
+}
+
+Personaje::interactuarCon(Banquero banquero){
+
+}
+
+
+Seguimiento de OP_INTERACTUAR:
+
+Operacion::ejecutar(){
+    Ciudadano *ciudadano = mapa.obtenerCiudadano(id);
+    ciudadano.interactuar(personaje, cliente);
+}
+
+Banquero::interactuar(personaje, cliente){
+    personaje.pedirTienda(this, cliente);
+}
+
+Personaje::pedirleTiendaA(Ciudadano, cliente){
+    estado.pedirTienda(Ciudadano, cliente);
+}
+
+EstadoNormal::pedirTienda(Ciudadano, cliente){
+    lista = ciudadano.listar();
+    cliente.enviar(lista);
+}
+
+EstadoFantasma::pedirTienda(Ciudadano, cliente){
+    //Nada
+}
+
+
+Seguimiento de OP_COMPRAR:
+
+Operacion::ejecutar(){
+    Ciudadano *ciudadano = mapa.obtenerCiudadano(id);
+    ciudadano.comprar(personaje, cliente);
+}
+
+Banquero::comprar(personaje, cliente){
+    personaje.comprarDe(this, cliente);
+}
+
+O sino
+
+Sacerdote::interactuar(personaje, cliente){
+    //Nada
+}
+
+Personaje::comprarDe(Ciudadano, cliente){
+    estado.comprarDe(Ciudadano, cliente);
+}
+
+EstadoNormal::comprarDe(Ciudadano, cliente){
+    ciudadano.comprar();
+    cliente.actualizarInventario();
+}
+
+EstadoFantasma::comprarDe(Ciudadano, cliente){
+    //Nada
+}
+
+
+Seguimiento de OP_INTERACTUAR con Sacerdote:
+
+Operacion::ejecutar(){
+    Ciudadano *ciudadano = mapa.obtenerCiudadano(id);
+    ciudadano.interactuar(personaje, cliente);
+}
+
+Sacerdote::interactuar(personaje, cliente){
+    personaje.pedirCuracion(this, cliente);
+}
+
+Personaje::pedirCuracion(Sacerdote, cliente){
+    estado.pedirCuracion(Sacerdote, cliente);
+}
+
+EstadoNormal::pedirCuracion(Sacerdote, cliente){
+    sacerdote.curar(this);
+}
+
+EstadoFantasma::pedirTienda(Sacerdote, cliente){
+    sacerdote.curar(this);
+}
+
+
+
+
+OTRA OPCION
+
+Seguimiento de OP_INTERACTUAR:
+
+Operacion::ejecutar(){
+    Ciudadano *ciudadano = mapa.obtenerCiudadano(id);
+    ciudadano.interactuar(personaje, personaje->estado, cliente);
+}
+
+Banquero::interactuar(personaje, estado, cliente){
+    estado.pedirTienda(this, cliente);
+}
+
+EstadoNormal::pedirTienda(Banquero, cliente){
+    lista = banquero.listar();
+    cliente.enviar(lista);
+}
+
+EstadoFantasma::pedirTienda(Banquero, cliente){
+    //Nada
+}
+
+Seguimiento de OP_INTERACTUAR con Sacerdote:
+
+Operacion::ejecutar(){
+    Ciudadano *ciudadano = mapa.obtenerCiudadano(id);
+    ciudadano.interactuar(personaje, estado, cliente);
+}
+
+Sacerdote::interactuar(personaje, cliente){
+    estado.pedirCuracion(this, cliente);
+}
+
+EstadoNormal::pedirCuracion(Sacerdote, cliente){
+    sacerdote.curar(this);
+}
+
+EstadoFantasma::pedirTienda(Sacerdote, cliente){
+    sacerdote.curar(this);
+}
+
+
+
+Seguimiento de OP_COMPRAR:
+
+Operacion::ejecutar(){
+    Ciudadano *ciudadano = mapa.obtenerCiudadano(id);
+    ciudadano.comprar(personaje, estado, cliente);
+}
+
+Banquero::comprar(personaje, cliente){
+    estado.comprarDe(this, cliente);
+}
+
+O sino
+
+Sacerdote::interactuar(personaje, cliente){
+    //Nada
+}
+
+EstadoNormal::comprarDe(Ciudadano, cliente){
+    ciudadano.comprar();
+    cliente.actualizarInventario();
+}
+
+EstadoFantasma::comprarDe(Ciudadano, cliente){
+    //Nada
+}
 
 */

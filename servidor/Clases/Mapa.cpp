@@ -195,9 +195,10 @@ bool Mapa::posicionValida(Entidad *entidad, const quadtree::Box<float> &area){
          ++it){
         if ((*it)->colisionaCon(area)) return false;
     }
-    resultado = quadTreeDinamico.query(area);
-    for (std::vector<Colisionable*>::iterator it = resultado.begin();
-         it != resultado.end();
+    std::vector<Entidad*> resultadoDinamico;
+    resultadoDinamico = quadTreeDinamico.query(area);
+    for (std::vector<Entidad*>::iterator it = resultadoDinamico.begin();
+         it != resultadoDinamico.end();
          ++it){
         if ((*it)->colisionaCon(area)){
             //No puedo chocar conmigo mismo, es mi posicion anterior.

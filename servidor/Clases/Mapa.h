@@ -29,7 +29,7 @@ class Mapa{
     quadtree::Box<float> frontera;
     ObtenerCaja obtenerCaja;
     quadtree::Quadtree<Colisionable*, ObtenerCaja> quadTreeEstatico;
-    quadtree::Quadtree<Colisionable*, ObtenerCaja> quadTreeDinamico;
+    quadtree::Quadtree<Entidad*, ObtenerCaja> quadTreeDinamico;
     std::vector<ObjetoColisionable> objetosEstaticos;
     std::vector<quadtree::Box<float>> zonasRespawn;
     unsigned int limiteCriaturas;

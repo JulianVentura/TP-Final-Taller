@@ -127,7 +127,7 @@ class Configuraciones{
     TipoItem calcularDropItem(std::string &idCriatura);
     bool seEsquivaElGolpe(Entidad *entidad);
     const std::string obtenerMapaSpawnCriaturaAleatoria(const std::string &id) const;
-    
+    bool sePuedeAtacar(Personaje *objetivo, Personaje *atacante);
 
     protected:
     Configuraciones();

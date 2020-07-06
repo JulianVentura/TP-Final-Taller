@@ -7,6 +7,7 @@ class Escudo;
 class Armadura;
 class Casco;
 class Estado;
+class Criatura;
 class Personaje : public Entidad{
     private:
     unsigned int manaMaximo;
@@ -38,7 +39,8 @@ class Personaje : public Entidad{
 
     void recibirOro(unsigned int cantOro);
     void curar(unsigned int curVida, unsigned int curMana);
-    void recibirDanio(int danio, Entidad *atacante) override;
+    void recibirDanio(int danio, Personaje *atacante);
+    void recibirDanio(int danio, Criatura *atacante);
     void eliminarDeInventario(unsigned int pos);
     void equipar(Arma *arma);
     void equipar(Armadura *armadura);
