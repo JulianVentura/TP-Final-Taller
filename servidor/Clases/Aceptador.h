@@ -1,12 +1,17 @@
 #ifndef __ACEPTADOR_H__
 #define __ACEPTADOR_H__
+
+#include <atomic>
+#include <sys/socket.h> // Para SHUT_RDWR
+
+#include "../../common/commonSocket.h"
+
 #include "Thread.h"
-#include "Socket.h"
 #include "BaseDeDatos.h"
 #include "OrganizadorSalas.h"
 #include "OrganizadorClientes.h"
 #include "Divulgador.h"
-#include <atomic>
+
 class Aceptador : public Thread{
     private:
     Socket servidor;

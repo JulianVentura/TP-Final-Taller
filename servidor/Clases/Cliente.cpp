@@ -73,7 +73,7 @@ void Cliente::actualizarEstado(const std::vector<struct PosicionEncapsulada> &po
 }  
 
  void Cliente::enviarMensaje(const std::string& mensaje){
-    clienteProxy.enviarMensaje(mensaje);
+    //clienteProxy.enviarMensaje(mensaje);
  }
 
  void Cliente::enviarChat(const std::string& mensaje, bool mensaje_publico){
@@ -135,6 +135,6 @@ std::pair<std::string, std::string> Cliente::login(OrganizadorClientes &organiza
         }
     }
     
-    clienteProxy.enviarMensajeConfirmacion();
+    //clienteProxy.enviarMensajeConfirmacion();
     return credenciales;
 }

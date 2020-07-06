@@ -4,6 +4,7 @@
 #include <atomic>
 #include <vector>
 
+#include "../../common/commonSocket.h"
 
 #include "ClienteProxy.h"
 #include "Personaje.h"
@@ -11,7 +12,6 @@
 
 #include "ExcepcionSocket.h"
 #include "ExcepcionCliente.h"
-#include "Socket.h"
 #include "BaseDeDatos.h"
 #include "PosicionEncapsulada.h"
 #include <memory>

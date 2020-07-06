@@ -1,9 +1,12 @@
 #include "Aceptador.h"
+
 #include <iostream>
 #include <utility> //Para std::move
+#include <thread>
+
 #include "ExcepcionSocket.h"
 #include "ExcepcionCliente.h"
-#include <thread>
+
 
 //////////////////Metodos publicos///////////////////////////////
 
@@ -14,10 +17,12 @@ Aceptador::Aceptador(OrganizadorSalas &unOrganizadorSalas,
                      divulgador(organizadorClientes),
                      continuar(true){
     Configuraciones *config = Configuraciones::obtenerInstancia();
-    std::string host = config->obtenerAceptadorHost();
+    //std::string host = config->obtenerAceptadorHost();
     std::string puerto = config->obtenerAceptadorPuerto();
-    unsigned int numConexionesEnEspera = config->obtenerAceptadorNumConexionesEnEspera();
-    servidor.bindYSetearOpciones(host.c_str(), puerto.c_str());
+    unsigned int numConexionesEnEspera = config->
+    obtenerAceptadorNumConexionesEnEspera();
+    servidor.ligar( puerto.c_str());
+   // servidor.bindYSetearOpciones(host.c_str(), puerto.c_str());
     servidor.escuchar(numConexionesEnEspera);
 }
 
@@ -49,7 +54,7 @@ void Aceptador::procesar(){
     //Esto en realidad no es necesario, pero mejor setearlo a false
     //para que sea consistente.
     continuar = false;
-    servidor.apagar(READ_AND_WRITE);
+    servidor.cerrar_canal(SHUT_RDWR);
     try{
         divulgador.finalizar();
         divulgador.recuperar();
@@ -66,5 +71,5 @@ void Aceptador::finalizar(){
     Los sockets de C permiten realizar un shutdown y cierre
     sin entrar en una RC, por lo tanto esta operacion es segura.
     */
-    servidor.apagar(READ_AND_WRITE);
+    servidor.cerrar_canal(SHUT_RDWR);
 }
