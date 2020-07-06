@@ -21,18 +21,14 @@ void ServidorProxy::conectar(std::string& direccion, std::string& servicio){
 }
 
 void ServidorProxy::enviarLogin(std::string& nombre, std::string& clave){
-	uint32_t operacion = CODIGO_ID;
-	operacion = htonl(operacion);
-	socket.enviar((char*) &operacion, TAM_INT32);
+	protocolo.enviarUint32(socket, CODIGO_ID);
 	protocolo.enviarString(socket, nombre);
 	protocolo.enviarString(socket, clave);
 }
 
 void ServidorProxy::enviarNuevaCuenta(std::string& nombre, std::string& clave,
 		std::string& raza, std::string& clase){
-	uint32_t operacion = CODIGO_NUEVO_PERSONAJE;
-	operacion = htonl(operacion);
-	socket.enviar((char*) &operacion, TAM_INT32);
+	protocolo.enviarUint32(socket, CODIGO_NUEVO_PERSONAJE);
 	protocolo.enviarString(socket, nombre);
 	protocolo.enviarString(socket, clave);
 	protocolo.enviarString(socket, raza);
@@ -45,11 +41,8 @@ void ServidorProxy::enviarNuevaCuenta(std::string& nombre, std::string& clave,
 // General
 
 void ServidorProxy::recibirMensaje(){
-	uint32_t operacion;
 	while(!salir) {
-		socket.recibir((char *)&operacion, TAM_INT32);
-		operacion = ntohl(operacion);
-		recibirMensajeConOperacion(operacion);
+		recibirMensajeConOperacion(protocolo.recibirUint32(socket));
 	}
 }
 
@@ -59,14 +52,15 @@ void ServidorProxy::recibirMensajeConOperacion(uint32_t operacion) {
 
 	switch (operacion) {
 		case CODIGO_CARGA_MAPA:
-			protocolo.recibirMapa(socket, mapa);
+			protocolo.recibirString(socket, mapa);
 
 			break;
 		case CODIGO_POSICIONES:
 			this->actualizarPosiciones();	
 			break;
 		case CODIGO_MENSAJE_CHAT:
-			protocolo.recibirChat(socket, mensaje, mensaje_publico);
+			protocolo.recibirString(socket, mensaje);
+			socket.recibir((char*) &mensaje_publico, 1);
 			salida -> agregarMensaje(mensaje, mensaje_publico);
 			break;
 		case CODIGO_ERROR:
@@ -94,25 +88,33 @@ void ServidorProxy::terminar() {
 // Manejo de mapa
 
 void ServidorProxy::obtenerMapaInit(std::string& mapa) {
-	uint32_t operacion;
-
-	socket.recibir((char *)&operacion, TAM_INT32);
-	operacion = ntohl(operacion);
+	uint32_t operacion = protocolo.recibirUint32(socket);
 	if (operacion != CODIGO_CARGA_MAPA) {
 		recibirMensajeConOperacion(operacion);
 		return;
 	}
-	obtenerMapa(mapa);
-}
-
-void ServidorProxy::obtenerMapa(std::string& mapa) {
-	protocolo.recibirMapa(socket, mapa);
+	protocolo.recibirString(socket, mapa);
 	this->mapa = mapa;
 }
 
 void ServidorProxy::actualizarPosiciones() {
 	std::unordered_map<std::string, std::pair<int, int>> posiciones;
-	protocolo.recibirPosiciones(socket, posiciones);
+	uint32_t longitud = protocolo.recibirUint32(socket);
+	posiciones.reserve(longitud);
+	for (uint32_t i = 0; i < longitud; ++i) {
+		std::string id_temp;
+		id_temp.resize(TAM_ID);
+		socket.recibir(&id_temp[0], TAM_ID);
+		id_temp[TAM_ID - 1] = 0;
+		float x;
+		float y;
+		socket.recibir((char *) &x, TAM_INT32);
+		x = (float) ntohl(x);
+		socket.recibir((char *) &y, TAM_INT32);
+		y = (float) ntohl(y);
+		std::string id(id_temp.c_str());
+		posiciones[id] = { std::round(x), std::round(y) };
+	}
 	for (auto& posicion: posiciones) {
 		if (posicionables.count(posicion.first) == 0) continue;
 		auto& coordenadas = posicion.second;
@@ -122,12 +124,13 @@ void ServidorProxy::actualizarPosiciones() {
 }
 
 void ServidorProxy::agregarPosicionable(std::string& id, 
-												IPosicionable* posicionable) {
+	IPosicionable* posicionable) {
 	posicionables[id] = posicionable;
 }
 
 void ServidorProxy::enviarMovimiento(uint32_t movimiento) {
-	protocolo.enviarMovimiento(socket, movimiento);
+	protocolo.enviarUint32(socket, CODIGO_MOVIMIENTO);
+	protocolo.enviarUint32(socket, movimiento);
 }
 
 // Chat
@@ -141,28 +144,40 @@ void ServidorProxy::enviarChat(std::string mensaje){
 		destino = mensaje.substr(1,pos - 1);
 		mensaje = mensaje.substr(pos + 1, std::string::npos);
 	}
-	protocolo.enviarChat(socket, datos_personaje.id, destino, mensaje);
 
+	protocolo.enviarUint32(socket, CODIGO_MENSAJE_CHAT);
+	protocolo.enviarString(socket, datos_personaje.id);
+	protocolo.enviarString(socket, destino);
+	protocolo.enviarString(socket, mensaje);
 }
 
 // Inventario
 
-void ServidorProxy::enviarAtque(std::string& id){
-
-}
-
 void ServidorProxy::enviarCompra(std::string& id,int pos){
-
+	protocolo.enviarUint32(socket, CODIGO_COMPRA);
+	protocolo.enviarString(socket, id);
+	protocolo.enviarUint16(socket, pos);
 }
 
 void ServidorProxy::enviarVenta(std::string& id,int pos){
-
+	protocolo.enviarUint32(socket, CODIGO_VENTA);
+	protocolo.enviarString(socket, id);
+	protocolo.enviarUint16(socket, pos);
 }
 
 void ServidorProxy::enviarUtilizar(int pos){
-
+	protocolo.enviarUint32(socket, CODIGO_UTILIZACION);
+	protocolo.enviarUint16(socket, pos);
 }
 
 void ServidorProxy::enviarTirar(int pos){
+	protocolo.enviarUint32(socket, CODIGO_TIRADO);
+	protocolo.enviarUint16(socket, pos);
+}
 
+//Ataque
+
+void ServidorProxy::enviarAtque(std::string& id){
+	protocolo.enviarUint32(socket, CODIGO_ATAQUE);
+	protocolo.enviarString(socket, id);
 }

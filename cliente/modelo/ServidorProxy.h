@@ -15,6 +15,9 @@
 #include "../../common/commonSocket.h"
 #include "../../common/CodigosOperacion.h"
 
+#define TAM_ID 20 // TODO: podría estar en common/CodigosOperacion o algo por el 
+                  // estilo.
+
 class GUI_ChatControlador;
 class ServidorProxy;
 
@@ -48,7 +51,6 @@ public:
 	void recibirMensajeConOperacion(uint32_t operacion);
 	void enviarChat(std::string mensaje);
 	void terminar();
-	void obtenerMapa(std::string& mapa);
 	void obtenerMapaInit(std::string& mapa);
 	void enviarMovimiento(uint32_t movimiento);
 	void agregarPosicionable(std::string& id, IPosicionable* posicionable);
