@@ -17,7 +17,7 @@ void ServidorProxy::conectar(std::string& direccion, std::string& servicio){
 	socket.conectar(direccion.c_str(), servicio.c_str());
 }
 
-void ServidorProxy::enviarLogin(std::string& nombre, std::string& clave) {
+void ServidorProxy::enviarLogin(std::string& nombre, std::string& clave){
 	uint32_t operacion = CODIGO_ID;
 	operacion = htonl(operacion);
 	socket.enviar((char*) &operacion, TAM_INT32);
