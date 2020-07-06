@@ -3,12 +3,11 @@
 BucleLogin::BucleLogin(Ventana& ventana, GUI_Login& gui, 
         ServidorProxy& servidor) : ventana(&ventana), gui(gui), 
         servidor(servidor) {
-     agregarInteractivo(&ventana);
 }
 
 void BucleLogin::correr() {
     SDL_Event evento;
-    SDL_StopTextInput();
+    SDL_StartTextInput();
     while (!salir) {
         while (SDL_PollEvent(&evento)) {
 			despacharEventos(evento);
@@ -22,6 +21,7 @@ void BucleLogin::correr() {
         if (diferencia > 0) 
             std::this_thread::sleep_for(std::chrono::milliseconds(diferencia));
     }
+    SDL_StopTextInput();
 }
 
 

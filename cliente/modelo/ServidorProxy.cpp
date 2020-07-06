@@ -23,7 +23,6 @@ void ServidorProxy::enviarLogin(std::string& nombre, std::string& clave) {
 	socket.enviar((char*) &operacion, TAM_INT32);
 	protocolo.enviarString(socket, nombre);
 	protocolo.enviarString(socket, clave);
-	// protocolo.enviarID(socket, nombre);
 }
 
 void ServidorProxy::enviarNuevaCuenta(std::string& nombre, std::string& clave,
@@ -66,18 +65,9 @@ void ServidorProxy::recibirMensaje(){
 		socket.recibir((char *)&operacion, TAM_INT32);
 		operacion = ntohl(operacion);
 		recibirMensajeConOperacion(operacion);
-        // exit(0);
 	}
 }
 
-// CODIGO_POSICIONES,
-// CODIGO_ID,
-// CODIGO_CARGA_MAPA,
-// CODIGO_MOVIMIENTO,
-// CODIGO_MENSAJE_CHAT,
-// CODIGO_DESCONECTAR,
-// CODIGO_NUEVO_PERSONAJE,
-// CODIGO_CONFIRMACION,
 
 void ServidorProxy::recibirMensajeConOperacion(uint32_t operacion) {
 	std::string mensaje;

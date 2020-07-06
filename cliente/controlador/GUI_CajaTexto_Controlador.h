@@ -10,14 +10,15 @@
 class GUI_CajaTextoControlador : public GUI_BotonControlador, 
 														public IInteractivo {
 protected:
-	bool enFoco;
 	GUI_CajaTexto& caja_vista;
+	bool enFoco = false;
 	virtual bool enEnter();
 public:
 	GUI_CajaTextoControlador(GUI_CajaTexto& vista);
 	bool manejarEvento(SDL_Event& evento) override;
 	bool operator()(SDL_Event& evento) override;
 	bool enClick() override;
+	void darFoco(bool enFoco);
 	void actualizarDimension();
 };
 

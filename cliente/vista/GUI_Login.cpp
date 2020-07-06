@@ -46,6 +46,7 @@ GUI_Login::GUI_Login(EntornoGrafico& entorno, Colores& paleta,
 	servidor.salida = &salida;
 	evento_salida.type = SDL_QUIT;
 	actualizarDimension();
+	entrada_sup.darFoco(true);
 }
 
 void GUI_Login::render() {
@@ -73,7 +74,7 @@ void GUI_Login::actualizarDimension(){
 	//Cuadros entrada
 	entrada_sup_vista.marco_entrada.x = ventana_ancho*0.1;
 	entrada_sup_vista.marco_entrada.y = ventana_alto*0.2 + 20;
-	entrada_sup_vista.marco_entrada.h = 16;
+	entrada_sup_vista.marco_entrada.h = 24;
 	entrada_sup_vista.marco_entrada.w = ventana_ancho*0.2;
 	entrada_inf_vista.marco_entrada = entrada_sup_vista.marco_entrada;
 	entrada_inf_vista.marco_entrada.y += 56;
@@ -99,5 +100,10 @@ void GUI_Login::manejarEvento(SDL_Event& evento){
 	entrada_sup.manejarEvento(evento);
 	entrada_inf.manejarEvento(evento);
 } 
+void GUI_Login::actualizar(unsigned int delta_t) {
+	entrada_sup_vista.actualizar(delta_t);
+	entrada_inf_vista.actualizar(delta_t);
+}
+
 
 GUI_Login::~GUI_Login(){}
