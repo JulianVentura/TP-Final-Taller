@@ -37,7 +37,6 @@ void ServidorProxy::enviarNuevaCuenta(std::string& nombre, std::string& clave,
 	datos_personaje.id = nombre;
 }
 
-
 // General
 
 void ServidorProxy::recibirMensaje(){
@@ -52,26 +51,52 @@ void ServidorProxy::recibirMensajeConOperacion(uint32_t operacion) {
 
 	switch (operacion) {
 		case CODIGO_CARGA_MAPA:
-			protocolo.recibirString(socket, mapa);
+		protocolo.recibirString(socket, mapa);
 
-			break;
+		break;
 		case CODIGO_POSICIONES:
-			this->actualizarPosiciones();	
-			break;
-		case CODIGO_MENSAJE_CHAT:
-			protocolo.recibirString(socket, mensaje);
-			socket.recibir((char*) &mensaje_publico, 1);
-			salida -> agregarMensaje(mensaje, mensaje_publico);
-			break;
-		case CODIGO_ERROR:
-			protocolo.recibirString(socket, mensaje);
-			salida -> agregarMensaje(mensaje, mensaje_publico);
-			// throw ErrorServidor("Error de servidor: %s\n", mensaje.c_str());
-			break;
+		this->actualizarPosiciones();	
+		break;
 
+		case CODIGO_MENSAJE_CHAT:
+		protocolo.recibirString(socket, mensaje);
+		socket.recibir((char*) &mensaje_publico, 1);
+		salida -> agregarMensaje(mensaje, mensaje_publico);
+		break;
+
+		case CODIGO_ERROR:
+		protocolo.recibirString(socket, mensaje);
+		salida -> agregarMensaje(mensaje, mensaje_publico);
+			// throw ErrorServidor("Error de servidor: %s\n", mensaje.c_str());
+		break;
+
+		case CODIGO_INVENTARIO:
+		for(int i = 0; i < INV_ANCHO*INV_ALTO; i++){
+			datos_personaje.inventario[i] = protocolo.recibirUint16(socket);
+		}
+		datos_personaje.oro = protocolo.recibirUint16(socket);
+		break;
+
+		case CODIGO_TIENDA:
+		for(int i = 0; i < INV_ANCHO*INV_ALTO; i++){
+			datos_tienda.inventario[i] = protocolo.recibirUint16(socket);
+			datos_tienda.precios[i] = protocolo.recibirUint16(socket);
+		}
+		datos_tienda.activo = true;
+		break;
+
+		case CODIGO_ESTADISTICAS:
+
+		break;
+			datos_personaje.vida = protocolo.recibirUint16(socket);
+			datos_personaje.vida_max = protocolo.recibirUint16(socket);
+			datos_personaje.mana = protocolo.recibirUint16(socket);
+			datos_personaje.mana_max = protocolo.recibirUint16(socket);
+			datos_personaje.exp = protocolo.recibirUint16(socket);
+			datos_personaje.exp_max = protocolo.recibirUint16(socket);
 		default:
-			printf("No reconocido %d\n", operacion);
-			break;
+		printf("No reconocido %d\n", operacion);
+		break;
 	}
 }
 

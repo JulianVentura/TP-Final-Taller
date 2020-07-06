@@ -32,7 +32,6 @@ private:
 	std::unordered_map<std::string, IPosicionable*> posicionables;
 	std::string mapa;
 	void actualizarPosiciones();
-
 public:
 	ServidorSalida* salida;
 	ServidorProxy(DatosPersonaje& datos_personaje, DatosTienda& datos_tienda);

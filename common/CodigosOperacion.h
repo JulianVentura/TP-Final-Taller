@@ -20,6 +20,9 @@ enum CODIGOS : uint32_t {
                          CODIGO_UTILIZACION,
                          CODIGO_TIRADO,
                          CODIGO_ATAQUE,
+                         CODIGO_INVENTARIO,
+                         CODIGO_TIENDA,
+                         CODIGO_ESTADISTICAS
 };
 
 enum MOVIMIENTO : uint32_t {
