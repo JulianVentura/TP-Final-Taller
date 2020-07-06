@@ -36,24 +36,36 @@ private:
 public:
 	ServidorSalida* salida;
 	ServidorProxy(DatosPersonaje& datos_personaje, DatosTienda& datos_tienda);
+
+	// Conexion e inicio sesion
 	void conectar(std::string& direccion, std::string& servicio);
-	void enviarMensaje(std::string mensaje);
-	void recibirMensaje();
 	void enviarLogin(std::string& nombre, std::string& clave);
 	void enviarNuevaCuenta(std::string& nombre, std::string& clave,
 		std::string& raza, std::string& clase);
-	void enviarInteraccion(std::string& id);
-	void enviarAtaque(std::string& id);
-	void enviarCompra(int pos);
-	void enviarUtilizar(int pos);
-	void enviarTirar(int pos);
-	void comenzar();
+
+	// General
 	void recibirMensajeConOperacion(uint32_t operacion);
-	void enviarChat(std::string mensaje);
+	void enviarMensaje(std::string mensaje);
+	void recibirMensaje();
+	void comenzar();
 	void terminar();
+
+	// Chat
+	void enviarChat(std::string mensaje);
+
+	// Manejo mapa
 	void obtenerMapaInit(std::string& mapa);
 	void enviarMovimiento(uint32_t movimiento);
 	void agregarPosicionable(std::string& id, IPosicionable* posicionable);
+
+	// Inventario
+	void enviarCompra(int pos);
+	void enviarUtilizar(int pos);
+	void enviarTirar(int pos);
+
+	// Interaccion
+	void enviarInteraccion(std::string& id);
+	void enviarAtaque(std::string& id);
 };
 
 #endif /*__SERVIDOR_PROXY_H__*/
