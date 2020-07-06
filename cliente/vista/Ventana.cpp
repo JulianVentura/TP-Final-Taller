@@ -20,6 +20,10 @@ Ventana::Ventana(EntornoGrafico& entorno, const char* title):
     entorno.setVentana(this);
 }
 
+void Ventana::agregarRendereable(IRendereable* rendereable) {
+    rendereables.push_back(rendereable);
+}
+
 bool Ventana::manejarEvento(SDL_Event& evento) {
     if (evento.type == SDL_KEYDOWN) {
         if (evento.key.keysym.sym == SDLK_F11) {
@@ -38,10 +42,14 @@ bool Ventana::manejarEvento(SDL_Event& evento) {
 }
 
 void Ventana::actualizar(unsigned int delta_t) {
-    renderer->setColor(color_fondo);
-    renderer->limpiar();
+    for (auto& rendereable: rendereables)
+        rendereable->actualizar(delta_t);    
 }
 
 void Ventana::render() {
+    renderer->setColor(color_fondo);
+    renderer->limpiar();
+    for (auto& rendereable: rendereables)
+        rendereable->render();
     renderer->presentar();
 }

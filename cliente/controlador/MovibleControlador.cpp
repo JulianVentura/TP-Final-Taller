@@ -28,7 +28,6 @@ bool MovibleControlador::manejarEvento(SDL_Event& evento) {
         if (teclas_direccionables.count(tecla_presionada) > 0) {
             servidor.enviarMovimiento(teclas_direccionables[tecla_presionada]);
             ultima_tecla_presionada = tecla_presionada;
-        printf("--- movible\n");
             return true;
         }
     } else if (evento.type == SDL_KEYUP) {

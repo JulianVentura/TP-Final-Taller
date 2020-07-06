@@ -90,6 +90,7 @@ public:
                                         SDL_Rect& render_mascara); // Maybe x, y
     
     SDL_Texture* textura(int ancho, int alto);
+    void dimensionTextura(SDL_Texture* textura, int* ancho, int* alto);
 
     /**
      * @brief Dada una superficie, se crea una textura.

@@ -16,6 +16,7 @@ public:
     bool manejarEvento(SDL_Event& evento) override;
     void render() override;
     void actualizar(unsigned int delta_t) override;
+    void agregarRendereable(IRendereable* rendereable);
     
 private:
     bool pantalla_completa = false;
@@ -23,6 +24,7 @@ private:
     Renderer* renderer;
     SDL_Color color_fondo = {51, 51, 51, 255};
     EntornoGrafico& entorno;
+    std::vector<IRendereable *> rendereables;
     friend class Renderer;
 };
 #endif

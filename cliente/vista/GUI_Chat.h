@@ -26,6 +26,8 @@ private:
 	Colores& paleta;
 	SDL_Texture* textura = nullptr;
 	unsigned int caracteres_max;
+	int tiempo;
+	bool mostrar_cursor;
 	bool en_foco;
 	void renderizarTexto();
 

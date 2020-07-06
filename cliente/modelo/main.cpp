@@ -108,8 +108,8 @@ int main(int argc, const char* argv[]) {
 
         Escena escena(entorno, camara, mapa, capaFrontal, conjuntoTiles);
         
-        bucle.agregarRendereable(&escena);
-        bucle.agregarRendereable(&gui);
+        ventana.agregarRendereable(&escena);
+        ventana.agregarRendereable(&gui);
         
         bucle.agregarInteractivo(SDL_TEXTINPUT, &gui_controllador);
         bucle.agregarInteractivo(SDL_KEYDOWN, &gui_controllador);

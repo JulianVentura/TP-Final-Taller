@@ -1,32 +1,32 @@
 #include "../vista/GUI_Chat.h"
 #include "../vista/Ventana.h"
+
 enum margen_cursor : int {
 	izquierda = 3,
 	arriba = 2,
 	derecha = 0,
 	abajo = 3
 };
-#define ANCHO_CURSOR 2
+#define ANCHO_CURSOR 1
+#define MS_CURSOR 300
 
 GUI_Chat::GUI_Chat(EntornoGrafico& entorno, Colores& paleta)
-: paleta(paleta) {
+: paleta(paleta), tiempo(MS_CURSOR), mostrar_cursor(false), en_foco(false) {
 	entorno.agregarRendereable(this);
 	actualizarDimension();
 	esta_actualizado = true;
 	textura = renderer -> textura(marco_mensajes.w, ALTO_TEXTURA);
-	en_foco = false;
 }
+
 void GUI_Chat::darFoco(bool en_foco) {
 	this->en_foco = en_foco;
 }
 
-bool mostrar_cursor = true;
-int tiempo = 300;
 void GUI_Chat::actualizar(unsigned int delta_t) {
 	tiempo -= delta_t;
 	if (tiempo <= 0) {
 		mostrar_cursor = !mostrar_cursor;
-		tiempo = 300;
+		tiempo = MS_CURSOR;
 	}
 }
 
@@ -42,24 +42,29 @@ void GUI_Chat::render() {
 	renderer ->renderTextura(textura, marco_textura, marco_mensajes);
 		
 	renderer -> setColor(paleta.chat_texto);
+	std::string texto_a_mostrar = entrada;
 	if(entrada.size() > 0){
 		if(entrada.size() > caracteres_max){
-			renderer -> texto(entrada.substr(entrada.size() -caracteres_max,
-				entrada.size()), marco_entrada.x, marco_entrada.y);
-		}else{
-			renderer -> texto(entrada, marco_entrada.x, marco_entrada.y);
+			texto_a_mostrar = entrada.substr(entrada.size() -caracteres_max,
+				entrada.size());
 		}
+		renderer->texto(
+			texto_a_mostrar, 
+			marco_entrada.x + margen_cursor::izquierda, 
+			marco_entrada.y + margen_cursor::arriba);
 	}
-
+	int ancho;
+	renderer->calcularDimensionTexto(texto_a_mostrar, &ancho, NULL);
 	if(!esta_actualizado){
 		esta_actualizado = true;
 		renderizarTexto();
 	}
-	renderer->setColor(51, 0, 51);
+
+	renderer->setColor(paleta.chat_texto);
 	if (en_foco && mostrar_cursor) {
 		renderer->rectSolido(
-			marco_entrada.x + margen_cursor::izquierda,
-			marco_entrada.y + margen_cursor::arriba , 
+			marco_entrada.x + margen_cursor::izquierda + ancho,
+			marco_entrada.y + margen_cursor::arriba, 
 			ANCHO_CURSOR, 
 			marco_entrada.h - margen_cursor::arriba - margen_cursor::abajo);
 	}

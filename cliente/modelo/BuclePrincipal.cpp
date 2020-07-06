@@ -22,10 +22,6 @@ void BuclePrincipal::correr() {
         }
         int tiempo = reloj.medir() * SEG_A_MILLI;
         ventana->actualizar(tiempo);
-        for (auto& rendereable: rendereables)
-            rendereable->actualizar(tiempo);
-        for (auto& rendereable: rendereables)
-            rendereable->render();
         ventana->render();
         
         int diferencia = MILLIS_POR_FRAME - tiempo;
@@ -50,8 +46,4 @@ void BuclePrincipal::despacharEventos(SDL_Event& evento) {
 
 void BuclePrincipal::agregarInteractivo(Uint32 tipo_evento, IInteractivo* interactivo) {
     interactivos[tipo_evento].push_back(interactivo);
-}
-
-void BuclePrincipal::agregarRendereable(IRendereable* rendereable) {
-    rendereables.push_back(rendereable);
 }

@@ -60,6 +60,9 @@ SDL_Texture* Renderer::textura(int ancho, int alto){
     SDL_SetTextureBlendMode(retorno, SDL_BLENDMODE_BLEND);
     return retorno;
 }
+void Renderer::dimensionTextura(SDL_Texture* textura, int* ancho, int* alto) {
+	SDL_QueryTexture(textura, NULL, NULL, ancho, alto);
+}
 
 SDL_Texture* Renderer::texturaDesdeSuperficie(SDL_Surface* superficie) {
     SDL_Texture* texture = SDL_CreateTextureFromSurface(renderer, superficie);
@@ -172,12 +175,13 @@ void  Renderer::textoATextura(SDL_Texture* textura, const std::string& text,
     SDL_Texture* objetivo_actual = SDL_GetRenderTarget(renderer);
     SDL_SetRenderTarget(renderer, textura);
     texto(text, x, y);
+    SDL_QueryTexture(textura, NULL, NULL, &x, &y);
     SDL_SetRenderTarget(renderer, objetivo_actual);
 }
 
- void Renderer::calcularDimensionTexto(const std::string& text,
-  int* ancho, int* alto){
-    TTF_SizeText(entorno.getFuente(), text.c_str(), ancho, alto);
+ void Renderer::calcularDimensionTexto(const std::string& text, int* ancho, 
+                                                                    int* alto) {
+    TTF_SizeUTF8(entorno.getFuente(), text.c_str(), ancho, alto);
  }
 
 SDL_Rect Renderer::transformar(SDL_Rect& rect) {

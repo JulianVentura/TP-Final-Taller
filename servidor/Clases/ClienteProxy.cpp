@@ -70,6 +70,7 @@ void ClienteProxy::decodificarMensajeChat(){
 
 bool ClienteProxy::decodificarCodigo(uint32_t codigo){
     switch (codigo){
+
         case CODIGO_MOVIMIENTO:{
             decodificarMovimiento();
             break;
@@ -83,7 +84,7 @@ bool ClienteProxy::decodificarCodigo(uint32_t codigo){
         default: {
             enviarError("No se ha podido decodificar el codigo de operacion, finaliza la conexion");
             return false;
-        }  
+        }
     }
     return true;
 }

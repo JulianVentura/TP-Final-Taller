@@ -14,14 +14,12 @@ private:
     Ventana* ventana;
     void despacharEventos(SDL_Event& evento);
     std::unordered_map<Uint32, std::vector<IInteractivo *>> interactivos;
-    std::vector<IRendereable *> rendereables;
     Reloj reloj;
     bool salir = false;
 
 public:
     BuclePrincipal(Ventana& ventana);
     void agregarInteractivo(Uint32 tipo_evento, IInteractivo* interactivo);
-    void agregarRendereable(IRendereable* rendereable);
     void correr();
 };
 
