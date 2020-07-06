@@ -35,6 +35,9 @@ public:
 	void conectar(std::string& direccion, std::string& servicio);
 	void enviarMensaje(std::string mensaje);
 	void recibirMensaje();
+	void enviarLogin(std::string nombre, std::string clave);
+	void enviarNuevaCuenta(std::string nombre, std::string clave,
+		std::string raza, std::string clase);
 	void enviarChat(std::string mensaje);
 	void terminar();
 	std::string obtenerMapa();

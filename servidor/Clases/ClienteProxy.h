@@ -28,7 +28,8 @@ class ClienteProxy{
     bool decodificarCodigo(uint32_t codigo);
     void decodificarMovimiento();
     void decodificarMensajeChat();
-    void decodificarNuevoJugador(char *idBuffer, char *contra_buffer);
+    void decodificarJugador( std::string& id, std::string& clave);
+    void decodificarNuevoJugador( std::string& id, std::string& clave);
     public:
     ClienteProxy(Socket socket, Cliente *cliente, Divulgador& divulgador);
     void actualizarCola(ColaOperaciones *colaDeOperaciones);

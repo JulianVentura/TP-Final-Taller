@@ -15,13 +15,15 @@ private:
 	ServidorSalida& salida;
 	std::string& nombre;
 	std::string& clave;
-	int& raza;
-	int& clase;
+	std::string& raza;
+	std::string& clase;
 	bool& conectado;
+	SDL_Event& evento_salida;
 public:
 	GUI_BotonNuevaCuentaControlador(GUI_BotonNuevaCuenta& vista,
 	 ServidorProxy& servidor, ServidorSalida& salida, std::string& nombre,
-	 std::string& clave, int& raza, int& clase, bool& conectado);
+	 std::string& clave, std::string& raza, std::string& clase, bool& conectado,
+	 SDL_Event& evento_salida);
 	bool enClick() override;
 	void actualizarDimension();
 };

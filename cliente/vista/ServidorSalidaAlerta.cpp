@@ -8,10 +8,10 @@ ServidorSalidaAlerta::ServidorSalidaAlerta(EntornoGrafico& entorno,
 void ServidorSalidaAlerta::render(){
 	if(mensaje.size() == 0) return;
 	renderer -> setColor(paleta.login_alarma);
-	renderer -> rectSolido(ventana -> getAlto()*0.9, 0,
+	renderer -> rectSolido(0,ventana -> getAlto()*0.9,
 		ventana -> getAncho(), ventana -> getAlto()*0.1);
 	renderer -> setColor(paleta.chat_texto);
-	renderer -> texto( mensaje, ventana -> getAlto()*0.9, 0);
+	renderer -> texto( mensaje, 0, ventana -> getAlto()*0.9);
 }
 
 void ServidorSalidaAlerta::agregarMensaje(std::string nuevo_mensaje,

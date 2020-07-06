@@ -16,10 +16,11 @@ private:
 	std::string& nombre;
 	std::string& clave;
 	bool& conectado;
+	SDL_Event& evento_salida;
 public:
 	GUI_BotonLoginControlador(GUI_BotonLogin& vista,
 	 ServidorProxy& servidor, ServidorSalida& salida, std::string& nombre,
-	 std::string& clave, bool& conectado);
+	 std::string& clave, bool& conectado, SDL_Event& evento_salida);
 	bool enClick() override;
 	void actualizarDimension();
 };

@@ -11,7 +11,6 @@
 
 class GUI_SelectorLista : public IRendereable{
 private:
-	
 	Colores& paleta;
 public:
 	int x,y;

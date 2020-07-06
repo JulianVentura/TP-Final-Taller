@@ -10,10 +10,10 @@
 
 class GUI_SelectorListaControlador : public GUI_BotonControlador{
 private:
+	int i;
 	GUI_SelectorLista& vista;
 	std::vector<std::string>& lista;
 public:
-	int i;
 	GUI_SelectorListaControlador(GUI_SelectorLista& vista,
 	 std::vector<std::string>& lista);
 	bool enClick() override;
