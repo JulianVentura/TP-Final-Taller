@@ -31,16 +31,17 @@ class Entidad : public Colisionable, public Posicionable {
     virtual bool colisionaCon(const Colisionable &otro) const override;
     virtual bool colisionaCon(const quadtree::Box<float> &area) const override;
     //Por ser posicionable
-    std::string obtenerId();
+    virtual const std::string obtenerId() const;
     virtual void actualizarEstado(double tiempo, Mapa *mapa);
 
     virtual void atacar(Entidad *objetivo);
     virtual void recibirDanio(int danio, Entidad *atacante);
     virtual void obtenerExperiencia(unsigned int cantidad);
-    virtual void dropearItems();
+    virtual void dropearItems(Entidad *atacante);
+    virtual void cobrar(unsigned int cantidad);
     void consumirMana(unsigned int cantidad);
     void equipar(Arma *arma);
-    void almacenar(std::unique_ptr<Item> item);
+    void almacenar(Item *item);
     friend class Configuraciones;
 };
 

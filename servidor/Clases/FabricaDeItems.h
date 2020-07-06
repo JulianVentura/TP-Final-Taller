@@ -1,33 +1,45 @@
 #ifndef __FABRICA_DE_ITEMS_H__
 #define __FABRICA_DE_ITEMS_H__
 #include <memory>
+#include <mutex>
+#include <unordered_map>
 class Item;
 class Pocion;
 class Arma;
 class Armadura;
 class Casco;
 class Escudo;
-class Oro;
 class FabricaDeItems{
+    private:
+    std::unordered_map<std::string, std::unique_ptr<Arma>> armas;
+    std::unordered_map<std::string, std::unique_ptr<Armadura>> armaduras;
+    std::unordered_map<std::string, std::unique_ptr<Casco>> cascos;
+    std::unordered_map<std::string, std::unique_ptr<Escudo>> escudos;
+    std::unordered_map<std::string, std::unique_ptr<Pocion>> pociones;
+    std::mutex mutex;
+
     public:
-    FabricaDeItems();
-    std::unique_ptr<Item> obtenerItemAleatorio(std::string &idCriatura);
+    Item* obtenerItemAleatorio(std::string &idCriatura);
+    static FabricaDeItems* obtenerInstancia();
 
     //Arma
-    std::unique_ptr<Arma> crearArma(std::string &id);
+    Arma* crearArma(std::string &id);
     //Armadura
-    std::unique_ptr<Armadura> crearArmadura(std::string &id);
+    Armadura* crearArmadura(std::string &id);
     //Escudo
-    std::unique_ptr<Escudo> crearEscudo(std::string &id);
+    Escudo* crearEscudo(std::string &id);
     //Casco
-    std::unique_ptr<Casco> crearCasco(std::string &id);
+    Casco* crearCasco(std::string &id);
     //Pocion
-    std::unique_ptr<Pocion> crearPocion(std::string &id);
+    Pocion* crearPocion(std::string &id);
+    /*
     //Oro
     std::unique_ptr<Oro> crearOro(unsigned int cantidad);
-    
+    */
+    private:
+    FabricaDeItems();
+    static FabricaDeItems instancia;
 };
-
 #endif
 
 

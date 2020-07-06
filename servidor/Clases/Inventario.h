@@ -7,7 +7,7 @@
 class Inventario{
     private:
     unsigned int limiteItems;
-    std::vector<std::unique_ptr<Item>> items;
+    std::vector<Item*> items;
     
     public:
     Inventario();
@@ -15,7 +15,7 @@ class Inventario{
     Inventario(Inventario &&otro) = delete;
     Inventario& operator=(Inventario &otro) = delete;
     Inventario& operator=(Inventario &&otro);
-    void almacenar(std::unique_ptr<Item> item);
+    void almacenar(Item* item);
     Item* obtenerItem(unsigned int pos);
     void eliminar(unsigned int pos);
     std::vector<std::string> obtenerTodosLosItems();

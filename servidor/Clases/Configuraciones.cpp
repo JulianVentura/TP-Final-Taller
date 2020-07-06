@@ -403,13 +403,24 @@ std::string Configuraciones::obtenerItemRandom(std::string &idCriatura, std::str
     return posibles[posibles.size()-1].first;
 }
 
-TipoItem Configuraciones::calcularDrop(std::string &idCriatura){
+TipoDrop Configuraciones::calcularDrop(std::string &idCriatura){
+    float probaItem = json.at("Criaturas").at(idCriatura).at("Drops").at("Tipo").at("Item").get<float>();
+    float probaOro = json.at("Criaturas").at(idCriatura).at("Drops").at("Tipo").at("Oro").get<float>() + probaItem;
+
+    //Tiro el dado
+    float numero = (float) rand()/RAND_MAX;
+    //Calculo el drop
+    if (numero < probaItem && numero >= 0) return ORO;
+    if (numero < probaOro && numero >= probaItem) return ITEM;
+    return NADA;
+}
+
+TipoItem Configuraciones::calcularDropItem(std::string &idCriatura){
     float probaArma = json.at("Criaturas").at(idCriatura).at("Drops").at("Armas").at("Probabilidad").get<float>();
     float probaArmadura = json.at("Criaturas").at(idCriatura).at("Drops").at("Armaduras").at("Probabilidad").get<float>() + probaArma;
     float probaEscudo = json.at("Criaturas").at(idCriatura).at("Drops").at("Escudos").at("Probabilidad").get<float>() + probaArmadura;
     float probaCasco = json.at("Criaturas").at(idCriatura).at("Drops").at("Cascos").at("Probabilidad").get<float>() + probaEscudo;
     float probaPocion = json.at("Criaturas").at(idCriatura).at("Drops").at("Pociones").at("Probabilidad").get<float>() + probaCasco;
-    float probaOro = json.at("Criaturas").at(idCriatura).at("Drops").at("Oro").at("Probabilidad").get<float>() + probaPocion;
     //Tiro el dado
     float numero = (float) rand()/RAND_MAX;
     //Calculo el drop
@@ -417,9 +428,9 @@ TipoItem Configuraciones::calcularDrop(std::string &idCriatura){
     if (numero < probaArmadura && numero >= probaArma) return ARMADURA;
     if (numero < probaEscudo && numero >= probaArmadura) return ESCUDO;
     if (numero < probaCasco && numero >= probaEscudo) return CASCO;
-    if (numero < probaPocion && numero >= probaCasco) return POCION;
-    if (numero < probaOro && numero >= probaPocion) return ORO;
-    return NADA;
+    if (numero <= probaPocion && numero >= probaCasco) return POCION;
+    //Si se llego a este punto las probabilidades no suman 1
+    throw Excepcion("Las probabilidades de drop de items de %s no suman 1", idCriatura);
 }
 
 

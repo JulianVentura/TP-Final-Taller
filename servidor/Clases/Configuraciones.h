@@ -8,9 +8,10 @@ typedef enum ITEM {ARMA,
                    ARMADURA,
                    CASCO,
                    ESCUDO,
+                   POCION} TipoItem;
+typedef enum DROP {ITEM,
                    ORO,
-                   POCION,
-                   NADA} TipoItem;
+                   NADA} TipoDrop;
 class Entidad;
 class Personaje;
 class Arma;
@@ -122,7 +123,8 @@ class Configuraciones{
     unsigned int calcularDropOro(std::string &idCriatura);
     unsigned int calcularDefensa(Personaje *personaje);
     
-    TipoItem calcularDrop(std::string &idCriatura);
+    TipoDrop calcularDrop(std::string &idCriatura);
+    TipoItem calcularDropItem(std::string &idCriatura);
     bool seEsquivaElGolpe(Entidad *entidad);
     const std::string obtenerMapaSpawnCriaturaAleatoria(const std::string &id) const;
     

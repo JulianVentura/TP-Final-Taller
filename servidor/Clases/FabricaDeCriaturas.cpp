@@ -9,7 +9,7 @@ FabricaDeCriaturas::FabricaDeCriaturas(const std::map<std::string, std::unique_p
 std::unique_ptr<Criatura> FabricaDeCriaturas::obtenerCriaturaAleatoria(float x, float y, const std::string &idMapa){
     Configuraciones *config = Configuraciones::obtenerInstancia();
     std::string idCriatura = config->obtenerMapaSpawnCriaturaAleatoria(idMapa);
-    std::unique_ptr<Criatura> criaturaEncapsulada(new Criatura(x, y, idCriatura, fabricaItems));
+    std::unique_ptr<Criatura> criaturaEncapsulada(new Criatura(x, y, idCriatura));
     bool continuar = true;
     if (contador > LIMITE_CONTADOR) contador = 0;
     while (continuar){

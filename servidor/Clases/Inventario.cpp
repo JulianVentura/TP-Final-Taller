@@ -3,7 +3,7 @@
 #define LIMITE_INVENTARIO 20
 //Ver si es necesario levantar el limite de items del archivo de configuraciones
 
-Inventario::Inventario() : limiteItems(LIMITE_INVENTARIO), items(limiteItems){}
+Inventario::Inventario() : limiteItems(LIMITE_INVENTARIO), items(limiteItems, nullptr){}
 
 
 Inventario& Inventario::operator=(Inventario &&otro){
@@ -12,7 +12,7 @@ Inventario& Inventario::operator=(Inventario &&otro){
     return *this;
 }
 
-void Inventario::almacenar(std::unique_ptr<Item> item){
+void Inventario::almacenar(Item* item){
     bool almacenado = false;
     for (std::size_t i=0; i<items.size(); i++){
         if (!items[i]){
@@ -31,7 +31,7 @@ Item* Inventario::obtenerItem(unsigned int pos){
     if (!items[pos]){
         throw Excepcion("Error: No hay ningun item almacenado en la posicion solicitada.");
     }
-    return items[pos].get();
+    return items[pos];
 }
 
 void Inventario::eliminar(unsigned int pos){

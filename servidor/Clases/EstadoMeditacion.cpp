@@ -32,7 +32,7 @@ void EstadoMeditacion::recibirDanio(int danio, Entidad *atacante){
     if (personaje->vidaActual <= 0){
         exp = configuraciones->calcularExpPorMatar(personaje, atacante);
         atacante->obtenerExperiencia(exp);
-        personaje->dropearItems();
+        personaje->dropearItems(atacante);
         personaje->estadoFantasma();
     }
 }

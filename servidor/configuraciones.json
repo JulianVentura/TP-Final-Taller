@@ -58,6 +58,10 @@
             "Ancho": 8,
             "Alto": 8,
             "Drops": {
+                "Tipo": {
+                    "Item": 0.1,
+                    "Oro": 0.3
+                },
                 "Armas": {
                     "Probabilidad": 0.1,
                     "Posibles": [["Espada", 0.5], ["Hacha", 0.5]]
@@ -73,11 +77,6 @@
                 "Escudos": {
                     "Probabilidad": 0.1,
                     "Posibles": [["EscudoDeTortuga", 0.5]]
-                },
-                "Oro": {
-                    "Probabilidad": 0.1,
-                    "DropMax" : 100,
-                    "DropMin" : 20
                 },
                 "Pociones": {
                     "Probabilidad": 0.1,
@@ -98,6 +97,10 @@
             "Ancho": 6,
             "Alto": 6,
             "Drops": {
+                "Tipo": {
+                    "Item": 0.1,
+                    "Oro": 0.3
+                },
                 "Armas": {
                     "Probabilidad": 0.1,
                     "Posibles": [["Espada", 0.5], ["Hacha", 0.5]]
@@ -113,11 +116,6 @@
                 "Escudos": {
                     "Probabilidad": 0.1,
                     "Posibles": [["EscudoDeTortuga", 0.5]]
-                },
-                "Oro": {
-                    "Probabilidad": 0.1,
-                    "DropMax" : 100,
-                    "DropMin" : 20
                 },
                 "Pociones": {
                     "Probabilidad": 0.1,
@@ -138,6 +136,10 @@
             "Ancho": 8,
             "Alto": 8,
             "Drops": {
+                "Tipo": {
+                    "Item": 0.1,
+                    "Oro": 0.3
+                },
                 "Armas": {
                     "Probabilidad": 0.1,
                     "Posibles": [["Espada", 0.5], ["Hacha", 0.5]]
@@ -153,11 +155,6 @@
                 "Escudos": {
                     "Probabilidad": 0.1,
                     "Posibles": [["EscudoDeTortuga", 0.5]]
-                },
-                "Oro": {
-                    "Probabilidad": 0.1,
-                    "DropMax" : 100,
-                    "DropMin" : 20
                 },
                 "Pociones": {
                     "Probabilidad": 0.1,
@@ -178,6 +175,10 @@
             "Ancho": 8,
             "Alto": 8,
             "Drops": {
+                "Tipo": {
+                    "Item": 0.1,
+                    "Oro": 0.3
+                },
                 "Armas": {
                     "Probabilidad": 0.1,
                     "Posibles": [["Espada", 0.5], ["Hacha", 0.5]]
@@ -193,11 +194,6 @@
                 "Escudos": {
                     "Probabilidad": 0.1,
                     "Posibles": [["EscudoDeTortuga", 0.5]]
-                },
-                "Oro": {
-                    "Probabilidad": 0.1,
-                    "DropMax" : 100,
-                    "DropMin" : 20
                 },
                 "Pociones": {
                     "Probabilidad": 0.1,

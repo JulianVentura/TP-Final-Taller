@@ -28,7 +28,7 @@ bool Entidad::colisionaCon(const Colisionable &otro) const{
 bool Entidad::colisionaCon(const quadtree::Box<float> &area) const{
     return posicion.obtenerAreaQueOcupa().intersects(area);
 }
-std::string Entidad::obtenerId(){
+const std::string Entidad::obtenerId() const{
     return std::move(id);
 }
 
@@ -57,7 +57,7 @@ void Entidad::recibirDanio(int danio, Entidad *atacante){
     if (vidaActual <= 0){
         experiencia = configuraciones->calcularExpPorMatar(this, atacante);
         atacante->obtenerExperiencia(experiencia);
-        dropearItems();
+        dropearItems(atacante);
     }
 }
 
@@ -70,7 +70,7 @@ void Entidad::obtenerExperiencia(unsigned int cantidad){
     //Do nothing
 }
 
-void Entidad::dropearItems(){
+void Entidad::dropearItems(Entidad *atacante){
     //TODO
 }
 
@@ -78,11 +78,14 @@ void Entidad::equipar(Arma *unArma){
     arma = unArma;
 }
 
-void Entidad::almacenar(std::unique_ptr<Item> item){
+void Entidad::almacenar(Item *item){
     //Guarda que si falla se pierde el item.
     inventario.almacenar(std::move(item));
 }
 
+void Entidad::cobrar(unsigned int cantidad){
+    //Do nothing
+}
 
 Entidad::~Entidad(){}
 
