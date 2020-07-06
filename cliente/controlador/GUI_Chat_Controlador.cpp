@@ -6,8 +6,11 @@ GUI_ChatControlador::GUI_ChatControlador(GUI_Chat& vista,
   vista.marco_entrada.y, vista.marco_entrada.w, vista.marco_entrada.h),
    chat_vista(vista), servidor(servidor){}
 
-bool GUI_ChatControlador::operator()(SDL_Event& evento){
-	if(!enRectangulo(rect, evento.button.x, evento.button.y)){
+bool GUI_ChatControlador::operator()(SDL_Event& evento) {
+	en_foco = enRectangulo(chat_vista.marco_mensajes, evento.button.x, 
+															evento.button.y);
+	chat_vista.darFoco(en_foco);
+	if (!en_foco) {
 		SDL_StopTextInput();
 		return false;
 	}
@@ -20,37 +23,38 @@ bool GUI_ChatControlador::enClick(){
 }
 
 bool GUI_ChatControlador::ingresarCaracter(SDL_Event& evento){
-	if(evento.type == SDL_TEXTINPUT){
+	if (!en_foco) return false;
+	if (evento.type == SDL_TEXTINPUT) {
 		chat_vista.entrada += evento.text.text;
 		return true;
-	}
-	
-	switch(evento.key.keysym.scancode){
+	} else if (evento.type == SDL_KEYDOWN) {
+		switch (evento.key.keysym.scancode) {
 			case SDL_SCANCODE_BACKSPACE:
-			if(chat_vista.entrada.size() > 0)
+				if(chat_vista.entrada.size() <= 0) break;
 				chat_vista.entrada = chat_vista.entrada.substr(0, 
-					chat_vista.entrada.size() - 1);
-			return true;
-
+												chat_vista.entrada.size() - 1);
+				break;
 			case SDL_SCANCODE_RETURN:
 				servidor.enviarChat(std::move(chat_vista.entrada));
 				chat_vista.entrada.clear();
-			return true;
-
+				break;
 			default:
-			break;
+				break;
+		}
+		return true;
 	}
-
 	return false;
 }
 
-void GUI_ChatControlador::agregarMensaje(std::string mensaje,
- bool mensaje_publico){
+void GUI_ChatControlador::agregarMensaje(std::string mensaje, 
+		bool mensaje_publico) {
 	chat_vista.agregarMensaje(mensaje, mensaje_publico);
 }
 
-void GUI_ChatControlador::scroll(SDL_Event& evento){
+bool GUI_ChatControlador::scroll(SDL_Event& evento){
+	if (!en_foco) return false;
 	chat_vista.scroll(evento.wheel.y);
+	return true;
 }
 
 void GUI_ChatControlador::actualizarDimension(){

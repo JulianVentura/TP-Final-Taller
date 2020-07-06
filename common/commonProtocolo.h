@@ -27,17 +27,14 @@ public:
     void enviarMovimiento(Socket& socket, uint32_t movimiento);
     void enviarID(Socket& socket, std::string id);
     uint16_t recibirNumero(Socket& socket_comunicacion);
-    std::string obtenerMapa();
     void enviarChat(Socket& socket, std::string& origen,
     std::string& destino, std::string& mensaje);
     void recibirChat(Socket& socket, std::string& mensaje,
      bool& mensaje_publico);
 
-    void recibirMapa(Socket& socket);
+    void recibirMapa(Socket& socket, std::string& mapa);
 	
     void recibirPosiciones(Socket& socket, 
             std::unordered_map<std::string, std::pair<int, int>>& posiciones);
-
-    std::string mapa;
 };
 #endif /*__PROTOCOLO_ADIVINA_NUMERO_H__*/

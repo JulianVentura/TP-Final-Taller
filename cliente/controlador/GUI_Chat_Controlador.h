@@ -8,19 +8,19 @@
 #include "../vista/GUI_Chat.h"
 #include "../controlador/GUI_Boton_Controlador.h"
 
-class GUI_ChatControlador;
 class ServidorProxy;
 
 class GUI_ChatControlador : public GUI_BotonControlador, public ServidorSalida{
 private:
 	GUI_Chat& chat_vista;
 	ServidorProxy& servidor;
-	
+	bool en_foco = false;
+
 public:
 	GUI_ChatControlador(GUI_Chat& vista, ServidorProxy& servidor);
 	bool ingresarCaracter(SDL_Event& evento);
 	void agregarMensaje(std::string mensaje, bool mensaje_publico) override;
-	void scroll(SDL_Event& evento);
+	bool scroll(SDL_Event& evento);
 	bool operator()(SDL_Event& evento) override;
 	bool enClick() override;
 	void actualizarDimension();

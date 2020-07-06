@@ -7,19 +7,19 @@
 #include "commonSocket.h"
 #include "CodigosOperacion.h"
 
-// TODO: RC maybe
-void Protocolo::recibirMapa(Socket& socket) {
+
+void Protocolo::recibirMapa(Socket& socket, std::string& mapa) {
 	uint32_t longitud;
 	socket.recibir((char *)&longitud, TAM_INT32);
 	longitud = ntohl(longitud);
-	mapa.reserve(longitud);
+	mapa.resize(longitud);
 	socket.recibir(&mapa[0], longitud);
 	mapa[longitud] = 0;
 }
 
-// TODO: RC maybe
 void Protocolo::recibirPosiciones(Socket& socket, 
             std::unordered_map<std::string, std::pair<int, int>>& posiciones) {
+
 	uint32_t longitud;
 	socket.recibir((char *)&longitud, TAM_INT32);
 	longitud = ntohl(longitud);
@@ -100,9 +100,4 @@ uint16_t Protocolo::recibirNumero(Socket& socket_comunicacion){
 	socket_comunicacion.recibir(buffer, TAM_NUMERO);
 	temp = (uint16_t*)buffer;
 	return be16toh(*temp);
-}
-
-// TODO: RC maybe
-std::string Protocolo::obtenerMapa() {
-	return std::move(mapa);
 }

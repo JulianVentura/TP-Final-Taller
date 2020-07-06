@@ -50,31 +50,40 @@ int main(int argc, const char* argv[]) {
         EntornoGrafico entorno;
         std::string fuente_ruta("assets/DejaVuSansMono.ttf"); 
         entorno.cargarFuente(fuente_ruta, 15);
+
         Ventana ventana(entorno, "Argentum Online");
         Renderer renderer(entorno);
+
         Colores paleta;
         DatosPersonaje datos_personaje;
         DatosTienda datos_tienda;
+
         std::string direccion(argv[DIRECCION]);
         std::string servicio(argv[SERVICIO]);
         std::string id_usuario(argv[ID_USUARIO]);
 
         ServidorProxy servidor(direccion, servicio, id_usuario, datos_personaje,
         datos_tienda);
+        std::string mapa_s;
+        // std::ifstream archivo("assets/mapa.json");
+        servidor.obtenerMapaInit(mapa_s);
+        // std::this_thread::sleep_for(std::chrono::milliseconds(2000));
 
-        GUI_Principal gui(entorno, paleta, datos_personaje, datos_tienda,
-         servidor); 
-        servidor.salida = &gui.chat_controlador;
-        BuclePrincipal bucle(ventana, gui, servidor);
-        
+        servidor.comenzar();
+        GUI_Principal gui(entorno, paleta, datos_personaje, datos_tienda);
+        GUI_PrincipalControlador gui_controllador(servidor, gui);
+
+        BuclePrincipal bucle(ventana);
         
         // TODO: Provisorio
         // TODO: habría que agregar una cv
-        // std::this_thread::sleep_for(std::chrono::milliseconds(5000));
+        // std::this_thread::sleep_for(std::chrono::milliseconds(2000));
 
-        std::string mapa_s = std::move(servidor.obtenerMapa());
+        // std::string mapa_s = std::move(servidor.obtenerMapa());
+        
         auto parser = json::parse(mapa_s.c_str());
-
+        // json parser; // = json::parse(mapa_s.c_str());
+        // archivo >> parser;
         LibreriaConjuntoTileParser libreriaConjuntoTileParser(parser);
         LibreriaConjuntoTiles conjuntoTiles(entorno, 
                                                     libreriaConjuntoTileParser);
@@ -89,8 +98,8 @@ int main(int argc, const char* argv[]) {
         Movible movibleModelo(id_personaje);
         MovibleControlador movibleControlador(servidor);
         MovibleVista movible(entorno, movibleModelo);
-        servidor.agregarPosicionable(id_usuario, &movibleModelo);
 
+        servidor.agregarPosicionable(id_usuario, &movibleModelo);
         capaFrontal.agregarObstruible(&movible);
 
         Camara camara(&mapa, &ventana);
@@ -101,11 +110,15 @@ int main(int argc, const char* argv[]) {
         
         bucle.agregarRendereable(&escena);
         bucle.agregarRendereable(&gui);
-        bucle.agregarInteractivo(&movibleControlador);
-
-        bucle.agregarRendereable(&escena);
-        bucle.agregarRendereable(&gui);
-
+        
+        bucle.agregarInteractivo(SDL_TEXTINPUT, &gui_controllador);
+        bucle.agregarInteractivo(SDL_KEYDOWN, &gui_controllador);
+        bucle.agregarInteractivo(SDL_KEYDOWN, &movibleControlador);
+        bucle.agregarInteractivo(SDL_KEYUP, &movibleControlador);
+        bucle.agregarInteractivo(SDL_WINDOWEVENT, &gui_controllador);
+        bucle.agregarInteractivo(SDL_MOUSEWHEEL, &gui_controllador);
+        bucle.agregarInteractivo(SDL_MOUSEBUTTONDOWN, &gui_controllador);
+        
         bucle.correr();
         servidor.terminar();
     } catch (std::exception& e) {

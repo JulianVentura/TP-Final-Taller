@@ -2,30 +2,16 @@
 #include "ErrorGrafico.h"
 #include <SDL2/SDL_render.h>
 #include <SDL2/SDL_timer.h>
-
-void Ventana::agregarRendereable(IRendereable* rendereable) {
-    rendereables.push_back(rendereable);
-    rendereable->setRenderer(renderer);
-    rendereable->setVentana(this);
-}
-
-int Ventana::getAlto() {
-    return alto;
-}
-
-int Ventana::getAncho() {
-    return ancho;
-}
-
+#define ANCHO_VENTANA_INIT 650
+#define ALTO_VENTANA_INIT 500
 Ventana::~Ventana() {
     SDL_DestroyWindow(ventana);
 }
 
-
 Ventana::Ventana(EntornoGrafico& entorno, const char* title): 
         entorno(entorno) {
-    this->ancho = 650;
-    this->alto = 500;
+    this->ancho = ANCHO_VENTANA_INIT;
+    this->alto = ALTO_VENTANA_INIT;
     ventana = SDL_CreateWindow(title, 
         SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED,
         ancho, alto, SDL_WINDOW_SHOWN | SDL_WINDOW_RESIZABLE);
@@ -34,19 +20,21 @@ Ventana::Ventana(EntornoGrafico& entorno, const char* title):
     entorno.setVentana(this);
 }
 
-void Ventana::manejarEvento(const SDL_Event& event) {
-    if (event.type == SDL_KEYDOWN) {
-        if (event.key.keysym.sym == SDLK_F11) {
+bool Ventana::manejarEvento(SDL_Event& evento) {
+    if (evento.type == SDL_KEYDOWN) {
+        if (evento.key.keysym.sym == SDLK_F11) {
             pantalla_completa = !pantalla_completa;
             int flags = (pantalla_completa) ? SDL_WINDOW_FULLSCREEN_DESKTOP : 0;
             SDL_SetWindowFullscreen(ventana, flags);
+            return true;
         }
     }
-    if (event.type == SDL_WINDOWEVENT) { 
-        if (event.window.event == SDL_WINDOWEVENT_RESIZED)
+    if (evento.type == SDL_WINDOWEVENT) { 
+        if (evento.window.event == SDL_WINDOWEVENT_RESIZED) {
             SDL_GetWindowSize(ventana, &ancho, &alto);
-
+        }
     }
+    return false;
 }
 
 void Ventana::actualizar(unsigned int delta_t) {

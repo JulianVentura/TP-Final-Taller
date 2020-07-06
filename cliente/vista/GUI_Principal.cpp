@@ -9,8 +9,7 @@
 #include "../modelo/BuclePrincipal.h"
 
 GUI_Principal::GUI_Principal(EntornoGrafico& entorno, Colores& paleta,
-	DatosPersonaje& datos_personaje, DatosTienda& datos_tienda,
-	ServidorProxy& servidor) :
+	DatosPersonaje& datos_personaje, DatosTienda& datos_tienda) :
 	dock(entorno, paleta),
 	barra_vida(entorno, paleta, datos_personaje.vida_max, datos_personaje.vida),
 	barra_mana(entorno, paleta, datos_personaje.mana_max, datos_personaje.mana),
@@ -19,20 +18,15 @@ GUI_Principal::GUI_Principal(EntornoGrafico& entorno, Colores& paleta,
 	imagenes_equipo(entorno),
 	inventario_vista(entorno, paleta, imagenes_equipo,
 	 datos_personaje.inventario),
-	inventario_controlador(inventario_vista, servidor),
 	boton_inventario_vista(entorno, paleta),
-	boton_inventario_controlador(boton_inventario_vista, inventario_vista),
 	tienda_vista(entorno, paleta, imagenes_equipo, datos_tienda.inventario,
 	 datos_tienda.precios, datos_tienda.activo),
-	tienda_controlador(tienda_vista, servidor),
-	chat_vista(entorno, paleta),
-	chat_controlador(chat_vista, servidor){
+	chat_vista(entorno, paleta) {
 	entorno.agregarRendereable(this);
+}
 
-	botones.push_back(&boton_inventario_controlador);
-	botones.push_back(&tienda_controlador);
-	botones.push_back(&inventario_controlador);
-	botones.push_back(&chat_controlador);
+void GUI_Principal::actualizar(unsigned int delta_t) {
+	chat_vista.actualizar(delta_t);
 }
 
 void GUI_Principal::render() {
@@ -57,10 +51,6 @@ void GUI_Principal::actualizarDimension(){
 	tienda_vista.actualizarDimension();
 	oro.actualizarDimension();
 	chat_vista.actualizarDimension();
-	boton_inventario_controlador.actualizarDimension();
-	inventario_controlador.actualizarDimension();
-	chat_controlador.actualizarDimension();
-	tienda_controlador.actualizarDimension();
 }
 
 GUI_Principal::~GUI_Principal(){}

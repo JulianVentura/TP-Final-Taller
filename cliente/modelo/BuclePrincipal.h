@@ -7,22 +7,20 @@
 #include "../modelo/ServidorProxy.h"
 #include "../controlador/IInteractivo.h"
 #include <vector>
+#include <unordered_map>
 
 class BuclePrincipal {
 private:
     Ventana* ventana;
-    GUI_Principal& gui;
-    ServidorProxy& servidor;
-    bool salir = false;
-    void despacharEventos(SDL_Event& event);
-    std::vector<IInteractivo *> interactivos;
+    void despacharEventos(SDL_Event& evento);
+    std::unordered_map<Uint32, std::vector<IInteractivo *>> interactivos;
     std::vector<IRendereable *> rendereables;
     Reloj reloj;
+    bool salir = false;
 
 public:
-    BuclePrincipal(Ventana& ventana, GUI_Principal& gui, 
-                                                    ServidorProxy& servidor);
-    void agregarInteractivo(IInteractivo* interactivo);
+    BuclePrincipal(Ventana& ventana);
+    void agregarInteractivo(Uint32 tipo_evento, IInteractivo* interactivo);
     void agregarRendereable(IRendereable* rendereable);
     void correr();
 };

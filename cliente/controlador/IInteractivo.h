@@ -5,6 +5,6 @@
 
 class IInteractivo {
 public:
-    virtual void manejarEvento(const SDL_Event& event) = 0;
+    virtual bool manejarEvento(SDL_Event& evento) = 0;
 };
 #endif

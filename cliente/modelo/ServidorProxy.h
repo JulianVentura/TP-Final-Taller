@@ -20,7 +20,7 @@ class ServidorProxy;
 
 class ServidorProxy{
 private:
-	std::thread* hilo_recepcion;
+	std::thread hilo_recepcion;
 	bool salir;
 	Socket socket;
 	std::string& id_usuario;
@@ -28,17 +28,21 @@ private:
 	DatosTienda& datos_tienda;
 	Protocolo protocolo;
 	std::unordered_map<std::string, IPosicionable*> posicionables;
+	std::string mapa;
 	void actualizarPosiciones();
 
 public:
 	ServidorSalida* salida;
 	ServidorProxy(std::string& direccion, std::string& servicio, std::string& 
 		id_usuario, DatosPersonaje& datos_personaje, DatosTienda& datos_tienda);
+	void comenzar();
 	void enviarMensaje(std::string mensaje);
 	void recibirMensaje();
+	void recibirMensajeConOperacion(uint32_t operacion);
 	void enviarChat(std::string mensaje);
 	void terminar();
-	std::string obtenerMapa();
+	void obtenerMapa(std::string& mapa);
+	void obtenerMapaInit(std::string& mapa);
 	void enviarMovimiento(uint32_t movimiento);
 	void agregarPosicionable(std::string& id, IPosicionable* posicionable);
 };

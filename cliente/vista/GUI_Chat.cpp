@@ -1,16 +1,36 @@
 #include "../vista/GUI_Chat.h"
 #include "../vista/Ventana.h"
-
+enum margen_cursor : int {
+	izquierda = 3,
+	arriba = 2,
+	derecha = 0,
+	abajo = 3
+};
+#define ANCHO_CURSOR 2
 
 GUI_Chat::GUI_Chat(EntornoGrafico& entorno, Colores& paleta)
 : paleta(paleta) {
 	entorno.agregarRendereable(this);
 	actualizarDimension();
-	actualizar = false;
+	esta_actualizado = true;
 	textura = renderer -> textura(marco_mensajes.w, ALTO_TEXTURA);
+	en_foco = false;
+}
+void GUI_Chat::darFoco(bool en_foco) {
+	this->en_foco = en_foco;
 }
 
-void GUI_Chat::render(){
+bool mostrar_cursor = true;
+int tiempo = 300;
+void GUI_Chat::actualizar(unsigned int delta_t) {
+	tiempo -= delta_t;
+	if (tiempo <= 0) {
+		mostrar_cursor = !mostrar_cursor;
+		tiempo = 300;
+	}
+}
+
+void GUI_Chat::render() {
 	std::lock_guard<std::mutex> lock(m);
 	renderer -> setColor(paleta.chat_fondo);
 	renderer -> rectSolido(marco_mensajes);
@@ -20,7 +40,7 @@ void GUI_Chat::render(){
 	renderer -> rect(marco_mensajes.x - 1, marco_mensajes.y - 1,
 		marco_mensajes.w + 1, marco_mensajes.h + marco_entrada.h + 1);
 	renderer ->renderTextura(textura, marco_textura, marco_mensajes);
-	
+		
 	renderer -> setColor(paleta.chat_texto);
 	if(entrada.size() > 0){
 		if(entrada.size() > caracteres_max){
@@ -31,9 +51,17 @@ void GUI_Chat::render(){
 		}
 	}
 
-	if(actualizar){
-		actualizar = false;
+	if(!esta_actualizado){
+		esta_actualizado = true;
 		renderizarTexto();
+	}
+	renderer->setColor(51, 0, 51);
+	if (en_foco && mostrar_cursor) {
+		renderer->rectSolido(
+			marco_entrada.x + margen_cursor::izquierda,
+			marco_entrada.y + margen_cursor::arriba , 
+			ANCHO_CURSOR, 
+			marco_entrada.h - margen_cursor::arriba - margen_cursor::abajo);
 	}
 }
 
@@ -53,6 +81,7 @@ void GUI_Chat::actualizarDimension(){
 	marco_textura.w = marco_mensajes.w;
 	marco_textura.h = marco_mensajes.h;
 	caracteres_max = marco_mensajes.w/ANCHO_CARACTER;
+	textura = renderer -> textura(marco_mensajes.w, ALTO_TEXTURA);
 	renderizarTexto();
 }
 
@@ -83,7 +112,7 @@ void GUI_Chat::agregarMensaje(std::string mensaje, bool mensaje_publico){
 	std::lock_guard<std::mutex> lock(m);
 	mensajes.push_back(std::make_pair(std::move(mensaje), mensaje_publico));
 	if( mensajes.size() > MENSAJES_MAX) mensajes.pop_front();
-	actualizar = true;
+	esta_actualizado = false;
 }
 
 

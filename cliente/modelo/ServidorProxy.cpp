@@ -1,8 +1,10 @@
 #include "ServidorProxy.h"
+#include <bits/stdint-uintn.h>
 #include <sys/socket.h>
 #include <vector>
 #include <utility>
 #include <unordered_map>
+#include "ErrorServidor.h"
 #include "../controlador/GUI_Chat_Controlador.h"
 
 #ifndef OFFLINE
@@ -12,13 +14,15 @@ ServidorProxy::ServidorProxy(std::string& direccion, std::string& servicio,
 		datos_tienda(datos_tienda) {
 	salir = false;
 	socket.conectar(direccion.c_str(), servicio.c_str());
-	// TODO: Preguntar si es necesario que esté en el heap
-	hilo_recepcion = new std::thread(&ServidorProxy::recibirMensaje, this);
 	protocolo.enviarID(socket, id_usuario);
 }
 
 void ServidorProxy::enviarMovimiento(uint32_t movimiento) {
 	protocolo.enviarMovimiento(socket, movimiento);
+}
+
+void ServidorProxy::comenzar() {
+	hilo_recepcion = std::thread(&ServidorProxy::recibirMensaje, this);	
 }
 
 void ServidorProxy::enviarChat(std::string mensaje){
@@ -35,43 +39,111 @@ void ServidorProxy::enviarChat(std::string mensaje){
 
 void ServidorProxy::recibirMensaje(){
 	uint32_t operacion;
-	std::string mensaje;
-	bool mensaje_publico;
+	// std::string mensaje;
+	// bool mensaje_publico;
 	while(!salir) {
+		printf("runnig 1 \n");
 		socket.recibir((char *)&operacion, TAM_INT32);
 		operacion = ntohl(operacion);
-		switch (operacion) {
+		printf("waiting\n");
+
+		recibirMensajeConOperacion(operacion);
+		// std::string mensaje;
+		// bool mensaje_publico;
+		// printf("runnig\n");
+
+		// switch (operacion) {
+		// 	case CODIGO_CARGA_MAPA:
+		// 		protocolo.recibirMapa(socket, mapa);
+		// 		break;
+		// 	case CODIGO_POSICIONES:
+		// 		this->actualizarPosiciones();	
+		// 		break;
+		// 	case CODIGO_MENSAJE_CHAT:
+		// 		protocolo.recibirChat(socket, mensaje, mensaje_publico);
+		// 		salida -> agregarMensaje(mensaje, mensaje_publico);
+		// 		break;
+		// 	case CODIGO_ERROR:
+		// 		protocolo.recibirString(socket, mensaje);
+		// 		throw ErrorServidor("Error de servidor: %s\n", mensaje.c_str());
+		// 		break;
+		// 	default:
+		// 		printf("No reconocido %d\n", operacion);
+		// 		break;
+		// }
+		// switch (operacion) {
+		// case CODIGO_CARGA_MAPA:
+		// 	protocolo.recibirMapa(socket, mapa);
+		// 	break;
+		// case CODIGO_POSICIONES:
+		// 	this->actualizarPosiciones();	
+		// 	break;
+		// case CODIGO_MENSAJE_CHAT:
+		// 	protocolo.recibirChat(socket, mensaje, mensaje_publico);
+		// 	salida -> agregarMensaje(mensaje, mensaje_publico);
+		// 	break;
+		// case CODIGO_ERROR:
+		// 	protocolo.recibirString(socket, mensaje);
+		// 	throw ErrorServidor("Error de servidor: %s\n", mensaje.c_str());
+		// 	break;
+		// default:
+		// 	printf("No reconocido %d\n", operacion);
+		// 	break;
+		// }
+	}
+}
+
+void ServidorProxy::recibirMensajeConOperacion(uint32_t operacion) {
+	std::string mensaje;
+	bool mensaje_publico;
+	printf("runnig\n");
+
+	switch (operacion) {
 		case CODIGO_CARGA_MAPA:
-			protocolo.recibirMapa(socket);
+			protocolo.recibirMapa(socket, mapa);
+
 			break;
 		case CODIGO_POSICIONES:
-			this->actualizarPosiciones();		
+			this->actualizarPosiciones();	
 			break;
 		case CODIGO_MENSAJE_CHAT:
 			protocolo.recibirChat(socket, mensaje, mensaje_publico);
 			salida -> agregarMensaje(mensaje, mensaje_publico);
 			break;
 		case CODIGO_ERROR:
+			exit(0);
 			protocolo.recibirString(socket, mensaje);
-			// TODO: temporal. Se debería lanzar excepción
-			printf("Error de servidor: %s\n", mensaje.c_str());
+			throw ErrorServidor("Error de servidor: %s\n", mensaje.c_str());
 			break;
 		default:
 			printf("No reconocido %d\n", operacion);
 			break;
-		}
 	}
 }
-
-void ServidorProxy::terminar(){
+void ServidorProxy::terminar() {
 	salir = true;
-	hilo_recepcion -> join();
-	delete hilo_recepcion;
+	hilo_recepcion.join();
 	socket.cerrar_canal(SHUT_RDWR);
 }
 
-std::string ServidorProxy::obtenerMapa() {
-	return std::move(protocolo.obtenerMapa());
+void ServidorProxy::obtenerMapaInit(std::string& mapa) {
+	uint32_t operacion;
+	socket.recibir((char *)&operacion, TAM_INT32);
+	operacion = ntohl(operacion);
+	if (operacion != CODIGO_CARGA_MAPA) {
+		printf("NOT carga mapa");
+		recibirMensajeConOperacion(operacion);
+		return;
+	}
+	printf("IT IS carga mapa");
+
+	protocolo.recibirMapa(socket, mapa);
+	this->mapa = mapa;
+}
+
+void ServidorProxy::obtenerMapa(std::string& mapa) {
+	protocolo.recibirMapa(socket, mapa);
+	this->mapa = mapa;
 }
 
 void ServidorProxy::actualizarPosiciones() {
@@ -80,6 +152,8 @@ void ServidorProxy::actualizarPosiciones() {
 	for (auto& posicion: posiciones) {
 		if (posicionables.count(posicion.first) == 0) continue;
 		auto& coordenadas = posicion.second;
+		printf("%s %d\n", posicion.first.c_str(), posicion.second.first);
+
 		posicionables[posicion.first]->actualizarPosicion(coordenadas.first, 
 															coordenadas.second);
 	}

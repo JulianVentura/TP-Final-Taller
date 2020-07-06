@@ -10,7 +10,7 @@
     },
     "Mapas": {
         "mapa1": {
-            "Ruta": "../mapa1.json",
+            "Ruta": "../mapaPrueba__.json",
             "SpawnCriaturas": [
                 "Arania",
                 "Goblin"
