@@ -2,7 +2,7 @@
 #include "Ventana.h"
 
 GUI_BarraVida::GUI_BarraVida(EntornoGrafico& entorno, Colores& paleta,
-	  std::atomic<int>& vida_max , std::atomic<int>& vida)
+	  std::atomic<uint16_t>& vida_max , std::atomic<uint16_t>& vida)
  :  GUI_Barra(entorno, paleta, paleta.barra_vida, paleta.barra_vida2,
   vida_max, vida){
  	actualizarDimension();

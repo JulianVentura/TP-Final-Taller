@@ -39,6 +39,11 @@ public:
 	void enviarLogin(std::string& nombre, std::string& clave);
 	void enviarNuevaCuenta(std::string& nombre, std::string& clave,
 		std::string& raza, std::string& clase);
+	void enviarAtque(std::string& id);
+	void enviarCompra(std::string& id,int pos);
+	void enviarVenta(std::string& id,int pos);
+	void enviarUtilizar(int pos);
+	void enviarTirar(int pos);
 	void comenzar();
 	void recibirMensajeConOperacion(uint32_t operacion);
 	void enviarChat(std::string mensaje);

@@ -7,6 +7,9 @@
 #include "ErrorServidor.h"
 #include "../controlador/GUI_Chat_Controlador.h"
 
+
+// Conexion e inicio de sesion
+
 ServidorProxy::ServidorProxy(DatosPersonaje& datos_personaje,
 	DatosTienda& datos_tienda)
 	 : datos_personaje(datos_personaje), datos_tienda(datos_tienda) {
@@ -38,26 +41,8 @@ void ServidorProxy::enviarNuevaCuenta(std::string& nombre, std::string& clave,
 	datos_personaje.id = nombre;
 }
 
-void ServidorProxy::enviarMovimiento(uint32_t movimiento) {
-	protocolo.enviarMovimiento(socket, movimiento);
-}
 
-void ServidorProxy::comenzar() {
-	hilo_recepcion = std::thread(&ServidorProxy::recibirMensaje, this);	
-}
-
-void ServidorProxy::enviarChat(std::string mensaje){
-	std::string destino = " ";
-	if(mensaje.size() == 0) return;
-	if(mensaje.front() == '@'){
-		std::size_t pos = mensaje.find_first_of(' ');
-		if(pos == std::string::npos) return;
-		destino = mensaje.substr(1,pos - 1);
-		mensaje = mensaje.substr(pos + 1, std::string::npos);
-	}
-	protocolo.enviarChat(socket, datos_personaje.id, destino, mensaje);
-
-}
+// General
 
 void ServidorProxy::recibirMensaje(){
 	uint32_t operacion;
@@ -67,7 +52,6 @@ void ServidorProxy::recibirMensaje(){
 		recibirMensajeConOperacion(operacion);
 	}
 }
-
 
 void ServidorProxy::recibirMensajeConOperacion(uint32_t operacion) {
 	std::string mensaje;
@@ -96,11 +80,18 @@ void ServidorProxy::recibirMensajeConOperacion(uint32_t operacion) {
 			break;
 	}
 }
+
+void ServidorProxy::comenzar() {
+	hilo_recepcion = std::thread(&ServidorProxy::recibirMensaje, this);	
+}
+
 void ServidorProxy::terminar() {
 	salir = true;
 	hilo_recepcion.join();
 	socket.cerrar_canal(SHUT_RDWR);
 }
+
+// Manejo de mapa
 
 void ServidorProxy::obtenerMapaInit(std::string& mapa) {
 	uint32_t operacion;
@@ -133,4 +124,45 @@ void ServidorProxy::actualizarPosiciones() {
 void ServidorProxy::agregarPosicionable(std::string& id, 
 												IPosicionable* posicionable) {
 	posicionables[id] = posicionable;
+}
+
+void ServidorProxy::enviarMovimiento(uint32_t movimiento) {
+	protocolo.enviarMovimiento(socket, movimiento);
+}
+
+// Chat
+
+void ServidorProxy::enviarChat(std::string mensaje){
+	std::string destino = " ";
+	if(mensaje.size() == 0) return;
+	if(mensaje.front() == '@'){
+		std::size_t pos = mensaje.find_first_of(' ');
+		if(pos == std::string::npos) return;
+		destino = mensaje.substr(1,pos - 1);
+		mensaje = mensaje.substr(pos + 1, std::string::npos);
+	}
+	protocolo.enviarChat(socket, datos_personaje.id, destino, mensaje);
+
+}
+
+// Inventario
+
+void ServidorProxy::enviarAtque(std::string& id){
+
+}
+
+void ServidorProxy::enviarCompra(std::string& id,int pos){
+
+}
+
+void ServidorProxy::enviarVenta(std::string& id,int pos){
+
+}
+
+void ServidorProxy::enviarUtilizar(int pos){
+
+}
+
+void ServidorProxy::enviarTirar(int pos){
+
 }

@@ -5,13 +5,13 @@
 
 class GUI_PanelTienda : public GUI_Panel{
 private:
-	std::atomic<int>* precios;
+	std::atomic<uint16_t>* precios;
 	void dibujarPrecio(int precio, int i, int j);
 public:
 	std::atomic<bool>& activo;
 	GUI_PanelTienda(EntornoGrafico& entorno, Colores& paleta,
-	 BancoImagenesEquipo& imagenes_equipo, std::atomic<int>* inventario,
-	 std::atomic<int>* precios, std::atomic<bool>& activo);
+	 BancoImagenesEquipo& imagenes_equipo, std::atomic<uint16_t>* inventario,
+	 std::atomic<uint16_t>* precios, std::atomic<bool>& activo);
 	void render() override;
 	void actualizarDimension();
 };

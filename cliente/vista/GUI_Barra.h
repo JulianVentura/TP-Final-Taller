@@ -14,11 +14,11 @@ private:
 	SDL_Color& principal,secundario;
 protected:
 	SDL_Rect marco;
-	std::atomic<int> &capacidad_max, &capacidad_actual;
+	std::atomic<uint16_t> &capacidad_max, &capacidad_actual;
 public:
 	GUI_Barra(EntornoGrafico& entorno, Colores& paleta, SDL_Color& principal,
-	 SDL_Color& secundario, std::atomic<int>& capacidad_max,
-	  std::atomic<int>& capacidad_actual);
+	 SDL_Color& secundario, std::atomic<uint16_t>& capacidad_max,
+	  std::atomic<uint16_t>& capacidad_actual);
 	void render();
 	virtual ~GUI_Barra() = 0;
 };

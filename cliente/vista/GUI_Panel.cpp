@@ -8,7 +8,7 @@ void GUI_Panel::dibujarCasilla(int i, int j, SDL_Color& fondo){
 }
 
 GUI_Panel::GUI_Panel(EntornoGrafico& entorno, Colores& paleta,
- BancoImagenesEquipo& imagenes_equipo, std::atomic<int>* inventario,
+ BancoImagenesEquipo& imagenes_equipo, std::atomic<uint16_t>* inventario,
  SDL_Rect marco) : imagenes_equipo(imagenes_equipo),
   paleta(paleta), inventario(inventario), marco(marco){
 	entorno.agregarRendereable(this);

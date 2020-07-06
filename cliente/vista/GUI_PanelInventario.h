@@ -6,7 +6,7 @@
 class GUI_PanelInventario : public GUI_Panel{
 public:
 	GUI_PanelInventario(EntornoGrafico& entorno, Colores& paleta,
-	 BancoImagenesEquipo& imagenes_equipo, std::atomic<int>* inventario);
+	 BancoImagenesEquipo& imagenes_equipo, std::atomic<uint16_t>* inventario);
 	void actualizarDimension();
 };
 

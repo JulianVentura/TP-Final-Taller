@@ -11,7 +11,7 @@
 class GUI_BarraMana final : public GUI_Barra{
 public:
 	GUI_BarraMana(EntornoGrafico& entorno, Colores& paleta,
-	 std::atomic<int>& mana_max , std::atomic<int>& mana);
+	 std::atomic<uint16_t>& mana_max , std::atomic<uint16_t>& mana);
 	void actualizarDimension();
 	~GUI_BarraMana();
 };

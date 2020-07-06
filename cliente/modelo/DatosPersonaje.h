@@ -10,11 +10,11 @@
 class DatosPersonaje{
 public:
 	std::string id;
-	std::atomic<int> vida, vida_max,
+	std::atomic<uint16_t> vida, vida_max,
 					 mana, mana_max,
 					 exp , exp_max,
 					 oro;
-	std::atomic<int> inventario[INV_ANCHO*INV_ALTO];
+	std::atomic<uint16_t> inventario[INV_ANCHO*INV_ALTO];
 	DatosPersonaje();
 };
 

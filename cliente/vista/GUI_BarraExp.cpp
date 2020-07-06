@@ -2,7 +2,7 @@
 #include "Ventana.h"
 
 GUI_BarraExp::GUI_BarraExp(EntornoGrafico& entorno, Colores& paleta,
-	std::atomic<int>& exp_max , std::atomic<int>& exp) : GUI_Barra(entorno,
+	std::atomic<uint16_t>& exp_max , std::atomic<uint16_t>& exp) : GUI_Barra(entorno,
 	 paleta, paleta.barra_exp, paleta.barra_exp2, exp_max, exp){
  	actualizarDimension();
 }

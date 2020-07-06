@@ -2,7 +2,7 @@
 
 GUI_PanelInventario::GUI_PanelInventario(EntornoGrafico& entorno,
  Colores& paleta, BancoImagenesEquipo& imagenes_equipo,
-  std::atomic<int>* inventario)
+  std::atomic<uint16_t>* inventario)
 : GUI_Panel(entorno, paleta, imagenes_equipo, inventario, {}){
 	marco.w = 3;
 	marco.h = 6;

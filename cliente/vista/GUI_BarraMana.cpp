@@ -2,7 +2,7 @@
 #include "Ventana.h"
 
 GUI_BarraMana::GUI_BarraMana(EntornoGrafico& entorno, Colores& paleta,
-	std::atomic<int>& mana_max , std::atomic<int>& mana)
+	std::atomic<uint16_t>& mana_max , std::atomic<uint16_t>& mana)
  :  GUI_Barra(entorno, paleta, paleta.barra_mana, paleta.barra_mana2,
   mana_max, mana){
  	actualizarDimension();

@@ -4,7 +4,7 @@
 #include "../vista/Ventana.h"
 
 GUI_Oro::GUI_Oro(EntornoGrafico& entorno, Colores& paleta,
- std::atomic<int>& oro) : imagen(entorno, "assets/oro.png"),
+ std::atomic<uint16_t>& oro) : imagen(entorno, "assets/oro.png"),
   paleta(paleta), oro(oro) {
 	entorno.agregarRendereable(this);
 	actualizarDimension();

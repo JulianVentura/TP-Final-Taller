@@ -4,7 +4,7 @@
 int capacidad_actual,capacidad_max;
 GUI_Barra::GUI_Barra(EntornoGrafico& entorno, Colores& paleta, 
 	SDL_Color& principal, SDL_Color& secundario, 
-	std::atomic<int>& capacidad_max, std::atomic<int>& capacidad_actual) :
+	std::atomic<uint16_t>& capacidad_max, std::atomic<uint16_t>& capacidad_actual) :
    paleta(paleta),
    principal(principal),
    secundario(secundario),
