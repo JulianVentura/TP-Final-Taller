@@ -153,16 +153,21 @@ void ServidorProxy::enviarChat(std::string mensaje){
 
 // Inventario
 
-void ServidorProxy::enviarCompra(std::string& id,int pos){
+void ServidorProxy::enviarCompra(int pos){
 	protocolo.enviarUint32(socket, CODIGO_COMPRA);
-	protocolo.enviarString(socket, id);
+	protocolo.enviarString(socket, datos_tienda.id_vendedor);
 	protocolo.enviarUint16(socket, pos);
 }
 
-void ServidorProxy::enviarVenta(std::string& id,int pos){
-	protocolo.enviarUint32(socket, CODIGO_VENTA);
-	protocolo.enviarString(socket, id);
-	protocolo.enviarUint16(socket, pos);
+void ServidorProxy::enviarTirar(int pos){
+	if(datos_tienda.activo){
+		protocolo.enviarUint32(socket, CODIGO_VENTA);
+		protocolo.enviarString(socket, datos_tienda.id_vendedor);
+		protocolo.enviarUint16(socket, pos);
+	}else{
+		protocolo.enviarUint32(socket, CODIGO_TIRADO);
+		protocolo.enviarUint16(socket, pos);
+	}
 }
 
 void ServidorProxy::enviarUtilizar(int pos){
@@ -170,14 +175,15 @@ void ServidorProxy::enviarUtilizar(int pos){
 	protocolo.enviarUint16(socket, pos);
 }
 
-void ServidorProxy::enviarTirar(int pos){
-	protocolo.enviarUint32(socket, CODIGO_TIRADO);
-	protocolo.enviarUint16(socket, pos);
+//Interaccion
+
+void ServidorProxy::enviarAtaque(std::string& id){
+	protocolo.enviarUint32(socket, CODIGO_ATAQUE);
+	protocolo.enviarString(socket, id);
 }
 
-//Ataque
-
-void ServidorProxy::enviarAtque(std::string& id){
-	protocolo.enviarUint32(socket, CODIGO_ATAQUE);
+void ServidorProxy::enviarInteraccion(std::string& id){
+	datos_tienda.id_vendedor = id;
+	protocolo.enviarUint32(socket, CODIGO_INTERACCION);
 	protocolo.enviarString(socket, id);
 }
