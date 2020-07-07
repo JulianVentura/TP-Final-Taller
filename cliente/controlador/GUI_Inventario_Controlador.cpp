@@ -3,22 +3,22 @@
 
 bool GUI_InventarioControlador::enClick(){
 	if(!vista_inventario.visible) return false;
-	std::string a = "Comerciante";
-	servidor.enviarInteraccion(a);
-	std::cerr << "AAAAAAAAAAAAAAA";
-	/*
+	std::string a = "Banquero";
+
 	switch(SDL_GetMouseState(NULL, NULL)){
 		case SDL_BUTTON_LEFT:
-		
-		
-		//servidor.enviarUtilizar(obtenerIndiceClick());
+		servidor.enviarUtilizar(obtenerIndiceClick());
 		break;
 
-		case SDL_BUTTON_RIGHT:
+		case SDL_BUTTON_MIDDLE:
+		servidor.enviarInteraccion(a);
+		break;
+
+		default:
 		servidor.enviarTirar(obtenerIndiceClick());
 		break;
 	}
-	*/
+
 	return true;
 }
 

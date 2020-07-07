@@ -1,5 +1,5 @@
 #include "Interactuable.h"
-#define DIST_INTERACCION 10
+#define DIST_INTERACCION 50
 
 
 

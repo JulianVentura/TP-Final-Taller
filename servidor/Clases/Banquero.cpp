@@ -34,7 +34,7 @@ void Banquero::comprar(unsigned int pos, Personaje *personaje, Cliente *cliente)
         cliente->enviarChat(mensaje, false);
         return;
     }
-    std::vector<Item*> almacen = personaje->obtenerAlmacen();
+    std::vector<Item*>& almacen = personaje->obtenerAlmacen();
     if (pos >= TAM_ALMACEN || almacen[pos] == nullptr){
         //No hay nada que entregarle
         return;
@@ -56,12 +56,13 @@ void Banquero::vender(Item* item, Personaje *personaje, Cliente *cliente){
         return;
     }
     //Comprarle el item que pide y notificarle a cliente
-    std::vector<Item*> almacen = personaje->obtenerAlmacen();
+    std::vector<Item*>& almacen = personaje->obtenerAlmacen();
     bool almacenado = false;
     for (std::size_t i=0; i<TAM_ALMACEN; i++){
         if (almacen[i] == nullptr){
             almacen[i] = item;
             almacenado = true;
+            break;
         }
     }
     if (!almacenado){
@@ -81,7 +82,7 @@ void Banquero::listar(Personaje *personaje, Cliente *cliente){
         cliente->enviarChat(mensaje, false);
         return;
     }
-    std::vector<Item*> almacen = personaje->obtenerAlmacen();
+    std::vector<Item*>& almacen = personaje->obtenerAlmacen();
     cliente -> enviarContenedor(almacen);
 }
 
