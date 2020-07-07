@@ -7,14 +7,17 @@
 
 class Camara {
 public:
-    Camara() = default;
     /**
      * @brief Crea una cámara.
      * @param contenedor: determina el límite donde se puede mover de la cámara.
+     */
+    Camara(IDimensionable& contenedor);
+
+    /**
      * @param marco: Determina el campo visual de la cámara.
      */
-    Camara(IDimensionable* contenedor, IDimensionable* marco);
-
+    void setMarco(IDimensionable* marco);
+    
     /**
      * @brief Determina el objetivo, es decir, lo que seguirá la cámara.
      */
@@ -35,7 +38,7 @@ public:
 private:
     int maxX();
     int maxY();
-    IDimensionable* contenedor;
+    IDimensionable& contenedor;
     IDimensionable* marco;
     ITargeteable* objetivo;
     int desplazamientoX = 0;

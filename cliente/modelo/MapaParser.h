@@ -7,11 +7,11 @@
 class MapaParser {
 public:
     explicit MapaParser(nlohmann::json& parser);
-    int getColumnas();
-    int getFilas();
-    int getAnchoTile();
-    int getAltoTile();
-    std::vector<std::vector<int>> getCapas();
+    int getColumnas() const;
+    int getFilas() const;
+    int getAnchoTile() const;
+    int getAltoTile() const;
+    std::vector<std::vector<int>> getCapas() const;
 
 private:
     std::vector<std::vector<int>> capasFondo;

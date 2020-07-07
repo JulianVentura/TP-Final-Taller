@@ -1,3 +1,4 @@
+#include <SDL2/SDL_events.h>
 #include <iostream>
 #include <string>
 
@@ -27,6 +28,51 @@
 
 using json = nlohmann::json;
 
+class Juego: /*public IInteractivo,*/ public IRendereable {
+public:
+    Juego(EntornoGrafico& entorno, std::string& mapa_s);
+    // bool manejarEvento(SDL_Event& evento) override;
+    void render() override;
+    void actualizar(unsigned int delta_t) override;
+    void setObjetivoCamara(ITargeteable& objetivo);
+    void agregarObstruible(IObstruible* obstruible);
+
+private:
+    json parser;
+    LibreriaConjuntoTiles conjuntoTiles;
+    CapaFrontal capaFrontal;
+    MapaVista mapa;
+    Camara camara;
+    Escena escena;
+};
+
+void Juego::agregarObstruible(IObstruible* obstruible) {
+    capaFrontal.agregarObstruible(obstruible);
+}
+
+void Juego::setObjetivoCamara(ITargeteable& objetivo) {
+    camara.setObjetivo(objetivo);
+}
+
+void Juego::actualizar(unsigned int delta_t) {
+    escena.actualizar(delta_t);
+}
+
+void Juego::render() {
+    escena.render();
+}
+
+Juego::Juego(EntornoGrafico& entorno, std::string& mapa_s):
+    parser(json::parse(mapa_s.c_str())),
+    conjuntoTiles(entorno, /*std::move*/(LibreriaConjuntoTileParser(parser))),
+    capaFrontal(/*std::move*/(CapasParser(parser, conjuntoTiles)), conjuntoTiles),
+    mapa(entorno, /*std::move*/(MapaParser(parser)), conjuntoTiles),
+    camara(mapa),
+    escena(entorno, camara, mapa, capaFrontal, conjuntoTiles) {
+        entorno.agregarRendereable(this);
+        camara.setMarco(ventana);
+    }
+
 int main(int argc, const char* argv[]) {
     try{
         EntornoGrafico entorno;
@@ -43,26 +89,24 @@ int main(int argc, const char* argv[]) {
         ServidorProxy servidor(datos_personaje, datos_tienda);
 
         // // PANTALLA DE LOGIN //
-        GUI_Login gui_login(entorno, paleta, servidor);
-        BucleLogin bucle_login(ventana, gui_login, servidor);
-        ventana.agregarRendereable(&gui_login);
-        bucle_login.correr();
-        ventana.borrarRendereables();
+        // GUI_Login gui_login(entorno, paleta, servidor);
+        // BucleLogin bucle_login(ventana, gui_login, servidor);
+        // ventana.agregarRendereable(&gui_login);
+        // bucle_login.correr();
+        // ventana.borrarRendereables();
         // JUEGO EN SI //
         // TODO:            Login provisorio 
-        // std::string direccion("localhost");
-        // std::string servicio("3080");
-        // std::string id_usuario("jugador");
-        // std::string password("jugador");
-        // std::string raza("Humano");
-        // std::string clase("Paladin");
-        // datos_personaje.id = id_usuario;
-        // servidor.conectar(direccion, servicio);
-        // servidor.enviarNuevaCuenta(id_usuario, password, raza, clase);
+        std::string direccion("localhost");
+        std::string servicio("3080");
+        std::string id_usuario("jugador");
+        std::string password("jugador");
+        std::string raza("Humano");
+        std::string clase("Paladin");
+        datos_personaje.id = id_usuario;
+        servidor.conectar(direccion, servicio);
+        servidor.enviarNuevaCuenta(id_usuario, password, raza, clase);
         
         std::string mapa_s;
-        // std::ifstream archivo("assets/mapa.json");
-        // std::this_thread::sleep_for(std::chrono::milliseconds(2000));
         servidor.obtenerMapaInit(mapa_s);
 
         servidor.comenzar();
@@ -71,39 +115,33 @@ int main(int argc, const char* argv[]) {
         GUI_PrincipalControlador gui_controllador(servidor, gui);
 
         BuclePrincipal bucle(ventana);
-        
+        Juego juego(entorno, mapa_s);
         // TODO: Provisorio
-        // TODO: habría que agregar una cv
-        // std::this_thread::sleep_for(std::chrono::milliseconds(2000));
+        // json parser = json::parse(mapa_s.c_str());
+        // LibreriaConjuntoTileParser libreriaConjuntoTileParser(parser);
+        // LibreriaConjuntoTiles conjuntoTiles(entorno, 
+        //                                             libreriaConjuntoTileParser);
+        // CapasParser capasParser(parser, &conjuntoTiles);
+        // CapaFrontal capaFrontal(capasParser, &conjuntoTiles);
 
-        // std::string mapa_s = std::move(servidor.obtenerMapa());
-        
-        auto parser = json::parse(mapa_s.c_str());
-        // json parser; // = json::parse(mapa_s.c_str());
-        // archivo >> parser;
-        LibreriaConjuntoTileParser libreriaConjuntoTileParser(parser);
-        LibreriaConjuntoTiles conjuntoTiles(entorno, 
-                                                    libreriaConjuntoTileParser);
-        CapasParser capasParser(parser, &conjuntoTiles);
-        CapaFrontal capaFrontal(capasParser, &conjuntoTiles);
-
-        MapaParser mapaParser(parser);
-        MapaVista mapa(entorno, mapaParser, conjuntoTiles);
+        // MapaParser mapaParser(parser);
+        // MapaVista mapa(entorno, mapaParser, conjuntoTiles);
 
         std::string humano = "human";
         Movible movibleModelo(humano);
         MovibleControlador movibleControlador(servidor);
         MovibleVista movible(entorno, movibleModelo);
         servidor.agregarPosicionable(datos_personaje.id, &movibleModelo);
-        capaFrontal.agregarObstruible(&movible);
+        juego.agregarObstruible(&movible);
 
-        Camara camara(&mapa, &ventana);
-        camara.setObjetivo(movible);
+        // Camara camara(&mapa, &ventana);
+        juego.setObjetivoCamara(movible);
+        // camara.setObjetivo();
         // TODO: Provisorio ----^
 
-        Escena escena(entorno, camara, mapa, capaFrontal, conjuntoTiles);
+        // Escena escena(entorno, camara, mapa, capaFrontal, conjuntoTiles);
         
-        ventana.agregarRendereable(&escena);
+        ventana.agregarRendereable(&juego);
         ventana.agregarRendereable(&gui);
         
         bucle.agregarInteractivo(SDL_TEXTINPUT, &gui_controllador);

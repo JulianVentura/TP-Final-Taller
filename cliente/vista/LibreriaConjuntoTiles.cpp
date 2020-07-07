@@ -10,7 +10,7 @@ int LibreriaConjuntoTiles::getAnchoTile() { return ancho_tile ;}
 int LibreriaConjuntoTiles::getAltoTile() { return alto_tile; }
 
 LibreriaConjuntoTiles::LibreriaConjuntoTiles(EntornoGrafico& entorno,
-                                        LibreriaConjuntoTileParser& parser) {
+                                    const LibreriaConjuntoTileParser& parser) {
     columnas = parser.getColumnas();
     ancho_tile = parser.getAnchoTile();
     alto_tile = parser.getAltoTile();

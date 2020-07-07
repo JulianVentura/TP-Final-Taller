@@ -10,7 +10,7 @@
 
 class MapaVista: public IRendereable, public IDimensionable {
 public:
-    MapaVista(EntornoGrafico& entorno, MapaParser& parser, 
+    MapaVista(EntornoGrafico& entorno, const MapaParser& parser, 
                                         LibreriaConjuntoTiles& conjuntosTiles);
     void render() override;
     int getColumnas();

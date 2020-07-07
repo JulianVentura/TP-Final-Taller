@@ -3,12 +3,12 @@
 #include <utility>
 using json = nlohmann::json;
 
-int LibreriaConjuntoTileParser::getAnchoTile() { return ancho_tile; }
-int LibreriaConjuntoTileParser::getAltoTile() { return alto_tile; }
-int LibreriaConjuntoTileParser::getColumnas() { return columnas; }
+int LibreriaConjuntoTileParser::getAnchoTile() const { return ancho_tile; }
+int LibreriaConjuntoTileParser::getAltoTile() const { return alto_tile; }
+int LibreriaConjuntoTileParser::getColumnas() const { return columnas; }
 
 std::vector<InformacionConjuntoTile> 
-                        LibreriaConjuntoTileParser::getInformacionLibreria() {
+                    LibreriaConjuntoTileParser::getInformacionLibreria() const {
     return std::move(this->conjuntosTiles);
 }
 

@@ -1,7 +1,10 @@
 #include "Camara.h"
 
-Camara::Camara(IDimensionable* contenedor, IDimensionable* marco): 
-                            contenedor(contenedor), marco(marco) {}
+Camara::Camara(IDimensionable& contenedor):
+                            contenedor(contenedor), marco(&contenedor) {}
+void Camara::setMarco(IDimensionable* marco) {
+    this->marco = marco;
+}
 
 void Camara::setObjetivo(ITargeteable& objetivo) {
     this->objetivo = &objetivo;
@@ -14,11 +17,11 @@ static int acotar(int x, int inferior, int superior) {
 }
 
 int Camara::maxX() {
-    return abs(contenedor->getAncho() * zoom - marco->getAncho());
+    return abs(contenedor.getAncho() * zoom - marco->getAncho());
 }
 
 int Camara::maxY() {
-    return abs(contenedor->getAlto() * zoom - marco->getAlto());
+    return abs(contenedor.getAlto() * zoom - marco->getAlto());
 }
 
 void Camara::centrar(Renderer* renderer, int ancho_unidad, float radio) {
