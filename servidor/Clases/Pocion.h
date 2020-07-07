@@ -11,6 +11,7 @@ class Pocion : public Item{
     Pocion(unsigned int curacionVida, 
            unsigned int curacionMana, 
            std::string unId,
+           uint16_t idTCP,
            unsigned int unPrecio);
     void utilizar(Personaje *personaje, unsigned int pos) override;
 };

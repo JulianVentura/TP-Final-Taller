@@ -1,6 +1,9 @@
 #include "Item.h"
 
-Item::Item(std::string unId, unsigned int unPrecio) : id(unId), precio(unPrecio){
+Item::Item(std::string unId, uint16_t unidTCP, unsigned int unPrecio) : 
+                                               id(unId),
+                                               idTCP(unidTCP), 
+                                               precio(unPrecio){
     //Do nothing
 }
 
@@ -14,4 +17,8 @@ std::string Item::obtenerId(){
 
 unsigned int Item::obtenerPrecio(){
     return precio;
+}
+
+const uint16_t Item::obtenerIDTCP() const{
+    return idTCP;
 }

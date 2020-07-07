@@ -44,12 +44,11 @@ class Personaje : public Entidad{
     void curar(unsigned int curVida, unsigned int curMana);
     void curar();
     std::vector<Item*>& obtenerAlmacen();
-    void atacar(Entidad *objetivo) override;
-    void atacar(Personaje *objetivo) override;
-    void atacar(Criatura *objetivo) override;
-    void serAtacadoPor(Personaje *atacante) override;
-    void serAtacadoPor(Criatura *atacante) override;
-    void recibirDanio(int danio, Entidad *atacante) override;
+    void atacar(Personaje *objetivo, Divulgador *divulgador) override;
+    void atacar(Criatura *objetivo, Divulgador *divulgador) override;
+    void serAtacadoPor(Personaje *atacante, Divulgador *divulgador) override;
+    void serAtacadoPor(Criatura *atacante, Divulgador *divulgador) override;
+    void recibirDanio(int danio, Entidad *atacante, Divulgador *divulgador) override;
     void dropearItems(Entidad *atacante) override;
 
     void eliminarDeInventario(unsigned int pos);

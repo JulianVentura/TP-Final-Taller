@@ -10,6 +10,7 @@
 class Mapa;
 class Personaje;
 class Criatura;
+class Divulgador;
 class Entidad : public Colisionable, public Posicionable {
     protected:
     int vidaMaxima;
@@ -37,17 +38,17 @@ class Entidad : public Colisionable, public Posicionable {
     virtual const std::string obtenerId() const;
     virtual void actualizarEstado(double tiempo, Mapa *mapa);
 
-    virtual void atacar(Entidad *objetivo) = 0;
-    virtual void atacar(Personaje *objetivo) = 0;
-    virtual void atacar(Criatura *objetivo) = 0;
-    virtual void serAtacadoPor(Personaje *atacante) = 0;
-    virtual void serAtacadoPor(Criatura *atacante) = 0;
-    virtual void recibirDanio(int danio, Entidad *atacante);
+    virtual void atacar(Personaje *objetivo, Divulgador *divulgador) = 0;
+    virtual void atacar(Criatura *objetivo, Divulgador *divulgador) = 0;
+    virtual void serAtacadoPor(Personaje *atacante, Divulgador *divulgador) = 0;
+    virtual void serAtacadoPor(Criatura *atacante, Divulgador *divulgador) = 0;
+    virtual void recibirDanio(int danio, Entidad *atacante, Divulgador *divulgador);
     virtual void obtenerExperiencia(unsigned int cantidad);
     virtual void recibirOro(unsigned int cantidad);
     virtual void dropearItems(Entidad *atacante) = 0;
     void indicarMapaAlQuePertenece(Mapa *mapa);
     void consumirMana(unsigned int cantidad);
+    bool manaSuficiente(unsigned int cantidad);
     void equipar(Arma *arma);
     void almacenar(Item *item);
     friend class Configuraciones;

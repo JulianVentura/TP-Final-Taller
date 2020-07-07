@@ -63,24 +63,21 @@ void Criatura::dropearItems(Entidad *atacante){
 }
 
 
-void Criatura::atacar(Entidad *objetivo){
-    objetivo->serAtacadoPor(this);
+
+void Criatura::atacar(Personaje *objetivo, Divulgador *divulgador){
+    arma->atacar(objetivo, this, divulgador);
 }
 
-void Criatura::atacar(Personaje *objetivo){
-    arma->atacar(objetivo, this);
+void Criatura::atacar(Criatura *objetivo, Divulgador *divulgador){
+    arma->atacar(objetivo, this, divulgador);
 }
 
-void Criatura::atacar(Criatura *objetivo){
-    arma->atacar(objetivo, this);
+void Criatura::serAtacadoPor(Personaje *atacante, Divulgador *divulgador){
+    atacante->atacar(this, divulgador);
 }
 
-void Criatura::serAtacadoPor(Personaje *atacante){
-    atacante->atacar(this);
-}
-
-void Criatura::serAtacadoPor(Criatura *atacante){
-    atacante->atacar(this);
+void Criatura::serAtacadoPor(Criatura *atacante, Divulgador *divulgador){
+    atacante->atacar(this, divulgador);
 }
 
 Criatura::~Criatura(){}

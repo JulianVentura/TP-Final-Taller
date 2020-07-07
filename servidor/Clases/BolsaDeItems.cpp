@@ -44,8 +44,8 @@ void BolsaDeItems::interactuar(Estado *estado, Cliente *cliente){
 void BolsaDeItems::comprar(unsigned int pos, Estado *estado, Cliente *cliente){
     estado->pedirCompra(pos, this, cliente);
 }
-void BolsaDeItems::vender(Item* item, Estado *estado, Cliente *cliente){
-    estado->pedirVenta(item, this, cliente);
+void BolsaDeItems::vender(unsigned int pos, Estado *estado, Cliente *cliente){
+    //La bolsa no permite almacenar/vender
 }
 
 void BolsaDeItems::comprar(unsigned int pos, Personaje *personaje, Cliente *cliente){
@@ -65,7 +65,7 @@ void BolsaDeItems::comprar(unsigned int pos, Personaje *personaje, Cliente *clie
     if (elementos <= 0) bolsaVacia = true;
 }
 void BolsaDeItems::vender(Item* item, Personaje *personaje, Cliente *cliente){
-    //No se puede almacenar un item en una bolsa de items, se le avisa a usuario?
+    //No se puede almacenar un item en una bolsa de items.
 }
 void BolsaDeItems::listar(Personaje *personaje, Cliente *cliente){
     //cliente.enviarContenedor(items)

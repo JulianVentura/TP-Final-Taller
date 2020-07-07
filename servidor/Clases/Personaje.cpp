@@ -99,31 +99,30 @@ void Personaje::actualizarEstado(double tiempo, Mapa *mapa){
     estado->actualizar(tiempo, mapa);
 }
 
-void Personaje::recibirDanio(int danio, Entidad *atacante){
-    estado->recibirDanio(danio, atacante);
+void Personaje::recibirDanio(int danio, Entidad *atacante, Divulgador *divulgador){
+    estado->recibirDanio(danio, atacante, divulgador);
 }
 
-void Personaje::atacar(Entidad *objetivo){
-    arma->atacar(objetivo, this);
+void Personaje::atacar(Personaje *objetivo, Divulgador *divulgador){
+    estado->atacar(objetivo, arma, divulgador);
 }
 
-void Personaje::atacar(Personaje *objetivo){
-    arma->atacar(objetivo, this);
+void Personaje::atacar(Criatura *objetivo, Divulgador *divulgador){
+    estado->atacar(objetivo, arma, divulgador);
 }
 
-void Personaje::atacar(Criatura *objetivo){
-    arma->atacar(objetivo, this);
-}
-
-void Personaje::serAtacadoPor(Personaje *atacante){
+void Personaje::serAtacadoPor(Personaje *atacante, Divulgador *divulgador){
     //Chequeo FairPlay
     Configuraciones *config = Configuraciones::obtenerInstancia();
-    if (!config->sePuedeAtacar(this, atacante)) return;
-    atacante->atacar(this);
+    if (!config->sePuedeAtacar(this, atacante)){
+        //Enviar mensaje a atacante: "No se puede realizar el ataque por FairPlay"
+        return;
+    }
+    atacante->atacar(this, divulgador);
 }
 
-void Personaje::serAtacadoPor(Criatura *atacante){
-    atacante->atacar(this);
+void Personaje::serAtacadoPor(Criatura *atacante, Divulgador *divulgador){
+    atacante->atacar(this, divulgador);
 }
 
 

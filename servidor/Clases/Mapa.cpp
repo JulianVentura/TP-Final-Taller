@@ -153,7 +153,7 @@ std::vector<struct PosicionEncapsulada> Mapa::recolectarPosiciones(){
     }
     return resultado;
 }
-Entidad* Mapa::obtener(const char* id){
+Entidad* Mapa::obtener(std::string &id){
     std::map<std::string, std::unique_ptr<Criatura>>::iterator Cit = criaturas.find(id);
     std::map<std::string, Personaje*>::iterator Pit = personajes.find(id);
     if (Cit == criaturas.end()){

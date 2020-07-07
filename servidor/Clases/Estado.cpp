@@ -8,4 +8,8 @@ void Estado::interactuarCon(Entidad *entidad){
     //Do nothing
 }
 
+const uint16_t Estado::obtenerIDTCP() const {
+    return idTCP;
+}
+
 Estado::~Estado(){}

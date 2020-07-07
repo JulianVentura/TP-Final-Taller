@@ -3,6 +3,7 @@
 #include "Personaje.h"
 #include "Criatura.h"
 #include "BolsaDeItems.h"
+#include "Excepcion.h"
 #include <vector>
 
 Entidad::Entidad(std::string unId) : 
@@ -38,25 +39,22 @@ const std::string Entidad::obtenerId() const{
 }
 
 void Entidad::actualizarEstado(double tiempo, Mapa *mapa){
-    /* Actualizar estado */
-    /*
-    1- Regenerar vida
-    2- Regenerar mana
-    3- Moverse
-    */
     Posicion nuevaPosicion = posicion.mover();
     mapa->actualizarPosicion(this, std::move(nuevaPosicion));
 }
 
 
-void Entidad::recibirDanio(int danio, Entidad *atacante){
+void Entidad::recibirDanio(int danio, Entidad *atacante, Divulgador *divulgador){
     Configuraciones *configuraciones = Configuraciones::obtenerInstancia();
     this->vidaActual -= danio;
     unsigned int experiencia = configuraciones->calcularExpPorGolpe(this,
                                                                     atacante,
                                                                     danio);
     atacante->obtenerExperiencia(experiencia);
+    //Enviar mensaje a this : "Recibes " << danio << "de daño";
+    //Enviar mensaje a atacante : "Realizas " << danio << "de daño";
     if (vidaActual <= 0){
+        //Enviar mensaje a this : "Has muerto";
         experiencia = configuraciones->calcularExpPorMatar(this, atacante);
         atacante->obtenerExperiencia(experiencia);
         dropearItems(atacante);
@@ -64,8 +62,15 @@ void Entidad::recibirDanio(int danio, Entidad *atacante){
 }
 
 void Entidad::consumirMana(unsigned int cantidad){
+    if ((manaActual - cantidad) < 0){
+        throw Excepcion("No hay mana suficiente");
+    }
     manaActual -= cantidad;
-    if (manaActual < 0) manaActual = 0;
+}
+
+bool Entidad::manaSuficiente(unsigned int cantidad){
+    if ((manaActual - cantidad) < 0) return false;
+    return true;
 }
 
 void Entidad::obtenerExperiencia(unsigned int cantidad){

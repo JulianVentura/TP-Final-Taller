@@ -8,16 +8,21 @@
 #include "Sacerdote.h"
 #include "Cliente.h"
 #include "Item.h"
+#include "Divulgador.h"
 
-EstadoNormal::EstadoNormal(Personaje *unPersonaje) : Estado(unPersonaje){}
+EstadoNormal::EstadoNormal(Personaje *unPersonaje) : Estado(unPersonaje){
+    Configuraciones *config = Configuraciones::obtenerInstancia();
+    std::string id = "EstadoNormal";
+    idTCP = config->obtenerEstadoIDTCP(id);
+}
 
 void EstadoNormal::interactuar(Entidad *entidad){
     //entidad->interactuar(personaje);
 }
 
-void EstadoNormal::atacar(Entidad *objetivo, Arma *arma){
+void EstadoNormal::atacar(Entidad *objetivo, Arma *arma, Divulgador *divulgador){
     if (arma){
-        arma->atacar(objetivo, personaje);
+        arma->atacar(objetivo, personaje, divulgador);
     }
 }
 
@@ -31,7 +36,7 @@ void EstadoNormal::actualizar(double tiempo, Mapa *mapa){
 }
 
 
-void EstadoNormal::recibirDanio(int danio, Entidad *atacante){
+void EstadoNormal::recibirDanio(int danio, Entidad *atacante, Divulgador *divulgador){
     Configuraciones *configuraciones = Configuraciones::obtenerInstancia();
     personaje->vidaActual -= danio;
     unsigned int exp = configuraciones->calcularExpPorGolpe(personaje, atacante, danio);
@@ -65,7 +70,9 @@ void EstadoNormal::pedirCompra(unsigned int pos, Interactuable *interactuable, C
     interactuable->comprar(pos, personaje, cliente);
 }
 
-void EstadoNormal::pedirVenta(Item *item, Interactuable *interactuable, Cliente *cliente){
+void EstadoNormal::pedirVenta(unsigned int pos, Interactuable *interactuable, Cliente *cliente){
+    Item *item = personaje->inventario.obtenerItem(pos);
+    personaje->inventario.eliminar(pos);
     interactuable->vender(item, personaje, cliente);
 }
 

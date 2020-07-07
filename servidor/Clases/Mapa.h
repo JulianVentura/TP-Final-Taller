@@ -82,7 +82,7 @@ class Mapa{
     /*
     Obtiene una entidad del mapa dado su id.
     */
-    Entidad* obtener(const char* id);
+    Entidad* obtener(std::string &id);
 
     void cargarDrop(std::unique_ptr<BolsaDeItems> bolsa);
     void limpiarDrops();

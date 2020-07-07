@@ -9,6 +9,7 @@ class Casco : public Item, public PiezaDeDefensa{
     Casco(unsigned int defMax, 
           unsigned int defMin, 
           std::string unId,
+          uint16_t idTCP,
           unsigned int unPrecio);
     void utilizar(Personaje *personaje, unsigned int pos) override;
     friend class Configuraciones;

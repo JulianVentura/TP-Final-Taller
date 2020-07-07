@@ -8,14 +8,19 @@
 #include "Sacerdote.h"
 #include "Cliente.h"
 #include "Item.h"
+#include "Divulgador.h"
 
-EstadoMeditacion::EstadoMeditacion(Personaje *unPersonaje) : Estado(unPersonaje){}
+EstadoMeditacion::EstadoMeditacion(Personaje *unPersonaje) : Estado(unPersonaje){
+    Configuraciones *config = Configuraciones::obtenerInstancia();
+    std::string id = "EstadoNormal";
+    idTCP = config->obtenerEstadoIDTCP(id);
+}
 
 void EstadoMeditacion::interactuar(Entidad *entidad){
     //No hacer nada o lanzar excepcion
 }
 
-void EstadoMeditacion::atacar(Entidad *objetivo, Arma *arma){
+void EstadoMeditacion::atacar(Entidad *objetivo, Arma *arma, Divulgador *divulgador){
     //No hacer nada o lanzar excepcion
 }
 
@@ -27,7 +32,7 @@ void EstadoMeditacion::actualizar(double tiempo, Mapa *mapa){
     //El personaje no se puede mover
 }
 
-void EstadoMeditacion::recibirDanio(int danio, Entidad *atacante){
+void EstadoMeditacion::recibirDanio(int danio, Entidad *atacante, Divulgador *divulgador){
     //Se puede recibir daño en modo meditacion
     Configuraciones *configuraciones = Configuraciones::obtenerInstancia();
     personaje->vidaActual -= danio;
@@ -61,7 +66,7 @@ void EstadoMeditacion::pedirCompra(unsigned int pos, Interactuable *interactuabl
     //No se puede interactuar en estado de meditacion
 }
 
-void EstadoMeditacion::pedirVenta(Item *item, Interactuable *interactuable, Cliente *cliente){
+void EstadoMeditacion::pedirVenta(unsigned int pos, Interactuable *interactuable, Cliente *cliente){
     //No se puede interactuar en estado de meditacion
 }
 

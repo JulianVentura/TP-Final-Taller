@@ -17,7 +17,7 @@ class Interactuable : public Colisionable{
     Interactuable(std::string id);
     virtual void interactuar(Estado *estado, Cliente *cliente) = 0;
     virtual void comprar(unsigned int pos, Estado *estado, Cliente *cliente) = 0;
-    virtual void vender(Item* item, Estado *estado, Cliente *cliente) = 0;
+    virtual void vender(unsigned int pos, Estado *estado, Cliente *cliente) = 0;
     virtual void comprar(unsigned int pos, Personaje *personaje, Cliente *cliente) = 0;
     virtual void vender(Item* item, Personaje *personaje, Cliente *cliente) = 0;
     virtual void listar(Personaje *personaje, Cliente *cliente) = 0;

@@ -23,8 +23,8 @@ void Banquero::comprar(unsigned int pos, Estado *estado, Cliente *cliente){
     estado->pedirCompra(pos, this, cliente);
 }
 
-void Banquero::vender(Item* item, Estado *estado, Cliente *cliente){
-    estado->pedirVenta(item, this, cliente);
+void Banquero::vender(unsigned int pos, Estado *estado, Cliente *cliente){
+    estado->pedirVenta(pos, this, cliente);
 }
 
 void Banquero::comprar(unsigned int pos, Personaje *personaje, Cliente *cliente){

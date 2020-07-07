@@ -44,8 +44,8 @@ void Comerciante::interactuar(Estado *estado, Cliente *cliente){
 void Comerciante::comprar(unsigned int pos, Estado *estado, Cliente *cliente){
     estado->pedirCompra(pos, this, cliente);
 }
-void Comerciante::vender(Item* item, Estado *estado, Cliente *cliente){
-    estado->pedirVenta(item, this, cliente);
+void Comerciante::vender(unsigned int pos, Estado *estado, Cliente *cliente){
+    estado->pedirVenta(pos, this, cliente);
 }
 
 void Comerciante::comprar(unsigned int pos, Personaje *personaje, Cliente *cliente){

@@ -18,7 +18,7 @@ void Sacerdote::comprar(unsigned int pos, Estado *estado, Cliente *cliente){
     //El sacerdote no vende
 }
 
-void Sacerdote::vender(Item* item, Estado *estado, Cliente *cliente){
+void Sacerdote::vender(unsigned int pos, Estado *estado, Cliente *cliente){
     //El sacerdote no compra
 }
 
