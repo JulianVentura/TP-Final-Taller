@@ -22,6 +22,7 @@ private:
     ObstaculoParser obstaculoParser;
     std::unordered_map<std::string, std::vector<int>> capas;
     std::vector<std::string> capasOrdenadas;
+    std::unordered_map<std::string, std::vector<Obstaculo>> capasObstaculos;
     int columnas;
     int filas;
 };

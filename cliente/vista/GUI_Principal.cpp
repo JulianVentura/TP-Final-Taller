@@ -17,11 +17,11 @@ GUI_Principal::GUI_Principal(EntornoGrafico& entorno, Colores& paleta,
 	oro(entorno, paleta, datos_personaje.oro),
 	imagenes_equipo(entorno),
 	inventario_vista(entorno, paleta, imagenes_equipo,
-	 datos_personaje.inventario),
+	 datos_personaje.inventario, datos_personaje.equipados),
 	boton_inventario_vista(entorno, paleta),
 	tienda_vista(entorno, paleta, imagenes_equipo, datos_tienda.inventario,
 	 datos_tienda.precios, datos_tienda.activo),
-	chat_vista(entorno, paleta) {
+	chat_vista(entorno, paleta){
 	entorno.agregarRendereable(this);
 }
 

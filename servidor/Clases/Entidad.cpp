@@ -1,5 +1,10 @@
 #include "Entidad.h"
 #include "Mapa.h"
+#include "Personaje.h"
+#include "Criatura.h"
+#include "BolsaDeItems.h"
+#include "Excepcion.h"
+#include <vector>
 
 Entidad::Entidad(std::string unId) : 
                  Posicionable(0, 0, 0, 0),
@@ -14,7 +19,8 @@ Entidad::Entidad(std::string unId) :
                  nivel(0),
                  id(unId),
                  arma(nullptr),
-                 inventario(){}
+                 inventario(),
+                 mapaAlQuePertenece(nullptr){}
 
 
 const quadtree::Box<float>& Entidad::obtenerArea() const{
@@ -33,28 +39,22 @@ const std::string Entidad::obtenerId() const{
 }
 
 void Entidad::actualizarEstado(double tiempo, Mapa *mapa){
-    /* Actualizar estado */
-    /*
-    1- Regenerar vida
-    2- Regenerar mana
-    3- Moverse
-    */
     Posicion nuevaPosicion = posicion.mover();
     mapa->actualizarPosicion(this, std::move(nuevaPosicion));
 }
 
-void Entidad::atacar(Entidad *objetivo){
-    arma->atacar(objetivo, this);
-}
 
-void Entidad::recibirDanio(int danio, Entidad *atacante){
+void Entidad::recibirDanio(int danio, Entidad *atacante, Divulgador *divulgador){
     Configuraciones *configuraciones = Configuraciones::obtenerInstancia();
     this->vidaActual -= danio;
     unsigned int experiencia = configuraciones->calcularExpPorGolpe(this,
                                                                     atacante,
                                                                     danio);
     atacante->obtenerExperiencia(experiencia);
+    //Enviar mensaje a this : "Recibes " << danio << "de daño";
+    //Enviar mensaje a atacante : "Realizas " << danio << "de daño";
     if (vidaActual <= 0){
+        //Enviar mensaje a this : "Has muerto";
         experiencia = configuraciones->calcularExpPorMatar(this, atacante);
         atacante->obtenerExperiencia(experiencia);
         dropearItems(atacante);
@@ -62,29 +62,36 @@ void Entidad::recibirDanio(int danio, Entidad *atacante){
 }
 
 void Entidad::consumirMana(unsigned int cantidad){
+    if ((manaActual - cantidad) < 0){
+        throw Excepcion("No hay mana suficiente");
+    }
     manaActual -= cantidad;
-    if (manaActual < 0) manaActual = 0;
+}
+
+bool Entidad::manaSuficiente(unsigned int cantidad){
+    if ((manaActual - cantidad) < 0) return false;
+    return true;
 }
 
 void Entidad::obtenerExperiencia(unsigned int cantidad){
     //Do nothing
 }
 
-void Entidad::dropearItems(Entidad *atacante){
-    //TODO
-}
-
 void Entidad::equipar(Arma *unArma){
     arma = unArma;
 }
 
-void Entidad::almacenar(Item *item){
-    //Guarda que si falla se pierde el item.
-    inventario.almacenar(std::move(item));
+void Entidad::recibirOro(unsigned int cantidad){
+    //Do nothing
 }
 
-void Entidad::cobrar(unsigned int cantidad){
-    //Do nothing
+void Entidad::almacenar(Item *item){
+    //Guarda que si falla se pierde el item.
+    inventario.almacenar(item);
+}
+
+void Entidad::indicarMapaAlQuePertenece(Mapa *mapa){
+    this->mapaAlQuePertenece = mapa;
 }
 
 Entidad::~Entidad(){}

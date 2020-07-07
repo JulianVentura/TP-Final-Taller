@@ -1,19 +1,36 @@
 #include "Arma.h"
 #include "Entidad.h"
 #include "Personaje.h"
+#include "Divulgador.h"
 
-Arma::Arma(int unDanioMax, int unDanioMin, unsigned int consMana, float unRadioAtaque, std::string unId) : 
-           Item(unId), danioMax(unDanioMax), danioMin(unDanioMin), consumoMana(consMana), radioAtaque(unRadioAtaque){}
+Arma::Arma(int unDanioMax, 
+           int unDanioMin, 
+           unsigned int consMana, 
+           float unRadioAtaque, 
+           std::string unId,
+           uint16_t idTCP, 
+           unsigned int unPrecio) : 
+           Item(unId, idTCP, unPrecio), 
+           danioMax(unDanioMax), 
+           danioMin(unDanioMin), 
+           consumoMana(consMana), 
+           radioAtaque(unRadioAtaque){}
 
-void Arma::atacar(Entidad *objetivo, Entidad *atacante){
+void Arma::atacar(Entidad *objetivo, Entidad *atacante, Divulgador *divulgador){
     float distancia = atacante->obtenerPosicion().calcularDistancia(objetivo->obtenerPosicion());
-    if (distancia > this->radioAtaque) return;      //Ver si hay que enviar algun mensaje al cliente
-    atacante->consumirMana(this->consumoMana);      //Esto debe lanzar una excepcion si falla, para que no se ejecute el ataque.
+    if (distancia > this->radioAtaque){
+        //Enviar mensaje a atacante : "Estas muy lejos del oponente"
+    }
+    if (!atacante->manaSuficiente(this->consumoMana)){
+        //Enviar mensaje a atacante : "No tenes mana suficiente para realizar el ataque"
+        return;
+    }
     Configuraciones *configuraciones = Configuraciones::obtenerInstancia();
     unsigned int danio = configuraciones->calcularDanioAtaque(objetivo, 
                                                               atacante,
                                                               this);
-    objetivo->recibirDanio(danio, atacante);
+    objetivo->recibirDanio(danio, atacante, divulgador);
+    atacante->consumirMana(this->consumoMana);
 }
 
 

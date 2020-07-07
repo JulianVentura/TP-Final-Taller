@@ -1,5 +1,8 @@
 #include "Mapa.h"
 #include "Entidad.h"
+#include "Sacerdote.h"
+#include "Banquero.h"
+#include "Comerciante.h"
 #include "ErrorServidor.h"
 #include "Box.h"
 #include <nlohmann/json.hpp>
@@ -93,6 +96,17 @@ Mapa::Mapa(std::string nombre) :        nombreMapa(nombre),
     for (std::size_t i=0; i<objetosEstaticos.size(); i++){
         quadTreeEstatico.add(&(objetosEstaticos[i]));
     }
+    //Esto que esta completamente hardcodeado deberia levantarse del configuraciones.json
+    //La idea es que el mapa sepa las posiciones del Sacerdote, Banquero y Comericante.
+    std::unique_ptr<Interactuable> sacerdote(new Sacerdote(20, 20));
+    std::unique_ptr<Interactuable> banquero(new Banquero(50, 50));
+    std::unique_ptr<Interactuable> comerciante(new Comerciante(5, 5));
+    quadTreeEstatico.add(sacerdote.get());
+    quadTreeEstatico.add(banquero.get());
+    quadTreeEstatico.add(comerciante.get());
+    ciudadanos[sacerdote->obtenerId()] = std::move(sacerdote);
+    ciudadanos[banquero->obtenerId()] = std::move(banquero);
+    ciudadanos[comerciante->obtenerId()] = std::move(comerciante);
 }
 void Mapa::actualizarPosicion(Entidad *entidad, Posicion &&nuevaPosicion){
     if (!posicionValida(entidad, nuevaPosicion)) return;
@@ -139,7 +153,7 @@ std::vector<struct PosicionEncapsulada> Mapa::recolectarPosiciones(){
     }
     return resultado;
 }
-Entidad* Mapa::obtener(const char* id){
+Entidad* Mapa::obtener(std::string &id){
     std::map<std::string, std::unique_ptr<Criatura>>::iterator Cit = criaturas.find(id);
     std::map<std::string, Personaje*>::iterator Pit = personajes.find(id);
     if (Cit == criaturas.end()){
@@ -154,6 +168,7 @@ Entidad* Mapa::obtener(const char* id){
 }
 
 void Mapa::cargarEntidad(Entidad *entidad){
+    entidad->indicarMapaAlQuePertenece(this);
     if (!posicionValida(entidad, entidad->obtenerAreaQueOcupa())){
         Posicion nuevaPosicion = buscarPosicionValida(entidad->obtenerPosicion());
         entidad->actualizarPosicion(std::move(nuevaPosicion));
@@ -164,6 +179,40 @@ void Mapa::cargarEntidad(Entidad *entidad){
 void Mapa::cargarPersonaje(Personaje *personaje){
     personajes[personaje->obtenerId()] = personaje;
     cargarEntidad(personaje);
+}
+
+void Mapa::cargarDrop(std::unique_ptr<BolsaDeItems> bolsa){
+    std::string id = bolsa->obtenerId();
+    std::map<std::string, std::unique_ptr<BolsaDeItems>>::iterator it = drops.find(id);
+    if (it != drops.end()){
+        throw ErrorServidor("Se ha solicitado almacenar un drop con un id ya utilizado");
+    }
+    drops[bolsa->obtenerId()] = std::move(bolsa);
+}
+
+void Mapa::limpiarDrops(){
+    std::map<std::string, std::unique_ptr<BolsaDeItems>>::iterator it = drops.begin();
+    while (it != drops.end()){
+        if (it->second->estaVacia()){
+            it = drops.erase(it);
+        }else{
+            ++it;
+        }
+    }
+}
+
+Interactuable *Mapa::obtenerInteractuable(std::string &id){
+    std::map<std::string, std::unique_ptr<BolsaDeItems>>::iterator Dit = drops.find(id);
+    std::map<std::string, std::unique_ptr<Interactuable>>::iterator Cit = ciudadanos.find(id);
+    if (Cit == ciudadanos.end()){
+        if (Dit == drops.end()){
+            throw ErrorServidor("No se encontró id %s\n", id); 
+        }else{
+            return Dit->second.get();
+        }
+    }else{
+        return Cit->second.get();
+    }
 }
 
 

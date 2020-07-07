@@ -14,9 +14,9 @@ private:
 	Imagen imagen;
 	SDL_Rect marco;
 	Colores& paleta;
-	std::atomic<int>& oro;
+	std::atomic<uint16_t>& oro;
 public:
-	GUI_Oro(EntornoGrafico& entorno, Colores& paleta, std::atomic<int>& oro);
+	GUI_Oro(EntornoGrafico& entorno, Colores& paleta, std::atomic<uint16_t>& oro);
 	void render();
 	void actualizarDimension();
 };

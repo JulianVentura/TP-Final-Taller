@@ -46,6 +46,10 @@ void Sala::finalizar(){
     gameLoop.recuperar();
 }
 
+Mapa* Sala::obtenerMapa(){
+    return &this->mapa;
+}
+
 ColaOperaciones* Sala::obtenerCola(){
     return &colaOperaciones;
 }

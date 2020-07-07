@@ -14,14 +14,14 @@ class GUI_Panel : public IRendereable{
 protected:
 	BancoImagenesEquipo& imagenes_equipo;
 	Colores& paleta;
-	std::atomic<int>* inventario;
+	std::atomic<uint16_t>* inventario;
 	void dibujarCasilla(int i, int j, SDL_Color& fondo);
 public:
 	SDL_Rect marco;
 	bool visible;
 	GUI_Panel(EntornoGrafico& entorno, Colores& paleta, BancoImagenesEquipo&
-	 imagenes_equipo, std::atomic<int>* inventario, SDL_Rect marco);
-	void render();
+	 imagenes_equipo, std::atomic<uint16_t>* inventario, SDL_Rect marco);
+	virtual void render();
 };
 
 #endif /*__GUI_PANEL_H__*/

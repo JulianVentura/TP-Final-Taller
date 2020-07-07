@@ -47,6 +47,8 @@ class Configuraciones{
     const float    obtenerPersonajeVelDesplazamiento() const;
     const uint32_t obtenerPersonajeAncho() const;
     const uint32_t obtenerPersonajeAlto() const;
+    //Estados
+    const uint16_t obtenerEstadoIDTCP(std::string &id) const;
     //Ciudadanos
     const uint32_t obtenerCiudadanoAncho(std::string &id) const;
     const uint32_t obtenerCiudadanoAlto(std::string &id) const;
@@ -71,6 +73,7 @@ class Configuraciones{
     const uint32_t obtenerClaseMejoraInteligenciaEnSubida(std::string &id) const;
     const uint32_t obtenerClaseMejoraAgilidadEnSubida(std::string &id) const;
     const uint32_t obtenerClaseMejoraConstitucionEnSubida(std::string &id) const;
+    const uint16_t obtenerClaseIDTCP(std::string &id) const;
     //Razas
     const float    obtenerFRazaVida(std::string &id) const;
     const float    obtenerFRazaMana(std::string &id) const;
@@ -80,25 +83,34 @@ class Configuraciones{
     const uint32_t obtenerRazaMejoraInteligenciaEnSubida(std::string &id) const;
     const uint32_t obtenerRazaMejoraAgilidadEnSubida(std::string &id) const;
     const uint32_t obtenerRazaMejoraConstitucionEnSubida(std::string &id) const;
+    const uint16_t obtenerRazaIDTCP(std::string &id) const;
     //Armas
     const int32_t  obtenerArmaDanioMax(std::string &id) const;
     const int32_t  obtenerArmaDanioMin(std::string &id) const;
-    const float obtenerArmaRangoAtaque(std::string &id) const;
+    const float    obtenerArmaRangoAtaque(std::string &id) const;
     const uint32_t obtenerArmaConsumoMana(std::string &id) const;
+    const uint32_t obtenerArmaPrecio(std::string &id) const;
+    const uint16_t obtenerArmaIDTCP(std::string &id) const;
     //Armaduras
     const uint32_t obtenerArmaduraDefensaMax(std::string &id) const;
     const uint32_t obtenerArmaduraDefensaMin(std::string &id) const;
+    const uint32_t obtenerArmaduraPrecio(std::string &id) const;
+    const uint16_t obtenerArmaduraIDTCP(std::string &id) const;
     //Escudos
     const uint32_t obtenerEscudoDefensaMax(std::string &id) const;
     const uint32_t obtenerEscudoDefensaMin(std::string &id) const;
+    const uint32_t obtenerEscudoPrecio(std::string &id) const;
+    const uint16_t obtenerEscudoIDTCP(std::string &id) const;
     //Cascos
     const uint32_t obtenerCascoDefensaMax(std::string &id) const;
     const uint32_t obtenerCascoDefensaMin(std::string &id) const;
-    //Oro
-    const uint32_t obtenerOroCantidadMax() const;
+    const uint32_t obtenerCascoPrecio(std::string &id) const;
+    const uint16_t obtenerCascoIDTCP(std::string &id) const;
     //Pociones
     const uint32_t obtenerPocionCuracionVida(std::string &id) const;
     const uint32_t obtenerPocionCuracionMana(std::string &id) const;
+    const uint32_t obtenerPocionPrecio(std::string &id) const;
+    const uint16_t obtenerPocionIDTCP(std::string &id) const;
     /* FORMULAS DEL JUEGO */ 
     unsigned int calcularVidaMax(Personaje *personaje);
     unsigned int calcularRecuperacionVida(Personaje *personaje, double tiempo);

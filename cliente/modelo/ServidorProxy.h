@@ -15,6 +15,9 @@
 #include "../../common/commonSocket.h"
 #include "../../common/CodigosOperacion.h"
 
+#define TAM_ID 20 // TODO: podría estar en common/CodigosOperacion o algo por el 
+                  // estilo.
+
 class GUI_ChatControlador;
 class ServidorProxy;
 
@@ -29,24 +32,39 @@ private:
 	std::unordered_map<std::string, IPosicionable*> posicionables;
 	std::string mapa;
 	void actualizarPosiciones();
-
 public:
 	ServidorSalida* salida;
 	ServidorProxy(DatosPersonaje& datos_personaje, DatosTienda& datos_tienda);
+
+	// Conexion e inicio sesion
 	void conectar(std::string& direccion, std::string& servicio);
-	void enviarMensaje(std::string mensaje);
-	void recibirMensaje();
 	void enviarLogin(std::string& nombre, std::string& clave);
 	void enviarNuevaCuenta(std::string& nombre, std::string& clave,
 		std::string& raza, std::string& clase);
-	void comenzar();
+
+	// General
 	void recibirMensajeConOperacion(uint32_t operacion);
-	void enviarChat(std::string mensaje);
+	void enviarMensaje(std::string mensaje);
+	void recibirMensaje();
+	void comenzar();
 	void terminar();
-	void obtenerMapa(std::string& mapa);
+
+	// Chat
+	void enviarChat(std::string mensaje);
+
+	// Manejo mapa
 	void obtenerMapaInit(std::string& mapa);
 	void enviarMovimiento(uint32_t movimiento);
 	void agregarPosicionable(std::string& id, IPosicionable* posicionable);
+
+	// Inventario
+	void enviarCompra(int pos);
+	void enviarUtilizar(int pos);
+	void enviarTirar(int pos);
+
+	// Interaccion
+	void enviarInteraccion(std::string& id);
+	void enviarAtaque(std::string& id);
 };
 
 #endif /*__SERVIDOR_PROXY_H__*/

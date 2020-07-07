@@ -13,7 +13,17 @@ enum CODIGOS : uint32_t {
                          CODIGO_DESCONECTAR,
 			             CODIGO_NUEVO_PERSONAJE,
                          CODIGO_CONFIRMACION,
-                         CODIGO_ERROR
+                         CODIGO_ERROR,
+                         OP_INFO_JUGADOR,
+                         CODIGO_INTERACCION,
+                         CODIGO_COMPRA,
+                         CODIGO_VENTA,
+                         CODIGO_UTILIZACION,
+                         CODIGO_TIRADO,
+                         CODIGO_ATAQUE,
+                         CODIGO_INVENTARIO,
+                         CODIGO_TIENDA,
+                         CODIGO_ESTADISTICAS
 };
 
 enum MOVIMIENTO : uint32_t {

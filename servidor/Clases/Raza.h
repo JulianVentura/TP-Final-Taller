@@ -5,6 +5,7 @@
 class Raza{
     private:
     std::string id;
+    uint16_t idTCP;
     float FRazaVida;
     float FRazaMana;
     float FRazaRecuperacion;
@@ -20,6 +21,7 @@ class Raza{
     Raza& operator=(Raza &&otro);
     Raza& operator=(Raza &otro) = delete;
     const std::string obtenerId() const;
+    const uint16_t obtenerIDTCP() const;
 
     friend class Configuraciones;    
 };

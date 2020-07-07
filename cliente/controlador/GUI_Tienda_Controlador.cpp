@@ -1,5 +1,3 @@
-#include <iostream>
-
 #include "GUI_Tienda_Controlador.h"
 
 GUI_TiendaControlador::GUI_TiendaControlador
@@ -9,8 +7,7 @@ GUI_TiendaControlador::GUI_TiendaControlador
 
 bool GUI_TiendaControlador::enClick(){
 	if(!vista_tienda.activo) return false;
-
-	std::cout << obtenerIndiceClick();
+	servidor.enviarCompra(obtenerIndiceClick());
 	return true;
 }
 

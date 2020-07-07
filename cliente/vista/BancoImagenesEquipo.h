@@ -6,14 +6,14 @@
 #include "../vista/EntornoGrafico.h"
 #include "../vista/Imagen.h"
 
-#define CANT_IMG_EQUIPO 2
+#define CANT_IMG_EQUIPO 4
 
 class BancoImagenesEquipo{
 private:
 	std::vector<Imagen> imagenes;
 public:
 	explicit BancoImagenesEquipo(EntornoGrafico& entorno);
-	void render(unsigned int indice, int x, int y);
+	void render(uint16_t indice, int x, int y);
 };
 
 #endif /*__BANCO_IMAGENES_EQUIPO_H__*/

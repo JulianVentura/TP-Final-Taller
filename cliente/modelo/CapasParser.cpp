@@ -15,7 +15,7 @@ std::unordered_map<std::string, std::vector<int>>
 
 std::unordered_map<std::string, std::vector<Obstaculo>> 
                                     CapasParser::getCapasObstaculos() const {
-    return std::move(obstaculoParser.getCapasObstaculos());
+    return std::move(capasObstaculos);
 }
 
 std::vector<std::string> CapasParser::getCapasOrdenadas() const {
@@ -33,5 +33,6 @@ CapasParser::CapasParser(nlohmann::json& parser, LibreriaConjuntoTiles& tiles) {
             capasOrdenadas.push_back(capa["name"]);
         }
     }
-    obstaculoParser = ObstaculoParser(parser, capas, tiles);
+    capasObstaculos = std::move(ObstaculoParser(parser, capas, 
+                                                tiles).getCapasObstaculos());
 }

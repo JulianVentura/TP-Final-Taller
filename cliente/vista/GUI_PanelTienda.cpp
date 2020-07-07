@@ -1,8 +1,8 @@
 #include "GUI_PanelTienda.h"
 
 GUI_PanelTienda::GUI_PanelTienda(EntornoGrafico& entorno, Colores& paleta,
-	 BancoImagenesEquipo& imagenes_equipo, std::atomic<int>* inventario,
-	 std::atomic<int>* precios,  std::atomic<bool>& activo)
+	 BancoImagenesEquipo& imagenes_equipo, std::atomic<uint16_t>* inventario,
+	 std::atomic<uint16_t>* precios,  std::atomic<bool>& activo)
 	  : GUI_Panel(entorno, paleta, imagenes_equipo, inventario, {}),
 	   precios(precios), activo(activo){
 	visible = true;

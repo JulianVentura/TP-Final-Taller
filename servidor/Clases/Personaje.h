@@ -21,6 +21,7 @@ class Personaje : public Entidad{
     Raza raza;
     Clase clase;
     std::unique_ptr<Estado> estado;
+    std::vector<Item*> almacen;
 
     void actualizarAtributos();
     void estadoNormal();
@@ -37,10 +38,22 @@ class Personaje : public Entidad{
     void obtenerExperiencia(unsigned int cantidad) override;
     void actualizarEstado(double tiempo, Mapa *mapa) override;
 
-    void recibirOro(unsigned int cantOro);
+    bool tieneOroSuficiente(unsigned int cantOro);
+    void restarOro(unsigned int cantOro);
+    void recibirOro(unsigned int cantOro) override;
+    uint16_t obtenerOro();
+
     void curar(unsigned int curVida, unsigned int curMana);
-    void recibirDanio(int danio, Personaje *atacante);
-    void recibirDanio(int danio, Criatura *atacante);
+    void curar();
+    std::vector<Item*>& obtenerAlmacen();
+    std::vector<Item*>* obtenerInventario();
+    void atacar(Personaje *objetivo, Divulgador *divulgador) override;
+    void atacar(Criatura *objetivo, Divulgador *divulgador) override;
+    void serAtacadoPor(Personaje *atacante, Divulgador *divulgador) override;
+    void serAtacadoPor(Criatura *atacante, Divulgador *divulgador) override;
+    void recibirDanio(int danio, Entidad *atacante, Divulgador *divulgador) override;
+    void dropearItems(Entidad *atacante) override;
+
     void eliminarDeInventario(unsigned int pos);
     void equipar(Arma *arma);
     void equipar(Armadura *armadura);
@@ -48,6 +61,7 @@ class Personaje : public Entidad{
     void equipar(Escudo *escudo);
     void meditar();
     void frenarMeditacion();
+    Estado *obtenerEstado();
     ~Personaje();
 
     friend class Configuraciones;

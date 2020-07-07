@@ -118,6 +118,10 @@ const uint32_t Configuraciones::obtenerPersonajeAncho() const{
 const uint32_t Configuraciones::obtenerPersonajeAlto() const{
     return json.at("Personaje").at("Alto").get<uint32_t>();
 }
+//Estados
+const uint16_t Configuraciones::obtenerEstadoIDTCP(std::string &id) const{
+    return json.at("Estados").at(id).at("idTCP").get<uint16_t>();
+}
 //Ciudadanos
 const uint32_t Configuraciones::obtenerCiudadanoAncho(std::string &id) const{
     return json.at("Ciudadanos").at(id).at("Ancho").get<uint32_t>();
@@ -184,6 +188,9 @@ const uint32_t Configuraciones::obtenerClaseMejoraAgilidadEnSubida(std::string &
 const uint32_t Configuraciones::obtenerClaseMejoraConstitucionEnSubida(std::string &id) const{
     return json.at("Clases").at(id).at("MejoraConstitucionEnSubida").get<uint32_t>();
 }
+const uint16_t Configuraciones::obtenerClaseIDTCP(std::string &id) const{
+    return json.at("Clases").at(id).at("idTCP").get<uint16_t>();
+}
 //Razas
 const float Configuraciones::obtenerFRazaVida(std::string &id) const{
     return json.at("Razas").at(id).at("FRazaVida").get<float>();
@@ -209,6 +216,9 @@ const uint32_t Configuraciones::obtenerRazaMejoraAgilidadEnSubida(std::string &i
 const uint32_t Configuraciones::obtenerRazaMejoraConstitucionEnSubida(std::string &id) const{
     return json.at("Razas").at(id).at("MejoraConstitucionEnSubida").get<float>();
 }
+const uint16_t Configuraciones::obtenerRazaIDTCP(std::string &id) const{
+    return json.at("Razas").at(id).at("idTCP").get<uint16_t>();
+}
 //Armas
 const int32_t  Configuraciones::obtenerArmaDanioMax(std::string &id) const{
     return json.at("Items").at("Armas").at(id).at("DanioMax").get<int32_t>();
@@ -222,12 +232,24 @@ const float Configuraciones::obtenerArmaRangoAtaque(std::string &id) const{
 const uint32_t Configuraciones::obtenerArmaConsumoMana(std::string &id) const{
     return json.at("Items").at("Armas").at(id).at("ConsumoMana").get<uint32_t>();
 }
+const uint32_t  Configuraciones::obtenerArmaPrecio(std::string &id) const{
+    return json.at("Items").at("Armas").at(id).at("Precio").get<uint32_t>();
+}
+const uint16_t Configuraciones::obtenerArmaIDTCP(std::string &id) const{
+    return json.at("Items").at("Armas").at(id).at("idTCP").get<uint16_t>();
+}
 //Armaduras
 const uint32_t  Configuraciones::obtenerArmaduraDefensaMax(std::string &id) const{
     return json.at("Items").at("Armaduras").at(id).at("DefensaMax").get<uint32_t>();
 }
 const uint32_t  Configuraciones::obtenerArmaduraDefensaMin(std::string &id) const{
     return json.at("Items").at("Armaduras").at(id).at("DefensaMin").get<uint32_t>();
+}
+const uint32_t  Configuraciones::obtenerArmaduraPrecio(std::string &id) const{
+    return json.at("Items").at("Armaduras").at(id).at("Precio").get<uint32_t>();
+}
+const uint16_t Configuraciones::obtenerArmaduraIDTCP(std::string &id) const{
+    return json.at("Items").at("Armaduras").at(id).at("idTCP").get<uint16_t>();
 }
 //Escudos
 const uint32_t  Configuraciones::obtenerEscudoDefensaMax(std::string &id) const{
@@ -236,6 +258,12 @@ const uint32_t  Configuraciones::obtenerEscudoDefensaMax(std::string &id) const{
 const uint32_t  Configuraciones::obtenerEscudoDefensaMin(std::string &id) const{
     return json.at("Items").at("Escudos").at(id).at("DefensaMin").get<uint32_t>();
 }
+const uint32_t  Configuraciones::obtenerEscudoPrecio(std::string &id) const{
+    return json.at("Items").at("Escudos").at(id).at("Precio").get<uint32_t>();
+}
+const uint16_t Configuraciones::obtenerEscudoIDTCP(std::string &id) const{
+    return json.at("Items").at("Escudos").at(id).at("idTCP").get<uint16_t>();
+}
 //Cascos
 const uint32_t  Configuraciones::obtenerCascoDefensaMax(std::string &id) const{
     return json.at("Items").at("Cascos").at(id).at("DefensaMax").get<uint32_t>();
@@ -243,9 +271,11 @@ const uint32_t  Configuraciones::obtenerCascoDefensaMax(std::string &id) const{
 const uint32_t  Configuraciones::obtenerCascoDefensaMin(std::string &id) const{
     return json.at("Items").at("Cascos").at(id).at("DefensaMin").get<uint32_t>();
 }
-//Oro
-const uint32_t  Configuraciones::obtenerOroCantidadMax() const{
-    return json.at("Items").at("Oro").at("CantidadMaxima").get<uint32_t>();
+const uint32_t  Configuraciones::obtenerCascoPrecio(std::string &id) const{
+    return json.at("Items").at("Cascos").at(id).at("Precio").get<uint32_t>();
+}
+const uint16_t Configuraciones::obtenerCascoIDTCP(std::string &id) const{
+    return json.at("Items").at("Cascos").at(id).at("idTCP").get<uint16_t>();
 }
 //Pociones
 const uint32_t  Configuraciones::obtenerPocionCuracionVida(std::string &id) const{
@@ -253,6 +283,12 @@ const uint32_t  Configuraciones::obtenerPocionCuracionVida(std::string &id) cons
 }
 const uint32_t  Configuraciones::obtenerPocionCuracionMana(std::string &id) const{
     return json.at("Items").at("Pociones").at(id).at("CuracionMana").get<uint32_t>();
+}
+const uint32_t  Configuraciones::obtenerPocionPrecio(std::string &id) const{
+    return json.at("Items").at("Pociones").at(id).at("Precio").get<uint32_t>();
+}
+const uint16_t Configuraciones::obtenerPocionIDTCP(std::string &id) const{
+    return json.at("Items").at("Pociones").at(id).at("idTCP").get<uint16_t>();
 }
 
 
@@ -450,67 +486,3 @@ const std::string Configuraciones::obtenerMapaSpawnCriaturaAleatoria(const std::
     std::advance(elegido, desplazamiento);
     return (*elegido);
 }
-
-/*
-Ver como implementar la probabilidad de drop
-0.8 Nada
-0.1 Oro
-0.05 Pocio de vida o mana al azar
-0.05 Cualquier otro objeto al azar
-*/
-
-/*
-
-Criatura::actualizarEstado(Mapa *mapa){
-    if (enPersecucion){
-        perseguirObjetivo(mapa);
-        return;
-    }
-    //objetivo es un puntero a Entidad, atributo de la instancia ->> Entidad *objetivo;
-    float distMenor = 0;
-    float distActual = 0;
-    std::vector<Entidad*> resultado = mapa.obtenerCercanos(this);
-    for (auto entidad : resultado){
-        distActual = this->posicion.calcularDistancia(entidad->obtenerPosicion());
-        if (distActual < distMenor){
-            objetivo = entidad;
-            distMenor = distActual;
-        }
-    }
-    perseguirObjetivo(mapa);
-}
-
-Criatura::perseguirObjetivo(Mapa *mapa){
-    Posicion nuevaPosicion = this->posicion.perseguir(objetivo->obtenerPosicion());
-    mapa->actualizarPosicion(this, nuevaPosicion);
-}
-
-*/
-
-
-
-
-/*
-
-Operacion:
-
-Delega el comportamiento en el NPC, pasandole un puntero a Cliente.
-
-
-
-
-NPCS:
-
-Interactuar
-
-Banquero:           Primero se obtiene los items de la ventana en la operacion "interactuar", luego se le pide comprar con una posicion determinada
-Comerciante:        
-BolsaDeItems:       
-
-
-Sacerdote:          
-Teletransportador:
-
-
-
-*/

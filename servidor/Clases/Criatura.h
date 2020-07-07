@@ -12,8 +12,12 @@ class Criatura : public Entidad{
     Criatura& operator=(Criatura &&otro) = delete;
     Criatura& operator=(Criatura &otro) = delete;
     void agregarDiferenciador(const unsigned int numero);
-    void dropearItems(Entidad *atacante) override;
     const std::string obtenerId() const override;
+    void atacar(Personaje *objetivo, Divulgador *divulgador) override;
+    void atacar(Criatura *objetivo, Divulgador *divulgador) override;
+    void serAtacadoPor(Personaje *atacante, Divulgador *divulgador) override;
+    void serAtacadoPor(Criatura *atacante, Divulgador *divulgador) override;
+    void dropearItems(Entidad *atacante) override;
     ~Criatura();
 
 };

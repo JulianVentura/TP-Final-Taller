@@ -8,7 +8,11 @@ class Pocion : public Item{
     unsigned int curacionMana;
 
     public:
-    Pocion(unsigned int curacionVida, unsigned int curacionMana, std::string unId);
+    Pocion(unsigned int curacionVida, 
+           unsigned int curacionMana, 
+           std::string unId,
+           uint16_t idTCP,
+           unsigned int unPrecio);
     void utilizar(Personaje *personaje, unsigned int pos) override;
 };
 

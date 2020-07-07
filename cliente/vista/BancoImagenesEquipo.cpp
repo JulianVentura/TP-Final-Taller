@@ -9,7 +9,7 @@ BancoImagenesEquipo::BancoImagenesEquipo(EntornoGrafico& entorno){
 	}
 }
 
-void BancoImagenesEquipo::render(unsigned int indice, int x, int y){
+void BancoImagenesEquipo::render(uint16_t indice, int x, int y){
 	if(indice == 0) return;
 	imagenes[indice].setPosicion(x, y);
 	imagenes[indice].render();

@@ -24,6 +24,7 @@ public:
 	void finalizar();
 	void encolarMensaje(std::string origen, std::string destino,
 	 std::string mensaje);
+	void encolarMensaje(std::string destino, std::string mensaje);
 };
 
 #endif /*__DIVULGADOR_H__*/

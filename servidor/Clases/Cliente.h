@@ -4,14 +4,15 @@
 #include <atomic>
 #include <vector>
 
+#include "../../common/commonSocket.h"
 
 #include "ClienteProxy.h"
 #include "Personaje.h"
 #include "OrganizadorSalas.h"
 
+#include "Item.h"
 #include "ExcepcionSocket.h"
 #include "ExcepcionCliente.h"
-#include "Socket.h"
 #include "BaseDeDatos.h"
 #include "PosicionEncapsulada.h"
 #include <memory>
@@ -46,6 +47,7 @@ class Cliente : public Thread{
                       std::string &idRaza, 
                       std::string &idClase);
     std::string obtenerId();
+    Sala *obtenerSala();
     Personaje* obtenerPersonaje();
     void cargarMapa(const std::vector<char> &&infoMapa);
     void procesar();
@@ -56,6 +58,9 @@ class Cliente : public Thread{
      &posiciones);
     void enviarMensaje(const std::string& mensaje);
     void enviarChat(const std::string& mensaje, bool mensaje_publico);
+    void enviarTienda(std::vector<Item*>& items);
+    void enviarContenedor(std::vector<Item*>& items);
+    void enviarInventario();
 
     //ClienteProxy es friend de Cliente
     friend class ClienteProxy;

@@ -4,36 +4,24 @@
 #include "Arma.h"
 #include "Mapa.h"
 #include "Configuraciones.h"
+#include "Interactuable.h"
+#include "Sacerdote.h"
+#include "Cliente.h"
+#include "Item.h"
+#include "Divulgador.h"
 
-EstadoFantasma::EstadoFantasma(Personaje *unPersonaje) : Estado(unPersonaje){}
+EstadoFantasma::EstadoFantasma(Personaje *unPersonaje) : Estado(unPersonaje){
+    Configuraciones *config = Configuraciones::obtenerInstancia();
+    std::string id = "EstadoNormal";
+    idTCP = config->obtenerEstadoIDTCP(id);
+}
 
 void EstadoFantasma::interactuar(Entidad *entidad){
     //Interactuar normalmente.
 }
 
-/*
-void EstadoFantasma::interactuar(Sacerdote *sacerdote){
-    //entidad->interactuar(this);
-}
-
-void EstadoFantasma::interactuar(Banquero *banquero){
-    //No hacer nada o lanzar excepcion
-}
-
-void EstadoFantasma::interactuar(Comerciante *comerciante){
-    //No hacer nada o lanzar excepcion
-}
-
-void EstadoFantasma::interactuar(Personaje *personaje){
-    //No hacer nada o lanzar excepcion
-}
-
-void EstadoFantasma::interactuar(Criatura *criatura){
-    //No hacer nada o lanzar excepcion
-}
-*/
-void EstadoFantasma::atacar(Entidad *objetivo, Arma *arma){
-    //No hacer nada o lanzar excepcion
+void EstadoFantasma::atacar(Entidad *objetivo, Arma *arma, Divulgador *divulgador){
+    //Enviar mensaje: "No se puede atacar siendo fantasma"
 }
 
 void EstadoFantasma::actualizar(double tiempo, Mapa *mapa){
@@ -44,8 +32,12 @@ void EstadoFantasma::actualizar(double tiempo, Mapa *mapa){
     mapa->actualizarPosicion(personaje, std::move(nuevaPosicion));
 }
 
-void EstadoFantasma::recibirDanio(int danio, Entidad *atacante){
-    //No hacer nada o lanzar excepcion
+void EstadoFantasma::serAtacadoPor(Entidad *atacante, Divulgador *divulgador){
+    //Enviar mensaje: "No se puede entrar en pelea siendo fantasma"
+}
+
+void EstadoFantasma::recibirDanio(int danio, Entidad *atacante, Divulgador *divulgador){
+    //Enviar mensaje: "No se puede entrar en pelea siendo fantasma"
 }
 
 void EstadoFantasma::meditar(){
@@ -56,5 +48,22 @@ void EstadoFantasma::dejarDeMeditar(){
     //No hacer nada o lanzar excepcion
 }
 
+
+void EstadoFantasma::pedirCuracion(Sacerdote *sacerdote, Cliente *cliente){
+    sacerdote->curar(personaje, cliente);
+    personaje->estadoNormal();
+}
+
+void EstadoFantasma::pedirListado(Interactuable *interactuable, Cliente *cliente){
+    //No hacer nada
+}
+
+void EstadoFantasma::pedirCompra(unsigned int pos, Interactuable *interactuable, Cliente *cliente){
+    //No hacer nada
+}
+
+void EstadoFantasma::pedirVenta(unsigned int pos, Interactuable *interactuable, Cliente *cliente){
+    //No hacer nada
+}
 
 EstadoFantasma::~EstadoFantasma(){}

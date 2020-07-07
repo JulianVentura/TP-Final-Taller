@@ -73,11 +73,24 @@ void Cliente::actualizarEstado(const std::vector<struct PosicionEncapsulada> &po
 }  
 
  void Cliente::enviarMensaje(const std::string& mensaje){
-    clienteProxy.enviarMensaje(mensaje);
+    //clienteProxy.enviarMensaje(mensaje);
  }
 
  void Cliente::enviarChat(const std::string& mensaje, bool mensaje_publico){
     clienteProxy.enviarChat(mensaje, mensaje_publico);
+}
+
+void Cliente::enviarContenedor(std::vector<Item*>& items){
+    clienteProxy.enviarContenedor(items);
+}
+
+void Cliente::enviarTienda(std::vector<Item*>& items){
+    clienteProxy.enviarTienda(items);
+}
+
+void Cliente::enviarInventario(){
+    clienteProxy.enviarInventario(*personaje -> obtenerInventario(),
+     personaje -> obtenerOro());
 }
 
 void Cliente::cargarMapa(const std::vector<char> &&infoMapa){
@@ -94,6 +107,10 @@ std::string Cliente::obtenerId(){
 }
 Personaje* Cliente::obtenerPersonaje(){
     return personaje.get();
+}
+
+Sala *Cliente::obtenerSala(){
+    return this->organizadorSalas.obtenerSala(salaActual);
 }
 
 void Cliente::procesar(){
@@ -135,6 +152,6 @@ std::pair<std::string, std::string> Cliente::login(OrganizadorClientes &organiza
         }
     }
     
-    clienteProxy.enviarMensajeConfirmacion();
+    //clienteProxy.enviarMensajeConfirmacion();
     return credenciales;
 }

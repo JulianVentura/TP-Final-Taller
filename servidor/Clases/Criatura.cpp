@@ -1,6 +1,9 @@
 #include "Criatura.h"
+#include "Mapa.h"
+#include "Personaje.h"
 #include "Configuraciones.h"
 #include "FabricaDeItems.h"
+#include "BolsaDeItems.h"
 #include <utility>
 #include <memory>
 #include <sstream>
@@ -38,7 +41,7 @@ void Criatura::agregarDiferenciador(const unsigned int numero){
 
 const std::string Criatura::obtenerId() const {
     std::stringstream _id;
-    _id << this->id << diferenciador;
+    _id << this->id << "#" << diferenciador;
     return _id.str();
 }
 
@@ -48,13 +51,33 @@ void Criatura::dropearItems(Entidad *atacante){
     TipoDrop tipo = config->calcularDrop(id);
     if (tipo == ORO){
         unsigned int cantidad = config->calcularDropOro(id);
-        atacante->cobrar(cantidad);
+        atacante->recibirOro(cantidad);
     }else if (tipo == ITEM){
+        //Siempre se va a obtener un drop
         Item* item = fabricaItems->obtenerItemAleatorio(id);
-        //Dropear el item
-        item = item;
+        std::unique_ptr<BolsaDeItems> bolsa(new BolsaDeItems(this->posicion, item));
+        //No hay riesgo de RC al cargar algo a mapa porque este es el unico hilo que accede a el.
+        this->mapaAlQuePertenece->cargarDrop(std::move(bolsa));
     }
     //No se dropea nada.
+}
+
+
+
+void Criatura::atacar(Personaje *objetivo, Divulgador *divulgador){
+    arma->atacar(objetivo, this, divulgador);
+}
+
+void Criatura::atacar(Criatura *objetivo, Divulgador *divulgador){
+    arma->atacar(objetivo, this, divulgador);
+}
+
+void Criatura::serAtacadoPor(Personaje *atacante, Divulgador *divulgador){
+    atacante->atacar(this, divulgador);
+}
+
+void Criatura::serAtacadoPor(Criatura *atacante, Divulgador *divulgador){
+    atacante->atacar(this, divulgador);
 }
 
 Criatura::~Criatura(){}

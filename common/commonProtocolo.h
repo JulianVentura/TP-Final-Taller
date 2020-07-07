@@ -10,31 +10,22 @@ class Socket;
 
 /*
 *	Conjunto de métodos y definiciones relacionados al intercambio de datos
-*	entre servidor-cliente y al tratamiento de los numeros.
+*	entre servidor-cliente.
 */
 
-#define TAM_NUMERO 2
-#define TAM_ENCABEZADO_STRING 4
+#define TAM_INT16 2
 #define TAM_INT32 4
-#define TAM_ID 20 // TODO: podría estar en common/CodigosOperacion o algo por el 
-                  // estilo.
+#define TAM_ENCABEZADO_STRING 4
                   
 class Protocolo {
 public:
     void enviarString(Socket& socket_comunicacion, const std::string& string);
     void recibirString(Socket& socket_comunicacion, std::string& string);
-    void enviarNumero(Socket& socket_comunicacion, uint16_t n);
-    void enviarMovimiento(Socket& socket, uint32_t movimiento);
-    void enviarID(Socket& socket, std::string id);
-    uint16_t recibirNumero(Socket& socket_comunicacion);
-    void enviarChat(Socket& socket, std::string& origen,
-    std::string& destino, std::string& mensaje);
-    void recibirChat(Socket& socket, std::string& mensaje,
-     bool& mensaje_publico);
 
-    void recibirMapa(Socket& socket, std::string& mapa);
-	
-    void recibirPosiciones(Socket& socket, 
-            std::unordered_map<std::string, std::pair<int, int>>& posiciones);
+    void enviarUint32(Socket& socket_comunicacion, uint32_t op);
+    uint32_t recibirUint32(Socket& socket_comunicacion);
+
+    void enviarUint16(Socket& socket_comunicacion, uint16_t n);
+    uint16_t recibirUint16(Socket& socket_comunicacion);
 };
 #endif /*__PROTOCOLO_ADIVINA_NUMERO_H__*/

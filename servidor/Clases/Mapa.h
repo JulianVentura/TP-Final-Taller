@@ -7,6 +7,8 @@
 #include "Posicionable.h"
 #include "Personaje.h"
 #include "Criatura.h"
+#include "Interactuable.h"
+#include "BolsaDeItems.h"
 #include "Box.h"
 #include "PosicionEncapsulada.h"
 #include <vector>
@@ -35,6 +37,9 @@ class Mapa{
     unsigned int limiteCriaturas;
     std::map<std::string, Personaje*> personajes; 
     std::map<std::string, std::unique_ptr<Criatura>> criaturas;
+    std::map<std::string, std::unique_ptr<Interactuable>> ciudadanos;
+    std::map<std::string, std::unique_ptr<BolsaDeItems>> drops;
+
     FabricaDeCriaturas fabricaCriaturas;
     std::mt19937 motorAleatorio;
     /*
@@ -77,8 +82,11 @@ class Mapa{
     /*
     Obtiene una entidad del mapa dado su id.
     */
-    Entidad* obtener(const char* id);
+    Entidad* obtener(std::string &id);
 
+    void cargarDrop(std::unique_ptr<BolsaDeItems> bolsa);
+    void limpiarDrops();
+    Interactuable *obtenerInteractuable(std::string &id);
     /*
     Carga un personaje al mapa y lo almacena segun su id
     */

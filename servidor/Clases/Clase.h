@@ -5,6 +5,7 @@
 class Clase{
     protected:
     std::string id;
+    uint16_t idTCP;
     float FClaseVida;
     float FClaseMana;
     float FClaseRecuperacion;
@@ -20,7 +21,7 @@ class Clase{
     Clase& operator=(Clase &&otro);
     Clase& operator=(Clase &otro) = delete;
     const std::string obtenerId() const;
-
+    const uint16_t obtenerIDTCP() const;
     friend class Configuraciones;
 };
 

@@ -43,6 +43,9 @@ GUI_Login::GUI_Login(EntornoGrafico& entorno, Colores& paleta,
 	botones.push_back(&selector_raza);
 	botones.push_back(&selector_clase);
 
+	entrada_sup_vista.entrada = "localhost";
+	entrada_inf_vista.entrada = "3080";
+
 	servidor.salida = &salida;
 	evento_salida.type = SDL_QUIT;
 	actualizarDimension();

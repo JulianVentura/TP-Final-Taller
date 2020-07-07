@@ -3,12 +3,16 @@
 
 class IPosicionable {
 public:
-    virtual void actualizarPosicion(int x, int y);
+    void actualizarPosicion(int x, int y);
+    int getX() const;
+    int getY() const;
+    bool esta_actualizado() const;
+    void consumirActualizacion();
 
-protected:
+private:
     int x = 0; 
     int y = 0;
-    bool esta_actualizado = false;
+    bool _esta_actualizado = false;
 };
 
 #endif

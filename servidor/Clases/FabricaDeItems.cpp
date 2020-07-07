@@ -56,7 +56,9 @@ Arma* FabricaDeItems::crearArma(std::string &id){
     int danioMin = config->obtenerArmaDanioMin(id);
     float radioAtaque = config->obtenerArmaRangoAtaque(id);
     unsigned int consumoMana = config->obtenerArmaConsumoMana(id);
-    armas[id] = std::unique_ptr<Arma>(new Arma(danioMax, danioMin, consumoMana, radioAtaque, id));
+    unsigned int precio = config->obtenerArmaPrecio(id);
+    uint16_t idTCP = config->obtenerArmaIDTCP(id);
+    armas[id] = std::unique_ptr<Arma>(new Arma(danioMax, danioMin, consumoMana, radioAtaque, id, idTCP, precio));
     return armas[id].get();
 }
 
@@ -70,7 +72,9 @@ Armadura* FabricaDeItems::crearArmadura(std::string &id){
     Configuraciones *config = Configuraciones::obtenerInstancia();
     unsigned int defensaMax = config->obtenerArmaduraDefensaMax(id);
     unsigned int defensaMin = config->obtenerArmaduraDefensaMin(id);
-    armaduras[id] = std::unique_ptr<Armadura>(new Armadura(defensaMax, defensaMin, id));
+    unsigned int precio = config->obtenerArmaduraPrecio(id);
+    uint16_t idTCP = config->obtenerArmaduraIDTCP(id);
+    armaduras[id] = std::unique_ptr<Armadura>(new Armadura(defensaMax, defensaMin, id, idTCP, precio));
     return armaduras[id].get();
 }
 //Escudo
@@ -83,7 +87,9 @@ Escudo* FabricaDeItems::crearEscudo(std::string &id){
     Configuraciones *config = Configuraciones::obtenerInstancia();
     unsigned int defensaMax = config->obtenerEscudoDefensaMax(id);
     unsigned int defensaMin = config->obtenerEscudoDefensaMin(id);
-    escudos[id] = std::unique_ptr<Escudo>(new Escudo(defensaMax, defensaMin, id));
+    unsigned int precio = config->obtenerEscudoPrecio(id);
+    uint16_t idTCP = config->obtenerEscudoIDTCP(id);
+    escudos[id] = std::unique_ptr<Escudo>(new Escudo(defensaMax, defensaMin, id, idTCP, precio));
     return escudos[id].get();
 }
 //Casco
@@ -96,7 +102,9 @@ Casco* FabricaDeItems::crearCasco(std::string &id){
     Configuraciones *config = Configuraciones::obtenerInstancia();
     unsigned int defensaMax = config->obtenerCascoDefensaMax(id);
     unsigned int defensaMin = config->obtenerCascoDefensaMin(id);
-    cascos[id] = std::unique_ptr<Casco>(new Casco(defensaMax, defensaMin, id));
+    unsigned int precio = config->obtenerCascoPrecio(id);
+    uint16_t idTCP = config->obtenerCascoIDTCP(id);
+    cascos[id] = std::unique_ptr<Casco>(new Casco(defensaMax, defensaMin, id, idTCP, precio));
     return cascos[id].get();
 }
 //Pocion
@@ -109,12 +117,8 @@ Pocion* FabricaDeItems::crearPocion(std::string &id){
     Configuraciones *config = Configuraciones::obtenerInstancia();
     unsigned int curacionVida = config->obtenerPocionCuracionVida(id);
     unsigned int curacionMana = config->obtenerPocionCuracionMana(id);
-    pociones[id] = std::unique_ptr<Pocion>(new Pocion(curacionVida, curacionMana, id));
+    unsigned int precio = config->obtenerPocionPrecio(id);
+    uint16_t idTCP = config->obtenerPocionIDTCP(id);
+    pociones[id] = std::unique_ptr<Pocion>(new Pocion(curacionVida, curacionMana, id, idTCP, precio));
     return pociones[id].get();
 }
-/*
-//Oro
-std::unique_ptr<Oro> FabricaDeItems::crearOro(unsigned int cantidad){
-    return std::unique_ptr<Oro>(new Oro(cantidad));
-}
-*/
