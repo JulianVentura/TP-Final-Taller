@@ -36,7 +36,10 @@ MovibleVista::MovibleVista(EntornoGrafico& entorno, IPosicionable* modelo,
     ultimo_estado = ANIMACION_ABAJO;
     this->ancho = parser.getAncho();
     this->alto = parser.getAlto();
-    imagenes = parser.getImagenes(apariencia.raza, apariencia.clase);
+    if (apariencia.tipo != "")  
+        imagenes = parser.getImagenes(apariencia.tipo);
+    else
+        imagenes = parser.getImagenes(apariencia.raza, apariencia.clase);
 }
 
 void MovibleVista::actualizar(unsigned int delta_t) {
@@ -60,9 +63,6 @@ void MovibleVista::render() {
             imagen->render();
         }
     }
-    renderer->rect(x - ancho / 2, y - alto, ancho, alto);
-    std::string pos = std::to_string(x) + " " + std::to_string(y);
-    renderer->texto(pos, x, y);
     animacion.avanzar();
 }
 

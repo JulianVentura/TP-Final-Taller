@@ -34,6 +34,7 @@ public:
     void actualizar(unsigned int delta_t) override;
     void setObjetivoCamara(ITargeteable& objetivo);
     void agregarObstruible(IObstruible* obstruible);
+    void agregarNuevo(std::string& id);
 
 private:
     EntornoGrafico& entorno;

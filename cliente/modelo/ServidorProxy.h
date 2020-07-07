@@ -15,8 +15,9 @@
 #include "../../common/commonSocket.h"
 #include "../../common/CodigosOperacion.h"
 
-#define TAM_ID 20 // TODO: podría estar en common/CodigosOperacion o algo por el 
-                  // estilo.
+#define TAM_ID 20
+
+class Juego;
 
 class GUI_ChatControlador;
 class ServidorProxy;
@@ -29,6 +30,7 @@ private:
 	DatosPersonaje& datos_personaje;
 	DatosTienda& datos_tienda;
 	Protocolo protocolo;
+	Juego* juego;
 	std::unordered_map<std::string, IPosicionable*> posicionables;
 	std::string mapa;
 	void actualizarPosiciones();
@@ -65,6 +67,8 @@ public:
 	// Interaccion
 	void enviarInteraccion(std::string& id);
 	void enviarAtaque(std::string& id);
+
+	void setJuego(Juego* juego);
 };
 
 #endif /*__SERVIDOR_PROXY_H__*/
