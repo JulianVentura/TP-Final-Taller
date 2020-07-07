@@ -24,6 +24,7 @@ class Interactuable : public Colisionable{
     const quadtree::Box<float>& obtenerArea() const override;
     bool colisionaCon(const Colisionable &otro) const override;
     bool colisionaCon(const quadtree::Box<float> &area) const override;
+    const Posicion& obtenerPosicion() const;
     const std::string obtenerId() const;
     virtual ~Interactuable();
 };  

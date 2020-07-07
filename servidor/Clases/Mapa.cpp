@@ -97,7 +97,7 @@ Mapa::Mapa(std::string nombre) :        nombreMapa(nombre),
         quadTreeEstatico.add(&(objetosEstaticos[i]));
     }
     //Esto que esta completamente hardcodeado deberia levantarse del configuraciones.json
-    //La idea es que el mapa sepa las posiciones del Sacerdote, Banquero y Comericante.
+    //La idea es que el mapa sepa las posiciones del Sacerdote, Banquero y Comerciante.
     std::unique_ptr<Interactuable> sacerdote(new Sacerdote(90, 90));
     std::unique_ptr<Interactuable> banquero(new Banquero(105, 110));
     std::unique_ptr<Interactuable> comerciante(new Comerciante(95, 105));
@@ -115,23 +115,6 @@ void Mapa::actualizarPosicion(Entidad *entidad, Posicion &&nuevaPosicion){
     quadTreeDinamico.add(entidad);
 }
 
-std::string Mapa::posicionesACadena(){
-    std::string resultado;
-
-    for (std::map<std::string, std::unique_ptr<Criatura>>::iterator it = criaturas.begin();
-         it != criaturas.end();
-         ++it){
-        resultado += it->first + '/' + it->second->imprimirPosicion() + '$';
-    }
-
-    for (std::map<std::string, Personaje*>::iterator it = personajes.begin();
-         it != personajes.end();
-         ++it){
-        resultado += it->first + '/' + it->second->imprimirPosicion() + '$';
-    }
-    return resultado;
-}
-
 std::vector<struct PosicionEncapsulada> Mapa::recolectarPosiciones(){
     std::vector<struct PosicionEncapsulada> resultado;
     struct PosicionEncapsulada pos = {{0}, 0, 0};
@@ -147,6 +130,15 @@ std::vector<struct PosicionEncapsulada> Mapa::recolectarPosiciones(){
          it != personajes.end();
          ++it){
         pos = {{0}, it->second->obtenerX(), it->second->obtenerY()};
+        strncpy(pos.id, it->first.c_str(), TAM_ID);
+        pos.id[TAM_ID - 1] = 0;
+        resultado.push_back(std::move(pos));
+    }
+    for (std::map<std::string, std::unique_ptr<Interactuable>>::iterator it = ciudadanos.begin();
+         it != ciudadanos.end();
+         ++it){
+        ;
+        pos = {{0}, it->second->obtenerPosicion().obtenerX(), it->second->obtenerPosicion().obtenerY()};
         strncpy(pos.id, it->first.c_str(), TAM_ID);
         pos.id[TAM_ID - 1] = 0;
         resultado.push_back(std::move(pos));
@@ -320,7 +312,7 @@ const std::vector<char> Mapa::obtenerInformacionMapa(){
     return vector;
 }
 
-
+///////////////////////////DE ACA EN ADELANTE ES TODO DEBUG, NO ESTARA EN LA ENTREGA FINAL//////////////////
 
 // DEBUG
 #define ANCHO_TILE 32.0f // Esto dice en mapa.json
@@ -389,4 +381,21 @@ std::string Mapa::aCadena() {
         mapa_resultado << "\n";
     }
     return mapa_resultado.str();
+}
+
+std::string Mapa::posicionesACadena(){
+    std::string resultado;
+
+    for (std::map<std::string, std::unique_ptr<Criatura>>::iterator it = criaturas.begin();
+         it != criaturas.end();
+         ++it){
+        resultado += it->first + '/' + it->second->imprimirPosicion() + '$';
+    }
+
+    for (std::map<std::string, Personaje*>::iterator it = personajes.begin();
+         it != personajes.end();
+         ++it){
+        resultado += it->first + '/' + it->second->imprimirPosicion() + '$';
+    }
+    return resultado;
 }
