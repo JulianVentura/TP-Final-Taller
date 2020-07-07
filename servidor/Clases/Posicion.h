@@ -17,7 +17,7 @@ class Posicion{
     public:
     Posicion();
     Posicion(float x, float y, float ancho, float alto);
-    Posicion(Posicion &otro) = delete;
+    Posicion(Posicion &otro);
     Posicion(Posicion &&otro);
     Posicion& operator=(Posicion &&otro);
     void actualizarPosicion(Posicion &&posicion);

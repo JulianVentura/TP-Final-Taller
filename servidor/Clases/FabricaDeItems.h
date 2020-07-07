@@ -32,10 +32,7 @@ class FabricaDeItems{
     Casco* crearCasco(std::string &id);
     //Pocion
     Pocion* crearPocion(std::string &id);
-    /*
-    //Oro
-    std::unique_ptr<Oro> crearOro(unsigned int cantidad);
-    */
+    
     private:
     FabricaDeItems();
     static FabricaDeItems instancia;

@@ -1,6 +1,9 @@
 #include "Criatura.h"
+#include "Mapa.h"
+#include "Personaje.h"
 #include "Configuraciones.h"
 #include "FabricaDeItems.h"
+#include "BolsaDeItems.h"
 #include <utility>
 #include <memory>
 #include <sstream>
@@ -48,13 +51,36 @@ void Criatura::dropearItems(Entidad *atacante){
     TipoDrop tipo = config->calcularDrop(id);
     if (tipo == ORO){
         unsigned int cantidad = config->calcularDropOro(id);
-        atacante->cobrar(cantidad);
+        atacante->recibirOro(cantidad);
     }else if (tipo == ITEM){
+        //Siempre se va a obtener un drop
         Item* item = fabricaItems->obtenerItemAleatorio(id);
-        //Dropear el item
-        item = item;
+        std::unique_ptr<BolsaDeItems> bolsa(new BolsaDeItems(this->posicion, item));
+        //No hay riesgo de RC al cargar algo a mapa porque este es el unico hilo que accede a el.
+        this->mapaAlQuePertenece->cargarDrop(std::move(bolsa));
     }
     //No se dropea nada.
+}
+
+
+void Criatura::atacar(Entidad *objetivo){
+    objetivo->serAtacadoPor(this);
+}
+
+void Criatura::atacar(Personaje *objetivo){
+    arma->atacar(objetivo, this);
+}
+
+void Criatura::atacar(Criatura *objetivo){
+    arma->atacar(objetivo, this);
+}
+
+void Criatura::serAtacadoPor(Personaje *atacante){
+    atacante->atacar(this);
+}
+
+void Criatura::serAtacadoPor(Criatura *atacante){
+    atacante->atacar(this);
 }
 
 Criatura::~Criatura(){}

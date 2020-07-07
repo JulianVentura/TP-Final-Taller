@@ -18,6 +18,8 @@ Posicion::Posicion() : x(0), y(0), ancho(0), alto(0), areaQueOcupa(0, 0, 0, 0){}
 
 Posicion::Posicion(Posicion &&otro) : Posicion(otro.x, otro.y, otro.ancho, otro.alto) {}
 
+Posicion::Posicion(Posicion &otro) : Posicion(otro.x, otro.y, otro.ancho, otro.alto) {}
+
 Posicion& Posicion::operator=(Posicion &&otro){
     x = otro.x;
     y = otro.y;

@@ -5,6 +5,10 @@ class Arma;
 class Entidad;
 class Personaje;
 class Mapa;
+class Interactuable;
+class Cliente;
+class Item;
+class Sacerdote;
 class Estado{
     protected:
     Personaje *personaje;
@@ -18,6 +22,10 @@ class Estado{
     virtual void recibirDanio(int danio, Entidad *atacante) = 0;
     virtual void meditar() = 0;
     virtual void dejarDeMeditar() = 0;
+    virtual void pedirCuracion(Sacerdote *sacerdote, Cliente *cliente) = 0;
+    virtual void pedirListado(Interactuable *interactuable, Cliente *cliente) = 0;
+    virtual void pedirCompra(unsigned int pos, Interactuable *interactuable, Cliente *cliente) = 0;
+    virtual void pedirVenta(Item *item, Interactuable *interactuable, Cliente *cliente) = 0;
 
     virtual ~Estado();
 };

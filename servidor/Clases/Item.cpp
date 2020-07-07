@@ -1,6 +1,6 @@
 #include "Item.h"
 
-Item::Item(std::string unId) : id(unId){
+Item::Item(std::string unId, unsigned int unPrecio) : id(unId), precio(unPrecio){
     //Do nothing
 }
 
@@ -10,4 +10,8 @@ Item::~Item(){
 
 std::string Item::obtenerId(){
     return id;
+}
+
+unsigned int Item::obtenerPrecio(){
+    return precio;
 }

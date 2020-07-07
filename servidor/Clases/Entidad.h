@@ -8,6 +8,8 @@
 #include <string>
 
 class Mapa;
+class Personaje;
+class Criatura;
 class Entidad : public Colisionable, public Posicionable {
     protected:
     int vidaMaxima;
@@ -22,6 +24,7 @@ class Entidad : public Colisionable, public Posicionable {
     std::string id;
     Arma *arma;
     Inventario inventario;
+    Mapa *mapaAlQuePertenece;
 
     public:
     virtual ~Entidad();
@@ -34,11 +37,16 @@ class Entidad : public Colisionable, public Posicionable {
     virtual const std::string obtenerId() const;
     virtual void actualizarEstado(double tiempo, Mapa *mapa);
 
-    virtual void atacar(Entidad *objetivo);
+    virtual void atacar(Entidad *objetivo) = 0;
+    virtual void atacar(Personaje *objetivo) = 0;
+    virtual void atacar(Criatura *objetivo) = 0;
+    virtual void serAtacadoPor(Personaje *atacante) = 0;
+    virtual void serAtacadoPor(Criatura *atacante) = 0;
     virtual void recibirDanio(int danio, Entidad *atacante);
     virtual void obtenerExperiencia(unsigned int cantidad);
-    virtual void dropearItems(Entidad *atacante);
-    virtual void cobrar(unsigned int cantidad);
+    virtual void recibirOro(unsigned int cantidad);
+    virtual void dropearItems(Entidad *atacante) = 0;
+    void indicarMapaAlQuePertenece(Mapa *mapa);
     void consumirMana(unsigned int cantidad);
     void equipar(Arma *arma);
     void almacenar(Item *item);

@@ -11,7 +11,12 @@ class Arma : public Item{
     float radioAtaque;
     
     public:
-    Arma(int danioMax, int danioMin, unsigned int consMana, float radioAtaque, std::string id);
+    Arma(int danioMax, 
+         int danioMin, 
+         unsigned int consMana, 
+         float radioAtaque, 
+         std::string id,
+         unsigned int unPrecio);
     Arma(Arma &otro) = delete;
     Arma(Arma &&otro) = delete;
     Arma& operator=(Arma &otro) = delete;

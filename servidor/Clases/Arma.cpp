@@ -2,8 +2,17 @@
 #include "Entidad.h"
 #include "Personaje.h"
 
-Arma::Arma(int unDanioMax, int unDanioMin, unsigned int consMana, float unRadioAtaque, std::string unId) : 
-           Item(unId), danioMax(unDanioMax), danioMin(unDanioMin), consumoMana(consMana), radioAtaque(unRadioAtaque){}
+Arma::Arma(int unDanioMax, 
+           int unDanioMin, 
+           unsigned int consMana, 
+           float unRadioAtaque, 
+           std::string unId, 
+           unsigned int unPrecio) : 
+           Item(unId, unPrecio), 
+           danioMax(unDanioMax), 
+           danioMin(unDanioMin), 
+           consumoMana(consMana), 
+           radioAtaque(unRadioAtaque){}
 
 void Arma::atacar(Entidad *objetivo, Entidad *atacante){
     float distancia = atacante->obtenerPosicion().calcularDistancia(objetivo->obtenerPosicion());

@@ -83,22 +83,27 @@ class Configuraciones{
     //Armas
     const int32_t  obtenerArmaDanioMax(std::string &id) const;
     const int32_t  obtenerArmaDanioMin(std::string &id) const;
-    const float obtenerArmaRangoAtaque(std::string &id) const;
+    const float    obtenerArmaRangoAtaque(std::string &id) const;
     const uint32_t obtenerArmaConsumoMana(std::string &id) const;
+    const uint32_t obtenerArmaPrecio(std::string &id) const;
     //Armaduras
     const uint32_t obtenerArmaduraDefensaMax(std::string &id) const;
     const uint32_t obtenerArmaduraDefensaMin(std::string &id) const;
+    const uint32_t obtenerArmaduraPrecio(std::string &id) const;
     //Escudos
     const uint32_t obtenerEscudoDefensaMax(std::string &id) const;
     const uint32_t obtenerEscudoDefensaMin(std::string &id) const;
+    const uint32_t obtenerEscudoPrecio(std::string &id) const;
     //Cascos
     const uint32_t obtenerCascoDefensaMax(std::string &id) const;
     const uint32_t obtenerCascoDefensaMin(std::string &id) const;
+    const uint32_t obtenerCascoPrecio(std::string &id) const;
     //Oro
     const uint32_t obtenerOroCantidadMax() const;
     //Pociones
     const uint32_t obtenerPocionCuracionVida(std::string &id) const;
     const uint32_t obtenerPocionCuracionMana(std::string &id) const;
+    const uint32_t obtenerPocionPrecio(std::string &id) const;
     /* FORMULAS DEL JUEGO */ 
     unsigned int calcularVidaMax(Personaje *personaje);
     unsigned int calcularRecuperacionVida(Personaje *personaje, double tiempo);

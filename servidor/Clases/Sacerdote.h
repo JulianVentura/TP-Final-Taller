@@ -1,27 +1,19 @@
-#ifndef __BOLSA_DE_ITEMS_H__
-#define __BOLSA_DE_ITEMS_H__
+#ifndef __SACERDOTE_H__
+#define __SACERDOTE_H__
 #include "Interactuable.h"
-#include <vector>
-#include <atomic>
+
 class Personaje;
-class Item;
-class BolsaDeItems : public Interactuable{
-    private:
-    static unsigned int contadorInstancias;
-    std::vector<Item*> items;
-    unsigned int elementos;
-    std::atomic<bool> bolsaVacia;
+class Sacerdote : public Interactuable{
     public:
-    BolsaDeItems(Posicion posicion, std::vector<Item*> items);
-    BolsaDeItems(Posicion posicion, Item *item);
+    Sacerdote(float x, float y);
     void interactuar(Estado *estado, Cliente *cliente) override;
     void comprar(unsigned int pos, Estado *estado, Cliente *cliente) override;
     void vender(Item* item, Estado *estado, Cliente *cliente) override;
     void comprar(unsigned int pos, Personaje *personaje, Cliente *cliente) override;
     void vender(Item* item, Personaje *personaje, Cliente *cliente) override;
     void listar(Personaje *personaje, Cliente *cliente) override;
-    bool estaVacia();
-    ~BolsaDeItems() override;
+    void curar(Personaje *personaje, Cliente *cliente);
+    ~Sacerdote() override;
 };
 
 #endif

@@ -4,6 +4,10 @@
 #include "Arma.h"
 #include "Mapa.h"
 #include "Configuraciones.h"
+#include "Interactuable.h"
+#include "Sacerdote.h"
+#include "Cliente.h"
+#include "Item.h"
 
 EstadoMeditacion::EstadoMeditacion(Personaje *unPersonaje) : Estado(unPersonaje){}
 
@@ -43,6 +47,22 @@ void EstadoMeditacion::meditar(){
 
 void EstadoMeditacion::dejarDeMeditar(){
     personaje->estadoNormal();
+}
+
+void EstadoMeditacion::pedirCuracion(Sacerdote *sacerdote, Cliente *cliente){
+    //No se puede interactuar en estado de meditacion
+}
+
+void EstadoMeditacion::pedirListado(Interactuable *interactuable, Cliente *cliente){
+    //No se puede interactuar en estado de meditacion
+}
+
+void EstadoMeditacion::pedirCompra(unsigned int pos, Interactuable *interactuable, Cliente *cliente){
+    //No se puede interactuar en estado de meditacion
+}
+
+void EstadoMeditacion::pedirVenta(Item *item, Interactuable *interactuable, Cliente *cliente){
+    //No se puede interactuar en estado de meditacion
 }
 
 EstadoMeditacion::~EstadoMeditacion(){}

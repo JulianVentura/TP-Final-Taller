@@ -11,6 +11,10 @@ class EstadoNormal : public Estado{
     void recibirDanio(int danio, Entidad *atacante) override;
     void meditar() override;
     void dejarDeMeditar() override;
+    void pedirCuracion(Sacerdote *sacerdote, Cliente *cliente) override;
+    void pedirListado(Interactuable *interactuable, Cliente *cliente) override;
+    void pedirCompra(unsigned int pos, Interactuable *interactuable, Cliente *cliente) override;
+    void pedirVenta(Item *item, Interactuable *interactuable, Cliente *cliente) override;
 
     ~EstadoNormal() override;
 };

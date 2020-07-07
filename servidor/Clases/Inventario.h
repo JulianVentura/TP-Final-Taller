@@ -1,9 +1,9 @@
 #ifndef __INVENTARIO_H__
 #define __INVENTARIO_H__
-#include <memory>
 #include <vector>
 #include "Item.h"
 
+class BolsaDeItems;
 class Inventario{
     private:
     unsigned int limiteItems;
@@ -18,8 +18,8 @@ class Inventario{
     void almacenar(Item* item);
     Item* obtenerItem(unsigned int pos);
     void eliminar(unsigned int pos);
-    std::vector<std::string> obtenerTodosLosItems();
-
+    std::vector<Item*> obtenerTodosLosItems();
+    void eliminarTodosLosItems();
 };
 
 

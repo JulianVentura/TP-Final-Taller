@@ -4,6 +4,10 @@
 #include "Arma.h"
 #include "Mapa.h"
 #include "Configuraciones.h"
+#include "Interactuable.h"
+#include "Sacerdote.h"
+#include "Cliente.h"
+#include "Item.h"
 
 EstadoFantasma::EstadoFantasma(Personaje *unPersonaje) : Estado(unPersonaje){}
 
@@ -56,5 +60,22 @@ void EstadoFantasma::dejarDeMeditar(){
     //No hacer nada o lanzar excepcion
 }
 
+
+void EstadoFantasma::pedirCuracion(Sacerdote *sacerdote, Cliente *cliente){
+    sacerdote->curar(personaje, cliente);
+    personaje->estadoNormal();
+}
+
+void EstadoFantasma::pedirListado(Interactuable *interactuable, Cliente *cliente){
+    //No hacer nada
+}
+
+void EstadoFantasma::pedirCompra(unsigned int pos, Interactuable *interactuable, Cliente *cliente){
+    //No hacer nada
+}
+
+void EstadoFantasma::pedirVenta(Item *item, Interactuable *interactuable, Cliente *cliente){
+    //No hacer nada
+}
 
 EstadoFantasma::~EstadoFantasma(){}
