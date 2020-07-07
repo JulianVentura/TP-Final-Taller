@@ -12,6 +12,7 @@
 #include "Item.h"
 #include "OperacionInteractuar.h"
 #include "OperacionComprar.h"
+#include "OperacionVender.h"
 
 #include "../../common/commonProtocolo.h"
 #include "../../common/commonSocket.h"
@@ -34,6 +35,7 @@ private:
     void decodificarMensajeChat();
     void decodificarInteraccion();
     void decodificarCompra();
+    void decodificarVenta();
     void decodificarJugador( std::string& id, std::string& clave);
     void decodificarNuevoJugador( std::string& id, std::string& clave);
 

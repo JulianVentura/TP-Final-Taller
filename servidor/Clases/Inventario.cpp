@@ -5,7 +5,13 @@
 #define LIMITE_INVENTARIO 18
 //Ver si es necesario levantar el limite de items del archivo de configuraciones
 
-Inventario::Inventario() : limiteItems(LIMITE_INVENTARIO), items(limiteItems, nullptr){}
+Inventario::Inventario() : limiteItems(LIMITE_INVENTARIO){
+    //Provisorio
+    items.clear();
+    for(int i = 0;i < LIMITE_INVENTARIO;i++){
+        items.push_back(nullptr);
+    }
+}
 
 
 Inventario& Inventario::operator=(Inventario &&otro){
