@@ -40,6 +40,9 @@ Comerciante::Comerciante(float x, float y) : Interactuable("Comerciante"){
     idItem = "PocionMana";
     items.push_back(fabrica->crearPocion(idItem));
     posicion = std::move(Posicion(x, y, ANCHO, ALTO));
+    for(int i = 0;i < 16;i++){
+        items.push_back(nullptr);
+    }
 }
 
 void Comerciante::interactuar(Estado *estado, Cliente *cliente){
