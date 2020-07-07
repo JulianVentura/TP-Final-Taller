@@ -49,11 +49,13 @@ void Comerciante::vender(unsigned int pos, Estado *estado, Cliente *cliente){
 }
 
 void Comerciante::comprar(unsigned int pos, Personaje *personaje, Cliente *cliente){
+    /*  Se comenta para debugeo, descomentar para la entrega.
     float distancia = this->posicion.calcularDistancia(personaje->obtenerPosicion());
     if (distancia > distanciaMaximaDeInteraccion){
         //Estamos muy lejos
         return;
     }
+    */
     if (pos >= items.size() || items[pos] == nullptr){
         //No hay nada que comprar
         return;
@@ -69,22 +71,30 @@ void Comerciante::comprar(unsigned int pos, Personaje *personaje, Cliente *clien
 
 }
 void Comerciante::vender(Item* item, Personaje *personaje, Cliente *cliente){
+    /*  Se comenta para debugeo, descomentar para la entr
     float distancia = this->posicion.calcularDistancia(personaje->obtenerPosicion());
     if (distancia > distanciaMaximaDeInteraccion){
         //Estamos muy lejos
         return;
     }
+    */
     personaje->recibirOro(item->obtenerPrecio());
     cliente -> enviarInventario();
     cliente -> enviarTienda(items);
 }
 void Comerciante::listar(Personaje *personaje, Cliente *cliente){
+    /*  Se comenta para debugeo, descomentar para la entrega
     float distancia = this->posicion.calcularDistancia(personaje->obtenerPosicion());
     if (distancia > distanciaMaximaDeInteraccion){
         //Estamos muy lejos
         return;
     }
+    */
+    //ESTO ES DE DEBUGEO
+    std::string mensaje = "Se llego al metodo final";
+    cliente->enviarChat(mensaje, false);
     cliente -> enviarTienda(items);
+    mensaje = "Se envio la tienda al cliente";
 }
 
 

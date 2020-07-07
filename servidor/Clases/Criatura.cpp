@@ -59,7 +59,7 @@ void Criatura::dropearItems(Entidad *atacante){
         //No hay riesgo de RC al cargar algo a mapa porque este es el unico hilo que accede a el.
         this->mapaAlQuePertenece->cargarDrop(std::move(bolsa));
     }
-    //No se dropea nada.
+    this->mapaAlQuePertenece->eliminarEntidad(id);
 }
 
 

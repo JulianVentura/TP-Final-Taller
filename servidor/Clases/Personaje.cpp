@@ -7,6 +7,7 @@
 #include "EstadoMeditacion.h"
 #include "Excepcion.h"
 #include "Criatura.h"
+#include "FabricaDeItems.h"
 #include <utility>
 
 #define TAMANIO_ALMACEN 18 //Esto se tiene que levantar de configuraciones.json
@@ -24,6 +25,10 @@ Personaje::Personaje() : Entidad(""),
                          estado(nullptr){
     nivel = NIVEL_INICIAL;
     almacen.resize(TAMANIO_ALMACEN, nullptr);
+    FabricaDeItems *fabricaItems = FabricaDeItems::obtenerInstancia();
+    std::string idArma = "Espada";
+    arma = fabricaItems->crearArma(idArma);   //La idea es levantar esto del json, como con las criaturas
+    inventario.almacenar(arma);
     actualizarAtributos();
 }
 
@@ -50,6 +55,10 @@ Personaje::Personaje(float x, float y, std::string id, std::string idClase, std:
     posicion = std::move(Posicion(x, y, ancho, alto));
     desplazamiento = config->obtenerPersonajeVelDesplazamiento();
     estado = std::move(std::unique_ptr<Estado>(new EstadoNormal(this)));
+    FabricaDeItems *fabricaItems = FabricaDeItems::obtenerInstancia();
+    std::string idArma = "Espada";
+    arma = fabricaItems->crearArma(idArma);   //La idea es levantar esto del json, como con las criaturas
+    inventario.almacenar(arma);
     almacen.resize(TAMANIO_ALMACEN, nullptr);
 }
 Personaje& Personaje::operator=(Personaje &&otro){
@@ -150,7 +159,7 @@ void Personaje::dropearItems(Entidad *atacante){
     inventario.eliminarTodosLosItems();
     std::unique_ptr<BolsaDeItems> bolsa(new BolsaDeItems(this->posicion, 
                                                          std::move(drop)));
-    //Falta eliminar el oro en exceso y ver si se pierde experiencia.
+    //Falta eliminar el oro en exceso
     //No hay riesgo de RC al cargar algo a mapa porque este es el unico hilo que accede a el.
     mapaAlQuePertenece->cargarDrop(std::move(bolsa));
 }
