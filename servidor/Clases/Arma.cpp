@@ -19,10 +19,12 @@ Arma::Arma(int unDanioMax,
 void Arma::atacar(Entidad *objetivo, Entidad *atacante, Divulgador *divulgador){
     float distancia = atacante->obtenerPosicion().calcularDistancia(objetivo->obtenerPosicion());
     if (distancia > this->radioAtaque){
-        //Enviar mensaje a atacante : "Estas muy lejos del oponente"
+        std::string mensaje = "Estas muy lejos del oponente";
+        divulgador->encolarMensaje(atacante->obtenerId(), mensaje);
     }
     if (!atacante->manaSuficiente(this->consumoMana)){
-        //Enviar mensaje a atacante : "No tenes mana suficiente para realizar el ataque"
+        std::string mensaje = "No tenes mana suficiente para realizar el ataque";
+        divulgador->encolarMensaje(atacante->obtenerId(), mensaje);
         return;
     }
     Configuraciones *configuraciones = Configuraciones::obtenerInstancia();

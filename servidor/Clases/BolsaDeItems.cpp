@@ -45,7 +45,8 @@ void BolsaDeItems::comprar(unsigned int pos, Estado *estado, Cliente *cliente){
     estado->pedirCompra(pos, this, cliente);
 }
 void BolsaDeItems::vender(unsigned int pos, Estado *estado, Cliente *cliente){
-    //La bolsa no permite almacenar/vender
+    std::string mensaje = "No puede almacenar items en una bolsa de drop";
+    cliente->enviarChat(mensaje, false);
 }
 
 void BolsaDeItems::comprar(unsigned int pos, Personaje *personaje, Cliente *cliente){

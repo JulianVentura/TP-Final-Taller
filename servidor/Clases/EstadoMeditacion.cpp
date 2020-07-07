@@ -12,7 +12,7 @@
 
 EstadoMeditacion::EstadoMeditacion(Personaje *unPersonaje) : Estado(unPersonaje){
     Configuraciones *config = Configuraciones::obtenerInstancia();
-    std::string id = "EstadoNormal";
+    std::string id = "EstadoMeditacion";
     idTCP = config->obtenerEstadoIDTCP(id);
 }
 
@@ -21,7 +21,8 @@ void EstadoMeditacion::interactuar(Entidad *entidad){
 }
 
 void EstadoMeditacion::atacar(Entidad *objetivo, Arma *arma, Divulgador *divulgador){
-    //No hacer nada o lanzar excepcion
+    std::string mensaje = "No puede atacar mientras medita";
+    divulgador->encolarMensaje(personaje->id, mensaje);
 }
 
 void EstadoMeditacion::actualizar(double tiempo, Mapa *mapa){
@@ -59,19 +60,23 @@ void EstadoMeditacion::dejarDeMeditar(){
 }
 
 void EstadoMeditacion::pedirCuracion(Sacerdote *sacerdote, Cliente *cliente){
-    //No se puede interactuar en estado de meditacion
+    std::string mensaje = "No puede interactuar mientras medita";
+    cliente->enviarChat(mensaje, false);
 }
 
 void EstadoMeditacion::pedirListado(Interactuable *interactuable, Cliente *cliente){
-    //No se puede interactuar en estado de meditacion
+    std::string mensaje = "No puede interactuar mientras medita";
+    cliente->enviarChat(mensaje, false);
 }
 
 void EstadoMeditacion::pedirCompra(unsigned int pos, Interactuable *interactuable, Cliente *cliente){
-    //No se puede interactuar en estado de meditacion
+    std::string mensaje = "No puede interactuar mientras medita";
+    cliente->enviarChat(mensaje, false);
 }
 
 void EstadoMeditacion::pedirVenta(unsigned int pos, Interactuable *interactuable, Cliente *cliente){
-    //No se puede interactuar en estado de meditacion
+    std::string mensaje = "No puede interactuar mientras medita";
+    cliente->enviarChat(mensaje, false);
 }
 
 EstadoMeditacion::~EstadoMeditacion(){}
