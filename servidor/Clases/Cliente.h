@@ -47,6 +47,7 @@ class Cliente : public Thread{
                       std::string &idRaza, 
                       std::string &idClase);
     std::string obtenerId();
+    Sala *obtenerSala();
     Personaje* obtenerPersonaje();
     void cargarMapa(const std::vector<char> &&infoMapa);
     void procesar();

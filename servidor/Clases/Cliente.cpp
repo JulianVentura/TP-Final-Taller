@@ -109,6 +109,10 @@ Personaje* Cliente::obtenerPersonaje(){
     return personaje.get();
 }
 
+Sala *Cliente::obtenerSala(){
+    return this->organizadorSalas.obtenerSala(salaActual);
+}
+
 void Cliente::procesar(){
     try{
         while(continuar){

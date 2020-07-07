@@ -26,6 +26,7 @@ class Sala{
     void cargarCliente(Cliente *cliente);
     void actualizarClientes();
     void eliminarCliente(const std::string &id);
+    Mapa *obtenerMapa();
     std::string& obtenerNombre();
     void comenzar();
     void finalizar();
