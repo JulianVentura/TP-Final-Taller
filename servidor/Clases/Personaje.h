@@ -41,6 +41,7 @@ class Personaje : public Entidad{
     bool tieneOroSuficiente(unsigned int cantOro);
     void restarOro(unsigned int cantOro);
     void recibirOro(unsigned int cantOro) override;
+    uint16_t obtenerOro();
     void curar(unsigned int curVida, unsigned int curMana);
     void curar();
     std::vector<Item*>& obtenerAlmacen();

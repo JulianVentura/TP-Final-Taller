@@ -42,15 +42,12 @@ void ClienteProxy::decodificarMensajeChat(){
     divulgador.encolarMensaje(origen, destino, mensaje);
 }
 
-
- void ClienteProxy::enviarChat(const std::string& mensaje, bool mensaje_publico){
+void ClienteProxy::enviarChat(const std::string& mensaje, bool mensaje_publico){
     std::lock_guard<std::mutex> lock(m);
     protocolo.enviarUint32(socket, CODIGO_MENSAJE_CHAT);
     protocolo.enviarString(socket, mensaje);
     socket.enviar((char*) &mensaje_publico, 1);
 }
-
-
 
 bool ClienteProxy::decodificarCodigo(uint32_t codigo){
     switch (codigo){
@@ -150,6 +147,34 @@ void ClienteProxy::enviarInformacionMapa(const std::vector<char> &infoMapa){
     //Envio el archivo
     socket.enviar(infoMapa.data(), infoMapa.size());
     */
+}
+
+void ClienteProxy::enviarTienda(std::vector<Item*>& items){
+	std::lock_guard<std::mutex> lock(m);
+	protocolo.enviarUint32(socket, CODIGO_TIENDA);
+    for(auto& item : items){
+    	protocolo.enviarUint16(socket, item -> obtenerIDTCP());
+    	protocolo.enviarUint16(socket, item -> obtenerPrecio());
+    }
+}
+
+void ClienteProxy::enviarContenedor(std::vector<Item*>& items){
+	std::lock_guard<std::mutex> lock(m);
+	uint16_t cero = 0;
+	protocolo.enviarUint32(socket, CODIGO_TIENDA);
+    for(auto& item : items){
+    	protocolo.enviarUint16(socket, item -> obtenerIDTCP());
+    	protocolo.enviarUint16(socket, cero);
+    }
+}
+
+void ClienteProxy::enviarInventario(std::vector<Item*>& items, uint16_t oro){
+	std::lock_guard<std::mutex> lock(m);
+	protocolo.enviarUint32(socket, CODIGO_TIENDA);
+    for(auto& item : items){
+    	protocolo.enviarUint16(socket, item -> obtenerIDTCP());
+    }
+    protocolo.enviarUint16(socket, oro);
 }
 
 void ClienteProxy::enviarConfirmacion(){

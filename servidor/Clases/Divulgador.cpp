@@ -51,6 +51,10 @@ void Divulgador::encolarMensaje(std::string origen, std::string destino,
 		std::move(destino), std::move(mensaje)));
 }
 
+void Divulgador::encolarMensaje(std::string destino, std::string mensaje){
+	encolarMensaje(PALABRA_RESERVADA, std::move(destino), std::move(mensaje));
+}
+
 void Divulgador::finalizar(){
 	continuar = false;
 	mensajes.cerrar();

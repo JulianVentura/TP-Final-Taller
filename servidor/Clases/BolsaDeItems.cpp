@@ -63,12 +63,14 @@ void BolsaDeItems::comprar(unsigned int pos, Personaje *personaje, Cliente *clie
     items[pos] = nullptr;
     elementos--;
     if (elementos <= 0) bolsaVacia = true;
+    cliente -> enviarInventario();
+    cliente -> enviarContenedor(items);
 }
 void BolsaDeItems::vender(Item* item, Personaje *personaje, Cliente *cliente){
     //No se puede almacenar un item en una bolsa de items.
 }
 void BolsaDeItems::listar(Personaje *personaje, Cliente *cliente){
-    //cliente.enviarContenedor(items)
+    cliente -> enviarContenedor(items);
 }
 
 bool BolsaDeItems::estaVacia(){

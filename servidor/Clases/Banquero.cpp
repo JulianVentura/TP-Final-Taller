@@ -40,6 +40,8 @@ void Banquero::comprar(unsigned int pos, Personaje *personaje, Cliente *cliente)
     }
     personaje->almacenar(almacen[pos]);
     almacen[pos] = nullptr;
+    cliente -> enviarInventario();
+    cliente -> enviarContenedor(almacen);
 }
 
 void Banquero::vender(Item* item, Personaje *personaje, Cliente *cliente){
@@ -60,6 +62,8 @@ void Banquero::vender(Item* item, Personaje *personaje, Cliente *cliente){
     if (!almacenado){
         throw Excepcion("Error: No hay espacio para almacenar mas items en el banquero");
     }
+    cliente -> enviarInventario();
+    cliente -> enviarContenedor(almacen);
 }
 void Banquero::listar(Personaje *personaje, Cliente *cliente){
     float distancia = this->posicion.calcularDistancia(personaje->obtenerPosicion());
@@ -67,7 +71,8 @@ void Banquero::listar(Personaje *personaje, Cliente *cliente){
         //Estamos muy lejos
         return;
     }
-    //cliente.enviarContenedor(items)
+    std::vector<Item*> almacen = personaje->obtenerAlmacen();
+    cliente -> enviarContenedor(almacen);
 }
 
 

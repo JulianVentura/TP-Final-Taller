@@ -61,9 +61,12 @@ void Comerciante::comprar(unsigned int pos, Personaje *personaje, Cliente *clien
     if (personaje->tieneOroSuficiente(items[pos]->obtenerPrecio())){
         personaje->almacenar(items[pos]);
         personaje->restarOro(items[pos]->obtenerPrecio());
+        cliente -> enviarInventario();
+        cliente -> enviarTienda(items);
     }else{
         //Indicarle que no se le puede vender.
     }
+
 }
 void Comerciante::vender(Item* item, Personaje *personaje, Cliente *cliente){
     float distancia = this->posicion.calcularDistancia(personaje->obtenerPosicion());
@@ -72,6 +75,8 @@ void Comerciante::vender(Item* item, Personaje *personaje, Cliente *cliente){
         return;
     }
     personaje->recibirOro(item->obtenerPrecio());
+    cliente -> enviarInventario();
+    cliente -> enviarTienda(items);
 }
 void Comerciante::listar(Personaje *personaje, Cliente *cliente){
     float distancia = this->posicion.calcularDistancia(personaje->obtenerPosicion());
@@ -79,7 +84,7 @@ void Comerciante::listar(Personaje *personaje, Cliente *cliente){
         //Estamos muy lejos
         return;
     }
-    //cliente.enviarTienda(items);
+    cliente -> enviarTienda(items);
 }
 
 
