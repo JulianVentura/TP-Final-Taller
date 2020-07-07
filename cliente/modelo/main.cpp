@@ -32,15 +32,16 @@ int main(int argc, const char* argv[]) {
         ServidorProxy servidor(datos_personaje, datos_tienda);
 
         // // PANTALLA DE LOGIN //
-        // GUI_Login gui_login(entorno, paleta, servidor);
-        // BucleLogin bucle_login(ventana, gui_login, servidor);
-        // ventana.agregarRendereable(&gui_login);
-        // bucle_login.correr();
-        // ventana.borrarRendereables();
+        GUI_Login gui_login(entorno, paleta, servidor);
+        BucleLogin bucle_login(ventana, gui_login, servidor);
+        ventana.agregarRendereable(&gui_login);
+        bucle_login.correr();
+        ventana.borrarRendereables();
        
         // JUEGO EN SI //
 
         // TODO: <Login provisorio>
+        /*
         std::string direccion("localhost");
         std::string servicio("3080");
         std::string id_usuario("jugador");
@@ -51,6 +52,7 @@ int main(int argc, const char* argv[]) {
         datos_personaje.id = id_usuario;
         servidor.conectar(direccion, servicio);
         servidor.enviarNuevaCuenta(id_usuario, password, raza, clase);
+        */
         // TODO: </Login provisorio>
         
         BuclePrincipal bucle(ventana);

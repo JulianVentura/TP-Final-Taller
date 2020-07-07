@@ -17,6 +17,7 @@ void Juego::render() {
 }
 
 bool Juego::manejarEvento(SDL_Event& evento) {
+    /*
     if (evento.type == SDL_MOUSEBUTTONDOWN) {
         bool consumido = false;
         for (auto& movible: movibles) {
@@ -29,6 +30,8 @@ bool Juego::manejarEvento(SDL_Event& evento) {
         }
     }
     return personajeManejable.manejarEvento(evento);
+    */
+    return false;
 }
 
 Juego::Juego(EntornoGrafico& entorno, std::string& mapa_s, 
