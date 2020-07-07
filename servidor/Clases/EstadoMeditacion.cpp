@@ -36,14 +36,18 @@ void EstadoMeditacion::actualizar(double tiempo, Mapa *mapa){
 void EstadoMeditacion::recibirDanio(int danio, Entidad *atacante, Divulgador *divulgador){
     //Se puede recibir daño en modo meditacion
     Configuraciones *configuraciones = Configuraciones::obtenerInstancia();
-    personaje->vidaActual -= danio;
     unsigned int exp = configuraciones->calcularExpPorGolpe(personaje, atacante, danio);
     atacante->obtenerExperiencia(exp);
-    if (personaje->vidaActual <= 0){
+    if (personaje->vidaActual - danio <= 0){
+        personaje->vidaActual = 0;
         exp = configuraciones->calcularExpPorMatar(personaje, atacante);
         atacante->obtenerExperiencia(exp);
         personaje->dropearItems(atacante);
+        std::string mensaje = "Has muerto";
+        divulgador->encolarMensaje(personaje->id, mensaje);
         personaje->estadoFantasma();
+    }else{
+        personaje->vidaActual -= danio;
     }
 }
 

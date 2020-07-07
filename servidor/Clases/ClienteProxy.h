@@ -58,6 +58,12 @@ public:
     void enviarTienda(std::vector<Item*>& items);
     void enviarContenedor(std::vector<Item*>& items);
     void enviarInventario(std::vector<Item*>& items, uint16_t oro);
+    void enviarEstado(uint16_t vidaActual, 
+                      uint16_t vidaMaxima,
+                      uint16_t manaActual, 
+                      uint16_t manaMaximo,
+                      uint16_t experiencia,
+                      uint16_t limiteParaSubir);
 };
 
 #endif

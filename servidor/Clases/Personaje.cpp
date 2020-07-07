@@ -59,7 +59,7 @@ Personaje::Personaje(float x, float y, std::string id, std::string idClase, std:
     std::string idArma = "Espada";
     arma = fabricaItems->crearArma(idArma);   //La idea es levantar esto del json, como con las criaturas
     inventario.almacenar(arma);
-    almacen.resize(TAMANIO_ALMACEN, nullptr);
+    almacen.resize(TAMANIO_ALMACEN, nullptr);   //La idea es levantar el tamaño del almacen del json
 }
 Personaje& Personaje::operator=(Personaje &&otro){
     this->vidaActual = otro.vidaActual;

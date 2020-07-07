@@ -38,17 +38,19 @@ void EstadoNormal::actualizar(double tiempo, Mapa *mapa){
 
 void EstadoNormal::recibirDanio(int danio, Entidad *atacante, Divulgador *divulgador){
     Configuraciones *configuraciones = Configuraciones::obtenerInstancia();
-    personaje->vidaActual -= danio;
     //Falta utilizar la defensa y ver el tema de la evasion. -> luego usar el divulgador para enviar esos datos
     unsigned int exp = configuraciones->calcularExpPorGolpe(personaje, atacante, danio);
     atacante->obtenerExperiencia(exp);
-    if (personaje->vidaActual <= 0){
+    if (personaje->vidaActual - danio <= 0){
+        personaje->vidaActual = 0;
         exp = configuraciones->calcularExpPorMatar(personaje, atacante);
         atacante->obtenerExperiencia(exp);
         personaje->dropearItems(atacante);
         std::string mensaje = "Has muerto";
         divulgador->encolarMensaje(personaje->id, mensaje);
         personaje->estadoFantasma();
+    }else{
+        personaje->vidaActual -= danio;
     }
 }
 

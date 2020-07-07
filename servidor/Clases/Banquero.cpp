@@ -62,6 +62,7 @@ void Banquero::vender(Item* item, Personaje *personaje, Cliente *cliente){
         if (almacen[i] == nullptr){
             almacen[i] = item;
             almacenado = true;
+            break;
         }
     }
     if (!almacenado){

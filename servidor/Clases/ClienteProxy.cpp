@@ -125,7 +125,6 @@ void ClienteProxy::decodificarNuevoJugador( std::string& id, std::string& clave)
 std::pair<std::string, std::string> ClienteProxy::recibirId(){
     std::string id, clave;
     uint32_t codigo = protocolo.recibirUint32(socket);
-
     switch (codigo){
         case CODIGO_ID:
             decodificarJugador(id, clave);
@@ -238,6 +237,23 @@ void ClienteProxy::enviarConfirmacion(){
 }
 
 
+void ClienteProxy::enviarEstado(uint16_t vidaActual, 
+                                uint16_t vidaMaxima,
+                                uint16_t manaActual, 
+                                uint16_t manaMaximo,
+                                uint16_t experiencia,
+                                uint16_t limiteParaSubir){
+    std::lock_guard<std::mutex> lock(m);
+    protocolo.enviarUint32(socket, CODIGO_ESTADISTICAS);
+    protocolo.enviarUint16(socket, vidaActual);
+    protocolo.enviarUint16(socket, vidaMaxima);
+    protocolo.enviarUint16(socket, manaActual);
+    protocolo.enviarUint16(socket, manaMaximo);
+    protocolo.enviarUint16(socket, experiencia);
+    protocolo.enviarUint16(socket, limiteParaSubir);
+}
+
+
 
 /*
 
@@ -245,7 +261,7 @@ Como se transmite el estado del personaje hacia el cliente:
 
 En cada iteracion del gameloop se debera actualizar al Cliente con el estado del personaje, esto implica enviar:
 
-- Vida actual, vida max, mana actual, mana max, nivel actual, exp, limite exp, oro.
+- Vida actual, vida max, mana actual, mana max, nivel actual, exp, limite exp.
 
 Ademas se le debera enviar a cada cliente la siguiente linea, para que dibuje a los personajes:
 
