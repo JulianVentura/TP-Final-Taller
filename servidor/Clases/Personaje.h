@@ -42,9 +42,11 @@ class Personaje : public Entidad{
     void restarOro(unsigned int cantOro);
     void recibirOro(unsigned int cantOro) override;
     uint16_t obtenerOro();
+
     void curar(unsigned int curVida, unsigned int curMana);
     void curar();
     std::vector<Item*>& obtenerAlmacen();
+    std::vector<Item*>* obtenerInventario();
     void atacar(Personaje *objetivo, Divulgador *divulgador) override;
     void atacar(Criatura *objetivo, Divulgador *divulgador) override;
     void serAtacadoPor(Personaje *atacante, Divulgador *divulgador) override;
