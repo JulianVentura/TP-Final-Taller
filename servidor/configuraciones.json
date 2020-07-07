@@ -313,7 +313,7 @@
                 "Rango": 5,
                 "ConsumoMana": 0,
                 "Precio": 10,
-                "idTCP": 8
+                "idTCP": 4
             },
             "Hacha": {
                 "DanioMax": 5,
@@ -471,13 +471,13 @@
                 "CuracionVida": 100,
                 "CuracionMana": 0,
                 "Precio": 10,
-                "idTCP": 29
+                "idTCP": 1
             },
             "PocionMana": {
                 "CuracionVida": 0,
                 "CuracionMana": 100,
                 "Precio": 10,
-                "idTCP": 30
+                "idTCP": 2
             }
         }
     }

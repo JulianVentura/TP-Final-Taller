@@ -10,6 +10,9 @@
 #include "OperacionMover.h"
 #include "ExcepcionCliente.h"
 #include "Item.h"
+#include "OperacionInteractuar.h"
+#include "OperacionComprar.h"
+#include "OperacionVender.h"
 
 #include "../../common/commonProtocolo.h"
 #include "../../common/commonSocket.h"
@@ -30,6 +33,9 @@ private:
     bool decodificarCodigo(uint32_t codigo);
     void decodificarMovimiento();
     void decodificarMensajeChat();
+    void decodificarInteraccion();
+    void decodificarCompra();
+    void decodificarVenta();
     void decodificarJugador( std::string& id, std::string& clave);
     void decodificarNuevoJugador( std::string& id, std::string& clave);
 
@@ -52,6 +58,12 @@ public:
     void enviarTienda(std::vector<Item*>& items);
     void enviarContenedor(std::vector<Item*>& items);
     void enviarInventario(std::vector<Item*>& items, uint16_t oro);
+    void enviarEstado(uint16_t vidaActual, 
+                      uint16_t vidaMaxima,
+                      uint16_t manaActual, 
+                      uint16_t manaMaximo,
+                      uint16_t experiencia,
+                      uint16_t limiteParaSubir);
 };
 
 #endif

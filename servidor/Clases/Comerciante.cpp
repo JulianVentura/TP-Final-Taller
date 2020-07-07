@@ -14,7 +14,10 @@
 
 Comerciante::Comerciante(float x, float y) : Interactuable("Comerciante"){
     //Si, esta re hardcodeado. La idea es que esto se levante del archivo de config.
+    std::string idItem;
     FabricaDeItems *fabrica = FabricaDeItems::obtenerInstancia();
+    /*
+    
     std::string idItem = "Espada";
     items.push_back(fabrica->crearArma(idItem));
     idItem = "Hacha";
@@ -31,11 +34,15 @@ Comerciante::Comerciante(float x, float y) : Interactuable("Comerciante"){
     items.push_back(fabrica->crearCasco(idItem));
     idItem = "EscudoDeTortuga";
     items.push_back(fabrica->crearEscudo(idItem));
+    */
     idItem = "PocionVida";
     items.push_back(fabrica->crearPocion(idItem));
     idItem = "PocionMana";
     items.push_back(fabrica->crearPocion(idItem));
     posicion = std::move(Posicion(x, y, ANCHO, ALTO));
+    for(int i = 0;i < 16;i++){
+        items.push_back(nullptr);
+    }
 }
 
 void Comerciante::interactuar(Estado *estado, Cliente *cliente){
@@ -49,11 +56,14 @@ void Comerciante::vender(unsigned int pos, Estado *estado, Cliente *cliente){
 }
 
 void Comerciante::comprar(unsigned int pos, Personaje *personaje, Cliente *cliente){
+    /*  Se comenta para debugeo, descomentar para la entrega.
     float distancia = this->posicion.calcularDistancia(personaje->obtenerPosicion());
     if (distancia > distanciaMaximaDeInteraccion){
-        //Estamos muy lejos
+        std::string mensaje = "La distancia es muy grande";
+        cliente->enviarChat(mensaje, false);
         return;
     }
+    */
     if (pos >= items.size() || items[pos] == nullptr){
         //No hay nada que comprar
         return;
@@ -63,28 +73,42 @@ void Comerciante::comprar(unsigned int pos, Personaje *personaje, Cliente *clien
         personaje->restarOro(items[pos]->obtenerPrecio());
         cliente -> enviarInventario();
         cliente -> enviarTienda(items);
+        std::string mensaje = "Se compro " + items[pos]->obtenerId();
+        cliente->enviarChat(mensaje, false);
     }else{
-        //Indicarle que no se le puede vender.
+        std::string mensaje = "No tiene oro suficiente";
+        cliente->enviarChat(mensaje, false);
     }
-
 }
 void Comerciante::vender(Item* item, Personaje *personaje, Cliente *cliente){
+    /*  Se comenta para debugeo, descomentar para la entr
     float distancia = this->posicion.calcularDistancia(personaje->obtenerPosicion());
     if (distancia > distanciaMaximaDeInteraccion){
-        //Estamos muy lejos
+        std::string mensaje = "La distancia es muy grande";
+        cliente->enviarChat(mensaje, false);
         return;
     }
+    */
     personaje->recibirOro(item->obtenerPrecio());
     cliente -> enviarInventario();
     cliente -> enviarTienda(items);
+    std::string mensaje = "Se vendio " + item->obtenerId();
+    cliente->enviarChat(mensaje, false);
 }
 void Comerciante::listar(Personaje *personaje, Cliente *cliente){
+    /*  Se comenta para debugeo, descomentar para la entrega
     float distancia = this->posicion.calcularDistancia(personaje->obtenerPosicion());
     if (distancia > distanciaMaximaDeInteraccion){
         //Estamos muy lejos
         return;
     }
+    */
+    //ESTO ES DE DEBUGEO
+    std::string mensaje = "Se llego al metodo final";
+    cliente->enviarChat(mensaje, false);
     cliente -> enviarTienda(items);
+    mensaje = "Se envio la tienda al cliente";
+    cliente->enviarChat(mensaje, false);
 }
 
 

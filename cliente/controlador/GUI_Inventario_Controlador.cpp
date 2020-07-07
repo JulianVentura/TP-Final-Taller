@@ -1,21 +1,24 @@
 #include "GUI_Inventario_Controlador.h"
+#include <iostream>
 
 bool GUI_InventarioControlador::enClick(){
 	if(!vista_inventario.visible) return false;
-	std::string a = "Comerciante";
+	std::string a = "Banquero";
 
 	switch(SDL_GetMouseState(NULL, NULL)){
 		case SDL_BUTTON_LEFT:
-		
-		servidor.enviarInteraccion(a);
-
-		//servidor.enviarUtilizar(obtenerIndiceClick());
+		servidor.enviarUtilizar(obtenerIndiceClick());
 		break;
 
-		case SDL_BUTTON_RIGHT:
+		case SDL_BUTTON_MIDDLE:
+		servidor.enviarInteraccion(a);
+		break;
+
+		default:
 		servidor.enviarTirar(obtenerIndiceClick());
 		break;
 	}
+
 	return true;
 }
 

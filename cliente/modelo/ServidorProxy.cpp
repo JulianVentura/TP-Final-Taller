@@ -3,6 +3,7 @@
 #include <sys/socket.h>
 #include <vector>
 #include <utility>
+#include <iostream>
 #include <unordered_map>
 #include "ErrorServidor.h"
 #include "../controlador/GUI_Chat_Controlador.h"
@@ -82,18 +83,19 @@ void ServidorProxy::recibirMensajeConOperacion(uint32_t operacion) {
 			datos_tienda.inventario[i] = protocolo.recibirUint16(socket);
 			datos_tienda.precios[i] = protocolo.recibirUint16(socket);
 		}
+		std::cerr << "Recibo tienda";
 		datos_tienda.activo = true;
 		break;
 
 		case CODIGO_ESTADISTICAS:
-
-		break;
 			datos_personaje.vida = protocolo.recibirUint16(socket);
 			datos_personaje.vida_max = protocolo.recibirUint16(socket);
 			datos_personaje.mana = protocolo.recibirUint16(socket);
 			datos_personaje.mana_max = protocolo.recibirUint16(socket);
 			datos_personaje.exp = protocolo.recibirUint16(socket);
 			datos_personaje.exp_max = protocolo.recibirUint16(socket);
+		break;
+
 		default:
 		printf("No reconocido %d\n", operacion);
 		break;
@@ -191,14 +193,14 @@ void ServidorProxy::enviarTirar(int pos){
 		protocolo.enviarString(socket, datos_tienda.id_vendedor);
 		protocolo.enviarUint16(socket, pos);
 	}else{
-		protocolo.enviarUint32(socket, CODIGO_TIRADO);
-		protocolo.enviarUint16(socket, pos);
+		//protocolo.enviarUint32(socket, CODIGO_TIRADO);
+		//protocolo.enviarUint16(socket, pos);
 	}
 }
 
 void ServidorProxy::enviarUtilizar(int pos){
-	protocolo.enviarUint32(socket, CODIGO_UTILIZACION);
-	protocolo.enviarUint16(socket, pos);
+	//protocolo.enviarUint32(socket, CODIGO_UTILIZACION);
+	//protocolo.enviarUint16(socket, pos);
 }
 
 //Interaccion

@@ -22,9 +22,7 @@ Cliente::Cliente(Socket &&socket,
     El id de la sala y toda la informacion del personaje se obtiene con
     la base de datos.
     */
-
-    // id = "jugador";
-   
+    
     std::pair<std::string, std::string> credenciales = std::move(login(organizadorClientes));
     std::pair<std::string, std::unique_ptr<Personaje>> datos = miBaseDeDatos.recuperarInformacion(credenciales);
     this->id = credenciales.first;
@@ -37,6 +35,7 @@ Cliente::Cliente(Socket &&socket,
     std::string idRaza = "Humano";
     std::string idClase = "Paladin";
     personaje = std::unique_ptr<Personaje> (new Personaje(100, 100, credenciales.first, idClase, idRaza));
+    personaje -> recibirOro(1000);
     //Hasta aca
     Sala* miSala = organizadorSalas.obtenerSala(salaActual);
     ColaOperaciones *colaDeOperaciones = miSala->obtenerCola();
@@ -64,7 +63,13 @@ void Cliente::nuevoUsuario(std::pair<std::string, std::string> &credenciales,
 
 void Cliente::actualizarEstado(const std::vector<struct PosicionEncapsulada> &posiciones){
     try{
-        //clienteProxy.enviarEstado() Aca se envia el estado del personaje, vida, mana, exp, etc.
+        clienteProxy.enviarEstado(personaje->vidaActual,
+                                  personaje->vidaMaxima,
+                                  personaje->manaActual,
+                                  personaje->manaMaximo,
+                                  personaje->experiencia,
+                                  personaje->limiteParaSubir);
+        enviarInventario(); //Refinar más adelante
         clienteProxy.enviarPosiciones(posiciones);
     }catch(...){
         //Cualquier error es motivo suficiente como para cortar la comunicacion con el Cliente

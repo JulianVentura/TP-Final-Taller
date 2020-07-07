@@ -37,9 +37,11 @@ void Sacerdote::listar(Personaje *personaje, Cliente *cliente){
 void Sacerdote::curar(Personaje *personaje, Cliente *cliente){
     float distancia = this->posicion.calcularDistancia(personaje->obtenerPosicion());
     if (distancia > distanciaMaximaDeInteraccion){
-        //Estamos muy lejos
+        std::string mensaje = "La distancia es muy grande";
+        cliente->enviarChat(mensaje, false);
         return;
     }
+    //Se le tiene que mandar algun mensaje?
     personaje->curar();
 }
 

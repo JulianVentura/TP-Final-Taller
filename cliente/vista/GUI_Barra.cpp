@@ -14,6 +14,7 @@ GUI_Barra::GUI_Barra(EntornoGrafico& entorno, Colores& paleta,
 }
 	
 void GUI_Barra::render(){
+	if(capacidad_max == 0) return;
 	renderer -> setColor(paleta.barra_fondo);
 	renderer -> rectSolido(marco);
 

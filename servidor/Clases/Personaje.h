@@ -64,6 +64,7 @@ class Personaje : public Entidad{
     Estado *obtenerEstado();
     ~Personaje();
 
+    friend class Cliente;
     friend class Configuraciones;
     friend class BaseDeDatos;
     friend class EstadoNormal;

@@ -49,8 +49,42 @@ void ClienteProxy::enviarChat(const std::string& mensaje, bool mensaje_publico){
     socket.enviar((char*) &mensaje_publico, 1);
 }
 
+void ClienteProxy::decodificarInteraccion(){
+    std::string id;
+    protocolo.recibirString(socket, id);
+    Operacion *operacion = new OperacionInteractuar(cliente,
+     cliente -> obtenerSala() -> obtenerMapa(), id);
+    colaOperaciones->push(operacion);
+}
+
+void ClienteProxy::decodificarCompra(){
+    std::string id;
+    protocolo.recibirString(socket, id);
+    uint16_t  pos = protocolo.recibirUint16(socket);
+    Operacion *operacion = new OperacionComprar(cliente,
+    cliente -> obtenerSala() -> obtenerMapa(), pos, id);
+    colaOperaciones->push(operacion);
+}
+
+void ClienteProxy::decodificarVenta(){
+    std::string id;
+    protocolo.recibirString(socket, id);
+    uint16_t  pos = protocolo.recibirUint16(socket);
+    Operacion *operacion = new OperacionVender(cliente,
+    cliente -> obtenerSala() -> obtenerMapa(), pos, id);
+    colaOperaciones->push(operacion);
+}
+
 bool ClienteProxy::decodificarCodigo(uint32_t codigo){
     switch (codigo){
+        case CODIGO_INTERACCION:
+            decodificarInteraccion();
+            break;
+
+        case CODIGO_COMPRA:
+            decodificarCompra();
+            break;
+
         case CODIGO_MOVIMIENTO:
             decodificarMovimiento();
             break;
@@ -59,9 +93,21 @@ bool ClienteProxy::decodificarCodigo(uint32_t codigo){
             decodificarMensajeChat();
             break;
         
+        case CODIGO_VENTA:
+            decodificarVenta();
+            break;
+
         case CODIGO_DESCONECTAR:
             return false;
        
+        case CODIGO_UTILIZACION:
+
+            break;
+
+        case CODIGO_TIRADO:
+
+            break;
+
         default:
             enviarError("No se ha podido decodificar el codigo de operacion, finaliza la conexion");
             return false;
@@ -87,7 +133,6 @@ void ClienteProxy::decodificarNuevoJugador( std::string& id, std::string& clave)
 std::pair<std::string, std::string> ClienteProxy::recibirId(){
     std::string id, clave;
     uint32_t codigo = protocolo.recibirUint32(socket);
-
     switch (codigo){
         case CODIGO_ID:
             decodificarJugador(id, clave);
@@ -152,9 +197,16 @@ void ClienteProxy::enviarInformacionMapa(const std::vector<char> &infoMapa){
 void ClienteProxy::enviarTienda(std::vector<Item*>& items){
 	std::lock_guard<std::mutex> lock(m);
 	protocolo.enviarUint32(socket, CODIGO_TIENDA);
-    for(auto& item : items){
-    	protocolo.enviarUint16(socket, item -> obtenerIDTCP());
-    	protocolo.enviarUint16(socket, item -> obtenerPrecio());
+    uint16_t noHayItem = 0;
+    for(auto item : items){
+        if (item != nullptr){
+            std::cerr << "Envio item";
+            protocolo.enviarUint16(socket, item -> obtenerIDTCP());
+    	    protocolo.enviarUint16(socket, item -> obtenerPrecio());
+        }else{
+            protocolo.enviarUint16(socket, noHayItem);
+    	    protocolo.enviarUint16(socket, noHayItem);
+        }
     }
 }
 
@@ -163,16 +215,26 @@ void ClienteProxy::enviarContenedor(std::vector<Item*>& items){
 	uint16_t cero = 0;
 	protocolo.enviarUint32(socket, CODIGO_TIENDA);
     for(auto& item : items){
-    	protocolo.enviarUint16(socket, item -> obtenerIDTCP());
-    	protocolo.enviarUint16(socket, cero);
+    	if (item != nullptr){
+            protocolo.enviarUint16(socket, item -> obtenerIDTCP());
+    	    protocolo.enviarUint16(socket, cero);
+        }else{
+            protocolo.enviarUint16(socket, cero);
+    	    protocolo.enviarUint16(socket, cero);
+        }
     }
 }
 
 void ClienteProxy::enviarInventario(std::vector<Item*>& items, uint16_t oro){
 	std::lock_guard<std::mutex> lock(m);
-	protocolo.enviarUint32(socket, CODIGO_TIENDA);
+    uint16_t cero = 0;
+	protocolo.enviarUint32(socket, CODIGO_INVENTARIO);
     for(auto& item : items){
-    	protocolo.enviarUint16(socket, item -> obtenerIDTCP());
+    	if (item != nullptr){
+            protocolo.enviarUint16(socket, item -> obtenerIDTCP());
+        }else{
+            protocolo.enviarUint16(socket, cero);
+        }
     }
     protocolo.enviarUint16(socket, oro);
 }
@@ -183,6 +245,23 @@ void ClienteProxy::enviarConfirmacion(){
 }
 
 
+void ClienteProxy::enviarEstado(uint16_t vidaActual, 
+                                uint16_t vidaMaxima,
+                                uint16_t manaActual, 
+                                uint16_t manaMaximo,
+                                uint16_t experiencia,
+                                uint16_t limiteParaSubir){
+    std::lock_guard<std::mutex> lock(m);
+    protocolo.enviarUint32(socket, CODIGO_ESTADISTICAS);
+    protocolo.enviarUint16(socket, vidaActual);
+    protocolo.enviarUint16(socket, vidaMaxima);
+    protocolo.enviarUint16(socket, manaActual);
+    protocolo.enviarUint16(socket, manaMaximo);
+    protocolo.enviarUint16(socket, experiencia);
+    protocolo.enviarUint16(socket, limiteParaSubir);
+}
+
+
 
 /*
 
@@ -190,7 +269,7 @@ Como se transmite el estado del personaje hacia el cliente:
 
 En cada iteracion del gameloop se debera actualizar al Cliente con el estado del personaje, esto implica enviar:
 
-- Vida actual, vida max, mana actual, mana max, nivel actual, exp, limite exp, oro.
+- Vida actual, vida max, mana actual, mana max, nivel actual, exp, limite exp.
 
 Ademas se le debera enviar a cada cliente la siguiente linea, para que dibuje a los personajes:
 

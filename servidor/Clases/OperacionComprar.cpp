@@ -26,7 +26,7 @@ void OperacionComprar::ejecutar(){
         Estado *estado = personaje->obtenerEstado();
         interactuable->comprar(posItem, estado, cliente);
     }catch(std::exception &e){
-        std::cerr << e.what() << std::endl;
+        //No quiero imprimir los errores.
     }catch(...){
         std::cerr << "Error desconocido atrapado en OperacionVender" << std::endl;
     }

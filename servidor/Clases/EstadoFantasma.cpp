@@ -12,7 +12,7 @@
 
 EstadoFantasma::EstadoFantasma(Personaje *unPersonaje) : Estado(unPersonaje){
     Configuraciones *config = Configuraciones::obtenerInstancia();
-    std::string id = "EstadoNormal";
+    std::string id = "EstadoFantasma";
     idTCP = config->obtenerEstadoIDTCP(id);
 }
 
@@ -21,7 +21,8 @@ void EstadoFantasma::interactuar(Entidad *entidad){
 }
 
 void EstadoFantasma::atacar(Entidad *objetivo, Arma *arma, Divulgador *divulgador){
-    //Enviar mensaje: "No se puede atacar siendo fantasma"
+    std::string mensaje = "No se puede atacar siendo fantasma";
+    divulgador->encolarMensaje(personaje->id, mensaje);
 }
 
 void EstadoFantasma::actualizar(double tiempo, Mapa *mapa){
@@ -33,11 +34,13 @@ void EstadoFantasma::actualizar(double tiempo, Mapa *mapa){
 }
 
 void EstadoFantasma::serAtacadoPor(Entidad *atacante, Divulgador *divulgador){
-    //Enviar mensaje: "No se puede entrar en pelea siendo fantasma"
+    std::string mensaje = "No puede atacar a un fantasma";
+    divulgador->encolarMensaje(atacante->obtenerId(), mensaje);
 }
 
 void EstadoFantasma::recibirDanio(int danio, Entidad *atacante, Divulgador *divulgador){
-    //Enviar mensaje: "No se puede entrar en pelea siendo fantasma"
+    std::string mensaje = "No puede atacar a un fantasma";
+    divulgador->encolarMensaje(atacante->obtenerId(), mensaje);
 }
 
 void EstadoFantasma::meditar(){
@@ -55,15 +58,18 @@ void EstadoFantasma::pedirCuracion(Sacerdote *sacerdote, Cliente *cliente){
 }
 
 void EstadoFantasma::pedirListado(Interactuable *interactuable, Cliente *cliente){
-    //No hacer nada
+    std::string mensaje = "No puede comerciar siendo fantasma";
+    cliente->enviarChat(mensaje, false);
 }
 
 void EstadoFantasma::pedirCompra(unsigned int pos, Interactuable *interactuable, Cliente *cliente){
-    //No hacer nada
+    std::string mensaje = "No puede comerciar siendo fantasma";
+    cliente->enviarChat(mensaje, false);
 }
 
 void EstadoFantasma::pedirVenta(unsigned int pos, Interactuable *interactuable, Cliente *cliente){
-    //No hacer nada
+    std::string mensaje = "No puede comerciar siendo fantasma";
+    cliente->enviarChat(mensaje, false);
 }
 
 EstadoFantasma::~EstadoFantasma(){}
