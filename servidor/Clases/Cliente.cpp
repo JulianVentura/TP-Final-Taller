@@ -37,6 +37,7 @@ Cliente::Cliente(Socket &&socket,
     std::string idRaza = "Humano";
     std::string idClase = "Paladin";
     personaje = std::unique_ptr<Personaje> (new Personaje(100, 100, credenciales.first, idClase, idRaza));
+    personaje -> recibirOro(1000);
     //Hasta aca
     Sala* miSala = organizadorSalas.obtenerSala(salaActual);
     ColaOperaciones *colaDeOperaciones = miSala->obtenerCola();

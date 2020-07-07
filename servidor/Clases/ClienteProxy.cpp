@@ -73,7 +73,7 @@ bool ClienteProxy::decodificarCodigo(uint32_t codigo){
             break;
 
         case CODIGO_COMPRA:
-            decodificarInteraccion();
+            decodificarCompra();
             break;
 
         case CODIGO_MOVIMIENTO:
@@ -208,14 +208,12 @@ void ClienteProxy::enviarContenedor(std::vector<Item*>& items){
 void ClienteProxy::enviarInventario(std::vector<Item*>& items, uint16_t oro){
 	std::lock_guard<std::mutex> lock(m);
     uint16_t cero = 0;
-	protocolo.enviarUint32(socket, CODIGO_TIENDA);
+	protocolo.enviarUint32(socket, CODIGO_INVENTARIO);
     for(auto& item : items){
     	if (item != nullptr){
             protocolo.enviarUint16(socket, item -> obtenerIDTCP());
-    	    protocolo.enviarUint16(socket, cero);
         }else{
             protocolo.enviarUint16(socket, cero);
-    	    protocolo.enviarUint16(socket, cero);
         }
     }
     protocolo.enviarUint16(socket, oro);
