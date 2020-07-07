@@ -88,14 +88,14 @@ void ServidorProxy::recibirMensajeConOperacion(uint32_t operacion) {
 		break;
 
 		case CODIGO_ESTADISTICAS:
-
-		break;
 			datos_personaje.vida = protocolo.recibirUint16(socket);
 			datos_personaje.vida_max = protocolo.recibirUint16(socket);
 			datos_personaje.mana = protocolo.recibirUint16(socket);
 			datos_personaje.mana_max = protocolo.recibirUint16(socket);
 			datos_personaje.exp = protocolo.recibirUint16(socket);
 			datos_personaje.exp_max = protocolo.recibirUint16(socket);
+		break;
+
 		default:
 		printf("No reconocido %d\n", operacion);
 		break;
