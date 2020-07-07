@@ -4,6 +4,7 @@
 
 
 
+
 Interactuable::Interactuable(std::string unId) : 
                                       id(unId),
                                       distanciaMaximaDeInteraccion(DIST_INTERACCION){
@@ -23,9 +24,11 @@ bool Interactuable::colisionaCon(const quadtree::Box<float> &area) const{
 }
 
 const std::string Interactuable::obtenerId() const{
-    return id;
+    return id + "#";
 }
 
-
+const Posicion& Interactuable::obtenerPosicion() const{
+    return this->posicion;
+}
 
 Interactuable::~Interactuable(){}
