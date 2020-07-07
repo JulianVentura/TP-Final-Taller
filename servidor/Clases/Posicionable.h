@@ -12,7 +12,6 @@ class Posicionable{
     void actualizarPosicion(Posicion &&posicion);
     const quadtree::Box<float>& obtenerAreaQueOcupa();
     const Posicion& obtenerPosicion() const;
-    virtual std::string imprimirPosicion();
     const float obtenerX() const;
     const float obtenerY() const;
     void moverHaciaArriba();

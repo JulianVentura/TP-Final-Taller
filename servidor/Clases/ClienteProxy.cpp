@@ -23,11 +23,6 @@ void ClienteProxy::actualizarCola(ColaOperaciones *colaDeOperaciones){
 ////////////////////////RECEPCION DE MENSAJES/////////////////////////
 
 void ClienteProxy::decodificarMovimiento(){
-    /*
-    uint32_t direccionMovimiento = 0;
-    socket.recibirMensaje((char*)&direccionMovimiento, sizeof(uint32_t));
-    direccionMovimiento = ntohl(direccionMovimiento);
-*/
     uint32_t direccionMovimiento = protocolo.recibirUint32(socket);
     Operacion *operacion = new OperacionMover(cliente->personaje.get(),
      (DireccionMovimiento)direccionMovimiento);
@@ -184,14 +179,6 @@ void ClienteProxy::enviarInformacionMapa(const std::vector<char> &infoMapa){
     std::string mapa(infoMapa.begin(), infoMapa.end());
     protocolo.enviarUint32(socket, CODIGO_CARGA_MAPA);
     protocolo.enviarString(socket, mapa);
-    /*
-    uint32_t largo_mensaje = infoMapa.size();
-    //Envio el largo del archivo
-    largo_mensaje = htonl(largo_mensaje);
-    socket.enviar((char*)&largo_mensaje, sizeof(largo_mensaje));
-    //Envio el archivo
-    socket.enviar(infoMapa.data(), infoMapa.size());
-    */
 }
 
 void ClienteProxy::enviarTienda(std::vector<Item*>& items){
@@ -261,42 +248,3 @@ void ClienteProxy::enviarEstado(uint16_t vidaActual,
     protocolo.enviarUint16(socket, limiteParaSubir);
 }
 
-
-
-/*
-
-Como se transmite el estado del personaje hacia el cliente:
-
-En cada iteracion del gameloop se debera actualizar al Cliente con el estado del personaje, esto implica enviar:
-
-- Vida actual, vida max, mana actual, mana max, nivel actual, exp, limite exp.
-
-Ademas se le debera enviar a cada cliente la siguiente linea, para que dibuje a los personajes:
-
-- arma, casco, escudo, armadura, raza, clase, estado.
-
-Luego, cuando el cliente lo indique se le puede mandar info del inventario:
-
-- vector<IdItem> //Es un vector con los ids de cada item ordenados, habra que pensar un id para casilla vacia.
-
-*/
-
-
-/*
-Operaciones:
-
-- OP_NUEVO_JUGADOR
-- OP_LOGIN
-- OP_LOGOUT/DESCONECTAR
-- OP_INFO_JUGADOR
-- OP_ABRIR_INVENTARIO
-- OP_ATACAR
-- OP_TOMAR
-- OP_LISTAR
-- OP_COMPRAR
-- OP_VENDER
-- OP_MEDITAR
-- OP_INTERACTUAR
-- OP_TIRAR
-
-*/

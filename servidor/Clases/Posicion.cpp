@@ -80,13 +80,6 @@ float Posicion::longitudMaximaDeColision() const{
 Posicion Posicion::nuevaPosicionDesplazada(float x, float y) const{
     return std::move(Posicion(this->x + x, this->y + y, ancho, alto));
 }
-//DEBUG
-std::string Posicion::imprimirPosicion(){
-    std::stringstream resultado;
-    resultado << x << "/" << y;
-    return std::move(resultado.str());
-}
-//
 
 
 const float Posicion::obtenerX() const{

@@ -13,10 +13,6 @@ const quadtree::Box<float>& Posicionable::obtenerAreaQueOcupa(){
     return posicion.obtenerAreaQueOcupa();
 }
 
-std::string Posicionable::imprimirPosicion(){
-    return std::move(posicion.imprimirPosicion());
-}
-
 const Posicion& Posicionable::obtenerPosicion() const{
     return posicion;
 }
