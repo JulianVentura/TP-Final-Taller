@@ -11,3 +11,7 @@ Probado en Ubuntu 64 bits y Linux Mint 32 bits.
 Biblioteca Nlohman dev_3.7.0-2: http://mirrors.kernel.org/ubuntu/pool/universe/n/ nlohmann-json3/nlohmann-json3-dev_3.7.0-2_all.deb
 
 Biblioteca de audio incorporada en el porpio código, no requiere instalacion adicional.
+
+##Videos
+
+https://drive.google.com/file/d/1oXUqZB-LbbHu-14e_8CEyprskqbhAZ4W/view?usp=sharing
