@@ -32,6 +32,10 @@ void EstadoFantasma::actualizar(double tiempo, Mapa *mapa){
     mapa->actualizarPosicion(personaje, std::move(nuevaPosicion));
 }
 
+void EstadoFantasma::serAtacadoPor(Entidad *atacante, Divulgador *divulgador){
+    //Enviar mensaje: "No se puede entrar en pelea siendo fantasma"
+}
+
 void EstadoFantasma::recibirDanio(int danio, Entidad *atacante, Divulgador *divulgador){
     //Enviar mensaje: "No se puede entrar en pelea siendo fantasma"
 }

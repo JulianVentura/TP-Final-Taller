@@ -9,6 +9,7 @@ class EstadoMeditacion : public Estado{
     void atacar(Entidad *objetivo, Arma *arma, Divulgador *divulgador) override;
     void actualizar(double tiempo, Mapa *mapa) override;
     void recibirDanio(int danio, Entidad *atacante, Divulgador *divulgador) override;
+    void serAtacadoPor(Entidad *atacante, Divulgador *divulgador) override;
     void meditar() override;
     void dejarDeMeditar() override;
     void pedirCuracion(Sacerdote *sacerdote, Cliente *cliente) override;

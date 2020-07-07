@@ -41,7 +41,7 @@ void Criatura::agregarDiferenciador(const unsigned int numero){
 
 const std::string Criatura::obtenerId() const {
     std::stringstream _id;
-    _id << this->id << diferenciador;
+    _id << this->id << "#" << diferenciador;
     return _id.str();
 }
 

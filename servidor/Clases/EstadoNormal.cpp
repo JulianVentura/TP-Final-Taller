@@ -49,6 +49,9 @@ void EstadoNormal::recibirDanio(int danio, Entidad *atacante, Divulgador *divulg
     }
 }
 
+void EstadoNormal::serAtacadoPor(Entidad *atacante, Divulgador *divulgador){
+    atacante->atacar(personaje, divulgador);
+}
 
 void EstadoNormal::meditar(){
     personaje->estadoMeditacion();

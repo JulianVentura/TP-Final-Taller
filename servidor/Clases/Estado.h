@@ -22,6 +22,7 @@ class Estado{
     virtual void atacar(Entidad *objetivo, Arma *arma, Divulgador *divulgador) = 0;
     virtual void actualizar(double tiempo, Mapa *mapa) = 0;
     virtual void recibirDanio(int danio, Entidad *atacante, Divulgador *divulgador) = 0;
+    virtual void serAtacadoPor(Entidad *atacante, Divulgador *divulgador) = 0;
     virtual void meditar() = 0;
     virtual void dejarDeMeditar() = 0;
     virtual void pedirCuracion(Sacerdote *sacerdote, Cliente *cliente) = 0;

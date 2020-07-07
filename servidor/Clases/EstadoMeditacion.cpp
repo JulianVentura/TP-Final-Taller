@@ -46,6 +46,10 @@ void EstadoMeditacion::recibirDanio(int danio, Entidad *atacante, Divulgador *di
     }
 }
 
+void EstadoMeditacion::serAtacadoPor(Entidad *atacante, Divulgador *divulgador){
+    atacante->atacar(personaje, divulgador);
+}
+
 void EstadoMeditacion::meditar(){
     //Do nothing
 }

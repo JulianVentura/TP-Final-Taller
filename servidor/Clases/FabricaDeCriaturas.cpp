@@ -14,7 +14,7 @@ std::unique_ptr<Criatura> FabricaDeCriaturas::obtenerCriaturaAleatoria(float x, 
     if (contador > LIMITE_CONTADOR) contador = 0;
     while (continuar){
         std::stringstream temp;
-        temp << idCriatura << contador;
+        temp << idCriatura << "#" << contador;
         contador++;
         if (idValido(temp.str())){
             criaturaEncapsulada.get()->agregarDiferenciador(contador);

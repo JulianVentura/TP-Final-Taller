@@ -122,11 +122,11 @@ void Personaje::serAtacadoPor(Personaje *atacante, Divulgador *divulgador){
         //Enviar mensaje a atacante: "No se puede realizar el ataque por FairPlay"
         return;
     }
-    atacante->atacar(this, divulgador);
+    estado->serAtacadoPor(atacante, divulgador);
 }
 
 void Personaje::serAtacadoPor(Criatura *atacante, Divulgador *divulgador){
-    atacante->atacar(this, divulgador);
+    estado->serAtacadoPor(atacante, divulgador);
 }
 
 
