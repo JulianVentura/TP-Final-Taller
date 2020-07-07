@@ -9,15 +9,12 @@
 #include "PosicionEncapsulada.h"
 #include "OperacionMover.h"
 #include "ExcepcionCliente.h"
+#include "Item.h"
 
 #include "../../common/commonProtocolo.h"
 #include "../../common/commonSocket.h"
 #include "../../common/CodigosOperacion.h"
 
-/*
-#define TAM_ENCABEZADO_STRING 4
-#define TAM_INT32 4
-*/
 class Divulgador;
 class Cliente;
 class OrganizadorClientes;
@@ -49,8 +46,12 @@ public:
     void enviarError(std::string mensaje);
     void enviarMensaje(const std::string& mensaje);
     void enviarChat(const std::string& mensaje, bool mensaje_publico);
+    void enviarEstadisticas();
     void enviarMensajeConfirmacion();
     void enviarConfirmacion();
+    void enviarTienda(std::vector<Item*>& items);
+    void enviarContenedor(std::vector<Item*>& items);
+    void enviarInventario(std::vector<Item*>& items, uint16_t oro);
 };
 
 #endif

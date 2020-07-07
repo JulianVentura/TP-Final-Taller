@@ -10,6 +10,7 @@ class Item{
     Item(std::string id, unsigned int unPrecio);
     virtual ~Item();
     std::string obtenerId();
+    uint16_t obtenerIDTCP();
     unsigned int obtenerPrecio();
     virtual void utilizar(Personaje *personaje, unsigned int pos) = 0;
 };

@@ -80,6 +80,19 @@ void Cliente::actualizarEstado(const std::vector<struct PosicionEncapsulada> &po
     clienteProxy.enviarChat(mensaje, mensaje_publico);
 }
 
+void Cliente::enviarContenedor(std::vector<Item*>& items){
+    clienteProxy.enviarContenedor(items);
+}
+
+void Cliente::enviarTienda(std::vector<Item*>& items){
+    clienteProxy.enviarTienda(items);
+}
+
+void Cliente::enviarInventario(){
+    clienteProxy.enviarInventario(*personaje -> obtenerInventario(),
+     personaje -> obtenerOro());
+}
+
 void Cliente::cargarMapa(const std::vector<char> &&infoMapa){
     try{
         clienteProxy.enviarInformacionMapa(infoMapa);

@@ -15,3 +15,7 @@ std::string Item::obtenerId(){
 unsigned int Item::obtenerPrecio(){
     return precio;
 }
+
+uint16_t Item::obtenerIDTCP(){
+	return 0;
+}

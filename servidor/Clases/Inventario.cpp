@@ -40,8 +40,8 @@ void Inventario::eliminar(unsigned int pos){
     items[pos] = nullptr;
 }
 
-std::vector<Item*> Inventario::obtenerTodosLosItems(){
-    return items;
+std::vector<Item*>* Inventario::obtenerTodosLosItems(){
+    return &items;
 }
 
 void Inventario::eliminarTodosLosItems(){

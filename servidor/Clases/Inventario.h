@@ -18,7 +18,7 @@ class Inventario{
     void almacenar(Item* item);
     Item* obtenerItem(unsigned int pos);
     void eliminar(unsigned int pos);
-    std::vector<Item*> obtenerTodosLosItems();
+    std::vector<Item*>* obtenerTodosLosItems();
     void eliminarTodosLosItems();
 };
 

@@ -95,6 +95,10 @@ void Personaje::obtenerExperiencia(unsigned int cantidad){
     }
 }
 
+uint16_t Personaje::obtenerOro(){
+    return cantidadOro;
+}
+
 void Personaje::actualizarEstado(double tiempo, Mapa *mapa){
     estado->actualizar(tiempo, mapa);
 }
@@ -143,7 +147,7 @@ void Personaje::eliminarDeInventario(unsigned int pos){
 }
 
 void Personaje::dropearItems(Entidad *atacante){
-    std::vector<Item*> drop = std::move(this->inventario.obtenerTodosLosItems());
+    std::vector<Item*> drop = std::move(*this->inventario.obtenerTodosLosItems());
     inventario.eliminarTodosLosItems();
     std::unique_ptr<BolsaDeItems> bolsa(new BolsaDeItems(this->posicion, 
                                                          std::move(drop)));
@@ -154,6 +158,10 @@ void Personaje::dropearItems(Entidad *atacante){
 
 std::vector<Item*>& Personaje::obtenerAlmacen(){
     return almacen;
+}
+
+std::vector<Item*>* Personaje::obtenerInventario(){
+    return inventario.obtenerTodosLosItems();
 }
 
 bool Personaje::tieneOroSuficiente(unsigned int cantOro){
