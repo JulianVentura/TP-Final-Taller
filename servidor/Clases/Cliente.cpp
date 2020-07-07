@@ -22,17 +22,21 @@ Cliente::Cliente(Socket &&socket,
     El id de la sala y toda la informacion del personaje se obtiene con
     la base de datos.
     */
-    //id = "jugador";
+
+    // id = "jugador";
+   
     std::pair<std::string, std::string> credenciales = std::move(login(organizadorClientes));
     std::pair<std::string, std::unique_ptr<Personaje>> datos = miBaseDeDatos.recuperarInformacion(credenciales);
+    this->id = credenciales.first;
     this->personaje = std::move(datos.second);
     this->salaActual = std::move(datos.first);
+
     //Con la info recuperada de la base de datos creo un Personaje
     //Esto hay que sacarlo una vez este hecha la base de datos
-    salaActual = "mapa1";
+    salaActual = "mapa";
     std::string idRaza = "Humano";
     std::string idClase = "Paladin";
-    personaje = std::unique_ptr<Personaje> (new Personaje(0, 0, id, idClase, idRaza));
+    personaje = std::unique_ptr<Personaje> (new Personaje(100, 100, credenciales.first, idClase, idRaza));
     //Hasta aca
     Sala* miSala = organizadorSalas.obtenerSala(salaActual);
     ColaOperaciones *colaDeOperaciones = miSala->obtenerCola();
@@ -69,7 +73,7 @@ void Cliente::actualizarEstado(const std::vector<struct PosicionEncapsulada> &po
 }  
 
  void Cliente::enviarMensaje(const std::string& mensaje){
-    clienteProxy.enviarMensaje(mensaje);
+    //clienteProxy.enviarMensaje(mensaje);
  }
 
  void Cliente::enviarChat(const std::string& mensaje, bool mensaje_publico){
@@ -130,6 +134,7 @@ std::pair<std::string, std::string> Cliente::login(OrganizadorClientes &organiza
             clienteProxy.enviarError("Error: La cuenta a la que ha intentado ingresar es inexistente.");
         }
     }
-    clienteProxy.enviarMensajeConfirmacion();
+    
+    //clienteProxy.enviarMensajeConfirmacion();
     return credenciales;
 }

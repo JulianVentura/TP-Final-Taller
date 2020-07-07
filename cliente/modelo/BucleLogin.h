@@ -21,14 +21,12 @@ private:
     bool salir = false;
     void despacharEventos(SDL_Event& event);
     std::vector<IInteractivo *> interactivos;
-    std::vector<IRendereable *> rendereables;
     Reloj reloj;
 
 public:
     BucleLogin(Ventana& ventana, GUI_Login& gui, 
             ServidorProxy& servidor);
     void agregarInteractivo(IInteractivo* interactivo);
-    void agregarRendereable(IRendereable* rendereable);
     void correr();
 };
 

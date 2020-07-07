@@ -7,6 +7,7 @@
 #include "../modelo/ServidorProxy.h"
 #include "../controlador/IInteractivo.h"
 #include <vector>
+#include <unordered_map>
 
 #define FPS 60
 #define SEG_A_MILLI 1000
@@ -15,19 +16,14 @@
 class BuclePrincipal {
 private:
     Ventana* ventana;
-    GUI_Principal& gui;
-    ServidorProxy& servidor;
-    bool salir = false;
-    void despacharEventos(SDL_Event& event);
-    std::vector<IInteractivo *> interactivos;
-    std::vector<IRendereable *> rendereables;
+    void despacharEventos(SDL_Event& evento);
+    std::unordered_map<Uint32, std::vector<IInteractivo *>> interactivos;
     Reloj reloj;
+    bool salir = false;
 
 public:
-    BuclePrincipal(Ventana& ventana, GUI_Principal& gui, 
-                                                    ServidorProxy& servidor);
-    void agregarInteractivo(IInteractivo* interactivo);
-    void agregarRendereable(IRendereable* rendereable);
+    BuclePrincipal(Ventana& ventana);
+    void agregarInteractivo(Uint32 tipo_evento, IInteractivo* interactivo);
     void correr();
 };
 

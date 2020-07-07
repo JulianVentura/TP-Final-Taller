@@ -14,15 +14,15 @@ Raza::Raza() : id(""){
 }
 
 Raza::Raza(std::string unId) : id(unId){
-    Configuraciones *config = Configuraciones::obtenerInstancia();
-    FRazaVida = config->obtenerFRazaVida(id);
-    FRazaMana = config->obtenerFRazaMana(id);
-    FRazaRecuperacion = config->obtenerFRazaRecuperacion(id);
-    FRazaMeditacion = config->obtenerFRazaMeditacion(id);
-    mejoraFuerzaEnSubida = config->obtenerRazaMejoraFuerzaEnSubida(id);
-    mejoraInteligenciaEnSubida = config->obtenerRazaMejoraInteligenciaEnSubida(id);
-    mejoraAgilidadEnSubida = config->obtenerRazaMejoraAgilidadEnSubida(id);
-    mejoraConstitucionEnSubida = config->obtenerRazaMejoraConstitucionEnSubida(id);
+    // Configuraciones *config = Configuraciones::obtenerInstancia();
+    // FRazaVida = config->obtenerFRazaVida(id);
+    // FRazaMana = config->obtenerFRazaMana(id);
+    // FRazaRecuperacion = config->obtenerFRazaRecuperacion(id);
+    // FRazaMeditacion = config->obtenerFRazaMeditacion(id);
+    // mejoraFuerzaEnSubida = config->obtenerRazaMejoraFuerzaEnSubida(id);
+    // mejoraInteligenciaEnSubida = config->obtenerRazaMejoraInteligenciaEnSubida(id);
+    // mejoraAgilidadEnSubida = config->obtenerRazaMejoraAgilidadEnSubida(id);
+    // mejoraConstitucionEnSubida = config->obtenerRazaMejoraConstitucionEnSubida(id);
 }
 
 Raza& Raza::operator=(Raza &&otro){

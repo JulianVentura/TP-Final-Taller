@@ -10,7 +10,7 @@ GUI_BotonConectar::GUI_BotonConectar(EntornoGrafico& entorno,
 
 void GUI_BotonConectar::actualizarDimension(){
 	x =  ventana->getAncho()*0.1;
-	y =  ventana->getAlto()*0.2 + 110;
+	y =  ventana->getAlto()*0.2 + 120;
 	imagen.setPosicion(x, y);
 }
 

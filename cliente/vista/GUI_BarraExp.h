@@ -11,7 +11,7 @@
 class GUI_BarraExp final : public GUI_Barra{
 public:
 	GUI_BarraExp(EntornoGrafico& entorno, Colores& paleta,
-	  std::atomic<int>& exp_max , std::atomic<int>& exp);
+	  std::atomic<uint16_t>& exp_max , std::atomic<uint16_t>& exp);
 	void actualizarDimension();
 	~GUI_BarraExp();
 };

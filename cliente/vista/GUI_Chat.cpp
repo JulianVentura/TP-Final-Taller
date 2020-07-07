@@ -1,15 +1,15 @@
 #include "../vista/GUI_Chat.h"
 #include "../vista/Ventana.h"
 
-
 GUI_Chat::GUI_Chat(EntornoGrafico& entorno, Colores& paleta)
-: GUI_CajaTexto(entorno, paleta){
+		: GUI_CajaTexto(entorno, paleta) {
+	entorno.agregarRendereable(this);
 	actualizarDimension();
-	actualizar = false;
+	esta_actualizado = true;
 	textura = renderer -> textura(marco_mensajes.w, ALTO_TEXTURA);
 }
 
-void GUI_Chat::render(){
+void GUI_Chat::render() {
 	std::lock_guard<std::mutex> lock(m);
 	renderer -> setColor(paleta.chat_fondo);
 	renderer -> rectSolido(marco_mensajes);
@@ -19,21 +19,12 @@ void GUI_Chat::render(){
 	renderer -> rect(marco_mensajes.x - 1, marco_mensajes.y - 1,
 		marco_mensajes.w + 1, marco_mensajes.h + marco_entrada.h + 1);
 	renderer ->renderTextura(textura, marco_textura, marco_mensajes);
-	
-	renderer -> setColor(paleta.chat_texto);
-	if(entrada.size() > 0){
-		if(entrada.size() > caracteres_max){
-			renderer -> texto(entrada.substr(entrada.size() -caracteres_max,
-				entrada.size()), marco_entrada.x, marco_entrada.y);
-		}else{
-			renderer -> texto(entrada, marco_entrada.x, marco_entrada.y);
-		}
-	}
 
-	if(actualizar){
-		actualizar = false;
+	if(!esta_actualizado){
+		esta_actualizado = true;
 		renderizarTexto();
 	}
+	GUI_CajaTexto::render();
 }
 
 void GUI_Chat::actualizarDimension(){
@@ -52,6 +43,7 @@ void GUI_Chat::actualizarDimension(){
 	marco_textura.w = marco_mensajes.w;
 	marco_textura.h = marco_mensajes.h;
 	caracteres_max = marco_mensajes.w/ANCHO_CARACTER;
+	textura = renderer -> textura(marco_mensajes.w, ALTO_TEXTURA);
 	renderizarTexto();
 }
 
@@ -82,7 +74,7 @@ void GUI_Chat::agregarMensaje(std::string mensaje, bool mensaje_publico){
 	std::lock_guard<std::mutex> lock(m);
 	mensajes.push_back(std::make_pair(std::move(mensaje), mensaje_publico));
 	if( mensajes.size() > MENSAJES_MAX) mensajes.pop_front();
-	actualizar = true;
+	esta_actualizado = false;
 }
 
 

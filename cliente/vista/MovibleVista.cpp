@@ -20,7 +20,7 @@ MovibleVista::MovibleVista(EntornoGrafico& entorno, Movible& modelo)
                                                 std::string(ANIMACION_ABAJO));
     ultimo_estado = ANIMACION_ABAJO;
     this->ancho = imagen.getAncho();
-    this->alto = imagen.getAlto();
+    this->alto = imagen.getAlto();  
 }
 
 void MovibleVista::actualizar(unsigned int delta_t) {

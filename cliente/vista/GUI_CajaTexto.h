@@ -11,12 +11,18 @@
 class GUI_CajaTexto : public IRendereable{
 protected:
 	Colores& paleta;
+	int tiempo;
+	bool mostrar_cursor;
+	bool en_foco;
+
 public:
 	std::string entrada;
 	SDL_Rect marco_entrada;
 	unsigned int caracteres_max;
 	GUI_CajaTexto(EntornoGrafico& entorno, Colores& paleta);
-	void render();
+	void actualizar(unsigned int delta_t) override;
+	void render() override;
+	void darFoco(bool en_foco);
 	void actualizarDimension();
 };
 #endif /*__GUI_CAJA_TEXTO_H__*/

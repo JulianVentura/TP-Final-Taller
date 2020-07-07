@@ -13,7 +13,7 @@
 class GUI_BarraVida final : public GUI_Barra{
 public:
 	GUI_BarraVida(EntornoGrafico& entorno, Colores& paleta,
-	  std::atomic<int>& vida_max , std::atomic<int>& vida);
+	  std::atomic<uint16_t>& vida_max , std::atomic<uint16_t>& vida);
 	void actualizarDimension();
 	~GUI_BarraVida();
 };

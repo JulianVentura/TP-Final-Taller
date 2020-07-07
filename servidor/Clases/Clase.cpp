@@ -14,15 +14,15 @@ Clase::Clase() : id(""){
 }
 
 Clase::Clase(std::string unId) : id(unId){
-    Configuraciones *config = Configuraciones::obtenerInstancia();
-    FClaseVida = config->obtenerFClaseVida(id);
-    FClaseMana = config->obtenerFClaseMana(id);
-    FClaseRecuperacion = config->obtenerFClaseRecuperacion(id);
-    FClaseMeditacion = config->obtenerFClaseMeditacion(id);
-    mejoraFuerzaEnSubida = config->obtenerClaseMejoraFuerzaEnSubida(id);
-    mejoraInteligenciaEnSubida = config->obtenerClaseMejoraInteligenciaEnSubida(id);
-    mejoraAgilidadEnSubida = config->obtenerClaseMejoraAgilidadEnSubida(id);
-    mejoraConstitucionEnSubida = config->obtenerClaseMejoraConstitucionEnSubida(id);
+    // Configuraciones *config = Configuraciones::obtenerInstancia();
+    // FClaseVida = config->obtenerFClaseVida(id);
+    // FClaseMana = config->obtenerFClaseMana(id);
+    // FClaseRecuperacion = config->obtenerFClaseRecuperacion(id);
+    // FClaseMeditacion = config->obtenerFClaseMeditacion(id);
+    // mejoraFuerzaEnSubida = config->obtenerClaseMejoraFuerzaEnSubida(id);
+    // mejoraInteligenciaEnSubida = config->obtenerClaseMejoraInteligenciaEnSubida(id);
+    // mejoraAgilidadEnSubida = config->obtenerClaseMejoraAgilidadEnSubida(id);
+    // mejoraConstitucionEnSubida = config->obtenerClaseMejoraConstitucionEnSubida(id);
 }
 
 

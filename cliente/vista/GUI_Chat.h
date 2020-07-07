@@ -20,15 +20,15 @@
 class GUI_Chat : public GUI_CajaTexto{
 private:
 	std::mutex m;
-	std::atomic<bool> actualizar;
+	std::atomic<bool> esta_actualizado;
 	std::list<std::pair<std::string, bool>> mensajes;
 	SDL_Texture* textura = nullptr;
 	void renderizarTexto();
+
 public:
-	std::string entrada;
-	SDL_Rect marco_mensajes, marco_entrada, marco_textura;
+	SDL_Rect marco_mensajes, marco_textura;
 	GUI_Chat(EntornoGrafico& entorno, Colores& paleta);
-	void render();
+	void render() override;
 	void actualizarDimension();
 	void agregarMensaje(std::string mensaje, bool mensaje_publico);
 	void scroll(Sint32& incremento);

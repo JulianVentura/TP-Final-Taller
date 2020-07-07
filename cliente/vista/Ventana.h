@@ -13,32 +13,19 @@ class Ventana: public IDimensionable, public IInteractivo, public IRendereable {
 public:
     Ventana(EntornoGrafico& entorno, const char* title);
     ~Ventana();
-
-    void manejarEvento(const SDL_Event& event);
-    /**
-     * @brief Llamará al método render de los rendereables que fueron agregados
-     * en el orden que fueron agregados. Luego se presentará en pantalla.
-     */
+    bool manejarEvento(SDL_Event& evento) override;
     void render() override;
     void actualizar(unsigned int delta_t) override;
-
-    int getAncho() override;
-    int getAlto() override;
-
-    /**
-     * @brief A rendereable se le asignan tanto el Renderer como la Ventana.
-     * Se agrega a la lista de renderables de la ventana.
-     * @post rendereable podrá usar el renderer y la ventana.
-     */
     void agregarRendereable(IRendereable* rendereable);
+    void borrarRendereables();
     
 private:
     bool pantalla_completa = false;
     SDL_Window* ventana;
     Renderer* renderer;
     SDL_Color color_fondo = {51, 51, 51, 255};
-    std::vector<IRendereable *> rendereables;
     EntornoGrafico& entorno;
+    std::vector<IRendereable *> rendereables;
     friend class Renderer;
 };
 #endif

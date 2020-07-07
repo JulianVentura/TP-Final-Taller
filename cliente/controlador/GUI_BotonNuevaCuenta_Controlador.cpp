@@ -19,7 +19,6 @@ bool GUI_BotonNuevaCuentaControlador::enClick(){
 		salida.agregarMensaje("Falla conexion", true);
 		conectado = false;
 	}
-
 	return true;
 }
 

@@ -5,32 +5,38 @@
 #include <vector>
 #include <mutex>
 
-#include "Socket.h"
 #include "ColaOperaciones.h"
 #include "PosicionEncapsulada.h"
 #include "OperacionMover.h"
 #include "ExcepcionCliente.h"
+
+#include "../../common/commonProtocolo.h"
+#include "../../common/commonSocket.h"
 #include "../../common/CodigosOperacion.h"
 
+/*
 #define TAM_ENCABEZADO_STRING 4
 #define TAM_INT32 4
-
+*/
 class Divulgador;
 class Cliente;
 class OrganizadorClientes;
 class ClienteProxy{
-    private:
+
+private:
     std::mutex m;
     Socket socket;
     Cliente *cliente;
     ColaOperaciones *colaOperaciones;
     Divulgador& divulgador;
+    Protocolo protocolo;
     bool decodificarCodigo(uint32_t codigo);
     void decodificarMovimiento();
     void decodificarMensajeChat();
     void decodificarJugador( std::string& id, std::string& clave);
     void decodificarNuevoJugador( std::string& id, std::string& clave);
-    public:
+
+public:
     ClienteProxy(Socket socket, Cliente *cliente, Divulgador& divulgador);
     void actualizarCola(ColaOperaciones *colaDeOperaciones);
     void finalizar();
@@ -44,6 +50,7 @@ class ClienteProxy{
     void enviarMensaje(const std::string& mensaje);
     void enviarChat(const std::string& mensaje, bool mensaje_publico);
     void enviarMensajeConfirmacion();
+    void enviarConfirmacion();
 };
 
 #endif

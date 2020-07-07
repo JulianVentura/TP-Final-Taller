@@ -54,6 +54,7 @@ public:
 	void manejarEvento(SDL_Event& evento);
 	void actualizarDimension();
 	void render() override;
+	void actualizar(unsigned int delta_t) override;
 };
 
 
