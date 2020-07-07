@@ -10,6 +10,8 @@
 #include "OperacionMover.h"
 #include "ExcepcionCliente.h"
 #include "Item.h"
+#include "OperacionInteractuar.h"
+#include "OperacionComprar.h"
 
 #include "../../common/commonProtocolo.h"
 #include "../../common/commonSocket.h"
@@ -30,6 +32,8 @@ private:
     bool decodificarCodigo(uint32_t codigo);
     void decodificarMovimiento();
     void decodificarMensajeChat();
+    void decodificarInteraccion();
+    void decodificarCompra();
     void decodificarJugador( std::string& id, std::string& clave);
     void decodificarNuevoJugador( std::string& id, std::string& clave);
 
