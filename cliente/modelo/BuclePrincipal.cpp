@@ -23,7 +23,6 @@ void BuclePrincipal::correr() {
         int tiempo = reloj.medir() * SEG_A_MILLI;
         ventana->actualizar(tiempo);
         ventana->render();
-        
         int diferencia = MILLIS_POR_FRAME - tiempo;
         if (diferencia > 0) 
             std::this_thread::sleep_for(std::chrono::milliseconds(diferencia));
@@ -44,6 +43,7 @@ void BuclePrincipal::despacharEventos(SDL_Event& evento) {
     }
 }
 
-void BuclePrincipal::agregarInteractivo(Uint32 tipo_evento, IInteractivo* interactivo) {
+void BuclePrincipal::agregarInteractivo(Uint32 tipo_evento, 
+                                                    IInteractivo* interactivo) {
     interactivos[tipo_evento].push_back(interactivo);
 }

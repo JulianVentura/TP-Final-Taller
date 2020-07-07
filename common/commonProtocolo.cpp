@@ -6,20 +6,20 @@
 #include "commonSocket.h"
 
 void Protocolo::enviarString(Socket& socket_comunicacion, const std::string& string){
-		uint32_t tam = string.size();
-		tam = htobe32(tam);
-		socket_comunicacion.enviar((char*)&tam, TAM_ENCABEZADO_STRING);
-		socket_comunicacion.enviar(string.c_str(), string.size());
+	uint32_t tam = string.size();
+	tam = htobe32(tam);
+	socket_comunicacion.enviar((char*)&tam, TAM_ENCABEZADO_STRING);
+	socket_comunicacion.enviar(string.c_str(), string.size());
 }
 
 void Protocolo::recibirString(Socket& socket_comunicacion, std::string& string){
-		uint32_t tam;
-		std::vector<char> buffer;
-		socket_comunicacion.recibir((char*)&tam, TAM_ENCABEZADO_STRING);
-		tam =  be32toh(tam);
-		buffer.resize(tam);
-		socket_comunicacion.recibir(buffer.data(), tam);
-		string.assign(buffer.data(), tam);
+	uint32_t tam;
+	std::vector<char> buffer;
+	socket_comunicacion.recibir((char*)&tam, TAM_ENCABEZADO_STRING);
+	tam =  be32toh(tam);
+	buffer.resize(tam);
+	socket_comunicacion.recibir(buffer.data(), tam);
+	string.assign(buffer.data(), tam);
 }
 
 void Protocolo::enviarUint16(Socket& socket_comunicacion, uint16_t n){

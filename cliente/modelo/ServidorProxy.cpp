@@ -143,7 +143,8 @@ void ServidorProxy::actualizarPosiciones() {
 		posiciones[id] = { std::round(x), std::round(y) };
 	}
 	for (auto& posicion: posiciones) {
-		if (posicionables.count(posicion.first) == 0) continue;
+		if (posicionables.count(posicion.first) == 0 || 
+		   !posicionables[posicion.first]) continue;
 		auto& coordenadas = posicion.second;
 		posicionables[posicion.first]->actualizarPosicion(coordenadas.first, 
 															coordenadas.second);
@@ -151,7 +152,7 @@ void ServidorProxy::actualizarPosiciones() {
 }
 
 void ServidorProxy::agregarPosicionable(std::string& id, 
-	IPosicionable* posicionable) {
+												IPosicionable* posicionable) {
 	posicionables[id] = posicionable;
 }
 

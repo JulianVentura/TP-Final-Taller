@@ -9,7 +9,7 @@ int MapaVista::getFilas() { return filas; }
 int MapaVista::getAnchoTile() { return ancho_tile; }
 int MapaVista::getAltoTile() { return alto_tile; }
 
-MapaVista::MapaVista(EntornoGrafico& entorno, MapaParser& parser, 
+MapaVista::MapaVista(EntornoGrafico& entorno, const MapaParser& parser, 
                                         LibreriaConjuntoTiles& conjuntosTiles): 
         conjuntosTiles(conjuntosTiles),
         capasFondo(std::move(parser.getCapas())), 

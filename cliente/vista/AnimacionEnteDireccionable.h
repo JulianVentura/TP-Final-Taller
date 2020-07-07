@@ -12,14 +12,13 @@
 
 class AnimacionEnteDireccionable: public Animacion {
 public:
-    AnimacionEnteDireccionable() = default;
-    AnimacionEnteDireccionable(Imagen& imagen, mascaras_t mascaras, 
+    AnimacionEnteDireccionable(EntidadParser& parser, 
                                         const std::string& animacion_inicial);
+    virtual ~AnimacionEnteDireccionable() = default;
     void actualizarEstado(unsigned int delta_t, int delta_x, int delta_y);
 
 private:
     void nuevoEstado(int delta_x, int delta_y);
-    std::string animacion_actual;
 };
 
 #endif

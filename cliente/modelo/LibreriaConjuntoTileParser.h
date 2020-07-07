@@ -8,10 +8,10 @@
 class LibreriaConjuntoTileParser {
 public:
     explicit LibreriaConjuntoTileParser(nlohmann::json& parser);
-    std::vector<InformacionConjuntoTile> getInformacionLibreria();
-    int getColumnas();
-    int getAnchoTile();
-    int getAltoTile();
+    std::vector<InformacionConjuntoTile> getInformacionLibreria() const;
+    int getColumnas() const;
+    int getAnchoTile() const;
+    int getAltoTile() const;
     
 private:
     std::vector<InformacionConjuntoTile> conjuntosTiles;

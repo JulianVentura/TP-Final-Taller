@@ -17,10 +17,10 @@ MapaParser::MapaParser(nlohmann::json& parser) {
     parser["tilewidth"].get_to(ancho_tile);
 }
 
-int MapaParser::getColumnas() { return columnas; }
-int MapaParser::getFilas() { return filas; }
-int MapaParser::getAnchoTile() { return ancho_tile ;}
-int MapaParser::getAltoTile() { return alto_tile; }
-std::vector<std::vector<int>> MapaParser::getCapas() {
+int MapaParser::getColumnas() const { return columnas; }
+int MapaParser::getFilas() const { return filas; }
+int MapaParser::getAnchoTile() const { return ancho_tile ;}
+int MapaParser::getAltoTile() const { return alto_tile; }
+std::vector<std::vector<int>> MapaParser::getCapas() const {
     return std::move(this->capasFondo);
 }

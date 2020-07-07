@@ -2,7 +2,8 @@
 #include <algorithm>
 #include <utility>
 
-CapaFrontal::CapaFrontal(CapasParser& parser, LibreriaConjuntoTiles* tiles):
+CapaFrontal::CapaFrontal(const CapasParser& parser, 
+                                                LibreriaConjuntoTiles& tiles):
         capas(std::move(parser.getCapas())),
         tiles(tiles), 
         columnas(parser.getColumnas()), 
@@ -31,10 +32,10 @@ void CapaFrontal::render() {
             if (id == 0) continue;
             int x = i % columnas;
             int y = (i - x) / columnas;
-            Imagen* tile = tiles->getTile(id);
+            Imagen* tile = tiles.getTile(id);
             if (tile == nullptr) continue;
-            x *= tiles->getAnchoTile();
-            y *= tiles->getAltoTile();
+            x *= tiles.getAnchoTile();
+            y *= tiles.getAltoTile();
             tile->setPosicion(x, y);
             tile->render();
         }

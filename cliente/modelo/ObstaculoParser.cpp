@@ -3,7 +3,7 @@
 using json = nlohmann::json;
 
 std::unordered_map<std::string, std::vector<Obstaculo>> 
-ObstaculoParser::getCapasObstaculos() {
+                                ObstaculoParser::getCapasObstaculos() const {
     return std::move(this->capasObstaculos);
 }
 

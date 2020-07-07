@@ -12,7 +12,7 @@ public:
 
 private:
     ServidorProxy& servidor;
-    int ultima_tecla_presionada;
+    int ultima_tecla_presionada = 0;
     static std::unordered_map<int, uint32_t> teclas_direccionables;
 };
 
