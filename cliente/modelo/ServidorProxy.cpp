@@ -3,6 +3,7 @@
 #include <sys/socket.h>
 #include <vector>
 #include <utility>
+#include <iostream>
 #include <unordered_map>
 #include "ErrorServidor.h"
 #include "../controlador/GUI_Chat_Controlador.h"

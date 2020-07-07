@@ -49,8 +49,33 @@ void ClienteProxy::enviarChat(const std::string& mensaje, bool mensaje_publico){
     socket.enviar((char*) &mensaje_publico, 1);
 }
 
+void ClienteProxy::decodificarInteraccion(){
+    std::string id;
+    protocolo.recibirString(socket, id);
+    Operacion *operacion = new OperacionInteractuar(cliente,
+     cliente -> obtenerSala() -> obtenerMapa(), id);
+    colaOperaciones->push(operacion);
+}
+
+void ClienteProxy::decodificarCompra(){
+    std::string id;
+    protocolo.recibirString(socket, id);
+    uint16_t  pos = protocolo.recibirUint16(socket);
+    Operacion *operacion = new OperacionComprar(cliente,
+     cliente -> obtenerSala() -> obtenerMapa(), pos, id);
+    colaOperaciones->push(operacion);
+}
+
 bool ClienteProxy::decodificarCodigo(uint32_t codigo){
     switch (codigo){
+        case CODIGO_INTERACCION:
+            decodificarInteraccion();
+            break;
+
+        case CODIGO_COMPRA:
+            decodificarInteraccion();
+            break;
+
         case CODIGO_MOVIMIENTO:
             decodificarMovimiento();
             break;
@@ -153,8 +178,9 @@ void ClienteProxy::enviarTienda(std::vector<Item*>& items){
 	std::lock_guard<std::mutex> lock(m);
 	protocolo.enviarUint32(socket, CODIGO_TIENDA);
     uint16_t noHayItem = 0;
-    for(auto& item : items){
+    for(auto item : items){
         if (item != nullptr){
+            std::cerr << "Envio item";
             protocolo.enviarUint16(socket, item -> obtenerIDTCP());
     	    protocolo.enviarUint16(socket, item -> obtenerPrecio());
         }else{
