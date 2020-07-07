@@ -21,7 +21,7 @@ public:
 	bool visible;
 	GUI_Panel(EntornoGrafico& entorno, Colores& paleta, BancoImagenesEquipo&
 	 imagenes_equipo, std::atomic<uint16_t>* inventario, SDL_Rect marco);
-	void render();
+	virtual void render();
 };
 
 #endif /*__GUI_PANEL_H__*/

@@ -2,11 +2,14 @@
 
 bool GUI_InventarioControlador::enClick(){
 	if(!vista_inventario.visible) return false;
-
+	std::string a = "Comerciante";
 
 	switch(SDL_GetMouseState(NULL, NULL)){
 		case SDL_BUTTON_LEFT:
-		servidor.enviarUtilizar(obtenerIndiceClick());
+		
+		servidor.enviarInteraccion(a);
+
+		//servidor.enviarUtilizar(obtenerIndiceClick());
 		break;
 
 		case SDL_BUTTON_RIGHT:

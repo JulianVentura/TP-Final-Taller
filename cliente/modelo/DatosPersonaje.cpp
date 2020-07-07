@@ -8,4 +8,11 @@ oro(0){
 	for(int i = 0; i < INV_ALTO*INV_ANCHO; i++){
 		inventario[i] = 0;
 	}
+
+	for(int i = 0;i < ESPACIOS_EQUIPO; i++){
+		equipados[i] = -1;
+	}
+
+	equipados[2] = 5;
+	equipados[1] = 8;
 }
