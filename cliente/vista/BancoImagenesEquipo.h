@@ -6,7 +6,7 @@
 #include "../vista/EntornoGrafico.h"
 #include "../vista/Imagen.h"
 
-#define CANT_IMG_EQUIPO 2
+#define CANT_IMG_EQUIPO 4
 
 class BancoImagenesEquipo{
 private:
