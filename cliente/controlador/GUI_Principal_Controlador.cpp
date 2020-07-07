@@ -11,8 +11,8 @@ GUI_PrincipalControlador::GUI_PrincipalControlador(ServidorProxy& servidor,
             vista_principal.inventario_vista),
     tienda_controlador(vista_principal.tienda_vista, servidor),
     chat_controlador(vista_principal.chat_vista, servidor) {
-        botones.push_back(&chat_controlador);
         botones.push_back(&inventario_controlador);
+        botones.push_back(&chat_controlador);
         botones.push_back(&tienda_controlador);
         botones.push_back(&boton_inventario_controlador);
         servidor.salida = &chat_controlador;

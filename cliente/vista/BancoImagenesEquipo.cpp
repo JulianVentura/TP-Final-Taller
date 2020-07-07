@@ -10,7 +10,7 @@ BancoImagenesEquipo::BancoImagenesEquipo(EntornoGrafico& entorno){
 }
 
 void BancoImagenesEquipo::render(uint16_t indice, int x, int y){
-	if(indice == 0) return;
+	if(indice == 0 || indice > CANT_IMG_EQUIPO) return;
 	imagenes[indice].setPosicion(x, y);
 	imagenes[indice].render();
 }

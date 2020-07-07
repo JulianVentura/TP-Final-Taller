@@ -471,13 +471,13 @@
                 "CuracionVida": 100,
                 "CuracionMana": 0,
                 "Precio": 10,
-                "idTCP": 29
+                "idTCP": 2
             },
             "PocionMana": {
                 "CuracionVida": 0,
                 "CuracionMana": 100,
                 "Precio": 10,
-                "idTCP": 30
+                "idTCP": 1
             }
         }
     }

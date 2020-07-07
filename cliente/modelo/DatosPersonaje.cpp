@@ -13,6 +13,6 @@ oro(0){
 		equipados[i] = -1;
 	}
 
-	equipados[2] = 5;
-	equipados[1] = 8;
+	equipados[2] = 0;
+	equipados[1] = 9;
 }

@@ -14,7 +14,10 @@
 
 Comerciante::Comerciante(float x, float y) : Interactuable("Comerciante"){
     //Si, esta re hardcodeado. La idea es que esto se levante del archivo de config.
+    std::string idItem;
     FabricaDeItems *fabrica = FabricaDeItems::obtenerInstancia();
+    /*
+    
     std::string idItem = "Espada";
     items.push_back(fabrica->crearArma(idItem));
     idItem = "Hacha";
@@ -31,6 +34,7 @@ Comerciante::Comerciante(float x, float y) : Interactuable("Comerciante"){
     items.push_back(fabrica->crearCasco(idItem));
     idItem = "EscudoDeTortuga";
     items.push_back(fabrica->crearEscudo(idItem));
+    */
     idItem = "PocionVida";
     items.push_back(fabrica->crearPocion(idItem));
     idItem = "PocionMana";
@@ -95,6 +99,7 @@ void Comerciante::listar(Personaje *personaje, Cliente *cliente){
     cliente->enviarChat(mensaje, false);
     cliente -> enviarTienda(items);
     mensaje = "Se envio la tienda al cliente";
+    cliente->enviarChat(mensaje, false);
 }
 
 
