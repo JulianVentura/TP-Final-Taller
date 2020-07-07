@@ -68,7 +68,8 @@ void Cliente::actualizarEstado(const std::vector<struct PosicionEncapsulada> &po
                                   personaje->manaActual,
                                   personaje->manaMaximo,
                                   personaje->experiencia,
-                                  personaje->limiteParaSubir); 
+                                  personaje->limiteParaSubir);
+        enviarInventario(); //Refinar más adelante
         clienteProxy.enviarPosiciones(posiciones);
     }catch(...){
         //Cualquier error es motivo suficiente como para cortar la comunicacion con el Cliente
