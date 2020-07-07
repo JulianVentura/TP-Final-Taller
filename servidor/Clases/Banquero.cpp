@@ -68,6 +68,7 @@ void Banquero::vender(Item* item, Personaje *personaje, Cliente *cliente){
     }
     if (!almacenado){
         std::string mensaje = "No hay espacio para almacenar mas items en el banquero";
+        personaje->almacenar(item);
         cliente->enviarChat(mensaje, false);
         throw Excepcion("Error: No hay espacio para almacenar mas items en el banquero");
     }
