@@ -33,13 +33,8 @@ void Reloj::dormir(double tiempo){
     //Lo convierto a nanosegundos
     std::chrono::duration<double, std::milli> tiempoMax = std::chrono::duration<double, std::milli>(tiempo);
     actual = std::chrono::system_clock::now();
-    //std::cout << "tiempoMax(mili) = " << tiempoMax.count() << std::endl;
     std::chrono::duration<double, std::nano> transcurrido = actual - previo;
-    //std::cout << "transcurrido(nano) = " << transcurrido.count() << std::endl;
     if (transcurrido > tiempoMax) return; // No duermo
     std::chrono::duration<double, std::milli> tiempoADormir = tiempoMax - transcurrido;
-    //std::cout << "Se duerme por " << tiempoADormir.count() << std::endl;
-    
-    //std::chrono::duration_cast<>(tiempoMax)
     std::this_thread::sleep_for(tiempoADormir);
 }

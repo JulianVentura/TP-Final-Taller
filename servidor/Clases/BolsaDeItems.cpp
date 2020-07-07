@@ -52,7 +52,8 @@ void BolsaDeItems::vender(unsigned int pos, Estado *estado, Cliente *cliente){
 void BolsaDeItems::comprar(unsigned int pos, Personaje *personaje, Cliente *cliente){
     float distancia = this->posicion.calcularDistancia(personaje->obtenerPosicion());
     if (distancia > distanciaMaximaDeInteraccion){
-        //Estamos muy lejos
+        std::string mensaje = "La distancia es muy grande";
+        cliente->enviarChat(mensaje, false);
         return;
     }
     if (pos >= TAM_ALMACEN || items[pos] == nullptr){
