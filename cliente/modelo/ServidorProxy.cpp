@@ -83,7 +83,6 @@ void ServidorProxy::recibirMensajeConOperacion(uint32_t operacion) {
 			datos_tienda.inventario[i] = protocolo.recibirUint16(socket);
 			datos_tienda.precios[i] = protocolo.recibirUint16(socket);
 		}
-		std::cerr << "Recibo tienda";
 		datos_tienda.activo = true;
 		break;
 

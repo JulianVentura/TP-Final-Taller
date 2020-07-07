@@ -81,14 +81,14 @@ void Comerciante::comprar(unsigned int pos, Personaje *personaje, Cliente *clien
     }
 }
 void Comerciante::vender(Item* item, Personaje *personaje, Cliente *cliente){
-    /*  Se comenta para debugeo, descomentar para la entr
     float distancia = this->posicion.calcularDistancia(personaje->obtenerPosicion());
     if (distancia > distanciaMaximaDeInteraccion){
         std::string mensaje = "La distancia es muy grande";
         cliente->enviarChat(mensaje, false);
+        personaje->almacenar(item);
         return;
     }
-    */
+    
     personaje->recibirOro(item->obtenerPrecio());
     cliente -> enviarInventario();
     cliente -> enviarTienda(items);

@@ -53,6 +53,7 @@ void Banquero::vender(Item* item, Personaje *personaje, Cliente *cliente){
     if (distancia > distanciaMaximaDeInteraccion){
         std::string mensaje = "La distancia es muy grande";
         cliente->enviarChat(mensaje, false);
+        personaje->almacenar(item);
         return;
     }
     //Comprarle el item que pide y notificarle a cliente
