@@ -152,9 +152,15 @@ void ClienteProxy::enviarInformacionMapa(const std::vector<char> &infoMapa){
 void ClienteProxy::enviarTienda(std::vector<Item*>& items){
 	std::lock_guard<std::mutex> lock(m);
 	protocolo.enviarUint32(socket, CODIGO_TIENDA);
+    uint16_t noHayItem = 0;
     for(auto& item : items){
-    	protocolo.enviarUint16(socket, item -> obtenerIDTCP());
-    	protocolo.enviarUint16(socket, item -> obtenerPrecio());
+        if (item != nullptr){
+            protocolo.enviarUint16(socket, item -> obtenerIDTCP());
+    	    protocolo.enviarUint16(socket, item -> obtenerPrecio());
+        }else{
+            protocolo.enviarUint16(socket, noHayItem);
+    	    protocolo.enviarUint16(socket, noHayItem);
+        }
     }
 }
 
@@ -163,16 +169,28 @@ void ClienteProxy::enviarContenedor(std::vector<Item*>& items){
 	uint16_t cero = 0;
 	protocolo.enviarUint32(socket, CODIGO_TIENDA);
     for(auto& item : items){
-    	protocolo.enviarUint16(socket, item -> obtenerIDTCP());
-    	protocolo.enviarUint16(socket, cero);
+    	if (item != nullptr){
+            protocolo.enviarUint16(socket, item -> obtenerIDTCP());
+    	    protocolo.enviarUint16(socket, cero);
+        }else{
+            protocolo.enviarUint16(socket, cero);
+    	    protocolo.enviarUint16(socket, cero);
+        }
     }
 }
 
 void ClienteProxy::enviarInventario(std::vector<Item*>& items, uint16_t oro){
 	std::lock_guard<std::mutex> lock(m);
+    uint16_t cero = 0;
 	protocolo.enviarUint32(socket, CODIGO_TIENDA);
     for(auto& item : items){
-    	protocolo.enviarUint16(socket, item -> obtenerIDTCP());
+    	if (item != nullptr){
+            protocolo.enviarUint16(socket, item -> obtenerIDTCP());
+    	    protocolo.enviarUint16(socket, cero);
+        }else{
+            protocolo.enviarUint16(socket, cero);
+    	    protocolo.enviarUint16(socket, cero);
+        }
     }
     protocolo.enviarUint16(socket, oro);
 }
