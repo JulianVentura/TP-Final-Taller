@@ -100,6 +100,14 @@ bool ClienteProxy::decodificarCodigo(uint32_t codigo){
         case CODIGO_DESCONECTAR:
             return false;
        
+        case CODIGO_UTILIZACION:
+
+            break;
+
+        case CODIGO_TIRADO:
+
+            break;
+
         default:
             enviarError("No se ha podido decodificar el codigo de operacion, finaliza la conexion");
             return false;

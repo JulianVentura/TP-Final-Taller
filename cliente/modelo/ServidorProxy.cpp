@@ -192,14 +192,14 @@ void ServidorProxy::enviarTirar(int pos){
 		protocolo.enviarString(socket, datos_tienda.id_vendedor);
 		protocolo.enviarUint16(socket, pos);
 	}else{
-		protocolo.enviarUint32(socket, CODIGO_TIRADO);
-		protocolo.enviarUint16(socket, pos);
+		//protocolo.enviarUint32(socket, CODIGO_TIRADO);
+		//protocolo.enviarUint16(socket, pos);
 	}
 }
 
 void ServidorProxy::enviarUtilizar(int pos){
-	protocolo.enviarUint32(socket, CODIGO_UTILIZACION);
-	protocolo.enviarUint16(socket, pos);
+	//protocolo.enviarUint32(socket, CODIGO_UTILIZACION);
+	//protocolo.enviarUint16(socket, pos);
 }
 
 //Interaccion
