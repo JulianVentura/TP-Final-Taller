@@ -10,18 +10,19 @@
 
 class CapasParser {
 public:
-    CapasParser(nlohmann::json& parser, LibreriaConjuntoTiles* tiles);
-    std::unordered_map<std::string, std::vector<int>> getCapas();
-    std::vector<std::string> getCapasOrdenadas();
+    CapasParser(nlohmann::json& parser, LibreriaConjuntoTiles& tiles);
+    std::unordered_map<std::string, std::vector<int>> getCapas() const;
+    std::vector<std::string> getCapasOrdenadas() const;
     std::unordered_map<std::string, std::vector<Obstaculo>> 
-                                                        getCapasObstaculos();
-    int getColumnas();
-    int getFilas();
+                                                    getCapasObstaculos() const;
+    int getColumnas() const;
+    int getFilas() const;
 
 private:
     ObstaculoParser obstaculoParser;
     std::unordered_map<std::string, std::vector<int>> capas;
     std::vector<std::string> capasOrdenadas;
+    std::unordered_map<std::string, std::vector<Obstaculo>> capasObstaculos;
     int columnas;
     int filas;
 };

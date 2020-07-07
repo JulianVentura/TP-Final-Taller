@@ -8,7 +8,7 @@
 class LibreriaConjuntoTiles {
 public:
     LibreriaConjuntoTiles(EntornoGrafico& entorno, 
-                                            LibreriaConjuntoTileParser& parser);
+                                    const LibreriaConjuntoTileParser& parser);
     Imagen* getTile(int id);
     int getColumnas();
     int getAnchoTile();

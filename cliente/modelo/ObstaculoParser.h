@@ -14,7 +14,7 @@ public:
     ObstaculoParser(nlohmann::json& parser, std::unordered_map<std::string, 
              std::vector<int>>& capas, LibreriaConjuntoTiles& conjuntosTiles);
     std::unordered_map<std::string, std::vector<Obstaculo>> 
-                                                        getCapasObstaculos();
+                                                    getCapasObstaculos() const;
 
 private:
     std::unordered_map<std::string, std::vector<Obstaculo>> capasObstaculos;

@@ -1,10 +1,16 @@
 #include "Camara.h"
+int Camara::desplazamientoX = 0;
+int Camara::desplazamientoY = 0;
+float Camara::zoom = 1.0f;
 
-Camara::Camara(IDimensionable* contenedor, IDimensionable* marco): 
-                            contenedor(contenedor), marco(marco) {}
+Camara::Camara(IDimensionable& contenedor):
+                contenedor(contenedor), marco(&contenedor), objetivo(nullptr) {}
+void Camara::setMarco(IDimensionable* marco) {
+    this->marco = marco;
+}
 
-void Camara::setObjetivo(ITargeteable& objetivo) {
-    this->objetivo = &objetivo;
+void Camara::setObjetivo(ITargeteable* objetivo) {
+    this->objetivo = objetivo;
 }
 
 static int acotar(int x, int inferior, int superior) {
@@ -14,14 +20,20 @@ static int acotar(int x, int inferior, int superior) {
 }
 
 int Camara::maxX() {
-    return abs(contenedor->getAncho() * zoom - marco->getAncho());
+    return abs(contenedor.getAncho() * zoom - marco->getAncho());
 }
 
 int Camara::maxY() {
-    return abs(contenedor->getAlto() * zoom - marco->getAlto());
+    return abs(contenedor.getAlto() * zoom - marco->getAlto());
+}
+
+void Camara::transformar(int* x, int* y) {
+    *x = (*x + desplazamientoX) / zoom;
+    *y = (*y + desplazamientoY) / zoom;
 }
 
 void Camara::centrar(Renderer* renderer, int ancho_unidad, float radio) {
+    if (!objetivo) return;
     zoom = marco->getAncho() / (ancho_unidad * radio);
     zoom = round(zoom * ancho_unidad) / ancho_unidad;
     renderer->escalar(zoom);
@@ -36,6 +48,7 @@ void Camara::centrar(Renderer* renderer, int ancho_unidad, float radio) {
 }
 
 void Camara::reiniciar(Renderer* renderer) {
+    if (!objetivo) return;
     renderer->desplazar(desplazamientoX, desplazamientoY);
     renderer->escalar(1.0f);
 }

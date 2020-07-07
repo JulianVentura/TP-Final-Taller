@@ -1,23 +1,34 @@
 #ifndef MOVIBLEVISTA_H
 #define MOVIBLEVISTA_H
 
+#include <string>
 #include "AnimacionEnteDireccionable.h"
 #include "IObstruible.h"
 #include "Imagen.h"
-#include "../modelo/Movible.h"
-#include <string>
-
-class MovibleVista: public IObstruible {
+#include "../modelo/EntidadParser.h"
+#include "../controlador/IInteractivo.h"
+                                        // TODO: provisorio
+class MovibleVista: public IObstruible, public IInteractivo {
 public:
-    MovibleVista(EntornoGrafico& entorno, Movible& modelo);
+    MovibleVista(EntornoGrafico& entorno, IPosicionable* modelo, 
+                            EntidadParser& parser, DatosApariencia apariencia);
+    virtual ~MovibleVista() {};
+
     void render() override;
     void actualizar(unsigned int delta_t) override;
+    bool manejarEvento(SDL_Event& evento) override;
     
 private:
-    Imagen imagen;
-    AnimacionEnteDireccionable animacion;
+    imagenes_t imagenes;
     std::string ultimo_estado;
-    Movible& modelo;
+    IPosicionable* modelo;
+    EntidadParser& parser;
+    DatosApariencia apariencia;
+    AnimacionEnteDireccionable animacion;
+    int delta_x = 0;
+    int delta_y = 0;
+    unsigned int delta_t = 0;
+    const static std::vector<std::string> ordenDeImagenes;
 };
 
 #endif

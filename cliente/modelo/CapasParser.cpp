@@ -5,23 +5,24 @@
 
 using json = nlohmann::json;
 
-int CapasParser::getColumnas() { return columnas; }
-int CapasParser::getFilas() { return filas; }
+int CapasParser::getColumnas() const { return columnas; }
+int CapasParser::getFilas() const { return filas; }
 
-std::unordered_map<std::string, std::vector<int>> CapasParser::getCapas() {
+std::unordered_map<std::string, std::vector<int>> 
+                                                CapasParser::getCapas() const {
     return std::move(this->capas);
 }
 
 std::unordered_map<std::string, std::vector<Obstaculo>> 
-        CapasParser::getCapasObstaculos() {
-    return std::move(obstaculoParser.getCapasObstaculos());
+                                    CapasParser::getCapasObstaculos() const {
+    return std::move(capasObstaculos);
 }
 
-std::vector<std::string> CapasParser::getCapasOrdenadas() {
+std::vector<std::string> CapasParser::getCapasOrdenadas() const {
     return std::move(this->capasOrdenadas);
 }
 
-CapasParser::CapasParser(nlohmann::json& parser, LibreriaConjuntoTiles* tiles) {
+CapasParser::CapasParser(nlohmann::json& parser, LibreriaConjuntoTiles& tiles) {
     parser["width"].get_to(columnas);
     parser["height"].get_to(filas);
     for (auto& grupo: parser["layers"]) {
@@ -32,5 +33,6 @@ CapasParser::CapasParser(nlohmann::json& parser, LibreriaConjuntoTiles* tiles) {
             capasOrdenadas.push_back(capa["name"]);
         }
     }
-    obstaculoParser = ObstaculoParser(parser, capas, *tiles);
+    capasObstaculos = std::move(ObstaculoParser(parser, capas, 
+                                                tiles).getCapasObstaculos());
 }
