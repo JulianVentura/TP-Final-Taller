@@ -3,7 +3,7 @@
 
 bool GUI_InventarioControlador::enClick(){
 	if(!vista_inventario.visible) return false;
-	std::string a = "Banquero";
+	std::string a = "Comerciante";
 
 	switch(SDL_GetMouseState(NULL, NULL)){
 		case SDL_BUTTON_LEFT:

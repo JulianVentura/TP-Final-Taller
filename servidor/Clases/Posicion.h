@@ -30,7 +30,6 @@ class Posicion{
     const quadtree::Box<float>& obtenerAreaQueOcupa() const;
     float longitudMaximaDeColision() const;
     Posicion nuevaPosicionDesplazada(float x, float y) const;
-    std::string imprimirPosicion();
     float calcularDistancia(const Posicion &otra) const;
     const float obtenerX() const;
     const float obtenerY() const;

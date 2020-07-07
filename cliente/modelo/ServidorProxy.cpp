@@ -84,7 +84,6 @@ void ServidorProxy::recibirMensajeConOperacion(uint32_t operacion) {
 			datos_tienda.inventario[i] = protocolo.recibirUint16(socket);
 			datos_tienda.precios[i] = protocolo.recibirUint16(socket);
 		}
-		std::cerr << "Recibo tienda";
 		datos_tienda.activo = true;
 		break;
 
@@ -150,6 +149,7 @@ void ServidorProxy::actualizarPosiciones() {
 			juego->agregarNuevo(id);
 			continue;
 		}
+		if (posicionables.count(posicion.first) == 0) continue;
 		auto& coordenadas = posicion.second;
 		posicionables[posicion.first]->actualizarPosicion(coordenadas.first, 
 															coordenadas.second);
@@ -157,7 +157,7 @@ void ServidorProxy::actualizarPosiciones() {
 }
 
 void ServidorProxy::agregarPosicionable(std::string& id, 
-												IPosicionable* posicionable) {
+	IPosicionable* posicionable) {
 	posicionables[id] = posicionable;
 }
 

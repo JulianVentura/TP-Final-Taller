@@ -24,7 +24,6 @@ class Entidad;
 class Mapa{
     private:
     std::string nombreMapa;
-    std::vector<char> tiles; //Esto solo nos sirve para imprimir el ascii art
     std::string contenido_archivo;
     unsigned int ancho;
     unsigned int alto;
@@ -73,10 +72,7 @@ class Mapa{
     Devuelve un vector de struct PosicionEncapsulada aka posicion_t
     */
     std::vector<struct PosicionEncapsulada> recolectarPosiciones();
-
-    //Para indicarle a los clientes el tamanio del mapa necesito ancho y alto
-    unsigned int obtenerAncho();
-    unsigned int obtenerAlto();
+    
     //Para indicarle a los clientes la info de cada Tile del mapa.
     const std::vector<char> obtenerInformacionMapa();
     /*
@@ -104,9 +100,7 @@ class Mapa{
     void eliminarEntidad(const std::string &id);
     void cargarEntidad(Entidad *entidad);
     void cargarCriatura();
-    
-    // DEBUG
-    std::string aCadena();
+
 };
 
 #endif

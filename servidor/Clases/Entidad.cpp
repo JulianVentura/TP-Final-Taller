@@ -4,6 +4,7 @@
 #include "Criatura.h"
 #include "BolsaDeItems.h"
 #include "Excepcion.h"
+#include "Divulgador.h"
 #include <vector>
 
 Entidad::Entidad(std::string unId) : 
@@ -46,18 +47,20 @@ void Entidad::actualizarEstado(double tiempo, Mapa *mapa){
 
 void Entidad::recibirDanio(int danio, Entidad *atacante, Divulgador *divulgador){
     Configuraciones *configuraciones = Configuraciones::obtenerInstancia();
-    this->vidaActual -= danio;
     unsigned int experiencia = configuraciones->calcularExpPorGolpe(this,
                                                                     atacante,
                                                                     danio);
     atacante->obtenerExperiencia(experiencia);
     //Enviar mensaje a this : "Recibes " << danio << "de daño";
     //Enviar mensaje a atacante : "Realizas " << danio << "de daño";
-    if (vidaActual <= 0){
+    if (vidaActual - danio <= 0){
         //Enviar mensaje a this : "Has muerto";
+        this->vidaActual = 0;
         experiencia = configuraciones->calcularExpPorMatar(this, atacante);
         atacante->obtenerExperiencia(experiencia);
         dropearItems(atacante);
+    }else{
+        this->vidaActual -= danio;
     }
 }
 

@@ -42,7 +42,6 @@ namespace quadtree{
 }
 
 Mapa::Mapa(std::string nombre) :        nombreMapa(nombre),
-                                        tiles(),
                                         ancho(0),
                                         alto(0),
                                         frontera(0, 0, 0, 0),
@@ -71,16 +70,10 @@ Mapa::Mapa(std::string nombre) :        nombreMapa(nombre),
     frontera = inicializarFrontera(archivoJson, alto, ancho);
     quadTreeEstatico.setFrontera(frontera);
     quadTreeDinamico.setFrontera(frontera);
-    
-    //MAPA VIEJO
-    // TODO: esto en el mapa nuevo, es más complicado de armar
-    
-    //tiles = archivoJson.at("layers")[0].at("data").get<std::vector<char>>();
-    //std::vector<quadtree::Box<float>> objetos = archivoJson.at("layers")[2].at("objects").get<std::vector<quadtree::Box<float>>>();
+
+    //No estan implementadas en el mapa actual
     //zonasRespawn = archivoJson.at("layers")[1].at("objects").get<std::vector<quadtree::Box<float>>>();
-    
-    //MAPA NUEVO
-    
+
      std::vector<quadtree::Box<float>> objetos; 
      for (auto& capa: archivoJson["layers"]) {
          if (capa["type"] != "objectgroup" || 
@@ -97,7 +90,7 @@ Mapa::Mapa(std::string nombre) :        nombreMapa(nombre),
         quadTreeEstatico.add(&(objetosEstaticos[i]));
     }
     //Esto que esta completamente hardcodeado deberia levantarse del configuraciones.json
-    //La idea es que el mapa sepa las posiciones del Sacerdote, Banquero y Comericante.
+    //La idea es que el mapa sepa las posiciones del Sacerdote, Banquero y Comerciante.
     std::unique_ptr<Interactuable> sacerdote(new Sacerdote(90, 90));
     std::unique_ptr<Interactuable> banquero(new Banquero(105, 110));
     std::unique_ptr<Interactuable> comerciante(new Comerciante(95, 105));
@@ -115,23 +108,6 @@ void Mapa::actualizarPosicion(Entidad *entidad, Posicion &&nuevaPosicion){
     quadTreeDinamico.add(entidad);
 }
 
-std::string Mapa::posicionesACadena(){
-    std::string resultado;
-
-    for (std::map<std::string, std::unique_ptr<Criatura>>::iterator it = criaturas.begin();
-         it != criaturas.end();
-         ++it){
-        resultado += it->first + '/' + it->second->imprimirPosicion() + '$';
-    }
-
-    for (std::map<std::string, Personaje*>::iterator it = personajes.begin();
-         it != personajes.end();
-         ++it){
-        resultado += it->first + '/' + it->second->imprimirPosicion() + '$';
-    }
-    return resultado;
-}
-
 std::vector<struct PosicionEncapsulada> Mapa::recolectarPosiciones(){
     std::vector<struct PosicionEncapsulada> resultado;
     struct PosicionEncapsulada pos = {{0}, 0, 0};
@@ -147,6 +123,15 @@ std::vector<struct PosicionEncapsulada> Mapa::recolectarPosiciones(){
          it != personajes.end();
          ++it){
         pos = {{0}, it->second->obtenerX(), it->second->obtenerY()};
+        strncpy(pos.id, it->first.c_str(), TAM_ID);
+        pos.id[TAM_ID - 1] = 0;
+        resultado.push_back(std::move(pos));
+    }
+    for (std::map<std::string, std::unique_ptr<Interactuable>>::iterator it = ciudadanos.begin();
+         it != ciudadanos.end();
+         ++it){
+        ;
+        pos = {{0}, it->second->obtenerPosicion().obtenerX(), it->second->obtenerPosicion().obtenerY()};
         strncpy(pos.id, it->first.c_str(), TAM_ID);
         pos.id[TAM_ID - 1] = 0;
         resultado.push_back(std::move(pos));
@@ -321,72 +306,3 @@ const std::vector<char> Mapa::obtenerInformacionMapa(){
 }
 
 
-
-// DEBUG
-#define ANCHO_TILE 32.0f // Esto dice en mapa.json
-//Indica la cantidad de celdas que hay en una coordenada de cada tile, tal que NUM_CELDAS_POR_ANCHO_TILE**2 = NUM_CELDAS_POR_TILE
-#define NUM_CELDAS_POR_ANCHO_TILE 2
-#define ANCHO_CELDA (ANCHO_TILE / NUM_CELDAS_POR_ANCHO_TILE)
-#define DEFINICION 10.0f // Pixeles equivalentes por caracter
-#define ID_COLISION 16
-
-
-static void poblarCadena(Entidad* entidad, unsigned int ancho, char c, 
-                                                    std::string& resultado) {
-    int x = std::floor(entidad->obtenerPosicion().obtenerX()/ANCHO_CELDA);
-    int y = std::floor(entidad->obtenerPosicion().obtenerY()/ANCHO_CELDA);
-    int index = y * ancho + x;
-    resultado[index] = c;
-}
-
-static void poblarColisiones(std::vector<char> &tiles, 
-                             std::string &resultado, unsigned int alto, unsigned int ancho){
-    unsigned int indice = 0;
-    unsigned int ancho_celda = ancho * NUM_CELDAS_POR_ANCHO_TILE;
-    unsigned int x = 0;
-    unsigned int y = 0;
-    for (auto& tile : tiles){
-        if (tile == ID_COLISION){
-            x = indice % ancho;
-            y = indice / ancho;
-            y *= NUM_CELDAS_POR_ANCHO_TILE;
-            x *= NUM_CELDAS_POR_ANCHO_TILE;
-            for (int j=0; j<NUM_CELDAS_POR_ANCHO_TILE; j++){
-                for (int i=0; i<NUM_CELDAS_POR_ANCHO_TILE; i++){
-                    resultado[(y+j) * ancho_celda + x + i] = '#';
-                }
-            }
-        }
-        indice++;
-    }
-}
-
-std::string Mapa::aCadena() {
-    std::stringstream tablero;
-    unsigned int ancho_celdas = ancho * NUM_CELDAS_POR_ANCHO_TILE;
-    unsigned int alto_celdas = alto * NUM_CELDAS_POR_ANCHO_TILE;
-    for (unsigned int j = 0; j < alto_celdas; ++j) {
-        for (unsigned int i = 0; i < ancho_celdas; ++i){
-            tablero <<  ".";
-        }
-    }
-    std::string resultado = tablero.str();
-    poblarColisiones(tiles, resultado, alto, ancho);
-    for (auto& criatura: criaturas) {
-        poblarCadena(criatura.second.get(), ancho_celdas, 'C', resultado);
-    }
-    for (auto& personaje: personajes) {
-        poblarCadena(personaje.second, ancho_celdas, 'J', resultado);
-    }
-    //Como se va a imprimir
-    std::stringstream mapa_resultado;
-    unsigned int indice = 0;
-    for (unsigned int j = 0; j < alto_celdas; ++j) {
-        for (unsigned int i = 0; i < ancho_celdas; ++i){
-            indice = j * ancho_celdas + i;
-            mapa_resultado << " " << resultado[indice];
-        }
-        mapa_resultado << "\n";
-    }
-    return mapa_resultado.str();
-}

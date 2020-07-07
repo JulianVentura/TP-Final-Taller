@@ -53,6 +53,7 @@ void Banquero::vender(Item* item, Personaje *personaje, Cliente *cliente){
     if (distancia > distanciaMaximaDeInteraccion){
         std::string mensaje = "La distancia es muy grande";
         cliente->enviarChat(mensaje, false);
+        personaje->almacenar(item);
         return;
     }
     //Comprarle el item que pide y notificarle a cliente
@@ -67,6 +68,7 @@ void Banquero::vender(Item* item, Personaje *personaje, Cliente *cliente){
     }
     if (!almacenado){
         std::string mensaje = "No hay espacio para almacenar mas items en el banquero";
+        personaje->almacenar(item);
         cliente->enviarChat(mensaje, false);
         throw Excepcion("Error: No hay espacio para almacenar mas items en el banquero");
     }

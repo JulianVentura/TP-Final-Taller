@@ -17,12 +17,12 @@ Aceptador::Aceptador(OrganizadorSalas &unOrganizadorSalas,
                      divulgador(organizadorClientes),
                      continuar(true){
     Configuraciones *config = Configuraciones::obtenerInstancia();
+    //El socket defaultea a "localhost", para la entrega final eso se va a poder elegir del configuraciones.json
     //std::string host = config->obtenerAceptadorHost();
     std::string puerto = config->obtenerAceptadorPuerto();
     unsigned int numConexionesEnEspera = config->
     obtenerAceptadorNumConexionesEnEspera();
     servidor.ligar( puerto.c_str());
-   // servidor.bindYSetearOpciones(host.c_str(), puerto.c_str());
     servidor.escuchar(numConexionesEnEspera);
 }
 
