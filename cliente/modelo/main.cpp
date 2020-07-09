@@ -53,7 +53,6 @@ int main(int argc, const char* argv[]) {
         servidor.conectar(direccion, servicio);
         servidor.enviarNuevaCuenta(id_usuario, password, raza, clase);
         */
-        // TODO: </Login provisorio>
         
         BuclePrincipal bucle(ventana);
         std::string mapa_s;

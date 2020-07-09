@@ -54,6 +54,19 @@ EntidadParser::EntidadParser(EntornoGrafico& entorno): entorno(entorno) {
             imagenes[raza.key() + DELIMITADOR + clase.key()] = std::move(setDeImagenes);
         }
     }
+    for (auto& npc: parser["npc"].items()) {
+        imagenes_t setDeImagenes(aparienciaImagenesBase);
+        for (auto& campo: setDeImagenes) {
+            for (auto& valor: npc.value()[campo.first]) {
+                if (valor == "") continue;
+                std::string ruta_completa = raiz + campo.first + DELIMITADOR_RUTA + valor.get<std::string>();
+                // buffer.push_back(Imagen(entorno, ruta_completa));
+                // setDeImagenes[campo.first].push_back(&buffer.back());
+                setDeImagenes[campo.first].push_back(new Imagen(entorno, ruta_completa));
+            }
+        }
+        imagenes[npc.key()] = std::move(setDeImagenes);
+    }
 
     for (auto& animacion: parser["animacion"].items()) {
         int columnas = animacion.value()["Columnas"];
@@ -64,15 +77,12 @@ EntidadParser::EntidadParser(EntornoGrafico& entorno): entorno(entorno) {
                 std::string llave = estado.key() + DELIMITADOR + direccion.key();
                 std::transform(llave.begin(), llave.end(), llave.begin(), ::tolower);
                 std::string llave_quieto = std::string(QUIETO) + DELIMITADOR + llave;
-                std::transform(llave_quieto.begin(), llave_quieto.end(), llave_quieto.begin(), ::tolower);    
-            
+                std::transform(llave_quieto.begin(), llave_quieto.end(), llave_quieto.begin(), ::tolower);
                 int cantidad = estado.value()["cantidad"];
                 std::vector<int> filas = estado.value()["fila"].get<std::vector<int>>();
-                if ((int)filas.size() < direccion_v) continue;
-                int fila = 10; // filas.at(direccion_v);
-
+                if ((int)filas.size() < direccion_v + 1) continue;
+                int fila = filas.at(direccion_v);
                 animaciones[animacion.key()][llave_quieto].push_back(fila * columnas);
-
                 for (int i = 0; i < cantidad; ++i) {
                     int guid = fila * columnas + i;
                     animaciones[animacion.key()][llave].push_back(guid);
@@ -102,6 +112,9 @@ int EntidadParser::getAnimacionCantidad(std::string& tipo, std::string& accion,
     std::string id = accion + DELIMITADOR + direccion;
     std::transform(id.begin(), id.end(), id.begin(), ::tolower);
     return animaciones[tipo][id].size();
+}
+imagenes_t EntidadParser::getImagenes(std::string& tipo) {
+    return imagenes[tipo];
 }
 
 imagenes_t EntidadParser::getImagenes(std::string& raza, std::string& clase) {

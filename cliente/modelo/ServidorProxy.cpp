@@ -8,6 +8,7 @@
 #include "ErrorServidor.h"
 #include "../controlador/GUI_Chat_Controlador.h"
 
+#include "Juego.h"
 
 // Conexion e inicio de sesion
 
@@ -142,6 +143,12 @@ void ServidorProxy::actualizarPosiciones() {
 		posiciones[id] = { std::round(x), std::round(y) };
 	}
 	for (auto& posicion: posiciones) {
+		if (posicionables.count(posicion.first) == 0) {
+			if (!juego) continue;
+			std::string id(posicion.first);
+			juego->agregarNuevo(id);
+			continue;
+		}
 		if (posicionables.count(posicion.first) == 0) continue;
 		auto& coordenadas = posicion.second;
 		posicionables[posicion.first]->actualizarPosicion(coordenadas.first, 
@@ -212,4 +219,8 @@ void ServidorProxy::enviarInteraccion(std::string& id){
 	datos_tienda.id_vendedor = id;
 	protocolo.enviarUint32(socket, CODIGO_INTERACCION);
 	protocolo.enviarString(socket, id);
+}
+
+void ServidorProxy::setJuego(Juego* juego) {
+	this->juego = juego;
 }

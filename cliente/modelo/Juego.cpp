@@ -51,6 +51,7 @@ Juego::Juego(EntornoGrafico& entorno, std::string& mapa_s,
         personajeManejable(servidor),
         entidadParser(entorno) {
     entorno.agregarRendereable(this);
+    servidor.setJuego(this);
     camara.setMarco(ventana);
 
     DatosApariencia ap;
@@ -58,18 +59,19 @@ Juego::Juego(EntornoGrafico& entorno, std::string& mapa_s,
     ap.clase = "Mago";
     agregarEntidad(datos_personaje.id, ap);
 
-    ap.raza = "gnomo";
-    ap.clase = "Guerrero";
-    std::string jugador3("j3");
-    agregarEntidad(jugador3, ap);
-
-    ap.raza = "humano";
-    ap.clase = "Clerigo";
-    std::string jugador4("jugador4");
-    agregarEntidad(jugador4, ap);
-
-    // ap.raza = "elfo";
+    // ap.raza = "gnomo";
     // ap.clase = "Guerrero";
+    // std::string jugador3("j3");
+    // agregarEntidad(jugador3, ap);
+
+    // ap.raza = "humano";
+    // ap.clase = "Clerigo";
+    // std::string jugador4("jugador4");
+    // agregarEntidad(jugador4, ap);
+
+    // ap.raza = "";
+    // ap.clase = "";
+    // ap.tipo = "Zombie";
     // std::string jugador5("j5");
     // agregarEntidad(jugador5, ap);
 }
@@ -83,12 +85,12 @@ void Juego::agregarEntidad(std::string& id, DatosApariencia& apariencia) {
     movibles[id].second = new MovibleVista(entorno, movibles[id].first, 
                                                     entidadParser, apariencia);
     
-    movibles[id].first->actualizarPosicion(300, 150 + random() % 150);
+    movibles[id].first->actualizarPosicion(400 + random() % 30, 150 + random() % 150);
     capaFrontal.agregarObstruible(movibles[id].second);
+    servidor.agregarPosicionable(id, movibles[id].first);
     
     if (id == datos_personaje.id) {
-        servidor.agregarPosicionable(id, movibles[id].first);
-        camara.setObjetivo(movibles[id].second);
+        camara.setObjetivo(movibles[id].second);    
     }
 }
 
@@ -97,4 +99,13 @@ Juego::~Juego() {
         delete movible.second.first;
         delete movible.second.second;
     }
+}
+
+void Juego::agregarNuevo(std::string& id) {
+    DatosApariencia apariencia;
+    // TODO: hardcodeado
+    apariencia.raza = "humano";
+    apariencia.clase = "Clerigo";
+    agregarEntidad(id, apariencia);
+    printf("Se agrega jugador %s\n", id.c_str());
 }

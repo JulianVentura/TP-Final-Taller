@@ -9,6 +9,7 @@
 #include "IPosicionable.h"
 
 #include "../vista/Imagen.h"
+
 // TODO provisorio, esto serían ids
 // - arma, casco, escudo, armadura, raza, clase, estado.
 struct DatosApariencia {
@@ -19,6 +20,7 @@ struct DatosApariencia {
     std::string raza;
     std::string clase;
     std::string estado;
+    std::string tipo; // arania, zombie, etc
 };
 
 typedef std::unordered_map<std::string, std::vector<Imagen*>> imagenes_t;
@@ -30,6 +32,7 @@ public:
     EntidadParser(EntornoGrafico& entorno);
     virtual ~EntidadParser() {};
     imagenes_t getImagenes(std::string& raza, std::string& clase);
+    imagenes_t getImagenes(std::string& tipo);
     int getAncho();
     int getAlto();
     int getGuid(std::string& tipo, std::string& accion, std::string& direccion, 
