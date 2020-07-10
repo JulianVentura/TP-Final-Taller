@@ -36,7 +36,7 @@ sudo apt install -y libsdl2-dev libsdl2-image-dev libsdl2-ttf-dev
 
 07/07/20 https://drive.google.com/file/d/1oXUqZB-LbbHu-14e_8CEyprskqbhAZ4W/view?usp=sharing
 
-10/07/20
+10/07/20 https://drive.google.com/file/d/1EVyVw1n9N7nDgGxBKSg9l3YXiGpXUSjN/view?usp=sharing
 
 ## Notas
 
@@ -44,4 +44,6 @@ Nota: Crear siempre una nueva cuenta al logearse en el servidor,
 	  aún no está implementada la base de datos.
 	  Para una introduccion general a la estructura del código, ver:
 
-10/07/20
+10/07/20 https://drive.google.com/file/d/1-KCT0oHJ5-JcQTcdRnJfPt037v1Z_rTs/view?usp=sharing
+
+	* Ignorar la clase posicionable, ha quedado en desuso en refactorizaciones recientes.
