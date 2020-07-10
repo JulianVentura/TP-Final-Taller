@@ -16,6 +16,9 @@ ServidorProxy::ServidorProxy(DatosPersonaje& datos_personaje,
 	DatosTienda& datos_tienda)
 	 : datos_personaje(datos_personaje), datos_tienda(datos_tienda) {
 	salir = false;
+	evento_salida.type = SDL_QUIT;
+	evento_salida.quit.type = SDL_QUIT;
+	evento_salida.quit.timestamp = 0;
 }
 
 void ServidorProxy::conectar(std::string& direccion, std::string& servicio){
@@ -96,13 +99,17 @@ void ServidorProxy::recibirMensajeConOperacion(uint32_t operacion) {
 			datos_personaje.exp_max = protocolo.recibirUint16(socket);
 		break;
 
+		case CODIGO_CONFIRMACION:
+			SDL_PushEvent(&evento_salida);
+		break;
+
 		default:
 		printf("No reconocido %d\n", operacion);
 		break;
 	}
 }
 
-void ServidorProxy::comenzar() {
+void ServidorProxy::comenzarRecepcionConcurrente() {
 	hilo_recepcion = std::thread(&ServidorProxy::recibirMensaje, this);	
 }
 

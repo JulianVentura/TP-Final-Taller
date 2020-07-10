@@ -24,7 +24,7 @@ Cliente::Cliente(Socket &&socket,
     */
     
     std::pair<std::string, std::string> credenciales = std::move(login(organizadorClientes));
-    std::pair<std::string, std::unique_ptr<Personaje>> datos = miBaseDeDatos.recuperarInformacion(credenciales);
+    std::pair<std::string, std::unique_ptr<Personaje>> datos = miBaseDeDatos.cargarCliente(credenciales);
     this->id = credenciales.first;
     this->personaje = std::move(datos.second);
     this->salaActual = std::move(datos.first);
@@ -143,20 +143,19 @@ bool Cliente::haFinalizado(){
 
 std::pair<std::string, std::string> Cliente::login(OrganizadorClientes &organizador){
     std::pair<std::string, std::string> credenciales;
-    bool login_establecido = false;
-    while (!login_establecido){
+    while (true){
         credenciales = clienteProxy.recibirId();
-        while (organizador.idEnUso(credenciales.first)){
-            clienteProxy.enviarError("Error: El id que ha ingresado ya ha sido logueado.");
+        if(organizador.idEnUso(credenciales.first)){
+            clienteProxy.enviarError
+            ("Error: El id que ha ingresado ya ha sido logueado");
             credenciales = clienteProxy.recibirId();
-        }
-        if (miBaseDeDatos.idExistente(credenciales)){
-            login_establecido = true;
         }else{
-            clienteProxy.enviarError("Error: La cuenta a la que ha intentado ingresar es inexistente.");
+            if (miBaseDeDatos.verificarCliente(credenciales)){
+                clienteProxy.enviarConfirmacion();
+                return credenciales;
+            }
+            
+            clienteProxy.enviarError("Error: Usuario y/o clave incorrectos");
         }
     }
-    
-    //clienteProxy.enviarMensajeConfirmacion();
-    return credenciales;
 }

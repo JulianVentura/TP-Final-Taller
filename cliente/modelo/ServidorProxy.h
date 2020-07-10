@@ -1,6 +1,7 @@
 #ifndef __SERVIDOR_PROXY_H__
 #define __SERVIDOR_PROXY_H__
 
+#include <SDL2/SDL.h>
 #include <string>
 #include <unordered_map>
 #include <thread>
@@ -33,6 +34,7 @@ private:
 	Juego* juego;
 	std::unordered_map<std::string, IPosicionable*> posicionables;
 	std::string mapa;
+	SDL_Event evento_salida;
 	void actualizarPosiciones();
 public:
 	ServidorSalida* salida;
@@ -48,7 +50,7 @@ public:
 	void recibirMensajeConOperacion(uint32_t operacion);
 	void enviarMensaje(std::string mensaje);
 	void recibirMensaje();
-	void comenzar();
+	void comenzarRecepcionConcurrente();
 	void terminar();
 
 	// Chat

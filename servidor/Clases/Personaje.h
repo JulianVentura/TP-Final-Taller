@@ -10,11 +10,9 @@ class Estado;
 class Criatura;
 class Personaje : public Entidad{
     private:
-    uint32_t manaMaximo;
-    uint32_t manaActual;
-    uint32_t experiencia;
-    uint32_t limiteParaSubir;
-    uint32_t cantidadOro;
+    uint32_t experiencia;//
+    uint32_t limiteParaSubir;//
+    uint32_t cantidadOro;//
     Armadura *armadura;
     Escudo *escudo;
     Casco *casco;

@@ -14,8 +14,6 @@
 #define NIVEL_INICIAL 1
 
 Personaje::Personaje() : Entidad(""),
-                         manaMaximo(0),
-                         manaActual(0),
                          experiencia(0),
                          limiteParaSubir(0),
                          cantidadOro(0),
@@ -34,8 +32,6 @@ Personaje::Personaje() : Entidad(""),
 
 Personaje::Personaje(float x, float y, std::string id, std::string idClase, std::string idRaza) : 
                                        Entidad(id),
-                                       manaMaximo(0),
-                                       manaActual(0),
                                        experiencia(0),
                                        limiteParaSubir(0),
                                        cantidadOro(0),

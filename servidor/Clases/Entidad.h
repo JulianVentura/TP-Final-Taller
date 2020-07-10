@@ -13,15 +13,15 @@ class Criatura;
 class Divulgador;
 class Entidad : public Colisionable, public Posicionable {
     protected:
-    uint32_t vidaMaxima;
-    uint32_t vidaActual;
-    uint32_t manaMaximo;
-    uint32_t manaActual;
+    uint32_t vidaMaxima;//
+    uint32_t vidaActual;//
+    uint32_t manaMaximo;//
+    uint32_t manaActual;//
     uint32_t fuerza;
     uint32_t inteligencia;
     uint32_t agilidad;
     uint32_t constitucion;
-    uint32_t nivel;
+    uint32_t nivel;//
     std::string id;
     Arma *arma;
     Inventario inventario;

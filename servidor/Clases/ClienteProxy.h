@@ -53,7 +53,6 @@ public:
     void enviarMensaje(const std::string& mensaje);
     void enviarChat(const std::string& mensaje, bool mensaje_publico);
     void enviarEstadisticas();
-    void enviarMensajeConfirmacion();
     void enviarConfirmacion();
     void enviarTienda(std::vector<Item*>& items);
     void enviarContenedor(std::vector<Item*>& items);

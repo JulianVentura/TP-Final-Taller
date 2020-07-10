@@ -17,7 +17,8 @@ Aceptador::Aceptador(OrganizadorSalas &unOrganizadorSalas,
                      divulgador(organizadorClientes),
                      continuar(true){
     Configuraciones *config = Configuraciones::obtenerInstancia();
-    //El socket defaultea a "localhost", para la entrega final eso se va a poder elegir del configuraciones.json
+    //El socket defaultea a "localhost", para la entrega final eso se va
+    //a poder elegir del configuraciones.json
     //std::string host = config->obtenerAceptadorHost();
     std::string puerto = config->obtenerAceptadorPuerto();
     unsigned int numConexionesEnEspera = config->
@@ -40,11 +41,11 @@ void Aceptador::procesar(){
                                                          divulgador));
             cliente.get()->comenzar();
             organizadorClientes.incorporarCliente(std::move(cliente));
-        }catch(const ExcepcionSocket &e){
+        }/*catch(const ExcepcionSocket &e){
             //No me aporta nada imprimir un error de socket
         }catch(const ExcepcionCliente &e){
             //No me aporta nada imprimir este error.
-        }catch(const std::exception &e){
+        }*/catch(const std::exception &e){
             std::cerr << e.what() << std::endl;
         }catch(...){
             std::cerr << "Error desconocido encontrado dentro del "
