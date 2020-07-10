@@ -1,56 +1,44 @@
 #ifndef __ENTIDAD_H__
 #define __ENTIDAD_H__
-#include "Posicionable.h"
-#include "Colisionable.h"
+#include "Movible.h"
+#include "Interactuable.h"
 #include "Configuraciones.h"
 #include "Arma.h"
 #include "Inventario.h"
+#include "PosicionEncapsulada.h"
 #include <string>
 
 class Mapa;
-class Personaje;
-class Criatura;
-class Divulgador;
-class Entidad : public Colisionable, public Posicionable {
+class Entidad : public Interactuable{
     protected:
-    uint32_t vidaMaxima;//
-    uint32_t vidaActual;//
-    uint32_t manaMaximo;//
-    uint32_t manaActual;//
-    uint32_t fuerza;
-    uint32_t inteligencia;
-    uint32_t agilidad;
-    uint32_t constitucion;
-    uint32_t nivel;//
-    std::string id;
+    int vidaMaxima;
+    int vidaActual;
+    int manaMaximo;
+    int manaActual;
+    unsigned int fuerza;
+    unsigned int inteligencia;
+    unsigned int agilidad;
+    unsigned int constitucion;
+    unsigned int nivel;
     Arma *arma;
-    Inventario inventario;
     Mapa *mapaAlQuePertenece;
 
     public:
     virtual ~Entidad();
-    //Por ser colisionable
     Entidad(std::string id);
-    virtual const quadtree::Box<float>& obtenerArea() const override;
-    virtual bool colisionaCon(const Colisionable &otro) const override;
-    virtual bool colisionaCon(const quadtree::Box<float> &area) const override;
-    //Por ser posicionable
-    virtual const std::string obtenerId() const;
-    virtual void actualizarEstado(double tiempo, Mapa *mapa);
-
-    virtual void atacar(Personaje *objetivo, Divulgador *divulgador) = 0;
-    virtual void atacar(Criatura *objetivo, Divulgador *divulgador) = 0;
-    virtual void serAtacadoPor(Personaje *atacante, Divulgador *divulgador) = 0;
-    virtual void serAtacadoPor(Criatura *atacante, Divulgador *divulgador) = 0;
-    virtual void recibirDanio(int danio, Entidad *atacante, Divulgador *divulgador);
+    virtual void actualizarEstado(double tiempo) = 0;
     virtual void obtenerExperiencia(unsigned int cantidad);
     virtual void recibirOro(unsigned int cantidad);
     virtual void dropearItems(Entidad *atacante) = 0;
+    virtual void serAtacadoPor(Entidad *atacante) = 0;
+    //void atacar(Entidad *objetivo) override;
     void indicarMapaAlQuePertenece(Mapa *mapa);
     void consumirMana(unsigned int cantidad);
     bool manaSuficiente(unsigned int cantidad);
-    void equipar(Arma *arma);
-    void almacenar(Item *item);
+    virtual bool haFinalizado();
+    //Serializacion
+    const struct PosicionEncapsulada serializarPosicion() const;
+    
     friend class Configuraciones;
 };
 

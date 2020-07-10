@@ -104,34 +104,71 @@ uint16_t Personaje::obtenerOro(){
     return cantidadOro;
 }
 
-void Personaje::actualizarEstado(double tiempo, Mapa *mapa){
-    estado->actualizar(tiempo, mapa);
+void Personaje::actualizarEstado(double tiempo){
+    estado->actualizar(tiempo);
 }
 
-void Personaje::recibirDanio(int danio, Entidad *atacante, Divulgador *divulgador){
-    estado->recibirDanio(danio, atacante, divulgador);
+bool Personaje::_recibirDanio(int danio, Entidad *atacante){
+    Configuraciones *config = Configuraciones::obtenerInstancia();
+    //Falta utilizar la defensa y ver el tema de la evasion. -> luego usar el divulgador para enviar esos datos
+    if (config->seEsquivaElGolpe(this)){
+        //Informarle a atacante y a this que el golpe se esquiva
+        return true;
+    }
+    unsigned int defensa = config->calcularDefensa(this);
+    if (danio - defensa < 0){
+        danio = 0;
+    }else{
+        danio -= defensa;
+    }
+    //Enviar mensaje a this : "Recibes " << danio << "de daño";
+    //Enviar mensaje a atacante : "Realizas " << danio << "de daño";
+    unsigned int exp = config->calcularExpPorGolpe(this, atacante, danio);
+    atacante->obtenerExperiencia(exp);
+    if (vidaActual - danio <= 0){
+        vidaActual = 0;
+        exp = config->calcularExpPorMatar(this, atacante);
+        atacante->obtenerExperiencia(exp);
+        dropearItems(atacante);
+        /*
+        std::string mensaje = "Has muerto";
+        divulgador->encolarMensaje(personaje->id, mensaje);
+        */
+        estadoFantasma();
+    }else{
+        vidaActual -= danio;
+    }
+    return true;
 }
 
-void Personaje::atacar(Personaje *objetivo, Divulgador *divulgador){
-    estado->atacar(objetivo, arma, divulgador);
+bool Personaje::recibirDanio(int danio, Entidad *atacante){
+    return estado->recibirDanio(danio, atacante);
 }
 
-void Personaje::atacar(Criatura *objetivo, Divulgador *divulgador){
-    estado->atacar(objetivo, arma, divulgador);
+void Personaje::atacar(Personaje *objetivo){
+    estado->atacar(objetivo, arma);
 }
 
-void Personaje::serAtacadoPor(Personaje *atacante, Divulgador *divulgador){
+void Personaje::atacar(Criatura *objetivo){
+    estado->atacar(objetivo, arma);
+}
+
+void Personaje::serAtacadoPor(Entidad *atacante){
+    estado->serAtacadoPor(atacante);
+}
+
+void Personaje::serAtacadoPor(Personaje *atacante){
     //Chequeo FairPlay
     Configuraciones *config = Configuraciones::obtenerInstancia();
     if (!config->sePuedeAtacar(this, atacante)){
         //Enviar mensaje a atacante: "No se puede realizar el ataque por FairPlay"
         return;
     }
-    estado->serAtacadoPor(atacante, divulgador);
+    estado->serAtacadoPor(atacante);
 }
 
-void Personaje::serAtacadoPor(Criatura *atacante, Divulgador *divulgador){
-    estado->serAtacadoPor(atacante, divulgador);
+void Personaje::serAtacadoPor(Criatura *atacante){
+    estado->serAtacadoPor(atacante);
 }
 
 
@@ -151,13 +188,20 @@ void Personaje::eliminarDeInventario(unsigned int pos){
 }
 
 void Personaje::dropearItems(Entidad *atacante){
+    Configuraciones *config = Configuraciones::obtenerInstancia();
     std::vector<Item*> drop = std::move(*this->inventario.obtenerTodosLosItems());
     inventario.eliminarTodosLosItems();
     std::unique_ptr<BolsaDeItems> bolsa(new BolsaDeItems(this->posicion, 
                                                          std::move(drop)));
-    //Falta eliminar el oro en exceso
+    unsigned int oroSeguro = config->calcularMaxOroSeguro(this);
+
+    if (cantidadOro > oroSeguro){
+        atacante->recibirOro(cantidadOro - oroSeguro);
+        //Enviar mensaje a atacante "Recibes " << (cantidadOro - oroSeguro) << " oro"
+    }
+
     //No hay riesgo de RC al cargar algo a mapa porque este es el unico hilo que accede a el.
-    mapaAlQuePertenece->cargarDrop(std::move(bolsa));
+    mapaAlQuePertenece->cargarEntidad(std::move(bolsa));
 }
 
 std::vector<Item*>& Personaje::obtenerAlmacen(){
@@ -184,6 +228,9 @@ void Personaje::recibirOro(unsigned int cantOro){
     this->cantidadOro += cantOro;
 }
 
+void Personaje::almacenar(Item *item){
+    inventario.almacenar(item);
+}
 
 void Personaje::equipar(Arma *arma){
     this->arma = arma;
@@ -223,4 +270,28 @@ void Personaje::estadoMeditacion(){
 
 Estado *Personaje::obtenerEstado(){
     return this->estado.get();
+}
+
+void Personaje::interactuar(Estado *estado, Cliente *cliente){
+    //No hago nada
+}
+
+void Personaje::comprar(unsigned int pos, Estado *estado, Cliente *cliente){
+    //No hago nada
+}
+
+void Personaje::vender(unsigned int pos, Estado *estado, Cliente *cliente){
+    //No hago nada
+}
+
+void Personaje::comprar(unsigned int pos, Personaje *personaje, Cliente *cliente){
+    //No hago nada
+}
+
+void Personaje::vender(Item* item, Personaje *personaje, Cliente *cliente){
+    //No hago nada
+}
+
+void Personaje::listar(Personaje *personaje, Cliente *cliente){
+    //No hago nada
 }

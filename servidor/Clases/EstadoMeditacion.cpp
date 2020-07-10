@@ -16,44 +16,25 @@ EstadoMeditacion::EstadoMeditacion(Personaje *unPersonaje) : Estado(unPersonaje)
     idTCP = config->obtenerEstadoIDTCP(id);
 }
 
-void EstadoMeditacion::interactuar(Entidad *entidad){
-    //No hacer nada o lanzar excepcion
-}
+//Ataque
 
-void EstadoMeditacion::atacar(Entidad *objetivo, Arma *arma, Divulgador *divulgador){
+void EstadoMeditacion::atacar(Entidad *objetivo, Arma *arma){
+    /*
     std::string mensaje = "No puede atacar mientras medita";
     divulgador->encolarMensaje(personaje->id, mensaje);
+    */
 }
 
-void EstadoMeditacion::actualizar(double tiempo, Mapa *mapa){
-    Configuraciones *config = Configuraciones::obtenerInstancia();
-    unsigned int regenVida = config->calcularRecuperacionVida(personaje, tiempo);
-    unsigned int regenMana = config->calcularRecupManaMeditacion(personaje, tiempo);
-    personaje->curar(regenVida, regenMana);
-    //El personaje no se puede mover
-}
-
-void EstadoMeditacion::recibirDanio(int danio, Entidad *atacante, Divulgador *divulgador){
+bool EstadoMeditacion::recibirDanio(int danio, Entidad *atacante){
     //Se puede recibir daño en modo meditacion
-    Configuraciones *configuraciones = Configuraciones::obtenerInstancia();
-    unsigned int exp = configuraciones->calcularExpPorGolpe(personaje, atacante, danio);
-    atacante->obtenerExperiencia(exp);
-    if (personaje->vidaActual - danio <= 0){
-        personaje->vidaActual = 0;
-        exp = configuraciones->calcularExpPorMatar(personaje, atacante);
-        atacante->obtenerExperiencia(exp);
-        personaje->dropearItems(atacante);
-        std::string mensaje = "Has muerto";
-        divulgador->encolarMensaje(personaje->id, mensaje);
-        personaje->estadoFantasma();
-    }else{
-        personaje->vidaActual -= danio;
-    }
+    return personaje->_recibirDanio(danio, atacante);
 }
 
-void EstadoMeditacion::serAtacadoPor(Entidad *atacante, Divulgador *divulgador){
-    atacante->atacar(personaje, divulgador);
+void EstadoMeditacion::serAtacadoPor(Entidad *atacante){
+    atacante->atacar(personaje);
 }
+
+//Otras acciones
 
 void EstadoMeditacion::meditar(){
     //Do nothing
@@ -61,6 +42,20 @@ void EstadoMeditacion::meditar(){
 
 void EstadoMeditacion::dejarDeMeditar(){
     personaje->estadoNormal();
+}
+
+void EstadoMeditacion::actualizar(double tiempo){
+    Configuraciones *config = Configuraciones::obtenerInstancia();
+    unsigned int regenVida = config->calcularRecuperacionVida(personaje, tiempo);
+    unsigned int regenMana = config->calcularRecupManaMeditacion(personaje, tiempo);
+    personaje->curar(regenVida, regenMana);
+    //El personaje no se puede mover
+}
+
+//Comerciar
+
+void EstadoMeditacion::interactuar(Entidad *entidad){
+    //No hacer nada o lanzar excepcion
 }
 
 void EstadoMeditacion::pedirCuracion(Sacerdote *sacerdote, Cliente *cliente){

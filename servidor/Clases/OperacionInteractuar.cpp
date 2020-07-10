@@ -19,10 +19,10 @@ OperacionInteractuar::~OperacionInteractuar(){
 
 void OperacionInteractuar::ejecutar(){
     try{
-        Interactuable *interactuable = mapa->obtenerInteractuable(idObjetivo);
+        Entidad *entidad = mapa->obtener(idObjetivo);
         Personaje *personaje = cliente->obtenerPersonaje();
         Estado *estado = personaje->obtenerEstado();
-        interactuable->interactuar(estado, cliente);
+        entidad->interactuar(estado, cliente);
     }catch(std::exception &e){
         cliente->enviarChat(e.what(), false);
     }catch(...){

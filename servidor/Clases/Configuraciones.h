@@ -61,9 +61,12 @@ class Configuraciones{
     const uint32_t obtenerCriaturaAgilidad(std::string &id) const;
     const uint32_t obtenerCriaturaConstitucion(std::string &id) const;
     const float    obtenerCriaturaVelDesplazamiento(std::string &id) const;
+    const double   obtenerCriaturaTiempoDespawn(std::string &id) const;
     const uint32_t obtenerCriaturaAncho(std::string &id) const;
     const uint32_t obtenerCriaturaAlto(std::string &id) const;
     const std::string obtenerCriaturaIdArma(std::string &id) const;
+    const float obtenerCriaturaRadioAgresividad(std::string &id) const;
+    const float obtenerCriaturaRadioVisibilidad(std::string &id) const;
     //Clases
     const float    obtenerFClaseVida(std::string &id) const;
     const float    obtenerFClaseMana(std::string &id) const;
@@ -88,9 +91,14 @@ class Configuraciones{
     const int32_t  obtenerArmaDanioMax(std::string &id) const;
     const int32_t  obtenerArmaDanioMin(std::string &id) const;
     const float    obtenerArmaRangoAtaque(std::string &id) const;
+    const double   obtenerArmaTiempoAtaque(std::string &id) const;
     const uint32_t obtenerArmaConsumoMana(std::string &id) const;
     const uint32_t obtenerArmaPrecio(std::string &id) const;
     const uint16_t obtenerArmaIDTCP(std::string &id) const;
+    const std::string obtenerArmaIDProyectil(std::string &id) const;
+    //Proyectiles
+    const float    obtenerProyectilVelDesplazamiento(std::string &id) const;
+    const double   obtenerProyectilTiempoDespawn(std::string &id) const;
     //Armaduras
     const uint32_t obtenerArmaduraDefensaMax(std::string &id) const;
     const uint32_t obtenerArmaduraDefensaMin(std::string &id) const;
@@ -111,6 +119,10 @@ class Configuraciones{
     const uint32_t obtenerPocionCuracionMana(std::string &id) const;
     const uint32_t obtenerPocionPrecio(std::string &id) const;
     const uint16_t obtenerPocionIDTCP(std::string &id) const;
+    //Varios
+    const uint32_t obtenerBolsaDeDropAncho() const;
+    const uint32_t obtenerBolsaDeDropAlto() const;
+    const uint32_t obtenerTamanioTienda() const;
     /* FORMULAS DEL JUEGO */ 
     unsigned int calcularVidaMax(Personaje *personaje);
     unsigned int calcularRecuperacionVida(Personaje *personaje, double tiempo);

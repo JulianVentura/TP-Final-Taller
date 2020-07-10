@@ -15,7 +15,7 @@ void Sala::cargarCliente(Cliente *cliente){
         "El cliente de id %s ya esta cargado en el mapa", cliente->obtenerId().c_str());
     }
     clientes[cliente->obtenerId()] = cliente;
-    mapa.cargarPersonaje(cliente->obtenerPersonaje());
+    mapa.cargarEntidad(cliente->obtenerPersonaje());
     cliente->cargarMapa(std::move(mapa.obtenerInformacionMapa()));
 }
 void Sala::actualizarClientes(){

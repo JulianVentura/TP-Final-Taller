@@ -4,7 +4,6 @@
 #include "ObtenerCaja.h"
 #include "Posicion.h"
 #include "ObjetoColisionable.h"
-#include "Posicionable.h"
 #include "Personaje.h"
 #include "Criatura.h"
 #include "Interactuable.h"
@@ -13,20 +12,19 @@
 #include "PosicionEncapsulada.h"
 #include <vector>
 #include <string>
-#include <map>
-#include <vector>
+#include <unordered_map>
+#include <list>
 #include <memory>
 #include "FabricaDeCriaturas.h"
 #include <random>
 #include <ctime>
+
 
 class Entidad;
 class Mapa{
     private:
     std::string nombreMapa;
     std::string contenido_archivo;
-    unsigned int ancho;
-    unsigned int alto;
     quadtree::Box<float> frontera;
     ObtenerCaja obtenerCaja;
     quadtree::Quadtree<Colisionable*, ObtenerCaja> quadTreeEstatico;
@@ -34,10 +32,9 @@ class Mapa{
     std::vector<ObjetoColisionable> objetosEstaticos;
     std::vector<quadtree::Box<float>> zonasRespawn;
     unsigned int limiteCriaturas;
-    std::map<std::string, Personaje*> personajes; 
-    std::map<std::string, std::unique_ptr<Criatura>> criaturas;
-    std::map<std::string, std::unique_ptr<Interactuable>> ciudadanos;
-    std::map<std::string, std::unique_ptr<BolsaDeItems>> drops;
+    unsigned int cantidadCriaturas;
+    std::unordered_map<std::string, Entidad*> entidades;
+    std::list<std::unique_ptr<Entidad>> npcs;
 
     FabricaDeCriaturas fabricaCriaturas;
     std::mt19937 motorAleatorio;
@@ -63,12 +60,6 @@ class Mapa{
     */
     void actualizarPosicion(Entidad *entidad, Posicion &&nuevaPosicion);
     /*
-    Devuelve un vector de chars con las posiciones de cada entidad dinamica del mapa.
-    El vector estara compuesto de la siguiente forma:
-    <id>/<posicionX>/<posicionY>$<id>/<posicionX>/<posicionY>
-    */
-    std::string posicionesACadena();
-    /*
     Devuelve un vector de struct PosicionEncapsulada aka posicion_t
     */
     std::vector<struct PosicionEncapsulada> recolectarPosiciones();
@@ -80,14 +71,7 @@ class Mapa{
     */
     Entidad* obtener(std::string &id);
 
-    void cargarDrop(std::unique_ptr<BolsaDeItems> bolsa);
-    void limpiarDrops();
-    Interactuable *obtenerInteractuable(std::string &id);
-    /*
-    Carga un personaje al mapa y lo almacena segun su id
-    */
-    void cargarPersonaje(Personaje *personaje);
-
+    std::vector<Entidad*> obtenerEntidades(quadtree::Box<float> &&area);
     /*
     Actualiza los estados de todas las entidades que se encuentren en el mapa
     segun tiempo.
@@ -98,7 +82,17 @@ class Mapa{
     */
     void eliminarEntidad(Entidad *entidad);
     void eliminarEntidad(const std::string &id);
+    void eliminarEntidadNoColisionable(Entidad *entidad);
+    /*
+    Carga una nueva entidad al mapa
+    */
     void cargarEntidad(Entidad *entidad);
+    void cargarEntidad(std::unique_ptr<Entidad> entidad);
+    void cargarEntidadNoColisionable(Entidad *entidad);
+    void cargarEntidadNoColisionable(std::unique_ptr<Entidad> entidad);
+    /*
+    Buscara spawnear una nueva Criatura aleatoria en alguna de las zonas de respawn.
+    */
     void cargarCriatura();
 
 };

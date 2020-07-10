@@ -3,16 +3,16 @@
 #include "Estado.h"
 #include "Personaje.h"
 #include "FabricaDeItems.h"
+#include "Configuraciones.h"
 #include "Excepcion.h"
 
-#define TAM_ALMACEN 18
-
-#define ANCHO 4
-#define ALTO 4
-
-Banquero::Banquero(float x, float y) : Interactuable("Banquero"){
-    //Esto se tiene que levantar del configuraciones.json
-    posicion = std::move(Posicion(x, y, ANCHO, ALTO));
+Banquero::Banquero(float x, float y) : Entidad("Banquero#"), tamAlmacen(0){
+    Configuraciones *config = Configuraciones::obtenerInstancia();
+    std::string id_base = "Banquero";
+    uint32_t ancho = config->obtenerCiudadanoAncho(id_base);
+    uint32_t alto = config->obtenerCiudadanoAlto(id_base);
+    tamAlmacen = config->obtenerTamanioTienda();
+    posicion = std::move(Posicion(x, y, ancho, alto));
 }
 
 void Banquero::interactuar(Estado *estado, Cliente *cliente){
@@ -35,7 +35,7 @@ void Banquero::comprar(unsigned int pos, Personaje *personaje, Cliente *cliente)
         return;
     }
     std::vector<Item*>& almacen = personaje->obtenerAlmacen();
-    if (pos >= TAM_ALMACEN || almacen[pos] == nullptr){
+    if (pos >= tamAlmacen || almacen[pos] == nullptr){
         //No hay nada que entregarle
         return;
     }
@@ -59,7 +59,7 @@ void Banquero::vender(Item* item, Personaje *personaje, Cliente *cliente){
     //Comprarle el item que pide y notificarle a cliente
     std::vector<Item*>& almacen = personaje->obtenerAlmacen();
     bool almacenado = false;
-    for (std::size_t i=0; i<TAM_ALMACEN; i++){
+    for (std::size_t i=0; i<tamAlmacen; i++){
         if (almacen[i] == nullptr){
             almacen[i] = item;
             almacenado = true;
@@ -86,6 +86,42 @@ void Banquero::listar(Personaje *personaje, Cliente *cliente){
     }
     std::vector<Item*>& almacen = personaje->obtenerAlmacen();
     cliente -> enviarContenedor(almacen);
+}
+
+//Ataque
+
+void Banquero::atacar(Personaje *objetivo){
+    //Nada
+}
+
+void Banquero::atacar(Criatura *objetivo){
+    //Nada
+}
+
+void Banquero::serAtacadoPor(Entidad *atacante){
+    //Nada
+}
+
+void Banquero::serAtacadoPor(Personaje *atacante){
+    //Nada
+}
+
+void Banquero::serAtacadoPor(Criatura *atacante){
+    //Nada
+}
+
+bool Banquero::recibirDanio(int danio, Entidad *atacante){
+    return false;
+}
+
+//Estado
+
+void Banquero::actualizarEstado(double tiempo){
+    //Nada
+}
+
+void Banquero::dropearItems(Entidad *atacante){
+    //Nada
 }
 
 

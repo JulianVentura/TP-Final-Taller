@@ -42,15 +42,12 @@ namespace quadtree{
 }
 
 Mapa::Mapa(std::string nombre) :        nombreMapa(nombre),
-                                        ancho(0),
-                                        alto(0),
                                         frontera(0, 0, 0, 0),
                                         quadTreeEstatico(frontera, obtenerCaja),
                                         quadTreeDinamico(frontera, obtenerCaja),
                                         limiteCriaturas(0),
-                                        personajes(),
-                                        criaturas(),
-                                        fabricaCriaturas(criaturas),
+                                        cantidadCriaturas(0),
+                                        fabricaCriaturas(entidades),
                                         motorAleatorio(std::time(0)){
 
     Configuraciones *config = Configuraciones::obtenerInstancia();
@@ -65,8 +62,8 @@ Mapa::Mapa(std::string nombre) :        nombreMapa(nombre),
     archivo.clear();
     archivo.seekg(0);
     archivo >> archivoJson;
-    alto  = archivoJson.at("height").get<unsigned int>();
-    ancho = archivoJson.at("width").get<unsigned int>();
+    unsigned int alto  = archivoJson.at("height").get<unsigned int>();
+    unsigned int ancho = archivoJson.at("width").get<unsigned int>();
     frontera = inicializarFrontera(archivoJson, alto, ancho);
     quadTreeEstatico.setFrontera(frontera);
     quadTreeDinamico.setFrontera(frontera);
@@ -91,15 +88,15 @@ Mapa::Mapa(std::string nombre) :        nombreMapa(nombre),
     }
     //Esto que esta completamente hardcodeado deberia levantarse del configuraciones.json
     //La idea es que el mapa sepa las posiciones del Sacerdote, Banquero y Comerciante.
-    std::unique_ptr<Interactuable> sacerdote(new Sacerdote(300, 90));
-    std::unique_ptr<Interactuable> banquero(new Banquero(120, 110));
-    std::unique_ptr<Interactuable> comerciante(new Comerciante(120, 200));
-    quadTreeEstatico.add(sacerdote.get());
-    quadTreeEstatico.add(banquero.get());
-    quadTreeEstatico.add(comerciante.get());
-    ciudadanos[sacerdote->obtenerId()] = std::move(sacerdote);
-    ciudadanos[banquero->obtenerId()] = std::move(banquero);
-    ciudadanos[comerciante->obtenerId()] = std::move(comerciante);
+    std::unique_ptr<Entidad> sacerdote(new Sacerdote(500, 500));
+    std::unique_ptr<Entidad> banquero(new Banquero(300, 350));
+    std::unique_ptr<Entidad> comerciante(new Comerciante(200, 200));
+    cargarEntidad(sacerdote.get());
+    cargarEntidad(banquero.get());
+    cargarEntidad(comerciante.get());
+    npcs.push_back(std::move(sacerdote));
+    npcs.push_back(std::move(banquero));
+    npcs.push_back(std::move(comerciante));
 }
 void Mapa::actualizarPosicion(Entidad *entidad, Posicion &&nuevaPosicion){
     if (!posicionValida(entidad, nuevaPosicion)) return;
@@ -110,99 +107,77 @@ void Mapa::actualizarPosicion(Entidad *entidad, Posicion &&nuevaPosicion){
 
 std::vector<struct PosicionEncapsulada> Mapa::recolectarPosiciones(){
     std::vector<struct PosicionEncapsulada> resultado;
-    struct PosicionEncapsulada pos = {{0}, 0, 0};
-    for (std::map<std::string, std::unique_ptr<Criatura>>::iterator it = criaturas.begin();
-         it != criaturas.end();
+    for (std::unordered_map<std::string, Entidad*>::iterator it = entidades.begin();
+         it != entidades.end();
          ++it){
-        pos = {{0}, it->second->obtenerX(), it->second->obtenerY()};
-        strncpy(pos.id, it->first.c_str(), TAM_ID);
-        pos.id[TAM_ID - 1] = 0;
-        resultado.push_back(std::move(pos));
-    }
-    for (std::map<std::string, Personaje*>::iterator it = personajes.begin();
-         it != personajes.end();
-         ++it){
-        pos = {{0}, it->second->obtenerX(), it->second->obtenerY()};
-        strncpy(pos.id, it->first.c_str(), TAM_ID);
-        pos.id[TAM_ID - 1] = 0;
-        resultado.push_back(std::move(pos));
-    }
-    for (std::map<std::string, std::unique_ptr<Interactuable>>::iterator it = ciudadanos.begin();
-         it != ciudadanos.end();
-         ++it){
-        ;
-        pos = {{0}, it->second->obtenerPosicion().obtenerX(), it->second->obtenerPosicion().obtenerY()};
-        strncpy(pos.id, it->first.c_str(), TAM_ID);
-        pos.id[TAM_ID - 1] = 0;
-        resultado.push_back(std::move(pos));
+        resultado.push_back(std::move(it->second->serializarPosicion()));
     }
     return resultado;
 }
+
 Entidad* Mapa::obtener(std::string &id){
-    std::map<std::string, std::unique_ptr<Criatura>>::iterator Cit = criaturas.find(id);
-    std::map<std::string, Personaje*>::iterator Pit = personajes.find(id);
-    if (Cit == criaturas.end()){
-        if (Pit == personajes.end()){
-            throw ErrorServidor("No se encontró id %s\n", id); 
-        }else{
-            return Pit->second;
-        }
-    }else{
-        return Cit->second.get();
-    }
+    std::unordered_map<std::string, Entidad*>::iterator it = entidades.find(id);
+    if (it == entidades.end()) throw ErrorServidor("No se encontró id %s\n", id); 
+    return it->second;
 }
 
-void Mapa::cargarEntidad(Entidad *entidad){
+std::vector<Entidad*> Mapa::obtenerEntidades(quadtree::Box<float> &&area){
+    return quadTreeDinamico.query(area);
+}
+
+void Mapa::cargarEntidadNoColisionable(Entidad *entidad){
+    std::string id = entidad->obtenerId();
+    std::unordered_map<std::string, Entidad*>::iterator it = entidades.find(id);
+    if (it != entidades.end()){
+        throw ErrorServidor("La entidad de id %s ya se encuentra cargada en el Mapa\n", id);
+    }
     entidad->indicarMapaAlQuePertenece(this);
-    if (!posicionValida(entidad, entidad->obtenerAreaQueOcupa())){
-        Posicion nuevaPosicion = buscarPosicionValida(entidad->obtenerPosicion());
-        entidad->actualizarPosicion(std::move(nuevaPosicion));
-    }
-    quadTreeDinamico.add(entidad);
+    entidades[id] = entidad;
 }
 
-void Mapa::cargarPersonaje(Personaje *personaje){
-    personajes[personaje->obtenerId()] = personaje;
-    cargarEntidad(personaje);
-}
-
-void Mapa::cargarDrop(std::unique_ptr<BolsaDeItems> bolsa){
-    std::string id = bolsa->obtenerId();
-    std::map<std::string, std::unique_ptr<BolsaDeItems>>::iterator it = drops.find(id);
-    if (it != drops.end()){
-        throw ErrorServidor("Se ha solicitado almacenar un drop con un id ya utilizado");
-    }
-    drops[bolsa->obtenerId()] = std::move(bolsa);
-}
-
-void Mapa::limpiarDrops(){
-    std::map<std::string, std::unique_ptr<BolsaDeItems>>::iterator it = drops.begin();
-    while (it != drops.end()){
-        if (it->second->estaVacia()){
-            it = drops.erase(it);
+void Mapa::cargarEntidadNoColisionable(std::unique_ptr<Entidad> entidad){
+    cargarEntidadNoColisionable(entidad.get());
+    npcs.push_back(std::move(entidad));
+    std::list<std::unique_ptr<Entidad>>::iterator it = npcs.begin();
+    while (it != npcs.end()){
+        if ((*it)->haFinalizado()){
+            it = npcs.erase(it);
         }else{
             ++it;
         }
     }
 }
 
-Interactuable *Mapa::obtenerInteractuable(std::string &id){
-    std::map<std::string, std::unique_ptr<BolsaDeItems>>::iterator Dit = drops.find(id);
-    std::map<std::string, std::unique_ptr<Interactuable>>::iterator Cit = ciudadanos.find(id);
-    if (Cit == ciudadanos.end()){
-        if (Dit == drops.end()){
-            throw ErrorServidor("No se encontró id %s\n", id); 
+void Mapa::cargarEntidad(Entidad *entidad){
+    std::string id = entidad->obtenerId();
+    std::unordered_map<std::string, Entidad*>::iterator it = entidades.find(id);
+    if (it != entidades.end()){
+        throw ErrorServidor("La entidad de id %s ya se encuentra cargada en el Mapa\n", id);
+    }
+    entidad->indicarMapaAlQuePertenece(this);
+    if (!posicionValida(entidad, entidad->obtenerArea())){
+        Posicion nuevaPosicion = buscarPosicionValida(entidad->obtenerPosicion());
+        entidad->actualizarPosicion(std::move(nuevaPosicion));
+    }
+    quadTreeDinamico.add(entidad);
+    entidades[id] = entidad;
+}
+
+void Mapa::cargarEntidad(std::unique_ptr<Entidad> entidad){
+    cargarEntidad(entidad.get());
+    npcs.push_back(std::move(entidad));
+    std::list<std::unique_ptr<Entidad>>::iterator it = npcs.begin();
+    while (it != npcs.end()){
+        if ((*it)->haFinalizado()){
+            it = npcs.erase(it);
         }else{
-            return Dit->second.get();
+            ++it;
         }
-    }else{
-        return Cit->second.get();
     }
 }
 
-
 void Mapa::cargarCriatura(){
-    if (criaturas.size() >= limiteCriaturas) return;
+    if (cantidadCriaturas >= limiteCriaturas) return;
     // Obtengo un punto de respawn de la lista
     std::vector<quadtree::Box<float>>::iterator zona = zonasRespawn.begin();
     std::uniform_int_distribution<> dis(0, std::distance(zona, zonasRespawn.end()) - 1);
@@ -211,13 +186,8 @@ void Mapa::cargarCriatura(){
     //TODO: Cambiar los atributos de publicos a privados.
     float x = (*zona).getCenter().x;
     float y = (*zona).getCenter().y;
-
-    std::unique_ptr<Criatura> criaturaEncapsulada = 
-    std::move(fabricaCriaturas.obtenerCriaturaAleatoria(x, y, nombreMapa));
-
-    Criatura *criatura = criaturaEncapsulada.get();
-    criaturas[criatura->obtenerId()] = std::move(criaturaEncapsulada);
-    cargarEntidad(criatura);
+    
+    cargarEntidad(std::move(fabricaCriaturas.obtenerCriaturaAleatoria(x, y, nombreMapa)));
 }
 
 
@@ -250,7 +220,7 @@ bool Mapa::posicionValida(Entidad *entidad, const Posicion &nuevaPosicion){
 
 Posicion Mapa::buscarPosicionValida(const Posicion &posicion){
     //Le doy una distancia mayor para asegurarme que no colisionen
-    float radio = 2.1*posicion.longitudMaximaDeColision();
+    float radio = 2.01*posicion.longitudMaximaDeColision();
     unsigned int i = 0;
     bool continuar = true;
     Posicion nuevaPosicion;
@@ -274,29 +244,22 @@ void Mapa::eliminarEntidad(Entidad *entidad){
 }
 
 void Mapa::eliminarEntidad(const std::string &id){
-    std::map<std::string, std::unique_ptr<Criatura>>::iterator Cit = criaturas.find(id);
-    std::map<std::string, Personaje*>::iterator Pit = personajes.find(id);
-    if (Cit == criaturas.end()){
-        if (Pit == personajes.end()){
-            throw ErrorServidor("No se encontró id %s\n", id.c_str()); 
-        }else{
-            //Se elimina el personaje
-            quadTreeDinamico.remove(Pit->second);
-            personajes.erase(Pit);
-        }
-    }else{
-        //Se elimina la criatura
-        quadTreeDinamico.remove(Cit->second.get());
-        criaturas.erase(Cit);
-    }
+    std::unordered_map<std::string, Entidad*>::iterator it = entidades.find(id);
+    if (it == entidades.end()) throw ErrorServidor("No se encontró id %s\n", id.c_str());
+    quadTreeDinamico.remove(it->second);
+    entidades.erase(it);
+}
+
+void Mapa::eliminarEntidadNoColisionable(Entidad *entidad){
+    std::string id = entidad->obtenerId();
+    std::unordered_map<std::string, Entidad*>::iterator it = entidades.find(id);
+    if (it == entidades.end()) throw ErrorServidor("No se encontró id %s\n", id.c_str());
+    entidades.erase(it);
 }
 
 void Mapa::entidadesActualizarEstados(double tiempo){
-    for (auto& criatura: criaturas) {
-        criatura.second->actualizarEstado(tiempo, this);
-    }
-    for (auto& personaje: personajes) {
-        personaje.second->actualizarEstado(tiempo, this);
+    for (auto& entidad: entidades) {
+        entidad.second->actualizarEstado(tiempo);
     }
 }
 

@@ -55,10 +55,20 @@ Arma* FabricaDeItems::crearArma(std::string &id){
     int danioMax = config->obtenerArmaDanioMax(id);
     int danioMin = config->obtenerArmaDanioMin(id);
     float radioAtaque = config->obtenerArmaRangoAtaque(id);
+    double tiempoAtaque = config->obtenerArmaTiempoAtaque(id);
     unsigned int consumoMana = config->obtenerArmaConsumoMana(id);
     unsigned int precio = config->obtenerArmaPrecio(id);
     uint16_t idTCP = config->obtenerArmaIDTCP(id);
-    armas[id] = std::unique_ptr<Arma>(new Arma(danioMax, danioMin, consumoMana, radioAtaque, id, idTCP, precio));
+    std::string idProyectil = config->obtenerArmaIDProyectil(id);
+    armas[id] = std::unique_ptr<Arma>(new Arma(danioMax, 
+                                               danioMin, 
+                                               consumoMana, 
+                                               radioAtaque, 
+                                               tiempoAtaque, 
+                                               id,
+                                               idProyectil, 
+                                               idTCP, 
+                                               precio));
     return armas[id].get();
 }
 

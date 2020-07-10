@@ -34,7 +34,7 @@ Cliente::Cliente(Socket &&socket,
     salaActual = "mapa";
     std::string idRaza = "Humano";
     std::string idClase = "Paladin";
-    personaje = std::unique_ptr<Personaje> (new Personaje(100, 100, credenciales.first, idClase, idRaza));
+    personaje = std::unique_ptr<Personaje> (new Personaje(600, 600, credenciales.first, idClase, idRaza));
     personaje -> recibirOro(1000);
     //Hasta aca
     Sala* miSala = organizadorSalas.obtenerSala(salaActual);

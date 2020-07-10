@@ -9,11 +9,14 @@
 #include "Pocion.h"
 #include "FabricaDeItems.h"
 
-#define ANCHO 4
-#define ALTO 4
-
-Comerciante::Comerciante(float x, float y) : Interactuable("Comerciante"){
-    //Si, esta re hardcodeado. La idea es que esto se levante del archivo de config.
+Comerciante::Comerciante(float x, float y) : Entidad("Comerciante#"), tamTienda(0){
+    Configuraciones *config = Configuraciones::obtenerInstancia();
+    std::string id_base = "Comerciante";
+    uint32_t ancho = config->obtenerCiudadanoAncho(id_base);
+    uint32_t alto = config->obtenerCiudadanoAlto(id_base);
+    tamTienda = config->obtenerTamanioTienda();
+    posicion = std::move(Posicion(x, y, ancho, alto));
+    
     std::string idItem;
     FabricaDeItems *fabrica = FabricaDeItems::obtenerInstancia();
     /*
@@ -39,7 +42,6 @@ Comerciante::Comerciante(float x, float y) : Interactuable("Comerciante"){
     items.push_back(fabrica->crearPocion(idItem));
     idItem = "PocionMana";
     items.push_back(fabrica->crearPocion(idItem));
-    posicion = std::move(Posicion(x, y, ANCHO, ALTO));
     for(int i = 0;i < 16;i++){
         items.push_back(nullptr);
     }
@@ -64,7 +66,7 @@ void Comerciante::comprar(unsigned int pos, Personaje *personaje, Cliente *clien
         return;
     }
     */
-    if (pos >= items.size() || items[pos] == nullptr){
+    if (pos >= tamTienda || items[pos] == nullptr){
         //No hay nada que comprar
         return;
     }
@@ -109,6 +111,42 @@ void Comerciante::listar(Personaje *personaje, Cliente *cliente){
     cliente -> enviarTienda(items);
     mensaje = "Se envio la tienda al cliente";
     cliente->enviarChat(mensaje, false);
+}
+
+//Ataque
+
+void Comerciante::atacar(Personaje *objetivo){
+    //Nada
+}
+
+void Comerciante::atacar(Criatura *objetivo){
+    //Nada
+}
+
+void Comerciante::serAtacadoPor(Entidad *atacante){
+    //Nada
+}
+
+void Comerciante::serAtacadoPor(Personaje *atacante){
+    //Nada
+}
+
+void Comerciante::serAtacadoPor(Criatura *atacante){
+    //Nada
+}
+
+bool Comerciante::recibirDanio(int danio, Entidad *atacante){
+    return false;
+}
+
+//Estado
+
+void Comerciante::actualizarEstado(double tiempo){
+    //Nada
+}
+
+void Comerciante::dropearItems(Entidad *atacante){
+    //Nada
 }
 
 

@@ -8,12 +8,11 @@ class Cliente;
 class OperacionAtacar : public Operacion{
     private:
     Cliente *cliente;
-    Divulgador *divulgador;
     Mapa *mapa;
     std::string idObjetivo;
 
     public:
-    OperacionAtacar(Cliente *cliente, Mapa *mapa, Divulgador *divulgador, std::string idObjetivo);
+    OperacionAtacar(Cliente *cliente, Mapa *mapa, std::string idObjetivo);
     ~OperacionAtacar() override;
     void ejecutar() override;
 };

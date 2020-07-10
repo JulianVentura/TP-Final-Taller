@@ -16,32 +16,31 @@ EstadoFantasma::EstadoFantasma(Personaje *unPersonaje) : Estado(unPersonaje){
     idTCP = config->obtenerEstadoIDTCP(id);
 }
 
-void EstadoFantasma::interactuar(Entidad *entidad){
-    //Interactuar normalmente.
-}
+//Ataque
 
-void EstadoFantasma::atacar(Entidad *objetivo, Arma *arma, Divulgador *divulgador){
+void EstadoFantasma::atacar(Entidad *objetivo, Arma *arma){
+    /*
     std::string mensaje = "No se puede atacar siendo fantasma";
     divulgador->encolarMensaje(personaje->id, mensaje);
+    */
 }
 
-void EstadoFantasma::actualizar(double tiempo, Mapa *mapa){
-    //No se regenera vida ni mana
-    personaje->vidaActual = 0;
-    personaje->manaActual = 0;
-    Posicion nuevaPosicion = personaje->posicion.mover();
-    mapa->actualizarPosicion(personaje, std::move(nuevaPosicion));
-}
-
-void EstadoFantasma::serAtacadoPor(Entidad *atacante, Divulgador *divulgador){
+void EstadoFantasma::serAtacadoPor(Entidad *atacante){
+    /*
     std::string mensaje = "No puede atacar a un fantasma";
     divulgador->encolarMensaje(atacante->obtenerId(), mensaje);
+    */
 }
 
-void EstadoFantasma::recibirDanio(int danio, Entidad *atacante, Divulgador *divulgador){
+bool EstadoFantasma::recibirDanio(int danio, Entidad *atacante){
+    /*
     std::string mensaje = "No puede atacar a un fantasma";
     divulgador->encolarMensaje(atacante->obtenerId(), mensaje);
+    */
+    return false;
 }
+
+//Otras acciones
 
 void EstadoFantasma::meditar(){
     //No hacer nada o lanzar excepcion
@@ -51,6 +50,19 @@ void EstadoFantasma::dejarDeMeditar(){
     //No hacer nada o lanzar excepcion
 }
 
+void EstadoFantasma::actualizar(double tiempo){
+    //No se regenera vida ni mana
+    personaje->vidaActual = 0;
+    personaje->manaActual = 0;
+    Posicion nuevaPosicion = personaje->posicion.mover();
+    personaje->mapaAlQuePertenece->actualizarPosicion(personaje, std::move(nuevaPosicion));
+}
+
+//Comercio
+
+void EstadoFantasma::interactuar(Entidad *entidad){
+    //Interactuar normalmente.
+}
 
 void EstadoFantasma::pedirCuracion(Sacerdote *sacerdote, Cliente *cliente){
     sacerdote->curar(personaje, cliente);

@@ -2,8 +2,8 @@
 #include <sstream>
 #define LIMITE_CONTADOR 99999 //Podria ser otro numero
 
-FabricaDeCriaturas::FabricaDeCriaturas(const std::map<std::string, std::unique_ptr<Criatura>> &listaCriaturas) : 
-                                   criaturas(listaCriaturas),
+FabricaDeCriaturas::FabricaDeCriaturas(const std::unordered_map<std::string, Entidad*> &listaEntidades) : 
+                                   entidades(listaEntidades),
                                    contador(0){}
 
 std::unique_ptr<Criatura> FabricaDeCriaturas::obtenerCriaturaAleatoria(float x, float y, const std::string &idMapa){
@@ -26,7 +26,7 @@ std::unique_ptr<Criatura> FabricaDeCriaturas::obtenerCriaturaAleatoria(float x, 
 
 
 bool FabricaDeCriaturas::idValido(std::string id) const{
-    std::map<std::string, std::unique_ptr<Criatura>>::const_iterator it = criaturas.find(id);
-    if (it == criaturas.end()) return true;
+    std::unordered_map<std::string, Entidad*>::const_iterator it = entidades.find(id);
+    if (it == entidades.end()) return true;
     return false;
 }
