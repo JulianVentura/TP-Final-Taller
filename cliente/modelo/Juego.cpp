@@ -29,7 +29,6 @@ bool Juego::manejarEvento(SDL_Event& evento) {
                     break;
 
                     default:
-                        printf("Esta bien\n");
                         servidor.enviarAtaque(movible.first);
                     break;
                 }
