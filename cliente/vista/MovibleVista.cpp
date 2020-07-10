@@ -75,19 +75,8 @@ void MovibleVista::render() {
 
 bool MovibleVista::manejarEvento(SDL_Event& evento) {
     SDL_Point mouse = {};
-    auto boton = SDL_GetMouseState(&mouse.x, &mouse.y);
+    SDL_GetMouseState(&mouse.x, &mouse.y);
     SDL_Rect rect = { getX(), getY(), ancho, alto};
     Camara::transformar(&mouse.x, &mouse.y);
-
-    if (SDL_PointInRect(&mouse, &rect) == SDL_FALSE) return false;
-    
-    switch(boton) {
-		case SDL_BUTTON_LEFT:
-        return true;
-        break;
-		default:
-        // printf("boton derecho\n");
-		break;
-	}
-    return false;
+    return SDL_PointInRect(&mouse, &rect);
 }

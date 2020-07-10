@@ -20,11 +20,20 @@ bool Juego::manejarEvento(SDL_Event& evento) {
     if (evento.type == SDL_MOUSEBUTTONDOWN) {
         bool consumido = false;
         for (auto& movible: movibles) {
+            if(movible.first == datos_personaje.id) continue;
             consumido = movible.second.second->manejarEvento(evento);
             if (consumido) {
-                std::string id = movible.first;
-                servidor.enviarInteraccion(id);
-                break;
+                switch(SDL_GetMouseState(NULL, NULL)) {
+                    case SDL_BUTTON_LEFT:
+                        servidor.enviarInteraccion(movible.first);
+                    break;
+
+                    default:
+                        printf("Esta bien\n");
+                        servidor.enviarAtaque(movible.first);
+                    break;
+                }
+                return true;
             }
         }
     } else if (evento.type == SDL_KEYDOWN || evento.type == SDL_KEYUP) {
