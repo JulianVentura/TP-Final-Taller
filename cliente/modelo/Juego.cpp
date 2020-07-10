@@ -69,7 +69,7 @@ void Juego::agregarEntidad(std::string& id, DatosApariencia& apariencia) {
     movibles[id].second = new MovibleVista(entorno, movibles[id].first, 
                                                     entidadParser, apariencia);
     
-    movibles[id].first->actualizarPosicion(400 + random() % 30, 150 + random() % 150);
+    // movibles[id].first->actualizarPosicion(400 + random() % 30, 150 + random() % 150);
     capaFrontal.agregarObstruible(movibles[id].second);
     servidor.agregarPosicionable(id, movibles[id].first);
     
@@ -100,7 +100,6 @@ void Juego::agregarEntidad(std::string& id) {
     apariencia.raza = "humano";
     apariencia.clase = "Mago";
     agregarEntidad(id, apariencia);
-    // printf("Se agrega jugador %s\n", id.c_str());
 }
 
 void Juego::actualizarPosiciones(std::unordered_map<std::string, std::pair<int, 

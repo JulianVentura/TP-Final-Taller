@@ -86,7 +86,7 @@ bool MovibleVista::manejarEvento(SDL_Event& evento) {
         return true;
         break;
 		default:
-        printf("boton derecho\n");
+        // printf("boton derecho\n");
 		break;
 	}
     return false;
