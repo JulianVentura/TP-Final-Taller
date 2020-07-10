@@ -13,6 +13,7 @@
 #include "OperacionInteractuar.h"
 #include "OperacionComprar.h"
 #include "OperacionVender.h"
+#include "OperacionAtacar.h"
 
 #include "../../common/commonProtocolo.h"
 #include "../../common/commonSocket.h"
@@ -36,6 +37,7 @@ private:
     void decodificarInteraccion();
     void decodificarCompra();
     void decodificarVenta();
+    void decodificarAtaque();
     void decodificarJugador( std::string& id, std::string& clave);
     void decodificarNuevoJugador( std::string& id, std::string& clave);
 

@@ -39,7 +39,6 @@ void ServidorProxy::enviarNuevaCuenta(std::string& nombre, std::string& clave,
 	protocolo.enviarString(socket, clave);
 	protocolo.enviarString(socket, raza);
 	protocolo.enviarString(socket, clase);
-	// TODO: provisorio, habría que escuchar la operacion de confirmacion
 	datos_personaje.id = nombre;
 }
 

@@ -70,6 +70,14 @@ void ClienteProxy::decodificarVenta(){
     colaOperaciones->push(operacion);
 }
 
+void ClienteProxy::decodificarAtaque(){
+    std::string id;
+    protocolo.recibirString(socket, id);
+    Operacion *operacion = new OperacionAtacar(cliente,
+     cliente -> obtenerSala() -> obtenerMapa(), id);
+    colaOperaciones->push(operacion);
+}
+
 bool ClienteProxy::decodificarCodigo(uint32_t codigo){
     switch (codigo){
         case CODIGO_INTERACCION:
@@ -101,6 +109,10 @@ bool ClienteProxy::decodificarCodigo(uint32_t codigo){
 
         case CODIGO_TIRADO:
 
+            break;
+
+        case CODIGO_ATAQUE:
+            decodificarAtaque();
             break;
 
         default:
@@ -187,7 +199,6 @@ void ClienteProxy::enviarTienda(std::vector<Item*>& items){
     uint16_t noHayItem = 0;
     for(auto item : items){
         if (item != nullptr){
-            std::cerr << "Envio item";
             protocolo.enviarUint16(socket, item -> obtenerIDTCP());
     	    protocolo.enviarUint16(socket, item -> obtenerPrecio());
         }else{
