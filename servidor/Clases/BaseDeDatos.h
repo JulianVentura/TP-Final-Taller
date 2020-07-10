@@ -38,7 +38,11 @@ class BaseDeDatos{
 
     bool verificarCliente(std::pair<std::string, std::string> &credenciales);
 
+    bool existeCliente(std::string id);
+
     void guardarDirs();
+
+    ~BaseDeDatos();
 };
 
 

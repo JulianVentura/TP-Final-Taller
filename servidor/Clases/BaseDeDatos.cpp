@@ -40,10 +40,12 @@ void BaseDeDatos::escribirCadena(std::string cadena){
 void BaseDeDatos::nuevoCliente(std::pair<std::string,
  std::string> &credenciales, std::string &mapaActual, Personaje *personaje){
  	std::lock_guard<std::mutex> lock (m);
+ 	//if(existeCliente(credenciales.first)) return;
     dirs[credenciales.first] = ultima_dir;
   	archivo.seekp(ultima_dir*TAM_BLOQUES);
   	escribirCadena(credenciales.second);
     ultima_dir++;
+    guardarDirs();
 }
 
 void BaseDeDatos::guardarDirs(){
@@ -54,7 +56,12 @@ void BaseDeDatos::guardarDirs(){
 
 void BaseDeDatos::guardarCliente(std::string &id){
     std::lock_guard<std::mutex> lock (m);
-    guardarDirs();
+}
+
+bool BaseDeDatos::existeCliente(std::string id){
+	std::lock_guard<std::mutex> lock (m);
+    auto it = dirs.find(id);
+	return (it != dirs.end());
 }
 
 //Necesito el id del mapa y el Personaje
@@ -79,4 +86,8 @@ bool BaseDeDatos::verificarCliente(std::pair<std::string, std::string> &credenci
   		return clave_correcta == credenciales.second;
   	}
     return false;
+}
+
+BaseDeDatos::~BaseDeDatos(){
+	guardarDirs();
 }

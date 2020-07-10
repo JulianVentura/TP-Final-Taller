@@ -52,12 +52,18 @@ void Cliente::nuevoUsuario(std::pair<std::string, std::string> &credenciales,
                            std::string &idRaza, 
                            std::string &idClase){
     Configuraciones *config = config->obtenerInstancia();
-
     std::string mapaDefault = config->obtenerMapaInicial();
     std::pair<float, float> pos = config->obtenerMapaPosicionSpawn(mapaDefault);
     Personaje nuevoPersonaje(pos.first, pos.second, id, idClase, idRaza);
     //Debe lanzar error si ya esta en uso.
     miBaseDeDatos.nuevoCliente(credenciales, mapaDefault, &nuevoPersonaje);
+    /*
+    if(!miBaseDeDatos.existeCliente(credenciales.first)){
+        
+    }else{
+        clienteProxy.enviarError("Error: Ya existe la cuenta solicitada");
+    }
+    */
 }
 
 
