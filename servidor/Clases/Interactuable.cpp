@@ -1,14 +1,15 @@
 #include "Interactuable.h"
-#define DIST_INTERACCION 50
-
+#include "Configuraciones.h"
 
 
 
 
 Interactuable::Interactuable(std::string unId) : 
                                       id(unId),
-                                      distanciaMaximaDeInteraccion(DIST_INTERACCION){
+                                      distanciaMaximaDeInteraccion(0){
     //La distancia maxima de interaccion deberia ser levantada del json.
+    Configuraciones *config = Configuraciones::obtenerInstancia();
+    distanciaMaximaDeInteraccion = config->obtenerDistanciaMaximaDeInteraccion();
 }
 
 const std::string Interactuable::obtenerId() const{

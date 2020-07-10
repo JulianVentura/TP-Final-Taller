@@ -322,7 +322,9 @@ const uint32_t Configuraciones::obtenerBolsaDeDropAlto() const{
 const uint32_t Configuraciones::obtenerTamanioTienda() const{
     return json.at("Varios").at("TamanioTiendas").get<uint32_t>();
 }
-
+const float    Configuraciones::obtenerDistanciaMaximaDeInteraccion() const{
+    return json.at("Varios").at("DistanciaInteraccion").get<float>();
+}
 
 
 /* FORMULAS DEL JUEGO */
