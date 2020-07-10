@@ -151,13 +151,13 @@
 			"copiar": "humano",
 			"nombre": "Enanos",
 			"descripcion": "son muy fuertes y resistentes, pero la agilidad no es lo suyo.",
-			"escala": 0.7
+			"escala": 0.85
 		},
 		"gnomo": {
 			"copiar": "elfo",
 			"nombre": "Gnomos",
 			"descripcion": "inteligentes y resistentes, pero mucho menos ágiles que los elfos.",
-			"escala": 0.7
+			"escala": 0.85
 		}
 	},
 	"clases": {

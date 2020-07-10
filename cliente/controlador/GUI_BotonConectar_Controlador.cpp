@@ -12,6 +12,7 @@ bool GUI_BotonConectarControlador::enClick(){
 
 	try{
 		servidor.conectar(direccion, puerto);
+		servidor.comenzarRecepcionConcurrente();
 		direccion.clear();
 		puerto.clear();
 		conectado = true;

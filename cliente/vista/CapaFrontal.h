@@ -16,6 +16,7 @@ public:
     void render() override;
     void actualizar(unsigned int delta_t) override;
     void agregarObstruible(IObstruible* obstruible);
+    void borrarObstruible(IObstruible* obstruible);
 
 private:
     std::vector<IObstruible*> obstruibles;

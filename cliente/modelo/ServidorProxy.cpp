@@ -8,6 +8,7 @@
 #include "ErrorServidor.h"
 #include "../controlador/GUI_Chat_Controlador.h"
 
+#include "Juego.h"
 
 // Conexion e inicio de sesion
 
@@ -15,6 +16,10 @@ ServidorProxy::ServidorProxy(DatosPersonaje& datos_personaje,
 	DatosTienda& datos_tienda)
 	 : datos_personaje(datos_personaje), datos_tienda(datos_tienda) {
 	salir = false;
+	se_recibio_mapa = false;
+	evento_salida.type = SDL_QUIT;
+	evento_salida.quit.type = SDL_QUIT;
+	evento_salida.quit.timestamp = 0;
 }
 
 void ServidorProxy::conectar(std::string& direccion, std::string& servicio){
@@ -52,8 +57,12 @@ void ServidorProxy::recibirMensajeConOperacion(uint32_t operacion) {
 
 	switch (operacion) {
 		case CODIGO_CARGA_MAPA:
-		protocolo.recibirString(socket, mapa);
-
+		{
+			std::unique_lock<std::mutex> lock(mtx);
+			protocolo.recibirString(socket, mapa);
+			se_recibio_mapa = true;
+			cv.notify_all();
+		}
 		break;
 		case CODIGO_POSICIONES:
 		this->actualizarPosiciones();	
@@ -95,13 +104,17 @@ void ServidorProxy::recibirMensajeConOperacion(uint32_t operacion) {
 			datos_personaje.exp_max = protocolo.recibirUint16(socket);
 		break;
 
+		case CODIGO_CONFIRMACION:
+			SDL_PushEvent(&evento_salida);
+		break;
+
 		default:
 		printf("No reconocido %d\n", operacion);
 		break;
 	}
 }
 
-void ServidorProxy::comenzar() {
+void ServidorProxy::comenzarRecepcionConcurrente() {
 	hilo_recepcion = std::thread(&ServidorProxy::recibirMensaje, this);	
 }
 
@@ -113,14 +126,14 @@ void ServidorProxy::terminar() {
 
 // Manejo de mapa
 
-void ServidorProxy::obtenerMapaInit(std::string& mapa) {
-	uint32_t operacion = protocolo.recibirUint32(socket);
-	if (operacion != CODIGO_CARGA_MAPA) {
-		recibirMensajeConOperacion(operacion);
-		return;
+std::string ServidorProxy::obtenerMapa() {
+	std::unique_lock<std::mutex> lock(mtx);
+	std::condition_variable cv;
+	while (!se_recibio_mapa) {
+		cv.wait(lock);
 	}
-	protocolo.recibirString(socket, mapa);
-	this->mapa = mapa;
+	se_recibio_mapa = false;
+	return std::move(mapa);
 }
 
 void ServidorProxy::actualizarPosiciones() {
@@ -141,17 +154,17 @@ void ServidorProxy::actualizarPosiciones() {
 		std::string id(id_temp.c_str());
 		posiciones[id] = { std::round(x), std::round(y) };
 	}
-	for (auto& posicion: posiciones) {
-		if (posicionables.count(posicion.first) == 0) continue;
-		auto& coordenadas = posicion.second;
-		posicionables[posicion.first]->actualizarPosicion(coordenadas.first, 
-															coordenadas.second);
-	}
+	if (!juego) return;
+	juego->actualizarPosiciones(std::move(posiciones));
 }
 
 void ServidorProxy::agregarPosicionable(std::string& id, 
 	IPosicionable* posicionable) {
 	posicionables[id] = posicionable;
+}
+
+void ServidorProxy::borrarPosicionable(std::string& id) {
+	posicionables.erase(id);
 }
 
 void ServidorProxy::enviarMovimiento(uint32_t movimiento) {
@@ -212,4 +225,8 @@ void ServidorProxy::enviarInteraccion(std::string& id){
 	datos_tienda.id_vendedor = id;
 	protocolo.enviarUint32(socket, CODIGO_INTERACCION);
 	protocolo.enviarString(socket, id);
+}
+
+void ServidorProxy::setJuego(Juego* juego) {
+	this->juego = juego;
 }

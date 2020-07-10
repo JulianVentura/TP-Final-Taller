@@ -22,6 +22,16 @@ void Protocolo::recibirString(Socket& socket_comunicacion, std::string& string){
 	string.assign(buffer.data(), tam);
 }
 
+void Protocolo::enviarUint8(Socket& socket_comunicacion, uint8_t n){
+	socket_comunicacion.enviar((char*)&n, TAM_INT8);
+}
+
+uint8_t Protocolo::recibirUint8(Socket& socket_comunicacion){
+	char buffer;
+	socket_comunicacion.recibir(&buffer, TAM_INT8);
+	return buffer;
+}
+
 void Protocolo::enviarUint16(Socket& socket_comunicacion, uint16_t n){
 	n = htobe16(n);
 	socket_comunicacion.enviar((char*)&n, TAM_INT16);
@@ -35,9 +45,9 @@ uint16_t Protocolo::recibirUint16(Socket& socket_comunicacion){
 	return be16toh(*temp);
 }
 
-void Protocolo::enviarUint32(Socket& socket_comunicacion, uint32_t op){
-	op = htobe32(op);
-	socket_comunicacion.enviar((char*)&op, TAM_INT32);
+void Protocolo::enviarUint32(Socket& socket_comunicacion, uint32_t n){
+	n = htobe32(n);
+	socket_comunicacion.enviar((char*)&n, TAM_INT32);
 }
 
 uint32_t Protocolo::recibirUint32(Socket& socket_comunicacion){

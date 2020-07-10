@@ -31,45 +31,52 @@ MovibleVista::MovibleVista(EntornoGrafico& entorno, IPosicionable* modelo,
         modelo(modelo), parser(parser), apariencia(apariencia), 
         animacion(parser, std::string(ANIMACION_ABAJO)) {
     entorno.agregarRendereable(this);    
-    this->x = modelo->getX();
-    this->y = modelo->getY();
+    x = modelo->getX();
+    y = modelo->getY();
     ultimo_estado = ANIMACION_ABAJO;
-    this->ancho = parser.getAncho();
-    this->alto = parser.getAlto();
-    imagenes = parser.getImagenes(apariencia.raza, apariencia.clase);
+    ancho = parser.getAncho(apariencia.raza);
+    alto = parser.getAlto(apariencia.raza);
+
+    if (apariencia.tipo != "")
+        imagenes = parser.getImagenes(apariencia.tipo);
+    else
+        imagenes = parser.getImagenes(apariencia.raza, apariencia.clase);
 }
 
 void MovibleVista::actualizar(unsigned int delta_t) {
-    if (!modelo && !modelo->esta_actualizado()) return;
-    int ultimo_x = this->x;
-    int ultimo_y = this->y;
-    this->x = modelo->getX();
-    this->y = modelo->getY();
+    if (!modelo || !modelo->esta_actualizado()) return;
+    int ultimo_x = x;
+    int ultimo_y = y;
+    x = modelo->getX();
+    y = modelo->getY();
     modelo->consumirActualizacion();
-    delta_x = x - ultimo_x;
-    delta_y = y - ultimo_y;
-    this->delta_t = delta_t;
+    int delta_x = x - ultimo_x;
+    int delta_y = y - ultimo_y;
+    animacion.actualizarEstado(delta_t, delta_x, delta_y);
+    animacion.setMascara(mascara);
+    animacion.avanzar();
 }
 
 void MovibleVista::render() {
-    animacion.actualizarEstado(delta_t, delta_x, delta_y);
     for (auto& tipoImagen: ordenDeImagenes) {
         for (auto& imagen: imagenes[tipoImagen]) {
-            animacion.setMascara(imagen);
-            imagen->setPosicion(x - ancho / 2, y - alto);
+            imagen->setMascara(mascara);
+            imagen->setAncho(ancho);
+            imagen->setAlto(alto);
+            imagen->setPosicion(getX(), getY());
             imagen->render();
         }
     }
-    renderer->rect(x - ancho / 2, y - alto, ancho, alto);
-    std::string pos = std::to_string(x) + " " + std::to_string(y);
-    renderer->texto(pos, x, y);
-    animacion.avanzar();
+    // renderer->setColor(51, 0, 51);
+    // renderer->rect(getX(),getY(), getAncho(), getAlto());
 }
+
+    
 
 bool MovibleVista::manejarEvento(SDL_Event& evento) {
     SDL_Point mouse = {};
     auto boton = SDL_GetMouseState(&mouse.x, &mouse.y);
-    SDL_Rect rect = {x - ancho / 2, y - alto, ancho, alto};
+    SDL_Rect rect = { getX(), getY(), ancho, alto};
     Camara::transformar(&mouse.x, &mouse.y);
 
     if (SDL_PointInRect(&mouse, &rect) == SDL_FALSE) return false;
@@ -79,9 +86,8 @@ bool MovibleVista::manejarEvento(SDL_Event& evento) {
         return true;
         break;
 		default:
-        printf("boton derecho\n");
+        // printf("boton derecho\n");
 		break;
 	}
     return false;
 }
-

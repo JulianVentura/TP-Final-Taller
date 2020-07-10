@@ -25,9 +25,7 @@ private:
     EntidadParser& parser;
     DatosApariencia apariencia;
     AnimacionEnteDireccionable animacion;
-    int delta_x = 0;
-    int delta_y = 0;
-    unsigned int delta_t = 0;
+    SDL_Rect mascara = {};
     const static std::vector<std::string> ordenDeImagenes;
 };
 

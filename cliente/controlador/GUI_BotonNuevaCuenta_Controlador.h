@@ -1,8 +1,6 @@
 #ifndef __BOTON_NUEVA_CUENTA_CONTROLADOR_H__
 #define __BOTON_NUEVA_CUENTA_CONTROLADOR_H__
 
-#include <SDL2/SDL_render.h>
-
 #include "../modelo/ServidorProxy.h"
 #include "../modelo/ServidorSalida.h"
 #include "../controlador/GUI_Boton_Controlador.h"
@@ -18,12 +16,10 @@ private:
 	std::string& raza;
 	std::string& clase;
 	bool& conectado;
-	SDL_Event& evento_salida;
 public:
 	GUI_BotonNuevaCuentaControlador(GUI_BotonNuevaCuenta& vista,
 	 ServidorProxy& servidor, ServidorSalida& salida, std::string& nombre,
-	 std::string& clave, std::string& raza, std::string& clase, bool& conectado,
-	 SDL_Event& evento_salida);
+	 std::string& clave, std::string& raza, std::string& clase, bool& conectado);
 	bool enClick() override;
 	void actualizarDimension();
 };

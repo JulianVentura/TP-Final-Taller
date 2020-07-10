@@ -17,6 +17,7 @@ public:
 	ServidorSalidaAlerta(EntornoGrafico& entorno, Colores& paleta);
 	void render();
 	void agregarMensaje(std::string mensaje, bool mensaje_publico);
+	void salir();
 };
 
 #endif /*__SERVIDOR_SALIDA_ALERTA_H__*/ 

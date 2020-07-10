@@ -26,7 +26,7 @@
 
 class Juego: public IInteractivo, public IRendereable {
 public:
-    Juego(EntornoGrafico& entorno, std::string& mapa_s, 
+    Juego(EntornoGrafico& entorno, /*std::string& mapa_s,*/ 
                     DatosPersonaje& datos_personaje, ServidorProxy& servidor);
     ~Juego();
     bool manejarEvento(SDL_Event& evento) override;
@@ -34,11 +34,14 @@ public:
     void actualizar(unsigned int delta_t) override;
     void setObjetivoCamara(ITargeteable& objetivo);
     void agregarObstruible(IObstruible* obstruible);
+    void actualizarPosiciones(std::unordered_map<std::string, std::pair<int, 
+                                                            int>> posiciones);
 
 private:
     EntornoGrafico& entorno;
     DatosPersonaje& datos_personaje;
     ServidorProxy& servidor;
+    std::string mapa_s;
     nlohmann::json parser;      
     LibreriaConjuntoTileParser libreriaConjuntoTileParser;
     LibreriaConjuntoTiles conjuntoTiles;
@@ -53,5 +56,7 @@ private:
     std::unordered_map<std::string, std::pair<IPosicionable*, 
                                                     MovibleVista*>> movibles;
     void agregarEntidad(std::string& id, DatosApariencia& apariencia);
+    void agregarEntidad(std::string& id);
+    void borrarEntidad(std::string& id);
 };
 #endif
