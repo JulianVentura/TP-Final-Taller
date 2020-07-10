@@ -8,10 +8,8 @@
 
 OperacionAtacar::OperacionAtacar(Cliente *unCliente, 
                                  Mapa *unMapa,
-                                 Divulgador *unDivulgador,
                                  std::string id) : 
                                  cliente(unCliente),
-                                 divulgador(unDivulgador),
                                  mapa(unMapa),
                                  idObjetivo(id){}
 
@@ -23,7 +21,7 @@ void OperacionAtacar::ejecutar(){
     try{
         Entidad *entidad = mapa->obtener(idObjetivo);
         Personaje *personaje = cliente->obtenerPersonaje();
-        entidad->serAtacadoPor(personaje, divulgador);
+        entidad->serAtacadoPor(personaje);
     }catch(std::exception &e){
         std::cerr << e.what() << std::endl;
     }catch(...){

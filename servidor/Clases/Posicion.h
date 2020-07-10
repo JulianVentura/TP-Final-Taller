@@ -2,24 +2,29 @@
 #define __POSICION_H__
 #include "Box.h"
 #include <string>
+#include "PosicionEncapsulada.h"
 
 class Posicion{
     private:
-    float x;
-    float y;
+    quadtree::Vector2<float> pos;
     float ancho;
     float alto;
-    float desplazamientoX;
-    float desplazamientoY;
+    quadtree::Vector2<float> desplazamiento;
     quadtree::Box<float> areaQueOcupa;
     void actualizarArea();
+
+    Posicion(const quadtree::Vector2<float> &unaPos, 
+             const quadtree::Vector2<float> &desp, 
+             float ancho, 
+             float alto);
 
     public:
     Posicion();
     Posicion(float x, float y, float ancho, float alto);
-    Posicion(Posicion &otro);
+    Posicion(const Posicion &otro);
     Posicion(Posicion &&otro);
     Posicion& operator=(Posicion &&otro);
+    bool operator==(const Posicion &otro) const;
     void actualizarPosicion(Posicion &&posicion);
     void moverHaciaArriba(float desplazamiento);
     void moverHaciaAbajo(float desplazamiento);
@@ -29,10 +34,17 @@ class Posicion{
     void detenerse();
     const quadtree::Box<float>& obtenerAreaQueOcupa() const;
     float longitudMaximaDeColision() const;
-    Posicion nuevaPosicionDesplazada(float x, float y) const;
     float calcularDistancia(const Posicion &otra) const;
+    Posicion nuevaPosicionDesplazada(float x, float y) const;
+    Posicion perseguir(const Posicion &otraPosicion, const float desplazamiento) const;
+    /*
+    Devuelve un cuadrado de lado radio.
+    */
+    const quadtree::Box<float> obtenerAreaCentradaEnPosicion(float radio) const;
     const float obtenerX() const;
     const float obtenerY() const;
+    //Serializacion
+    struct PosicionEncapsulada serializarPosicion() const;
 
 };
 

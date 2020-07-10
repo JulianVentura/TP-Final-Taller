@@ -1,18 +1,17 @@
-#ifndef __COMERCIANTE_H__
-#define __COMERCIANTE_H__
-
+#ifndef __PROYECTIL_H__
+#define __PROYECTIL_H__
 #include "Entidad.h"
-#include <vector>
+#include <atomic>
 
-class Personaje;
-class Item;
-class Comerciante : public Entidad{
+class Proyectil : public Entidad{
     private:
-    std::vector<Item*> items;
-    uint32_t tamTienda;
-    
+    Posicion destino;
+    std::atomic<bool> finalizado;
+    bool haLlegadoADestino;
+    double tiempoTranscurrido;
+    double tiempoDespawn;
     public:
-    Comerciante(float x, float y);
+    Proyectil(std::string id, Posicion origen, Posicion destino);
     //Ataques
     void atacar(Personaje *objetivo) override;
     void atacar(Criatura *objetivo) override;
@@ -27,10 +26,15 @@ class Comerciante : public Entidad{
     void vender(unsigned int pos, Estado *estado, Cliente *cliente) override;
     void vender(Item* item, Personaje *personaje, Cliente *cliente) override;
     void listar(Personaje *personaje, Cliente *cliente) override;
+    void curar(Personaje *personaje, Cliente *cliente);
     //Estado
     void actualizarEstado(double tiempo) override;
     void dropearItems(Entidad *atacante) override;
-    ~Comerciante() override;
+
+    bool haFinalizado() override;
+
+    ~Proyectil() override;
 };
+
 
 #endif

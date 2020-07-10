@@ -4,68 +4,103 @@
 #include <sstream>
 #include <cmath>
 
-Posicion::Posicion(float unX, float unY, float anch, float alt) : 
-                   x(unX), 
-                   y(unY),
+////////////////////METODOS AUXILIARES////////////////////
+
+static bool floatComp(float a, float b, float epsilon = 0.1){
+    return fabs(a - b) < epsilon;
+}
+
+/////////////////////////METODOS//////////////////////////
+
+Posicion::Posicion(float x, float y, float anch, float alt) : 
+                   pos(x, y),
                    ancho(anch),
                    alto(alt),
-                   desplazamientoX(0),
-                   desplazamientoY(0),
+                   desplazamiento(0,0),
                    areaQueOcupa(x - ancho/2, y - alto/2, ancho, alto){
 }
 
-Posicion::Posicion() : x(0), y(0), ancho(0), alto(0), areaQueOcupa(0, 0, 0, 0){} 
+Posicion::Posicion() : pos(0,0), 
+                       ancho(0), 
+                       alto(0), 
+                       desplazamiento(0, 0),
+                       areaQueOcupa(0, 0, 0, 0){}
 
-Posicion::Posicion(Posicion &&otro) : Posicion(otro.x, otro.y, otro.ancho, otro.alto) {}
 
-Posicion::Posicion(Posicion &otro) : Posicion(otro.x, otro.y, otro.ancho, otro.alto) {}
+Posicion::Posicion(const quadtree::Vector2<float> &unaPos, 
+                   const quadtree::Vector2<float> &desp, 
+                   const float anch, 
+                   const float alt) : 
+                   pos(unaPos),
+                   ancho(anch),
+                   alto(alt),
+                   desplazamiento(desp){
+    actualizarArea();
+}
 
-Posicion& Posicion::operator=(Posicion &&otro){
-    x = otro.x;
-    y = otro.y;
+Posicion::Posicion(Posicion &&otro){
+    pos = std::move(otro.pos);
+    desplazamiento = std::move(otro.desplazamiento);
+    ancho = std::move(otro.ancho);
+    alto = std::move(otro.alto);
+    actualizarArea();
+}
+
+Posicion::Posicion(const Posicion &otro){
+    pos = otro.pos;
+    desplazamiento = otro.desplazamiento;
     ancho = otro.ancho;
     alto = otro.alto;
+    actualizarArea();
+}
+
+Posicion& Posicion::operator=(Posicion &&otro){
+    pos = std::move(otro.pos);
+    desplazamiento = std::move(otro.desplazamiento);
+    ancho = std::move(otro.ancho);
+    alto = std::move(otro.alto);
     areaQueOcupa = std::move(otro.areaQueOcupa);
     return *this;
 }
 
+//Me interesa unicamente comparar la posicion, no el resto de los atributos.
+bool Posicion::operator==(const Posicion &otro) const{
+    bool igualX = floatComp(pos.obtenerX(), otro.pos.obtenerX());
+    bool igualY = floatComp(pos.obtenerY(),otro.pos.obtenerY());
+    return igualX && igualY;
+}
+
 void Posicion::actualizarPosicion(Posicion &&otro){
     //Solo actualizo coordenadas, no cambio el area que ocupo.
-    this->x = otro.x;
-    this->y = otro.y;
+    this->pos = std::move(otro.pos);
     actualizarArea();
 }
 
-void Posicion::moverHaciaArriba(float desplazamiento){
-    desplazamientoY = -1 * desplazamiento;
-    desplazamientoX = 0;
+void Posicion::moverHaciaArriba(float factorDesplazamiento){
+    desplazamiento = std::move(quadtree::Vector2<float>(0, -1) * factorDesplazamiento);
 }
-void Posicion::moverHaciaAbajo(float desplazamiento){
-    desplazamientoY = desplazamiento;
-    desplazamientoX = 0;
+void Posicion::moverHaciaAbajo(float factorDesplazamiento){
+    desplazamiento = std::move(quadtree::Vector2<float>(0, 1) * factorDesplazamiento);
 }
-void Posicion::moverHaciaDerecha(float desplazamiento){
-    desplazamientoX = desplazamiento;
-    desplazamientoY = 0;
+void Posicion::moverHaciaDerecha(float factorDesplazamiento){
+    desplazamiento = std::move(quadtree::Vector2<float>(1, 0) * factorDesplazamiento);
 }
-void Posicion::moverHaciaIzquierda(float desplazamiento){
-    desplazamientoX = -1 * desplazamiento;
-    desplazamientoY = 0;
+void Posicion::moverHaciaIzquierda(float factorDesplazamiento){
+    desplazamiento = std::move(quadtree::Vector2<float>(-1, 0) * factorDesplazamiento);
 }
 
 Posicion Posicion::mover(){
-    Posicion nuevaPosicion(x + desplazamientoX, y + desplazamientoY, ancho, alto);
+    Posicion nuevaPosicion(pos + desplazamiento, desplazamiento, ancho, alto);
     return nuevaPosicion;
 }
 
 
 void Posicion::detenerse(){
-    desplazamientoX = 0;
-    desplazamientoY = 0;
+    desplazamiento = std::move(quadtree::Vector2<float>(0, 0));
 }
 
 void Posicion::actualizarArea(){
-    areaQueOcupa = std::move(quadtree::Box<float>(x - ancho/2, y - alto/2, ancho, alto));
+    areaQueOcupa = std::move(quadtree::Box<float>(pos.obtenerX() - ancho/2, pos.obtenerY() - alto/2, ancho, alto));
 }
 
 const quadtree::Box<float>& Posicion::obtenerAreaQueOcupa() const{
@@ -76,23 +111,38 @@ float Posicion::longitudMaximaDeColision() const{
     return sqrt(ancho * ancho + alto * alto);
 }
 
-//Se utiliza para algo esto? Muy similar a Posicion::mover()
 Posicion Posicion::nuevaPosicionDesplazada(float x, float y) const{
-    return std::move(Posicion(this->x + x, this->y + y, ancho, alto));
+    return std::move(Posicion(pos.obtenerX() + x, pos.obtenerY() + y, ancho, alto));
 }
 
-
 const float Posicion::obtenerX() const{
-    return x;
+    return pos.obtenerX();
 }
 
 const float Posicion::obtenerY() const{
-    return y;
+    return pos.obtenerY();
 }
 
 float Posicion::calcularDistancia(const Posicion &otra) const{
-    float deltaX = otra.x - x;
-    float deltaY = otra.y - y;
-    float distancia = deltaX * deltaX + deltaY * deltaY;
-    return sqrt(distancia);
+    return pos.calcularDistancia(otra.pos);
+}
+
+Posicion Posicion::perseguir(const Posicion &otraPosicion, const float factorDesplazamiento) const{
+    float distancia = pos.calcularDistancia(otraPosicion.pos);
+    if (distancia <= factorDesplazamiento){
+        return otraPosicion;
+    }
+    quadtree::Vector2<float> temp = (pos - otraPosicion.pos);
+	temp.normalizar();
+	return Posicion(pos + temp * factorDesplazamiento, desplazamiento, ancho, alto);
+}
+
+const quadtree::Box<float> Posicion::obtenerAreaCentradaEnPosicion(float radio) const{
+    return quadtree::Box<float>(pos.obtenerX() - radio, pos.obtenerY() - radio, radio*2, radio*2);
+}
+
+//Serializacion
+struct PosicionEncapsulada Posicion::serializarPosicion() const{
+    struct PosicionEncapsulada posEncap = {{0}, pos.obtenerX(), pos.obtenerY()};
+    return posEncap;
 }

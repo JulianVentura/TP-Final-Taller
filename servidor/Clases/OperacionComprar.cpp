@@ -21,10 +21,10 @@ OperacionComprar::~OperacionComprar(){
 
 void OperacionComprar::ejecutar(){
     try{
-        Interactuable *interactuable = mapa->obtenerInteractuable(idObjetivo);
+        Entidad *entidad = mapa->obtener(idObjetivo);
         Personaje *personaje = cliente->obtenerPersonaje();
         Estado *estado = personaje->obtenerEstado();
-        interactuable->comprar(posItem, estado, cliente);
+        entidad->comprar(posItem, estado, cliente);
     }catch(std::exception &e){
         //No quiero imprimir los errores.
     }catch(...){
