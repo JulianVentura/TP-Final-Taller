@@ -44,7 +44,7 @@ void Sacerdote::curar(Personaje *personaje, Cliente *cliente){
         cliente->enviarChat(mensaje, false);
         return;
     }
-    //Se le tiene que mandar algun mensaje?
+    //Se le tiene que mandar algun mensaje
     personaje->curar();
 }
 

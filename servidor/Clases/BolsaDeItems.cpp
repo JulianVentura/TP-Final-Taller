@@ -34,7 +34,6 @@ BolsaDeItems::BolsaDeItems(Posicion unaPosicion, std::vector<Item*> unosItems) :
                                                            elementos(0),
                                                            bolsaVacia(true),
                                                            tamBolsa(0){
-    
     Configuraciones *config = Configuraciones::obtenerInstancia();
     uint32_t ancho = config->obtenerBolsaDeDropAncho();
     uint32_t alto = config->obtenerBolsaDeDropAlto();
