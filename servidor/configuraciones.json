@@ -552,6 +552,7 @@
             "Ancho": 1,
             "Alto": 1
         },
-        "TamanioTiendas": 18
+        "TamanioTiendas": 18,
+        "DistanciaInteraccion": 50
     }
 }
