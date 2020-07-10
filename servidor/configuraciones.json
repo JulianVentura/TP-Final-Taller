@@ -355,7 +355,7 @@
                 "TiempoAtaque": 1000,
                 "Proyectil": "CuerpoACuerpo",
                 "Precio": 10,
-                "idTCP": 8
+                "idTCP": 3
             },
             "Hacha": {
                 "DanioMax": 5,
@@ -385,7 +385,7 @@
                 "TiempoAtaque": 1000,
                 "Proyectil": "FlechaMagica",
                 "Precio": 10,
-                "idTCP": 11
+                "idTCP": 4
             },
             "FlautaElfica": {
                 "DanioMax": -100,
@@ -537,13 +537,13 @@
                 "CuracionVida": 100,
                 "CuracionMana": 0,
                 "Precio": 10,
-                "idTCP": 29
+                "idTCP": 1
             },
             "PocionMana": {
                 "CuracionVida": 0,
                 "CuracionMana": 100,
                 "Precio": 10,
-                "idTCP": 30
+                "idTCP": 2
             }
         }
     },
