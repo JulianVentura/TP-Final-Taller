@@ -17,7 +17,7 @@ public:
     void setAnimacion(const std::string& animacion);
     void setDireccion(const std::string& direccion);
     void setAccion(const std::string& accion);
-    void setMascara(Imagen* imagen);
+    void setMascara(SDL_Rect& mascara);
     void avanzar();
     void setTiempoPorCiclo(unsigned int tiempo_por_ciclo);
     void setTiempoPorCuadro(unsigned int tiempo_por_cuadro);
@@ -35,7 +35,7 @@ protected:
     int tiempo_hasta_proximo_ciclo = 0;
     int tiempo_hasta_proximo_cuadro = 0;
     int tiempo_por_ciclo = REPETIR_INDEFINIDAMENTE;
-    int tiempo_por_cuadro = 300;
+    int tiempo_por_cuadro = 80;
     unsigned int ultimo_delta_t = 0;
 };
 

@@ -8,6 +8,7 @@
 class Imagen: public IRendereable, public IDimensionable {
 public:
     Imagen() = default;
+    virtual ~Imagen() = default;
     /**
      * @brief Crea una imagen desde el archivo que corresponde a ruta.
      * @throw ErrorGrafico en caso de error.
@@ -32,6 +33,7 @@ public:
      * @brief Determina la porción de imagen que se va a renderear.
      */
     void setMascara(int x, int y, int ancho, int alto);
+    void setMascara(SDL_Rect& mascara);
 
     // TODO: Debería estar en una clase más abstracta
     void centrarRelativoA(IDimensionable& contenedor);

@@ -5,6 +5,7 @@
 #include <string>
 #include <unordered_map>
 #include <thread>
+#include <condition_variable>
 #include <arpa/inet.h>
 
 #include "DatosPersonaje.h"
@@ -25,18 +26,22 @@ class ServidorProxy;
 
 class ServidorProxy{
 private:
+	std::condition_variable cv;
+	std::mutex mtx;
 	std::thread hilo_recepcion;
 	bool salir;
+	bool se_recibio_mapa;
 	Socket socket;
 	DatosPersonaje& datos_personaje;
 	DatosTienda& datos_tienda;
-	Protocolo protocolo;
-	Juego* juego;
+	Protocolo protocolo;	
+	Juego* juego = nullptr;
 	std::unordered_map<std::string, IPosicionable*> posicionables;
-	std::string mapa;
 	SDL_Event evento_salida;
 	void actualizarPosiciones();
+
 public:
+	std::string mapa;
 	ServidorSalida* salida;
 	ServidorProxy(DatosPersonaje& datos_personaje, DatosTienda& datos_tienda);
 
@@ -57,10 +62,11 @@ public:
 	void enviarChat(std::string mensaje);
 
 	// Manejo mapa
-	void obtenerMapaInit(std::string& mapa);
+	std::string obtenerMapa();
 	void enviarMovimiento(uint32_t movimiento);
 	void agregarPosicionable(std::string& id, IPosicionable* posicionable);
-
+	void borrarPosicionable(std::string& id);
+	
 	// Inventario
 	void enviarCompra(int pos);
 	void enviarUtilizar(int pos);

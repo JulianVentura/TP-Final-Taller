@@ -91,9 +91,9 @@ Mapa::Mapa(std::string nombre) :        nombreMapa(nombre),
     }
     //Esto que esta completamente hardcodeado deberia levantarse del configuraciones.json
     //La idea es que el mapa sepa las posiciones del Sacerdote, Banquero y Comerciante.
-    std::unique_ptr<Interactuable> sacerdote(new Sacerdote(90, 90));
-    std::unique_ptr<Interactuable> banquero(new Banquero(105, 110));
-    std::unique_ptr<Interactuable> comerciante(new Comerciante(95, 105));
+    std::unique_ptr<Interactuable> sacerdote(new Sacerdote(300, 90));
+    std::unique_ptr<Interactuable> banquero(new Banquero(120, 110));
+    std::unique_ptr<Interactuable> comerciante(new Comerciante(120, 200));
     quadTreeEstatico.add(sacerdote.get());
     quadTreeEstatico.add(banquero.get());
     quadTreeEstatico.add(comerciante.get());

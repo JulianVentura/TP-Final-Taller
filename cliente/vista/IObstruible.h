@@ -4,6 +4,10 @@
 #include "ITargeteable.h"
 
 class IObstruible: public IRendereable, public ITargeteable {
+public:
+    int getX() override;
+    int getY() override;
+    static bool comparar(IObstruible* obstruible,  IObstruible* otro);
 };
 
 #endif

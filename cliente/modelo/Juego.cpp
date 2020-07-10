@@ -17,7 +17,6 @@ void Juego::render() {
 }
 
 bool Juego::manejarEvento(SDL_Event& evento) {
-    /*
     if (evento.type == SDL_MOUSEBUTTONDOWN) {
         bool consumido = false;
         for (auto& movible: movibles) {
@@ -28,17 +27,18 @@ bool Juego::manejarEvento(SDL_Event& evento) {
                 break;
             }
         }
+    } else if (evento.type == SDL_KEYDOWN || evento.type == SDL_KEYUP) {
+        return personajeManejable.manejarEvento(evento);
     }
-    return personajeManejable.manejarEvento(evento);
-    */
     return false;
 }
 
-Juego::Juego(EntornoGrafico& entorno, std::string& mapa_s, 
+Juego::Juego(EntornoGrafico& entorno, /* std::string& mapa_s, */
                     DatosPersonaje& datos_personaje, ServidorProxy& servidor):
         entorno(entorno),
         datos_personaje(datos_personaje),
         servidor(servidor),
+        mapa_s(std::move(servidor.obtenerMapa())),
         parser(json::parse(mapa_s.c_str())),
         libreriaConjuntoTileParser(parser),
         conjuntoTiles(entorno, libreriaConjuntoTileParser),
@@ -56,24 +56,8 @@ Juego::Juego(EntornoGrafico& entorno, std::string& mapa_s,
 
     DatosApariencia ap;
     ap.raza = "humano";
-    ap.clase = "Mago";
+    ap.clase = "Guerrero";
     agregarEntidad(datos_personaje.id, ap);
-
-    // ap.raza = "gnomo";
-    // ap.clase = "Guerrero";
-    // std::string jugador3("j3");
-    // agregarEntidad(jugador3, ap);
-
-    // ap.raza = "humano";
-    // ap.clase = "Clerigo";
-    // std::string jugador4("jugador4");
-    // agregarEntidad(jugador4, ap);
-
-    // ap.raza = "";
-    // ap.clase = "";
-    // ap.tipo = "Zombie";
-    // std::string jugador5("j5");
-    // agregarEntidad(jugador5, ap);
 }
 
 void Juego::agregarEntidad(std::string& id, DatosApariencia& apariencia) {
@@ -101,11 +85,42 @@ Juego::~Juego() {
     }
 }
 
-void Juego::agregarNuevo(std::string& id) {
+void Juego::borrarEntidad(std::string& id) {
+    if (movibles.count(id) == 0) return;
+    servidor.borrarPosicionable(id);
+    capaFrontal.borrarObstruible(movibles[id].second);
+    delete movibles[id].first;
+    delete movibles[id].second;
+    movibles.erase(id);
+}
+
+void Juego::agregarEntidad(std::string& id) {
     DatosApariencia apariencia;
     // TODO: hardcodeado
     apariencia.raza = "humano";
-    apariencia.clase = "Clerigo";
+    apariencia.clase = "Mago";
     agregarEntidad(id, apariencia);
-    printf("Se agrega jugador %s\n", id.c_str());
+    // printf("Se agrega jugador %s\n", id.c_str());
+}
+
+void Juego::actualizarPosiciones(std::unordered_map<std::string, std::pair<int, 
+                                                            int>> posiciones) {
+    for (auto& posicion: posiciones) {
+		if (movibles.count(posicion.first) == 0) {
+			std::string id(posicion.first);
+			agregarEntidad(id);
+			continue;
+		}
+		if (movibles.count(posicion.first) == 0) continue;
+		auto& coordenadas = posicion.second;
+		movibles[posicion.first].first->actualizarPosicion(coordenadas.first, 
+															coordenadas.second);
+	}
+    std::vector<std::string> paraBorrar;
+    for (auto& movible: movibles) {
+        if (posiciones.count(movible.first) > 0) continue;
+        paraBorrar.push_back(movible.first);
+    }
+    for (auto& movible: paraBorrar)
+        borrarEntidad(movible);
 }

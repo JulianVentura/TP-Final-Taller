@@ -1,6 +1,7 @@
 #include <SDL2/SDL_events.h>
 #include <iostream>
 #include <string>
+#include <thread>
 
 #include "BucleLogin.h"
 #include "BuclePrincipal.h"
@@ -16,8 +17,9 @@
 #include "../vista/GUI_Login.h"
 #include "../vista/ErrorGrafico.h"
 
+#include <chrono>
 int main(int argc, const char* argv[]) {
-    try{
+    try {
         EntornoGrafico entorno;
         std::string fuente_ruta("assets/DejaVuSansMono.ttf"); 
         entorno.cargarFuente(fuente_ruta, 15);
@@ -37,28 +39,23 @@ int main(int argc, const char* argv[]) {
         ventana.agregarRendereable(&gui_login);
         bucle_login.correr();
         ventana.borrarRendereables();
-        servidor.terminar();
         // JUEGO EN SI //
 
         // TODO: <Login provisorio>
-        /*
-        std::string direccion("localhost");
-        std::string servicio("3080");
-        std::string id_usuario("jugador");
-        std::string password("jugador");
-        std::string raza("Humano");
-        std::string clase("Paladin");
-
-        datos_personaje.id = id_usuario;
-        servidor.conectar(direccion, servicio);
-        servidor.enviarNuevaCuenta(id_usuario, password, raza, clase);
-        */
         
-        /*
+        // std::string direccion("localhost");
+        // std::string servicio("3080");
+        // std::string id_usuario("jugador");
+        // std::string password("jugador");
+        // std::string raza("Humano");
+        // std::string clase("Paladin");
+        // datos_personaje.id = id_usuario;
+        // servidor.conectar(direccion, servicio);
+        // servidor.enviarNuevaCuenta(id_usuario, password, raza, clase);
+        
         BuclePrincipal bucle(ventana);
-        std::string mapa_s;
-        servidor.obtenerMapaInit(mapa_s);
-        Juego juego(entorno, mapa_s, datos_personaje, servidor);
+
+        Juego juego(entorno, datos_personaje, servidor);
         GUI_Principal gui(entorno, paleta, datos_personaje, datos_tienda);
         GUI_PrincipalControlador gui_controllador(servidor, gui);
         
@@ -75,7 +72,6 @@ int main(int argc, const char* argv[]) {
         bucle.agregarInteractivo(SDL_MOUSEBUTTONDOWN, &gui_controllador);
         bucle.correr();
         servidor.terminar();
-        */
     } catch (std::exception& e) {
         std::cerr << e.what() << std::endl;
     }

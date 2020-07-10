@@ -22,12 +22,13 @@ void Imagen::iniciarDimension(SDL_Texture* textura) {
 }
 
 void Imagen::setMascara(int x, int y, int ancho, int alto) {
-    mascara.x = x;
-    mascara.y = y;
-    mascara.w = ancho;
-    mascara.h = alto;
-    render_mascara.w = ancho;
-    render_mascara.h = alto;
+    SDL_Rect mascara = { x, y, ancho, alto };
+    setMascara(mascara);
+}
+void Imagen::setMascara(SDL_Rect& mascara) {
+    this->mascara = mascara;
+    render_mascara.w = mascara.w;
+    render_mascara.h = mascara.h;
 }
 
 void Imagen::setPosicion(int x, int y) {

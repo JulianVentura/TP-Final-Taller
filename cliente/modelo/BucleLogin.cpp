@@ -30,7 +30,7 @@ void BucleLogin::despacharEventos(SDL_Event& evento) {
 	switch(evento.type) {
 		case SDL_QUIT: 
 			salir = true;
-            exit(0);
+            // exit(0);
 		break;
 
 		case SDL_MOUSEBUTTONDOWN:

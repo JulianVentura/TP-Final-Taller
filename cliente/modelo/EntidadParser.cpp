@@ -28,12 +28,11 @@ const imagenes_t EntidadParser::aparienciaImagenesBase = {
     { "cabeza", std::vector<Imagen*>() }
 };
 
-EntidadParser::EntidadParser(EntornoGrafico& entorno): entorno(entorno) {
-    std::ifstream fuente(RUTA_INFO);
-    fuente >> parser;
+static void aMinuscula(std::string& cadena) {
+    std::transform(cadena.begin(), cadena.end(), cadena.begin(), ::tolower);
+}
 
-    std::string raiz;
-    parser["raiz"].get_to(raiz);
+void EntidadParser::parsearRazas() {
     for (auto& raza: parser["razas"].items()) {
         auto clases = raza.value()["variantes"];
         if (raza.value().count("copiar") > 0) {
@@ -43,31 +42,38 @@ EntidadParser::EntidadParser(EntornoGrafico& entorno): entorno(entorno) {
         }
         for (auto& clase: clases.items()) {
             imagenes_t setDeImagenes(aparienciaImagenesBase);
-            for (auto& campo :setDeImagenes) {
+            for (auto& campo: setDeImagenes) {
                 for (auto& valor: clase.value()[campo.first]) {
-                    std::string ruta_completa = raiz + campo.first + DELIMITADOR_RUTA + valor.get<std::string>();
-                    // buffer.push_back(Imagen(entorno, ruta_completa));
-                    // setDeImagenes[campo.first].push_back(&buffer.back());
-                    setDeImagenes[campo.first].push_back(new Imagen(entorno, ruta_completa));
+                    if (valor == "") continue;
+                    parsearImagen(setDeImagenes, campo.first, 
+                                                    valor.get<std::string>());
                 }
             }
             imagenes[raza.key() + DELIMITADOR + clase.key()] = std::move(setDeImagenes);
         }
     }
+}
+
+void EntidadParser::parsearImagen(imagenes_t& setDeImagenes, 
+                        const std::string& tipo, const std::string& variante) {
+    std::string ruta_completa = raiz + tipo + DELIMITADOR_RUTA + variante;
+    setDeImagenes[tipo].push_back(new Imagen(entorno, ruta_completa));
+}
+
+void EntidadParser::parsearNPCs() {
     for (auto& npc: parser["npc"].items()) {
         imagenes_t setDeImagenes(aparienciaImagenesBase);
         for (auto& campo: setDeImagenes) {
             for (auto& valor: npc.value()[campo.first]) {
                 if (valor == "") continue;
-                std::string ruta_completa = raiz + campo.first + DELIMITADOR_RUTA + valor.get<std::string>();
-                // buffer.push_back(Imagen(entorno, ruta_completa));
-                // setDeImagenes[campo.first].push_back(&buffer.back());
-                setDeImagenes[campo.first].push_back(new Imagen(entorno, ruta_completa));
+                parsearImagen(setDeImagenes, campo.first, valor.get<std::string>());
             }
         }
         imagenes[npc.key()] = std::move(setDeImagenes);
-    }
+    }    
+}
 
+void EntidadParser::parsearAnimaciones() {
     for (auto& animacion: parser["animacion"].items()) {
         int columnas = animacion.value()["Columnas"];
         this->columnas[animacion.key()] = columnas;
@@ -75,12 +81,12 @@ EntidadParser::EntidadParser(EntornoGrafico& entorno): entorno(entorno) {
             int direccion_v = direccion.value();
             for (auto& estado: animacion.value()["Estados"].items()) {
                 std::string llave = estado.key() + DELIMITADOR + direccion.key();
-                std::transform(llave.begin(), llave.end(), llave.begin(), ::tolower);
-                std::string llave_quieto = std::string(QUIETO) + DELIMITADOR + llave;
-                std::transform(llave_quieto.begin(), llave_quieto.end(), llave_quieto.begin(), ::tolower);
+                aMinuscula(llave);
+                std::string llave_quieto = llave + DELIMITADOR + std::string(QUIETO);
+                aMinuscula(llave_quieto);
                 int cantidad = estado.value()["cantidad"];
                 std::vector<int> filas = estado.value()["fila"].get<std::vector<int>>();
-                if ((int)filas.size() < direccion_v + 1) continue;
+                if ((int)filas.size() <= direccion_v) continue;
                 int fila = filas.at(direccion_v);
                 animaciones[animacion.key()][llave_quieto].push_back(fila * columnas);
                 for (int i = 0; i < cantidad; ++i) {
@@ -92,38 +98,73 @@ EntidadParser::EntidadParser(EntornoGrafico& entorno): entorno(entorno) {
     }
 }
 
+EntidadParser::EntidadParser(EntornoGrafico& entorno): entorno(entorno) {
+    std::ifstream fuente(RUTA_INFO);
+    fuente >> parser;
+    parser["raiz"].get_to(raiz);
+    parsearRazas();
+    parsearNPCs();
+    parsearAnimaciones();
+}
+
+EntidadParser::~EntidadParser() {
+    for (auto& raza: imagenes) {
+        for (auto& variante: raza.second) {
+            for (auto& imagen: variante.second) {
+                delete imagen;
+            }
+        }
+    }    
+}
+
 int EntidadParser::getGuid(std::string& tipo, std::string& accion, 
                             std::string& direccion, int columna, bool quieto) {
     std::string id = accion + DELIMITADOR + direccion;
-    if (quieto) {
-        id = std::string(QUIETO) + DELIMITADOR + id;
-        columna = 0;
-    }
-    std::transform(id.begin(), id.end(), id.begin(), ::tolower);
-    return animaciones[tipo][id][columna];
+    aMinuscula(id);
+    if (quieto) return animaciones[tipo][id][0];
+    return animaciones[tipo][id][columna % getAnimacionCantidad(tipo, accion, 
+                                                            direccion)];
 }
 
 int EntidadParser::getAnimacionCantidadTipo(std::string& tipo) {
+    if (columnas.count(tipo) <= 0) return -1;
     return columnas[tipo];
 }
 
 int EntidadParser::getAnimacionCantidad(std::string& tipo, std::string& accion, 
                                                     std::string& direccion) {
     std::string id = accion + DELIMITADOR + direccion;
-    std::transform(id.begin(), id.end(), id.begin(), ::tolower);
+    aMinuscula(id);
     return animaciones[tipo][id].size();
 }
+
 imagenes_t EntidadParser::getImagenes(std::string& tipo) {
+    if (imagenes.count(tipo) <= 0) return aparienciaImagenesBase;
     return imagenes[tipo];
 }
 
 imagenes_t EntidadParser::getImagenes(std::string& raza, std::string& clase) {
     std::string index(raza + DELIMITADOR + clase);
+    if (imagenes.count(index) <= 0) return aparienciaImagenesBase;
     return imagenes[index];
 }
 
+int EntidadParser::getAncho(std::string& raza) {
+    float factor = 1.0f;
+    if (parser["razas"].count(raza) > 0) 
+        parser["razas"][raza]["escala"].get_to(factor);
+    return getAlto() * factor;
+}
+
+int EntidadParser::getAlto(std::string& raza) {
+    float factor = 1.0f;
+    if (parser["razas"].count(raza) > 0) 
+        parser["razas"][raza]["escala"].get_to(factor);
+    return getAlto() * factor;
+}
+
 int EntidadParser::getAncho() {
-    return parser["animacion"][BASE]["Ancho"];
+    return (int) parser["animacion"][BASE]["Ancho"];
 }
 
 int EntidadParser::getAlto() {

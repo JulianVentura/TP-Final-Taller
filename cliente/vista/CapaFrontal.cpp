@@ -20,8 +20,9 @@ void CapaFrontal::agregarObstruible(IObstruible* obstruible) {
     this->obstruibles.push_back(obstruible);
 }
 
-static bool obstruible_cmp(IObstruible* obstruible,  IObstruible* otro) {
-    return otro->getY() > obstruible->getY();
+void CapaFrontal::borrarObstruible(IObstruible* obstruible) {
+    obstruibles.erase(std::remove(obstruibles.begin(), obstruibles.end(), 
+                                                obstruible), obstruibles.end());
 }
 
 void CapaFrontal::render() {
@@ -42,10 +43,13 @@ void CapaFrontal::render() {
     }
 
     // TODO: se debería acotar a lo visible
-    std::stable_sort(obstruibles.begin(), obstruibles.end(), obstruible_cmp);
+    std::stable_sort(obstruibles.begin(), obstruibles.end(), 
+                                                        IObstruible::comparar);
 
-    for (auto& obstruible: obstruibles)
+    for (auto& obstruible: obstruibles) {
+        if (!obstruible) continue;
         obstruible->render();
+    }
 }
 
 void CapaFrontal::actualizar(unsigned int delta_t) {
