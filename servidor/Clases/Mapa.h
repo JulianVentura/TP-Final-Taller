@@ -20,6 +20,12 @@
 #include <random>
 #include <ctime>
 
+Sacerdote#
+Banquero#
+Comerciante#
+Arania#100000
+
+
 class Entidad;
 class Mapa{
     private:
@@ -34,7 +40,8 @@ class Mapa{
     std::vector<ObjetoColisionable> objetosEstaticos;
     std::vector<quadtree::Box<float>> zonasRespawn;
     unsigned int limiteCriaturas;
-    std::map<std::string, Personaje*> personajes; 
+    std::map<std::string, Personaje*> personajes;
+    std::map<std::string, std::unique_ptr<Entidad>> otros;
     std::map<std::string, std::unique_ptr<Criatura>> criaturas;
     std::map<std::string, std::unique_ptr<Interactuable>> ciudadanos;
     std::map<std::string, std::unique_ptr<BolsaDeItems>> drops;
