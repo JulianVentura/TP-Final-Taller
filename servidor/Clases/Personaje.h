@@ -4,19 +4,24 @@
 #include "Raza.h"
 #include "Clase.h"
 #include "Inventario.h"
-class Escudo;
-class Armadura;
-class Casco;
+
+#define NO_EQUIPADO -1
+
 class Estado;
 class Criatura;
+class Casco;
+class Arma;
+class Escudo;
+class Armadura;
 class Personaje : public Entidad{
     private:
     unsigned int experiencia;
     unsigned int limiteParaSubir;
     unsigned int cantidadOro;
-    Armadura *armadura;
-    Escudo *escudo;
-    Casco *casco;
+    int arma;
+    int armadura;
+    int escudo;
+    int casco;
     Raza raza;
     Clase clase;
     std::unique_ptr<Estado> estado;
@@ -60,6 +65,10 @@ class Personaje : public Entidad{
     void equipar(Armadura *armadura);
     void equipar(Casco *casco);
     void equipar(Escudo *escudo);
+    void desequipar(Arma *arma, int pos);
+    void desequipar(Armadura *armadura, int pos);
+    void desequipar(Escudo *escudo, int pos);
+    void desequipar(Casco *casco, int pos);
     //Estado
     void actualizarEstado(double tiempo) override;
     void meditar();

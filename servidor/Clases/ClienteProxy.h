@@ -29,7 +29,6 @@ private:
     Socket socket;
     Cliente *cliente;
     ColaOperaciones *colaOperaciones;
-    Divulgador& divulgador;
     Protocolo protocolo;
     bool decodificarCodigo(uint32_t codigo);
     void decodificarMovimiento();
@@ -42,7 +41,7 @@ private:
     void decodificarNuevoJugador( std::string& id, std::string& clave);
 
 public:
-    ClienteProxy(Socket socket, Cliente *cliente, Divulgador& divulgador);
+    ClienteProxy(Socket socket, Cliente *cliente);
     void actualizarCola(ColaOperaciones *colaDeOperaciones);
     void finalizar();
     //Recepcion

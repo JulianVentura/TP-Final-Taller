@@ -5,12 +5,10 @@
 
 #define TAM_CODIGO 4
 
-ClienteProxy::ClienteProxy(Socket unSocket, Cliente *miCliente,
-                           Divulgador& divulgador) : 
+ClienteProxy::ClienteProxy(Socket unSocket, Cliente *miCliente) : 
                            socket(std::move(unSocket)),
                            cliente(miCliente),
-                           colaOperaciones(nullptr),
-                           divulgador(divulgador){}
+                           colaOperaciones(nullptr){}
 
 void ClienteProxy::finalizar(){
     socket.cerrar_canal(SHUT_RDWR);
@@ -30,11 +28,12 @@ void ClienteProxy::decodificarMovimiento(){
 }
 
 void ClienteProxy::decodificarMensajeChat(){
+    Divulgador *divulgador = Divulgador::obtenerInstancia();
     std::string origen, destino, mensaje;
     protocolo.recibirString(socket, origen);
     protocolo.recibirString(socket, destino);
     protocolo.recibirString(socket, mensaje);
-    divulgador.encolarMensaje(origen, destino, mensaje);
+    divulgador->encolarMensaje(origen, destino, mensaje);
 }
 
 void ClienteProxy::enviarChat(const std::string& mensaje, bool mensaje_publico){

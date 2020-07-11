@@ -1,6 +1,7 @@
 #ifndef __CRIATURA_H__
 #define __CRIATURA_H__
 #include "Entidad.h"
+#include "Arma.h"
 #include <atomic>
 
 class Criatura : public Entidad{
@@ -12,7 +13,7 @@ class Criatura : public Entidad{
     float radioVisibilidad;
     std::atomic<bool> finalizado;
     Personaje *objetivo;
-    
+    Arma *arma;
     void continuarAtacando();
     void buscarObjetivo();
     void perseguir();

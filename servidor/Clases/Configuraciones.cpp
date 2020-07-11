@@ -387,17 +387,28 @@ unsigned int Configuraciones::calcularDanioAtaque(Entidad *objetivo, Entidad *at
 bool Configuraciones::seEsquivaElGolpe(Entidad *entidad){
     //return rand(0, 1) ^ Agilidad < 0.001
     float suerte = rand()/RAND_MAX;
-    return std::pow(suerte, entidad->agilidad) < 0.001;
+    return false;
+    return std::pow(suerte, entidad->agilidad/2) < 0.000000001;
 }
 
 unsigned int Configuraciones::calcularDefensa(Personaje *personaje){
     unsigned int temp = 0;
-    if (personaje->armadura)
-        temp = numeroRandom(personaje->armadura->defensaMin, personaje->armadura->defensaMin);
-    if (personaje->escudo)
-        temp += numeroRandom(personaje->escudo->defensaMin, personaje->escudo->defensaMin);
-    if (personaje->casco)
-        temp += numeroRandom(personaje->casco->defensaMin, personaje->casco->defensaMin);
+    Armadura *armadura = nullptr;
+    Casco *casco = nullptr;
+    Escudo *escudo = nullptr;
+    
+    if (personaje->armadura != NO_EQUIPADO){
+        armadura = (Armadura*)personaje->inventario.obtenerItem(personaje->armadura);
+        temp = numeroRandom(armadura->defensaMin, armadura->defensaMax);
+    }
+    if (personaje->escudo != NO_EQUIPADO){
+        escudo = (Escudo*)personaje->inventario.obtenerItem(personaje->escudo);
+        temp += numeroRandom(escudo->defensaMin, escudo->defensaMax);
+    }
+    if (personaje->casco != NO_EQUIPADO){
+        casco = (Casco*)personaje->inventario.obtenerItem(personaje->casco);
+        temp += numeroRandom(casco->defensaMin, casco->defensaMax);
+    }
     return temp;
 }
 

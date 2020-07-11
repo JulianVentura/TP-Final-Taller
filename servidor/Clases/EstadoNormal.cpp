@@ -73,6 +73,7 @@ void EstadoNormal::pedirCompra(unsigned int pos, Interactuable *interactuable, C
 void EstadoNormal::pedirVenta(unsigned int pos, Interactuable *interactuable, Cliente *cliente){
     Item *item = personaje->inventario.obtenerItem(pos);
     personaje->inventario.eliminar(pos);
+    item->desequipar(personaje);
     interactuable->vender(item, personaje, cliente);
 }
 

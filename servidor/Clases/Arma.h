@@ -33,6 +33,7 @@ class Arma : public Item{
     Arma& operator=(Arma &&otro) = delete;
     void atacar(Entidad *objetivo, Entidad *atacante, Mapa *mapa);
     void utilizar(Personaje *personaje, unsigned int pos) override;
+    void desequipar(Personaje *personaje) override;
     friend class Configuraciones;
 };
 

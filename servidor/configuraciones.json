@@ -350,7 +350,7 @@
             "Espada": {
                 "DanioMax": 5,
                 "DanioMin": 2,
-                "Rango": 5,
+                "Rango": 20,
                 "ConsumoMana": 0,
                 "TiempoAtaque": 1000,
                 "Proyectil": "CuerpoACuerpo",

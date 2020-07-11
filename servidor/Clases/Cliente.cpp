@@ -7,11 +7,10 @@
 Cliente::Cliente(Socket &&socket,
                  OrganizadorSalas &unOrganizadorSalas,
                  OrganizadorClientes &organizadorClientes,
-                 BaseDeDatos &unaBaseDeDatos,
-                 Divulgador& divulgador) : 
+                 BaseDeDatos &unaBaseDeDatos) : 
                  personaje(nullptr),
                  id(""),
-                 clienteProxy(std::move(socket), this, divulgador),
+                 clienteProxy(std::move(socket), this),
                  organizadorSalas(unOrganizadorSalas),
                  miBaseDeDatos(unaBaseDeDatos),
                  salaActual(""),

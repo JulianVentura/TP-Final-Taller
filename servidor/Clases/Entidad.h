@@ -3,7 +3,6 @@
 #include "Movible.h"
 #include "Interactuable.h"
 #include "Configuraciones.h"
-#include "Arma.h"
 #include "Inventario.h"
 #include "PosicionEncapsulada.h"
 #include <string>
@@ -20,7 +19,6 @@ class Entidad : public Interactuable{
     unsigned int agilidad;
     unsigned int constitucion;
     unsigned int nivel;
-    Arma *arma;
     Mapa *mapaAlQuePertenece;
 
     public:

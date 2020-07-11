@@ -14,6 +14,7 @@ class Pocion : public Item{
            uint16_t idTCP,
            unsigned int unPrecio);
     void utilizar(Personaje *personaje, unsigned int pos) override;
+    void desequipar(Personaje *personaje) override;
 };
 
 

@@ -19,24 +19,21 @@ EstadoFantasma::EstadoFantasma(Personaje *unPersonaje) : Estado(unPersonaje){
 //Ataque
 
 void EstadoFantasma::atacar(Entidad *objetivo, Arma *arma){
-    /*
+    Divulgador *divulgador = Divulgador::obtenerInstancia();
     std::string mensaje = "No se puede atacar siendo fantasma";
     divulgador->encolarMensaje(personaje->id, mensaje);
-    */
 }
 
 void EstadoFantasma::serAtacadoPor(Entidad *atacante){
-    /*
+    Divulgador *divulgador = Divulgador::obtenerInstancia();
     std::string mensaje = "No puede atacar a un fantasma";
     divulgador->encolarMensaje(atacante->obtenerId(), mensaje);
-    */
 }
 
 bool EstadoFantasma::recibirDanio(int danio, Entidad *atacante){
-    /*
+    Divulgador *divulgador = Divulgador::obtenerInstancia();
     std::string mensaje = "No puede atacar a un fantasma";
     divulgador->encolarMensaje(atacante->obtenerId(), mensaje);
-    */
     return false;
 }
 

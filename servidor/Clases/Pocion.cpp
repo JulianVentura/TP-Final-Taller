@@ -14,3 +14,7 @@ void Pocion::utilizar(Personaje *personaje, unsigned int pos){
     personaje->curar(curacionVida, curacionMana);
     personaje->eliminarDeInventario(pos);
 }
+
+void Pocion::desequipar(Personaje *personaje){
+    //Una pocion no se puede desequipar
+}

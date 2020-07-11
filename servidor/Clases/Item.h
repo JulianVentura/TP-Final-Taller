@@ -14,6 +14,7 @@ class Item{
     unsigned int obtenerPrecio();
     const uint16_t obtenerIDTCP() const;
     virtual void utilizar(Personaje *personaje, unsigned int pos) = 0;
+    virtual void desequipar(Personaje *personaje) = 0;
 };
 
 #endif

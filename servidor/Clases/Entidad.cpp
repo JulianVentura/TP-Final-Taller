@@ -15,7 +15,6 @@ Entidad::Entidad(std::string unId) :
                  agilidad(0),
                  constitucion(0),
                  nivel(0),
-                 arma(nullptr),
                  mapaAlQuePertenece(nullptr){}
 
 

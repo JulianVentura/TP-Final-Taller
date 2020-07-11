@@ -6,6 +6,7 @@
 
 #include "ExcepcionSocket.h"
 #include "ExcepcionCliente.h"
+#include "Divulgador.h"
 
 
 //////////////////Metodos publicos///////////////////////////////
@@ -14,8 +15,8 @@ Aceptador::Aceptador(OrganizadorSalas &unOrganizadorSalas,
                      BaseDeDatos &unaBaseDeDatos) : 
                      organizadorSalas(unOrganizadorSalas),
                      baseDeDatos(unaBaseDeDatos),
-                     divulgador(organizadorClientes),
                      continuar(true){
+    Divulgador::inicializarInstancia(&organizadorClientes);
     Configuraciones *config = Configuraciones::obtenerInstancia();
     //El socket defaultea a "localhost", para la entrega final eso se va
     //a poder elegir del configuraciones.json
@@ -30,22 +31,16 @@ Aceptador::Aceptador(OrganizadorSalas &unOrganizadorSalas,
 
 void Aceptador::procesar(){
     while (continuar){
-        divulgador.comenzar();
         try{
             Socket socketCliente = servidor.aceptar();
             organizadorClientes.recuperarFinalizados();
             std::unique_ptr<Cliente> cliente(new Cliente(std::move(socketCliente),
                                                          organizadorSalas,
                                                          organizadorClientes,
-                                                         baseDeDatos,
-                                                         divulgador));
+                                                         baseDeDatos));
             cliente.get()->comenzar();
             organizadorClientes.incorporarCliente(std::move(cliente));
-        }/*catch(const ExcepcionSocket &e){
-            //No me aporta nada imprimir un error de socket
-        }catch(const ExcepcionCliente &e){
-            //No me aporta nada imprimir este error.
-        }*/catch(const std::exception &e){
+        }catch(const std::exception &e){
             std::cerr << e.what() << std::endl;
         }catch(...){
             std::cerr << "Error desconocido encontrado dentro del "
@@ -57,8 +52,9 @@ void Aceptador::procesar(){
     continuar = false;
     servidor.cerrar_canal(SHUT_RDWR);
     try{
-        divulgador.finalizar();
-        divulgador.recuperar();
+        Divulgador *divulgador = Divulgador::obtenerInstancia();
+        divulgador->finalizar();
+        divulgador->recuperar();
         organizadorClientes.recuperarTodosLosClientes();
     }catch(...){
         std::cerr << "Error al intentar recuperar a los "
