@@ -21,10 +21,10 @@ OperacionVender::~OperacionVender(){
 
 void OperacionVender::ejecutar(){
     try{
-        Interactuable *interactuable = mapa->obtenerInteractuable(idObjetivo);
+        Entidad *entidad = mapa->obtener(idObjetivo);
         Personaje *personaje = cliente->obtenerPersonaje();
         Estado *estado = personaje->obtenerEstado();
-        interactuable->vender(posItem, estado, cliente);
+        entidad->vender(posItem, estado, cliente);
     }catch(std::exception &e){
         //std::cerr << e.what() << std::endl;
     }catch(...){

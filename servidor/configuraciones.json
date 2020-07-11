@@ -21,6 +21,8 @@
         }
     },
     "Personaje": {
+        "VidaBase": 50,
+        "ManaBase": 50,
         "NivelBase": 1,
         "FuerzaBase": 5,
         "InteligenciaBase": 5,
@@ -66,6 +68,9 @@
             "Agilidad": 5,
             "Constitucion": 5,
             "VelDesplazamiento": 1,
+            "RadioVisibilidad": 50,
+            "RadioAgresividad": 100,
+            "TiempoDespawn": 1000,
             "Ancho": 8,
             "Alto": 8,
             "Drops": {
@@ -105,6 +110,9 @@
             "Agilidad": 5,
             "Constitucion": 5,
             "VelDesplazamiento": 1,
+            "RadioVisibilidad": 50,
+            "RadioAgresividad": 100,
+            "TiempoDespawn": 1000,
             "Ancho": 6,
             "Alto": 6,
             "Drops": {
@@ -144,6 +152,9 @@
             "Agilidad": 5,
             "Constitucion": 5,
             "VelDesplazamiento": 1,
+            "RadioVisibilidad": 50,
+            "RadioAgresividad": 100,
+            "TiempoDespawn": 1000,
             "Ancho": 8,
             "Alto": 8,
             "Drops": {
@@ -183,6 +194,9 @@
             "Agilidad": 5,
             "Constitucion": 5,
             "VelDesplazamiento": 1,
+            "RadioVisibilidad": 50,
+            "RadioAgresividad": 100,
+            "TiempoDespawn": 1000,
             "Ancho": 8,
             "Alto": 8,
             "Drops": {
@@ -212,6 +226,32 @@
                 }
             }
         }
+    },
+    "Proyectiles": {
+        "FlechaMagica" : {
+            "VelDesplazamiento": 20,
+            "TiempoDespawn": 300
+        },
+        "Curar" : {
+            "VelDesplazamiento": 20,
+            "TiempoDespawn": 300  
+        }, 
+        "Misil" : {
+            "VelDesplazamiento": 20,
+            "TiempoDespawn": 300  
+        },
+        "Explosion" : {
+            "VelDesplazamiento": 20,
+            "TiempoDespawn": 300  
+        },
+        "CuerpoACuerpo" : {
+            "VelDesplazamiento": 20,
+            "TiempoDespawn": 300  
+        },
+        "Flechazo" : {
+            "VelDesplazamiento": 20,
+            "TiempoDespawn": 300  
+        } 
     },
     "Clases": {
         "Guerrero": {
@@ -263,7 +303,7 @@
         "Humano": {
             "FRazaVida": 2,
             "FRazaMana": 2,
-            "FRazaRecuperacion": 2,
+            "FRazaRecuperacion": 10,
             "FRazaMeditacion": 2,
             "MejoraFuerzaEnSubida": 2,
             "MejoraInteligenciaEnSubida": 2,
@@ -274,7 +314,7 @@
         "Elfo": {
             "FRazaVida": 2,
             "FRazaMana": 2,
-            "FRazaRecuperacion": 2,
+            "FRazaRecuperacion": 10,
             "FRazaMeditacion": 2,
             "MejoraFuerzaEnSubida": 2,
             "MejoraInteligenciaEnSubida": 2,
@@ -285,7 +325,7 @@
         "Enano": {
             "FRazaVida": 2,
             "FRazaMana": 2,
-            "FRazaRecuperacion": 2,
+            "FRazaRecuperacion": 10,
             "FRazaMeditacion": 2,
             "MejoraFuerzaEnSubida": 2,
             "MejoraInteligenciaEnSubida": 2,
@@ -296,7 +336,7 @@
         "Gnomo": {
             "FRazaVida": 2,
             "FRazaMana": 2,
-            "FRazaRecuperacion": 2,
+            "FRazaRecuperacion": 10,
             "FRazaMeditacion": 2,
             "MejoraFuerzaEnSubida": 2,
             "MejoraInteligenciaEnSubida": 2,
@@ -310,16 +350,20 @@
             "Espada": {
                 "DanioMax": 5,
                 "DanioMin": 2,
-                "Rango": 5,
+                "Rango": 30,
                 "ConsumoMana": 0,
+                "TiempoAtaque": 1000,
+                "Proyectil": "CuerpoACuerpo",
                 "Precio": 10,
-                "idTCP": 4
+                "idTCP": 3
             },
             "Hacha": {
                 "DanioMax": 5,
                 "DanioMin": 4,
                 "Rango": 8,
                 "ConsumoMana": 0,
+                "TiempoAtaque": 1000,
+                "Proyectil": "CuerpoACuerpo",
                 "Precio": 10,
                 "idTCP": 9
             },
@@ -328,6 +372,8 @@
                 "DanioMin": 1,
                 "Rango": 10,
                 "ConsumoMana": 0,
+                "TiempoAtaque": 1000,
+                "Proyectil": "CuerpoACuerpo",
                 "Precio": 10,
                 "idTCP": 10
             },
@@ -336,14 +382,18 @@
                 "DanioMin": 2,
                 "Rango": 50,
                 "ConsumoMana": 5,
+                "TiempoAtaque": 1000,
+                "Proyectil": "FlechaMagica",
                 "Precio": 10,
-                "idTCP": 11
+                "idTCP": 4
             },
             "FlautaElfica": {
                 "DanioMax": -100,
                 "DanioMin": -100,
                 "Rango": 50,
                 "ConsumoMana": 50,
+                "TiempoAtaque": 1000,
+                "Proyectil": "Curar",
                 "Precio": 10,
                 "idTCP": 12
             },
@@ -352,6 +402,8 @@
                 "DanioMin": 4,
                 "Rango": 50,
                 "ConsumoMana": 15,
+                "TiempoAtaque": 1000,
+                "Proyectil": "Misil",
                 "Precio": 10,
                 "idTCP": 13
             },
@@ -360,6 +412,8 @@
                 "DanioMin": 8,
                 "Rango": 50,
                 "ConsumoMana": 30,
+                "TiempoAtaque": 1000,
+                "Proyectil": "Explosion",
                 "Precio": 10,
                 "idTCP": 14
             },
@@ -368,6 +422,8 @@
                 "DanioMin": 1,
                 "Rango": 50,
                 "ConsumoMana": 0,
+                "TiempoAtaque": 1000,
+                "Proyectil": "Flechazo",
                 "Precio": 10,
                 "idTCP": 15
             },
@@ -376,6 +432,8 @@
                 "DanioMin": 4,
                 "Rango": 50,
                 "ConsumoMana": 0,
+                "TiempoAtaque": 1000,
+                "Proyectil": "Flechazo",
                 "Precio": 10,
                 "idTCP": 16
             },
@@ -384,6 +442,8 @@
                 "DanioMin": 4,
                 "Rango": 5,
                 "ConsumoMana": 0,
+                "TiempoAtaque": 1000,
+                "Proyectil": "CuerpoACuerpo",
                 "Precio": 10,
                 "idTCP": 17
             },
@@ -392,6 +452,8 @@
                 "DanioMin": 4,
                 "Rango": 8,
                 "ConsumoMana": 0,
+                "TiempoAtaque": 1000,
+                "Proyectil": "CuerpoACuerpo",
                 "Precio": 10,
                 "idTCP": 18
             },
@@ -400,6 +462,8 @@
                 "DanioMin": 4,
                 "Rango": 4,
                 "ConsumoMana": 0,
+                "TiempoAtaque": 1000,
+                "Proyectil": "CuerpoACuerpo",
                 "Precio": 10,
                 "idTCP": 19
             },
@@ -408,6 +472,8 @@
                 "DanioMin": 4,
                 "Rango": 3,
                 "ConsumoMana": 0,
+                "TiempoAtaque": 1000,
+                "Proyectil": "CuerpoACuerpo",
                 "Precio": 10,
                 "idTCP": 20
             }
@@ -480,5 +546,13 @@
                 "idTCP": 2
             }
         }
+    },
+    "Varios": {
+        "BolsaDeDrop": {
+            "Ancho": 1,
+            "Alto": 1
+        },
+        "TamanioTiendas": 18,
+        "DistanciaInteraccion": 50
     }
 }

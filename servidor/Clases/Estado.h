@@ -17,14 +17,16 @@ class Estado{
 
     public:
     Estado(Personaje *unPersonaje);
-    virtual void interactuarCon(Entidad *entidad);
-    virtual void interactuar(Entidad *entidad) = 0;
-    virtual void atacar(Entidad *objetivo, Arma *arma, Divulgador *divulgador) = 0;
-    virtual void actualizar(double tiempo, Mapa *mapa) = 0;
-    virtual void recibirDanio(int danio, Entidad *atacante, Divulgador *divulgador) = 0;
-    virtual void serAtacadoPor(Entidad *atacante, Divulgador *divulgador) = 0;
+    //Ataque
+    virtual void atacar(Entidad *objetivo, Arma *arma) = 0;
+    virtual bool recibirDanio(int danio, Entidad *atacante) = 0;
+    virtual void serAtacadoPor(Entidad *atacante) = 0;
+    //Otras acciones
     virtual void meditar() = 0;
     virtual void dejarDeMeditar() = 0;
+    virtual void actualizar(double tiempo) = 0;
+    //Comercio
+    virtual void interactuar(Entidad *entidad) = 0;
     virtual void pedirCuracion(Sacerdote *sacerdote, Cliente *cliente) = 0;
     virtual void pedirListado(Interactuable *interactuable, Cliente *cliente) = 0;
     virtual void pedirCompra(unsigned int pos, Interactuable *interactuable, Cliente *cliente) = 0;

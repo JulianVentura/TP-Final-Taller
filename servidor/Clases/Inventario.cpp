@@ -20,9 +20,10 @@ Inventario& Inventario::operator=(Inventario &&otro){
     return *this;
 }
 
-void Inventario::almacenar(Item* item){
+int Inventario::almacenar(Item* item){
     bool almacenado = false;
-    for (std::size_t i=0; i<items.size(); i++){
+    std::size_t i = 0;
+    for (i = 0; i < items.size(); i++){
         if (!items[i]){
             items[i] = std::move(item);
             almacenado = true;
@@ -33,6 +34,7 @@ void Inventario::almacenar(Item* item){
         throw Excepcion
         ("Error: Se ha intentado almacenar un nuevo item, pero el inventario esta lleno.");
     }
+    return i;
 }
 
 Item* Inventario::obtenerItem(unsigned int pos){

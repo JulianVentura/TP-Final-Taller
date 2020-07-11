@@ -3,30 +3,41 @@
 #include "Estado.h"
 #include "Personaje.h"
 #include "FabricaDeItems.h"
+#include "Configuraciones.h"
 #include <sstream>
 #include "Excepcion.h"
-
-#define TAM_ALMACEN 18
 
 static unsigned int contadorDeInstancias = 0;
 
 BolsaDeItems::BolsaDeItems(Posicion unaPosicion, Item *item) : 
-                                                            Interactuable(""),
+                                                            Entidad(""),
                                                             elementos(1),
-                                                            bolsaVacia(false){
+                                                            bolsaVacia(false),
+                                                            tamBolsa(0){
+    
+    Configuraciones *config = Configuraciones::obtenerInstancia();
+    uint32_t ancho = config->obtenerBolsaDeDropAncho();
+    uint32_t alto = config->obtenerBolsaDeDropAlto();
+    tamBolsa = config->obtenerTamanioTienda();    
     std::stringstream nuevoId;
     nuevoId << "BolsaDeItems#" << contadorDeInstancias;
     contadorDeInstancias++;
     id = nuevoId.str(); 
     items.push_back(item);
+    this->posicion = std::move(Posicion(0, 0, ancho, alto));
     this->posicion.actualizarPosicion(std::move(unaPosicion));
 }
 
 BolsaDeItems::BolsaDeItems(Posicion unaPosicion, std::vector<Item*> unosItems) :
-                                                           Interactuable(""),
+                                                           Entidad(""),
                                                            items(std::move(unosItems)),
                                                            elementos(0),
-                                                           bolsaVacia(true){
+                                                           bolsaVacia(true),
+                                                           tamBolsa(0){
+    Configuraciones *config = Configuraciones::obtenerInstancia();
+    uint32_t ancho = config->obtenerBolsaDeDropAncho();
+    uint32_t alto = config->obtenerBolsaDeDropAlto();
+    tamBolsa = config->obtenerTamanioTienda();    
     std::stringstream nuevoId;
     nuevoId << "BolsaDeItems#" << contadorDeInstancias;
     contadorDeInstancias++;
@@ -35,6 +46,7 @@ BolsaDeItems::BolsaDeItems(Posicion unaPosicion, std::vector<Item*> unosItems) :
         if (item != nullptr) elementos++;
     }
     if (elementos > 0) bolsaVacia = false;
+    this->posicion = std::move(Posicion(0, 0, ancho, alto));
     this->posicion.actualizarPosicion(std::move(unaPosicion));
 }
 
@@ -56,7 +68,7 @@ void BolsaDeItems::comprar(unsigned int pos, Personaje *personaje, Cliente *clie
         cliente->enviarChat(mensaje, false);
         return;
     }
-    if (pos >= TAM_ALMACEN || items[pos] == nullptr){
+    if (pos >= tamBolsa || items[pos] == nullptr){
         //No hay nada que entregarle
         return;
     }
@@ -77,6 +89,40 @@ void BolsaDeItems::listar(Personaje *personaje, Cliente *cliente){
 
 bool BolsaDeItems::estaVacia(){
     return bolsaVacia;
+}
+
+//Ataque
+
+void BolsaDeItems::atacar(Personaje *objetivo){
+    //Nada
+}
+
+void BolsaDeItems::atacar(Criatura *objetivo){
+    //Nada
+}
+
+void BolsaDeItems::serAtacadoPor(Entidad *atacante){
+    //Nada
+}
+
+void BolsaDeItems::serAtacadoPor(Personaje *atacante){
+    //Nada
+}
+
+void BolsaDeItems::serAtacadoPor(Criatura *atacante){
+    //Nada
+}
+
+bool BolsaDeItems::recibirDanio(int danio, Entidad *atacante){
+    return false;
+}
+
+void BolsaDeItems::actualizarEstado(double tiempo){
+    //Logica de despawn.
+}
+
+void BolsaDeItems::dropearItems(Entidad *atacante){
+    //Nada
 }
 
 BolsaDeItems::~BolsaDeItems(){

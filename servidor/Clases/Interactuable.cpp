@@ -1,34 +1,19 @@
 #include "Interactuable.h"
-#define DIST_INTERACCION 50
-
+#include "Configuraciones.h"
 
 
 
 
 Interactuable::Interactuable(std::string unId) : 
                                       id(unId),
-                                      distanciaMaximaDeInteraccion(DIST_INTERACCION){
+                                      distanciaMaximaDeInteraccion(0){
     //La distancia maxima de interaccion deberia ser levantada del json.
-}
-
-const quadtree::Box<float>& Interactuable::obtenerArea() const{
-    return this->posicion.obtenerAreaQueOcupa();
-}
-
-bool Interactuable::colisionaCon(const Colisionable &otro) const{
-    return otro.colisionaCon(this->posicion.obtenerAreaQueOcupa());
-}
-
-bool Interactuable::colisionaCon(const quadtree::Box<float> &area) const{
-    return this->posicion.obtenerAreaQueOcupa().intersects(area);
+    Configuraciones *config = Configuraciones::obtenerInstancia();
+    distanciaMaximaDeInteraccion = config->obtenerDistanciaMaximaDeInteraccion();
 }
 
 const std::string Interactuable::obtenerId() const{
-    return id + "#";
-}
-
-const Posicion& Interactuable::obtenerPosicion() const{
-    return this->posicion;
+    return id;
 }
 
 Interactuable::~Interactuable(){}

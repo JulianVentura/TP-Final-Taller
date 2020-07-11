@@ -11,5 +11,9 @@ Casco::Casco(unsigned int defMax,
 
 
 void Casco::utilizar(Personaje *personaje, unsigned int pos){
-    personaje->equipar(this);
+    personaje->equipar(this, pos);
+}
+
+void Casco::desequipar(Personaje *personaje, unsigned int pos){
+    personaje->desequipar(this, pos);
 }

@@ -5,12 +5,10 @@
 
 #define TAM_CODIGO 4
 
-ClienteProxy::ClienteProxy(Socket unSocket, Cliente *miCliente,
-                           Divulgador& divulgador) : 
+ClienteProxy::ClienteProxy(Socket unSocket, Cliente *miCliente) : 
                            socket(std::move(unSocket)),
                            cliente(miCliente),
-                           colaOperaciones(nullptr),
-                           divulgador(divulgador){}
+                           colaOperaciones(nullptr){}
 
 void ClienteProxy::finalizar(){
     socket.cerrar_canal(SHUT_RDWR);
@@ -30,11 +28,12 @@ void ClienteProxy::decodificarMovimiento(){
 }
 
 void ClienteProxy::decodificarMensajeChat(){
+    Divulgador *divulgador = Divulgador::obtenerInstancia();
     std::string origen, destino, mensaje;
     protocolo.recibirString(socket, origen);
     protocolo.recibirString(socket, destino);
     protocolo.recibirString(socket, mensaje);
-    divulgador.encolarMensaje(origen, destino, mensaje);
+    divulgador->encolarMensaje(origen, destino, mensaje);
 }
 
 void ClienteProxy::enviarChat(const std::string& mensaje, bool mensaje_publico){
@@ -70,6 +69,14 @@ void ClienteProxy::decodificarVenta(){
     colaOperaciones->push(operacion);
 }
 
+void ClienteProxy::decodificarAtaque(){
+    std::string id;
+    protocolo.recibirString(socket, id);
+    Operacion *operacion = new OperacionAtacar(cliente,
+     cliente -> obtenerSala() -> obtenerMapa(), id);
+    colaOperaciones->push(operacion);
+}
+
 bool ClienteProxy::decodificarCodigo(uint32_t codigo){
     switch (codigo){
         case CODIGO_INTERACCION:
@@ -101,6 +108,10 @@ bool ClienteProxy::decodificarCodigo(uint32_t codigo){
 
         case CODIGO_TIRADO:
 
+            break;
+
+        case CODIGO_ATAQUE:
+            decodificarAtaque();
             break;
 
         default:
@@ -187,7 +198,6 @@ void ClienteProxy::enviarTienda(std::vector<Item*>& items){
     uint16_t noHayItem = 0;
     for(auto item : items){
         if (item != nullptr){
-            std::cerr << "Envio item";
             protocolo.enviarUint16(socket, item -> obtenerIDTCP());
     	    protocolo.enviarUint16(socket, item -> obtenerPrecio());
         }else{

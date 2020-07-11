@@ -42,7 +42,6 @@ void ServidorProxy::enviarNuevaCuenta(std::string& nombre, std::string& clave,
 	protocolo.enviarString(socket, clave);
 	protocolo.enviarString(socket, raza);
 	protocolo.enviarString(socket, clase);
-	// TODO: provisorio, habría que escuchar la operacion de confirmacion
 	datos_personaje.id = nombre;
 }
 
@@ -218,12 +217,12 @@ void ServidorProxy::enviarUtilizar(int pos){
 
 //Interaccion
 
-void ServidorProxy::enviarAtaque(std::string& id){
+void ServidorProxy::enviarAtaque(const std::string& id){
 	protocolo.enviarUint32(socket, CODIGO_ATAQUE);
 	protocolo.enviarString(socket, id);
 }
 
-void ServidorProxy::enviarInteraccion(std::string& id){
+void ServidorProxy::enviarInteraccion(const std::string& id){
 	datos_tienda.id_vendedor = id;
 	protocolo.enviarUint32(socket, CODIGO_INTERACCION);
 	protocolo.enviarString(socket, id);

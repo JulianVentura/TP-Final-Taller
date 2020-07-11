@@ -151,6 +151,9 @@ const uint32_t Configuraciones::obtenerCriaturaAgilidad(std::string &id) const{
 const uint32_t Configuraciones::obtenerCriaturaConstitucion(std::string &id) const{
     return json.at("Criaturas").at(id).at("Constitucion").get<uint32_t>();
 }
+const double   Configuraciones::obtenerCriaturaTiempoDespawn(std::string &id) const{
+    return json.at("Criaturas").at(id).at("TiempoDespawn").get<double>();
+}
 const float Configuraciones::obtenerCriaturaVelDesplazamiento(std::string &id) const{
     return json.at("Criaturas").at(id).at("VelDesplazamiento").get<float>();
 }
@@ -162,6 +165,12 @@ const uint32_t Configuraciones::obtenerCriaturaAlto(std::string &id) const{
 }
 const std::string Configuraciones::obtenerCriaturaIdArma(std::string &id) const{
     return json.at("Criaturas").at(id).at("IdArma").get<std::string>();
+}
+const float Configuraciones::obtenerCriaturaRadioAgresividad(std::string &id) const{
+    return json.at("Criaturas").at(id).at("RadioAgresividad").get<float>();
+}
+const float Configuraciones::obtenerCriaturaRadioVisibilidad(std::string &id) const{
+    return json.at("Criaturas").at(id).at("RadioVisibilidad").get<float>();
 }
 //Clases
 const float Configuraciones::obtenerFClaseVida(std::string &id) const{
@@ -229,6 +238,9 @@ const int32_t  Configuraciones::obtenerArmaDanioMin(std::string &id) const{
 const float Configuraciones::obtenerArmaRangoAtaque(std::string &id) const{
     return json.at("Items").at("Armas").at(id).at("Rango").get<float>();
 }
+const double   Configuraciones::obtenerArmaTiempoAtaque(std::string &id) const{
+    return json.at("Items").at("Armas").at(id).at("TiempoAtaque").get<double>();
+}
 const uint32_t Configuraciones::obtenerArmaConsumoMana(std::string &id) const{
     return json.at("Items").at("Armas").at(id).at("ConsumoMana").get<uint32_t>();
 }
@@ -237,6 +249,16 @@ const uint32_t  Configuraciones::obtenerArmaPrecio(std::string &id) const{
 }
 const uint16_t Configuraciones::obtenerArmaIDTCP(std::string &id) const{
     return json.at("Items").at("Armas").at(id).at("idTCP").get<uint16_t>();
+}
+const std::string Configuraciones::obtenerArmaIDProyectil(std::string &id) const{
+    return json.at("Items").at("Armas").at(id).at("Proyectil").get<std::string>();
+}
+//Proyectiles
+const float Configuraciones::obtenerProyectilVelDesplazamiento(std::string &id) const{
+    return json.at("Proyectiles").at(id).at("VelDesplazamiento").get<float>();
+}
+const double Configuraciones::obtenerProyectilTiempoDespawn(std::string &id) const{
+    return json.at("Proyectiles").at(id).at("TiempoDespawn").get<double>();
 }
 //Armaduras
 const uint32_t  Configuraciones::obtenerArmaduraDefensaMax(std::string &id) const{
@@ -290,30 +312,45 @@ const uint32_t  Configuraciones::obtenerPocionPrecio(std::string &id) const{
 const uint16_t Configuraciones::obtenerPocionIDTCP(std::string &id) const{
     return json.at("Items").at("Pociones").at(id).at("idTCP").get<uint16_t>();
 }
-
-
+//Varios
+const uint32_t Configuraciones::obtenerBolsaDeDropAncho() const{
+    return json.at("Varios").at("BolsaDeDrop").at("Ancho").get<uint32_t>();
+}
+const uint32_t Configuraciones::obtenerBolsaDeDropAlto() const{
+    return json.at("Varios").at("BolsaDeDrop").at("Alto").get<uint32_t>();
+}
+const uint32_t Configuraciones::obtenerTamanioTienda() const{
+    return json.at("Varios").at("TamanioTiendas").get<uint32_t>();
+}
+const float    Configuraciones::obtenerDistanciaMaximaDeInteraccion() const{
+    return json.at("Varios").at("DistanciaInteraccion").get<float>();
+}
 
 
 /* FORMULAS DEL JUEGO */
 
 
 unsigned int Configuraciones::calcularVidaMax(Personaje *personaje){
-    return personaje->constitucion * personaje->clase.FClaseVida * personaje->raza.FRazaVida * personaje->nivel;
+    uint32_t vidaBase = json.at("Personaje").at("VidaBase").get<uint32_t>();
+    return vidaBase + personaje->constitucion * personaje->clase.FClaseVida * 
+           personaje->raza.FRazaVida * personaje->nivel;
 }
 
-unsigned int Configuraciones::calcularRecuperacionVida(Personaje *personaje, double tiempo){
+float Configuraciones::calcularRecuperacionVida(Personaje *personaje, double tiempo){
     return personaje->raza.FRazaRecuperacion * tiempo * MILI_A_SEG;
 }
 
 unsigned int Configuraciones::calcularManaMax(Personaje *personaje){
-    return personaje->inteligencia * personaje->clase.FClaseMana * personaje->raza.FRazaMana * personaje->nivel;
+    uint32_t manaBase = json.at("Personaje").at("VidaBase").get<uint32_t>();
+    return manaBase + personaje->inteligencia * personaje->clase.FClaseMana * 
+           personaje->raza.FRazaMana * personaje->nivel;
 }
 
-unsigned int Configuraciones::calcularRecupManaMeditacion(Personaje *personaje, double tiempo){
+float Configuraciones::calcularRecupManaMeditacion(Personaje *personaje, double tiempo){
     return personaje->clase.FClaseMeditacion * personaje->inteligencia * tiempo * MILI_A_SEG;
 }
 
-unsigned int Configuraciones::calcularRecupManaTiempo(Personaje *personaje, double tiempo){
+float Configuraciones::calcularRecupManaTiempo(Personaje *personaje, double tiempo){
     return personaje->raza.FRazaRecuperacion * tiempo * MILI_A_SEG;
 }
 
@@ -350,17 +387,28 @@ unsigned int Configuraciones::calcularDanioAtaque(Entidad *objetivo, Entidad *at
 bool Configuraciones::seEsquivaElGolpe(Entidad *entidad){
     //return rand(0, 1) ^ Agilidad < 0.001
     float suerte = rand()/RAND_MAX;
-    return std::pow(suerte, entidad->agilidad) < 0.001;
+    return false;
+    return std::pow(suerte, entidad->agilidad/2) < 0.000000001;
 }
 
 unsigned int Configuraciones::calcularDefensa(Personaje *personaje){
     unsigned int temp = 0;
-    if (personaje->armadura)
-        temp = numeroRandom(personaje->armadura->defensaMin, personaje->armadura->defensaMin);
-    if (personaje->escudo)
-        temp += numeroRandom(personaje->escudo->defensaMin, personaje->escudo->defensaMin);
-    if (personaje->casco)
-        temp += numeroRandom(personaje->casco->defensaMin, personaje->casco->defensaMin);
+    Armadura *armadura = nullptr;
+    Casco *casco = nullptr;
+    Escudo *escudo = nullptr;
+    
+    if (personaje->armadura != NO_EQUIPADO){
+        armadura = (Armadura*)personaje->inventario.obtenerItem(personaje->armadura);
+        temp = numeroRandom(armadura->defensaMin, armadura->defensaMax);
+    }
+    if (personaje->escudo != NO_EQUIPADO){
+        escudo = (Escudo*)personaje->inventario.obtenerItem(personaje->escudo);
+        temp += numeroRandom(escudo->defensaMin, escudo->defensaMax);
+    }
+    if (personaje->casco != NO_EQUIPADO){
+        casco = (Casco*)personaje->inventario.obtenerItem(personaje->casco);
+        temp += numeroRandom(casco->defensaMin, casco->defensaMax);
+    }
     return temp;
 }
 

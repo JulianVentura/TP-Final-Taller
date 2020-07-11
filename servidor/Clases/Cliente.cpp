@@ -7,11 +7,10 @@
 Cliente::Cliente(Socket &&socket,
                  OrganizadorSalas &unOrganizadorSalas,
                  OrganizadorClientes &organizadorClientes,
-                 BaseDeDatos &unaBaseDeDatos,
-                 Divulgador& divulgador) : 
+                 BaseDeDatos &unaBaseDeDatos) : 
                  personaje(nullptr),
                  id(""),
-                 clienteProxy(std::move(socket), this, divulgador),
+                 clienteProxy(std::move(socket), this),
                  organizadorSalas(unOrganizadorSalas),
                  miBaseDeDatos(unaBaseDeDatos),
                  salaActual(""),
@@ -34,7 +33,7 @@ Cliente::Cliente(Socket &&socket,
     salaActual = "mapa";
     std::string idRaza = "Humano";
     std::string idClase = "Paladin";
-    personaje = std::unique_ptr<Personaje> (new Personaje(100, 100, credenciales.first, idClase, idRaza));
+    personaje = std::unique_ptr<Personaje> (new Personaje(600, 600, credenciales.first, idClase, idRaza));
     personaje -> recibirOro(1000);
     //Hasta aca
     Sala* miSala = organizadorSalas.obtenerSala(salaActual);
@@ -52,12 +51,18 @@ void Cliente::nuevoUsuario(std::pair<std::string, std::string> &credenciales,
                            std::string &idRaza, 
                            std::string &idClase){
     Configuraciones *config = config->obtenerInstancia();
-
     std::string mapaDefault = config->obtenerMapaInicial();
     std::pair<float, float> pos = config->obtenerMapaPosicionSpawn(mapaDefault);
     Personaje nuevoPersonaje(pos.first, pos.second, id, idClase, idRaza);
     //Debe lanzar error si ya esta en uso.
     miBaseDeDatos.nuevoCliente(credenciales, mapaDefault, &nuevoPersonaje);
+    /*
+    if(!miBaseDeDatos.existeCliente(credenciales.first)){
+        
+    }else{
+        clienteProxy.enviarError("Error: Ya existe la cuenta solicitada");
+    }
+    */
 }
 
 

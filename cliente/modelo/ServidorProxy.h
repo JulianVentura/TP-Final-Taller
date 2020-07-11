@@ -73,8 +73,8 @@ public:
 	void enviarTirar(int pos);
 
 	// Interaccion
-	void enviarInteraccion(std::string& id);
-	void enviarAtaque(std::string& id);
+	void enviarInteraccion(const std::string& id);
+	void enviarAtaque(const std::string& id);
 
 	void setJuego(Juego* juego);
 };

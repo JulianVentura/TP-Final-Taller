@@ -5,9 +5,14 @@
 #include "EstadoNormal.h"
 #include "EstadoFantasma.h"
 #include "EstadoMeditacion.h"
+#include "Arma.h"
+#include "Armadura.h"
+#include "Escudo.h"
+#include "Casco.h"
 #include "Excepcion.h"
 #include "Criatura.h"
 #include "FabricaDeItems.h"
+#include "Divulgador.h"
 #include <utility>
 
 #define TAMANIO_ALMACEN 18 //Esto se tiene que levantar de configuraciones.json
@@ -17,16 +22,17 @@ Personaje::Personaje() : Entidad(""),
                          experiencia(0),
                          limiteParaSubir(0),
                          cantidadOro(0),
-                         armadura(nullptr),
-                         escudo(nullptr),
-                         casco(nullptr),
+                         arma(NO_EQUIPADO),
+                         armadura(NO_EQUIPADO),
+                         escudo(NO_EQUIPADO),
+                         casco(NO_EQUIPADO),
                          estado(nullptr){
     nivel = NIVEL_INICIAL;
     almacen.resize(TAMANIO_ALMACEN, nullptr);
     FabricaDeItems *fabricaItems = FabricaDeItems::obtenerInstancia();
     std::string idArma = "Espada";
-    arma = fabricaItems->crearArma(idArma);   //La idea es levantar esto del json, como con las criaturas
-    inventario.almacenar(arma);
+    arma = 0;
+    inventario.almacenar(fabricaItems->crearArma(idArma));
     actualizarAtributos();
 }
 
@@ -35,9 +41,10 @@ Personaje::Personaje(float x, float y, std::string id, std::string idClase, std:
                                        experiencia(0),
                                        limiteParaSubir(0),
                                        cantidadOro(0),
-                                       armadura(nullptr),
-                                       escudo(nullptr),
-                                       casco(nullptr),
+                                       arma(NO_EQUIPADO),
+                                       armadura(NO_EQUIPADO),
+                                       escudo(NO_EQUIPADO),
+                                       casco(NO_EQUIPADO),
                                        raza(idRaza),
                                        clase(idClase),
                                        estado(nullptr),
@@ -53,8 +60,8 @@ Personaje::Personaje(float x, float y, std::string id, std::string idClase, std:
     estado = std::move(std::unique_ptr<Estado>(new EstadoNormal(this)));
     FabricaDeItems *fabricaItems = FabricaDeItems::obtenerInstancia();
     std::string idArma = "Espada";
-    arma = fabricaItems->crearArma(idArma);   //La idea es levantar esto del json, como con las criaturas
-    inventario.almacenar(arma);
+    arma = 0;
+    inventario.almacenar(fabricaItems->crearArma(idArma));
     almacen.resize(TAMANIO_ALMACEN, nullptr);   //La idea es levantar el tamaño del almacen del json
 }
 Personaje& Personaje::operator=(Personaje &&otro){
@@ -104,38 +111,86 @@ uint16_t Personaje::obtenerOro(){
     return cantidadOro;
 }
 
-void Personaje::actualizarEstado(double tiempo, Mapa *mapa){
-    estado->actualizar(tiempo, mapa);
+void Personaje::actualizarEstado(double tiempo){
+    estado->actualizar(tiempo);
 }
 
-void Personaje::recibirDanio(int danio, Entidad *atacante, Divulgador *divulgador){
-    estado->recibirDanio(danio, atacante, divulgador);
+bool Personaje::_recibirDanio(int danio, Entidad *atacante){
+    Configuraciones *config = Configuraciones::obtenerInstancia();
+    Divulgador *divulgador = Divulgador::obtenerInstancia();
+    std::stringstream mensaje;
+    if (config->seEsquivaElGolpe(this)){
+        mensaje << "El oponente ha esquivado el golpe";
+        divulgador->encolarMensaje(atacante->obtenerId(), mensaje.str());
+        mensaje.str() = "Has esquivado el golpe";
+        divulgador->encolarMensaje(this->id, mensaje.str());
+        return true;
+    }
+    unsigned int defensa = config->calcularDefensa(this);
+    if (danio - defensa < 0){
+        danio = 0;
+    }else{
+        danio -= defensa;
+    }
+    mensaje << "Realizas " << danio << "de danio";
+    divulgador->encolarMensaje(atacante->obtenerId(), mensaje.str());
+    mensaje.str("");
+    mensaje << "Recibes " << danio << "de danio";
+    divulgador->encolarMensaje(this->id, mensaje.str());
+    unsigned int exp = config->calcularExpPorGolpe(this, atacante, danio);
+    atacante->obtenerExperiencia(exp);
+    if (vidaActual - danio <= 0){
+        vidaActual = 0;
+        exp = config->calcularExpPorMatar(this, atacante);
+        atacante->obtenerExperiencia(exp);
+        dropearItems(atacante);
+        mensaje.str() = "Has muerto";
+        divulgador->encolarMensaje(this->id, mensaje.str());
+        estadoFantasma();
+    }else{
+        vidaActual -= danio;
+    }
+    return true;
 }
 
-void Personaje::atacar(Personaje *objetivo, Divulgador *divulgador){
-    estado->atacar(objetivo, arma, divulgador);
+bool Personaje::recibirDanio(int danio, Entidad *atacante){
+    return estado->recibirDanio(danio, atacante);
 }
 
-void Personaje::atacar(Criatura *objetivo, Divulgador *divulgador){
-    estado->atacar(objetivo, arma, divulgador);
+void Personaje::atacar(Personaje *objetivo){
+    if (arma == NO_EQUIPADO) return;
+    //Estoy seguro de que el casteo sera valido.
+    estado->atacar(objetivo, (Arma*)inventario.obtenerItem(arma));
 }
 
-void Personaje::serAtacadoPor(Personaje *atacante, Divulgador *divulgador){
+void Personaje::atacar(Criatura *objetivo){
+    if (arma == NO_EQUIPADO) return;
+    //Estoy seguro de que el casteo sera valido.
+    estado->atacar(objetivo, (Arma*)inventario.obtenerItem(arma));
+}
+
+void Personaje::serAtacadoPor(Entidad *atacante){
+    estado->serAtacadoPor(atacante);
+}
+
+void Personaje::serAtacadoPor(Personaje *atacante){
     //Chequeo FairPlay
     Configuraciones *config = Configuraciones::obtenerInstancia();
     if (!config->sePuedeAtacar(this, atacante)){
-        //Enviar mensaje a atacante: "No se puede realizar el ataque por FairPlay"
+        Divulgador *divulgador = Divulgador::obtenerInstancia();
+        std::string mensaje = "No se puede realizar el ataque por FairPlay";
+        divulgador->encolarMensaje(atacante->obtenerId(), mensaje);
         return;
     }
-    estado->serAtacadoPor(atacante, divulgador);
+    estado->serAtacadoPor(atacante);
 }
 
-void Personaje::serAtacadoPor(Criatura *atacante, Divulgador *divulgador){
-    estado->serAtacadoPor(atacante, divulgador);
+void Personaje::serAtacadoPor(Criatura *atacante){
+    estado->serAtacadoPor(atacante);
 }
 
 
-void Personaje::curar(unsigned int curVida, unsigned int curMana){
+void Personaje::curar(float curVida, float curMana){
     vidaActual += curVida;
     if (vidaActual > vidaMaxima) vidaActual = vidaMaxima;
     manaActual += curMana;
@@ -151,13 +206,27 @@ void Personaje::eliminarDeInventario(unsigned int pos){
 }
 
 void Personaje::dropearItems(Entidad *atacante){
+    Configuraciones *config = Configuraciones::obtenerInstancia();
+    Divulgador *divulgador = Divulgador::obtenerInstancia();
     std::vector<Item*> drop = std::move(*this->inventario.obtenerTodosLosItems());
     inventario.eliminarTodosLosItems();
+    for (std::size_t i=0; i<drop.size(); i++){
+        if (drop[i]) drop[i]->desequipar(this, i);
+    }
     std::unique_ptr<BolsaDeItems> bolsa(new BolsaDeItems(this->posicion, 
                                                          std::move(drop)));
-    //Falta eliminar el oro en exceso
+    unsigned int oroSeguro = config->calcularMaxOroSeguro(this);
+    std::stringstream mensaje;
+    if (cantidadOro > oroSeguro){
+        unsigned int oroAEntregar = cantidadOro - oroSeguro;
+        atacante->recibirOro(oroAEntregar);
+        restarOro(oroAEntregar);
+        mensaje << "Recibes " << oroAEntregar << " oro";
+        divulgador->encolarMensaje(atacante->obtenerId(), mensaje.str());
+    }
+
     //No hay riesgo de RC al cargar algo a mapa porque este es el unico hilo que accede a el.
-    mapaAlQuePertenece->cargarDrop(std::move(bolsa));
+    mapaAlQuePertenece->cargarEntidad(std::move(bolsa));
 }
 
 std::vector<Item*>& Personaje::obtenerAlmacen(){
@@ -184,21 +253,48 @@ void Personaje::recibirOro(unsigned int cantOro){
     this->cantidadOro += cantOro;
 }
 
-
-void Personaje::equipar(Arma *arma){
-    this->arma = arma;
+void Personaje::almacenar(Item *item){
+    inventario.almacenar(item);
 }
 
-void Personaje::equipar(Armadura *armadura){
-    this->armadura = armadura;
+void Personaje::equipar(Arma *arma, unsigned int pos){
+    this->arma = pos;
 }
 
-void Personaje::equipar(Casco *casco){
-    this->casco = casco;
+void Personaje::equipar(Armadura *armadura, unsigned int pos){
+    this->armadura = inventario.almacenar(armadura);
 }
 
-void Personaje::equipar(Escudo *escudo){
-    this->escudo = escudo;
+void Personaje::equipar(Casco *casco, unsigned int pos){
+    this->casco = pos;
+}
+
+void Personaje::equipar(Escudo *escudo, unsigned int pos){
+    this->escudo = pos;
+}
+
+void Personaje::desequipar(Arma *arma, int pos){
+    if (this->arma == pos){
+        this->arma = NO_EQUIPADO;
+    }
+}
+
+void Personaje::desequipar(Armadura *armadura, int pos){
+    if (this->armadura == pos){
+        this->armadura = NO_EQUIPADO;
+    }
+}
+
+void Personaje::desequipar(Escudo *escudo, int pos){
+    if (this->escudo == pos){
+        this->escudo = NO_EQUIPADO;
+    }
+}
+
+void Personaje::desequipar(Casco *casco, int pos){
+    if (this->casco == pos){
+        this->casco = NO_EQUIPADO;
+    }
 }
 
 void Personaje::meditar(){
@@ -223,4 +319,28 @@ void Personaje::estadoMeditacion(){
 
 Estado *Personaje::obtenerEstado(){
     return this->estado.get();
+}
+
+void Personaje::interactuar(Estado *estado, Cliente *cliente){
+    //No hago nada
+}
+
+void Personaje::comprar(unsigned int pos, Estado *estado, Cliente *cliente){
+    //No hago nada
+}
+
+void Personaje::vender(unsigned int pos, Estado *estado, Cliente *cliente){
+    //No hago nada
+}
+
+void Personaje::comprar(unsigned int pos, Personaje *personaje, Cliente *cliente){
+    //No hago nada
+}
+
+void Personaje::vender(Item* item, Personaje *personaje, Cliente *cliente){
+    //No hago nada
+}
+
+void Personaje::listar(Personaje *personaje, Cliente *cliente){
+    //No hago nada
 }

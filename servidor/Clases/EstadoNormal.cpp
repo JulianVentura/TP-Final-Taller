@@ -16,47 +16,24 @@ EstadoNormal::EstadoNormal(Personaje *unPersonaje) : Estado(unPersonaje){
     idTCP = config->obtenerEstadoIDTCP(id);
 }
 
-void EstadoNormal::interactuar(Entidad *entidad){
-    //entidad->interactuar(personaje);
-}
+//Ataque
 
-void EstadoNormal::atacar(Entidad *objetivo, Arma *arma, Divulgador *divulgador){
+void EstadoNormal::atacar(Entidad *objetivo, Arma *arma){
     if (arma){
-        arma->atacar(objetivo, personaje, divulgador);
+        arma->atacar(objetivo, personaje, personaje->mapaAlQuePertenece);
     }
 }
 
-void EstadoNormal::actualizar(double tiempo, Mapa *mapa){
-    Configuraciones *config = Configuraciones::obtenerInstancia();
-    unsigned int regenVida = config->calcularRecuperacionVida(personaje, tiempo);
-    unsigned int regenMana = config->calcularRecupManaTiempo(personaje, tiempo);
-    personaje->curar(regenVida, regenMana);
-    Posicion nuevaPosicion = personaje->posicion.mover();
-    mapa->actualizarPosicion(personaje, std::move(nuevaPosicion));
+
+bool EstadoNormal::recibirDanio(int danio, Entidad *atacante){
+    return personaje->_recibirDanio(danio, atacante);
 }
 
-
-void EstadoNormal::recibirDanio(int danio, Entidad *atacante, Divulgador *divulgador){
-    Configuraciones *configuraciones = Configuraciones::obtenerInstancia();
-    //Falta utilizar la defensa y ver el tema de la evasion. -> luego usar el divulgador para enviar esos datos
-    unsigned int exp = configuraciones->calcularExpPorGolpe(personaje, atacante, danio);
-    atacante->obtenerExperiencia(exp);
-    if (personaje->vidaActual - danio <= 0){
-        personaje->vidaActual = 0;
-        exp = configuraciones->calcularExpPorMatar(personaje, atacante);
-        atacante->obtenerExperiencia(exp);
-        personaje->dropearItems(atacante);
-        std::string mensaje = "Has muerto";
-        divulgador->encolarMensaje(personaje->id, mensaje);
-        personaje->estadoFantasma();
-    }else{
-        personaje->vidaActual -= danio;
-    }
+void EstadoNormal::serAtacadoPor(Entidad *atacante){
+    atacante->atacar(personaje);
 }
 
-void EstadoNormal::serAtacadoPor(Entidad *atacante, Divulgador *divulgador){
-    atacante->atacar(personaje, divulgador);
-}
+//Otras acciones
 
 void EstadoNormal::meditar(){
     personaje->estadoMeditacion();
@@ -64,6 +41,21 @@ void EstadoNormal::meditar(){
 
 void EstadoNormal::dejarDeMeditar(){
     //Do nothing
+}
+
+void EstadoNormal::actualizar(double tiempo){
+    Configuraciones *config = Configuraciones::obtenerInstancia();
+    float regenVida = config->calcularRecuperacionVida(personaje, tiempo);
+    float regenMana = config->calcularRecupManaTiempo(personaje, tiempo);
+    personaje->curar(regenVida, regenMana);
+    Posicion nuevaPosicion = personaje->posicion.mover();
+    personaje->mapaAlQuePertenece->actualizarPosicion(personaje, std::move(nuevaPosicion));
+}
+
+//Comerciar
+
+void EstadoNormal::interactuar(Entidad *entidad){
+    //entidad->interactuar(personaje);
 }
 
 void EstadoNormal::pedirCuracion(Sacerdote *sacerdote, Cliente *cliente){
@@ -80,6 +72,7 @@ void EstadoNormal::pedirCompra(unsigned int pos, Interactuable *interactuable, C
 
 void EstadoNormal::pedirVenta(unsigned int pos, Interactuable *interactuable, Cliente *cliente){
     Item *item = personaje->inventario.obtenerItem(pos);
+    item->desequipar(personaje, pos);
     personaje->inventario.eliminar(pos);
     interactuable->vender(item, personaje, cliente);
 }
