@@ -211,7 +211,7 @@ void Personaje::dropearItems(Entidad *atacante){
     std::vector<Item*> drop = std::move(*this->inventario.obtenerTodosLosItems());
     inventario.eliminarTodosLosItems();
     for (auto &item : drop){
-        item->desequipar(this);
+        if (item) item->desequipar(this);
     }
     std::unique_ptr<BolsaDeItems> bolsa(new BolsaDeItems(this->posicion, 
                                                          std::move(drop)));
