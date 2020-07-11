@@ -30,6 +30,7 @@ void ServidorProxy::enviarLogin(std::string& nombre, std::string& clave){
 	protocolo.enviarUint32(socket, CODIGO_ID);
 	protocolo.enviarString(socket, nombre);
 	protocolo.enviarString(socket, clave);
+	datos_personaje.id = nombre;
 }
 
 void ServidorProxy::enviarNuevaCuenta(std::string& nombre, std::string& clave,

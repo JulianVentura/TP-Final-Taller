@@ -31,10 +31,12 @@ Cliente::Cliente(Socket &&socket,
 
     //Con la info recuperada de la base de datos creo un Personaje
     //Esto hay que sacarlo una vez este hecha la base de datos
+    /*
     salaActual = "mapa";
     std::string idRaza = "Humano";
     std::string idClase = "Paladin";
     personaje = std::unique_ptr<Personaje> (new Personaje(600, 600, credenciales.first, idClase, idRaza));
+    */
     personaje -> recibirOro(1000);
     //Hasta aca
     Sala* miSala = organizadorSalas.obtenerSala(salaActual);

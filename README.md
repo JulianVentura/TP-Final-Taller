@@ -16,7 +16,7 @@ Biblioteca de audio incorporada en el porpio código, no requiere instalacion ad
 
 07/07/20 https://drive.google.com/file/d/1oXUqZB-LbbHu-14e_8CEyprskqbhAZ4W/view?usp=sharing
 
-10/07/20
+10/07/20 
 
 ## Notas
 
@@ -24,4 +24,4 @@ Nota: Crear siempre una nueva cuenta al logearse en el servidor,
 	  aún no está implementada la base de datos.
 	  Para una introduccion general a la estructura del código, ver:
 
-10/07/20
+10/07/20 
