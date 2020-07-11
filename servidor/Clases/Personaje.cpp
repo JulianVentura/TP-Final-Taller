@@ -132,10 +132,10 @@ bool Personaje::_recibirDanio(int danio, Entidad *atacante){
     }else{
         danio -= defensa;
     }
-    mensaje << "Realizas " << danio << "de daño";
+    mensaje << "Realizas " << danio << "de danio";
     divulgador->encolarMensaje(atacante->obtenerId(), mensaje.str());
     mensaje.str("");
-    mensaje << "Recibes " << danio << "de daño";
+    mensaje << "Recibes " << danio << "de danio";
     divulgador->encolarMensaje(this->id, mensaje.str());
     unsigned int exp = config->calcularExpPorGolpe(this, atacante, danio);
     atacante->obtenerExperiencia(exp);
@@ -190,7 +190,7 @@ void Personaje::serAtacadoPor(Criatura *atacante){
 }
 
 
-void Personaje::curar(unsigned int curVida, unsigned int curMana){
+void Personaje::curar(float curVida, float curMana){
     vidaActual += curVida;
     if (vidaActual > vidaMaxima) vidaActual = vidaMaxima;
     manaActual += curMana;
@@ -210,16 +210,18 @@ void Personaje::dropearItems(Entidad *atacante){
     Divulgador *divulgador = Divulgador::obtenerInstancia();
     std::vector<Item*> drop = std::move(*this->inventario.obtenerTodosLosItems());
     inventario.eliminarTodosLosItems();
-    for (auto &item : drop){
-        if (item) item->desequipar(this);
+    for (std::size_t i=0; i<drop.size(); i++){
+        if (drop[i]) drop[i]->desequipar(this, i);
     }
     std::unique_ptr<BolsaDeItems> bolsa(new BolsaDeItems(this->posicion, 
                                                          std::move(drop)));
     unsigned int oroSeguro = config->calcularMaxOroSeguro(this);
     std::stringstream mensaje;
     if (cantidadOro > oroSeguro){
-        atacante->recibirOro(cantidadOro - oroSeguro);
-        mensaje << "Recibes " << (cantidadOro - oroSeguro) << " oro";
+        unsigned int oroAEntregar = cantidadOro - oroSeguro;
+        atacante->recibirOro(oroAEntregar);
+        restarOro(oroAEntregar);
+        mensaje << "Recibes " << oroAEntregar << " oro";
         divulgador->encolarMensaje(atacante->obtenerId(), mensaje.str());
     }
 
@@ -255,20 +257,20 @@ void Personaje::almacenar(Item *item){
     inventario.almacenar(item);
 }
 
-void Personaje::equipar(Arma *arma){
-    this->arma = inventario.almacenar(arma);
+void Personaje::equipar(Arma *arma, unsigned int pos){
+    this->arma = pos;
 }
 
-void Personaje::equipar(Armadura *armadura){
+void Personaje::equipar(Armadura *armadura, unsigned int pos){
     this->armadura = inventario.almacenar(armadura);
 }
 
-void Personaje::equipar(Casco *casco){
-    this->casco = inventario.almacenar(casco);
+void Personaje::equipar(Casco *casco, unsigned int pos){
+    this->casco = pos;
 }
 
-void Personaje::equipar(Escudo *escudo){
-    this->escudo = inventario.almacenar(escudo);
+void Personaje::equipar(Escudo *escudo, unsigned int pos){
+    this->escudo = pos;
 }
 
 void Personaje::desequipar(Arma *arma, int pos){

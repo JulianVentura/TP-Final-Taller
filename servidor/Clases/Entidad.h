@@ -10,10 +10,10 @@
 class Mapa;
 class Entidad : public Interactuable{
     protected:
-    int vidaMaxima;
-    int vidaActual;
-    int manaMaximo;
-    int manaActual;
+    int   vidaMaxima;
+    float vidaActual;
+    int   manaMaximo;
+    float manaActual;
     unsigned int fuerza;
     unsigned int inteligencia;
     unsigned int agilidad;

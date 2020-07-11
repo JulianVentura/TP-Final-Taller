@@ -45,9 +45,12 @@ void EstadoMeditacion::dejarDeMeditar(){
 
 void EstadoMeditacion::actualizar(double tiempo){
     Configuraciones *config = Configuraciones::obtenerInstancia();
-    unsigned int regenVida = config->calcularRecuperacionVida(personaje, tiempo);
-    unsigned int regenMana = config->calcularRecupManaMeditacion(personaje, tiempo);
+    float regenVida = config->calcularRecuperacionVida(personaje, tiempo);
+    float regenMana = config->calcularRecupManaMeditacion(personaje, tiempo);
     personaje->curar(regenVida, regenMana);
+    if (personaje->manaActual == personaje->manaMaximo){
+        personaje->estadoNormal();
+    }
     //El personaje no se puede mover
 }
 

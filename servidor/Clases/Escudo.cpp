@@ -11,9 +11,9 @@ Escudo::Escudo(unsigned int defMax,
 
 
 void Escudo::utilizar(Personaje *personaje, unsigned int pos){
-    personaje->equipar(this);
+    personaje->equipar(this, pos);
 }
 
-void Escudo::desequipar(Personaje *personaje){
-    personaje->equipar(this);
+void Escudo::desequipar(Personaje *personaje, unsigned int pos){
+    personaje->equipar(this, pos);
 }

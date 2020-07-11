@@ -11,9 +11,9 @@ Armadura::Armadura(unsigned int defMax,
 
 
 void Armadura::utilizar(Personaje *personaje, unsigned int pos){
-    personaje->equipar(this);
+    personaje->equipar(this, pos);
 }
 
-void Armadura::desequipar(Personaje *personaje){
-    personaje->equipar(this);
+void Armadura::desequipar(Personaje *personaje, unsigned int pos){
+    personaje->desequipar(this, pos);
 }

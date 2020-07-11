@@ -57,9 +57,9 @@ void Arma::atacar(Entidad *objetivo, Entidad *atacante, Mapa *mapa){
 
 
 void Arma::utilizar(Personaje *personaje, unsigned int pos){
-    personaje->equipar(this);
+    personaje->equipar(this, pos);
 }
 
-void Arma::desequipar(Personaje *personaje){
-    personaje->equipar(this);
+void Arma::desequipar(Personaje *personaje, unsigned int pos){
+    personaje->desequipar(this, pos);
 }

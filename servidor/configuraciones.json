@@ -303,7 +303,7 @@
         "Humano": {
             "FRazaVida": 2,
             "FRazaMana": 2,
-            "FRazaRecuperacion": 2,
+            "FRazaRecuperacion": 10,
             "FRazaMeditacion": 2,
             "MejoraFuerzaEnSubida": 2,
             "MejoraInteligenciaEnSubida": 2,
@@ -314,7 +314,7 @@
         "Elfo": {
             "FRazaVida": 2,
             "FRazaMana": 2,
-            "FRazaRecuperacion": 2,
+            "FRazaRecuperacion": 10,
             "FRazaMeditacion": 2,
             "MejoraFuerzaEnSubida": 2,
             "MejoraInteligenciaEnSubida": 2,
@@ -325,7 +325,7 @@
         "Enano": {
             "FRazaVida": 2,
             "FRazaMana": 2,
-            "FRazaRecuperacion": 2,
+            "FRazaRecuperacion": 10,
             "FRazaMeditacion": 2,
             "MejoraFuerzaEnSubida": 2,
             "MejoraInteligenciaEnSubida": 2,
@@ -336,7 +336,7 @@
         "Gnomo": {
             "FRazaVida": 2,
             "FRazaMana": 2,
-            "FRazaRecuperacion": 2,
+            "FRazaRecuperacion": 10,
             "FRazaMeditacion": 2,
             "MejoraFuerzaEnSubida": 2,
             "MejoraInteligenciaEnSubida": 2,
@@ -350,7 +350,7 @@
             "Espada": {
                 "DanioMax": 5,
                 "DanioMin": 2,
-                "Rango": 20,
+                "Rango": 30,
                 "ConsumoMana": 0,
                 "TiempoAtaque": 1000,
                 "Proyectil": "CuerpoACuerpo",

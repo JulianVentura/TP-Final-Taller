@@ -76,7 +76,7 @@ bool Criatura::recibirDanio(int danio, Entidad *atacante){
                                                            atacante,
                                                            danio);
     atacante->obtenerExperiencia(experiencia);
-    mensaje << "Realizas " << danio << "de daño";
+    mensaje << "Realizas " << danio << "de danio";
     divulgador->encolarMensaje(atacante->obtenerId(), mensaje.str());
     if (vidaActual - danio <= 0){
         this->vidaActual = 0;

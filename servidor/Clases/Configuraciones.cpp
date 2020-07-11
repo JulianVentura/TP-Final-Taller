@@ -336,7 +336,7 @@ unsigned int Configuraciones::calcularVidaMax(Personaje *personaje){
            personaje->raza.FRazaVida * personaje->nivel;
 }
 
-unsigned int Configuraciones::calcularRecuperacionVida(Personaje *personaje, double tiempo){
+float Configuraciones::calcularRecuperacionVida(Personaje *personaje, double tiempo){
     return personaje->raza.FRazaRecuperacion * tiempo * MILI_A_SEG;
 }
 
@@ -346,11 +346,11 @@ unsigned int Configuraciones::calcularManaMax(Personaje *personaje){
            personaje->raza.FRazaMana * personaje->nivel;
 }
 
-unsigned int Configuraciones::calcularRecupManaMeditacion(Personaje *personaje, double tiempo){
+float Configuraciones::calcularRecupManaMeditacion(Personaje *personaje, double tiempo){
     return personaje->clase.FClaseMeditacion * personaje->inteligencia * tiempo * MILI_A_SEG;
 }
 
-unsigned int Configuraciones::calcularRecupManaTiempo(Personaje *personaje, double tiempo){
+float Configuraciones::calcularRecupManaTiempo(Personaje *personaje, double tiempo){
     return personaje->raza.FRazaRecuperacion * tiempo * MILI_A_SEG;
 }
 

@@ -45,7 +45,7 @@ class Personaje : public Entidad{
     
 
 
-    void curar(unsigned int curVida, unsigned int curMana);
+    void curar(float curVida, float curMana);
     void curar();
     std::vector<Item*>& obtenerAlmacen();
     std::vector<Item*>* obtenerInventario();
@@ -61,10 +61,10 @@ class Personaje : public Entidad{
     //Equipo
     void almacenar(Item *item);
     void eliminarDeInventario(unsigned int pos);
-    void equipar(Arma *arma);
-    void equipar(Armadura *armadura);
-    void equipar(Casco *casco);
-    void equipar(Escudo *escudo);
+    void equipar(Arma *arma, unsigned int pos);
+    void equipar(Armadura *armadura, unsigned int pos);
+    void equipar(Casco *casco, unsigned int pos);
+    void equipar(Escudo *escudo, unsigned int pos);
     void desequipar(Arma *arma, int pos);
     void desequipar(Armadura *armadura, int pos);
     void desequipar(Escudo *escudo, int pos);

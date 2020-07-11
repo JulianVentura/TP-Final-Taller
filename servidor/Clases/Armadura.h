@@ -12,7 +12,7 @@ class Armadura: public Item, public PiezaDeDefensa{
              uint16_t idTCP,
              unsigned int unPrecio);
     void utilizar(Personaje *personaje, unsigned int pos) override;
-    void desequipar(Personaje *personaje) override;
+    void desequipar(Personaje *personaje, unsigned int pos) override;
     friend class Configuraciones;
 };
 #endif
