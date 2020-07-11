@@ -17,7 +17,6 @@
 #include "../vista/GUI_Login.h"
 #include "../vista/ErrorGrafico.h"
 
-#include <chrono>
 int main(int argc, const char* argv[]) {
     try {
         EntornoGrafico entorno;

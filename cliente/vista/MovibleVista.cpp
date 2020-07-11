@@ -67,11 +67,9 @@ void MovibleVista::render() {
             imagen->render();
         }
     }
-    // renderer->setColor(51, 0, 51);
-    // renderer->rect(getX(),getY(), getAncho(), getAlto());
+    renderer->setColor(51, 0, 51);
+    renderer->rect(getX(), getY(), getAncho(), getAlto());
 }
-
-    
 
 bool MovibleVista::manejarEvento(SDL_Event& evento) {
     SDL_Point mouse = {};

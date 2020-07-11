@@ -1,4 +1,5 @@
 #include "BucleLogin.h"
+#include <SDL2/SDL_events.h>
 
 BucleLogin::BucleLogin(Ventana& ventana, GUI_Login& gui, 
         ServidorProxy& servidor) : ventana(&ventana), gui(gui), 
@@ -9,7 +10,7 @@ void BucleLogin::correr() {
     SDL_Event evento;
     SDL_StartTextInput();
     while (!salir) {
-        while (SDL_PollEvent(&evento)) {
+        while (SDL_PollEvent(&evento) != 0) {
 			despacharEventos(evento);
         }
 
@@ -23,6 +24,7 @@ void BucleLogin::correr() {
     }
     SDL_StopTextInput();
 }
+#define SALIR_LOGIN_EXITO 1
 
 
 void BucleLogin::despacharEventos(SDL_Event& evento) {
@@ -30,9 +32,12 @@ void BucleLogin::despacharEventos(SDL_Event& evento) {
 	switch(evento.type) {
 		case SDL_QUIT: 
 			salir = true;
-            // exit(0);
+            exit(0);
 		break;
-
+        case SDL_USEREVENT:
+            if (evento.user.code == SALIR_LOGIN_EXITO)
+                salir = true;
+        break;
 		case SDL_MOUSEBUTTONDOWN:
             for(auto& boton : gui.botones){
                 evento_consumido = (*boton)(evento) || evento_consumido;
