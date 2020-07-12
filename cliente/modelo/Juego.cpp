@@ -152,7 +152,7 @@ std::pair<IPosicionable*, MovibleVista*> Juego::crearEntidad(std::string& id,
     resultado.first->actualizarPosicion(rand() % 400 + 500, rand()% 500 + 200);
     resultado.second = new MovibleVista(entorno, resultado.first, 
                                                     entidadParser, apariencia);
-    return std::move(resultado);
+    return resultado;
 }
 
 void Juego::agregarEntidad(std::string& id) {

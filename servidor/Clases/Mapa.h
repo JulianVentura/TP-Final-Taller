@@ -9,7 +9,6 @@
 #include "Interactuable.h"
 #include "BolsaDeItems.h"
 #include "Box.h"
-#include "PosicionEncapsulada.h"
 #include <vector>
 #include <string>
 #include <unordered_map>

@@ -2,7 +2,7 @@
 #define __POSICION_H__
 #include "Box.h"
 #include <string>
-#include "PosicionEncapsulada.h"
+#include "../../common/Serializacion.h"
 
 class Posicion{
     private:

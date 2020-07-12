@@ -6,7 +6,6 @@
 #include <mutex>
 
 #include "ColaOperaciones.h"
-#include "PosicionEncapsulada.h"
 #include "OperacionMover.h"
 #include "ExcepcionCliente.h"
 #include "Item.h"
@@ -21,6 +20,7 @@
 #include "../../common/commonProtocolo.h"
 #include "../../common/commonSocket.h"
 #include "../../common/CodigosOperacion.h"
+#include "../../common/Serializacion.h"
 
 class Divulgador;
 class Cliente;
@@ -54,6 +54,7 @@ public:
     bool recibirOperacion();
     //Envio
     void enviarPosiciones(const std::vector<struct PosicionEncapsulada> &posiciones);
+    void enviarEstadosPersonajes(const std::vector<struct serializacionEstado> &estados);
     void enviarInformacionMapa(const std::vector<char> &infoMapa);
     void enviarError(std::string mensaje);
     void enviarMensaje(const std::string& mensaje);

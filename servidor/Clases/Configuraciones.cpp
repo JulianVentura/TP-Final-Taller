@@ -53,6 +53,7 @@ static bool floatComp(float a, float b, float epsilon = 0.0001){
 }
 
 static unsigned int numeroRandom(unsigned int a, unsigned int b){
+    if ((b - a) == 0) return 0;
     return rand() % (b - a) + a + 1;
 }
 
@@ -530,8 +531,8 @@ TipoItem Configuraciones::calcularDropItem(std::string &idCriatura){
 
 const std::string Configuraciones::obtenerMapaSpawnCriaturaAleatoria(const std::string &id) const{
     std::vector<std::string> posibles = json.at("Mapas").at(id).at("SpawnCriaturas").get<std::vector<std::string>>();
-    std::vector<std::string>::iterator elegido = posibles.begin();
-    unsigned int desplazamiento = numeroRandom(0, std::distance(elegido, posibles.end()) - 1);
-    std::advance(elegido, desplazamiento);
-    return (*elegido);
+    if (posibles.size() == 1) return posibles[0];
+    unsigned int desp = numeroRandom(0, posibles.size() - 1);
+    fprintf(stderr, "Se elige %s", posibles[desp].c_str());
+    return posibles[desp];
 }

@@ -112,6 +112,10 @@ void ServidorProxy::recibirMensajeConOperacion(uint32_t operacion) {
 			datos_personaje.exp = protocolo.recibirUint16(socket);
 			datos_personaje.exp_max = protocolo.recibirUint16(socket);
 		break;
+		
+		case CODIGO_ESTADOS:
+			recibir_estados();
+		break;
 
 		case CODIGO_CONFIRMACION:
 			esta_logueado = true;
@@ -179,6 +183,27 @@ void ServidorProxy::borrarPosicionable(std::string& id) {
 void ServidorProxy::enviarMovimiento(uint32_t movimiento) {
 	protocolo.enviarUint32(socket, CODIGO_MOVIMIENTO);
 	protocolo.enviarUint32(socket, movimiento);
+}
+
+void ServidorProxy::recibir_estados(){
+	uint32_t largo = protocolo.recibirUint32(socket);
+	std::vector<struct serializacionEstado> resultado;
+	for (std::size_t i=0; i < largo; i++){
+		struct serializacionEstado actual;
+		socket.recibir(actual.id, TAM_ID);
+        actual.idArmaEquipada = protocolo.recibirUint16(socket);
+		actual.idArmaduraEquipada = protocolo.recibirUint16(socket);
+		actual.idCascoEquipado = protocolo.recibirUint16(socket);
+		actual.idEscudoEquipado = protocolo.recibirUint16(socket);
+		actual.idRaza = protocolo.recibirUint16(socket);
+		actual.idClase = protocolo.recibirUint16(socket);
+		actual.idEstado = protocolo.recibirUint16(socket);
+		printf("Id: %s\n", actual.id);
+		printf("Arma: %d\n", actual.idArmaEquipada);
+		printf("Clase: %d\n", actual.idClase);
+		printf("Estado: %d\n", actual.idEstado);
+		resultado.push_back(std::move(actual));
+	}
 }
 
 // Chat

@@ -13,7 +13,9 @@
 #include "Criatura.h"
 #include "FabricaDeItems.h"
 #include "Divulgador.h"
+#include "../../common/TCPIDs.h"        //Para el IDTCP de item nulo.
 #include <utility>
+#include <cstring>
 
 #define TAMANIO_ALMACEN 18 //Esto se tiene que levantar de configuraciones.json
 #define NIVEL_INICIAL 1
@@ -120,31 +122,6 @@ Personaje& Personaje::operator=(Personaje &&otro){
 }
 
 Personaje::~Personaje(){}
-
-serializacionPersonaje Personaje::serializar(){
-    serializacionPersonaje datos;
-    datos.x = posicion.obtenerX();
-    datos.y = posicion.obtenerY();
-    datos.vidaMaxima = vidaMaxima;
-    datos.vidaActual = vidaActual;
-    datos.manaMaximo = manaMaximo;
-    datos.manaActual = manaActual;
-    datos.experiencia =  experiencia;
-    datos.limiteParaSubir = limiteParaSubir;
-    datos.nivel = nivel;
-    datos.cantidadOro = cantidadOro;
-
-    auto inventarioTemp = inventario.obtenerTodosLosItems();
-    for(unsigned int i = 0; i < inventarioTemp -> size();i++){
-        datos.inventario[i] = 0;//inventarioTemp[i].obtenerTCPID();
-    }
-
-    for(unsigned int i = 0; i < almacen.size();i++){
-        datos.almacen[i] = 0;//almacen[i].obtenerTCPID();
-    }
-
-    return datos;
-}
 
 void Personaje::actualizarAtributos(){
     Configuraciones *configuraciones = Configuraciones::obtenerInstancia();
@@ -422,4 +399,64 @@ void Personaje::vender(Item* item, Personaje *personaje, Cliente *cliente){
 
 void Personaje::listar(Personaje *personaje, Cliente *cliente){
     //No hago nada
+}
+
+
+//Serializacion
+
+
+serializacionPersonaje Personaje::serializar(){
+    serializacionPersonaje datos;
+    datos.x = posicion.obtenerX();
+    datos.y = posicion.obtenerY();
+    datos.vidaMaxima = vidaMaxima;
+    datos.vidaActual = vidaActual;
+    datos.manaMaximo = manaMaximo;
+    datos.manaActual = manaActual;
+    datos.experiencia =  experiencia;
+    datos.limiteParaSubir = limiteParaSubir;
+    datos.nivel = nivel;
+    datos.cantidadOro = cantidadOro;
+
+    auto inventarioTemp = inventario.obtenerTodosLosItems();
+    for(unsigned int i = 0; i < inventarioTemp -> size();i++){
+        datos.inventario[i] = 0;//inventarioTemp[i].obtenerTCPID();
+    }
+
+    for(unsigned int i = 0; i < almacen.size();i++){
+        datos.almacen[i] = 0;//almacen[i].obtenerTCPID();
+    }
+
+    return datos;
+}
+
+serializacionEstado Personaje::serializarEstado(){
+    struct serializacionEstado serEstado = {0};
+    strncpy(serEstado.id, id.c_str(), TAM_ID - 1);
+    serEstado.id[TAM_ID - 1] = 0;
+    if (arma == NO_EQUIPADO){
+        serEstado.idArmaEquipada = ID_NO_EQUIPADO;
+    }else{
+        serEstado.idArmaEquipada = inventario.obtenerItem(arma)->obtenerIDTCP();
+    }
+    if (armadura == NO_EQUIPADO){
+        serEstado.idArmaduraEquipada = ID_NO_EQUIPADO;
+    }else{
+        serEstado.idArmaduraEquipada = inventario.obtenerItem(armadura)->obtenerIDTCP();
+    }
+    if (casco == NO_EQUIPADO){
+        serEstado.idCascoEquipado = ID_NO_EQUIPADO;
+    }else{
+        serEstado.idCascoEquipado = inventario.obtenerItem(casco)->obtenerIDTCP();
+    }
+    if (escudo == NO_EQUIPADO){
+        serEstado.idEscudoEquipado = ID_NO_EQUIPADO;
+    }else{
+        serEstado.idEscudoEquipado = inventario.obtenerItem(escudo)->obtenerIDTCP();
+    }
+    serEstado.idRaza = raza.obtenerIDTCP();
+    serEstado.idClase = clase.obtenerIDTCP();
+    serEstado.idEstado = estado->obtenerIDTCP();
+    
+    return serEstado;
 }

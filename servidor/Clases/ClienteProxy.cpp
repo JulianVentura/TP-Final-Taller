@@ -272,3 +272,19 @@ void ClienteProxy::enviarEstado(uint16_t vidaActual,
     protocolo.enviarUint16(socket, limiteParaSubir);
 }
 
+void ClienteProxy::enviarEstadosPersonajes(const std::vector<struct serializacionEstado> &estados){
+    std::lock_guard<std::mutex> lock(m);
+    protocolo.enviarUint32(socket, CODIGO_ESTADOS);
+    uint32_t largo = estados.size();
+    protocolo.enviarUint32(socket, largo);
+    for (auto &estado : estados){
+        socket.enviar(estado.id, TAM_ID);
+        protocolo.enviarUint16(socket, estado.idArmaEquipada);
+        protocolo.enviarUint16(socket, estado.idArmaduraEquipada);
+        protocolo.enviarUint16(socket, estado.idCascoEquipado);
+        protocolo.enviarUint16(socket, estado.idEscudoEquipado);
+        protocolo.enviarUint16(socket, estado.idRaza);
+        protocolo.enviarUint16(socket, estado.idClase);
+        protocolo.enviarUint16(socket, estado.idEstado);
+    }
+}

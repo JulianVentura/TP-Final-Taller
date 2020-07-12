@@ -16,8 +16,7 @@
         "mapa": {
             "Ruta": "../mapa.json",
             "SpawnCriaturas": [
-                "Arania",
-                "Goblin"
+                "Esqueleto"
             ],
             "LimiteCriaturas": 3,
             "PosicionSpawnInicial": [
@@ -73,7 +72,7 @@
             "Inteligencia": 5,
             "Agilidad": 5,
             "Constitucion": 5,
-            "VelDesplazamiento": 1,
+            "VelDesplazamiento": 0.7,
             "RadioVisibilidad": 50,
             "RadioAgresividad": 100,
             "TiempoDespawn": 1000,
@@ -156,7 +155,7 @@
             "Inteligencia": 5,
             "Agilidad": 5,
             "Constitucion": 5,
-            "VelDesplazamiento": 1,
+            "VelDesplazamiento": 0.8,
             "RadioVisibilidad": 50,
             "RadioAgresividad": 100,
             "TiempoDespawn": 1000,
@@ -239,7 +238,7 @@
             "Inteligencia": 5,
             "Agilidad": 5,
             "Constitucion": 5,
-            "VelDesplazamiento": 1,
+            "VelDesplazamiento": 0.5,
             "RadioVisibilidad": 50,
             "RadioAgresividad": 100,
             "TiempoDespawn": 1000,
@@ -322,7 +321,7 @@
             "Inteligencia": 5,
             "Agilidad": 5,
             "Constitucion": 5,
-            "VelDesplazamiento": 1,
+            "VelDesplazamiento": 0.9,
             "RadioVisibilidad": 50,
             "RadioAgresividad": 100,
             "TiempoDespawn": 1000,
@@ -520,29 +519,29 @@
             "Espada": {
                 "DanioMax": 5,
                 "DanioMin": 2,
-                "Rango": 150,
+                "Rango": 50,
                 "ConsumoMana": 0,
-                "TiempoAtaque": 1000,
+                "TiempoAtaque": 800,
                 "Proyectil": "CuerpoACuerpo",
                 "Precio": 10,
-                "idTCP": 8
+                "idTCP": 3
             },
             "Hacha": {
-                "DanioMax": 5,
+                "DanioMax": 15,
                 "DanioMin": 4,
-                "Rango": 8,
+                "Rango": 100,
                 "ConsumoMana": 0,
-                "TiempoAtaque": 1000,
+                "TiempoAtaque": 1500,
                 "Proyectil": "CuerpoACuerpo",
                 "Precio": 10,
                 "idTCP": 9
             },
             "Martillo": {
-                "DanioMax": 9,
-                "DanioMin": 1,
-                "Rango": 10,
+                "DanioMax": 20,
+                "DanioMin": 6,
+                "Rango": 120,
                 "ConsumoMana": 0,
-                "TiempoAtaque": 1000,
+                "TiempoAtaque": 1800,
                 "Proyectil": "CuerpoACuerpo",
                 "Precio": 10,
                 "idTCP": 10
@@ -550,12 +549,12 @@
             "VaraDeFresno": {
                 "DanioMax": 4,
                 "DanioMin": 2,
-                "Rango": 50,
-                "ConsumoMana": 5,
-                "TiempoAtaque": 1000,
+                "Rango": 300,
+                "ConsumoMana": 50,
+                "TiempoAtaque": 1500,
                 "Proyectil": "FlechaMagica",
                 "Precio": 10,
-                "idTCP": 11
+                "idTCP": 4
             },
             "FlautaElfica": {
                 "DanioMax": -100,
@@ -608,8 +607,8 @@
                 "idTCP": 16
             },
             "Garra": {
-                "DanioMax": 16,
-                "DanioMin": 4,
+                "DanioMax": 0,
+                "DanioMin": 0,
                 "Rango": 5,
                 "ConsumoMana": 0,
                 "TiempoAtaque": 1000,
@@ -618,8 +617,8 @@
                 "idTCP": 17
             },
             "ManoHuesuda": {
-                "DanioMax": 16,
-                "DanioMin": 4,
+                "DanioMax": 0,
+                "DanioMin": 0,
                 "Rango": 8,
                 "ConsumoMana": 0,
                 "TiempoAtaque": 1000,
@@ -628,8 +627,8 @@
                 "idTCP": 18
             },
             "ManoPodrida": {
-                "DanioMax": 16,
-                "DanioMin": 4,
+                "DanioMax": 0,
+                "DanioMin": 0,
                 "Rango": 4,
                 "ConsumoMana": 0,
                 "TiempoAtaque": 1000,
@@ -638,8 +637,8 @@
                 "idTCP": 19
             },
             "ColmilloVenenoso": {
-                "DanioMax": 16,
-                "DanioMin": 4,
+                "DanioMax": 0,
+                "DanioMin": 0,
                 "Rango": 3,
                 "ConsumoMana": 0,
                 "TiempoAtaque": 1000,
@@ -707,13 +706,13 @@
                 "CuracionVida": 100,
                 "CuracionMana": 0,
                 "Precio": 10,
-                "idTCP": 29
+                "idTCP": 1
             },
             "PocionMana": {
                 "CuracionVida": 0,
                 "CuracionMana": 100,
                 "Precio": 10,
-                "idTCP": 30
+                "idTCP": 2
             }
         }
     },

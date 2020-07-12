@@ -6,6 +6,7 @@
 #include "Inventario.h"
 
 #define NO_EQUIPADO -1
+#define ID_NO_EQUIPADO 0
 
 struct serializacionPersonaje{
     uint32_t x, y;
@@ -75,7 +76,6 @@ class Personaje : public Entidad{
     bool recibirDanio(int danio, Entidad *atacante) override;
     void dropearItems(Entidad *atacante) override;
     void obtenerExperiencia(unsigned int cantidad);
-    serializacionPersonaje serializar();
     //Equipo
     void almacenar(Item *item);
     void eliminarDeInventario(unsigned int pos);
@@ -105,6 +105,9 @@ class Personaje : public Entidad{
     void restarOro(unsigned int cantOro);
     void recibirOro(unsigned int cantOro);
     uint16_t obtenerOro();
+    //Serializacion
+    serializacionPersonaje serializar();
+    serializacionEstado serializarEstado();
 
     ~Personaje();
 
