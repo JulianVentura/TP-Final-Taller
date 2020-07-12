@@ -50,9 +50,6 @@ Criatura::Criatura(float x, float y, std::string unId) :
 
 void Criatura::agregarDiferenciador(const unsigned int numero){
     diferenciador = numero;
-    std::stringstream nuevoId;
-    nuevoId << this->id << numero;
-    id = nuevoId.str();
 }
 
 const std::string Criatura::obtenerId() const {
@@ -127,7 +124,8 @@ void Criatura::buscarObjetivo(){
     std::vector<Entidad*> entidades = mapaAlQuePertenece->obtenerEntidades(std::move(areaVisibilidad));
 	std::vector<Entidad*>::iterator it = entidades.begin();
 	while (!objetivo && it != entidades.end()){
-		(*it)->serAtacadoPor(this);	
+		(*it)->serAtacadoPor(this);
+        ++it;
 	}
 }
 
@@ -172,7 +170,7 @@ void Criatura::continuarAtacando(){
     float distancia = this->posicion.calcularDistancia(temp->obtenerPosicion());
 	if (distancia > radioAgresividad) return;
 	//Esto se hace porque quizas el objetivo muere o entra en estado pacifico y no puede ser atacado, entonces se tiene que liberar el objetivo.
-	serAtacadoPor(temp);
+	temp->serAtacadoPor(this);
 }
 
 //Comercio

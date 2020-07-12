@@ -70,13 +70,19 @@ Mapa::Mapa(std::string nombre) :        nombreMapa(nombre),
 
     //No estan implementadas en el mapa actual
     //zonasRespawn = archivoJson.at("layers")[1].at("objects").get<std::vector<quadtree::Box<float>>>();
-
-     std::vector<quadtree::Box<float>> objetos; 
-     for (auto& capa: archivoJson["layers"]) {
-         if (capa["type"] != "objectgroup" || 
-             capa["name"] != "colisionables") continue;
-         capa["objects"].get_to(objetos);        
-         break;
+    
+    for (auto& capa: archivoJson["layers"]) {
+        if (capa["type"] != "objectgroup" || 
+            capa["name"] != "respawn") continue;
+        capa["objects"].get_to(zonasRespawn);        
+        break;
+    }
+    std::vector<quadtree::Box<float>> objetos; 
+    for (auto& capa: archivoJson["layers"]) {
+        if (capa["type"] != "objectgroup" || 
+            capa["name"] != "colisionables") continue;
+        capa["objects"].get_to(objetos);        
+        break;
     }
     
     for (std::size_t i=0; i<objetos.size(); i++){
@@ -188,6 +194,7 @@ void Mapa::cargarCriatura(){
     float y = (*zona).getCenter().y;
     
     cargarEntidad(std::move(fabricaCriaturas.obtenerCriaturaAleatoria(x, y, nombreMapa)));
+    cantidadCriaturas++;
 }
 
 

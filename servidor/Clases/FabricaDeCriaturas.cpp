@@ -11,15 +11,15 @@ std::unique_ptr<Criatura> FabricaDeCriaturas::obtenerCriaturaAleatoria(float x, 
     std::string idCriatura = config->obtenerMapaSpawnCriaturaAleatoria(idMapa);
     std::unique_ptr<Criatura> criaturaEncapsulada(new Criatura(x, y, idCriatura));
     bool continuar = true;
-    if (contador > LIMITE_CONTADOR) contador = 0;
+    if (contador >= LIMITE_CONTADOR) contador = 0;
     while (continuar){
         std::stringstream temp;
         temp << idCriatura << "#" << contador;
-        contador++;
         if (idValido(temp.str())){
             criaturaEncapsulada.get()->agregarDiferenciador(contador);
             continuar = false;
         }
+        contador++;
     }
     return criaturaEncapsulada;
 }
