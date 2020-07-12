@@ -180,3 +180,24 @@ void Juego::actualizarPosiciones(std::unordered_map<std::string, std::pair<int,
     for (auto& movible: paraBorrar)
         borrarEntidad(movible);
 }
+
+
+void Juego::actualizarEstados(std::vector<serializacionEstado> estados) {
+    for (auto& estado: estados) {
+        DatosApariencia apariencia;
+        apariencia.raza = std::to_string(estado.idRaza);
+        apariencia.clase = std::to_string(estado.idClase);
+        apariencia.arma = std::to_string(estado.idArmaEquipada);
+		apariencia.armadura = std::to_string(estado.idArmaduraEquipada);
+		apariencia.casco = std::to_string(estado.idCascoEquipado);
+		apariencia.escudo = std::to_string(estado.idEscudoEquipado);
+		apariencia.estado = std::to_string(estado.idEstado);
+		
+        if (movibles.count(estado.id)) {
+            movibles[estado.id].second->actualizarApariencia(apariencia);
+        }
+        std::string raza = std::to_string(estado.idRaza);
+        std::string clase = std::to_string(estado.idClase);
+    
+    }
+}

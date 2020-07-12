@@ -10,9 +10,9 @@
 class MovibleVista: public IObstruible {
 public:
     MovibleVista(EntornoGrafico& entorno, IPosicionable* modelo, 
-                            EntidadParser& parser, DatosApariencia apariencia);
+                            EntidadParser& parser, DatosApariencia& apariencia);
     virtual ~MovibleVista() {};
-
+    void actualizarApariencia(DatosApariencia& apariencia);
     void render() override;
     void actualizar(unsigned int delta_t) override;
     bool contienePunto(int x, int y);

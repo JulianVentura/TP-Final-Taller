@@ -10,8 +10,6 @@
 
 #include "../vista/Imagen.h"
 
-// TODO provisorio, esto serían ids
-// - arma, casco, escudo, armadura, raza, clase, estado.
 struct DatosApariencia {
     std::string arma;
     std::string casco;
@@ -20,7 +18,7 @@ struct DatosApariencia {
     std::string raza;
     std::string clase;
     std::string estado;
-    std::string tipo; // arania, zombie, etc
+    std::string tipo;
 };
 
 typedef std::unordered_map<std::string, std::vector<Imagen*>> imagenes_t;

@@ -29,22 +29,14 @@ const std::vector<std::string> MovibleVista::ordenDeImagenes = {
 #define NPC_ANIMACION 60
 
 MovibleVista::MovibleVista(EntornoGrafico& entorno, IPosicionable* modelo, 
-        EntidadParser& parser, DatosApariencia apariencia): 
+        EntidadParser& parser, DatosApariencia& apariencia): 
         modelo(modelo), parser(parser), apariencia(apariencia), 
         animacion(parser, apariencia.tipo) {
     entorno.agregarRendereable(this);    
     x = modelo->getX();
     y = modelo->getY();
     ultimo_estado = ANIMACION_BASE;
-    ancho = parser.getAncho(apariencia.raza, apariencia.tipo);
-    alto = parser.getAlto(apariencia.raza, apariencia.tipo);
-
-    if (apariencia.tipo.size() > 0) {
-        imagenes = parser.getImagenes(apariencia.tipo);
-        animacion.setTiempoPorCuadro(NPC_ANIMACION);
-    } else {
-        imagenes = parser.getImagenes(apariencia.raza, apariencia.clase);
-    }
+    actualizarApariencia(apariencia);
 }
 
 void MovibleVista::actualizar(unsigned int delta_t) {
@@ -79,4 +71,15 @@ bool MovibleVista::contienePunto(int x, int y) {
     SDL_Point punto = { x, y };
     SDL_Rect rect = { getX(), getY(), ancho, alto};
     return SDL_PointInRect(&punto, &rect);
+}
+
+void MovibleVista::actualizarApariencia(DatosApariencia& apariencia) {
+    ancho = parser.getAncho(apariencia.raza, apariencia.tipo);
+    alto = parser.getAlto(apariencia.raza, apariencia.tipo);
+    if (apariencia.tipo.size() > 0) {
+        imagenes = parser.getImagenes(apariencia.tipo);
+        animacion.setTiempoPorCuadro(NPC_ANIMACION);
+    } else {
+        imagenes = parser.getImagenes(apariencia.raza, apariencia.clase);
+    }
 }

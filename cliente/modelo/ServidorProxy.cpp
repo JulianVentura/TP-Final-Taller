@@ -187,9 +187,9 @@ void ServidorProxy::enviarMovimiento(uint32_t movimiento) {
 
 void ServidorProxy::recibir_estados() {
 	uint32_t largo = protocolo.recibirUint32(socket);
-	std::vector<struct serializacionEstado> resultado;
+	std::vector<serializacionEstado> resultado;
 	for (std::size_t i = 0; i < largo; i++) {
-		struct serializacionEstado actual;
+		serializacionEstado actual;
 		socket.recibir(actual.id, TAM_ID);
         actual.idArmaEquipada = protocolo.recibirUint16(socket);
 		actual.idArmaduraEquipada = protocolo.recibirUint16(socket);
@@ -198,13 +198,10 @@ void ServidorProxy::recibir_estados() {
 		actual.idRaza = protocolo.recibirUint16(socket);
 		actual.idClase = protocolo.recibirUint16(socket);
 		actual.idEstado = protocolo.recibirUint16(socket);
-		printf("Id: %s\n", actual.id);
-		printf("Arma: %d\n", actual.idArmaEquipada);
-		printf("Raza: %d\n", actual.idRaza);
-		printf("Clase: %d\n", actual.idClase);
-		printf("Estado: %d\n", actual.idEstado);
 		resultado.push_back(std::move(actual));
 	}
+	if (!juego) return;
+	juego->actualizarEstados(std::move(resultado));
 }
 
 // Chat
