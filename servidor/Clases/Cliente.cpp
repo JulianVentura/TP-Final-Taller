@@ -23,10 +23,11 @@ Cliente::Cliente(Socket &&socket,
     */
     
     std::pair<std::string, std::string> credenciales = std::move(login(organizadorClientes));
-    //std::pair<std::string, std::unique_ptr<Personaje>> datos = miBaseDeDatos.cargarCliente(credenciales);
+    std::pair<std::string, std::unique_ptr<Personaje>> datos =
+     miBaseDeDatos.cargarCliente(credenciales);
     this->id = credenciales.first;
-    //this->personaje = std::move(datos.second);
-    //this->salaActual = std::move(datos.first);
+    this->personaje = std::move(datos.second);
+    this->salaActual = std::move(datos.first);
 
     //Hasta aca
     Sala* miSala = organizadorSalas.obtenerSala(salaActual);
@@ -45,13 +46,13 @@ void Cliente::nuevoUsuario(std::pair<std::string, std::string> &credenciales,
                            std::string &idRaza, 
                            std::string &idClase){
     Configuraciones *config = config->obtenerInstancia();
-    std::string mapaDefault = config->obtenerMapaInicial();
-    std::pair<float, float> pos = config->obtenerMapaPosicionSpawn(mapaDefault);
+    salaActual = config->obtenerMapaInicial();
+    std::pair<float, float> pos = config->obtenerMapaPosicionSpawn(salaActual);
     auto personaje = std::unique_ptr<Personaje> (new Personaje(pos.first, pos.second,
      credenciales.first, idClase, idRaza));
     personaje -> recibirOro(1000);
     miBaseDeDatos.nuevoCliente(credenciales, idRaza, idClase,
-     mapaDefault, personaje.get());
+     salaActual, personaje.get());
    
     /*
     if(!miBaseDeDatos.existeCliente(credenciales.first)){
