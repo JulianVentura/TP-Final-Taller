@@ -45,8 +45,8 @@ void EntidadParser::parsearRazas() {
         for (auto& campo: setDeImagenesBase) {
             for (auto& valor: clases[BASE][campo.first]) {
                 if (valor == "") continue;
-                // parsearImagen(setDeImagenesBase, campo.first, 
-                                                // valor.get<std::string>());
+                parsearImagen(setDeImagenesBase, campo.first, 
+                                                valor.get<std::string>());
             }
         }
         std::string id_clase_raza = raza.key() + DELIMITADOR + std::string(BASE);
@@ -123,23 +123,16 @@ EntidadParser::EntidadParser(EntornoGrafico& entorno): entorno(entorno) {
     parsearRazas();
     parsearNPCs();
     parsearAnimaciones();
-    for (auto& raza: imagenes) {
-        for (auto& variante: raza.second) {
-            printf("%s %s\n", raza.first.c_str(), variante.first.c_str());
-        }
-    }
 }
 
 EntidadParser::~EntidadParser() {
-    for (auto& setImagen: imagenes) {
-        for (auto& parte: setImagen.second) {
-            for (auto& imagen: parte.second) {
-                printf("%s\n", setImagen.first.c_str());
-                printf("%s\n", parte.first.c_str());
-                delete imagen;
-            }
-        }
-    }
+    // for (auto& setImagen: imagenes) {
+    //     for (auto& parte: setImagen.second) {
+    //         for (auto& imagen: parte.second) {
+    //             delete imagen;
+    //         }
+    //     }
+    // }
 }
 
 int EntidadParser::getGuid(std::string& tipo, std::string& accion, 

@@ -71,38 +71,38 @@ Juego::Juego(EntornoGrafico& entorno, DatosPersonaje& datos_personaje,
     ap.clase = "mago";
     agregarEntidad(datos_personaje.id, ap);
 
-    std::string id = "asdsd";
-    std::vector<std::string> razas = {
-        "humano",
-        "elfo",
-        "enano",
-        "gnomo"
-    };
-    std::vector<std::string> clases = {
-        "mago",
-        "clerigo",
-        "guerrero",
-        "paladin"
-    };
+    // std::string id = "asdsd";
+    // std::vector<std::string> razas = {
+    //     "humano",
+    //     "elfo",
+    //     "enano",
+    //     "gnomo"
+    // };
+    // std::vector<std::string> clases = {
+    //     "mago",
+    //     "clerigo",
+    //     "guerrero",
+    //     "paladin"
+    // };
 
-    std::vector<std::string> npcs = {
-        "goblin",
-        "esqueleto",
-        "zombie",
-        "arania"
-    };
-    for (auto& raza: razas) {
-        for (auto& clase: clases) {
-            ap.raza = raza;
-            ap.clase = clase;
-            id = raza + clase;
-            agregarEntidad(id, ap);
-        }
-    }
-    for (auto& npc: npcs) {
-        id = npc + NPC_DELIMITADOR;
-        agregarEntidad(id, ap);
-    }
+    // std::vector<std::string> npcs = {
+    //     "goblin",
+    //     "esqueleto",
+    //     "zombie",
+    //     "arania"
+    // };
+    // for (auto& raza: razas) {
+    //     for (auto& clase: clases) {
+    //         ap.raza = raza;
+    //         ap.clase = clase;
+    //         id = raza + clase;
+    //         agregarEntidad(id, ap);
+    //     }
+    // }
+    // for (auto& npc: npcs) {
+    //     id = npc + NPC_DELIMITADOR;
+    //     agregarEntidad(id, ap);
+    // }
 }
 
 void Juego::agregarEntidad(std::string& id, DatosApariencia& apariencia) {
@@ -182,6 +182,6 @@ void Juego::actualizarPosiciones(std::unordered_map<std::string, std::pair<int,
         if (posiciones.count(movible.first) > 0) continue;
         paraBorrar.push_back(movible.first);
     }
-    // for (auto& movible: paraBorrar)
-        // borrarEntidad(movible);
+    for (auto& movible: paraBorrar)
+        borrarEntidad(movible);
 }

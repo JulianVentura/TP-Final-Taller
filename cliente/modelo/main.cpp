@@ -33,26 +33,26 @@ int main(int argc, const char* argv[]) {
         ServidorProxy servidor(datos_personaje, datos_tienda);
 
         // // PANTALLA DE LOGIN //
-        // GUI_Login gui_login(entorno, paleta, servidor);
-        // BucleLogin bucle_login(ventana, gui_login, servidor);
-        // ventana.agregarRendereable(&gui_login);
-        // bucle_login.correr();
-        // ventana.borrarRendereables();
-        // if (!servidor.estaLogueado()) return 0;
+        GUI_Login gui_login(entorno, paleta, servidor);
+        BucleLogin bucle_login(ventana, gui_login, servidor);
+        ventana.agregarRendereable(&gui_login);
+        bucle_login.correr();
+        ventana.borrarRendereables();
+        if (!servidor.estaLogueado()) return 0;
         // JUEGO EN SI //
         // TODO: <Login provisorio>
         
-        std::string direccion("localhost");
-        std::string servicio("3080");
-        // std::string id_usuario("jugador");
-        std::string id_usuario(argv[1]);
-        std::string password("jugador");
-        std::string raza("Humano");
-        std::string clase("Paladin");
-        // datos_personaje.id = id_usuario;
-        servidor.conectar(direccion, servicio);
-        servidor.comenzarRecepcionConcurrente();
-        servidor.enviarNuevaCuenta(id_usuario, password, raza, clase);
+        // std::string direccion("localhost");
+        // std::string servicio("3080");
+        // // std::string id_usuario("jugador");
+        // std::string id_usuario(argv[1]);
+        // std::string password("jugador");
+        // std::string raza("Humano");
+        // std::string clase("Paladin");
+        // // datos_personaje.id = id_usuario;
+        // servidor.conectar(direccion, servicio);
+        // servidor.comenzarRecepcionConcurrente();
+        // servidor.enviarNuevaCuenta(id_usuario, password, raza, clase);
 
         BuclePrincipal bucle(ventana);
         Juego juego(entorno, datos_personaje, servidor);
