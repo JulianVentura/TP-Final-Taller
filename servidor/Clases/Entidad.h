@@ -4,7 +4,7 @@
 #include "Interactuable.h"
 #include "Configuraciones.h"
 #include "Inventario.h"
-#include "PosicionEncapsulada.h"
+#include "../../common/Serializacion.h"
 #include <string>
 
 class Mapa;

@@ -23,12 +23,25 @@ Cliente::Cliente(Socket &&socket,
     */
     
     std::pair<std::string, std::string> credenciales = std::move(login(organizadorClientes));
+    /*
     std::pair<std::string, std::unique_ptr<Personaje>> datos =
      miBaseDeDatos.cargarCliente(credenciales);
+     */
     this->id = credenciales.first;
-    this->personaje = std::move(datos.second);
-    this->salaActual = std::move(datos.first);
+    //this->personaje = std::move(datos.second);
+    //this->salaActual = std::move(datos.first);
 
+    /*******************************************************************
+    * Franco, no me borres esto hasta que la base no ande por favor.   *
+    *                                                                  *
+    *                                                                  *
+    ********************************************************************/
+    //Desde aca.
+    salaActual = "mapa";
+    std::string idRaza = "Humano";
+    std::string idClase = "Paladin";
+    personaje = std::unique_ptr<Personaje> (new Personaje(600, 600, credenciales.first, idClase, idRaza));
+    personaje -> recibirOro(1000);
     //Hasta aca
     Sala* miSala = organizadorSalas.obtenerSala(salaActual);
     ColaOperaciones *colaDeOperaciones = miSala->obtenerCola();
@@ -64,7 +77,8 @@ void Cliente::nuevoUsuario(std::pair<std::string, std::string> &credenciales,
 }
 
 
-void Cliente::actualizarEstado(const std::vector<struct PosicionEncapsulada> &posiciones){
+void Cliente::actualizarEstado(const std::vector<struct PosicionEncapsulada> &posiciones,
+                               const std::vector<struct serializacionEstado> &estados){
     try{
         clienteProxy.enviarEstado(personaje->vidaActual,
                                   personaje->vidaMaxima,
@@ -73,6 +87,7 @@ void Cliente::actualizarEstado(const std::vector<struct PosicionEncapsulada> &po
                                   personaje->experiencia,
                                   personaje->limiteParaSubir);
         enviarInventario(); //Refinar más adelante
+        clienteProxy.enviarEstadosPersonajes(estados);
         clienteProxy.enviarPosiciones(posiciones);
     }catch(...){
         //Cualquier error es motivo suficiente como para cortar

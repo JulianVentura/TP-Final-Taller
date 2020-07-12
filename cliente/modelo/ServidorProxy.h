@@ -16,6 +16,7 @@
 #include "../../common/commonProtocolo.h"
 #include "../../common/commonSocket.h"
 #include "../../common/CodigosOperacion.h"
+#include "../../common/Serializacion.h"
 
 #define TAM_ID 20
 #define SALIR_LOGIN_EXITO 1
@@ -52,7 +53,7 @@ public:
 	void conectar(std::string& direccion, std::string& servicio);
 	void enviarLogin(std::string& nombre, std::string& clave);
 	void enviarNuevaCuenta(std::string& nombre, std::string& clave,
-		std::string& raza, std::string& clase);
+						   std::string& raza, std::string& clase);
 	bool estaLogueado() const;
 
 	// General
@@ -70,6 +71,7 @@ public:
 	void enviarMovimiento(uint32_t movimiento);
 	void agregarPosicionable(std::string& id, IPosicionable* posicionable);
 	void borrarPosicionable(std::string& id);
+	void recibir_estados();
 	
 	// Inventario
 	void enviarCompra(int pos);

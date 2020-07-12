@@ -70,13 +70,19 @@ Mapa::Mapa(std::string nombre) :        nombreMapa(nombre),
 
     //No estan implementadas en el mapa actual
     //zonasRespawn = archivoJson.at("layers")[1].at("objects").get<std::vector<quadtree::Box<float>>>();
-
-     std::vector<quadtree::Box<float>> objetos; 
-     for (auto& capa: archivoJson["layers"]) {
-         if (capa["type"] != "objectgroup" || 
-             capa["name"] != "colisionables") continue;
-         capa["objects"].get_to(objetos);        
-         break;
+    
+    for (auto& capa: archivoJson["layers"]) {
+        if (capa["type"] != "objectgroup" || 
+            capa["name"] != "respawn") continue;
+        capa["objects"].get_to(zonasRespawn);        
+        break;
+    }
+    std::vector<quadtree::Box<float>> objetos; 
+    for (auto& capa: archivoJson["layers"]) {
+        if (capa["type"] != "objectgroup" || 
+            capa["name"] != "colisionables") continue;
+        capa["objects"].get_to(objetos);        
+        break;
     }
     
     for (std::size_t i=0; i<objetos.size(); i++){
@@ -188,6 +194,7 @@ void Mapa::cargarCriatura(){
     float y = (*zona).getCenter().y;
     
     cargarEntidad(std::move(fabricaCriaturas.obtenerCriaturaAleatoria(x, y, nombreMapa)));
+    cantidadCriaturas++;
 }
 
 
@@ -245,7 +252,9 @@ void Mapa::eliminarEntidad(Entidad *entidad){
 
 void Mapa::eliminarEntidad(const std::string &id){
     std::unordered_map<std::string, Entidad*>::iterator it = entidades.find(id);
-    if (it == entidades.end()) throw ErrorServidor("No se encontró id %s\n", id.c_str());
+    if (it == entidades.end()){
+        throw ErrorServidor("No se encontró id %s\n", id.c_str());
+    }
     quadTreeDinamico.remove(it->second);
     entidades.erase(it);
 }
@@ -253,7 +262,9 @@ void Mapa::eliminarEntidad(const std::string &id){
 void Mapa::eliminarEntidadNoColisionable(Entidad *entidad){
     std::string id = entidad->obtenerId();
     std::unordered_map<std::string, Entidad*>::iterator it = entidades.find(id);
-    if (it == entidades.end()) throw ErrorServidor("No se encontró id %s\n", id.c_str());
+    if (it == entidades.end()){
+        throw ErrorServidor("No se encontró id %s\n", id.c_str());
+    } 
     entidades.erase(it);
 }
 
@@ -267,5 +278,3 @@ const std::vector<char> Mapa::obtenerInformacionMapa(){
     const std::vector<char> vector(contenido_archivo.begin(), contenido_archivo.end());
     return vector;
 }
-
-

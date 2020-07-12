@@ -1,5 +1,5 @@
-#ifndef __PROTOCOLO_ADIVINA_NUMERO_H__
-#define __PROTOCOLO_ADIVINA_NUMERO_H__
+#ifndef __PROTOCOLO_H__
+#define __PROTOCOLO_H__
 
 #include <string>
 #include <cstdlib>
@@ -32,4 +32,4 @@ public:
     void enviarUint16(Socket& socket_comunicacion, uint16_t n);
     uint16_t recibirUint16(Socket& socket_comunicacion);
 };
-#endif /*__PROTOCOLO_ADIVINA_NUMERO_H__*/
+#endif /*__PROTOCOLO_H__*/

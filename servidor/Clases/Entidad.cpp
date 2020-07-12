@@ -42,11 +42,6 @@ void Entidad::recibirOro(unsigned int cantidad){
     //Nada
 }
 
-/*
-void Entidad::atacar(Entidad *objetivo){
-    
-}
-*/
 
 bool Entidad::haFinalizado(){
     return false;
@@ -55,7 +50,8 @@ bool Entidad::haFinalizado(){
 //Serializacion
 const struct PosicionEncapsulada Entidad::serializarPosicion() const{
     struct PosicionEncapsulada pos = std::move(posicion.serializarPosicion());
-    strncpy(pos.id, id.c_str(), TAM_ID);
+    const char *buff = this->obtenerId().c_str();
+    strncpy(pos.id, buff, TAM_ID);
     pos.id[TAM_ID - 1] = 0;
     return pos;
 }

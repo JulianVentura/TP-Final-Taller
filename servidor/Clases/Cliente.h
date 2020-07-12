@@ -5,6 +5,7 @@
 #include <vector>
 
 #include "../../common/commonSocket.h"
+#include "../../common/Serializacion.h"
 
 #include "ClienteProxy.h"
 #include "Personaje.h"
@@ -14,7 +15,6 @@
 #include "ExcepcionSocket.h"
 #include "ExcepcionCliente.h"
 #include "BaseDeDatos.h"
-#include "PosicionEncapsulada.h"
 #include <memory>
 
 class OrganizadorClientes;
@@ -54,8 +54,8 @@ class Cliente : public Thread{
     bool haFinalizado();
 
     //Envio
-    void actualizarEstado(const std::vector<struct PosicionEncapsulada>
-     &posiciones);
+    void actualizarEstado(const std::vector<struct PosicionEncapsulada> &posiciones,
+                          const std::vector<struct serializacionEstado> &estados);
     void enviarMensaje(const std::string& mensaje);
     void enviarChat(const std::string& mensaje, bool mensaje_publico);
     void enviarTienda(std::vector<Item*>& items);
