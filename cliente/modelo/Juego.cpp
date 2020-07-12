@@ -41,8 +41,8 @@ bool Juego::manejarEvento(SDL_Event& evento) {
     return false;
 }
 
-Juego::Juego(EntornoGrafico& entorno, /* std::string& mapa_s, */
-                    DatosPersonaje& datos_personaje, ServidorProxy& servidor):
+Juego::Juego(EntornoGrafico& entorno, DatosPersonaje& datos_personaje, 
+                                                    ServidorProxy& servidor):
         entorno(entorno),
         datos_personaje(datos_personaje),
         servidor(servidor),
@@ -77,7 +77,6 @@ void Juego::agregarEntidad(std::string& id, DatosApariencia& apariencia) {
     movibles[id].second = new MovibleVista(entorno, movibles[id].first, 
                                                     entidadParser, apariencia);
     
-    // movibles[id].first->actualizarPosicion(400 + random() % 30, 150 + random() % 150);
     capaFrontal.agregarObstruible(movibles[id].second);
     servidor.agregarPosicionable(id, movibles[id].first);
     

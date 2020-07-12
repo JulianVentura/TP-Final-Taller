@@ -14,6 +14,9 @@
 #include "OperacionComprar.h"
 #include "OperacionVender.h"
 #include "OperacionAtacar.h"
+#include "OperacionUtilizar.h"
+#include "OperacionMeditar.h"
+#include "OperacionTirar.h"
 
 #include "../../common/commonProtocolo.h"
 #include "../../common/commonSocket.h"
@@ -29,7 +32,6 @@ private:
     Socket socket;
     Cliente *cliente;
     ColaOperaciones *colaOperaciones;
-    Divulgador& divulgador;
     Protocolo protocolo;
     bool decodificarCodigo(uint32_t codigo);
     void decodificarMovimiento();
@@ -38,11 +40,13 @@ private:
     void decodificarCompra();
     void decodificarVenta();
     void decodificarAtaque();
+    void decodificarUtilizacion();
+    void decodificarTirado();
     void decodificarJugador( std::string& id, std::string& clave);
     void decodificarNuevoJugador( std::string& id, std::string& clave);
 
 public:
-    ClienteProxy(Socket socket, Cliente *cliente, Divulgador& divulgador);
+    ClienteProxy(Socket socket, Cliente *cliente);
     void actualizarCola(ColaOperaciones *colaDeOperaciones);
     void finalizar();
     //Recepcion

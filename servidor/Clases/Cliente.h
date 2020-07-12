@@ -36,8 +36,7 @@ class Cliente : public Thread{
     Cliente(Socket &&socket,
             OrganizadorSalas &organizadorSalas,
             OrganizadorClientes &organizadorClientes,
-            BaseDeDatos &unaBaseDeDatos,
-            Divulgador& divulgador);
+            BaseDeDatos &unaBaseDeDatos);
     Cliente(Cliente &&otro) = delete;
     Cliente(Cliente &otro) = delete;
     Cliente& operator=(Cliente &&otro) = delete;

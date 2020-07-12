@@ -10,7 +10,6 @@
 #include "BaseDeDatos.h"
 #include "OrganizadorSalas.h"
 #include "OrganizadorClientes.h"
-#include "Divulgador.h"
 
 class Aceptador : public Thread{
     private:
@@ -18,7 +17,6 @@ class Aceptador : public Thread{
     OrganizadorClientes organizadorClientes;
     OrganizadorSalas &organizadorSalas;
     BaseDeDatos &baseDeDatos;
-    Divulgador divulgador;
     std::atomic<bool> continuar;
 
     public:

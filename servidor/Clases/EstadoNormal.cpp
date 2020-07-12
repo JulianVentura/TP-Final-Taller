@@ -36,6 +36,7 @@ void EstadoNormal::serAtacadoPor(Entidad *atacante){
 //Otras acciones
 
 void EstadoNormal::meditar(){
+    if (personaje->manaActual == personaje->manaMaximo) return;
     personaje->estadoMeditacion();
 }
 
@@ -45,8 +46,8 @@ void EstadoNormal::dejarDeMeditar(){
 
 void EstadoNormal::actualizar(double tiempo){
     Configuraciones *config = Configuraciones::obtenerInstancia();
-    unsigned int regenVida = config->calcularRecuperacionVida(personaje, tiempo);
-    unsigned int regenMana = config->calcularRecupManaTiempo(personaje, tiempo);
+    float regenVida = config->calcularRecuperacionVida(personaje, tiempo);
+    float regenMana = config->calcularRecupManaTiempo(personaje, tiempo);
     personaje->curar(regenVida, regenMana);
     Posicion nuevaPosicion = personaje->posicion.mover();
     personaje->mapaAlQuePertenece->actualizarPosicion(personaje, std::move(nuevaPosicion));
@@ -72,6 +73,7 @@ void EstadoNormal::pedirCompra(unsigned int pos, Interactuable *interactuable, C
 
 void EstadoNormal::pedirVenta(unsigned int pos, Interactuable *interactuable, Cliente *cliente){
     Item *item = personaje->inventario.obtenerItem(pos);
+    item->desequipar(personaje, pos);
     personaje->inventario.eliminar(pos);
     interactuable->vender(item, personaje, cliente);
 }

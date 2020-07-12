@@ -18,7 +18,8 @@
 #include "../../common/CodigosOperacion.h"
 
 #define TAM_ID 20
-#define SDL_SALIR_LOGIN 2000
+#define SALIR_LOGIN_EXITO 1
+
 
 class Juego;
 

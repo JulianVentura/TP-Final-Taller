@@ -5,12 +5,10 @@
 
 #define TAM_CODIGO 4
 
-ClienteProxy::ClienteProxy(Socket unSocket, Cliente *miCliente,
-                           Divulgador& divulgador) : 
+ClienteProxy::ClienteProxy(Socket unSocket, Cliente *miCliente) : 
                            socket(std::move(unSocket)),
                            cliente(miCliente),
-                           colaOperaciones(nullptr),
-                           divulgador(divulgador){}
+                           colaOperaciones(nullptr){}
 
 void ClienteProxy::finalizar(){
     socket.cerrar_canal(SHUT_RDWR);
@@ -30,11 +28,12 @@ void ClienteProxy::decodificarMovimiento(){
 }
 
 void ClienteProxy::decodificarMensajeChat(){
+    Divulgador *divulgador = Divulgador::obtenerInstancia();
     std::string origen, destino, mensaje;
     protocolo.recibirString(socket, origen);
     protocolo.recibirString(socket, destino);
     protocolo.recibirString(socket, mensaje);
-    divulgador.encolarMensaje(origen, destino, mensaje);
+    divulgador->encolarMensaje(origen, destino, mensaje);
 }
 
 void ClienteProxy::enviarChat(const std::string& mensaje, bool mensaje_publico){
@@ -74,9 +73,22 @@ void ClienteProxy::decodificarAtaque(){
     std::string id;
     protocolo.recibirString(socket, id);
     Operacion *operacion = new OperacionAtacar(cliente,
-     cliente -> obtenerSala() -> obtenerMapa(), id);
+    cliente -> obtenerSala() -> obtenerMapa(), id);
     colaOperaciones->push(operacion);
 }
+
+void ClienteProxy::decodificarUtilizacion(){
+    uint16_t pos = protocolo.recibirUint16(socket);
+    Operacion *operacion = new OperacionUtilizar(cliente, pos);
+    colaOperaciones->push(operacion);
+}
+
+void ClienteProxy::decodificarTirado(){
+    uint16_t pos = protocolo.recibirUint16(socket);
+    Operacion *operacion = new OperacionTirar(cliente, pos);
+    colaOperaciones->push(operacion);
+}
+
 
 bool ClienteProxy::decodificarCodigo(uint32_t codigo){
     switch (codigo){
@@ -104,11 +116,11 @@ bool ClienteProxy::decodificarCodigo(uint32_t codigo){
             return false;
        
         case CODIGO_UTILIZACION:
-
+            decodificarUtilizacion();
             break;
 
         case CODIGO_TIRADO:
-
+            decodificarTirado();
             break;
 
         case CODIGO_ATAQUE:

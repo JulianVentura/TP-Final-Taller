@@ -1,5 +1,8 @@
-{   "MapaInicial": "mapa",
-    "Salas": ["mapa"],
+{
+    "MapaInicial": "mapa",
+    "Salas": [
+        "mapa"
+    ],
     "Aceptador": {
         "Puerto": "3080",
         "Host": "localhost",
@@ -17,7 +20,10 @@
                 "Goblin"
             ],
             "LimiteCriaturas": 3,
-            "PosicionSpawnInicial": [100, 100]
+            "PosicionSpawnInicial": [
+                100,
+                100
+            ]
         }
     },
     "Personaje": {
@@ -34,13 +40,13 @@
     },
     "Estados": {
         "EstadoNormal": {
-            "idTCP": 100  
+            "idTCP": 100
         },
         "EstadoFantasma": {
-            "idTCP": 101  
+            "idTCP": 101
         },
         "EstadoMeditacion": {
-            "idTCP": 102  
+            "idTCP": 102
         }
     },
     "Ciudadanos": {
@@ -80,23 +86,64 @@
                 },
                 "Armas": {
                     "Probabilidad": 0.1,
-                    "Posibles": [["Espada", 0.5], ["Hacha", 0.5]]
+                    "Posibles": [
+                        [
+                            "Espada",
+                            0.5
+                        ],
+                        [
+                            "Hacha",
+                            0.5
+                        ]
+                    ]
                 },
                 "Armaduras": {
                     "Probabilidad": 0.1,
-                    "Posibles": [["ArmaduraDeCuero", 0.5], ["ArmaduraDePlacas", 0.5]]
+                    "Posibles": [
+                        [
+                            "ArmaduraDeCuero",
+                            0.5
+                        ],
+                        [
+                            "ArmaduraDePlacas",
+                            0.5
+                        ]
+                    ]
                 },
                 "Cascos": {
                     "Probabilidad": 0.1,
-                    "Posibles": [["Capucha", 0.5], ["SombreroMagico", 0.5]]
+                    "Posibles": [
+                        [
+                            "Capucha",
+                            0.5
+                        ],
+                        [
+                            "SombreroMagico",
+                            0.5
+                        ]
+                    ]
                 },
                 "Escudos": {
                     "Probabilidad": 0.1,
-                    "Posibles": [["EscudoDeTortuga", 0.5]]
+                    "Posibles": [
+                        [
+                            "EscudoDeTortuga",
+                            0.5
+                        ]
+                    ]
                 },
                 "Pociones": {
                     "Probabilidad": 0.1,
-                    "Posibles": [["PocionVida", 0.5], ["PocionMana", 0.5]]
+                    "Posibles": [
+                        [
+                            "PocionVida",
+                            0.5
+                        ],
+                        [
+                            "PocionMana",
+                            0.5
+                        ]
+                    ]
                 }
             }
         },
@@ -122,23 +169,64 @@
                 },
                 "Armas": {
                     "Probabilidad": 0.1,
-                    "Posibles": [["Espada", 0.5], ["Hacha", 0.5]]
+                    "Posibles": [
+                        [
+                            "Espada",
+                            0.5
+                        ],
+                        [
+                            "Hacha",
+                            0.5
+                        ]
+                    ]
                 },
                 "Armaduras": {
                     "Probabilidad": 0.1,
-                    "Posibles": [["ArmaduraDeCuero", 0.5], ["ArmaduraDePlacas", 0.5]]
+                    "Posibles": [
+                        [
+                            "ArmaduraDeCuero",
+                            0.5
+                        ],
+                        [
+                            "ArmaduraDePlacas",
+                            0.5
+                        ]
+                    ]
                 },
                 "Cascos": {
                     "Probabilidad": 0.1,
-                    "Posibles": [["Capucha", 0.5], ["SombreroMagico", 0.5]]
+                    "Posibles": [
+                        [
+                            "Capucha",
+                            0.5
+                        ],
+                        [
+                            "SombreroMagico",
+                            0.5
+                        ]
+                    ]
                 },
                 "Escudos": {
                     "Probabilidad": 0.1,
-                    "Posibles": [["EscudoDeTortuga", 0.5]]
+                    "Posibles": [
+                        [
+                            "EscudoDeTortuga",
+                            0.5
+                        ]
+                    ]
                 },
                 "Pociones": {
                     "Probabilidad": 0.1,
-                    "Posibles": [["PocionVida", 0.5], ["PocionMana", 0.5]]
+                    "Posibles": [
+                        [
+                            "PocionVida",
+                            0.5
+                        ],
+                        [
+                            "PocionMana",
+                            0.5
+                        ]
+                    ]
                 }
             }
         },
@@ -164,23 +252,64 @@
                 },
                 "Armas": {
                     "Probabilidad": 0.1,
-                    "Posibles": [["Espada", 0.5], ["Hacha", 0.5]]
+                    "Posibles": [
+                        [
+                            "Espada",
+                            0.5
+                        ],
+                        [
+                            "Hacha",
+                            0.5
+                        ]
+                    ]
                 },
                 "Armaduras": {
                     "Probabilidad": 0.1,
-                    "Posibles": [["ArmaduraDeCuero", 0.5], ["ArmaduraDePlacas", 0.5]]
+                    "Posibles": [
+                        [
+                            "ArmaduraDeCuero",
+                            0.5
+                        ],
+                        [
+                            "ArmaduraDePlacas",
+                            0.5
+                        ]
+                    ]
                 },
                 "Cascos": {
                     "Probabilidad": 0.1,
-                    "Posibles": [["Capucha", 0.5], ["SombreroMagico", 0.5]]
+                    "Posibles": [
+                        [
+                            "Capucha",
+                            0.5
+                        ],
+                        [
+                            "SombreroMagico",
+                            0.5
+                        ]
+                    ]
                 },
                 "Escudos": {
                     "Probabilidad": 0.1,
-                    "Posibles": [["EscudoDeTortuga", 0.5]]
+                    "Posibles": [
+                        [
+                            "EscudoDeTortuga",
+                            0.5
+                        ]
+                    ]
                 },
                 "Pociones": {
                     "Probabilidad": 0.1,
-                    "Posibles": [["PocionVida", 0.5], ["PocionMana", 0.5]]
+                    "Posibles": [
+                        [
+                            "PocionVida",
+                            0.5
+                        ],
+                        [
+                            "PocionMana",
+                            0.5
+                        ]
+                    ]
                 }
             }
         },
@@ -206,52 +335,93 @@
                 },
                 "Armas": {
                     "Probabilidad": 0.1,
-                    "Posibles": [["Espada", 0.5], ["Hacha", 0.5]]
+                    "Posibles": [
+                        [
+                            "Espada",
+                            0.5
+                        ],
+                        [
+                            "Hacha",
+                            0.5
+                        ]
+                    ]
                 },
                 "Armaduras": {
                     "Probabilidad": 0.1,
-                    "Posibles": [["ArmaduraDeCuero", 0.5], ["ArmaduraDePlacas", 0.5]]
+                    "Posibles": [
+                        [
+                            "ArmaduraDeCuero",
+                            0.5
+                        ],
+                        [
+                            "ArmaduraDePlacas",
+                            0.5
+                        ]
+                    ]
                 },
                 "Cascos": {
                     "Probabilidad": 0.1,
-                    "Posibles": [["Capucha", 0.5], ["SombreroMagico", 0.5]]
+                    "Posibles": [
+                        [
+                            "Capucha",
+                            0.5
+                        ],
+                        [
+                            "SombreroMagico",
+                            0.5
+                        ]
+                    ]
                 },
                 "Escudos": {
                     "Probabilidad": 0.1,
-                    "Posibles": [["EscudoDeTortuga", 0.5]]
+                    "Posibles": [
+                        [
+                            "EscudoDeTortuga",
+                            0.5
+                        ]
+                    ]
                 },
                 "Pociones": {
                     "Probabilidad": 0.1,
-                    "Posibles": [["PocionVida", 0.5], ["PocionMana", 0.5]]
+                    "Posibles": [
+                        [
+                            "PocionVida",
+                            0.5
+                        ],
+                        [
+                            "PocionMana",
+                            0.5
+                        ]
+                    ]
                 }
             }
         }
     },
     "Proyectiles": {
-        "FlechaMagica" : {
+        "FlechaMagica": {
             "VelDesplazamiento": 20,
             "TiempoDespawn": 300
         },
-        "Curar" : {
+        "Curar": {
             "VelDesplazamiento": 20,
-            "TiempoDespawn": 300  
-        }, 
-        "Misil" : {
-            "VelDesplazamiento": 20,
-            "TiempoDespawn": 300  
+            "TiempoDespawn": 300
         },
-        "Explosion" : {
+        "Misil": {
             "VelDesplazamiento": 20,
-            "TiempoDespawn": 300  
+            "TiempoDespawn": 300
         },
-        "CuerpoACuerpo" : {
+        "Explosion": {
             "VelDesplazamiento": 20,
-            "TiempoDespawn": 300  
+            "TiempoDespawn": 300
         },
-        "Flechazo" : {
+        "CuerpoACuerpo": {
+            "VelDesplazamiento": 10,
+            "TiempoDespawn": 300
+        },
+        "Flechazo": {
             "VelDesplazamiento": 20,
-            "TiempoDespawn": 300  
-        } 
+            "TiempoDespawn": 300
+        }
     },
     "Clases": {
         "Guerrero": {
@@ -303,7 +473,7 @@
         "Humano": {
             "FRazaVida": 2,
             "FRazaMana": 2,
-            "FRazaRecuperacion": 2,
+            "FRazaRecuperacion": 5,
             "FRazaMeditacion": 2,
             "MejoraFuerzaEnSubida": 2,
             "MejoraInteligenciaEnSubida": 2,
@@ -314,7 +484,7 @@
         "Elfo": {
             "FRazaVida": 2,
             "FRazaMana": 2,
-            "FRazaRecuperacion": 2,
+            "FRazaRecuperacion": 5,
             "FRazaMeditacion": 2,
             "MejoraFuerzaEnSubida": 2,
             "MejoraInteligenciaEnSubida": 2,
@@ -325,7 +495,7 @@
         "Enano": {
             "FRazaVida": 2,
             "FRazaMana": 2,
-            "FRazaRecuperacion": 2,
+            "FRazaRecuperacion": 5,
             "FRazaMeditacion": 2,
             "MejoraFuerzaEnSubida": 2,
             "MejoraInteligenciaEnSubida": 2,
@@ -336,7 +506,7 @@
         "Gnomo": {
             "FRazaVida": 2,
             "FRazaMana": 2,
-            "FRazaRecuperacion": 2,
+            "FRazaRecuperacion": 5,
             "FRazaMeditacion": 2,
             "MejoraFuerzaEnSubida": 2,
             "MejoraInteligenciaEnSubida": 2,
@@ -350,12 +520,12 @@
             "Espada": {
                 "DanioMax": 5,
                 "DanioMin": 2,
-                "Rango": 5,
+                "Rango": 150,
                 "ConsumoMana": 0,
                 "TiempoAtaque": 1000,
                 "Proyectil": "CuerpoACuerpo",
                 "Precio": 10,
-                "idTCP": 3
+                "idTCP": 8
             },
             "Hacha": {
                 "DanioMax": 5,
@@ -385,7 +555,7 @@
                 "TiempoAtaque": 1000,
                 "Proyectil": "FlechaMagica",
                 "Precio": 10,
-                "idTCP": 4
+                "idTCP": 11
             },
             "FlautaElfica": {
                 "DanioMax": -100,
@@ -537,13 +707,13 @@
                 "CuracionVida": 100,
                 "CuracionMana": 0,
                 "Precio": 10,
-                "idTCP": 1
+                "idTCP": 29
             },
             "PocionMana": {
                 "CuracionVida": 0,
                 "CuracionMana": 100,
                 "Precio": 10,
-                "idTCP": 2
+                "idTCP": 30
             }
         }
     },
@@ -553,6 +723,10 @@
             "Alto": 1
         },
         "TamanioTiendas": 18,
-        "DistanciaInteraccion": 50
+        "DistanciaInteraccion": 50,
+        "FairPlay": {
+            "NivelDiferenciaMaximo": 10,
+            "NivelNewbie": 12
+        }
     }
 }

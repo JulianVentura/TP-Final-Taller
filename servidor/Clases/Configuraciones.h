@@ -126,10 +126,10 @@ class Configuraciones{
     const float    obtenerDistanciaMaximaDeInteraccion() const;
     /* FORMULAS DEL JUEGO */ 
     unsigned int calcularVidaMax(Personaje *personaje);
-    unsigned int calcularRecuperacionVida(Personaje *personaje, double tiempo);
+    float        calcularRecuperacionVida(Personaje *personaje, double tiempo);
     unsigned int calcularManaMax(Personaje *personaje);
-    unsigned int calcularRecupManaMeditacion(Personaje *personaje, double tiempo);
-    unsigned int calcularRecupManaTiempo(Personaje *personaje, double tiempo);
+    float        calcularRecupManaMeditacion(Personaje *personaje, double tiempo);
+    float        calcularRecupManaTiempo(Personaje *personaje, double tiempo);
     unsigned int calcularDropOro(Entidad *entidad);
     unsigned int calcularMaxOroSeguro(Personaje *personaje);
     unsigned int calcularLimiteParaSubir(Personaje *personaje);

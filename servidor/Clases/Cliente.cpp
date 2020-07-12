@@ -7,11 +7,10 @@
 Cliente::Cliente(Socket &&socket,
                  OrganizadorSalas &unOrganizadorSalas,
                  OrganizadorClientes &organizadorClientes,
-                 BaseDeDatos &unaBaseDeDatos,
-                 Divulgador& divulgador) : 
+                 BaseDeDatos &unaBaseDeDatos) : 
                  personaje(nullptr),
                  id(""),
-                 clienteProxy(std::move(socket), this, divulgador),
+                 clienteProxy(std::move(socket), this),
                  organizadorSalas(unOrganizadorSalas),
                  miBaseDeDatos(unaBaseDeDatos),
                  salaActual(""),
@@ -24,10 +23,10 @@ Cliente::Cliente(Socket &&socket,
     */
     
     std::pair<std::string, std::string> credenciales = std::move(login(organizadorClientes));
-    std::pair<std::string, std::unique_ptr<Personaje>> datos = miBaseDeDatos.cargarCliente(credenciales);
+    //std::pair<std::string, std::unique_ptr<Personaje>> datos = miBaseDeDatos.cargarCliente(credenciales);
     this->id = credenciales.first;
-    this->personaje = std::move(datos.second);
-    this->salaActual = std::move(datos.first);
+    //this->personaje = std::move(datos.second);
+    //this->salaActual = std::move(datos.first);
 
     //Hasta aca
     Sala* miSala = organizadorSalas.obtenerSala(salaActual);
@@ -157,6 +156,9 @@ std::pair<std::string, std::string> Cliente::login(OrganizadorClientes &organiza
             ("Error: El id que ha ingresado ya ha sido logueado");
             credenciales = clienteProxy.recibirId();
         }else{
+            //DEBUG
+            clienteProxy.enviarConfirmacion();
+            return credenciales;
             if (miBaseDeDatos.verificarCliente(credenciales)){
                 return credenciales;
             }

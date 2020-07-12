@@ -3,7 +3,6 @@
 #include "Movible.h"
 #include "Interactuable.h"
 #include "Configuraciones.h"
-#include "Arma.h"
 #include "Inventario.h"
 #include "PosicionEncapsulada.h"
 #include <string>
@@ -12,9 +11,9 @@ class Mapa;
 class Entidad : public Interactuable{
     protected:
     uint32_t vidaMaxima;
-    uint32_t vidaActual;
+    float vidaActual;
     uint32_t manaMaximo;
-    uint32_t manaActual;
+    float manaActual;
     uint32_t fuerza;
     uint32_t inteligencia;
     uint32_t agilidad;

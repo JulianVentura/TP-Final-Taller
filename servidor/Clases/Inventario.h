@@ -15,7 +15,7 @@ class Inventario{
     Inventario(Inventario &&otro) = delete;
     Inventario& operator=(Inventario &otro) = delete;
     Inventario& operator=(Inventario &&otro);
-    void almacenar(Item* item);
+    int almacenar(Item* item);
     Item* obtenerItem(unsigned int pos);
     void eliminar(unsigned int pos);
     std::vector<Item*>* obtenerTodosLosItems();

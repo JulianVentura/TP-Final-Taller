@@ -17,9 +17,13 @@ ServidorProxy::ServidorProxy(DatosPersonaje& datos_personaje,
 	 : datos_personaje(datos_personaje), datos_tienda(datos_tienda) {
 	salir = false;
 	se_recibio_mapa = false;
-	evento_salida.type = SDL_SALIR_LOGIN;
-	evento_salida.quit.type = SDL_SALIR_LOGIN;
-	evento_salida.quit.timestamp = 0;
+
+	Uint32 tipo_evento = SDL_RegisterEvents(1);
+	if (tipo_evento != ((Uint32)-1)) {
+		SDL_memset(&evento_salida, 0, sizeof(evento_salida));
+		evento_salida.type = tipo_evento;
+		evento_salida.user.code = SALIR_LOGIN_EXITO;
+	}
 }
 
 void ServidorProxy::conectar(std::string& direccion, std::string& servicio){
@@ -128,7 +132,6 @@ void ServidorProxy::terminar() {
 
 std::string ServidorProxy::obtenerMapa() {
 	std::unique_lock<std::mutex> lock(mtx);
-	std::condition_variable cv;
 	while (!se_recibio_mapa) {
 		cv.wait(lock);
 	}
@@ -204,14 +207,14 @@ void ServidorProxy::enviarTirar(int pos){
 		protocolo.enviarString(socket, datos_tienda.id_vendedor);
 		protocolo.enviarUint16(socket, pos);
 	}else{
-		//protocolo.enviarUint32(socket, CODIGO_TIRADO);
-		//protocolo.enviarUint16(socket, pos);
+		protocolo.enviarUint32(socket, CODIGO_TIRADO);
+		protocolo.enviarUint16(socket, pos);
 	}
 }
 
 void ServidorProxy::enviarUtilizar(int pos){
-	//protocolo.enviarUint32(socket, CODIGO_UTILIZACION);
-	//protocolo.enviarUint16(socket, pos);
+	protocolo.enviarUint32(socket, CODIGO_UTILIZACION);
+	protocolo.enviarUint16(socket, pos);
 }
 
 //Interaccion

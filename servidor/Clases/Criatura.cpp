@@ -4,6 +4,8 @@
 #include "Configuraciones.h"
 #include "FabricaDeItems.h"
 #include "BolsaDeItems.h"
+#include "Divulgador.h"
+#include <sstream>
 #include <utility>
 #include <memory>
 #include <sstream>
@@ -16,7 +18,8 @@ Criatura::Criatura(float x, float y, std::string unId) :
                                        radioAgresividad(0),
                                        radioVisibilidad(0),
                                        finalizado(false),
-                                       objetivo(nullptr){
+                                       objetivo(nullptr),
+                                       arma(nullptr){
     FabricaDeItems *fabricaItems = FabricaDeItems::obtenerInstancia();
     Configuraciones *config = Configuraciones::obtenerInstancia();
     //Seteo los stats
@@ -60,18 +63,22 @@ const std::string Criatura::obtenerId() const {
 
 
 bool Criatura::recibirDanio(int danio, Entidad *atacante){
+    Divulgador *divulgador = Divulgador::obtenerInstancia();
     Configuraciones *config = Configuraciones::obtenerInstancia();
+    std::stringstream mensaje;
     if (config->seEsquivaElGolpe(this)){
         //Informarle a atacante que el golpe se esquiva.
+        mensaje << "El oponente ha esquivado el golpe";
+        divulgador->encolarMensaje(atacante->obtenerId(), mensaje.str());
         return true;
     }
     unsigned int experiencia = config->calcularExpPorGolpe(this,
                                                            atacante,
                                                            danio);
     atacante->obtenerExperiencia(experiencia);
-    //Enviar mensaje a atacante : "Realizas " << danio << "de daño";
+    mensaje << "Realizas " << danio << "de danio";
+    divulgador->encolarMensaje(atacante->obtenerId(), mensaje.str());
     if (vidaActual - danio <= 0){
-        //Enviar mensaje a this : "Has muerto";
         this->vidaActual = 0;
         experiencia = config->calcularExpPorMatar(this, atacante);
         atacante->obtenerExperiencia(experiencia);

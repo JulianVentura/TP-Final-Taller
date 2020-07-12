@@ -1,7 +1,11 @@
 #include "Proyectil.h"
 #include "Configuraciones.h"
 #include "Mapa.h"
+#include <sstream>
 
+#define LIMITE_CONTADOR 1000
+
+std::atomic<int> Proyectil::contador(0);
 
 Proyectil::Proyectil(std::string unId, Posicion origen, Posicion unDestino) : Entidad(unId), 
                                                                               destino(unDestino),
@@ -13,6 +17,10 @@ Proyectil::Proyectil(std::string unId, Posicion origen, Posicion unDestino) : En
     this->posicion = std::move(origen);
     this->desplazamiento = config->obtenerProyectilVelDesplazamiento(this->id);
     this->tiempoDespawn = config->obtenerProyectilTiempoDespawn(this->id);
+    std::stringstream _id;
+    if (contador >= LIMITE_CONTADOR) contador = 0;
+    _id << id << "#" << contador++;
+    id = std::move(_id.str());
 }
 
 //Comercio
@@ -53,7 +61,7 @@ void Proyectil::actualizarEstado(double tiempo){
         tiempoTranscurrido += tiempo;
         if (tiempoTranscurrido >= tiempoDespawn){
             mapaAlQuePertenece->eliminarEntidadNoColisionable(this);
-            finalizado = true;
+            //finalizado = true;
         }
     }else{
         Posicion nuevaPos = this->posicion.perseguir(destino, desplazamiento);

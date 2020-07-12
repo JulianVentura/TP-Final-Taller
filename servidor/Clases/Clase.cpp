@@ -45,7 +45,6 @@ const std::string Clase::obtenerId() const{
     return id;
 }
 
-
 const uint16_t Clase::obtenerIDTCP() const{
     return idTCP;
 }
