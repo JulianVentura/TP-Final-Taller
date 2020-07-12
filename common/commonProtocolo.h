@@ -16,7 +16,8 @@ class Socket;
 #define TAM_INT16 2
 #define TAM_INT32 4
 #define TAM_ENCABEZADO_STRING 4
-                  
+#define TAM_ID 20
+         
 class Protocolo {
 public:
     void enviarString(Socket& socket_comunicacion, const std::string& string);
