@@ -23,10 +23,10 @@ Cliente::Cliente(Socket &&socket,
     */
     
     std::pair<std::string, std::string> credenciales = std::move(login(organizadorClientes));
-    std::pair<std::string, std::unique_ptr<Personaje>> datos = miBaseDeDatos.cargarCliente(credenciales);
+    //std::pair<std::string, std::unique_ptr<Personaje>> datos = miBaseDeDatos.cargarCliente(credenciales);
     this->id = credenciales.first;
-    this->personaje = std::move(datos.second);
-    this->salaActual = std::move(datos.first);
+    //this->personaje = std::move(datos.second);
+    //this->salaActual = std::move(datos.first);
 
     //Con la info recuperada de la base de datos creo un Personaje
     //Esto hay que sacarlo una vez este hecha la base de datos
@@ -55,7 +55,7 @@ void Cliente::nuevoUsuario(std::pair<std::string, std::string> &credenciales,
     std::pair<float, float> pos = config->obtenerMapaPosicionSpawn(mapaDefault);
     Personaje nuevoPersonaje(pos.first, pos.second, id, idClase, idRaza);
     //Debe lanzar error si ya esta en uso.
-    miBaseDeDatos.nuevoCliente(credenciales, mapaDefault, &nuevoPersonaje);
+    //miBaseDeDatos.nuevoCliente(credenciales, mapaDefault, &nuevoPersonaje);
     /*
     if(!miBaseDeDatos.existeCliente(credenciales.first)){
         
@@ -155,6 +155,9 @@ std::pair<std::string, std::string> Cliente::login(OrganizadorClientes &organiza
             ("Error: El id que ha ingresado ya ha sido logueado");
             credenciales = clienteProxy.recibirId();
         }else{
+            //DEBUG
+            clienteProxy.enviarConfirmacion();
+            return credenciales;
             if (miBaseDeDatos.verificarCliente(credenciales)){
                 clienteProxy.enviarConfirmacion();
                 return credenciales;

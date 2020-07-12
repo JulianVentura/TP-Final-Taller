@@ -18,12 +18,13 @@ BolsaDeItems::BolsaDeItems(Posicion unaPosicion, Item *item) :
     Configuraciones *config = Configuraciones::obtenerInstancia();
     uint32_t ancho = config->obtenerBolsaDeDropAncho();
     uint32_t alto = config->obtenerBolsaDeDropAlto();
-    tamBolsa = config->obtenerTamanioTienda();    
+    tamBolsa = config->obtenerTamanioTienda();  
+    items.resize(tamBolsa, nullptr);
+    items[0] = item;
     std::stringstream nuevoId;
     nuevoId << "BolsaDeItems#" << contadorDeInstancias;
     contadorDeInstancias++;
     id = nuevoId.str(); 
-    items.push_back(item);
     this->posicion = std::move(Posicion(0, 0, ancho, alto));
     this->posicion.actualizarPosicion(std::move(unaPosicion));
 }

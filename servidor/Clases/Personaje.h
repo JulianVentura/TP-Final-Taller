@@ -75,6 +75,8 @@ class Personaje : public Entidad{
     void frenarMeditacion();
     Estado *obtenerEstado();
     //Comercio
+    void tirar(unsigned int pos);
+    void utilizar(unsigned int pos);
     void interactuar(Estado *estado, Cliente *cliente) override;
     void comprar(unsigned int pos, Estado *estad, Cliente *clienteo) override;
     void comprar(unsigned int pos, Personaje *personaje, Cliente *cliente) override;

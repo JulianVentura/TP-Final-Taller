@@ -132,7 +132,7 @@ Posicion Posicion::perseguir(const Posicion &otraPosicion, const float factorDes
     if (distancia <= factorDesplazamiento){
         return otraPosicion;
     }
-    quadtree::Vector2<float> temp = (pos - otraPosicion.pos);
+    quadtree::Vector2<float> temp = (otraPosicion.pos - pos);
 	temp.normalizar();
 	return Posicion(pos + temp * factorDesplazamiento, desplazamiento, ancho, alto);
 }

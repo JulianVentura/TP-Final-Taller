@@ -36,6 +36,7 @@ void EstadoNormal::serAtacadoPor(Entidad *atacante){
 //Otras acciones
 
 void EstadoNormal::meditar(){
+    if (personaje->manaActual == personaje->manaMaximo) return;
     personaje->estadoMeditacion();
 }
 

@@ -431,8 +431,9 @@ unsigned int Configuraciones::calcularConstitucion(Personaje *personaje){
 }
 
 bool Configuraciones::sePuedeAtacar(Personaje *objetivo, Personaje *atacante){
-    unsigned int nivelDiferenciaMaximo = json.at("FairPlay").at("NivelDiferenciaMaximo").get<uint32_t>();
-    unsigned int nivelNewbie = json.at("FairPlay").at("NivelNewbie").get<uint32_t>();
+    unsigned int nivelDiferenciaMaximo = json.at("Varios").at("FairPlay").
+                                        at("NivelDiferenciaMaximo").get<uint32_t>();
+    unsigned int nivelNewbie = json.at("Varios").at("FairPlay").at("NivelNewbie").get<uint32_t>();
     if (objetivo->nivel <= nivelNewbie || atacante->nivel <= nivelNewbie) return false;
     if (abs(objetivo->nivel - atacante->nivel) > nivelDiferenciaMaximo) return false;
     return true;

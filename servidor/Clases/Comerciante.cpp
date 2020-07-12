@@ -20,9 +20,6 @@ Comerciante::Comerciante(float x, float y) : Entidad("Comerciante#"), tamTienda(
     std::string idItem;
     FabricaDeItems *fabrica = FabricaDeItems::obtenerInstancia();
     /*
-    
-    std::string idItem = "Espada";
-    items.push_back(fabrica->crearArma(idItem));
     idItem = "Hacha";
     items.push_back(fabrica->crearArma(idItem));
     idItem = "Martillo";
@@ -38,11 +35,15 @@ Comerciante::Comerciante(float x, float y) : Entidad("Comerciante#"), tamTienda(
     idItem = "EscudoDeTortuga";
     items.push_back(fabrica->crearEscudo(idItem));
     */
+    idItem = "Espada";
+    items.push_back(fabrica->crearArma(idItem));
+    idItem = "VaraDeFresno";
+    items.push_back(fabrica->crearArma(idItem));
     idItem = "PocionVida";
     items.push_back(fabrica->crearPocion(idItem));
     idItem = "PocionMana";
     items.push_back(fabrica->crearPocion(idItem));
-    for(int i = 0;i < 16;i++){
+    for(int i = 0;i < 14;i++){
         items.push_back(nullptr);
     }
 }

@@ -160,6 +160,17 @@ bool Personaje::recibirDanio(int danio, Entidad *atacante){
 void Personaje::atacar(Personaje *objetivo){
     if (arma == NO_EQUIPADO) return;
     //Estoy seguro de que el casteo sera valido.
+    
+    /* COMENTO POR DEBUG
+    Configuraciones *config = Configuraciones::obtenerInstancia();
+    
+    if (!config->sePuedeAtacar(objetivo, this)){
+        Divulgador *divulgador = Divulgador::obtenerInstancia();
+        std::string mensaje = "No se puede realizar el ataque por FairPlay";
+        divulgador->encolarMensaje(this->obtenerId(), mensaje);
+        return;
+    }
+    */
     estado->atacar(objetivo, (Arma*)inventario.obtenerItem(arma));
 }
 
@@ -175,13 +186,6 @@ void Personaje::serAtacadoPor(Entidad *atacante){
 
 void Personaje::serAtacadoPor(Personaje *atacante){
     //Chequeo FairPlay
-    Configuraciones *config = Configuraciones::obtenerInstancia();
-    if (!config->sePuedeAtacar(this, atacante)){
-        Divulgador *divulgador = Divulgador::obtenerInstancia();
-        std::string mensaje = "No se puede realizar el ataque por FairPlay";
-        divulgador->encolarMensaje(atacante->obtenerId(), mensaje);
-        return;
-    }
     estado->serAtacadoPor(atacante);
 }
 
@@ -319,6 +323,21 @@ void Personaje::estadoMeditacion(){
 
 Estado *Personaje::obtenerEstado(){
     return this->estado.get();
+}
+
+
+void Personaje::tirar(unsigned int pos){
+    Item *item = inventario.obtenerItem(pos);
+    inventario.eliminar(pos);
+    item->desequipar(this, pos);
+    std::unique_ptr<BolsaDeItems> bolsa(new BolsaDeItems(this->posicion, 
+                                                         std::move(item)));
+    mapaAlQuePertenece->cargarEntidad(std::move(bolsa));
+}
+
+void Personaje::utilizar(unsigned int pos){
+    Item *item = inventario.obtenerItem(pos);
+    item->utilizar(this, pos);
 }
 
 void Personaje::interactuar(Estado *estado, Cliente *cliente){
