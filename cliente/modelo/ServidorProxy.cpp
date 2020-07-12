@@ -17,8 +17,8 @@ ServidorProxy::ServidorProxy(DatosPersonaje& datos_personaje,
 	 : datos_personaje(datos_personaje), datos_tienda(datos_tienda) {
 	salir = false;
 	se_recibio_mapa = false;
-	evento_salida.type = SDL_QUIT;
-	evento_salida.quit.type = SDL_QUIT;
+	evento_salida.type = SDL_SALIR_LOGIN;
+	evento_salida.quit.type = SDL_SALIR_LOGIN;
 	evento_salida.quit.timestamp = 0;
 }
 

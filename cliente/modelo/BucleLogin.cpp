@@ -28,9 +28,14 @@ void BucleLogin::correr() {
 void BucleLogin::despacharEventos(SDL_Event& evento) {
     bool evento_consumido = false;
 	switch(evento.type) {
-		case SDL_QUIT: 
+        case SDL_SALIR_LOGIN:
+            salir = true;
+            SDL_FlushEvents(SDL_FIRSTEVENT, SDL_LASTEVENT);
+        break;
+
+		case SDL_QUIT:
 			salir = true;
-            // exit(0);
+            SDL_FlushEvents(SDL_FIRSTEVENT, SDL_LASTEVENT);
 		break;
 
 		case SDL_MOUSEBUTTONDOWN:

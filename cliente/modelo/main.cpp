@@ -52,7 +52,7 @@ int main(int argc, const char* argv[]) {
         // datos_personaje.id = id_usuario;
         // servidor.conectar(direccion, servicio);
         // servidor.enviarNuevaCuenta(id_usuario, password, raza, clase);
-        
+
         BuclePrincipal bucle(ventana);
 
         Juego juego(entorno, datos_personaje, servidor);
