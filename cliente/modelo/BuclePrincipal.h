@@ -9,7 +9,7 @@
 #include <vector>
 #include <unordered_map>
 
-#define FPS 60
+#define FPS 30
 #define SEG_A_MILLI 1000
 #define MILLIS_POR_FRAME SEG_A_MILLI / FPS
 

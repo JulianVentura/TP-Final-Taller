@@ -25,7 +25,7 @@ LibreriaConjuntoTileParser::LibreriaConjuntoTileParser(nlohmann::json& parser) {
         conjunto_tile["tileheight"].get_to(info.alto_tile);
         conjunto_tile["tilewidth"].get_to(info.ancho_tile);
 
-        if (conjunto_tile.count("transparentcolor") > 0) {
+        if (conjunto_tile.count("transparentcolor")) {
             conjunto_tile["transparentcolor"].get_to(info.color_transparente);
         }
         conjuntosTiles.push_back(std::move(info));

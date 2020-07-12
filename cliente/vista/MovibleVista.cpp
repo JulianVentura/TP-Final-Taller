@@ -26,21 +26,25 @@ const std::vector<std::string> MovibleVista::ordenDeImagenes = {
     "cabeza"
 };
 
+#define NPC_ANIMACION 60
+
 MovibleVista::MovibleVista(EntornoGrafico& entorno, IPosicionable* modelo, 
         EntidadParser& parser, DatosApariencia apariencia): 
         modelo(modelo), parser(parser), apariencia(apariencia), 
-        animacion(parser, std::string(ANIMACION_BASE)) {
+        animacion(parser, apariencia.tipo) {
     entorno.agregarRendereable(this);    
     x = modelo->getX();
     y = modelo->getY();
     ultimo_estado = ANIMACION_BASE;
-    ancho = parser.getAncho(apariencia.raza);
-    alto = parser.getAlto(apariencia.raza);
+    ancho = parser.getAncho(apariencia.raza, apariencia.tipo);
+    alto = parser.getAlto(apariencia.raza, apariencia.tipo);
 
-    if (apariencia.tipo.size() > 0)
+    if (apariencia.tipo.size() > 0) {
         imagenes = parser.getImagenes(apariencia.tipo);
-    else
+        animacion.setTiempoPorCuadro(NPC_ANIMACION);
+    } else {
         imagenes = parser.getImagenes(apariencia.raza, apariencia.clase);
+    }
 }
 
 void MovibleVista::actualizar(unsigned int delta_t) {

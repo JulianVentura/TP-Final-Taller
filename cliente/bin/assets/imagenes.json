@@ -189,7 +189,7 @@
 				{
 					"nombre": "Vara de fresno",
 					"descripcion": "permite lanzar el hechizo flecha mágica que tiene un daño a distancia de 2 a 4. Consume 5 de mana.",
-					"oversize": true,
+					"animacion": "oversize",
 					"imagen": "4.png",
 					"imagen_activa": "5.png"
 				},
@@ -202,13 +202,13 @@
 				{
 					"nombre": "Báculo nudoso",
 					"descripcion": "permite lanzar el hechizo misil que tiene un daño a distancia de 4 a 8. Consume 15 de mana.",
-					"oversize": true,
+					"animacion": "oversize",
 					"imagen": "13.png"
 				},
 				{
 					"nombre": "Báculo engarzado",
 					"descripcion": "permite lanzar el hechizo explosion que tiene un daño a distancia de 8 a 20. Consume 30 de mana.",
-					"oversize": true,
+					"animacion": "oversize",
 					"imagen": "15.png"
 				},
 				{
@@ -318,8 +318,35 @@
 			"cabeza": [],
 			"armas": []
 		},
-		"Arania": {
-
+		"Arania1": {
+			"cuerpo" : ["spider1.png"],
+			"ojos": [],
+			"cicatrices" : [],
+			"nariz": [],
+			"facial": [],
+			"pies": [],
+			"piernas": [],
+			"torso": [],
+			"cinto": [],
+			"pelo": [],
+			"cabeza": [],
+			"armas": [],
+			"animacion": "arania1"
+		},
+		"Arania2": {
+			"cuerpo" : ["spider2.png"],
+			"ojos": [],
+			"cicatrices" : [],
+			"nariz": [],
+			"facial": [],
+			"pies": [],
+			"piernas": [],
+			"torso": [],
+			"cinto": [],
+			"pelo": [],
+			"cabeza": [],
+			"armas": [],
+			"animacion": "arania2"
 		},
 		"Banquero": {
 			"cuerpo" : ["man-white.png"],
@@ -404,15 +431,54 @@
 			"Ancho": 192,
 			"Alto": 192,
 			"Columnas": 6,
-			"Arriba": 0,
-			"Izquierda": 1,
-			"Abajo": 2,
-			"Derecha": 3,
+			"Direcciones": {
+				"Arriba": 0,
+				"Izquierda": 1,
+				"Abajo": 2,
+				"Derecha": 3
+			},
 			"Quieto": 0,
 			"Estados": {
 				"Arma": {
-					"fila": [0, 1, 3, 4],
+					"fila": [0, 1, 2, 3],
 					"cantidad": 6
+				}
+			}
+		},
+		"arania1": {
+			"Ancho": 48,
+			"Alto": 48,
+			"Columnas": 3,
+			"Direcciones": {
+				"Abajo": 0,
+				"Izquierda": 1,
+				"Derecha": 2,
+				"Arriba": 3
+			},
+			"Quieto": 0,
+			"Estados": {
+				"Caminar": {
+					"fila": [0, 1, 2, 3],
+					"cantidad": 3
+				}
+			}
+		},
+		"arania2": {
+			"Ancho": 134,
+			"Alto": 89,
+			"Columnas": 3,
+
+			"Direcciones": {
+				"Abajo": 0,
+				"Izquierda": 1,
+				"Derecha": 2,
+				"Arriba": 3
+			},
+			"Quieto": 0,
+			"Estados": {
+				"Caminar": {
+					"fila": [0, 1, 2, 3],
+					"cantidad": 3
 				}
 			}
 		}

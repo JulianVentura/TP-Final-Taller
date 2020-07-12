@@ -69,6 +69,7 @@ Juego::Juego(EntornoGrafico& entorno, DatosPersonaje& datos_personaje,
     DatosApariencia ap;
     ap.raza = "humano";
     ap.clase = "mago";
+    // ap.tipo = "arania1";
     agregarEntidad(datos_personaje.id, ap);
 
     // std::string id = "asdsd";
@@ -106,11 +107,11 @@ Juego::Juego(EntornoGrafico& entorno, DatosPersonaje& datos_personaje,
 }
 
 void Juego::agregarEntidad(std::string& id, DatosApariencia& apariencia) {
-    if (movibles.count(id) > 0) {
+    if (movibles.count(id)) {
         printf("ya existe, habría que actualizar\n");
         return;
     }
-    movibles[id] = crearEntidad(id, apariencia);
+    movibles[id] = std::move(crearEntidad(id, apariencia));
     capaFrontal.agregarObstruible(movibles[id].second);
     servidor.agregarPosicionable(id, movibles[id].first);
     if (id == datos_personaje.id) {
@@ -126,7 +127,7 @@ Juego::~Juego() {
 }
 
 void Juego::borrarEntidad(std::string& id) {
-    if (movibles.count(id) == 0) return;
+    if (!movibles.count(id)) return;
     servidor.borrarPosicionable(id);
     capaFrontal.borrarObstruible(movibles[id].second);
     delete movibles[id].first;
@@ -139,15 +140,13 @@ std::pair<IPosicionable*, MovibleVista*> Juego::crearEntidad(std::string& id,
     std::pair<IPosicionable*, MovibleVista*> resultado;
     auto posicion_identificador = id.find(NPC_DELIMITADOR);
     if (posicion_identificador != std::string::npos) {
-        // printf("este tiene el numeral %s\n", id.c_str());
         apariencia.tipo = id.substr(0, posicion_identificador);
-        // apariencia.tipo = "";
-        // apariencia.tipo = "zombie";
     } else {
-        // Preguntarle al servidor la apariencia correcta
+        // TODO: Preguntarle al servidor la apariencia correcta
         // apariencia.raza = ...
         // apariencia.clase = ...
     }
+    printf("%s\n", id.c_str());
     resultado.first = new IPosicionable();
     resultado.first->actualizarPosicion(rand() % 400 + 500, rand()% 500 + 200);
     resultado.second = new MovibleVista(entorno, resultado.first, 
@@ -157,29 +156,25 @@ std::pair<IPosicionable*, MovibleVista*> Juego::crearEntidad(std::string& id,
 
 void Juego::agregarEntidad(std::string& id) {
     DatosApariencia apariencia;
-    // TODO: hardcodeado
-    // apariencia.raza = "humano";
-    // apariencia.clase = "Mago";
-    printf("%s\n", id.c_str());
     agregarEntidad(id, apariencia);
 }
 
 void Juego::actualizarPosiciones(std::unordered_map<std::string, std::pair<int, 
                                                             int>> posiciones) {
     for (auto& posicion: posiciones) {
-		if (movibles.count(posicion.first) == 0) {
+		if (!movibles.count(posicion.first)) {
 			std::string id(posicion.first);
 			agregarEntidad(id);
 			continue;
 		}
-		if (movibles.count(posicion.first) == 0) continue;
+		if (!movibles.count(posicion.first)) continue;
 		auto& coordenadas = posicion.second;
 		movibles[posicion.first].first->actualizarPosicion(coordenadas.first, 
 															coordenadas.second);
 	}
     std::vector<std::string> paraBorrar;
     for (auto& movible: movibles) {
-        if (posiciones.count(movible.first) > 0) continue;
+        if (posiciones.count(movible.first)) continue;
         paraBorrar.push_back(movible.first);
     }
     for (auto& movible: paraBorrar)

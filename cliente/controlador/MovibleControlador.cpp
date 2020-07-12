@@ -25,14 +25,14 @@ std::unordered_map<int, uint32_t> MovibleControlador::teclas_direccionables {
 bool MovibleControlador::manejarEvento(SDL_Event& evento) {
     if (evento.type == SDL_KEYDOWN) {
         int tecla_presionada = evento.key.keysym.sym;
-        if (teclas_direccionables.count(tecla_presionada) <= 0) return false;
+        if (!teclas_direccionables.count(tecla_presionada)) return false;
         servidor.enviarMovimiento(teclas_direccionables[tecla_presionada]);
         ultima_tecla_presionada = tecla_presionada;
         return true;
     } else if (evento.type == SDL_KEYUP) {
         auto& tecla_soltada = evento.key.keysym.sym;
         if (tecla_soltada != ultima_tecla_presionada) return false;
-        if (teclas_direccionables.count(tecla_soltada) <= 0) return false;
+        if (!teclas_direccionables.count(tecla_soltada)) return false;
         servidor.enviarMovimiento(MOVIMIENTO::DETENERSE);
         return true;
     }

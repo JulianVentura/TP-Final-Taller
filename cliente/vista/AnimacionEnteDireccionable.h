@@ -4,7 +4,7 @@
 #include "Animacion.h"
 #include <string>
 
-#define ANIMACION_BASE    "base"
+#define ANIMACION_BASE      "base"
 #define ANIMACION_ARRIBA    "Arriba"
 #define ANIMACION_ABAJO     "Abajo"
 #define ANIMACION_DERECHA   "Derecha"
@@ -12,8 +12,7 @@
 
 class AnimacionEnteDireccionable: public Animacion {
 public:
-    AnimacionEnteDireccionable(EntidadParser& parser, 
-                                        const std::string& animacion_inicial);
+    AnimacionEnteDireccionable(EntidadParser& parser, const std::string& tipo);
     virtual ~AnimacionEnteDireccionable() = default;
     void actualizarEstado(unsigned int delta_t, int delta_x, int delta_y);
 

@@ -5,6 +5,7 @@
 #include <cctype>
 #include <algorithm>
 #include <fstream>
+
 #define RUTA_INFO "assets/imagenes.json"
 #define DELIMITADOR "-"
 #define DELIMITADOR_RUTA "/"
@@ -35,7 +36,7 @@ static void aMinuscula(std::string& cadena) {
 void EntidadParser::parsearRazas() {
     for (auto& raza: parser["razas"].items()) {
         auto clases = raza.value()["variantes"];
-        if (raza.value().count("copiar") > 0) {
+        if (raza.value().count("copiar")) {
             std::string copiar_a;
             raza.value()["copiar"].get_to(copiar_a);
             clases = parser["razas"][copiar_a.c_str()]["variantes"];
@@ -49,13 +50,13 @@ void EntidadParser::parsearRazas() {
                                                 valor.get<std::string>());
             }
         }
-        std::string id_clase_raza = raza.key() + DELIMITADOR + std::string(BASE);
-        aMinuscula(id_clase_raza);
-        imagenes[id_clase_raza] = std::move(setDeImagenesBase);
+        std::string clase_raza = raza.key() + DELIMITADOR + std::string(BASE);
+        aMinuscula(clase_raza);
+        imagenes[clase_raza] = std::move(setDeImagenesBase);
         
         for (auto& clase: clases.items()) {
             if (raza.key() == BASE) continue;
-            imagenes_t setDeImagenes(imagenes[id_clase_raza]);
+            imagenes_t setDeImagenes(imagenes[clase_raza]);
             for (auto& campo: setDeImagenes) {
                 for (auto& valor: clase.value()[campo.first]) {
                     if (valor == "") continue;
@@ -63,9 +64,9 @@ void EntidadParser::parsearRazas() {
                                                     valor.get<std::string>());
                 }
             }
-            std::string id_clase_raza = raza.key() + DELIMITADOR + clase.key();
-            aMinuscula(id_clase_raza);
-            imagenes[id_clase_raza] = std::move(setDeImagenes);
+            std::string clase_raza = raza.key() + DELIMITADOR + clase.key();
+            aMinuscula(clase_raza);
+            imagenes[clase_raza] = std::move(setDeImagenes);
         }
     }
 }
@@ -95,11 +96,14 @@ void EntidadParser::parsearAnimaciones() {
     for (auto& animacion: parser["animacion"].items()) {
         int columnas = animacion.value()["Columnas"];
         this->columnas[animacion.key()] = columnas;
+        // printf("%s\n", animacion.key().c_str());
+
         for (auto& direccion: animacion.value()["Direcciones"].items()) {
             int direccion_v = direccion.value();
             for (auto& estado: animacion.value()["Estados"].items()) {
                 std::string llave = estado.key() + DELIMITADOR + direccion.key();
                 aMinuscula(llave);
+
                 std::string llave_quieto = llave + DELIMITADOR + std::string(QUIETO);
                 aMinuscula(llave_quieto);
                 int cantidad = estado.value()["cantidad"];
@@ -114,6 +118,17 @@ void EntidadParser::parsearAnimaciones() {
             }
         }
     }
+    // for (auto& animacion: animaciones) {
+    //     for (auto& variante: animacion.second) {
+    //         // printf("%s %s\n", animacion.first.c_str(), variante.first.c_str());
+    //         std::string tipo = animacion.first;
+    //         std::string accion = "Caminar";
+    //         std::string direccion = "Arriba";
+    //         // printf("%d %d\n", getAnimacionCantidadTipo(tipo) , getAnimacionCantidad(tipo, accion, direccion));
+    //     }
+    // }
+    
+    // exit(0);
 }
 
 EntidadParser::EntidadParser(EntornoGrafico& entorno): entorno(entorno) {
@@ -126,41 +141,48 @@ EntidadParser::EntidadParser(EntornoGrafico& entorno): entorno(entorno) {
 }
 
 EntidadParser::~EntidadParser() {
-    // for (auto& setImagen: imagenes) {
-    //     for (auto& parte: setImagen.second) {
-    //         for (auto& imagen: parte.second) {
-    //             delete imagen;
-    //         }
-    //     }
-    // }
+    for (auto& setImagen: imagenes) {
+        for (auto& parte: setImagen.second) {
+            for (auto& imagen: parte.second) {
+                delete imagen;
+            }
+        }
+    }
 }
 
 int EntidadParser::getGuid(std::string& tipo, std::string& accion, 
                             std::string& direccion, int columna, bool quieto) {
+
+    std::string local_tipo = BASE;
+    aMinuscula(tipo);
+    if (animaciones.count(tipo)) local_tipo = tipo;
     std::string id = accion + DELIMITADOR + direccion;
     aMinuscula(id);
-    if (quieto) return animaciones[tipo][id][0];
-    return animaciones[tipo][id][columna % getAnimacionCantidad(tipo, accion, 
-                                                            direccion)];
+    if (quieto) return animaciones[local_tipo][id][0];
+    return animaciones[local_tipo][id][columna % getAnimacionCantidad(
+                                             local_tipo, accion, direccion)];
 }
 
 int EntidadParser::getAnimacionCantidadTipo(std::string& tipo) {
-    aMinuscula(tipo);   
-    if (columnas.count(tipo) <= 0) return -1;
-    return columnas[tipo];
+    std::string local_tipo = BASE;
+    aMinuscula(tipo);
+    if (columnas.count(tipo)) local_tipo = tipo;
+    return columnas[local_tipo];
 }
 
 int EntidadParser::getAnimacionCantidad(std::string& tipo, std::string& accion, 
                                                     std::string& direccion) {
+    std::string local_tipo = BASE;
+    if (animaciones.count(tipo)) local_tipo = tipo;
     std::string id = accion + DELIMITADOR + direccion;
     aMinuscula(id);
-    return animaciones[tipo][id].size();
+    return animaciones[local_tipo][id].size();
 }
 
 imagenes_t EntidadParser::getImagenes(std::string& tipo) {
     printf("tipo get imagenes: %s\n", tipo.c_str());
     aMinuscula(tipo);
-    if (imagenes.count(tipo) <= 0) return aparienciaImagenesBase;
+    if (!imagenes.count(tipo)) return aparienciaImagenesBase;
     return imagenes[tipo];
 }
 
@@ -168,30 +190,36 @@ imagenes_t EntidadParser::getImagenes(std::string& raza, std::string& clase) {
     std::string index(raza + DELIMITADOR + clase);
     aMinuscula(index);
     printf("tipo get imagenes: %s\n", index.c_str());
-    if (imagenes.count(index) <= 0) return aparienciaImagenesBase;
+    if (!imagenes.count(index)) return aparienciaImagenesBase;
     return imagenes[index];
 }
 
-int EntidadParser::getAncho(std::string& raza) {
+int EntidadParser::getAncho(std::string& raza, std::string& tipo) {
     float factor = 1.0f;
     aMinuscula(raza);
-    if (parser["razas"].count(raza) > 0) 
+    if (parser["razas"].count(raza)) 
         parser["razas"][raza]["escala"].get_to(factor);
-    return getAlto() * factor;
+    return getAncho(tipo) * factor;
 }
 
-int EntidadParser::getAlto(std::string& raza) {
+int EntidadParser::getAlto(std::string& raza, std::string& tipo) {
     float factor = 1.0f;
     aMinuscula(raza);
-    if (parser["razas"].count(raza) > 0) 
+    if (parser["razas"].count(raza)) 
         parser["razas"][raza]["escala"].get_to(factor);
-    return getAlto() * factor;
+    return getAlto(tipo) * factor;
 }
 
-int EntidadParser::getAncho() {
-    return (int) parser["animacion"][BASE]["Ancho"];
+int EntidadParser::getAncho(std::string& tipo) {
+    std::string local_tipo = BASE;
+    aMinuscula(tipo);
+    if (animaciones.count(tipo)) local_tipo = tipo;
+    return (int) parser["animacion"][local_tipo]["Ancho"];
 }
 
-int EntidadParser::getAlto() {
-    return parser["animacion"][BASE]["Alto"];
+int EntidadParser::getAlto(std::string& tipo) {
+    std::string local_tipo = BASE;
+    aMinuscula(tipo);
+    if (animaciones.count(tipo)) local_tipo = tipo;
+    return parser["animacion"][local_tipo]["Alto"];
 }

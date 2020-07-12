@@ -33,10 +33,10 @@ public:
     ~EntidadParser();
     imagenes_t getImagenes(std::string& raza, std::string& clase);
     imagenes_t getImagenes(std::string& tipo);
-    int getAncho(std::string& raza);
-    int getAlto(std::string& raza);
-    int getAncho();
-    int getAlto();
+    int getAncho(std::string& raza, std::string& tipo);
+    int getAlto(std::string& raza, std::string& tipo);
+    int getAncho(std::string& tipo);
+    int getAlto(std::string& tipo);
     int getGuid(std::string& tipo, std::string& accion, std::string& direccion, 
                                                 int columna, bool quieto=true);
     int getAnimacionCantidadTipo(std::string& tipo);
