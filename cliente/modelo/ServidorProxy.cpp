@@ -18,7 +18,6 @@ ServidorProxy::ServidorProxy(DatosPersonaje& datos_personaje,
 	salir = false;
 	se_recibio_mapa = false;
 	esta_logueado = false;
-	
 	Uint32 tipo_evento = SDL_RegisterEvents(1);
 	if (tipo_evento != ((Uint32) - 1)) {
 		SDL_memset(&evento_salida, 0, sizeof(evento_salida));
@@ -65,16 +64,12 @@ void ServidorProxy::recibirMensajeConOperacion(uint32_t operacion) {
 	bool mensaje_publico;
 
 	switch (operacion) {
-		case CODIGO_CARGA_MAPA:
-		{
-			std::unique_lock<std::mutex> lock(mtx);
-			protocolo.recibirString(socket, mapa);
-			se_recibio_mapa = true;
-			cv.notify_all();
-		}
-		break;
 		case CODIGO_POSICIONES:
 		this->actualizarPosiciones();	
+		break;
+		
+		case CODIGO_ESTADOS:
+			recibir_estados();
 		break;
 
 		case CODIGO_MENSAJE_CHAT:
@@ -83,6 +78,15 @@ void ServidorProxy::recibirMensajeConOperacion(uint32_t operacion) {
 		salida -> agregarMensaje(mensaje, mensaje_publico);
 		break;
 
+		case CODIGO_ESTADISTICAS:
+			datos_personaje.vida = protocolo.recibirUint16(socket);
+			datos_personaje.vida_max = protocolo.recibirUint16(socket);
+			datos_personaje.mana = protocolo.recibirUint16(socket);
+			datos_personaje.mana_max = protocolo.recibirUint16(socket);
+			datos_personaje.exp = protocolo.recibirUint16(socket);
+			datos_personaje.exp_max = protocolo.recibirUint16(socket);
+		break;
+		
 		case CODIGO_ERROR:
 		protocolo.recibirString(socket, mensaje);
 		salida -> agregarMensaje(mensaje, mensaje_publico);
@@ -104,17 +108,13 @@ void ServidorProxy::recibirMensajeConOperacion(uint32_t operacion) {
 		datos_tienda.activo = true;
 		break;
 
-		case CODIGO_ESTADISTICAS:
-			datos_personaje.vida = protocolo.recibirUint16(socket);
-			datos_personaje.vida_max = protocolo.recibirUint16(socket);
-			datos_personaje.mana = protocolo.recibirUint16(socket);
-			datos_personaje.mana_max = protocolo.recibirUint16(socket);
-			datos_personaje.exp = protocolo.recibirUint16(socket);
-			datos_personaje.exp_max = protocolo.recibirUint16(socket);
-		break;
-		
-		case CODIGO_ESTADOS:
-			recibir_estados();
+		case CODIGO_CARGA_MAPA:
+		{
+			std::unique_lock<std::mutex> lock(mtx);
+			protocolo.recibirString(socket, mapa);
+			se_recibio_mapa = true;
+			cv.notify_all();
+		}
 		break;
 
 		case CODIGO_CONFIRMACION:
@@ -185,10 +185,10 @@ void ServidorProxy::enviarMovimiento(uint32_t movimiento) {
 	protocolo.enviarUint32(socket, movimiento);
 }
 
-void ServidorProxy::recibir_estados(){
+void ServidorProxy::recibir_estados() {
 	uint32_t largo = protocolo.recibirUint32(socket);
 	std::vector<struct serializacionEstado> resultado;
-	for (std::size_t i=0; i < largo; i++){
+	for (std::size_t i = 0; i < largo; i++) {
 		struct serializacionEstado actual;
 		socket.recibir(actual.id, TAM_ID);
         actual.idArmaEquipada = protocolo.recibirUint16(socket);
@@ -200,6 +200,7 @@ void ServidorProxy::recibir_estados(){
 		actual.idEstado = protocolo.recibirUint16(socket);
 		printf("Id: %s\n", actual.id);
 		printf("Arma: %d\n", actual.idArmaEquipada);
+		printf("Raza: %d\n", actual.idRaza);
 		printf("Clase: %d\n", actual.idClase);
 		printf("Estado: %d\n", actual.idEstado);
 		resultado.push_back(std::move(actual));
