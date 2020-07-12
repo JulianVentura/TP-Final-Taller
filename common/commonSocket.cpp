@@ -54,13 +54,13 @@ static int _iterarDirecciones(int& file_descriptor, const char* dir,
 			dir_actual->ai_socktype, dir_actual->ai_protocol);
 	if (file_descriptor == -1) continue;
 
-	funcion_exitosa = (funcion(file_descriptor, dir_actual->ai_addr, 
-		dir_actual->ai_addrlen) != -1);
-	if (!funcion_exitosa) close(file_descriptor);
-}
+		funcion_exitosa = (funcion(file_descriptor, dir_actual->ai_addr, 
+			dir_actual->ai_addrlen) != -1);
+		if (!funcion_exitosa) close(file_descriptor);
+	}
 
-freeaddrinfo(dir_posibles);
-return (funcion_exitosa) ? 0 : ERROR_CONEXION;
+	freeaddrinfo(dir_posibles);
+	return (funcion_exitosa) ? 0 : ERROR_CONEXION;
 }
 
 void Socket::conectar(const char* dir, const char* servicio){
@@ -71,7 +71,7 @@ void Socket::conectar(const char* dir, const char* servicio){
 	
 	if(_iterarDirecciones(file_descriptor,dir,servicio,&hints,&connect)
 		== ERROR_CONEXION)
-		throw FallaConexionException();
+		throw FallaConexionException("Error socket connect\n");
 }
 
 void Socket::cerrar_canal(int canal){
@@ -84,7 +84,7 @@ int Socket::enviar(const char* buffer,size_t largo){
 	while (bytes_enviados < largo) {
 		retorno = send(file_descriptor, &buffer[bytes_enviados],
 			largo - bytes_enviados, MSG_NOSIGNAL);
-		if(retorno  <= 0) throw FallaConexionException();
+		if(retorno  <= 0) throw FallaConexionException("Error socket enviar\n");
 		bytes_enviados += retorno;
 	}
 
@@ -98,7 +98,7 @@ int Socket::recibir(char* buffer, size_t largo){
 		retorno = recv(file_descriptor, &buffer[bytes_recibidos],
 			largo - bytes_recibidos, 0);
 		bytes_recibidos += retorno;
-		if(retorno <= 0) throw FallaConexionException();
+		if(retorno <= 0) throw FallaConexionException("Error socket recibir\n");
 	}
 	return bytes_recibidos;
 }
@@ -127,7 +127,7 @@ void Socket::ligar(const char* servicio){
 
 	if(_iterarDirecciones(file_descriptor,0,servicio,&hints,&_bindConOpciones)
 		== ERROR_CONEXION)
-		throw FallaConexionException();
+		throw FallaConexionException("Error socket bind\n");
 }
 
 void Socket::escuchar(int limite_de_cola){
@@ -136,7 +136,7 @@ void Socket::escuchar(int limite_de_cola){
 
 Socket Socket::aceptar(){
 	int retorno = accept(file_descriptor, NULL, NULL);
-	if(retorno < 0) throw FallaConexionException();
+	if(retorno < 0) throw FallaConexionException("Error socket accept\n");
 	Socket socket_aceptado(retorno);
 	return /*std::move*/(socket_aceptado);
 }

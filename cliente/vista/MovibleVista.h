@@ -6,9 +6,8 @@
 #include "IObstruible.h"
 #include "Imagen.h"
 #include "../modelo/EntidadParser.h"
-#include "../controlador/IInteractivo.h"
-                                        // TODO: provisorio
-class MovibleVista: public IObstruible, public IInteractivo {
+
+class MovibleVista: public IObstruible {
 public:
     MovibleVista(EntornoGrafico& entorno, IPosicionable* modelo, 
                             EntidadParser& parser, DatosApariencia apariencia);
@@ -16,7 +15,7 @@ public:
 
     void render() override;
     void actualizar(unsigned int delta_t) override;
-    bool manejarEvento(SDL_Event& evento) override;
+    bool contienePunto(int x, int y);
     
 private:
     imagenes_t imagenes;

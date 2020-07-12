@@ -47,3 +47,4 @@ Nota: Crear siempre una nueva cuenta al logearse en el servidor,
 10/07/20 https://drive.google.com/file/d/1-KCT0oHJ5-JcQTcdRnJfPt037v1Z_rTs/view?usp=sharing
 
 	* Ignorar la clase posicionable, ha quedado en desuso en refactorizaciones recientes.
+

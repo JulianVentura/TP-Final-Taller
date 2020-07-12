@@ -1,10 +1,12 @@
 #include "Animacion.h"
+#include "AnimacionEnteDireccionable.h"
 #include <string>
 
-Animacion::Animacion(EntidadParser& parser, const std::string& animacion_inicial):
+Animacion::Animacion(EntidadParser& parser, 
+                                        const std::string& animacion_inicial):
         parser(parser), tipo(animacion_inicial) {
-    tiempo_hasta_proximo_cuadro = 0;
-    tiempo_hasta_proximo_ciclo = 0;
+    reiniciar();
+    direccion = ANIMACION_ABAJO;
 }
 
 void Animacion::setMascara(SDL_Rect& mascara) {

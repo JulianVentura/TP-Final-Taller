@@ -64,6 +64,42 @@ Personaje::Personaje(float x, float y, std::string id, std::string idClase, std:
     inventario.almacenar(fabricaItems->crearArma(idArma));
     almacen.resize(TAMANIO_ALMACEN, nullptr);   //La idea es levantar el tamaño del almacen del json
 }
+
+Personaje::Personaje(std::string idPersonaje, std::string idRaza,
+    std::string idClase, serializacionPersonaje& datos):
+                                       Entidad(idPersonaje),
+                                       arma(NO_EQUIPADO),
+                                       armadura(NO_EQUIPADO),
+                                       escudo(NO_EQUIPADO),
+                                       casco(NO_EQUIPADO),
+                                       raza(idRaza),
+                                       clase(idClase),
+                                       estado(nullptr){
+    Configuraciones *config = Configuraciones::obtenerInstancia();
+    float ancho = config->obtenerPersonajeAncho();
+    float alto = config->obtenerPersonajeAlto();
+    posicion = std::move(Posicion(datos.x, datos.y, ancho, alto));
+    desplazamiento = config->obtenerPersonajeVelDesplazamiento();
+    estado = std::move(std::unique_ptr<Estado>(new EstadoNormal(this)));
+    vidaMaxima = datos.vidaMaxima;
+    vidaActual = datos.vidaActual;
+    manaMaximo = datos.manaMaximo;
+    manaActual = datos.manaActual;
+    experiencia = datos.experiencia;
+    limiteParaSubir = datos.limiteParaSubir;
+    nivel = datos.nivel;
+    cantidadOro = datos.cantidadOro;
+
+    auto inventarioTemp = inventario.obtenerTodosLosItems();
+    for(unsigned int i = 0; i < inventarioTemp -> size();i++){
+        (*inventarioTemp)[i] = nullptr;
+    }
+
+    for(unsigned int i = 0; i < almacen.size();i++){
+        almacen[i] = nullptr;
+    }
+}
+
 Personaje& Personaje::operator=(Personaje &&otro){
     this->vidaActual = otro.vidaActual;
     this->manaActual = otro.manaActual;
@@ -85,6 +121,30 @@ Personaje& Personaje::operator=(Personaje &&otro){
 
 Personaje::~Personaje(){}
 
+serializacionPersonaje Personaje::serializar(){
+    serializacionPersonaje datos;
+    datos.x = posicion.obtenerX();
+    datos.y = posicion.obtenerY();
+    datos.vidaMaxima = vidaMaxima;
+    datos.vidaActual = vidaActual;
+    datos.manaMaximo = manaMaximo;
+    datos.manaActual = manaActual;
+    datos.experiencia =  experiencia;
+    datos.limiteParaSubir = limiteParaSubir;
+    datos.nivel = nivel;
+    datos.cantidadOro = cantidadOro;
+
+    auto inventarioTemp = inventario.obtenerTodosLosItems();
+    for(unsigned int i = 0; i < inventarioTemp -> size();i++){
+        datos.inventario[i] = 0;//inventarioTemp[i].obtenerTCPID();
+    }
+
+    for(unsigned int i = 0; i < almacen.size();i++){
+        datos.almacen[i] = 0;//almacen[i].obtenerTCPID();
+    }
+
+    return datos;
+}
 
 void Personaje::actualizarAtributos(){
     Configuraciones *configuraciones = Configuraciones::obtenerInstancia();

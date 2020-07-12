@@ -151,13 +151,13 @@
 			"copiar": "humano",
 			"nombre": "Enanos",
 			"descripcion": "son muy fuertes y resistentes, pero la agilidad no es lo suyo.",
-			"escala": 0.85
+			"escala": 0.9
 		},
 		"gnomo": {
 			"copiar": "elfo",
 			"nombre": "Gnomos",
 			"descripcion": "inteligentes y resistentes, pero mucho menos ágiles que los elfos.",
-			"escala": 0.85
+			"escala": 0.9
 		}
 	},
 	"clases": {
@@ -310,16 +310,55 @@
 			"cicatrices" : ["ribs_blood.png", "eye_blood.png", "brain_blood.png"],
 			"nariz": [],
 			"facial": [],
-			"pies": [""],
-			"piernas": [""],
+			"pies": [],
+			"piernas": [],
 			"torso": [],
 			"cinto": [],
 			"pelo": [],
 			"cabeza": [],
 			"armas": []
 		},
-		"Araña": {
+		"Arania": {
 
+		},
+		"Banquero": {
+			"cuerpo" : ["man-white.png"],
+			"ojos": [],
+			"cicatrices" : [],
+			"nariz": [],
+			"facial": ["5.png", "barba/blonde2.png"],
+			"pies": ["brown_shoes_male.png"],
+			"piernas": ["male_pants_green.png"],
+			"torso": ["male_shirt_green.png", "formal_vest stripes.png"],
+			"cinto": ["leather_male.png"],
+			"pelo": ["longhawk/white-blonde.png"],
+			"cabeza": []
+		},
+		"Sacerdote": {
+			"cuerpo" : ["man-white.png"],
+			"ojos": [],
+			"cicatrices" : [],
+			"nariz": [],
+			"facial": ["formal_monocle.png"],
+			"pies": ["black_shoes_male.png"],
+			"piernas": ["male_robe_bottom_dark.png"],
+			"torso": ["formal_iverness.png"],
+			"cinto": [],
+			"pelo": [],
+			"cabeza": []
+		},
+		"Comerciante": {
+			"cuerpo" : ["man-white.png"],
+			"ojos": [],
+			"cicatrices" : [],
+			"nariz": [],
+			"facial": ["5.png", "barba/blonde2.png"],
+			"pies": ["brown_shoes_male.png"],
+			"piernas": ["male_pants_green.png"],
+			"torso": ["male_shirt_green.png", "formal_vest stripes.png"],
+			"cinto": ["leather_male.png"],
+			"pelo": ["longhawk/white-blonde.png"],
+			"cabeza": []
 		}
 	},
 	"animacion": {

@@ -17,7 +17,9 @@
 #include "../../common/commonSocket.h"
 #include "../../common/CodigosOperacion.h"
 
+#define TAM_ID 20
 #define SALIR_LOGIN_EXITO 1
+
 
 class Juego;
 
@@ -31,6 +33,7 @@ private:
 	std::thread hilo_recepcion;
 	bool salir;
 	bool se_recibio_mapa;
+	bool esta_logueado;
 	Socket socket;
 	DatosPersonaje& datos_personaje;
 	DatosTienda& datos_tienda;
@@ -50,6 +53,7 @@ public:
 	void enviarLogin(std::string& nombre, std::string& clave);
 	void enviarNuevaCuenta(std::string& nombre, std::string& clave,
 		std::string& raza, std::string& clase);
+	bool estaLogueado() const;
 
 	// General
 	void recibirMensajeConOperacion(uint32_t operacion);

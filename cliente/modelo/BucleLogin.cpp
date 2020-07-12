@@ -24,20 +24,19 @@ void BucleLogin::correr() {
     }
     SDL_StopTextInput();
 }
-#define SALIR_LOGIN_EXITO 1
-
 
 void BucleLogin::despacharEventos(SDL_Event& evento) {
     bool evento_consumido = false;
 	switch(evento.type) {
-		case SDL_QUIT: 
+		case SDL_QUIT:
 			salir = true;
-            exit(0);
+            SDL_FlushEvents(SDL_FIRSTEVENT, SDL_LASTEVENT);
 		break;
+
         case SDL_USEREVENT:
-            if (evento.user.code == SALIR_LOGIN_EXITO)
-                salir = true;
+            if (evento.user.code == SALIR_LOGIN_EXITO) salir = true;
         break;
+
 		case SDL_MOUSEBUTTONDOWN:
             for(auto& boton : gui.botones){
                 evento_consumido = (*boton)(evento) || evento_consumido;

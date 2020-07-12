@@ -4,6 +4,7 @@
 #include <SDL2/SDL_timer.h>
 #include <thread>
 #include <vector>
+#include <memory>
 
 #include "Reloj.h"
 #include "../vista/Ventana.h"

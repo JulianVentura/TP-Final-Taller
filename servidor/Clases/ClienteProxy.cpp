@@ -163,7 +163,8 @@ std::pair<std::string, std::string> ClienteProxy::recibirId(){
             throw ExcepcionCliente
             ("Conexion no completada por peticion del cliente");  
         default:
-            enviarError("No se ha interpretado la operacion solicitada.Finaliza la conexion");
+            enviarError("No se ha interpretado la operacion solicitada. "
+                "Finaliza la conexion");
             throw ExcepcionCliente
             ("No se ha recibido el id por parte del cliente");  
     }

@@ -4,7 +4,6 @@
 AnimacionEnteDireccionable::AnimacionEnteDireccionable(EntidadParser& parser,
         const std::string& animacion_inicial): 
         Animacion(parser, animacion_inicial) {
-    setAnimacion("base");
     setAccion("caminar");
 }
 
@@ -16,12 +15,12 @@ void AnimacionEnteDireccionable::actualizarEstado(unsigned int delta_t,
 }
 
 void AnimacionEnteDireccionable::nuevoEstado(int delta_x, int delta_y) {
-    if (delta_x > 0) 
-        setDireccion(ANIMACION_DERECHA);
-    else if (delta_x < 0) 
-        setDireccion(ANIMACION_IZQUIERDA);
-    else if (delta_y > 0) 
+    if (delta_y > 0)
         setDireccion(ANIMACION_ABAJO);
-    else if (delta_y < 0) 
+    else if (delta_y < 0)
         setDireccion(ANIMACION_ARRIBA);
+    else if (delta_x > 0) 
+        setDireccion(ANIMACION_DERECHA);
+    else if (delta_x < 0)
+        setDireccion(ANIMACION_IZQUIERDA);
 }

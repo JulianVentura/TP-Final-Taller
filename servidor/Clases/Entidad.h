@@ -10,15 +10,16 @@
 class Mapa;
 class Entidad : public Interactuable{
     protected:
-    int   vidaMaxima;
+    uint32_t vidaMaxima;
     float vidaActual;
-    int   manaMaximo;
+    uint32_t manaMaximo;
     float manaActual;
-    unsigned int fuerza;
-    unsigned int inteligencia;
-    unsigned int agilidad;
-    unsigned int constitucion;
-    unsigned int nivel;
+    uint32_t fuerza;
+    uint32_t inteligencia;
+    uint32_t agilidad;
+    uint32_t constitucion;
+    uint32_t nivel;
+    Arma *arma;
     Mapa *mapaAlQuePertenece;
 
     public:
