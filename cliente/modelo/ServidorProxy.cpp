@@ -18,6 +18,7 @@ ServidorProxy::ServidorProxy(DatosPersonaje& datos_personaje,
 	salir = false;
 	se_recibio_mapa = false;
 	esta_logueado = false;
+	
 	Uint32 tipo_evento = SDL_RegisterEvents(1);
 	if (tipo_evento != ((Uint32) - 1)) {
 		SDL_memset(&evento_salida, 0, sizeof(evento_salida));
@@ -34,6 +35,7 @@ void ServidorProxy::enviarLogin(std::string& nombre, std::string& clave){
 	protocolo.enviarUint32(socket, CODIGO_ID);
 	protocolo.enviarString(socket, nombre);
 	protocolo.enviarString(socket, clave);
+	datos_personaje.id = nombre;
 }
 
 void ServidorProxy::enviarNuevaCuenta(std::string& nombre, std::string& clave,
@@ -211,14 +213,14 @@ void ServidorProxy::enviarTirar(int pos){
 		protocolo.enviarString(socket, datos_tienda.id_vendedor);
 		protocolo.enviarUint16(socket, pos);
 	}else{
-		//protocolo.enviarUint32(socket, CODIGO_TIRADO);
-		//protocolo.enviarUint16(socket, pos);
+		protocolo.enviarUint32(socket, CODIGO_TIRADO);
+		protocolo.enviarUint16(socket, pos);
 	}
 }
 
 void ServidorProxy::enviarUtilizar(int pos){
-	//protocolo.enviarUint32(socket, CODIGO_UTILIZACION);
-	//protocolo.enviarUint16(socket, pos);
+	protocolo.enviarUint32(socket, CODIGO_UTILIZACION);
+	protocolo.enviarUint16(socket, pos);
 }
 
 //Interaccion

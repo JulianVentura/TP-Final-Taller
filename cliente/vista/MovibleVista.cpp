@@ -37,7 +37,7 @@ MovibleVista::MovibleVista(EntornoGrafico& entorno, IPosicionable* modelo,
     ancho = parser.getAncho(apariencia.raza);
     alto = parser.getAlto(apariencia.raza);
 
-    if (apariencia.tipo != "")
+    if (apariencia.tipo.size() > 0)
         imagenes = parser.getImagenes(apariencia.tipo);
     else
         imagenes = parser.getImagenes(apariencia.raza, apariencia.clase);

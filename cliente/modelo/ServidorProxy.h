@@ -17,7 +17,9 @@
 #include "../../common/commonSocket.h"
 #include "../../common/CodigosOperacion.h"
 
+#define TAM_ID 20
 #define SALIR_LOGIN_EXITO 1
+
 
 class Juego;
 

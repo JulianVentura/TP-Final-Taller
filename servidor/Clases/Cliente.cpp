@@ -23,18 +23,12 @@ Cliente::Cliente(Socket &&socket,
     */
     
     std::pair<std::string, std::string> credenciales = std::move(login(organizadorClientes));
-    std::pair<std::string, std::unique_ptr<Personaje>> datos = miBaseDeDatos.cargarCliente(credenciales);
+    std::pair<std::string, std::unique_ptr<Personaje>> datos =
+     miBaseDeDatos.cargarCliente(credenciales);
     this->id = credenciales.first;
     this->personaje = std::move(datos.second);
     this->salaActual = std::move(datos.first);
 
-    //Con la info recuperada de la base de datos creo un Personaje
-    //Esto hay que sacarlo una vez este hecha la base de datos
-    salaActual = "mapa";
-    std::string idRaza = "Humano";
-    std::string idClase = "Paladin";
-    personaje = std::unique_ptr<Personaje> (new Personaje(600, 600, credenciales.first, idClase, idRaza));
-    personaje -> recibirOro(1000);
     //Hasta aca
     Sala* miSala = organizadorSalas.obtenerSala(salaActual);
     ColaOperaciones *colaDeOperaciones = miSala->obtenerCola();
@@ -45,17 +39,21 @@ Cliente::Cliente(Socket &&socket,
     miSala->cargarCliente(this);
     finalizado = false;
     continuar = true;
+    clienteProxy.enviarConfirmacion();
 }
 
 void Cliente::nuevoUsuario(std::pair<std::string, std::string> &credenciales, 
                            std::string &idRaza, 
                            std::string &idClase){
     Configuraciones *config = config->obtenerInstancia();
-    std::string mapaDefault = config->obtenerMapaInicial();
-    std::pair<float, float> pos = config->obtenerMapaPosicionSpawn(mapaDefault);
-    Personaje nuevoPersonaje(pos.first, pos.second, id, idClase, idRaza);
-    //Debe lanzar error si ya esta en uso.
-    miBaseDeDatos.nuevoCliente(credenciales, mapaDefault, &nuevoPersonaje);
+    salaActual = config->obtenerMapaInicial();
+    std::pair<float, float> pos = config->obtenerMapaPosicionSpawn(salaActual);
+    auto personaje = std::unique_ptr<Personaje> (new Personaje(pos.first, pos.second,
+     credenciales.first, idClase, idRaza));
+    personaje -> recibirOro(1000);
+    miBaseDeDatos.nuevoCliente(credenciales, idRaza, idClase,
+     salaActual, personaje.get());
+   
     /*
     if(!miBaseDeDatos.existeCliente(credenciales.first)){
         
@@ -77,7 +75,8 @@ void Cliente::actualizarEstado(const std::vector<struct PosicionEncapsulada> &po
         enviarInventario(); //Refinar más adelante
         clienteProxy.enviarPosiciones(posiciones);
     }catch(...){
-        //Cualquier error es motivo suficiente como para cortar la comunicacion con el Cliente
+        //Cualquier error es motivo suficiente como para cortar
+        // la comunicacion con el Cliente
         continuar = false;
     }
 }  
@@ -123,6 +122,9 @@ Sala *Cliente::obtenerSala(){
     return this->organizadorSalas.obtenerSala(salaActual);
 }
 
+std::string& Cliente::obtenerIdSala(){
+    return salaActual;
+}
 void Cliente::procesar(){
     try{
         while(continuar){
@@ -155,8 +157,10 @@ std::pair<std::string, std::string> Cliente::login(OrganizadorClientes &organiza
             ("Error: El id que ha ingresado ya ha sido logueado");
             credenciales = clienteProxy.recibirId();
         }else{
+            //DEBUG
+            clienteProxy.enviarConfirmacion();
+            return credenciales;
             if (miBaseDeDatos.verificarCliente(credenciales)){
-                clienteProxy.enviarConfirmacion();
                 return credenciales;
             }
             

@@ -44,7 +44,8 @@ int main(int argc, const char* argv[]) {
         
         std::string direccion("localhost");
         std::string servicio("3080");
-        std::string id_usuario("jugador");
+        // std::string id_usuario("jugador");
+        std::string id_usuario(argv[1]);
         std::string password("jugador");
         std::string raza("Humano");
         std::string clase("Paladin");

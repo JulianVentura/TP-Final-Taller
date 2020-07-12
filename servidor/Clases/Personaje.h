@@ -7,6 +7,20 @@
 
 #define NO_EQUIPADO -1
 
+struct serializacionPersonaje{
+    uint32_t x, y;
+    uint32_t vidaMaxima;
+    uint32_t vidaActual;
+    uint32_t manaMaximo;
+    uint32_t manaActual;
+    uint32_t experiencia;
+    uint32_t limiteParaSubir;
+    uint32_t nivel;
+    uint32_t cantidadOro;
+    uint16_t inventario[18];
+    uint16_t almacen[18];
+}__attribute__((packed, aligned(4)));
+
 class Estado;
 class Criatura;
 class Casco;
@@ -15,9 +29,9 @@ class Escudo;
 class Armadura;
 class Personaje : public Entidad{
     private:
-    unsigned int experiencia;
-    unsigned int limiteParaSubir;
-    unsigned int cantidadOro;
+    uint32_t experiencia;
+    uint32_t limiteParaSubir;
+    uint32_t cantidadOro;
     int arma;
     int armadura;
     int escudo;
@@ -37,7 +51,10 @@ class Personaje : public Entidad{
 
     public:
     Personaje();
-    Personaje(float x, float y, std::string idPersonaje, std::string idClase, std::string idRaza);
+    Personaje(float x, float y, std::string idPersonaje,
+     std::string idClase, std::string idRaza);
+    Personaje(std::string idPersonaje, std::string idRaza,
+    std::string idClase, serializacionPersonaje& datos);
     Personaje(Personaje &otro) = delete;
     Personaje(Personaje &&otro) = delete;
     Personaje& operator=(Personaje &otro) = delete;
@@ -58,6 +75,7 @@ class Personaje : public Entidad{
     bool recibirDanio(int danio, Entidad *atacante) override;
     void dropearItems(Entidad *atacante) override;
     void obtenerExperiencia(unsigned int cantidad);
+    serializacionPersonaje serializar();
     //Equipo
     void almacenar(Item *item);
     void eliminarDeInventario(unsigned int pos);
@@ -75,6 +93,8 @@ class Personaje : public Entidad{
     void frenarMeditacion();
     Estado *obtenerEstado();
     //Comercio
+    void tirar(unsigned int pos);
+    void utilizar(unsigned int pos);
     void interactuar(Estado *estado, Cliente *cliente) override;
     void comprar(unsigned int pos, Estado *estad, Cliente *clienteo) override;
     void comprar(unsigned int pos, Personaje *personaje, Cliente *cliente) override;

@@ -30,6 +30,7 @@ bool Juego::manejarEvento(SDL_Event& evento) {
             if(movible.first == datos_personaje.id) continue;
             bool consumido = movible.second.second->contienePunto(x, y);
             if (!consumido) continue;
+            printf("id %s\n", movible.first.c_str());
             if (boton == SDL_BUTTON_LEFT) 
                 servidor.enviarInteraccion(movible.first);
             else if (boton == SDL_BUTTON_RIGHT)
@@ -67,8 +68,41 @@ Juego::Juego(EntornoGrafico& entorno, DatosPersonaje& datos_personaje,
 
     DatosApariencia ap;
     ap.raza = "humano";
-    ap.clase = "Guerrero";
+    ap.clase = "mago";
     agregarEntidad(datos_personaje.id, ap);
+
+    std::string id = "asdsd";
+    std::vector<std::string> razas = {
+        "humano",
+        "elfo",
+        "enano",
+        "gnomo"
+    };
+    std::vector<std::string> clases = {
+        "mago",
+        "clerigo",
+        "guerrero",
+        "paladin"
+    };
+
+    std::vector<std::string> npcs = {
+        "goblin",
+        "esqueleto",
+        "zombie",
+        "arania"
+    };
+    for (auto& raza: razas) {
+        for (auto& clase: clases) {
+            ap.raza = raza;
+            ap.clase = clase;
+            id = raza + clase;
+            agregarEntidad(id, ap);
+        }
+    }
+    for (auto& npc: npcs) {
+        id = npc + NPC_DELIMITADOR;
+        agregarEntidad(id, ap);
+    }
 }
 
 void Juego::agregarEntidad(std::string& id, DatosApariencia& apariencia) {
@@ -107,14 +141,15 @@ std::pair<IPosicionable*, MovibleVista*> Juego::crearEntidad(std::string& id,
     if (posicion_identificador != std::string::npos) {
         // printf("este tiene el numeral %s\n", id.c_str());
         apariencia.tipo = id.substr(0, posicion_identificador);
-        apariencia.tipo = "";
+        // apariencia.tipo = "";
+        // apariencia.tipo = "zombie";
     } else {
         // Preguntarle al servidor la apariencia correcta
         // apariencia.raza = ...
         // apariencia.clase = ...
     }
-    // apariencia.tipo = "zombie";
     resultado.first = new IPosicionable();
+    resultado.first->actualizarPosicion(rand() % 400 + 500, rand()% 500 + 200);
     resultado.second = new MovibleVista(entorno, resultado.first, 
                                                     entidadParser, apariencia);
     return std::move(resultado);
@@ -123,8 +158,8 @@ std::pair<IPosicionable*, MovibleVista*> Juego::crearEntidad(std::string& id,
 void Juego::agregarEntidad(std::string& id) {
     DatosApariencia apariencia;
     // TODO: hardcodeado
-    apariencia.raza = "humano";
-    apariencia.clase = "Mago";
+    // apariencia.raza = "humano";
+    // apariencia.clase = "Mago";
     printf("%s\n", id.c_str());
     agregarEntidad(id, apariencia);
 }
@@ -147,6 +182,6 @@ void Juego::actualizarPosiciones(std::unordered_map<std::string, std::pair<int,
         if (posiciones.count(movible.first) > 0) continue;
         paraBorrar.push_back(movible.first);
     }
-    for (auto& movible: paraBorrar)
-        borrarEntidad(movible);
+    // for (auto& movible: paraBorrar)
+        // borrarEntidad(movible);
 }

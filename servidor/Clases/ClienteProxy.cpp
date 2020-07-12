@@ -73,9 +73,22 @@ void ClienteProxy::decodificarAtaque(){
     std::string id;
     protocolo.recibirString(socket, id);
     Operacion *operacion = new OperacionAtacar(cliente,
-     cliente -> obtenerSala() -> obtenerMapa(), id);
+    cliente -> obtenerSala() -> obtenerMapa(), id);
     colaOperaciones->push(operacion);
 }
+
+void ClienteProxy::decodificarUtilizacion(){
+    uint16_t pos = protocolo.recibirUint16(socket);
+    Operacion *operacion = new OperacionUtilizar(cliente, pos);
+    colaOperaciones->push(operacion);
+}
+
+void ClienteProxy::decodificarTirado(){
+    uint16_t pos = protocolo.recibirUint16(socket);
+    Operacion *operacion = new OperacionTirar(cliente, pos);
+    colaOperaciones->push(operacion);
+}
+
 
 bool ClienteProxy::decodificarCodigo(uint32_t codigo){
     switch (codigo){
@@ -103,11 +116,11 @@ bool ClienteProxy::decodificarCodigo(uint32_t codigo){
             return false;
        
         case CODIGO_UTILIZACION:
-
+            decodificarUtilizacion();
             break;
 
         case CODIGO_TIRADO:
-
+            decodificarTirado();
             break;
 
         case CODIGO_ATAQUE:
@@ -150,7 +163,8 @@ std::pair<std::string, std::string> ClienteProxy::recibirId(){
             throw ExcepcionCliente
             ("Conexion no completada por peticion del cliente");  
         default:
-            enviarError("No se ha interpretado la operacion solicitada.Finaliza la conexion");
+            enviarError("No se ha interpretado la operacion solicitada. "
+                "Finaliza la conexion");
             throw ExcepcionCliente
             ("No se ha recibido el id por parte del cliente");  
     }

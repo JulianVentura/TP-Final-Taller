@@ -3,18 +3,13 @@
 
 #include <exception>
 #include <cstddef>
+#include "FallaConexionException.h"
 /*
 *	Clase que encapsula la administración de sockets y el intercambio de bytes
 *	a través de ellos.
 */
 
 #define ERROR_CONEXION -1
-
-struct FallaConexionException : public std::exception {
-   const char * what() const throw() {
-      return "Error: Falla Conexion\n";
-   }
-};
 
 class Socket{
 private:

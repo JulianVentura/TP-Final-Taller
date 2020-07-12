@@ -10,6 +10,8 @@ class Proyectil : public Entidad{
     bool haLlegadoADestino;
     double tiempoTranscurrido;
     double tiempoDespawn;
+    static std::atomic<int> contador;
+    
     public:
     Proyectil(std::string id, Posicion origen, Posicion destino);
     //Ataques
