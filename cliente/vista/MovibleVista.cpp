@@ -29,11 +29,11 @@ const std::vector<std::string> MovibleVista::ordenDeImagenes = {
 MovibleVista::MovibleVista(EntornoGrafico& entorno, IPosicionable* modelo, 
         EntidadParser& parser, DatosApariencia apariencia): 
         modelo(modelo), parser(parser), apariencia(apariencia), 
-        animacion(parser, std::string(ANIMACION_ABAJO)) {
+        animacion(parser, std::string(ANIMACION_BASE)) {
     entorno.agregarRendereable(this);    
     x = modelo->getX();
     y = modelo->getY();
-    ultimo_estado = ANIMACION_ABAJO;
+    ultimo_estado = ANIMACION_BASE;
     ancho = parser.getAncho(apariencia.raza);
     alto = parser.getAlto(apariencia.raza);
 
@@ -67,14 +67,12 @@ void MovibleVista::render() {
             imagen->render();
         }
     }
-    // renderer->setColor(51, 0, 51);
-    // renderer->rect(getX(), getY(), getAncho(), getAlto());
+    renderer->setColor(51, 0, 51);
+    renderer->rect(getX(), getY(), getAncho(), getAlto());
 }
 
-bool MovibleVista::manejarEvento(SDL_Event& evento) {
-    SDL_Point mouse = {};
-    SDL_GetMouseState(&mouse.x, &mouse.y);
+bool MovibleVista::contienePunto(int x, int y) {
+    SDL_Point punto = { x, y };
     SDL_Rect rect = { getX(), getY(), ancho, alto};
-    Camara::transformar(&mouse.x, &mouse.y);
-    return SDL_PointInRect(&mouse, &rect);
+    return SDL_PointInRect(&punto, &rect);
 }

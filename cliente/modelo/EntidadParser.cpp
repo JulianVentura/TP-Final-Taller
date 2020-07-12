@@ -105,6 +105,11 @@ EntidadParser::EntidadParser(EntornoGrafico& entorno): entorno(entorno) {
     parsearRazas();
     parsearNPCs();
     parsearAnimaciones();
+    for (auto& raza: imagenes) {
+        for (auto& variante: raza.second) {
+            printf("%s %s\n", raza.first.c_str(), variante.first.c_str());
+        }
+    }
 }
 
 EntidadParser::~EntidadParser() {
@@ -114,7 +119,7 @@ EntidadParser::~EntidadParser() {
                 delete imagen;
             }
         }
-    }    
+    }
 }
 
 int EntidadParser::getGuid(std::string& tipo, std::string& accion, 

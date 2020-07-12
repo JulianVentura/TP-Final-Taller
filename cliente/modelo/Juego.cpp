@@ -1,6 +1,10 @@
 #include "Juego.h"
 #include "EntidadParser.h"
 #include "ServidorProxy.h"
+#include <SDL2/SDL_mouse.h>
+#include <string>
+#define NPC_DELIMITADOR "#"
+
 
 using json = nlohmann::json;
 
@@ -18,22 +22,21 @@ void Juego::render() {
 
 bool Juego::manejarEvento(SDL_Event& evento) {
     if (evento.type == SDL_MOUSEBUTTONDOWN) {
-        bool consumido = false;
+        int x = evento.button.x;
+        int y = evento.button.y;
+        camara.transformar(x, y);
+        auto boton = evento.button.button;
         for (auto& movible: movibles) {
             if(movible.first == datos_personaje.id) continue;
-            consumido = movible.second.second->manejarEvento(evento);
-            if (consumido) {
-                switch(SDL_GetMouseState(NULL, NULL)) {
-                    case SDL_BUTTON_LEFT:
-                        servidor.enviarInteraccion(movible.first);
-                    break;
-
-                    default:
-                        servidor.enviarAtaque(movible.first);
-                    break;
-                }
-                return true;
-            }
+            bool consumido = movible.second.second->contienePunto(x, y);
+            if (!consumido) continue;
+            if (boton == SDL_BUTTON_LEFT) 
+                servidor.enviarInteraccion(movible.first);
+            else if (boton == SDL_BUTTON_RIGHT)
+                servidor.enviarAtaque(movible.first);
+            else 
+                break;
+            return true;
         }
     } else if (evento.type == SDL_KEYDOWN || evento.type == SDL_KEYUP) {
         return personajeManejable.manejarEvento(evento);
@@ -73,13 +76,9 @@ void Juego::agregarEntidad(std::string& id, DatosApariencia& apariencia) {
         printf("ya existe, habría que actualizar\n");
         return;
     }
-    movibles[id].first = new IPosicionable();
-    movibles[id].second = new MovibleVista(entorno, movibles[id].first, 
-                                                    entidadParser, apariencia);
-    
+    movibles[id] = crearEntidad(id, apariencia);
     capaFrontal.agregarObstruible(movibles[id].second);
     servidor.agregarPosicionable(id, movibles[id].first);
-    
     if (id == datos_personaje.id) {
         camara.setObjetivo(movibles[id].second);    
     }
@@ -101,11 +100,32 @@ void Juego::borrarEntidad(std::string& id) {
     movibles.erase(id);
 }
 
+std::pair<IPosicionable*, MovibleVista*> Juego::crearEntidad(std::string& id, 
+                                                DatosApariencia& apariencia) {
+    std::pair<IPosicionable*, MovibleVista*> resultado;
+    auto posicion_identificador = id.find(NPC_DELIMITADOR);
+    if (posicion_identificador != std::string::npos) {
+        // printf("este tiene el numeral %s\n", id.c_str());
+        apariencia.tipo = id.substr(0, posicion_identificador);
+        apariencia.tipo = "";
+    } else {
+        // Preguntarle al servidor la apariencia correcta
+        // apariencia.raza = ...
+        // apariencia.clase = ...
+    }
+    // apariencia.tipo = "zombie";
+    resultado.first = new IPosicionable();
+    resultado.second = new MovibleVista(entorno, resultado.first, 
+                                                    entidadParser, apariencia);
+    return std::move(resultado);
+}
+
 void Juego::agregarEntidad(std::string& id) {
     DatosApariencia apariencia;
     // TODO: hardcodeado
     apariencia.raza = "humano";
     apariencia.clase = "Mago";
+    printf("%s\n", id.c_str());
     agregarEntidad(id, apariencia);
 }
 

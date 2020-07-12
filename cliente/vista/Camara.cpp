@@ -1,7 +1,4 @@
 #include "Camara.h"
-int Camara::desplazamientoX = 0;
-int Camara::desplazamientoY = 0;
-float Camara::zoom = 1.0f;
 
 Camara::Camara(IDimensionable& contenedor):
                 contenedor(contenedor), marco(&contenedor), objetivo(nullptr) {}
@@ -27,9 +24,9 @@ int Camara::maxY() {
     return abs(contenedor.getAlto() * zoom - marco->getAlto());
 }
 
-void Camara::transformar(int* x, int* y) {
-    *x = (*x + desplazamientoX) / zoom;
-    *y = (*y + desplazamientoY) / zoom;
+void Camara::transformar(int& x, int& y) const {
+    x = (x + desplazamientoX) / zoom;
+    y = (y + desplazamientoY) / zoom;
 }
 
 void Camara::centrar(Renderer* renderer, int ancho_unidad, float radio) {

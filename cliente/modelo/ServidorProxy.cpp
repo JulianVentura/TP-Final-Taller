@@ -17,8 +17,9 @@ ServidorProxy::ServidorProxy(DatosPersonaje& datos_personaje,
 	 : datos_personaje(datos_personaje), datos_tienda(datos_tienda) {
 	salir = false;
 	se_recibio_mapa = false;
+	esta_logueado = false;
 	Uint32 tipo_evento = SDL_RegisterEvents(1);
-	if (tipo_evento != ((Uint32)-1)) {
+	if (tipo_evento != ((Uint32) - 1)) {
 		SDL_memset(&evento_salida, 0, sizeof(evento_salida));
 		evento_salida.type = tipo_evento;
 		evento_salida.user.code = SALIR_LOGIN_EXITO;
@@ -46,6 +47,10 @@ void ServidorProxy::enviarNuevaCuenta(std::string& nombre, std::string& clave,
 }
 
 // General
+
+bool ServidorProxy::estaLogueado() const {
+	return esta_logueado;
+}
 
 void ServidorProxy::recibirMensaje(){
 	while(!salir) {
@@ -107,6 +112,7 @@ void ServidorProxy::recibirMensajeConOperacion(uint32_t operacion) {
 		break;
 
 		case CODIGO_CONFIRMACION:
+			esta_logueado = true;
 			SDL_PushEvent(&evento_salida);
 		break;
 

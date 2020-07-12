@@ -4,11 +4,11 @@
 #include "Animacion.h"
 #include <string>
 
+#define ANIMACION_BASE    "base"
 #define ANIMACION_ARRIBA    "Arriba"
 #define ANIMACION_ABAJO     "Abajo"
 #define ANIMACION_DERECHA   "Derecha"
 #define ANIMACION_IZQUIERDA "Izquierda"
-#define ANIMACION_QUIETO    "-Quieto"
 
 class AnimacionEnteDireccionable: public Animacion {
 public:

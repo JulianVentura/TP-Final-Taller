@@ -35,7 +35,7 @@ public:
      */
     void reiniciar(Renderer* renderer);
 
-    static void transformar(int*x, int* y);
+    void transformar(int& x, int& y) const;
     
 private:
     int maxX();
@@ -43,8 +43,8 @@ private:
     IDimensionable& contenedor;
     IDimensionable* marco;
     ITargeteable* objetivo;
-    static int desplazamientoX;
-    static int desplazamientoY;
-    static float zoom;
+    int desplazamientoX = 0;
+    int desplazamientoY = 0;
+    float zoom = 1.0f;
 };
 #endif

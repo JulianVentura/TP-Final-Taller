@@ -26,8 +26,8 @@
 
 class Juego: public IInteractivo, public IRendereable {
 public:
-    Juego(EntornoGrafico& entorno, /*std::string& mapa_s,*/ 
-                    DatosPersonaje& datos_personaje, ServidorProxy& servidor);
+    Juego(EntornoGrafico& entorno, DatosPersonaje& datos_personaje, 
+                                                    ServidorProxy& servidor);
     ~Juego();
     bool manejarEvento(SDL_Event& evento) override;
     void render() override;
@@ -58,5 +58,8 @@ private:
     void agregarEntidad(std::string& id, DatosApariencia& apariencia);
     void agregarEntidad(std::string& id);
     void borrarEntidad(std::string& id);
+
+    std::pair<IPosicionable*, MovibleVista*> crearEntidad(std::string& id, 
+                                                DatosApariencia& apariencia);
 };
 #endif
