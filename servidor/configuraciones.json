@@ -517,6 +517,10 @@
         }
     },
     "Items": {
+	"ItemNulo": {
+		"Precio": 0,
+		"idTCP": 0
+	},
         "Armas": {
             "Espada": {
                 "DanioMax": 5,
@@ -717,6 +721,13 @@
                 "idTCP": 2
             }
         }
+    },
+    "FabricaDeItems": {
+        "LimiteDeArmas": 100,
+        "LimiteDeArmaduras": 200,
+        "LimiteDeCascos": 300,
+        "LimiteDeEscudos": 400,
+        "LimiteDePociones": 500
     },
     "Varios": {
         "BolsaDeDrop": {
