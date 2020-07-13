@@ -9,6 +9,7 @@ class Item;
 class Comerciante : public Entidad{
     private:
     std::vector<Item*> items;
+    Item* itemNulo;
     uint32_t tamTienda;
     
     public:

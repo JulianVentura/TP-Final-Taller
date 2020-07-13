@@ -8,7 +8,8 @@ class Inventario{
     private:
     unsigned int limiteItems;
     std::vector<Item*> items;
-    
+    Item* item;
+    Item* itemNulo;
     public:
     Inventario();
     Inventario(Inventario &otro) = delete;

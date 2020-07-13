@@ -1,13 +1,17 @@
 #ifndef __BANQUERO_H__
 #define __BANQUERO_H__
 
+#include "Item.h"
 #include "Entidad.h"
+
 #include <vector>
+
 class Personaje;
 class Item;
 class Banquero : public Entidad{
     private:
     uint32_t tamAlmacen;
+    Item* itemNulo;
     public:
     Banquero(float x, float y);
     //Ataques
