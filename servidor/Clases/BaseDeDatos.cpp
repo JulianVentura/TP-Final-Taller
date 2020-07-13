@@ -22,6 +22,7 @@ void BaseDeDatos::escribirCadena(std::string cadena){
 }
 
 void BaseDeDatos::guardarDirs(){
+	dirs[" "] = ultima_dir;
 	std::fstream archivo_json;
 	archivo_json.open("clientes.dir", std::fstream::out | std::fstream::trunc);
 	//El 4 es un número mágico de la biblioteca Nlohman.
@@ -119,5 +120,4 @@ bool BaseDeDatos::verificarCliente(std::pair<std::string, std::string> &credenci
 }
 
 BaseDeDatos::~BaseDeDatos(){
-	guardarDirs();
 }
