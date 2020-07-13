@@ -20,6 +20,7 @@ class FabricaDeItems{
 
     public:
     Item* obtenerItemAleatorio(std::string &idCriatura);
+    Item* obtenerItemIDTCP(uint16_t id);
     static FabricaDeItems* obtenerInstancia();
 
     //Arma

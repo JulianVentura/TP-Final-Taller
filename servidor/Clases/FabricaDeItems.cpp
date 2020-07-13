@@ -132,3 +132,7 @@ Pocion* FabricaDeItems::crearPocion(std::string &id){
     pociones[id] = std::unique_ptr<Pocion>(new Pocion(curacionVida, curacionMana, id, idTCP, precio));
     return pociones[id].get();
 }
+
+Item* FabricaDeItems::obtenerItemIDTCP(uint16_t id){
+    return nullptr;
+}
