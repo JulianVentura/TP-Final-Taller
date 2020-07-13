@@ -93,12 +93,16 @@ Personaje::Personaje(std::string idPersonaje, std::string idRaza,
     cantidadOro = datos.cantidadOro;
 
     auto inventarioTemp = inventario.obtenerTodosLosItems();
+    FabricaDeItems *fabricaItems = FabricaDeItems::obtenerInstancia();
+
     for(unsigned int i = 0; i < inventarioTemp -> size();i++){
-        (*inventarioTemp)[i] = nullptr;
+        (*inventarioTemp)[i] = fabricaItems
+         -> obtenerItemIDTCP(datos.inventario[i]);
     }
 
     for(unsigned int i = 0; i < almacen.size();i++){
-        almacen[i] = nullptr;
+        almacen[i] = fabricaItems
+         -> obtenerItemIDTCP(datos.almacen[i]);
     }
 }
 
@@ -420,11 +424,11 @@ serializacionPersonaje Personaje::serializar(){
 
     auto inventarioTemp = inventario.obtenerTodosLosItems();
     for(unsigned int i = 0; i < inventarioTemp -> size();i++){
-        datos.inventario[i] = 0;//inventarioTemp[i].obtenerTCPID();
+        datos.inventario[i] = (*inventarioTemp)[i] -> obtenerIDTCP();
     }
 
     for(unsigned int i = 0; i < almacen.size();i++){
-        datos.almacen[i] = 0;//almacen[i].obtenerTCPID();
+        datos.almacen[i] = almacen[i] -> obtenerIDTCP();
     }
 
     return datos;
