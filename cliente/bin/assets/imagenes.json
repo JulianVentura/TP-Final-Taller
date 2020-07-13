@@ -1,7 +1,7 @@
 {
 	"raiz": "assets/personaje/",
 	"razas": {
-		"humano": {
+		"4": {
 			"nombre": "Humanos",
 			"descripcion": "son una raza equilibrada.",
 			"escala": 1,
@@ -20,7 +20,8 @@
 					"pelo": [],
 					"cabeza": []
 				},
-				"Mago": {
+				"1" : {
+					"Nombre": "Mago",
 					"cuerpo" : ["man-white.png"],
 					"ojos": ["gray.png"],
 					"cicatrices" : [],
@@ -33,7 +34,8 @@
 					"pelo": [],
 					"cabeza": ["brown.png"]
 				},
-				"Clerigo": {
+				"3": {
+					"Nombre": "Clerigo",
 					"cuerpo" : ["man-white.png"],
 					"ojos": [],
 					"cicatrices" : [],
@@ -46,7 +48,8 @@
 					"pelo": [],
 					"cabeza": []
 				},
-				"Paladin": {
+				"2": {
+					"Nombre": "Paladin",
 					"cuerpo" : [],
 					"ojos": [],
 					"cicatrices" : [],
@@ -59,7 +62,8 @@
 					"pelo": ["longhawk/white-blonde.png"],
 					"cabeza": []
 				},
-				"Guerrero": {
+				"0": {
+					"Nombre": "Guerrero",
 					"cuerpo" : ["tanned2.png"],
 					"ojos": ["blue.png"],
 					"cicatrices" : ["eye_blood.png"],
@@ -74,7 +78,7 @@
 				}
 			}
 		},
-		"elfo": {
+		"5": {
 			"nombre": "Elfos",
 			"descripcion": "son muy inteligentes y ágiles pero de una constitución física frágil.",
 			"escala": 1,
@@ -93,7 +97,8 @@
 					"pelo": [],
 					"cabeza": []
 				},
-				"Mago": {
+				"1": {
+					"Nombre": "Mago",
 					"cuerpo" : ["man-white.png"],
 					"ojos": ["gray.png"],
 					"cicatrices" : [],
@@ -106,7 +111,8 @@
 					"pelo": [],
 					"cabeza": ["brown.png"]
 				},
-				"Clerigo": {
+				"3": {
+					"Nombre": "Clerigo",
 					"cuerpo" : ["man-white.png"],
 					"ojos": [],
 					"cicatrices" : [],
@@ -119,7 +125,8 @@
 					"pelo": [],
 					"cabeza": []
 				},
-				"Paladin": {
+				"2": {
+					"Nombre": "Paladin",
 					"cuerpo" : [],
 					"ojos": [],
 					"cicatrices" : [],
@@ -132,7 +139,8 @@
 					"pelo": ["longhawk/white-blonde.png"],
 					"cabeza": []
 				},
-				"Guerrero": {
+				"0": {
+					"Nombre": "Guerrero",
 					"cuerpo" : ["tanned2.png"],
 					"ojos": ["blue.png"],
 					"cicatrices" : ["eye_blood.png"],
@@ -147,13 +155,13 @@
 				}
 			}
 		},
-		"enano": {
+		"6": {
 			"copiar": "humano",
 			"nombre": "Enanos",
 			"descripcion": "son muy fuertes y resistentes, pero la agilidad no es lo suyo.",
 			"escala": 0.9
 		},
-		"gnomo": {
+		"7": {
 			"copiar": "elfo",
 			"nombre": "Gnomos",
 			"descripcion": "inteligentes y resistentes, pero mucho menos ágiles que los elfos.",
@@ -169,109 +177,114 @@
 	"ruta_equipables": "equipables/",
 	"equipables": {
 		"armas": {
-			"reemplaza": "",
-			"datos": [
-				{ 
+			"reemplaza": "armas",
+			"datos": {
+				"3": { 
 					"nombre": "Espada",
 					"descripcion": "arma de combate a mano, tiene un daño de 2 a 5.",
 					"imagen": "long_knife.png"
 				},
-				{
+				"9": {
 					"nombre": "Hacha",
 					"descripcion" : "arma de combate a mano, tiene un daño de 4 a 5.",
 					"imagen":  "axe2.png"
 				},
-				{
+				"10": {
 					"nombre": "Martillo",
 					"descripcion": "arma de combate a mano, tiene un daño de 1 a 9.",
 					"imagen": "warhammer.png"
 				},
-				{
+				"4": {
 					"nombre": "Vara de fresno",
 					"descripcion": "permite lanzar el hechizo flecha mágica que tiene un daño a distancia de 2 a 4. Consume 5 de mana.",
-					"oversize": true,
+					"animacion": "oversize",
 					"imagen": "4.png",
 					"imagen_activa": "5.png"
 				},
-		  		{
+				"12": {
 		  			"nombre": "Flauta élfica",
 		  			"descripcion": "permite lanzar el hechizo curar sobre el jugador que restaura la vida. Consume 100 de mana.",
 		  			"imagen": "formal_cane.png",
 		  			"imagen_alt": "woodwand_male.png"
 		  		},
-				{
+				"13": {
 					"nombre": "Báculo nudoso",
 					"descripcion": "permite lanzar el hechizo misil que tiene un daño a distancia de 4 a 8. Consume 15 de mana.",
-					"oversize": true,
+					"animacion": "oversize",
 					"imagen": "13.png"
 				},
-				{
+				"14": {
 					"nombre": "Báculo engarzado",
 					"descripcion": "permite lanzar el hechizo explosion que tiene un daño a distancia de 8 a 20. Consume 30 de mana.",
-					"oversize": true,
+					"animacion": "oversize",
 					"imagen": "15.png"
 				},
-				{
+				"15": {
 					"nombre": "Arco simple",
 					"descripcion": "arma a distancia, tiene un daño de 1 a 4. Las flechas son infinitas.",
 					"imagen": "bow.png"
 				},
-				{
+				"16": {
 					"nombre": "Arco compuesto",
 					"descripcion": "arma a distancia, tiene un daño de 4 a 16. Las flechas son infinitas.",
 					"imagen": "6.png"
 				}
-			]
+			}
 		},
-		"escudos": {
+		"armaduras": {
 			"reemplaza": "torso",
-			"datos": [
-				{
+			"datos": {
+				"21": {
 					"nombre": "Armadura de cuero",
 					"descripcion": "ofrece una defensa entre 2 y 6.",
 					"imagen": "chest_male.png"
 				},
-				{
+				"22": {
 					"nombre": "Armadura de placas",
 					"descripcion": "ofrece una defensa entre 15 y 30.",
 					"imagen": "11.png"
 				},
-				{
+				"23": {
 					"nombre": "Tunica azul",
 					"descripcion": "ofrece una defensa entre 6 y 10.",
 					"imagen": "male_tabard_blue.png"
 				}
-			]
+			}
 		},
 		"cascos": {
 			"reemplaza": "cabeza",
-			"datos": [
-				{
+			"datos": {
+				"24": {
 					"nombre": "Capucha",
 					"descripcion": "casco que ofrece defensa entre 1 y 4.",
 					"imagen": "cloth_hood_male.png"
 				},
-				{
+				"25": {
 					"nombre": "Casco de hierro",
 					"descripcion": "ofrece defensa entre 4 y 8.",
 					"imagen": "maximus-male.png"
 				},
-				{
-					"nombre": "Escudo de tortuga",
-					"descripcion": "ofrece defensa entre 1 y 2.",
-					"imagen": "spartan_male.png"
-				},
-				{
-					"nombre": "Escudo de hierro",
-					"descripcion": "ofrece defensa entre 1 y 4.", 
-					"imagen": "kiteshield_red_gray.png" 
-				},
-				{
+				"26": {
 					"nombre": "Sombrero mágico",
 					"descripcion": "casco que ofrece una defensa entre 4 y 12.",
 					"imagen": "moon-male.png"
 				}
-			]
+			}
+		},
+		"escudos": {
+			"reemplaza": "escudo",
+			"datos": {
+				"27": {
+					"nombre": "Escudo de tortuga",
+					"descripcion": "ofrece defensa entre 1 y 2.",
+					"imagen": "spartan_male.png"
+				},
+				"28": {
+					"nombre": "Escudo de hierro",
+					"descripcion": "ofrece defensa entre 1 y 4.", 
+					"imagen": "kiteshield_red_gray.png" 
+				}
+			}
 		}
 	},
 	"npc": {
@@ -319,7 +332,34 @@
 			"armas": []
 		},
 		"Arania": {
-
+			"cuerpo" : ["spider1.png"],
+			"ojos": [],
+			"cicatrices" : [],
+			"nariz": [],
+			"facial": [],
+			"pies": [],
+			"piernas": [],
+			"torso": [],
+			"cinto": [],
+			"pelo": [],
+			"cabeza": [],
+			"armas": [],
+			"animacion": "arania"
+		},
+		"Arania2": {
+			"cuerpo" : ["spider2.png"],
+			"ojos": [],
+			"cicatrices" : [],
+			"nariz": [],
+			"facial": [],
+			"pies": [],
+			"piernas": [],
+			"torso": [],
+			"cinto": [],
+			"pelo": [],
+			"cabeza": [],
+			"armas": [],
+			"animacion": "arania2"
 		},
 		"Banquero": {
 			"cuerpo" : ["man-white.png"],
@@ -404,15 +444,54 @@
 			"Ancho": 192,
 			"Alto": 192,
 			"Columnas": 6,
-			"Arriba": 0,
-			"Izquierda": 1,
-			"Abajo": 2,
-			"Derecha": 3,
+			"Direcciones": {
+				"Arriba": 0,
+				"Izquierda": 1,
+				"Abajo": 2,
+				"Derecha": 3
+			},
 			"Quieto": 0,
 			"Estados": {
 				"Arma": {
-					"fila": [0, 1, 3, 4],
+					"fila": [0, 1, 2, 3],
 					"cantidad": 6
+				}
+			}
+		},
+		"arania": {
+			"Ancho": 48,
+			"Alto": 48,
+			"Columnas": 3,
+			"Direcciones": {
+				"Abajo": 0,
+				"Izquierda": 1,
+				"Derecha": 2,
+				"Arriba": 3
+			},
+			"Quieto": 0,
+			"Estados": {
+				"Caminar": {
+					"fila": [0, 1, 2, 3],
+					"cantidad": 3
+				}
+			}
+		},
+		"arania2": {
+			"Ancho": 134,
+			"Alto": 89,
+			"Columnas": 3,
+
+			"Direcciones": {
+				"Abajo": 0,
+				"Izquierda": 1,
+				"Derecha": 2,
+				"Arriba": 3
+			},
+			"Quieto": 0,
+			"Estados": {
+				"Caminar": {
+					"fila": [0, 1, 2, 3],
+					"cantidad": 3
 				}
 			}
 		}

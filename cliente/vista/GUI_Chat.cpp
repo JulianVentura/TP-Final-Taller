@@ -91,7 +91,4 @@ void GUI_Chat::scroll(Sint32& incremento){
 }
 
 GUI_Chat::~GUI_Chat(){
-	// TODO: puede romper si el renderer se destruye antes
-	// No es necesario destruir la textura a mano, SDL la detruye en el quit
-	SDL_DestroyTexture(textura);
 }

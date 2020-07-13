@@ -2,8 +2,8 @@
 #include <string>
 
 AnimacionEnteDireccionable::AnimacionEnteDireccionable(EntidadParser& parser,
-        const std::string& animacion_inicial): 
-        Animacion(parser, animacion_inicial) {
+        const std::string& tipo): 
+        Animacion(parser, tipo) {
     setAccion("caminar");
 }
 

@@ -10,8 +10,6 @@
 
 #include "../vista/Imagen.h"
 
-// TODO provisorio, esto serían ids
-// - arma, casco, escudo, armadura, raza, clase, estado.
 struct DatosApariencia {
     std::string arma;
     std::string casco;
@@ -20,30 +18,85 @@ struct DatosApariencia {
     std::string raza;
     std::string clase;
     std::string estado;
-    std::string tipo; // arania, zombie, etc
+    std::string tipo;
+};
+typedef std::unordered_map<std::string, std::vector<Imagen*>> imagenes_t;
+class PersonajeParser {
+public:
+    PersonajeParser() = default;
+    ~PersonajeParser();
+    void parsear(EntornoGrafico& entorno, nlohmann::json& parser, 
+        std::string& raiz, const std::string& raza, const std::string& clase, 
+                                        const imagenes_t setDeImagenesBase);
+    void parsear(EntornoGrafico& entorno, nlohmann::json& parser, 
+                std::string& raiz, const std::string& tipo, const imagenes_t 
+                                                            setDeImagenesBase);
+    std::string getId();
+    const std::vector<Imagen*>& getImagenes(const std::string& parte);
+
+private:
+    void parsearImagen(EntornoGrafico& entorno, std::string& raiz, imagenes_t& 
+        setDeImagenes, const std::string& tipo, const std::string& variante);
+    imagenes_t setDeImagenes;
+    std::vector<Imagen*> bufferImagenes;
+    std::string id;
 };
 
-typedef std::unordered_map<std::string, std::vector<Imagen*>> imagenes_t;
 typedef std::unordered_map<std::string, std::vector<int>> animaciones_t;
 
+class AnimacionParser {
+public:
+    AnimacionParser() = default;
+    AnimacionParser(nlohmann::json& parser, const std::string& tipo);
+    int getGuid(std::string& accion, std::string& direccion, 
+                                                    int columna, bool quieto);
+    int getColumnas();
+    int getColumnas(std::string& accion, std::string& direccion);
+
+private:
+    int ancho;
+    int alto;
+    int columnas;
+    animaciones_t animaciones;
+};
+
+class EquipableParser {
+public:
+    ~EquipableParser();
+	void parsear(EntornoGrafico& entorno, nlohmann::json& parser, 
+                            const std::string& tipo, const std::string& id);
+    Imagen* getImagen();
+    std::string getReemplazaA();
+private:
+	std::string reemplaza_a;
+	Imagen* imagen;
+	std::string animacion;
+};
 
 class EntidadParser {
 public:
     EntidadParser(EntornoGrafico& entorno);
     ~EntidadParser();
-    imagenes_t getImagenes(std::string& raza, std::string& clase);
-    imagenes_t getImagenes(std::string& tipo);
-    int getAncho(std::string& raza);
-    int getAlto(std::string& raza);
-    int getAncho();
-    int getAlto();
+    const std::vector<Imagen*>& getImagenes(DatosApariencia& apariencia, 
+                                                    const std::string& parte);
+    std::unordered_map<std::string, Imagen*> getEquipables(DatosApariencia& apariencia);
+
+    int getAncho(std::string& raza, std::string& tipo);
+    int getAlto(std::string& raza, std::string& tipo);
+    int getAncho(std::string& tipo);
+    int getAlto(std::string& tipo);
     int getGuid(std::string& tipo, std::string& accion, std::string& direccion, 
                                                 int columna, bool quieto=true);
+    
     int getAnimacionCantidadTipo(std::string& tipo);
     int getAnimacionCantidad(std::string& tipo, std::string& accion, 
                                                         std::string& direccion);
 
 private:
+    const std::vector<Imagen*>& getImagenes(const std::string& raza, 
+                        const std::string& clase, const std::string& parte);
+    const std::vector<Imagen*>& getImagenes(const std::string& tipo, 
+                                                    const std::string& parte);
     void parsearRazas();
     void parsearNPCs();
     void parsearAnimaciones();
@@ -53,9 +106,10 @@ private:
     nlohmann::json parser;
     std::string raiz;
     static const imagenes_t aparienciaImagenesBase;
-    std::unordered_map<std::string, imagenes_t> imagenes;
-    std::unordered_map<std::string, animaciones_t> animaciones;
-    std::unordered_map<std::string, int> columnas;
+    std::unordered_map<std::string, PersonajeParser> personajes;
+    std::unordered_map<std::string, AnimacionParser> animaciones;
+    std::unordered_map<std::string, EquipableParser> equipables;
+    std::vector<Imagen*> bufferImagenes;
 };
 
 #endif

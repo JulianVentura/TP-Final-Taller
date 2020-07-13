@@ -36,13 +36,6 @@ void Imagen::setPosicion(int x, int y) {
     render_mascara.y = y;
 }
 
-void Imagen::centrarRelativoA(IDimensionable& contenedor) {
-    // TODO: Debería estar en una clase más abstracta
-    int desplazamientoX = contenedor.getAncho() / 2 - this->getAncho() / 2;
-    int desplazamientoY = contenedor.getAlto() / 2 - this->getAlto() / 2;
-    this->setPosicion(desplazamientoX, desplazamientoY);
-}
-
 void Imagen::render() {
     renderer->renderTextura(textura, mascara, render_mascara);
 }

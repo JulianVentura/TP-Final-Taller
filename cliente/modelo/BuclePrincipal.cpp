@@ -4,9 +4,9 @@
 #include <SDL2/SDL_timer.h>
 #include <thread>
 
-#define FPS 60
-#define SEG_A_MILLI 1000
-#define MILLIS_POR_FRAME SEG_A_MILLI / FPS
+// #define FPS 60
+// #define SEG_A_MILLI 1000
+// #define MILLIS_POR_FRAME SEG_A_MILLI / FPS
 
 BuclePrincipal::BuclePrincipal(Ventana& ventana) : ventana(&ventana) {
     agregarInteractivo(SDL_WINDOWEVENT, &ventana);
@@ -34,7 +34,7 @@ void BuclePrincipal::despacharEventos(SDL_Event& evento) {
         salir = true;
         return;
 	}
-    if (interactivos.count(evento.type) <= 0) return;
+    if (!interactivos.count(evento.type)) return;
     bool evento_consumido = false;
     for (auto& interactivo : interactivos[evento.type]) {
         if (!interactivo) continue;

@@ -3,6 +3,7 @@
 #include <nlohmann/json.hpp>
 #include <string>
 #include <unordered_map>
+#include <vector>
 
 #include "DatosPersonaje.h"
 #include "LibreriaConjuntoTileParser.h"
@@ -21,7 +22,7 @@
 
 #include "../controlador/MovibleControlador.h"
 #include "../controlador/IInteractivo.h"
-
+#include "../../common/Serializacion.h"
 
 
 class Juego: public IInteractivo, public IRendereable {
@@ -36,6 +37,7 @@ public:
     void agregarObstruible(IObstruible* obstruible);
     void actualizarPosiciones(std::unordered_map<std::string, std::pair<int, 
                                                             int>> posiciones);
+    void actualizarEstados(std::vector<serializacionEstado> estados);
 
 private:
     EntornoGrafico& entorno;
@@ -56,7 +58,6 @@ private:
     std::unordered_map<std::string, std::pair<IPosicionable*, 
                                                     MovibleVista*>> movibles;
     void agregarEntidad(std::string& id, DatosApariencia& apariencia);
-    void agregarEntidad(std::string& id);
     void borrarEntidad(std::string& id);
 
     std::pair<IPosicionable*, MovibleVista*> crearEntidad(std::string& id, 

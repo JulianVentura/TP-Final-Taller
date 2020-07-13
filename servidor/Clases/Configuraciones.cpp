@@ -571,7 +571,7 @@ TipoItem Configuraciones::calcularDropItem(std::string &idCriatura){
     if (numero < probaCasco && numero >= probaEscudo) return CASCO;
     if (numero <= probaPocion && numero >= probaCasco) return POCION;
     //Si se llego a este punto las probabilidades no suman 1
-    throw Excepcion("Las probabilidades de drop de items de %s no suman 1", idCriatura);
+    throw Excepcion("Las probabilidades de drop de items de %s no suman 1", idCriatura.c_str());
 }
 
 

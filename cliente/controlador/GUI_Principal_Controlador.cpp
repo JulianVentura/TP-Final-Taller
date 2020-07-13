@@ -37,8 +37,6 @@ bool GUI_PrincipalControlador::manejarEvento(SDL_Event& evento) {
     } else if (evento.type == SDL_TEXTINPUT 
             || evento.type == SDL_KEYDOWN) {
         return chat_controlador.manejarEvento(evento);
-        // TODO
-        // return chat_controlador.ingresarCaracter(evento);
     }
     return false;
 }
