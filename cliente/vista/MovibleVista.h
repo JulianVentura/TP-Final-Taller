@@ -10,7 +10,7 @@
 class MovibleVista: public IObstruible {
 public:
     MovibleVista(EntornoGrafico& entorno, IPosicionable* modelo, 
-                            EntidadParser& parser, DatosApariencia& apariencia);
+                                                        EntidadParser& parser);
     virtual ~MovibleVista() {};
     void actualizarApariencia(DatosApariencia& apariencia);
     void render() override;
@@ -24,6 +24,7 @@ private:
     EntidadParser& parser;
     DatosApariencia apariencia;
     AnimacionEnteDireccionable animacion;
+    bool esta_apariencia;
     SDL_Rect mascara = {};
     const static std::vector<std::string> ordenDeImagenes;
 };

@@ -29,18 +29,17 @@ const std::vector<std::string> MovibleVista::ordenDeImagenes = {
 #define NPC_ANIMACION 60
 
 MovibleVista::MovibleVista(EntornoGrafico& entorno, IPosicionable* modelo, 
-        EntidadParser& parser, DatosApariencia& apariencia): 
-        modelo(modelo), parser(parser), apariencia(apariencia), 
-        animacion(parser, apariencia.tipo) {
+                                                        EntidadParser& parser): 
+        modelo(modelo), parser(parser), animacion(parser, apariencia.tipo) {
     entorno.agregarRendereable(this);    
     x = modelo->getX();
     y = modelo->getY();
     ultimo_estado = ANIMACION_BASE;
-    actualizarApariencia(apariencia);
+    esta_apariencia = false;
 }
 
 void MovibleVista::actualizar(unsigned int delta_t) {
-    if (!modelo || !modelo->esta_actualizado()) return;
+    if (!esta_apariencia || !modelo || !modelo->esta_actualizado()) return;
     int ultimo_x = x;
     int ultimo_y = y;
     x = modelo->getX();
@@ -54,6 +53,7 @@ void MovibleVista::actualizar(unsigned int delta_t) {
 }
 
 void MovibleVista::render() {
+    if (!esta_apariencia) return;
     for (auto& tipoImagen: ordenDeImagenes) {
         for (auto& imagen: imagenes[tipoImagen]) {
             imagen->setMascara(mascara);
@@ -68,18 +68,22 @@ void MovibleVista::render() {
 }
 
 bool MovibleVista::contienePunto(int x, int y) {
+    if (!esta_apariencia) return false;
     SDL_Point punto = { x, y };
     SDL_Rect rect = { getX(), getY(), ancho, alto};
     return SDL_PointInRect(&punto, &rect);
 }
 
 void MovibleVista::actualizarApariencia(DatosApariencia& apariencia) {
-    ancho = parser.getAncho(apariencia.raza, apariencia.tipo);
-    alto = parser.getAlto(apariencia.raza, apariencia.tipo);
     if (apariencia.tipo.size() > 0) {
+        if (esta_apariencia) return;
         imagenes = parser.getImagenes(apariencia.tipo);
         animacion.setTiempoPorCuadro(NPC_ANIMACION);
     } else {
         imagenes = parser.getImagenes(apariencia.raza, apariencia.clase);
     }
+    esta_apariencia = true;
+    ancho = parser.getAncho(apariencia.raza, apariencia.tipo);
+    alto = parser.getAlto(apariencia.raza, apariencia.tipo);
+    animacion.setAnimacion(apariencia.tipo);
 }

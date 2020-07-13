@@ -58,7 +58,6 @@ private:
     std::unordered_map<std::string, std::pair<IPosicionable*, 
                                                     MovibleVista*>> movibles;
     void agregarEntidad(std::string& id, DatosApariencia& apariencia);
-    void agregarEntidad(std::string& id);
     void borrarEntidad(std::string& id);
 
     std::pair<IPosicionable*, MovibleVista*> crearEntidad(std::string& id, 

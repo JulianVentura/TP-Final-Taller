@@ -30,7 +30,6 @@ bool Juego::manejarEvento(SDL_Event& evento) {
             if(movible.first == datos_personaje.id) continue;
             bool consumido = movible.second.second->contienePunto(x, y);
             if (!consumido) continue;
-            printf("id %s\n", movible.first.c_str());
             if (boton == SDL_BUTTON_LEFT) 
                 servidor.enviarInteraccion(movible.first);
             else if (boton == SDL_BUTTON_RIGHT)
@@ -65,45 +64,6 @@ Juego::Juego(EntornoGrafico& entorno, DatosPersonaje& datos_personaje,
     entorno.agregarRendereable(this);
     servidor.setJuego(this);
     camara.setMarco(ventana);
-
-    DatosApariencia ap;
-    ap.raza = "humano";
-    ap.clase = "mago";
-    // ap.tipo = "arania1";
-    agregarEntidad(datos_personaje.id, ap);
-
-    // std::string id = "asdsd";
-    // std::vector<std::string> razas = {
-    //     "humano",
-    //     "elfo",
-    //     "enano",
-    //     "gnomo"
-    // };
-    // std::vector<std::string> clases = {
-    //     "mago",
-    //     "clerigo",
-    //     "guerrero",
-    //     "paladin"
-    // };
-
-    // std::vector<std::string> npcs = {
-    //     "goblin",
-    //     "esqueleto",
-    //     "zombie",
-    //     "arania"
-    // };
-    // for (auto& raza: razas) {
-    //     for (auto& clase: clases) {
-    //         ap.raza = raza;
-    //         ap.clase = clase;
-    //         id = raza + clase;
-    //         agregarEntidad(id, ap);
-    //     }
-    // }
-    // for (auto& npc: npcs) {
-    //     id = npc + NPC_DELIMITADOR;
-    //     agregarEntidad(id, ap);
-    // }
 }
 
 void Juego::agregarEntidad(std::string& id, DatosApariencia& apariencia) {
@@ -114,9 +74,8 @@ void Juego::agregarEntidad(std::string& id, DatosApariencia& apariencia) {
     movibles[id] = std::move(crearEntidad(id, apariencia));
     capaFrontal.agregarObstruible(movibles[id].second);
     servidor.agregarPosicionable(id, movibles[id].first);
-    if (id == datos_personaje.id) {
+    if (id == datos_personaje.id) 
         camara.setObjetivo(movibles[id].second);    
-    }
 }
 
 Juego::~Juego() {
@@ -138,33 +97,25 @@ void Juego::borrarEntidad(std::string& id) {
 std::pair<IPosicionable*, MovibleVista*> Juego::crearEntidad(std::string& id, 
                                                 DatosApariencia& apariencia) {
     std::pair<IPosicionable*, MovibleVista*> resultado;
+    resultado.first = new IPosicionable();
+    resultado.second = new MovibleVista(entorno, resultado.first, 
+                                                                entidadParser);
     auto posicion_identificador = id.find(NPC_DELIMITADOR);
     if (posicion_identificador != std::string::npos) {
         apariencia.tipo = id.substr(0, posicion_identificador);
-    } else {
-        // TODO: Preguntarle al servidor la apariencia correcta
-        // apariencia.raza = ...
-        // apariencia.clase = ...
+        resultado.second->actualizarApariencia(apariencia);
     }
-    printf("%s\n", id.c_str());
-    resultado.first = new IPosicionable();
-    resultado.first->actualizarPosicion(rand() % 400 + 500, rand()% 500 + 200);
-    resultado.second = new MovibleVista(entorno, resultado.first, 
-                                                    entidadParser, apariencia);
     return resultado;
 }
 
-void Juego::agregarEntidad(std::string& id) {
-    DatosApariencia apariencia;
-    agregarEntidad(id, apariencia);
-}
 
 void Juego::actualizarPosiciones(std::unordered_map<std::string, std::pair<int, 
                                                             int>> posiciones) {
     for (auto& posicion: posiciones) {
 		if (!movibles.count(posicion.first)) {
 			std::string id(posicion.first);
-			agregarEntidad(id);
+            DatosApariencia apariencia;
+            agregarEntidad(id, apariencia);
 			continue;
 		}
 		if (!movibles.count(posicion.first)) continue;
@@ -181,7 +132,6 @@ void Juego::actualizarPosiciones(std::unordered_map<std::string, std::pair<int,
         borrarEntidad(movible);
 }
 
-
 void Juego::actualizarEstados(std::vector<serializacionEstado> estados) {
     for (auto& estado: estados) {
         DatosApariencia apariencia;
@@ -192,12 +142,7 @@ void Juego::actualizarEstados(std::vector<serializacionEstado> estados) {
 		apariencia.casco = std::to_string(estado.idCascoEquipado);
 		apariencia.escudo = std::to_string(estado.idEscudoEquipado);
 		apariencia.estado = std::to_string(estado.idEstado);
-		
-        if (movibles.count(estado.id)) {
+        if (movibles.count(estado.id))
             movibles[estado.id].second->actualizarApariencia(apariencia);
-        }
-        std::string raza = std::to_string(estado.idRaza);
-        std::string clase = std::to_string(estado.idClase);
-    
     }
 }

@@ -22,6 +22,7 @@ struct DatosApariencia {
 };
 
 typedef std::unordered_map<std::string, std::vector<Imagen*>> imagenes_t;
+// typedef std::unordered_map<std::string, std::vector<std::shared_ptr<Imagen>>> imagenes_t;
 typedef std::unordered_map<std::string, std::vector<int>> animaciones_t;
 
 
