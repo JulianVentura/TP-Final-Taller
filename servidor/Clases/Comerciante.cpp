@@ -118,10 +118,6 @@ void Comerciante::atacar(Criatura *objetivo){
     //Nada
 }
 
-void Comerciante::serAtacadoPor(Entidad *atacante){
-    //Nada
-}
-
 void Comerciante::serAtacadoPor(Personaje *atacante){
     //Nada
 }

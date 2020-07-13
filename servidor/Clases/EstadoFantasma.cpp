@@ -62,8 +62,9 @@ void EstadoFantasma::interactuar(Entidad *entidad){
 }
 
 void EstadoFantasma::pedirCuracion(Sacerdote *sacerdote, Cliente *cliente){
-    sacerdote->curar(personaje, cliente);
-    personaje->estadoNormal();
+    if (sacerdote->curar(personaje, cliente)){
+        personaje->estadoNormal();
+    }
 }
 
 void EstadoFantasma::pedirListado(Interactuable *interactuable, Cliente *cliente){

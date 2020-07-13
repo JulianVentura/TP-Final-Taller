@@ -32,7 +32,6 @@ class Criatura : public Entidad{
     //Ataques
     void atacar(Personaje *objetivo) override;
     void atacar(Criatura *objetivo) override;
-    void serAtacadoPor(Entidad *atacante) override;
     void serAtacadoPor(Personaje *atacante) override;
     void serAtacadoPor(Criatura *atacante) override;
     bool recibirDanio(int danio, Entidad *atacante) override;

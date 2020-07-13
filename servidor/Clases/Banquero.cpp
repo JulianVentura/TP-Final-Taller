@@ -101,10 +101,6 @@ void Banquero::atacar(Criatura *objetivo){
     //Nada
 }
 
-void Banquero::serAtacadoPor(Entidad *atacante){
-    //Nada
-}
-
 void Banquero::serAtacadoPor(Personaje *atacante){
     //Nada
 }

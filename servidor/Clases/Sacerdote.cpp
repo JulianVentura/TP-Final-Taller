@@ -2,8 +2,7 @@
 #include "Cliente.h"
 #include "Estado.h"
 #include "Personaje.h"
-#define ANCHO 4
-#define ALTO 4
+
 
 Sacerdote::Sacerdote(float x, float y) : Entidad("Sacerdote#"){
     Configuraciones *config = Configuraciones::obtenerInstancia();
@@ -37,15 +36,17 @@ void Sacerdote::listar(Personaje *personaje, Cliente *cliente){
     //El sacerdote no tiene items.
 }
 
-void Sacerdote::curar(Personaje *personaje, Cliente *cliente){
+bool Sacerdote::curar(Personaje *personaje, Cliente *cliente){
     float distancia = this->posicion.calcularDistancia(personaje->obtenerPosicion());
     if (distancia > distanciaMaximaDeInteraccion){
         std::string mensaje = "La distancia es muy grande";
         cliente->enviarChat(mensaje, false);
-        return;
+        return false;
     }
-    //Se le tiene que mandar algun mensaje
     personaje->curar();
+    std::string mensaje = "Ha sido curado";
+    cliente->enviarChat(mensaje, false);
+    return true;
 }
 
 
@@ -56,10 +57,6 @@ void Sacerdote::atacar(Personaje *objetivo){
 }
 
 void Sacerdote::atacar(Criatura *objetivo){
-    //Nada
-}
-
-void Sacerdote::serAtacadoPor(Entidad *atacante){
     //Nada
 }
 

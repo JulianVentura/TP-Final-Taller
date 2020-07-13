@@ -107,10 +107,6 @@ void BolsaDeItems::atacar(Criatura *objetivo){
     //Nada
 }
 
-void BolsaDeItems::serAtacadoPor(Entidad *atacante){
-    //Nada
-}
-
 void BolsaDeItems::serAtacadoPor(Personaje *atacante){
     //Nada
 }

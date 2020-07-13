@@ -164,7 +164,7 @@ bool Personaje::_recibirDanio(int danio, Entidad *atacante){
         divulgador->encolarMensaje(atacante->obtenerId(), mensaje.str());
         mensaje.str() = "Has esquivado el golpe";
         divulgador->encolarMensaje(this->id, mensaje.str());
-        return true;
+        return GOLPE_ESQUIVADO;
     }
     unsigned int defensa = config->calcularDefensa(this);
     if (danio - defensa < 0){
@@ -190,7 +190,7 @@ bool Personaje::_recibirDanio(int danio, Entidad *atacante){
     }else{
         vidaActual -= danio;
     }
-    return true;
+    return danio;
 }
 
 bool Personaje::recibirDanio(int danio, Entidad *atacante){
@@ -218,10 +218,7 @@ void Personaje::atacar(Criatura *objetivo){
     if (arma == NO_EQUIPADO) return;
     //Estoy seguro de que el casteo sera valido.
     estado->atacar(objetivo, (Arma*)inventario.obtenerItem(arma));
-}
-
-void Personaje::serAtacadoPor(Entidad *atacante){
-    estado->serAtacadoPor(atacante);
+    //Envio danio realizado
 }
 
 void Personaje::serAtacadoPor(Personaje *atacante){

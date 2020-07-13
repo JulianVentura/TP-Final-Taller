@@ -109,9 +109,7 @@ void Criatura::dropearItems(Entidad *atacante){
 void Criatura::actualizarEstado(double tiempo){
     if (vidaActual <= 0){
         tiempoTranscurrido += tiempo;
-        if (tiempoTranscurrido >= tiempoDespawn){
-            finalizado = true;
-        }
+        if (tiempoTranscurrido >= tiempoDespawn) finalizado = true;
     }else if (idObjetivo != ""){
 		continuarAtacando();
 	}else{
@@ -160,10 +158,6 @@ void Criatura::serAtacadoPor(Criatura *atacante){
 }
 
 void Criatura::serAtacadoPor(Personaje *atacante){
-    atacante->atacar(this);
-}
-
-void Criatura::serAtacadoPor(Entidad *atacante){
     atacante->atacar(this);
 }
 

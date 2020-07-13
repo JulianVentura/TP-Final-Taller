@@ -18,8 +18,8 @@ class Estado{
     public:
     Estado(Personaje *unPersonaje);
     //Ataque
-    virtual void atacar(Entidad *objetivo, Arma *arma) = 0;
-    virtual bool recibirDanio(int danio, Entidad *atacante) = 0;
+    virtual void  atacar(Entidad *objetivo, Arma *arma) = 0;
+    virtual bool  recibirDanio(int danio, Entidad *atacante) = 0;
     virtual void serAtacadoPor(Entidad *atacante) = 0;
     //Otras acciones
     virtual void meditar() = 0;
