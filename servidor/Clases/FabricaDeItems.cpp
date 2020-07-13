@@ -181,5 +181,4 @@ Item* FabricaDeItems::obtenerItemIDTCP(uint16_t idTCP){
         return crearArma(idString);
     }
     //Crear
->>>>>>> bf8626ea40eddfa4ab0693321b6fdb730d0fc872
 }
