@@ -22,14 +22,13 @@ Cliente::Cliente(Socket &&socket,
     la base de datos.
     */
     
-    std::pair<std::string, std::string> credenciales = std::move(login(organizadorClientes));
-    /*
+    std::pair<std::string, std::string> credenciales =
+     std::move(login(organizadorClientes));
     std::pair<std::string, std::unique_ptr<Personaje>> datos =
      miBaseDeDatos.cargarCliente(credenciales);
-     */
     this->id = credenciales.first;
-    //this->personaje = std::move(datos.second);
-    //this->salaActual = std::move(datos.first);
+    this->personaje = std::move(datos.second);
+    this->salaActual = std::move(datos.first);
 
     /*******************************************************************
     * Franco, no me borres esto hasta que la base no ande por favor.   *
@@ -37,11 +36,13 @@ Cliente::Cliente(Socket &&socket,
     *                                                                  *
     ********************************************************************/
     //Desde aca.
+    /*
     salaActual = "mapa";
     std::string idRaza = "Humano";
     std::string idClase = "Paladin";
     personaje = std::unique_ptr<Personaje> (new Personaje(600, 600, credenciales.first, idClase, idRaza));
     personaje -> recibirOro(1000);
+    */
     //Hasta aca
     Sala* miSala = organizadorSalas.obtenerSala(salaActual);
     ColaOperaciones *colaDeOperaciones = miSala->obtenerCola();
@@ -62,10 +63,10 @@ void Cliente::nuevoUsuario(std::pair<std::string, std::string> &credenciales,
     salaActual = config->obtenerMapaInicial();
     std::pair<float, float> pos = config->obtenerMapaPosicionSpawn(salaActual);
     auto personaje = std::unique_ptr<Personaje> (new Personaje(pos.first, pos.second,
-     credenciales.first, idClase, idRaza));
+    credenciales.first, idClase, idRaza));
     personaje -> recibirOro(1000);
     miBaseDeDatos.nuevoCliente(credenciales, idRaza, idClase,
-     salaActual, personaje.get());
+    salaActual, personaje.get());
    
     /*
     if(!miBaseDeDatos.existeCliente(credenciales.first)){
@@ -86,7 +87,7 @@ void Cliente::actualizarEstado(const std::vector<struct PosicionEncapsulada> &po
                                   personaje->manaMaximo,
                                   personaje->experiencia,
                                   personaje->limiteParaSubir);
-        enviarInventario(); //Refinar más adelante
+        enviarInventario();       //Refinar más adelante
         clienteProxy.enviarEstadosPersonajes(estados);
         clienteProxy.enviarPosiciones(posiciones);
     }catch(...){
@@ -155,6 +156,7 @@ void Cliente::procesar(){
     //Liberar recursos, guardar los datos en BaseDeDatos.
     Sala *miSala = organizadorSalas.obtenerSala(salaActual);
     miSala->eliminarCliente(id);
+    miBaseDeDatos.guardarCliente(this);
     clienteProxy.finalizar();
     finalizado = true;
 }
@@ -172,9 +174,6 @@ std::pair<std::string, std::string> Cliente::login(OrganizadorClientes &organiza
             ("Error: El id que ha ingresado ya ha sido logueado");
             credenciales = clienteProxy.recibirId();
         }else{
-            //DEBUG
-            clienteProxy.enviarConfirmacion();
-            return credenciales;
             if (miBaseDeDatos.verificarCliente(credenciales)){
                 return credenciales;
             }
@@ -182,4 +181,15 @@ std::pair<std::string, std::string> Cliente::login(OrganizadorClientes &organiza
             clienteProxy.enviarError("Error: Usuario y/o clave incorrectos");
         }
     }
+}
+
+void Cliente::cambiarDeMapa(std::string &idMapa){
+    Configuraciones *config = config->obtenerInstancia();
+    Sala *salaDestino = organizadorSalas.obtenerSala(idMapa);
+    Sala *salaOrigen = organizadorSalas.obtenerSala(salaActual);
+    salaOrigen->eliminarCliente(this->id); //Se descarga y se elimina al personaje del mapa.
+    std::pair<float, float> pos = config->obtenerMapaPosicionSpawn(salaActual);
+    Posicion posicion(pos.first, pos.second, 0,0);
+    personaje->actualizarPosicion(std::move(posicion)); //Tambien se podria directamente obtener un Posicion de configuraciones.
+    salaDestino->cargarCliente(this);
 }

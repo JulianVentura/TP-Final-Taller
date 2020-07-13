@@ -6,9 +6,7 @@ bool Divulgador::instanciaCreada = false;
 Divulgador Divulgador::instancia;
 
 Divulgador::Divulgador() : clientes(nullptr),
-						   continuar(true){
-
-}
+						   continuar(true){}
 
 void Divulgador::inicializarInstancia(OrganizadorClientes* clientes){
 	if (instanciaCreada){
@@ -58,7 +56,6 @@ void Divulgador::procesar(){
 			}else{
 				mensaje = std::get<2>(tupla_mensaje);
 			}
-			
 			if(std::get<1>(tupla_mensaje) != PALABRA_RESERVADA){
 				destino = clientes->obtenerCliente(std::get<1>(tupla_mensaje));
 				if(std::get<0>(tupla_mensaje) != PALABRA_RESERVADA)
@@ -69,8 +66,8 @@ void Divulgador::procesar(){
 				std::make_pair(mensaje, true);
 				clientes->aplicarFuncion(_enviarMensaje, &par_mensaje);
 			}
-		}catch(std::exception& e){
-			std::cerr << "No se encontro Cliente";
+		}catch(const std::exception& e){
+			std::cerr << e.what() << std::endl;
 			continue;
 		}
 	}

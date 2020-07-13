@@ -32,6 +32,8 @@ class Mapa{
     std::vector<quadtree::Box<float>> zonasRespawn;
     unsigned int limiteCriaturas;
     unsigned int cantidadCriaturas;
+    double tiempoRespawn;
+    double tiempoTranscurrido;
     std::unordered_map<std::string, Entidad*> entidades;
     std::list<std::unique_ptr<Entidad>> npcs;
 
@@ -47,6 +49,11 @@ class Mapa{
     Busca la posicion valida mas cercana a la posicion actual.
     */
     Posicion buscarPosicionValida(const Posicion &posicion);
+
+    /*
+    Buscara spawnear una nueva Criatura aleatoria en alguna de las zonas de respawn.
+    */
+    void cargarCriatura();
 
     public:
     Mapa(std::string nombre);
@@ -83,16 +90,16 @@ class Mapa{
     void eliminarEntidad(const std::string &id);
     void eliminarEntidadNoColisionable(Entidad *entidad);
     /*
+    Disminuye el contador de criaturas.
+    */
+    void eliminarCriatura();
+    /*
     Carga una nueva entidad al mapa
     */
     void cargarEntidad(Entidad *entidad);
     void cargarEntidad(std::unique_ptr<Entidad> entidad);
     void cargarEntidadNoColisionable(Entidad *entidad);
     void cargarEntidadNoColisionable(std::unique_ptr<Entidad> entidad);
-    /*
-    Buscara spawnear una nueva Criatura aleatoria en alguna de las zonas de respawn.
-    */
-    void cargarCriatura();
 
 };
 

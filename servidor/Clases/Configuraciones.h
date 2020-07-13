@@ -38,6 +38,7 @@ class Configuraciones{
     const std::string obtenerMapaInicial() const;
     const std::pair<float, float> obtenerMapaPosicionSpawn(std::string &id) const;
     const uint32_t obtenerMapaLimiteCriaturas(std::string &id) const;
+    const double   obtenerMapaTiempoRespawn(std::string &id) const;
     //Personaje
     const uint32_t obtenerPersonajeNivelBase() const;
     const uint32_t obtenerPersonajeFuerzaBase() const;
@@ -87,6 +88,17 @@ class Configuraciones{
     const uint32_t obtenerRazaMejoraAgilidadEnSubida(std::string &id) const;
     const uint32_t obtenerRazaMejoraConstitucionEnSubida(std::string &id) const;
     const uint16_t obtenerRazaIDTCP(std::string &id) const;
+    //FabricaDeItems
+    const uint32_t obtenerFabricaDeItemsLimiteArmas() const;
+    const uint32_t obtenerFabricaDeItemsLimiteArmaduras() const;
+    const uint32_t obtenerFabricaDeItemsLimiteCascos() const;
+    const uint32_t obtenerFabricaDeItemsLimiteEscudos() const;
+    const uint32_t obtenerFabricaDeItemsLimitePociones() const;
+    const std::unordered_map<int, std::string> obtenerFabricaDeItemsConversor() const;
+    //Items
+    //Item Nulo
+    const uint16_t obtenerItemNuloPrecio() const;
+    const uint16_t obtenerItemNuloIDTCP() const;
     //Armas
     const int32_t  obtenerArmaDanioMax(std::string &id) const;
     const int32_t  obtenerArmaDanioMin(std::string &id) const;

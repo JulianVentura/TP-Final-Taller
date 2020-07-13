@@ -37,7 +37,6 @@ void GameLoop::procesar(){
                 mapa.entidadesActualizarEstados(msPorActualizacion);
                 lag -= msPorActualizacion;
             }
-            mapa.cargarCriatura();
             miSala.actualizarClientes();
             reloj.dormir(msDescanso);
         }

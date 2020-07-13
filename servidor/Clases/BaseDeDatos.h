@@ -41,7 +41,7 @@ class BaseDeDatos{
                       std::string& idRaza, std::string& idClase,
                       std::string& idMapa, Personaje *personaje);
 
-    void guardarCliente(Cliente& cliente);
+    void guardarCliente(Cliente* cliente);
 
     std::pair<std::string, std::unique_ptr<Personaje>>
      cargarCliente(std::pair<std::string, std::string> &credenciales);
