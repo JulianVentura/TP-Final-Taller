@@ -110,12 +110,12 @@ void Comerciante::listar(Personaje *personaje, Cliente *cliente){
 
 //Ataque
 
-void Comerciante::atacar(Personaje *objetivo){
-    //Nada
+std::string Comerciante::atacar(Personaje *objetivo){
+    return "";
 }
 
-void Comerciante::atacar(Criatura *objetivo){
-    //Nada
+std::string Comerciante::atacar(Criatura *objetivo){
+    return "";
 }
 
 void Comerciante::serAtacadoPor(Personaje *atacante){
@@ -126,8 +126,8 @@ void Comerciante::serAtacadoPor(Criatura *atacante){
     //Nada
 }
 
-bool Comerciante::recibirDanio(int danio, Entidad *atacante){
-    return false;
+std::string Comerciante::recibirDanio(int danio, Entidad *atacante){
+    return "";;
 }
 
 //Estado

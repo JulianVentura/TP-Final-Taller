@@ -155,16 +155,18 @@ void Personaje::actualizarEstado(double tiempo){
     estado->actualizar(tiempo);
 }
 
-bool Personaje::_recibirDanio(int danio, Entidad *atacante){
+
+
+//Ataque
+
+std::string Personaje::recibirDanio(int danio, Entidad *atacante){
     Configuraciones *config = Configuraciones::obtenerInstancia();
     Divulgador *divulgador = Divulgador::obtenerInstancia();
     std::stringstream mensaje;
     if (config->seEsquivaElGolpe(this)){
-        mensaje << "El oponente ha esquivado el golpe";
-        divulgador->encolarMensaje(atacante->obtenerId(), mensaje.str());
-        mensaje.str() = "Has esquivado el golpe";
+        mensaje << "Has esquivado el golpe";
         divulgador->encolarMensaje(this->id, mensaje.str());
-        return GOLPE_ESQUIVADO;
+        return "El oponente ha esquivado el golpe";
     }
     unsigned int defensa = config->calcularDefensa(this);
     if (danio - defensa < 0){
@@ -172,9 +174,6 @@ bool Personaje::_recibirDanio(int danio, Entidad *atacante){
     }else{
         danio -= defensa;
     }
-    mensaje << "Realizas " << danio << "de danio";
-    divulgador->encolarMensaje(atacante->obtenerId(), mensaje.str());
-    mensaje.str("");
     mensaje << "Recibes " << danio << "de danio";
     divulgador->encolarMensaje(this->id, mensaje.str());
     unsigned int exp = config->calcularExpPorGolpe(this, atacante, danio);
@@ -190,40 +189,37 @@ bool Personaje::_recibirDanio(int danio, Entidad *atacante){
     }else{
         vidaActual -= danio;
     }
-    return danio;
+    mensaje.str("");
+    mensaje << "Realizas " << danio << "de danio";
+    return mensaje.str();
 }
 
-bool Personaje::recibirDanio(int danio, Entidad *atacante){
-    return estado->recibirDanio(danio, atacante);
-}
 
-void Personaje::atacar(Personaje *objetivo){
-    if (arma == NO_EQUIPADO) return;
+std::string Personaje::atacar(Personaje *objetivo){
+    if (arma == NO_EQUIPADO) return "";
     //Estoy seguro de que el casteo sera valido.
     
     /* COMENTO POR DEBUG
     Configuraciones *config = Configuraciones::obtenerInstancia();
     
     if (!config->sePuedeAtacar(objetivo, this)){
-        Divulgador *divulgador = Divulgador::obtenerInstancia();
-        std::string mensaje = "No se puede realizar el ataque por FairPlay";
-        divulgador->encolarMensaje(this->obtenerId(), mensaje);
-        return;
+        return = "No se puede realizar el ataque por FairPlay";
     }
     */
-    estado->atacar(objetivo, (Arma*)inventario.obtenerItem(arma));
+    return std::move(estado->atacar(objetivo, (Arma*)inventario.obtenerItem(arma)));
 }
 
-void Personaje::atacar(Criatura *objetivo){
-    if (arma == NO_EQUIPADO) return;
+std::string Personaje::atacar(Criatura *objetivo){
+    if (arma == NO_EQUIPADO) return "";
     //Estoy seguro de que el casteo sera valido.
-    estado->atacar(objetivo, (Arma*)inventario.obtenerItem(arma));
+    return std::move(estado->atacar(objetivo, (Arma*)inventario.obtenerItem(arma)));
     //Envio danio realizado
 }
 
 void Personaje::serAtacadoPor(Personaje *atacante){
-    //Chequeo FairPlay
-    estado->serAtacadoPor(atacante);
+    Divulgador *divulgador = Divulgador::obtenerInstancia();
+    std::string mensaje = estado->serAtacadoPor(atacante);
+    divulgador->encolarMensaje(atacante->obtenerId(), mensaje);
 }
 
 void Personaje::serAtacadoPor(Criatura *atacante){

@@ -99,12 +99,12 @@ bool BolsaDeItems::haFinalizado(){
 
 //Ataque
 
-void BolsaDeItems::atacar(Personaje *objetivo){
-    //Nada
+std::string BolsaDeItems::atacar(Personaje *objetivo){
+    return "";
 }
 
-void BolsaDeItems::atacar(Criatura *objetivo){
-    //Nada
+std::string BolsaDeItems::atacar(Criatura *objetivo){
+    return "";
 }
 
 void BolsaDeItems::serAtacadoPor(Personaje *atacante){
@@ -115,8 +115,8 @@ void BolsaDeItems::serAtacadoPor(Criatura *atacante){
     //Nada
 }
 
-bool BolsaDeItems::recibirDanio(int danio, Entidad *atacante){
-    return false;
+std::string BolsaDeItems::recibirDanio(int danio, Entidad *atacante){
+    return "";
 }
 
 void BolsaDeItems::actualizarEstado(double tiempo){

@@ -6,9 +6,8 @@ class EstadoNormal : public Estado{
     public:
     EstadoNormal(Personaje *unPersonaje); 
     //Ataque
-    void atacar(Entidad *objetivo, Arma *arma) override;
-    bool recibirDanio(int danio, Entidad *atacante) override;
-    void serAtacadoPor(Entidad *atacante) override;
+    std::string atacar(Entidad *objetivo, Arma *arma) override;
+    std::string serAtacadoPor(Entidad *atacante) override;
     //Otras acciones
     void meditar() override;
     void dejarDeMeditar() override;

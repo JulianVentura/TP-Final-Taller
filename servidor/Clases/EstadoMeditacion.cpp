@@ -18,19 +18,12 @@ EstadoMeditacion::EstadoMeditacion(Personaje *unPersonaje) : Estado(unPersonaje)
 
 //Ataque
 
-void EstadoMeditacion::atacar(Entidad *objetivo, Arma *arma){
-    Divulgador *divulgador = Divulgador::obtenerInstancia();
-    std::string mensaje = "No puede atacar mientras medita";
-    divulgador->encolarMensaje(personaje->id, mensaje);
+std::string EstadoMeditacion::atacar(Entidad *objetivo, Arma *arma){
+    return "No puede atacar mientras medita";
 }
 
-bool EstadoMeditacion::recibirDanio(int danio, Entidad *atacante){
-    //Se puede recibir daño en modo meditacion
-    return personaje->_recibirDanio(danio, atacante);
-}
-
-void EstadoMeditacion::serAtacadoPor(Entidad *atacante){
-    atacante->atacar(personaje);
+std::string EstadoMeditacion::serAtacadoPor(Entidad *atacante){
+    return std::move(atacante->atacar(personaje));
 }
 
 //Otras acciones

@@ -1,7 +1,6 @@
 #include "Arma.h"
 #include "Entidad.h"
 #include "Personaje.h"
-#include "Divulgador.h"
 #include "Mapa.h"
 #include "Proyectil.h"
 
@@ -23,34 +22,29 @@ Arma::Arma(int unDanioMax,
            tiempoAtaque(unTiempoAtaque),
            tiempoTranscurrido(0){}
 
-void Arma::atacar(Entidad *objetivo, Entidad *atacante, Mapa *mapa){
-    Divulgador *divulgador = Divulgador::obtenerInstancia();
+std::string Arma::atacar(Entidad *objetivo, Entidad *atacante, Mapa *mapa){
     tiempoTranscurrido += reloj.actualizar();
-    if (tiempoTranscurrido < tiempoAtaque) return;
+    if (tiempoTranscurrido < tiempoAtaque) return "";
     tiempoTranscurrido = 0;
 
     float distancia = atacante->obtenerPosicion().calcularDistancia(objetivo->obtenerPosicion());
     if (distancia > this->radioAtaque){
-        std::string mensaje = "Estas muy lejos del oponente";
-        divulgador->encolarMensaje(atacante->obtenerId(), mensaje);
-        return;
+        return "Estas muy lejos del oponente";
     }
     if (!atacante->manaSuficiente(this->consumoMana)){
-        std::string mensaje = "No tenes mana suficiente para realizar el ataque";
-        divulgador->encolarMensaje(atacante->obtenerId(), mensaje);
-        return;
+        return "No tenes mana suficiente para realizar el ataque";
     }
     Configuraciones *configuraciones = Configuraciones::obtenerInstancia();
     unsigned int danio = configuraciones->calcularDanioAtaque(objetivo, 
                                                               atacante,
                                                               this);
-    if (objetivo->recibirDanio(danio, atacante)){
-        atacante->consumirMana(this->consumoMana);
-        std::unique_ptr<Entidad> proyectil(new Proyectil(this->proyectil, 
+    atacante->consumirMana(this->consumoMana);
+    std::string mensaje = std::move(objetivo->recibirDanio(danio, atacante));
+    std::unique_ptr<Entidad> proyectil(new Proyectil(this->proyectil, 
                                                          atacante->obtenerPosicion(), 
                                                          objetivo->obtenerPosicion()));
-        mapa->cargarEntidadNoColisionable(std::move(proyectil));
-    }
+    mapa->cargarEntidadNoColisionable(std::move(proyectil));
+    return mensaje;
 }
 
 
