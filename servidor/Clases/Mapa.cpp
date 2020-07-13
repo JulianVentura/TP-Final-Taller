@@ -186,6 +186,7 @@ void Mapa::cargarCriatura(){
     if (cantidadCriaturas >= limiteCriaturas) return;
     // Obtengo un punto de respawn de la lista
     std::vector<quadtree::Box<float>>::iterator zona = zonasRespawn.begin();
+    if(zona == zonasRespawn.end()) return;
     std::uniform_int_distribution<> dis(0, std::distance(zona, zonasRespawn.end()) - 1);
     std::advance(zona, dis(motorAleatorio));
     //Obtengo un punto aleatorio sobre la zona de respawn
