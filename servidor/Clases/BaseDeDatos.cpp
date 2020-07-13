@@ -59,7 +59,8 @@ void BaseDeDatos::nuevoCliente(std::pair<std::string, std::string> &credenciales
     std::string& idRaza, std::string& idClase, std::string& idMapa,
     Personaje *personaje){
  	std::lock_guard<std::mutex> lock (m);
- 	if(existeCliente(credenciales.first)) return;
+ 	if(existeCliente(credenciales.first) || !verificarFormato(credenciales))
+ 	 return;
     dirs[credenciales.first] = ultima_dir;
   	archivo.seekp(ultima_dir*TAM_BLOQUES, std::ios_base::beg);
   	escribirCadena(credenciales.second);
@@ -119,6 +120,16 @@ bool BaseDeDatos::verificarCliente(std::pair<std::string, std::string> &credenci
   		return clave_correcta == credenciales.second;
   	}
     return false;
+}
+
+bool _verificarFormatoCadena(std::string& cadena){
+	return !(cadena.size() >= TAM_CADENAS || cadena.size() == 0 ||
+	 cadena.find_first_of(CARACTERES_PROHIBIDOS) != std::string::npos);
+}
+
+bool BaseDeDatos::verificarFormato(std::pair<std::string, std::string> &credenciales){
+	return _verificarFormatoCadena(credenciales.first) && 
+	_verificarFormatoCadena(credenciales.second);
 }
 
 BaseDeDatos::~BaseDeDatos(){
