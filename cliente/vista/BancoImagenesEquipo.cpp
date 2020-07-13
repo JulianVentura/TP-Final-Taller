@@ -4,9 +4,9 @@
 
 BancoImagenesEquipo::BancoImagenesEquipo(EntornoGrafico& entorno){
 	
-	imagenes.emplace(std::piecewise_construct, std::forward_as_tuple(501),
+	imagenes.emplace(std::piecewise_construct, std::forward_as_tuple(401),
 	 std::forward_as_tuple(entorno, "assets/equipo/401.png"));
-	imagenes.emplace(std::piecewise_construct, std::forward_as_tuple(502),
+	imagenes.emplace(std::piecewise_construct, std::forward_as_tuple(402),
 	 std::forward_as_tuple(entorno, "assets/equipo/402.png"));
 	imagenes.emplace(std::piecewise_construct, std::forward_as_tuple(1),
 	 std::forward_as_tuple(entorno, "assets/equipo/1.png"));
