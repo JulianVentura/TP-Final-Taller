@@ -14,7 +14,7 @@ bool FabricaDeItems::instanciaCreada = false;
 
 FabricaDeItems* FabricaDeItems::obtenerInstancia(){
     if (!instanciaCreada){
-        throw Excepcion("Se intento obtener una instancia de FabricaDeItems pero no fue inicializada");
+        crearInstancia();
     }
     return &instancia;
 }
@@ -26,7 +26,7 @@ void FabricaDeItems::crearInstancia(){
     instancia.limiteCascos = config->obtenerFabricaDeItemsLimiteCascos();
     instancia.limiteEscudos = config->obtenerFabricaDeItemsLimiteEscudos();
     instancia.limitePociones = config->obtenerFabricaDeItemsLimitePociones();
-    instancia.conversor = config->obtenerFabricaDeItemsObtenerConversor();
+    instancia.conversor = std::move(config->obtenerFabricaDeItemsConversor());
     instanciaCreada = true;
 }
 
@@ -181,5 +181,6 @@ Item* FabricaDeItems::obtenerItemIDTCP(uint16_t idTCP){
     if (idTCP > limiteEscudos && idTCP <= limitePociones){
         return crearArma(idString);
     }
-    //Crear
+    //Si se llego aca es porque el id es erroneo
+    throw Excepcion("El id %u es erroneo", idTCP);
 }

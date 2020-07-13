@@ -7,6 +7,8 @@ Servidor::Servidor(const char* archivoConfig) : organizadorSalas(archivoConfig),
                                                 baseDeDatos(),
                                                 aceptador(organizadorSalas, 
                                                           baseDeDatos){
+    //Configuraciones *config = FabricaDeItems::obtenerInstancia();
+    //fabrica->obtenerItemIDTCP(4);
     //Si aca creo el singleton entonces no va a estar inicializado para cuando se llame a la member
 }
 

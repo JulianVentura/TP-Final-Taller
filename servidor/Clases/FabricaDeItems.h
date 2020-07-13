@@ -26,6 +26,8 @@ class FabricaDeItems{
 
     std::mutex mutex;
 
+    static void crearInstancia();
+
     public:
     Item* obtenerItemAleatorio(std::string &idCriatura);
     Item* obtenerItemIDTCP(uint16_t id);
@@ -46,7 +48,6 @@ class FabricaDeItems{
     private:
     FabricaDeItems();
     static FabricaDeItems instancia;
-    static void crearInstancia();
     static bool instanciaCreada;
 };
 #endif

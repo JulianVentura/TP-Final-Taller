@@ -20,6 +20,7 @@
 		"Zombie"
             ],
             "LimiteCriaturas": 3,
+	    "TiempoRespawn": 30000,
             "PosicionSpawnInicial": [
                 100,
                 100
@@ -128,7 +129,7 @@
                     "Posibles": [
                         [
                             "EscudoDeTortuga",
-                            0.5
+                            1
                         ]
                     ]
                 },
@@ -211,7 +212,7 @@
                     "Posibles": [
                         [
                             "EscudoDeTortuga",
-                            0.5
+                            1
                         ]
                     ]
                 },
@@ -727,6 +728,6 @@
         "FairPlay": {
             "NivelDiferenciaMaximo": 10,
             "NivelNewbie": 12
-        },
+        }
     }
 }

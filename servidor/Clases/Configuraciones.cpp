@@ -237,6 +237,36 @@ const uint32_t Configuraciones::obtenerRazaMejoraConstitucionEnSubida(std::strin
 const uint16_t Configuraciones::obtenerRazaIDTCP(std::string &id) const{
     return json.at("Razas").at(id).at("idTCP").get<uint16_t>();
 }
+//FabricaDeItems
+const uint32_t Configuraciones::obtenerFabricaDeItemsLimiteArmas() const{
+    return json.at("FabricaDeItems").at("LimiteDeArmas").get<uint32_t>();
+}
+const uint32_t Configuraciones::obtenerFabricaDeItemsLimiteArmaduras() const{
+    return json.at("FabricaDeItems").at("LimiteDeArmaduras").get<uint32_t>();
+}
+const uint32_t Configuraciones::obtenerFabricaDeItemsLimiteCascos() const{
+    return json.at("FabricaDeItems").at("LimiteDeCascos").get<uint32_t>();
+}
+const uint32_t Configuraciones::obtenerFabricaDeItemsLimiteEscudos() const{
+    return json.at("FabricaDeItems").at("LimiteDeEscudos").get<uint32_t>();
+}
+const uint32_t Configuraciones::obtenerFabricaDeItemsLimitePociones() const{
+    return json.at("FabricaDeItems").at("LimiteDePociones").get<uint32_t>();
+}
+const std::unordered_map<int, std::string> Configuraciones::obtenerFabricaDeItemsConversor() const{
+    std::unordered_map<int, std::string> resultado;
+    for (auto& item: json["Items"].items()){
+        for (auto& it: item.value().items()) {
+            for (auto& a: it.value().items()) {
+                if (a.key() == "idTCP"){
+                    resultado[a.value().get<int>()] = it.key();
+                }
+            }
+        }
+    }
+    
+    return resultado;
+}
 //Armas
 const int32_t  Configuraciones::obtenerArmaDanioMax(std::string &id) const{
     return json.at("Items").at("Armas").at(id).at("DanioMax").get<int32_t>();
