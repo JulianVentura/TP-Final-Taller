@@ -13,7 +13,7 @@
 #include "Item.h"
 
 #define TAM_CADENAS 20
-#define TAM_BLOQUES TAM_CADENAS*4 + sizeof(serializacionPersonaje)
+#define TAM_BLOQUES (TAM_CADENAS*4 + sizeof(serializacionPersonaje))
 
 
 class Personaje;

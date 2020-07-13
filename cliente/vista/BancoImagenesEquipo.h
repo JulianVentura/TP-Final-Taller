@@ -2,7 +2,7 @@
 #define __BANCO_IMAGENES_EQUIPO_H__
 
 #include <vector>
-
+#include <map>
 #include "../vista/EntornoGrafico.h"
 #include "../vista/Imagen.h"
 
@@ -10,7 +10,7 @@
 
 class BancoImagenesEquipo{
 private:
-	std::vector<Imagen> imagenes;
+	std::unordered_map<int, Imagen> imagenes;
 public:
 	explicit BancoImagenesEquipo(EntornoGrafico& entorno);
 	void render(uint16_t indice, int x, int y);

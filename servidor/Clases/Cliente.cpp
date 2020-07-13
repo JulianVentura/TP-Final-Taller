@@ -14,7 +14,7 @@ Cliente::Cliente(Socket &&socket,
                  organizadorSalas(unOrganizadorSalas),
                  miBaseDeDatos(unaBaseDeDatos),
                  salaActual(""),
-                 finalizado(true),
+                 finalizado(false),
                  continuar(false){
     /*
     El id y pass del cliente se obtienen a traves de ClienteProxy, con ellos se accede a BaseDeDatos.
@@ -24,35 +24,30 @@ Cliente::Cliente(Socket &&socket,
     
     std::pair<std::string, std::string> credenciales =
      std::move(login(organizadorClientes));
-    /*
+
     std::pair<std::string, std::unique_ptr<Personaje>> datos =
      miBaseDeDatos.cargarCliente(credenciales);
-     */
     this->id = credenciales.first;
-    //this->personaje = std::move(datos.second);
-    //this->salaActual = std::move(datos.first);
-    /*******************************************************************
-    * Franco, no me borres esto hasta que la base no ande por favor.   *
-    *                                                                  *
-    *                                                                  *
-    ********************************************************************/
+    this->personaje = std::move(datos.second);
+    this->salaActual = std::move(datos.first);
     //Desde aca.
-    
+    /*
     salaActual = "mapa";
     std::string idRaza = "Humano";
     std::string idClase = "Paladin";
     personaje = std::unique_ptr<Personaje> (new Personaje(600, 600, credenciales.first, idClase, idRaza));
     personaje -> recibirOro(1000);
-    
+    */
     //Hasta aca
     Sala* miSala = organizadorSalas.obtenerSala(salaActual);
     ColaOperaciones *colaDeOperaciones = miSala->obtenerCola();
     clienteProxy.actualizarCola(colaDeOperaciones);
+    
     //TODO:
     //clienteProxy.enviarDatosPersonaje();
     //
+
     miSala->cargarCliente(this);
-    finalizado = false;
     continuar = true;
     clienteProxy.enviarConfirmacion();
 }
@@ -157,7 +152,7 @@ void Cliente::procesar(){
     //Liberar recursos, guardar los datos en BaseDeDatos.
     Sala *miSala = organizadorSalas.obtenerSala(salaActual);
     miSala->eliminarCliente(id);
-    //miBaseDeDatos.guardarCliente(this);
+    miBaseDeDatos.guardarCliente(this);
     clienteProxy.finalizar();
     finalizado = true;
 }
@@ -175,7 +170,6 @@ std::pair<std::string, std::string> Cliente::login(OrganizadorClientes &organiza
             ("Error: El id que ha ingresado ya ha sido logueado");
             credenciales = clienteProxy.recibirId();
         }else{
-            return credenciales;
             if (miBaseDeDatos.verificarCliente(credenciales)){
                 return credenciales;
             }
