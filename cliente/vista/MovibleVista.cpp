@@ -51,36 +51,36 @@ void MovibleVista::actualizar(unsigned int delta_t) {
     animacion.setMascara(mascara);
     animacion.avanzar();
 }
-
+void renderImagen(Imagen* imagen, SDL_Rect& mascara, int x, int y, int ancho, int alto) {
+    imagen->setMascara(mascara);
+    imagen->setAncho(ancho);
+    imagen->setAlto(alto);
+    imagen->setPosicion(x, y);
+    imagen->render();
+}
 void MovibleVista::render() {
     if (!esta_apariencia) return;
     // TODO: hardcodeado
-    apariencia.arma = "3";
-    apariencia.casco = "25";
+    // apariencia.arma = "9";
+    // apariencia.casco = "25";
+    // apariencia.escudo = "27";
+    // apariencia.armadura = "21";
+    // apariencia.raza = "4";
+    // apariencia.clase = "1";
     std::unordered_map<std::string, Imagen*> equipables(std::move(parser.getEquipables(apariencia)));
-    Imagen * imagen_mostrar = nullptr;
     for (auto& parte: ordenDeImagenes) {
-        for (auto& imagen: parser.getImagenes(apariencia, parte)) {
-            // animacion.setMascara(mascara);
-            imagen_mostrar = imagen;
-            if (equipables.count(parte)) {
-                imagen_mostrar = equipables[parte];
-                equipables.erase(parte);
-            }
-            imagen_mostrar->setMascara(mascara);
-            imagen_mostrar->setAncho(ancho);
-            imagen_mostrar->setAlto(alto);
-            imagen_mostrar->setPosicion(getX(), getY());
-            imagen_mostrar->render();
+        Imagen * imagen_mostrar = nullptr;
+        if (equipables.count(parte)) {
+            imagen_mostrar = equipables[parte];
+            equipables.erase(parte);
+            renderImagen(imagen_mostrar, mascara, getX(), getY(), ancho, alto);
+            continue;
         }
+        for (auto& imagen: parser.getImagenes(apariencia, parte)) 
+            renderImagen(imagen, mascara, getX(), getY(), ancho, alto);
     }
-    for (auto& equipable: equipables) {
-        equipable.second->setMascara(mascara);
-        equipable.second->setAncho(ancho);
-        equipable.second->setAlto(alto);
-        equipable.second->setPosicion(getX(), getY());
-        equipable.second->render();
-    }
+    for (auto& equipable: equipables) 
+        renderImagen(equipable.second, mascara, getX(), getY(), ancho, alto);
     animacion.avanzar();
     renderer->setColor(51, 0, 51);
     renderer->rect(getX(), getY(), getAncho(), getAlto());

@@ -49,7 +49,6 @@ void PersonajeParser::parsear(EntornoGrafico& entorno, nlohmann::json& parser,
     setDeImagenes = setDeImagenesBase;
     for (auto& campo: setDeImagenes) {
         for (auto& valor: parser["razas"][raza]["variantes"][clase][campo.first]) {
-            if (valor == "") continue;
             parsearImagen(entorno, raiz, setDeImagenes, campo.first, 
                                                     valor.get<std::string>());
         }
@@ -64,7 +63,6 @@ void PersonajeParser::parsear(EntornoGrafico& entorno, nlohmann::json& parser,
     setDeImagenes = setDeImagenesBase;
     for (auto& campo: setDeImagenes) {
         for (auto& valor: parser["npc"][tipo][campo.first]) {
-            if (valor == "") continue;
             parsearImagen(entorno, raiz, setDeImagenes, campo.first, 
                                                     valor.get<std::string>());
         }
@@ -93,7 +91,6 @@ void EntidadParser::parsearRazas() {
         imagenes_t setDeImagenesBase(aparienciaImagenesBase);
         for (auto& campo: setDeImagenesBase) {
             for (auto& valor: clases[BASE][campo.first]) {
-                if (valor == "") continue;
                 parsearImagen(setDeImagenesBase, campo.first, 
                                                 valor.get<std::string>());
             }
