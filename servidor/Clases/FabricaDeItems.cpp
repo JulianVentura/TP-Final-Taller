@@ -159,7 +159,7 @@ Pocion* FabricaDeItems::crearPocion(std::string &id){
 Item* FabricaDeItems::crearItemNulo(){
     if (!itemNulo){
         Configuraciones *config = Configuraciones::obtenerInstancia();
-        unsigned int precio = config->obtenerItemNuloPrecio();
+        uint16_t precio = config->obtenerItemNuloPrecio();
         uint16_t idTCP = config->obtenerItemNuloIDTCP();
         itemNulo = std::move(std::unique_ptr<ItemNulo>(new ItemNulo("ItemNulo", idTCP, precio)));
     }

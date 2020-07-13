@@ -144,14 +144,7 @@ void Mapa::cargarEntidadNoColisionable(Entidad *entidad){
 void Mapa::cargarEntidadNoColisionable(std::unique_ptr<Entidad> entidad){
     cargarEntidadNoColisionable(entidad.get());
     npcs.push_back(std::move(entidad));
-    std::list<std::unique_ptr<Entidad>>::iterator it = npcs.begin();
-    while (it != npcs.end()){
-        if ((*it)->haFinalizado()){
-            it = npcs.erase(it);
-        }else{
-            ++it;
-        }
-    }
+
 }
 
 void Mapa::cargarEntidad(Entidad *entidad){
@@ -172,14 +165,6 @@ void Mapa::cargarEntidad(Entidad *entidad){
 void Mapa::cargarEntidad(std::unique_ptr<Entidad> entidad){
     cargarEntidad(entidad.get());
     npcs.push_back(std::move(entidad));
-    std::list<std::unique_ptr<Entidad>>::iterator it = npcs.begin();
-    while (it != npcs.end()){
-        if ((*it)->haFinalizado()){
-            it = npcs.erase(it);
-        }else{
-            ++it;
-        }
-    }
 }
 
 void Mapa::cargarCriatura(){
@@ -281,15 +266,18 @@ void Mapa::entidadesActualizarEstados(double tiempo){
     if (tiempoTranscurrido >= tiempoRespawn){
         tiempoTranscurrido = 0;
         this->cargarCriatura();
-    }else{
-        unsigned int contador = 4;
-        contador++;
-        if (contador > 1){
-            contador = 1;
-        }
     }
     for (auto& entidad: entidades){
         entidad.second->actualizarEstado(tiempo);
+    }
+    //Limpio completados
+    std::list<std::unique_ptr<Entidad>>::iterator it = npcs.begin();
+    while (it != npcs.end()){
+        if ((*it)->haFinalizado()){
+            it = npcs.erase(it);
+        }else{
+            ++it;
+        }
     }
 }
 

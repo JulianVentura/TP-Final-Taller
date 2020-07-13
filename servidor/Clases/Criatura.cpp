@@ -110,9 +110,7 @@ void Criatura::actualizarEstado(double tiempo){
     if (vidaActual <= 0){
         tiempoTranscurrido += tiempo;
         if (tiempoTranscurrido >= tiempoDespawn){
-            //mapaAlQuePertenece->eliminarEntidad(this);
-            //mapaAlQuePertenece->eliminarCriatura();
-            //finalizado = true;    DEBUG
+            finalizado = true;
         }
     }else if (idObjetivo != ""){
 		continuarAtacando();
@@ -137,6 +135,10 @@ void Criatura::perseguir(Personaje *objetivo){
 }
 
 bool Criatura::haFinalizado(){
+    if (finalizado){
+        mapaAlQuePertenece->eliminarEntidad(this);
+        mapaAlQuePertenece->eliminarCriatura();
+    }
     return finalizado;
 }
 

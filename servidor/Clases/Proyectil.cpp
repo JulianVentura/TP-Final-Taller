@@ -71,6 +71,9 @@ void Proyectil::actualizarEstado(double tiempo){
 }
 
 bool Proyectil::haFinalizado(){
+    if (finalizado){
+        mapaAlQuePertenece->eliminarEntidadNoColisionable(this);
+    }
     return finalizado;
 }
 

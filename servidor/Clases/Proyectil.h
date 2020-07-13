@@ -6,7 +6,7 @@
 class Proyectil : public Entidad{
     private:
     Posicion destino;
-    std::atomic<bool> finalizado;
+    bool finalizado;
     bool haLlegadoADestino;
     double tiempoTranscurrido;
     double tiempoDespawn;
