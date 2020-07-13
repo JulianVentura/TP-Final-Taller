@@ -3,15 +3,15 @@
 
 #include "Entidad.h"
 #include <vector>
-#include <atomic>
 class Personaje;
 class Item;
 class BolsaDeItems : public Entidad{
     private:
     static uint32_t contadorInstancias;
     std::vector<Item*> items;
+    Item* itemNulo;
     uint32_t elementos;
-    std::atomic<bool> bolsaVacia;
+    bool bolsaVacia;
     uint32_t tamBolsa;
     public:
     BolsaDeItems(Posicion posicion, std::vector<Item*> items);
@@ -19,7 +19,6 @@ class BolsaDeItems : public Entidad{
     //Ataques
     void atacar(Personaje *objetivo) override;
     void atacar(Criatura *objetivo) override;
-    void serAtacadoPor(Entidad *atacante) override;
     void serAtacadoPor(Personaje *atacante) override;
     void serAtacadoPor(Criatura *atacante) override;
     bool recibirDanio(int danio, Entidad *atacante) override;
@@ -34,7 +33,7 @@ class BolsaDeItems : public Entidad{
     void actualizarEstado(double tiempo) override;
     void dropearItems(Entidad *atacante) override;
 
-    bool estaVacia();
+    bool haFinalizado() override;
     ~BolsaDeItems() override;
 };
 

@@ -46,26 +46,26 @@ Item* FabricaDeItems::obtenerItemAleatorio(std::string &idCriatura){
     switch (result){
         case ARMA:
             idItem = config->calcularDropArma(idCriatura);
-            if (idItem.length() == 0) return nullptr;           //No hay drop definido.
+            if (idItem.length() == 0) return itemNulo.get();           //No hay drop definido.
             return this->crearArma(idItem);
         case ARMADURA:
             idItem = config->calcularDropArmadura(idCriatura);
-            if (idItem.length() == 0) return nullptr;           //No hay drop definido.
+            if (idItem.length() == 0) return itemNulo.get();           //No hay drop definido.
             return this->crearArmadura(idItem);
         case ESCUDO:
             idItem = config->calcularDropEscudo(idCriatura);
-            if (idItem.length() == 0) return nullptr;           //No hay drop definido.
+            if (idItem.length() == 0) return itemNulo.get();           //No hay drop definido.
             return this->crearEscudo(idItem);
         case CASCO:
             idItem = config->calcularDropCasco(idCriatura);
-            if (idItem.length() == 0) return nullptr;           //No hay drop definido.
+            if (idItem.length() == 0) return itemNulo.get();           //No hay drop definido.
             return this->crearCasco(idItem);
         case POCION:
             idItem = config->calcularDropPocion(idCriatura);
-            if (idItem.length() == 0) return nullptr;           //No hay drop definido.
+            if (idItem.length() == 0) return itemNulo.get();           //No hay drop definido.
             return this->crearPocion(idItem);
     }
-    return nullptr;                                             //No hay drop
+    return itemNulo.get();                                      //No hay drop
 }
 //Armas
 Arma* FabricaDeItems::crearArma(std::string &id){
@@ -159,7 +159,7 @@ Pocion* FabricaDeItems::crearPocion(std::string &id){
 Item* FabricaDeItems::crearItemNulo(){
     if (!itemNulo){
         Configuraciones *config = Configuraciones::obtenerInstancia();
-        unsigned int precio = config->obtenerItemNuloPrecio();
+        uint16_t precio = config->obtenerItemNuloPrecio();
         uint16_t idTCP = config->obtenerItemNuloIDTCP();
         itemNulo = std::move(std::unique_ptr<ItemNulo>(new ItemNulo("ItemNulo", idTCP, precio)));
     }
@@ -167,7 +167,6 @@ Item* FabricaDeItems::crearItemNulo(){
 }
 
 Item* FabricaDeItems::obtenerItemIDTCP(uint16_t idTCP){
-    std::unordered_map<int, std::string> conversor;
     std::string idString = conversor[idTCP];
 
     if (idTCP == 0) return crearItemNulo();

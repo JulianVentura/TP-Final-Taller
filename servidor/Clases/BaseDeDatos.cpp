@@ -22,7 +22,7 @@ void BaseDeDatos::escribirCadena(std::string cadena){
 }
 
 void BaseDeDatos::guardarDirs(){
-	dirs[" "] = ultima_dir;
+	dirs["#"] = ultima_dir;
 	std::fstream archivo_json;
 	archivo_json.open("clientes.dir", std::fstream::out | std::fstream::trunc);
 	//El 4 es un número mágico de la biblioteca Nlohman.
@@ -38,9 +38,9 @@ BaseDeDatos::BaseDeDatos(){
 	if(archivo_json.is_open()){
 		archivo_json >> dirs;
 		archivo_json.close();
-		dirs.at(" ").get_to(ultima_dir);
+		dirs.at("#").get_to(ultima_dir);
 	}else{
-		dirs[" "] = ultima_dir;
+		dirs["#"] = ultima_dir;
 	}
 
 	archivo.open("clientes.dat", std::fstream::in | std::fstream::out |
@@ -66,7 +66,8 @@ void BaseDeDatos::nuevoCliente(std::pair<std::string, std::string> &credenciales
   	escribirCadena(idRaza);
   	escribirCadena(idClase);
   	escribirCadena(idMapa);
-  	serializacionPersonaje datos = personaje -> serializar();
+  	serializacionPersonaje datos = {};
+  	datos = personaje -> serializar();
   	archivo.write((char*)&datos, sizeof(serializacionPersonaje));
     ultima_dir++;
     guardarDirs();
@@ -83,7 +84,8 @@ void BaseDeDatos::moverACliente(const std::string& nombre){
 
 void BaseDeDatos::guardarCliente(Cliente* cliente){
     std::lock_guard<std::mutex> lock (m);
-    serializacionPersonaje datos = cliente -> obtenerPersonaje() -> serializar();
+    serializacionPersonaje datos = {};
+    datos = cliente -> obtenerPersonaje() -> serializar();
     moverACliente(cliente -> obtenerId());
     //Omitir campos inmutables: Id, Raza y Clase.
 	archivo.seekp(3*TAM_CADENAS, std::ios_base::cur);
@@ -120,4 +122,5 @@ bool BaseDeDatos::verificarCliente(std::pair<std::string, std::string> &credenci
 }
 
 BaseDeDatos::~BaseDeDatos(){
+	archivo.close();
 }

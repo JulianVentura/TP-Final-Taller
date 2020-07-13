@@ -13,6 +13,9 @@ Banquero::Banquero(float x, float y) : Entidad("Banquero#"), tamAlmacen(0){
     uint32_t alto = config->obtenerCiudadanoAlto(id_base);
     tamAlmacen = config->obtenerTamanioTienda();
     posicion = std::move(Posicion(x, y, ancho, alto));
+
+    FabricaDeItems *fabrica = FabricaDeItems::obtenerInstancia();
+    itemNulo = fabrica -> crearItemNulo();
 }
 
 void Banquero::interactuar(Estado *estado, Cliente *cliente){
@@ -35,13 +38,13 @@ void Banquero::comprar(unsigned int pos, Personaje *personaje, Cliente *cliente)
         return;
     }
     std::vector<Item*>& almacen = personaje->obtenerAlmacen();
-    if (pos >= tamAlmacen || almacen[pos] == nullptr){
+    if (pos >= tamAlmacen || almacen[pos] == itemNulo){
         //No hay nada que entregarle
         return;
     }
     Item *temp = almacen[pos];
     personaje->almacenar(almacen[pos]);
-    almacen[pos] = nullptr;
+    almacen[pos] = itemNulo;
     cliente -> enviarInventario();
     cliente -> enviarContenedor(almacen);
     std::string mensaje = "Se recibio " + temp->obtenerId();
@@ -60,7 +63,7 @@ void Banquero::vender(Item* item, Personaje *personaje, Cliente *cliente){
     std::vector<Item*>& almacen = personaje->obtenerAlmacen();
     bool almacenado = false;
     for (std::size_t i=0; i<tamAlmacen; i++){
-        if (almacen[i] == nullptr){
+        if (almacen[i] == itemNulo){
             almacen[i] = item;
             almacenado = true;
             break;
@@ -95,10 +98,6 @@ void Banquero::atacar(Personaje *objetivo){
 }
 
 void Banquero::atacar(Criatura *objetivo){
-    //Nada
-}
-
-void Banquero::serAtacadoPor(Entidad *atacante){
     //Nada
 }
 

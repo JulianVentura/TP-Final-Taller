@@ -33,8 +33,6 @@ void Portal::atacar(Personaje *objetivo){}
 
 void Portal::atacar(Criatura *objetivo){}
 
-void Portal::serAtacadoPor(Entidad *atacante){}
-
 void Portal::serAtacadoPor(Personaje *atacante){}
 
 void Portal::serAtacadoPor(Criatura *atacante){}

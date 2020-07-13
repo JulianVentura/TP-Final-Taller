@@ -19,6 +19,7 @@ Comerciante::Comerciante(float x, float y) : Entidad("Comerciante#"), tamTienda(
     
     std::string idItem;
     FabricaDeItems *fabrica = FabricaDeItems::obtenerInstancia();
+    itemNulo = fabrica -> crearItemNulo();
     /*
     idItem = "Hacha";
     items.push_back(fabrica->crearArma(idItem));
@@ -44,7 +45,7 @@ Comerciante::Comerciante(float x, float y) : Entidad("Comerciante#"), tamTienda(
     idItem = "PocionMana";
     items.push_back(fabrica->crearPocion(idItem));
     for(int i = 0;i < 14;i++){
-        items.push_back(nullptr);
+        items.push_back(itemNulo);
     }
 }
 
@@ -65,7 +66,7 @@ void Comerciante::comprar(unsigned int pos, Personaje *personaje, Cliente *clien
         cliente->enviarChat(mensaje, false);
         return;
     }
-    if (pos >= tamTienda || items[pos] == nullptr){
+    if (pos >= tamTienda || items[pos] == itemNulo){
         //No hay nada que comprar
         return;
     }
@@ -81,6 +82,7 @@ void Comerciante::comprar(unsigned int pos, Personaje *personaje, Cliente *clien
         cliente->enviarChat(mensaje, false);
     }
 }
+
 void Comerciante::vender(Item* item, Personaje *personaje, Cliente *cliente){
     float distancia = this->posicion.calcularDistancia(personaje->obtenerPosicion());
     if (distancia > distanciaMaximaDeInteraccion){
@@ -96,6 +98,7 @@ void Comerciante::vender(Item* item, Personaje *personaje, Cliente *cliente){
     std::string mensaje = "Se vendio " + item->obtenerId();
     cliente->enviarChat(mensaje, false);
 }
+
 void Comerciante::listar(Personaje *personaje, Cliente *cliente){
     float distancia = this->posicion.calcularDistancia(personaje->obtenerPosicion());
     if (distancia > distanciaMaximaDeInteraccion){
@@ -112,10 +115,6 @@ void Comerciante::atacar(Personaje *objetivo){
 }
 
 void Comerciante::atacar(Criatura *objetivo){
-    //Nada
-}
-
-void Comerciante::serAtacadoPor(Entidad *atacante){
     //Nada
 }
 

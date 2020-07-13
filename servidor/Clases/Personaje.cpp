@@ -30,10 +30,10 @@ Personaje::Personaje() : Entidad(""),
                          casco(NO_EQUIPADO),
                          estado(nullptr){
     nivel = NIVEL_INICIAL;
-    almacen.resize(TAMANIO_ALMACEN, nullptr);
     FabricaDeItems *fabricaItems = FabricaDeItems::obtenerInstancia();
     std::string idArma = "Espada";
     arma = 0;
+    almacen.resize(TAMANIO_ALMACEN, fabricaItems -> crearItemNulo());
     inventario.almacenar(fabricaItems->crearArma(idArma));
     actualizarAtributos();
 }
@@ -49,8 +49,7 @@ Personaje::Personaje(float x, float y, std::string id, std::string idClase, std:
                                        casco(NO_EQUIPADO),
                                        raza(idRaza),
                                        clase(idClase),
-                                       estado(nullptr),
-                                       almacen(){
+                                       estado(nullptr){
     Configuraciones *config = Configuraciones::obtenerInstancia();
     //Seteo los campos.
     nivel = NIVEL_INICIAL;
@@ -64,7 +63,7 @@ Personaje::Personaje(float x, float y, std::string id, std::string idClase, std:
     std::string idArma = "Espada";
     arma = 0;
     inventario.almacenar(fabricaItems->crearArma(idArma));
-    almacen.resize(TAMANIO_ALMACEN, nullptr);   //La idea es levantar el tamaño del almacen del json
+    almacen.resize(TAMANIO_ALMACEN, fabricaItems -> crearItemNulo());   //La idea es levantar el tamaño del almacen del json
 }
 
 Personaje::Personaje(std::string idPersonaje, std::string idRaza,
@@ -165,7 +164,7 @@ bool Personaje::_recibirDanio(int danio, Entidad *atacante){
         divulgador->encolarMensaje(atacante->obtenerId(), mensaje.str());
         mensaje.str() = "Has esquivado el golpe";
         divulgador->encolarMensaje(this->id, mensaje.str());
-        return true;
+        return GOLPE_ESQUIVADO;
     }
     unsigned int defensa = config->calcularDefensa(this);
     if (danio - defensa < 0){
@@ -191,7 +190,7 @@ bool Personaje::_recibirDanio(int danio, Entidad *atacante){
     }else{
         vidaActual -= danio;
     }
-    return true;
+    return danio;
 }
 
 bool Personaje::recibirDanio(int danio, Entidad *atacante){
@@ -219,10 +218,7 @@ void Personaje::atacar(Criatura *objetivo){
     if (arma == NO_EQUIPADO) return;
     //Estoy seguro de que el casteo sera valido.
     estado->atacar(objetivo, (Arma*)inventario.obtenerItem(arma));
-}
-
-void Personaje::serAtacadoPor(Entidad *atacante){
-    estado->serAtacadoPor(atacante);
+    //Envio danio realizado
 }
 
 void Personaje::serAtacadoPor(Personaje *atacante){

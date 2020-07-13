@@ -1,19 +1,22 @@
 #ifndef __BANQUERO_H__
 #define __BANQUERO_H__
 
+#include "Item.h"
 #include "Entidad.h"
+
 #include <vector>
+
 class Personaje;
 class Item;
 class Banquero : public Entidad{
     private:
     uint32_t tamAlmacen;
+    Item* itemNulo;
     public:
     Banquero(float x, float y);
     //Ataques
     void atacar(Personaje *objetivo) override;
     void atacar(Criatura *objetivo) override;
-    void serAtacadoPor(Entidad *atacante) override;
     void serAtacadoPor(Personaje *atacante) override;
     void serAtacadoPor(Criatura *atacante) override;
     bool recibirDanio(int danio, Entidad *atacante) override;

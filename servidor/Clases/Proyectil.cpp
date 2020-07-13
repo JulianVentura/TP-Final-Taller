@@ -46,8 +46,6 @@ void Proyectil::atacar(Personaje *objetivo){}
 
 void Proyectil::atacar(Criatura *objetivo){}
 
-void Proyectil::serAtacadoPor(Entidad *atacante){}
-
 void Proyectil::serAtacadoPor(Personaje *atacante){}
 
 void Proyectil::serAtacadoPor(Criatura *atacante){}
@@ -59,10 +57,7 @@ bool Proyectil::recibirDanio(int danio, Entidad *atacante){ return false;}
 void Proyectil::actualizarEstado(double tiempo){
     if (haLlegadoADestino){
         tiempoTranscurrido += tiempo;
-        if (tiempoTranscurrido >= tiempoDespawn){
-            mapaAlQuePertenece->eliminarEntidadNoColisionable(this);
-            //finalizado = true;
-        }
+        if (tiempoTranscurrido >= tiempoDespawn) finalizado = true;
     }else{
         Posicion nuevaPos = this->posicion.perseguir(destino, desplazamiento);
         if (posicion == nuevaPos) haLlegadoADestino = true;
@@ -71,6 +66,9 @@ void Proyectil::actualizarEstado(double tiempo){
 }
 
 bool Proyectil::haFinalizado(){
+    if (finalizado){
+        mapaAlQuePertenece->eliminarEntidadNoColisionable(this);
+    }
     return finalizado;
 }
 

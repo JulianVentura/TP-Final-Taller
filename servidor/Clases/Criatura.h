@@ -2,7 +2,6 @@
 #define __CRIATURA_H__
 #include "Entidad.h"
 #include "Arma.h"
-#include <atomic>
 
 class Criatura : public Entidad{
     private:
@@ -11,7 +10,7 @@ class Criatura : public Entidad{
     double tiempoTranscurrido;
     float radioAgresividad;
     float radioVisibilidad;
-    std::atomic<bool> finalizado;
+    bool finalizado;
     std::string idObjetivo;
     Arma *arma;
     void continuarAtacando();
@@ -33,7 +32,6 @@ class Criatura : public Entidad{
     //Ataques
     void atacar(Personaje *objetivo) override;
     void atacar(Criatura *objetivo) override;
-    void serAtacadoPor(Entidad *atacante) override;
     void serAtacadoPor(Personaje *atacante) override;
     void serAtacadoPor(Criatura *atacante) override;
     bool recibirDanio(int danio, Entidad *atacante) override;

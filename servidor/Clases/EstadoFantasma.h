@@ -6,8 +6,8 @@ class EstadoFantasma : public Estado{
     public:
     EstadoFantasma(Personaje *unPersonaje);
     //Ataque
-    void atacar(Entidad *objetivo, Arma *arma) override;
-    bool recibirDanio(int danio, Entidad *atacante) override;
+    void  atacar(Entidad *objetivo, Arma *arma) override;
+    bool  recibirDanio(int danio, Entidad *atacante) override;
     void serAtacadoPor(Entidad *atacante) override;
     //Otras acciones
     void meditar() override;

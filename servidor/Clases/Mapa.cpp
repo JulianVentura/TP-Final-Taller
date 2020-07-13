@@ -144,14 +144,7 @@ void Mapa::cargarEntidadNoColisionable(Entidad *entidad){
 void Mapa::cargarEntidadNoColisionable(std::unique_ptr<Entidad> entidad){
     cargarEntidadNoColisionable(entidad.get());
     npcs.push_back(std::move(entidad));
-    std::list<std::unique_ptr<Entidad>>::iterator it = npcs.begin();
-    while (it != npcs.end()){
-        if ((*it)->haFinalizado()){
-            it = npcs.erase(it);
-        }else{
-            ++it;
-        }
-    }
+
 }
 
 void Mapa::cargarEntidad(Entidad *entidad){
@@ -172,20 +165,13 @@ void Mapa::cargarEntidad(Entidad *entidad){
 void Mapa::cargarEntidad(std::unique_ptr<Entidad> entidad){
     cargarEntidad(entidad.get());
     npcs.push_back(std::move(entidad));
-    std::list<std::unique_ptr<Entidad>>::iterator it = npcs.begin();
-    while (it != npcs.end()){
-        if ((*it)->haFinalizado()){
-            it = npcs.erase(it);
-        }else{
-            ++it;
-        }
-    }
 }
 
 void Mapa::cargarCriatura(){
     if (cantidadCriaturas >= limiteCriaturas) return;
     // Obtengo un punto de respawn de la lista
     std::vector<quadtree::Box<float>>::iterator zona = zonasRespawn.begin();
+    if(zona == zonasRespawn.end()) return;
     std::uniform_int_distribution<> dis(0, std::distance(zona, zonasRespawn.end()) - 1);
     std::advance(zona, dis(motorAleatorio));
     //Obtengo un punto aleatorio sobre la zona de respawn
@@ -281,15 +267,18 @@ void Mapa::entidadesActualizarEstados(double tiempo){
     if (tiempoTranscurrido >= tiempoRespawn){
         tiempoTranscurrido = 0;
         this->cargarCriatura();
-    }else{
-        unsigned int contador = 4;
-        contador++;
-        if (contador > 1){
-            contador = 1;
-        }
     }
     for (auto& entidad: entidades){
         entidad.second->actualizarEstado(tiempo);
+    }
+    //Limpio completados
+    std::list<std::unique_ptr<Entidad>>::iterator it = npcs.begin();
+    while (it != npcs.end()){
+        if ((*it)->haFinalizado()){
+            it = npcs.erase(it);
+        }else{
+            ++it;
+        }
     }
 }
 

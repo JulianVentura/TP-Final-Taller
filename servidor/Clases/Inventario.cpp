@@ -1,6 +1,7 @@
 #include "Inventario.h"
 #include "BolsaDeItems.h"
 #include "Excepcion.h"
+#include "FabricaDeItems.h"
 //Esto deberia sincronizarse con el cliente, un define en un common.
 #define LIMITE_INVENTARIO 18
 //Ver si es necesario levantar el limite de items del archivo de configuraciones
@@ -8,8 +9,10 @@
 Inventario::Inventario() : limiteItems(LIMITE_INVENTARIO){
     //Provisorio
     items.clear();
+    FabricaDeItems *fabricaItems = FabricaDeItems::obtenerInstancia();
+    itemNulo = fabricaItems -> crearItemNulo();
     for(int i = 0;i < LIMITE_INVENTARIO;i++){
-        items.push_back(nullptr);
+        items.push_back(itemNulo);
     }
 }
 
@@ -24,7 +27,7 @@ int Inventario::almacenar(Item* item){
     bool almacenado = false;
     std::size_t i = 0;
     for (i = 0; i < items.size(); i++){
-        if (!items[i]){
+        if (items[i] == itemNulo){
             items[i] = std::move(item);
             almacenado = true;
             break;
@@ -46,7 +49,7 @@ Item* Inventario::obtenerItem(unsigned int pos){
 
 void Inventario::eliminar(unsigned int pos){
     if (pos >= LIMITE_INVENTARIO) return;
-    items[pos] = nullptr;
+    items[pos] = itemNulo;
 }
 
 std::vector<Item*>* Inventario::obtenerTodosLosItems(){
@@ -55,5 +58,5 @@ std::vector<Item*>* Inventario::obtenerTodosLosItems(){
 
 void Inventario::eliminarTodosLosItems(){
     items.clear();
-    items.resize(LIMITE_INVENTARIO, nullptr);
+    items.resize(LIMITE_INVENTARIO, itemNulo);
 }

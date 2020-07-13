@@ -6,7 +6,7 @@
 class Proyectil : public Entidad{
     private:
     Posicion destino;
-    std::atomic<bool> finalizado;
+    bool finalizado;
     bool haLlegadoADestino;
     double tiempoTranscurrido;
     double tiempoDespawn;
@@ -17,7 +17,6 @@ class Proyectil : public Entidad{
     //Ataques
     void atacar(Personaje *objetivo) override;
     void atacar(Criatura *objetivo) override;
-    void serAtacadoPor(Entidad *atacante) override;
     void serAtacadoPor(Personaje *atacante) override;
     void serAtacadoPor(Criatura *atacante) override;
     bool recibirDanio(int danio, Entidad *atacante) override;
