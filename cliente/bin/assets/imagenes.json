@@ -177,7 +177,7 @@
 	"ruta_equipables": "equipables/",
 	"equipables": {
 		"armas": {
-			"reemplaza": "",
+			"reemplaza": "armas",
 			"datos": {
 				"3": { 
 					"nombre": "Espada",
@@ -272,7 +272,7 @@
 			}
 		},
 		"escudos": {
-			"reemplaza": "",
+			"reemplaza": "escudo",
 			"datos": {
 				"27": {
 					"nombre": "Escudo de tortuga",

@@ -67,10 +67,7 @@ Juego::Juego(EntornoGrafico& entorno, DatosPersonaje& datos_personaje,
 }
 
 void Juego::agregarEntidad(std::string& id, DatosApariencia& apariencia) {
-    if (movibles.count(id)) {
-        printf("ya existe, habría que actualizar\n");
-        return;
-    }
+    if (movibles.count(id)) return;
     movibles[id] = std::move(crearEntidad(id, apariencia));
     capaFrontal.agregarObstruible(movibles[id].second);
     servidor.agregarPosicionable(id, movibles[id].first);
