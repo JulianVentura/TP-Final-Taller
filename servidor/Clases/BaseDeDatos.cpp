@@ -61,12 +61,13 @@ void BaseDeDatos::nuevoCliente(std::pair<std::string, std::string> &credenciales
  	std::lock_guard<std::mutex> lock (m);
  	if(existeCliente(credenciales.first)) return;
     dirs[credenciales.first] = ultima_dir;
-  	archivo.seekp(ultima_dir*TAM_BLOQUES);
+  	archivo.seekp(ultima_dir*TAM_BLOQUES, std::ios_base::beg);
   	escribirCadena(credenciales.second);
   	escribirCadena(idRaza);
   	escribirCadena(idClase);
   	escribirCadena(idMapa);
-  	serializacionPersonaje datos = personaje -> serializar();
+  	serializacionPersonaje datos = {};
+  	datos = personaje -> serializar();
   	archivo.write((char*)&datos, sizeof(serializacionPersonaje));
     ultima_dir++;
     guardarDirs();
@@ -83,7 +84,8 @@ void BaseDeDatos::moverACliente(const std::string& nombre){
 
 void BaseDeDatos::guardarCliente(Cliente* cliente){
     std::lock_guard<std::mutex> lock (m);
-    serializacionPersonaje datos = cliente -> obtenerPersonaje() -> serializar();
+    serializacionPersonaje datos = {};
+    datos = cliente -> obtenerPersonaje() -> serializar();
     moverACliente(cliente -> obtenerId());
     //Omitir campos inmutables: Id, Raza y Clase.
 	archivo.seekp(3*TAM_CADENAS, std::ios_base::cur);
@@ -120,4 +122,5 @@ bool BaseDeDatos::verificarCliente(std::pair<std::string, std::string> &credenci
 }
 
 BaseDeDatos::~BaseDeDatos(){
+	archivo.close();
 }

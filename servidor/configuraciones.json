@@ -530,7 +530,7 @@
                 "TiempoAtaque": 800,
                 "Proyectil": "CuerpoACuerpo",
                 "Precio": 10,
-                "idTCP": 3
+                "idTCP": 1
             },
             "Hacha": {
                 "DanioMax": 15,
@@ -540,7 +540,7 @@
                 "TiempoAtaque": 1500,
                 "Proyectil": "CuerpoACuerpo",
                 "Precio": 10,
-                "idTCP": 9
+                "idTCP": 2
             },
             "Martillo": {
                 "DanioMax": 20,
@@ -550,7 +550,7 @@
                 "TiempoAtaque": 1800,
                 "Proyectil": "CuerpoACuerpo",
                 "Precio": 10,
-                "idTCP": 10
+                "idTCP": 3
             },
             "VaraDeFresno": {
                 "DanioMax": 4,
@@ -570,7 +570,7 @@
                 "TiempoAtaque": 1000,
                 "Proyectil": "Curar",
                 "Precio": 10,
-                "idTCP": 12
+                "idTCP": 5
             },
             "BaculoNudoso": {
                 "DanioMax": 8,
@@ -580,7 +580,7 @@
                 "TiempoAtaque": 1000,
                 "Proyectil": "Misil",
                 "Precio": 10,
-                "idTCP": 13
+                "idTCP": 6
             },
             "BaculoEngarzado": {
                 "DanioMax": 20,
@@ -590,7 +590,7 @@
                 "TiempoAtaque": 1000,
                 "Proyectil": "Explosion",
                 "Precio": 10,
-                "idTCP": 14
+                "idTCP": 7
             },
             "ArcoSimple": {
                 "DanioMax": 4,
@@ -600,7 +600,7 @@
                 "TiempoAtaque": 1000,
                 "Proyectil": "Flechazo",
                 "Precio": 10,
-                "idTCP": 15
+                "idTCP": 8
             },
             "ArcoCompuesto": {
                 "DanioMax": 16,
@@ -610,7 +610,7 @@
                 "TiempoAtaque": 1000,
                 "Proyectil": "Flechazo",
                 "Precio": 10,
-                "idTCP": 16
+                "idTCP": 9
             },
             "Garra": {
                 "DanioMax": 0,
@@ -620,7 +620,7 @@
                 "TiempoAtaque": 1000,
                 "Proyectil": "CuerpoACuerpo",
                 "Precio": 10,
-                "idTCP": 17
+                "idTCP": 10
             },
             "ManoHuesuda": {
                 "DanioMax": 0,
@@ -630,7 +630,7 @@
                 "TiempoAtaque": 1000,
                 "Proyectil": "CuerpoACuerpo",
                 "Precio": 10,
-                "idTCP": 18
+                "idTCP": 11
             },
             "ManoPodrida": {
                 "DanioMax": 0,
@@ -640,7 +640,7 @@
                 "TiempoAtaque": 1000,
                 "Proyectil": "CuerpoACuerpo",
                 "Precio": 10,
-                "idTCP": 19
+                "idTCP": 12
             },
             "ColmilloVenenoso": {
                 "DanioMax": 0,
@@ -650,7 +650,7 @@
                 "TiempoAtaque": 1000,
                 "Proyectil": "CuerpoACuerpo",
                 "Precio": 10,
-                "idTCP": 20
+                "idTCP": 13
             }
         },
         "Armaduras": {
@@ -658,19 +658,19 @@
                 "DefensaMax": 6,
                 "DefensaMin": 2,
                 "Precio": 10,
-                "idTCP": 21
+                "idTCP": 101
             },
             "ArmaduraDePlacas": {
                 "DefensaMax": 30,
                 "DefensaMin": 15,
                 "Precio": 10,
-                "idTCP": 22
+                "idTCP": 102
             },
             "TunicaAzul": {
                 "DefensaMax": 10,
                 "DefensaMin": 6,
                 "Precio": 10,
-                "idTCP": 23
+                "idTCP": 103
             }
         },
         "Cascos": {
@@ -678,19 +678,19 @@
                 "DefensaMax": 4,
                 "DefensaMin": 1,
                 "Precio": 10,
-                "idTCP": 24
+                "idTCP": 201
             },
             "CascoDeHierro": {
                 "DefensaMax": 8,
                 "DefensaMin": 4,
                 "Precio": 10,
-                "idTCP": 25
+                "idTCP": 202
             },
             "SombreroMagico": {
                 "DefensaMax": 12,
                 "DefensaMin": 4,
                 "Precio": 10,
-                "idTCP": 26
+                "idTCP": 203
             }
         },
         "Escudos": {
@@ -698,13 +698,13 @@
                 "DefensaMax": 2,
                 "DefensaMin": 1,
                 "Precio": 10,
-                "idTCP": 27
+                "idTCP": 301
             },
             "EscudoDeHierro": {
                 "DefensaMax": 4,
                 "DefensaMin": 1,
                 "Precio": 10,
-                "idTCP": 28
+                "idTCP": 302
             }
         },
         "Pociones": {
@@ -712,13 +712,13 @@
                 "CuracionVida": 100,
                 "CuracionMana": 0,
                 "Precio": 10,
-                "idTCP": 1
+                "idTCP": 401
             },
             "PocionMana": {
                 "CuracionVida": 0,
                 "CuracionMana": 100,
                 "Precio": 10,
-                "idTCP": 2
+                "idTCP": 402
             }
         }
     },
