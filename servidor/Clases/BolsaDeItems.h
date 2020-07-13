@@ -3,11 +3,12 @@
 
 #include "Entidad.h"
 #include <vector>
+#include <atomic>
 class Personaje;
 class Item;
 class BolsaDeItems : public Entidad{
     private:
-    static uint32_t contadorInstancias;
+    static std::atomic<uint32_t> contadorInstancias;
     std::vector<Item*> items;
     Item* itemNulo;
     uint32_t elementos;

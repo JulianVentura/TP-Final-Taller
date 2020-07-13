@@ -84,12 +84,13 @@ Personaje::Personaje(std::string idPersonaje, std::string idRaza,
     estado = std::move(std::unique_ptr<Estado>(new EstadoNormal(this)));
     FabricaDeItems *fabricaItems = FabricaDeItems::obtenerInstancia();
     almacen.resize(TAMANIO_ALMACEN, fabricaItems -> crearItemNulo());
-    vidaMaxima = datos.vidaMaxima;
+    actualizarAtributos();
+    //vidaMaxima = datos.vidaMaxima;
     vidaActual = datos.vidaActual;
-    manaMaximo = datos.manaMaximo;
+    //manaMaximo = datos.manaMaximo;
     manaActual = datos.manaActual;
     experiencia = datos.experiencia;
-    limiteParaSubir = datos.limiteParaSubir;
+    //limiteParaSubir = datos.limiteParaSubir;
     nivel = datos.nivel;
     cantidadOro = datos.cantidadOro;
 
@@ -175,7 +176,7 @@ std::string Personaje::recibirDanio(int danio, Entidad *atacante){
     }else{
         danio -= defensa;
     }
-    mensaje << "Recibes " << danio << "de danio";
+    mensaje << "Recibes " << danio << " de danio";
     divulgador->encolarMensaje(this->id, mensaje.str());
     unsigned int exp = config->calcularExpPorGolpe(this, atacante, danio);
     atacante->obtenerExperiencia(exp);
@@ -191,7 +192,7 @@ std::string Personaje::recibirDanio(int danio, Entidad *atacante){
         vidaActual -= danio;
     }
     mensaje.str("");
-    mensaje << "Realizas " << danio << "de danio";
+    mensaje << "Realizas " << danio << " de danio";
     return mensaje.str();
 }
 
@@ -249,7 +250,7 @@ void Personaje::dropearItems(Entidad *atacante){
     std::vector<Item*> drop = std::move(*this->inventario.obtenerTodosLosItems());
     inventario.eliminarTodosLosItems();
     for (std::size_t i=0; i<drop.size(); i++){
-        if (drop[i]) drop[i]->desequipar(this, i);
+        drop[i]->desequipar(this, i);
     }
     std::unique_ptr<BolsaDeItems> bolsa(new BolsaDeItems(this->posicion, 
                                                          std::move(drop)));

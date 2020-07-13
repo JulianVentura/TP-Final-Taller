@@ -175,16 +175,16 @@ Item* FabricaDeItems::obtenerItemIDTCP(uint16_t idTCP){
         return crearArma(idString);
     }
     if (idTCP > limiteArmas && idTCP <= limiteArmaduras){
-        return crearArma(idString);
+        return crearArmadura(idString);
     }
     if (idTCP > limiteArmas && idTCP <= limiteCascos){
-        return crearArma(idString);
+        return crearCasco(idString);
     }
     if (idTCP > limiteCascos && idTCP <= limiteEscudos){
-        return crearArma(idString);
+        return crearEscudo(idString);
     }
     if (idTCP > limiteEscudos && idTCP <= limitePociones){
-        return crearArma(idString);
+        return crearPocion(idString);
     }
     //Si se llego aca es porque el id es erroneo
     throw Excepcion("Error al fabricar item: El id %u es erroneo", idTCP);

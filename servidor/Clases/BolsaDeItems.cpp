@@ -7,7 +7,7 @@
 #include <sstream>
 #include "Excepcion.h"
 
-static unsigned int contadorDeInstancias = 0;
+std::atomic<uint32_t> BolsaDeItems::contadorInstancias(0);
 
 BolsaDeItems::BolsaDeItems(Posicion unaPosicion, Item *item) : 
                                                             Entidad(""),
@@ -24,8 +24,7 @@ BolsaDeItems::BolsaDeItems(Posicion unaPosicion, Item *item) :
     items.resize(tamBolsa, itemNulo);
     items[0] = item;
     std::stringstream nuevoId;
-    nuevoId << "BolsaDeItems#" << contadorDeInstancias;
-    contadorDeInstancias++;
+    nuevoId << "BolsaDeItems#" << contadorInstancias++;
     id = nuevoId.str(); 
     this->posicion = std::move(Posicion(0, 0, ancho, alto));
     this->posicion.actualizarPosicion(std::move(unaPosicion));
@@ -38,12 +37,13 @@ BolsaDeItems::BolsaDeItems(Posicion unaPosicion, std::vector<Item*> unosItems) :
                                                            bolsaVacia(true),
                                                            tamBolsa(0){
     Configuraciones *config = Configuraciones::obtenerInstancia();
+    FabricaDeItems *fabrica = FabricaDeItems::obtenerInstancia();
+    itemNulo = fabrica -> crearItemNulo();
     uint32_t ancho = config->obtenerBolsaDeDropAncho();
     uint32_t alto = config->obtenerBolsaDeDropAlto();
     tamBolsa = config->obtenerTamanioTienda();    
     std::stringstream nuevoId;
-    nuevoId << "BolsaDeItems#" << contadorDeInstancias;
-    contadorDeInstancias++;
+    nuevoId << "BolsaDeItems#" << contadorInstancias++;
     id = nuevoId.str(); 
     for (auto &item : items){
         if (item != itemNulo) elementos++;
