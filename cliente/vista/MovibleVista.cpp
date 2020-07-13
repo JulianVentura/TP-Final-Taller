@@ -54,15 +54,34 @@ void MovibleVista::actualizar(unsigned int delta_t) {
 
 void MovibleVista::render() {
     if (!esta_apariencia) return;
-    for (auto& tipoImagen: ordenDeImagenes) {
-        for (auto& imagen: imagenes[tipoImagen]) {
-            imagen->setMascara(mascara);
-            imagen->setAncho(ancho);
-            imagen->setAlto(alto);
-            imagen->setPosicion(getX(), getY());
-            imagen->render();
+    // TODO: hardcodeado
+    apariencia.arma = "3";
+    apariencia.casco = "25";
+    std::unordered_map<std::string, Imagen*> equipables(std::move(parser.getEquipables(apariencia)));
+    Imagen * imagen_mostrar = nullptr;
+    for (auto& parte: ordenDeImagenes) {
+        for (auto& imagen: parser.getImagenes(apariencia, parte)) {
+            // animacion.setMascara(mascara);
+            imagen_mostrar = imagen;
+            if (equipables.count(parte)) {
+                imagen_mostrar = equipables[parte];
+                equipables.erase(parte);
+            }
+            imagen_mostrar->setMascara(mascara);
+            imagen_mostrar->setAncho(ancho);
+            imagen_mostrar->setAlto(alto);
+            imagen_mostrar->setPosicion(getX(), getY());
+            imagen_mostrar->render();
         }
     }
+    for (auto& equipable: equipables) {
+        equipable.second->setMascara(mascara);
+        equipable.second->setAncho(ancho);
+        equipable.second->setAlto(alto);
+        equipable.second->setPosicion(getX(), getY());
+        equipable.second->render();
+    }
+    animacion.avanzar();
     renderer->setColor(51, 0, 51);
     renderer->rect(getX(), getY(), getAncho(), getAlto());
 }
@@ -77,12 +96,10 @@ bool MovibleVista::contienePunto(int x, int y) {
 void MovibleVista::actualizarApariencia(DatosApariencia& apariencia) {
     if (apariencia.tipo.size() > 0) {
         if (esta_apariencia) return;
-        imagenes = parser.getImagenes(apariencia.tipo);
         animacion.setTiempoPorCuadro(NPC_ANIMACION);
-    } else {
-        imagenes = parser.getImagenes(apariencia.raza, apariencia.clase);
     }
     esta_apariencia = true;
+    this->apariencia = apariencia;
     ancho = parser.getAncho(apariencia.raza, apariencia.tipo);
     alto = parser.getAlto(apariencia.raza, apariencia.tipo);
     animacion.setAnimacion(apariencia.tipo);
