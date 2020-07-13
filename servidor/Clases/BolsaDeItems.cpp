@@ -18,8 +18,10 @@ BolsaDeItems::BolsaDeItems(Posicion unaPosicion, Item *item) :
     Configuraciones *config = Configuraciones::obtenerInstancia();
     uint32_t ancho = config->obtenerBolsaDeDropAncho();
     uint32_t alto = config->obtenerBolsaDeDropAlto();
-    tamBolsa = config->obtenerTamanioTienda();  
-    items.resize(tamBolsa, nullptr);
+    tamBolsa = config->obtenerTamanioTienda();
+    FabricaDeItems *fabrica = FabricaDeItems::obtenerInstancia();
+    itemNulo = fabrica -> crearItemNulo();
+    items.resize(tamBolsa, itemNulo);
     items[0] = item;
     std::stringstream nuevoId;
     nuevoId << "BolsaDeItems#" << contadorDeInstancias;
@@ -44,7 +46,7 @@ BolsaDeItems::BolsaDeItems(Posicion unaPosicion, std::vector<Item*> unosItems) :
     contadorDeInstancias++;
     id = nuevoId.str(); 
     for (auto &item : items){
-        if (item != nullptr) elementos++;
+        if (item != itemNulo) elementos++;
     }
     if (elementos > 0) bolsaVacia = false;
     this->posicion = std::move(Posicion(0, 0, ancho, alto));
@@ -69,13 +71,13 @@ void BolsaDeItems::comprar(unsigned int pos, Personaje *personaje, Cliente *clie
         cliente->enviarChat(mensaje, false);
         return;
     }
-    if (pos >= tamBolsa || items[pos] == nullptr){
+    if (pos >= tamBolsa || items[pos] == itemNulo){
         //No hay nada que entregarle
         return;
     }
     personaje->almacenar(items[pos]);
     //Si falla al almacenar no se pisa el puntero
-    items[pos] = nullptr;
+    items[pos] = itemNulo;
     elementos--;
     if (elementos <= 0) bolsaVacia = true;
     cliente -> enviarInventario();

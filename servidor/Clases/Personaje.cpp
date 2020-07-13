@@ -30,10 +30,10 @@ Personaje::Personaje() : Entidad(""),
                          casco(NO_EQUIPADO),
                          estado(nullptr){
     nivel = NIVEL_INICIAL;
-    almacen.resize(TAMANIO_ALMACEN, nullptr);
     FabricaDeItems *fabricaItems = FabricaDeItems::obtenerInstancia();
     std::string idArma = "Espada";
     arma = 0;
+    almacen.resize(TAMANIO_ALMACEN, fabricaItems -> crearItemNulo());
     inventario.almacenar(fabricaItems->crearArma(idArma));
     actualizarAtributos();
 }
@@ -49,8 +49,7 @@ Personaje::Personaje(float x, float y, std::string id, std::string idClase, std:
                                        casco(NO_EQUIPADO),
                                        raza(idRaza),
                                        clase(idClase),
-                                       estado(nullptr),
-                                       almacen(){
+                                       estado(nullptr){
     Configuraciones *config = Configuraciones::obtenerInstancia();
     //Seteo los campos.
     nivel = NIVEL_INICIAL;
@@ -64,7 +63,7 @@ Personaje::Personaje(float x, float y, std::string id, std::string idClase, std:
     std::string idArma = "Espada";
     arma = 0;
     inventario.almacenar(fabricaItems->crearArma(idArma));
-    almacen.resize(TAMANIO_ALMACEN, nullptr);   //La idea es levantar el tamaño del almacen del json
+    almacen.resize(TAMANIO_ALMACEN, fabricaItems -> crearItemNulo());   //La idea es levantar el tamaño del almacen del json
 }
 
 Personaje::Personaje(std::string idPersonaje, std::string idRaza,

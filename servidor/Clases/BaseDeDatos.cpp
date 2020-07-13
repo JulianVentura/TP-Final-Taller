@@ -22,7 +22,7 @@ void BaseDeDatos::escribirCadena(std::string cadena){
 }
 
 void BaseDeDatos::guardarDirs(){
-	dirs[" "] = ultima_dir;
+	dirs["#"] = ultima_dir;
 	std::fstream archivo_json;
 	archivo_json.open("clientes.dir", std::fstream::out | std::fstream::trunc);
 	//El 4 es un número mágico de la biblioteca Nlohman.
@@ -38,9 +38,9 @@ BaseDeDatos::BaseDeDatos(){
 	if(archivo_json.is_open()){
 		archivo_json >> dirs;
 		archivo_json.close();
-		dirs.at(" ").get_to(ultima_dir);
+		dirs.at("#").get_to(ultima_dir);
 	}else{
-		dirs[" "] = ultima_dir;
+		dirs["#"] = ultima_dir;
 	}
 
 	archivo.open("clientes.dat", std::fstream::in | std::fstream::out |
@@ -61,7 +61,7 @@ void BaseDeDatos::nuevoCliente(std::pair<std::string, std::string> &credenciales
  	std::lock_guard<std::mutex> lock (m);
  	if(existeCliente(credenciales.first)) return;
     dirs[credenciales.first] = ultima_dir;
-  	archivo.seekp(ultima_dir*TAM_BLOQUES, std::ios_base::beg);
+  	archivo.seekp(ultima_dir*TAM_BLOQUES);
   	escribirCadena(credenciales.second);
   	escribirCadena(idRaza);
   	escribirCadena(idClase);

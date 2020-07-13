@@ -10,6 +10,7 @@ class BolsaDeItems : public Entidad{
     private:
     static uint32_t contadorInstancias;
     std::vector<Item*> items;
+    Item* itemNulo;
     uint32_t elementos;
     std::atomic<bool> bolsaVacia;
     uint32_t tamBolsa;
