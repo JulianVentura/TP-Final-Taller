@@ -63,10 +63,10 @@ void Cliente::nuevoUsuario(std::pair<std::string, std::string> &credenciales,
     salaActual = config->obtenerMapaInicial();
     std::pair<float, float> pos = config->obtenerMapaPosicionSpawn(salaActual);
     auto personaje = std::unique_ptr<Personaje> (new Personaje(pos.first, pos.second,
-     credenciales.first, idClase, idRaza));
+    credenciales.first, idClase, idRaza));
     personaje -> recibirOro(1000);
     miBaseDeDatos.nuevoCliente(credenciales, idRaza, idClase,
-     salaActual, personaje.get());
+    salaActual, personaje.get());
    
     /*
     if(!miBaseDeDatos.existeCliente(credenciales.first)){
@@ -87,7 +87,7 @@ void Cliente::actualizarEstado(const std::vector<struct PosicionEncapsulada> &po
                                   personaje->manaMaximo,
                                   personaje->experiencia,
                                   personaje->limiteParaSubir);
-        enviarInventario(); //Refinar más adelante
+        enviarInventario();       //Refinar más adelante
         clienteProxy.enviarEstadosPersonajes(estados);
         clienteProxy.enviarPosiciones(posiciones);
     }catch(...){

@@ -2,6 +2,7 @@
 #define __SERIALIZACION_H__
 #include <cstdint>
 #define TAM_ID 20
+#define ID_NO_EQUIPADO 0
 
 typedef struct PosicionEncapsulada{
     char  id[TAM_ID];

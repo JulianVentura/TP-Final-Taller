@@ -1,4 +1,6 @@
 #include "FabricaDeItems.h"
+#include "Configuraciones.h"
+#include "Excepcion.h"
 #include "Item.h"
 #include "Arma.h"
 #include "Armadura.h"
@@ -8,14 +10,34 @@
 
 
 FabricaDeItems FabricaDeItems::instancia;
+bool FabricaDeItems::instanciaCreada = false;
 
 FabricaDeItems* FabricaDeItems::obtenerInstancia(){
+    if (!instanciaCreada){
+        throw Excepcion("Se intento obtener una instancia de FabricaDeItems pero no fue inicializada");
+    }
     return &instancia;
 }
 
-FabricaDeItems::FabricaDeItems(){
-    //Do nothing
+void FabricaDeItems::crearInstancia(){
+    Configuraciones *config = Configuraciones::obtenerInstancia();
+    instancia.limiteArmas = config->obtenerFabricaDeItemsLimiteArmas();
+    instancia.limiteArmaduras = config->obtenerFabricaDeItemsLimiteArmaduras();
+    instancia.limiteCascos = config->obtenerFabricaDeItemsLimiteCascos();
+    instancia.limiteEscudos = config->obtenerFabricaDeItemsLimiteEscudos();
+    instancia.limitePociones = config->obtenerFabricaDeItemsLimitePociones();
+    instancia.conversor = config->obtenerFabricaDeItemsObtenerConversor();
+    instanciaCreada = true;
 }
+
+FabricaDeItems::FabricaDeItems(){
+    limiteArmas = 0;
+    limiteArmaduras = 0;
+    limiteCascos = 0;
+    limiteEscudos = 0;
+    limitePociones = 0;
+}
+
 Item* FabricaDeItems::obtenerItemAleatorio(std::string &idCriatura){
     Configuraciones *config = Configuraciones::obtenerInstancia();
     std::string idItem = "";
@@ -133,6 +155,31 @@ Pocion* FabricaDeItems::crearPocion(std::string &id){
     return pociones[id].get();
 }
 
-Item* FabricaDeItems::obtenerItemIDTCP(uint16_t id){
-    return nullptr;
+Item* FabricaDeItems::crearItemNulo(){
+    return nullptr; //Devolver item nulo
+}
+
+Item* FabricaDeItems::obtenerItemIDTCP(uint16_t idTCP){
+    std::unordered_map<int, std::string> conversor;
+    std::string idString = conversor[idTCP];
+
+    if (idTCP == 0) return crearItemNulo();
+
+    if (idTCP <= limiteArmas){
+        return crearArma(idString);
+    }
+    if (idTCP > limiteArmas && idTCP <= limiteArmaduras){
+        return crearArma(idString);
+    }
+    if (idTCP > limiteArmas && idTCP <= limiteCascos){
+        return crearArma(idString);
+    }
+    if (idTCP > limiteCascos && idTCP <= limiteEscudos){
+        return crearArma(idString);
+    }
+    if (idTCP > limiteEscudos && idTCP <= limitePociones){
+        return crearArma(idString);
+    }
+    //Crear
+>>>>>>> bf8626ea40eddfa4ab0693321b6fdb730d0fc872
 }

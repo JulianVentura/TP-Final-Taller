@@ -277,12 +277,18 @@ void Mapa::eliminarEntidadNoColisionable(Entidad *entidad){
 }
 
 void Mapa::entidadesActualizarEstados(double tiempo){
-    tiempoTranscurrido += tiempo; 
+    tiempoTranscurrido += tiempo;
     if (tiempoTranscurrido >= tiempoRespawn){
         tiempoTranscurrido = 0;
         this->cargarCriatura();
+    }else{
+        unsigned int contador = 4;
+        contador++;
+        if (contador > 1){
+            contador = 1;
+        }
     }
-    for (auto& entidad: entidades) {
+    for (auto& entidad: entidades){
         entidad.second->actualizarEstado(tiempo);
     }
 }

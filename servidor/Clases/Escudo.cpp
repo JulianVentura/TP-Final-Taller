@@ -15,5 +15,5 @@ void Escudo::utilizar(Personaje *personaje, unsigned int pos){
 }
 
 void Escudo::desequipar(Personaje *personaje, unsigned int pos){
-    personaje->equipar(this, pos);
+    personaje->desequipar(this, pos);
 }
