@@ -3,6 +3,8 @@
 #include "Configuraciones.h"
 #include "Item.h"
 #include "Reloj.h"
+#define ATAQUE_NO_REALIZADO -1
+
 
 class Mapa;
 class Entidad;

@@ -6,7 +6,6 @@
 #include "Inventario.h"
 
 #define NO_EQUIPADO -1
-#define ID_NO_EQUIPADO 0
 
 struct serializacionPersonaje{
     uint32_t x, y;
@@ -111,7 +110,7 @@ class Personaje : public Entidad{
 
     ~Personaje();
 
-    friend class Cliente;
+    friend class Cliente;               //ELIMINAR ESTO
     friend class Configuraciones;
     friend class BaseDeDatos;
     friend class EstadoNormal;
