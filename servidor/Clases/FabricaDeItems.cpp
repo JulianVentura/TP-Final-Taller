@@ -36,6 +36,7 @@ FabricaDeItems::FabricaDeItems(){
     limiteCascos = 0;
     limiteEscudos = 0;
     limitePociones = 0;
+    itemNulo = nullptr;
 }
 
 Item* FabricaDeItems::obtenerItemAleatorio(std::string &idCriatura){
@@ -156,7 +157,13 @@ Pocion* FabricaDeItems::crearPocion(std::string &id){
 }
 
 Item* FabricaDeItems::crearItemNulo(){
-    return nullptr; //Devolver item nulo
+    if (!itemNulo){
+        Configuraciones *config = Configuraciones::obtenerInstancia();
+        unsigned int precio = config->obtenerItemNuloPrecio();
+        uint16_t idTCP = config->obtenerItemNuloIDTCP();
+        itemNulo = std::move(std::unique_ptr<ItemNulo>(new ItemNulo("ItemNulo", idTCP, precio)));
+    }
+    return itemNulo.get();
 }
 
 Item* FabricaDeItems::obtenerItemIDTCP(uint16_t idTCP){

@@ -267,6 +267,14 @@ const std::unordered_map<int, std::string> Configuraciones::obtenerFabricaDeItem
     
     return resultado;
 }
+//Items
+//Item Nulo
+const uint16_t Configuraciones::obtenerItemNuloPrecio() const{
+    return json.at("Items").at("ItemNulo").at("Precio").get<uint16_t>();
+}
+const uint16_t Configuraciones::obtenerItemNuloIDTCP() const{
+    return json.at("Items").at("ItemNulo").at("idTCP").get<uint16_t>();
+}
 //Armas
 const int32_t  Configuraciones::obtenerArmaDanioMax(std::string &id) const{
     return json.at("Items").at("Armas").at(id).at("DanioMax").get<int32_t>();

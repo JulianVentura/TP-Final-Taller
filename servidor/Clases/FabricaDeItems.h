@@ -3,6 +3,7 @@
 #include <memory>
 #include <mutex>
 #include <unordered_map>
+#include "ItemNulo.h"
 class Item;
 class Pocion;
 class Arma;
@@ -17,6 +18,7 @@ class FabricaDeItems{
     std::unordered_map<std::string, std::unique_ptr<Casco>> cascos;
     std::unordered_map<std::string, std::unique_ptr<Escudo>> escudos;
     std::unordered_map<std::string, std::unique_ptr<Pocion>> pociones;
+    std::unique_ptr<ItemNulo> itemNulo;
     std::unordered_map<int, std::string> conversor;
     unsigned int limiteArmas;
     unsigned int limiteArmaduras;

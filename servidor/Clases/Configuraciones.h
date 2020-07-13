@@ -95,6 +95,10 @@ class Configuraciones{
     const uint32_t obtenerFabricaDeItemsLimiteEscudos() const;
     const uint32_t obtenerFabricaDeItemsLimitePociones() const;
     const std::unordered_map<int, std::string> obtenerFabricaDeItemsConversor() const;
+    //Items
+    //Item Nulo
+    const uint16_t obtenerItemNuloPrecio() const;
+    const uint16_t obtenerItemNuloIDTCP() const;
     //Armas
     const int32_t  obtenerArmaDanioMax(std::string &id) const;
     const int32_t  obtenerArmaDanioMin(std::string &id) const;
