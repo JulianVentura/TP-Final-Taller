@@ -38,6 +38,7 @@ class Configuraciones{
     const std::string obtenerMapaInicial() const;
     const std::pair<float, float> obtenerMapaPosicionSpawn(std::string &id) const;
     const uint32_t obtenerMapaLimiteCriaturas(std::string &id) const;
+    const double   obtenerMapaTiempoRespawn(std::string &id) const;
     //Personaje
     const uint32_t obtenerPersonajeNivelBase() const;
     const uint32_t obtenerPersonajeFuerzaBase() const;

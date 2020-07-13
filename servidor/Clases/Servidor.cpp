@@ -1,7 +1,6 @@
 #include "Servidor.h"
 #include "Configuraciones.h"
 #include <iostream>
-
 #define TECLA_ESCAPE "q"
 
 Servidor::Servidor(const char* archivoConfig) : organizadorSalas(archivoConfig),

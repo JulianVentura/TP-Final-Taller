@@ -5,6 +5,7 @@
 #include "FabricaDeItems.h"
 #include "BolsaDeItems.h"
 #include "Divulgador.h"
+#include "ErrorServidor.h"
 #include <sstream>
 #include <utility>
 #include <memory>
@@ -18,7 +19,7 @@ Criatura::Criatura(float x, float y, std::string unId) :
                                        radioAgresividad(0),
                                        radioVisibilidad(0),
                                        finalizado(false),
-                                       objetivo(nullptr),
+                                       idObjetivo(""),
                                        arma(nullptr){
     FabricaDeItems *fabricaItems = FabricaDeItems::obtenerInstancia();
     Configuraciones *config = Configuraciones::obtenerInstancia();
@@ -60,6 +61,7 @@ const std::string Criatura::obtenerId() const {
 
 
 bool Criatura::recibirDanio(int danio, Entidad *atacante){
+    this->idObjetivo = atacante->obtenerId();   //Mi objetivo sera mi ultimo atacante.
     Divulgador *divulgador = Divulgador::obtenerInstancia();
     Configuraciones *config = Configuraciones::obtenerInstancia();
     std::stringstream mensaje;
@@ -100,7 +102,6 @@ void Criatura::dropearItems(Entidad *atacante){
         //No hay riesgo de RC al cargar algo a mapa porque este es el unico hilo que accede a el.
         this->mapaAlQuePertenece->cargarEntidad(std::unique_ptr<BolsaDeItems>(new BolsaDeItems(this->posicion, item)));
     }
-    this->mapaAlQuePertenece->eliminarEntidad(id);
 }
 
 //Estado / IA
@@ -109,10 +110,11 @@ void Criatura::actualizarEstado(double tiempo){
     if (vidaActual <= 0){
         tiempoTranscurrido += tiempo;
         if (tiempoTranscurrido >= tiempoDespawn){
-            mapaAlQuePertenece->eliminarEntidad(this);
-            finalizado = true;
+            //mapaAlQuePertenece->eliminarEntidad(this);
+            //mapaAlQuePertenece->eliminarCriatura();
+            //finalizado = true;    DEBUG
         }
-    }else if (objetivo){
+    }else if (idObjetivo != ""){
 		continuarAtacando();
 	}else{
 		buscarObjetivo();	
@@ -123,14 +125,13 @@ void Criatura::buscarObjetivo(){
     quadtree::Box<float> areaVisibilidad = std::move(posicion.obtenerAreaCentradaEnPosicion(radioVisibilidad));
     std::vector<Entidad*> entidades = mapaAlQuePertenece->obtenerEntidades(std::move(areaVisibilidad));
 	std::vector<Entidad*>::iterator it = entidades.begin();
-	while (!objetivo && it != entidades.end()){
+	while ((idObjetivo == "") && it != entidades.end()){
 		(*it)->serAtacadoPor(this);
         ++it;
 	}
 }
 
-void Criatura::perseguir(){
-    if (!objetivo) return;
+void Criatura::perseguir(Personaje *objetivo){
 	Posicion nuevaPos = std::move(this->posicion.perseguir(objetivo->obtenerPosicion(), this->desplazamiento));
 	mapaAlQuePertenece->actualizarPosicion(this, std::move(nuevaPos));
 }
@@ -143,9 +144,9 @@ bool Criatura::haFinalizado(){
 
 
 void Criatura::atacar(Personaje *personaje){
-	this->objetivo = personaje;
+	this->idObjetivo = personaje->obtenerId();
 	this->arma->atacar(personaje, this, mapaAlQuePertenece); //Si esto falla es porque no me da el radio de ataque.
-	perseguir();
+	perseguir(personaje);
 }
 
 void Criatura::atacar(Criatura *objetivo){
@@ -165,12 +166,17 @@ void Criatura::serAtacadoPor(Entidad *atacante){
 }
 
 void Criatura::continuarAtacando(){
-    Personaje *temp = this->objetivo;
-	this->objetivo = nullptr;
-    float distancia = this->posicion.calcularDistancia(temp->obtenerPosicion());
+    Entidad *objetivo = nullptr;
+    try{ 
+        objetivo = mapaAlQuePertenece->obtener(this->idObjetivo);
+    }catch(const ErrorServidor &e){
+        idObjetivo = ""; //Solo sucedera si el jugador se desconecta o teletransporta.
+    }
+    idObjetivo = "";
+    float distancia = this->posicion.calcularDistancia(objetivo->obtenerPosicion());
 	if (distancia > radioAgresividad) return;
 	//Esto se hace porque quizas el objetivo muere o entra en estado pacifico y no puede ser atacado, entonces se tiene que liberar el objetivo.
-	temp->serAtacadoPor(this);
+	objetivo->serAtacadoPor(this);
 }
 
 //Comercio

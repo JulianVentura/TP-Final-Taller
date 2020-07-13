@@ -12,11 +12,11 @@ class Criatura : public Entidad{
     float radioAgresividad;
     float radioVisibilidad;
     std::atomic<bool> finalizado;
-    Personaje *objetivo;
+    std::string idObjetivo;
     Arma *arma;
     void continuarAtacando();
     void buscarObjetivo();
-    void perseguir();
+    void perseguir(Personaje *personaje);
 
     public:
     Criatura(float x, float y, std::string id);

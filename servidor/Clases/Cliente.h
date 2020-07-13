@@ -49,11 +49,13 @@ class Cliente : public Thread{
     std::string& obtenerIdSala();
     Sala *obtenerSala();
     Personaje* obtenerPersonaje();
-    void cargarMapa(const std::vector<char> &&infoMapa);
+    
+    void cambiarDeMapa(std::string &idMapa);
     void procesar();
     bool haFinalizado();
 
     //Envio
+    void cargarMapa(const std::vector<char> &&infoMapa);
     void actualizarEstado(const std::vector<struct PosicionEncapsulada> &posiciones,
                           const std::vector<struct serializacionEstado> &estados);
     void enviarMensaje(const std::string& mensaje);

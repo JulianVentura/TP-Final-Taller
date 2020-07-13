@@ -16,7 +16,8 @@
         "mapa": {
             "Ruta": "../mapa.json",
             "SpawnCriaturas": [
-                "Esqueleto"
+                "Esqueleto",
+		"Zombie"
             ],
             "LimiteCriaturas": 3,
             "PosicionSpawnInicial": [
@@ -84,7 +85,7 @@
                     "Oro": 0.3
                 },
                 "Armas": {
-                    "Probabilidad": 0.1,
+                    "Probabilidad": 0.2,
                     "Posibles": [
                         [
                             "Espada",
@@ -97,7 +98,7 @@
                     ]
                 },
                 "Armaduras": {
-                    "Probabilidad": 0.1,
+                    "Probabilidad": 0.2,
                     "Posibles": [
                         [
                             "ArmaduraDeCuero",
@@ -123,7 +124,7 @@
                     ]
                 },
                 "Escudos": {
-                    "Probabilidad": 0.1,
+                    "Probabilidad": 0.2,
                     "Posibles": [
                         [
                             "EscudoDeTortuga",
@@ -132,7 +133,7 @@
                     ]
                 },
                 "Pociones": {
-                    "Probabilidad": 0.1,
+                    "Probabilidad": 0.3,
                     "Posibles": [
                         [
                             "PocionVida",
@@ -167,7 +168,7 @@
                     "Oro": 0.3
                 },
                 "Armas": {
-                    "Probabilidad": 0.1,
+                    "Probabilidad": 0.2,
                     "Posibles": [
                         [
                             "Espada",
@@ -180,7 +181,7 @@
                     ]
                 },
                 "Armaduras": {
-                    "Probabilidad": 0.1,
+                    "Probabilidad": 0.2,
                     "Posibles": [
                         [
                             "ArmaduraDeCuero",
@@ -193,7 +194,7 @@
                     ]
                 },
                 "Cascos": {
-                    "Probabilidad": 0.1,
+                    "Probabilidad": 0.2,
                     "Posibles": [
                         [
                             "Capucha",
@@ -215,7 +216,7 @@
                     ]
                 },
                 "Pociones": {
-                    "Probabilidad": 0.1,
+                    "Probabilidad": 0.3,
                     "Posibles": [
                         [
                             "PocionVida",
@@ -250,7 +251,7 @@
                     "Oro": 0.3
                 },
                 "Armas": {
-                    "Probabilidad": 0.1,
+                    "Probabilidad": 0.4,
                     "Posibles": [
                         [
                             "Espada",
@@ -263,7 +264,7 @@
                     ]
                 },
                 "Armaduras": {
-                    "Probabilidad": 0.1,
+                    "Probabilidad": 0.2,
                     "Posibles": [
                         [
                             "ArmaduraDeCuero",
@@ -276,7 +277,7 @@
                     ]
                 },
                 "Cascos": {
-                    "Probabilidad": 0.1,
+                    "Probabilidad": 0,
                     "Posibles": [
                         [
                             "Capucha",
@@ -289,7 +290,7 @@
                     ]
                 },
                 "Escudos": {
-                    "Probabilidad": 0.1,
+                    "Probabilidad": 0.3,
                     "Posibles": [
                         [
                             "EscudoDeTortuga",
@@ -333,7 +334,7 @@
                     "Oro": 0.3
                 },
                 "Armas": {
-                    "Probabilidad": 0.1,
+                    "Probabilidad": 0,
                     "Posibles": [
                         [
                             "Espada",
@@ -346,7 +347,7 @@
                     ]
                 },
                 "Armaduras": {
-                    "Probabilidad": 0.1,
+                    "Probabilidad": 0.4,
                     "Posibles": [
                         [
                             "ArmaduraDeCuero",
@@ -359,7 +360,7 @@
                     ]
                 },
                 "Cascos": {
-                    "Probabilidad": 0.1,
+                    "Probabilidad": 0.2,
                     "Posibles": [
                         [
                             "Capucha",
@@ -372,7 +373,7 @@
                     ]
                 },
                 "Escudos": {
-                    "Probabilidad": 0.1,
+                    "Probabilidad": 0.2,
                     "Posibles": [
                         [
                             "EscudoDeTortuga",
@@ -381,7 +382,7 @@
                     ]
                 },
                 "Pociones": {
-                    "Probabilidad": 0.1,
+                    "Probabilidad": 0.2,
                     "Posibles": [
                         [
                             "PocionVida",

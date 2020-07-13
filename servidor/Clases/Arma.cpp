@@ -46,12 +46,10 @@ void Arma::atacar(Entidad *objetivo, Entidad *atacante, Mapa *mapa){
                                                               this);
     if (objetivo->recibirDanio(danio, atacante)){
         atacante->consumirMana(this->consumoMana);
-        
         std::unique_ptr<Entidad> proyectil(new Proyectil(this->proyectil, 
                                                          atacante->obtenerPosicion(), 
                                                          objetivo->obtenerPosicion()));
         mapa->cargarEntidadNoColisionable(std::move(proyectil));
-        
     }
 }
 

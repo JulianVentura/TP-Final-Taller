@@ -183,3 +183,14 @@ std::pair<std::string, std::string> Cliente::login(OrganizadorClientes &organiza
         }
     }
 }
+
+void Cliente::cambiarDeMapa(std::string &idMapa){
+    Configuraciones *config = config->obtenerInstancia();
+    Sala *salaDestino = organizadorSalas.obtenerSala(idMapa);
+    Sala *salaOrigen = organizadorSalas.obtenerSala(salaActual);
+    salaOrigen->eliminarCliente(this->id); //Se descarga y se elimina al personaje del mapa.
+    std::pair<float, float> pos = config->obtenerMapaPosicionSpawn(salaActual);
+    Posicion posicion(pos.first, pos.second, 0,0);
+    personaje->actualizarPosicion(std::move(posicion)); //Tambien se podria directamente obtener un Posicion de configuraciones.
+    salaDestino->cargarCliente(this);
+}

@@ -52,9 +52,13 @@ static bool floatComp(float a, float b, float epsilon = 0.0001){
     return fabs(a - b) < epsilon;
 }
 
+/*
+Devuelve un numero pseudo aleatorio perteneciente a [a, b]
+*/
+
 static unsigned int numeroRandom(unsigned int a, unsigned int b){
     if ((b - a) == 0) return 0;
-    return rand() % (b - a) + a + 1;
+    return rand() % (b - a + 1) + a;
 }
 
 
@@ -92,6 +96,10 @@ const std::string Configuraciones::obtenerMapaInicial() const{
 }
 const std::pair<float, float> Configuraciones::obtenerMapaPosicionSpawn(std::string &id) const{
     return json.at("Mapas").at(id).at("PosicionSpawnInicial").get<std::pair<float, float>>();
+}
+
+const double  Configuraciones::obtenerMapaTiempoRespawn(std::string &id) const{
+    return json.at("Mapas").at(id).at("TiempoRespawn").get<double>();
 }
      
 //Personaje
@@ -533,6 +541,5 @@ const std::string Configuraciones::obtenerMapaSpawnCriaturaAleatoria(const std::
     std::vector<std::string> posibles = json.at("Mapas").at(id).at("SpawnCriaturas").get<std::vector<std::string>>();
     if (posibles.size() == 1) return posibles[0];
     unsigned int desp = numeroRandom(0, posibles.size() - 1);
-    fprintf(stderr, "Se elige %s", posibles[desp].c_str());
     return posibles[desp];
 }

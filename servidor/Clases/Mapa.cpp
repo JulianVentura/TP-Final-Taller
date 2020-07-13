@@ -47,12 +47,15 @@ Mapa::Mapa(std::string nombre) :        nombreMapa(nombre),
                                         quadTreeDinamico(frontera, obtenerCaja),
                                         limiteCriaturas(0),
                                         cantidadCriaturas(0),
+                                        tiempoRespawn(0),
+                                        tiempoTranscurrido(0),
                                         fabricaCriaturas(entidades),
                                         motorAleatorio(std::time(0)){
 
     Configuraciones *config = Configuraciones::obtenerInstancia();
     std::string rutaArchivo = config->obtenerMapaRuta(nombreMapa);
     limiteCriaturas = config->obtenerMapaLimiteCriaturas(nombreMapa);
+    tiempoRespawn = config->obtenerMapaTiempoRespawn(nombreMapa);
     std::ifstream archivo(rutaArchivo);
     if (!archivo.is_open()){
         throw ErrorServidor("Error: No se ha podido abrir el archivo de nombre %s", nombreMapa.c_str()); 
@@ -67,9 +70,6 @@ Mapa::Mapa(std::string nombre) :        nombreMapa(nombre),
     frontera = inicializarFrontera(archivoJson, alto, ancho);
     quadTreeEstatico.setFrontera(frontera);
     quadTreeDinamico.setFrontera(frontera);
-
-    //No estan implementadas en el mapa actual
-    //zonasRespawn = archivoJson.at("layers")[1].at("objects").get<std::vector<quadtree::Box<float>>>();
     
     for (auto& capa: archivoJson["layers"]) {
         if (capa["type"] != "objectgroup" || 
@@ -188,11 +188,16 @@ void Mapa::cargarCriatura(){
     std::vector<quadtree::Box<float>>::iterator zona = zonasRespawn.begin();
     std::uniform_int_distribution<> dis(0, std::distance(zona, zonasRespawn.end()) - 1);
     std::advance(zona, dis(motorAleatorio));
-    
-    //TODO: Cambiar los atributos de publicos a privados.
-    float x = (*zona).getCenter().x;
-    float y = (*zona).getCenter().y;
-    
+    //Obtengo un punto aleatorio sobre la zona de respawn
+    float x1 = (*zona).getTopLeft().obtenerX();
+    float x2 = x1 + (*zona).getRight();
+    float y1 = (*zona).getTopLeft().obtenerY();
+    float y2 = y1 + (*zona).getBottom();
+    std::uniform_int_distribution<> dis_x(x1, x2);
+    std::uniform_int_distribution<> dis_y(y1, y2);
+    float x = dis_x(motorAleatorio);
+    float y = dis_y(motorAleatorio);
+
     cargarEntidad(std::move(fabricaCriaturas.obtenerCriaturaAleatoria(x, y, nombreMapa)));
     cantidadCriaturas++;
 }
@@ -245,6 +250,9 @@ Posicion Mapa::buscarPosicionValida(const Posicion &posicion){
     return nuevaPosicion;
 }
 
+void Mapa::eliminarCriatura(){
+    cantidadCriaturas--;
+}
 
 void Mapa::eliminarEntidad(Entidad *entidad){
     eliminarEntidad(entidad->obtenerId());
@@ -269,6 +277,11 @@ void Mapa::eliminarEntidadNoColisionable(Entidad *entidad){
 }
 
 void Mapa::entidadesActualizarEstados(double tiempo){
+    tiempoTranscurrido += tiempo; 
+    if (tiempoTranscurrido >= tiempoRespawn){
+        tiempoTranscurrido = 0;
+        this->cargarCriatura();
+    }
     for (auto& entidad: entidades) {
         entidad.second->actualizarEstado(tiempo);
     }

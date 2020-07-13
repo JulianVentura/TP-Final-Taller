@@ -198,10 +198,6 @@ void ServidorProxy::recibir_estados(){
 		actual.idRaza = protocolo.recibirUint16(socket);
 		actual.idClase = protocolo.recibirUint16(socket);
 		actual.idEstado = protocolo.recibirUint16(socket);
-		printf("Id: %s\n", actual.id);
-		printf("Arma: %d\n", actual.idArmaEquipada);
-		printf("Clase: %d\n", actual.idClase);
-		printf("Estado: %d\n", actual.idEstado);
 		resultado.push_back(std::move(actual));
 	}
 }
