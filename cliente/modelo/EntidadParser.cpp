@@ -14,6 +14,20 @@
 #define QUIETO_VALOR -1
 using json = nlohmann::json;
 
+// const imagenes_t EntidadParser::aparienciaImagenesBase = {
+//     { "cuerpo", std::vector<std::shared_ptr<Imagen>>() },
+//     { "ojos", std::vector<std::shared_ptr<Imagen>>() },
+//     { "cicatrices", std::vector<std::shared_ptr<Imagen>>() },
+//     { "nariz", std::vector<std::shared_ptr<Imagen>>() },
+//     { "orejas", std::vector<std::shared_ptr<Imagen>>() },
+//     { "facial", std::vector<std::shared_ptr<Imagen>>() },
+//     { "pies", std::vector<std::shared_ptr<Imagen>>() },
+//     { "piernas", std::vector<std::shared_ptr<Imagen>>() },
+//     { "torso", std::vector<std::shared_ptr<Imagen>>() },
+//     { "cinto", std::vector<std::shared_ptr<Imagen>>() },
+//     { "pelo", std::vector<std::shared_ptr<Imagen>>() },
+//     { "cabeza", std::vector<std::shared_ptr<Imagen>>() }
+// };
 const imagenes_t EntidadParser::aparienciaImagenesBase = {
     { "cuerpo", std::vector<Imagen*>() },
     { "ojos", std::vector<Imagen*>() },
@@ -74,6 +88,7 @@ void EntidadParser::parsearRazas() {
 void EntidadParser::parsearImagen(imagenes_t& setDeImagenes, 
                         const std::string& tipo, const std::string& variante) {
     std::string ruta_completa = raiz + tipo + DELIMITADOR_RUTA + variante;
+    // setDeImagenes[tipo].push_back(std::shared_ptr<Imagen>(new Imagen(entorno, ruta_completa)));
     setDeImagenes[tipo].push_back(new Imagen(entorno, ruta_completa));
 }
 
@@ -96,7 +111,6 @@ void EntidadParser::parsearAnimaciones() {
     for (auto& animacion: parser["animacion"].items()) {
         int columnas = animacion.value()["Columnas"];
         this->columnas[animacion.key()] = columnas;
-        // printf("%s\n", animacion.key().c_str());
 
         for (auto& direccion: animacion.value()["Direcciones"].items()) {
             int direccion_v = direccion.value();
@@ -118,17 +132,6 @@ void EntidadParser::parsearAnimaciones() {
             }
         }
     }
-    // for (auto& animacion: animaciones) {
-    //     for (auto& variante: animacion.second) {
-    //         // printf("%s %s\n", animacion.first.c_str(), variante.first.c_str());
-    //         std::string tipo = animacion.first;
-    //         std::string accion = "Caminar";
-    //         std::string direccion = "Arriba";
-    //         // printf("%d %d\n", getAnimacionCantidadTipo(tipo) , getAnimacionCantidad(tipo, accion, direccion));
-    //     }
-    // }
-    
-    // exit(0);
 }
 
 EntidadParser::EntidadParser(EntornoGrafico& entorno): entorno(entorno) {
@@ -141,18 +144,17 @@ EntidadParser::EntidadParser(EntornoGrafico& entorno): entorno(entorno) {
 }
 
 EntidadParser::~EntidadParser() {
-    for (auto& setImagen: imagenes) {
-        for (auto& parte: setImagen.second) {
-            for (auto& imagen: parte.second) {
-                delete imagen;
-            }
-        }
-    }
+    // for (auto& setImagen: imagenes) {
+    //     for (auto& parte: setImagen.second) {
+    //         for (auto& imagen: parte.second) {
+    //             delete imagen;
+    //         }
+    //     }
+    // }
 }
 
 int EntidadParser::getGuid(std::string& tipo, std::string& accion, 
                             std::string& direccion, int columna, bool quieto) {
-
     std::string local_tipo = BASE;
     aMinuscula(tipo);
     if (animaciones.count(tipo)) local_tipo = tipo;
@@ -180,7 +182,6 @@ int EntidadParser::getAnimacionCantidad(std::string& tipo, std::string& accion,
 }
 
 imagenes_t EntidadParser::getImagenes(std::string& tipo) {
-    printf("tipo get imagenes: %s\n", tipo.c_str());
     aMinuscula(tipo);
     if (!imagenes.count(tipo)) return aparienciaImagenesBase;
     return imagenes[tipo];
@@ -189,7 +190,6 @@ imagenes_t EntidadParser::getImagenes(std::string& tipo) {
 imagenes_t EntidadParser::getImagenes(std::string& raza, std::string& clase) {
     std::string index(raza + DELIMITADOR + clase);
     aMinuscula(index);
-    printf("tipo get imagenes: %s\n", index.c_str());
     if (!imagenes.count(index)) return aparienciaImagenesBase;
     return imagenes[index];
 }

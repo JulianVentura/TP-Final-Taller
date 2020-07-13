@@ -4,9 +4,6 @@
 #include "GUI_Boton_Controlador.h"
 
 bool enRectangulo(SDL_Rect& rect, int x, int y){
-	// TODO
-	// return (x > rect.x && y > rect.y && x < rect.x + rect.w
-	//  && y < rect.y + rect.h);
 	SDL_Point punto = {x, y};
 	return SDL_PointInRect(&punto, &rect);
 }

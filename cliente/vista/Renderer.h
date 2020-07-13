@@ -87,8 +87,8 @@ public:
      * y el ancho y alto que ocupará.
      */
     void renderTextura(SDL_Texture* texture, SDL_Rect& origen_mascara, 
-                                        SDL_Rect& render_mascara); // Maybe x, y
-    
+                                        SDL_Rect& render_mascara);
+                                        
     void renderTexturaExpandida(SDL_Texture* texture, SDL_Rect& origen_mascara);
      
     SDL_Texture* textura(int ancho, int alto);

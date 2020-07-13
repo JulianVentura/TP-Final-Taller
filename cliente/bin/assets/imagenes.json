@@ -331,7 +331,7 @@
 			"cabeza": [],
 			"armas": []
 		},
-		"Arania1": {
+		"Arania": {
 			"cuerpo" : ["spider1.png"],
 			"ojos": [],
 			"cicatrices" : [],
@@ -344,7 +344,7 @@
 			"pelo": [],
 			"cabeza": [],
 			"armas": [],
-			"animacion": "arania1"
+			"animacion": "arania"
 		},
 		"Arania2": {
 			"cuerpo" : ["spider2.png"],
@@ -458,7 +458,7 @@
 				}
 			}
 		},
-		"arania1": {
+		"arania": {
 			"Ancho": 48,
 			"Alto": 48,
 			"Columnas": 3,
