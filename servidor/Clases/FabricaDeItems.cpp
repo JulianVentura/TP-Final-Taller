@@ -167,7 +167,6 @@ Item* FabricaDeItems::crearItemNulo(){
 }
 
 Item* FabricaDeItems::obtenerItemIDTCP(uint16_t idTCP){
-    std::unordered_map<int, std::string> conversor;
     std::string idString = conversor[idTCP];
 
     if (idTCP == 0) return crearItemNulo();
