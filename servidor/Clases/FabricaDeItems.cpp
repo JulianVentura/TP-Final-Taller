@@ -187,5 +187,5 @@ Item* FabricaDeItems::obtenerItemIDTCP(uint16_t idTCP){
         return crearArma(idString);
     }
     //Si se llego aca es porque el id es erroneo
-    throw Excepcion("El id %u es erroneo", idTCP);
+    throw Excepcion("Error al fabricar item: El id %u es erroneo", idTCP);
 }

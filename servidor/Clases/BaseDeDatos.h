@@ -14,7 +14,7 @@
 
 #define TAM_CADENAS 20
 #define TAM_BLOQUES (TAM_CADENAS*4 + sizeof(serializacionPersonaje))
-
+#define CARACTERES_PROHIBIDOS " @#"
 
 class Personaje;
 class Cliente;
@@ -47,6 +47,8 @@ class BaseDeDatos{
      cargarCliente(std::pair<std::string, std::string> &credenciales);
 
     bool verificarCliente(std::pair<std::string, std::string> &credenciales);
+
+    bool verificarFormato(std::pair<std::string, std::string> &credenciales);
 
     ~BaseDeDatos();
 };

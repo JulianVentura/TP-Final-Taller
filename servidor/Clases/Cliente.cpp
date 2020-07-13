@@ -30,15 +30,7 @@ Cliente::Cliente(Socket &&socket,
     this->id = credenciales.first;
     this->personaje = std::move(datos.second);
     this->salaActual = std::move(datos.first);
-    //Desde aca.
-    /*
-    salaActual = "mapa";
-    std::string idRaza = "Humano";
-    std::string idClase = "Paladin";
-    personaje = std::unique_ptr<Personaje> (new Personaje(600, 600, credenciales.first, idClase, idRaza));
-    personaje -> recibirOro(1000);
-    */
-    //Hasta aca
+
     Sala* miSala = organizadorSalas.obtenerSala(salaActual);
     ColaOperaciones *colaDeOperaciones = miSala->obtenerCola();
     clienteProxy.actualizarCola(colaDeOperaciones);
@@ -63,14 +55,6 @@ void Cliente::nuevoUsuario(std::pair<std::string, std::string> &credenciales,
     personaje -> recibirOro(1000);
     miBaseDeDatos.nuevoCliente(credenciales, idRaza, idClase,
     salaActual, personaje.get());
-   
-    /*
-    if(!miBaseDeDatos.existeCliente(credenciales.first)){
-        
-    }else{
-        clienteProxy.enviarError("Error: Ya existe la cuenta solicitada");
-    }
-    */
 }
 
 
@@ -172,9 +156,16 @@ std::pair<std::string, std::string> Cliente::login(OrganizadorClientes &organiza
         }else{
             if (miBaseDeDatos.verificarCliente(credenciales)){
                 return credenciales;
+            }else{
+                if(miBaseDeDatos.verificarFormato(credenciales)){
+                    clienteProxy.enviarError("Error: Usuario y/o clave incorrectos");
+                }else{
+                    clienteProxy.enviarError("Error: Se prohiben espacios, @ y #."
+                        " La cantidad de letras no debe superar 19");
+                }
             }
             
-            clienteProxy.enviarError("Error: Usuario y/o clave incorrectos");
+            
         }
     }
 }

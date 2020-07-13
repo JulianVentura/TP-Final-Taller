@@ -82,6 +82,8 @@ Personaje::Personaje(std::string idPersonaje, std::string idRaza,
     posicion = std::move(Posicion(datos.x, datos.y, ancho, alto));
     desplazamiento = config->obtenerPersonajeVelDesplazamiento();
     estado = std::move(std::unique_ptr<Estado>(new EstadoNormal(this)));
+    FabricaDeItems *fabricaItems = FabricaDeItems::obtenerInstancia();
+    almacen.resize(TAMANIO_ALMACEN, fabricaItems -> crearItemNulo());
     vidaMaxima = datos.vidaMaxima;
     vidaActual = datos.vidaActual;
     manaMaximo = datos.manaMaximo;
@@ -92,7 +94,6 @@ Personaje::Personaje(std::string idPersonaje, std::string idRaza,
     cantidadOro = datos.cantidadOro;
 
     auto inventarioTemp = inventario.obtenerTodosLosItems();
-    FabricaDeItems *fabricaItems = FabricaDeItems::obtenerInstancia();
 
     for(unsigned int i = 0; i < inventarioTemp -> size();i++){
         (*inventarioTemp)[i] = fabricaItems
