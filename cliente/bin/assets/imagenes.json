@@ -179,17 +179,17 @@
 		"armas": {
 			"reemplaza": "armas",
 			"datos": {
-				"3": { 
+				"1": { 
 					"nombre": "Espada",
 					"descripcion": "arma de combate a mano, tiene un daño de 2 a 5.",
 					"imagen": "long_knife.png"
 				},
-				"9": {
+				"2": {
 					"nombre": "Hacha",
 					"descripcion" : "arma de combate a mano, tiene un daño de 4 a 5.",
 					"imagen":  "axe2.png"
 				},
-				"10": {
+				"3": {
 					"nombre": "Martillo",
 					"descripcion": "arma de combate a mano, tiene un daño de 1 a 9.",
 					"imagen": "warhammer.png"
@@ -201,13 +201,13 @@
 					"imagen": "4.png",
 					"imagen_activa": "5.png"
 				},
-				"12": {
+				"5": {
 		  			"nombre": "Flauta élfica",
 		  			"descripcion": "permite lanzar el hechizo curar sobre el jugador que restaura la vida. Consume 100 de mana.",
 		  			"imagen": "formal_cane.png",
 		  			"imagen_alt": "woodwand_male.png"
 		  		},
-				"13": {
+				"6": {
 					"nombre": "Báculo nudoso",
 					"descripcion": "permite lanzar el hechizo misil que tiene un daño a distancia de 4 a 8. Consume 15 de mana.",
 					"animacion": "oversize",
@@ -219,12 +219,12 @@
 					"animacion": "oversize",
 					"imagen": "15.png"
 				},
-				"15": {
+				"8": {
 					"nombre": "Arco simple",
 					"descripcion": "arma a distancia, tiene un daño de 1 a 4. Las flechas son infinitas.",
 					"imagen": "bow.png"
 				},
-				"16": {
+				"9": {
 					"nombre": "Arco compuesto",
 					"descripcion": "arma a distancia, tiene un daño de 4 a 16. Las flechas son infinitas.",
 					"imagen": "6.png"
@@ -234,17 +234,17 @@
 		"armaduras": {
 			"reemplaza": "torso",
 			"datos": {
-				"21": {
+				"101": {
 					"nombre": "Armadura de cuero",
 					"descripcion": "ofrece una defensa entre 2 y 6.",
 					"imagen": "chest_male.png"
 				},
-				"22": {
+				"102": {
 					"nombre": "Armadura de placas",
 					"descripcion": "ofrece una defensa entre 15 y 30.",
 					"imagen": "11.png"
 				},
-				"23": {
+				"103": {
 					"nombre": "Tunica azul",
 					"descripcion": "ofrece una defensa entre 6 y 10.",
 					"imagen": "male_tabard_blue.png"
@@ -254,17 +254,17 @@
 		"cascos": {
 			"reemplaza": "cabeza",
 			"datos": {
-				"24": {
+				"201": {
 					"nombre": "Capucha",
 					"descripcion": "casco que ofrece defensa entre 1 y 4.",
 					"imagen": "cloth_hood_male.png"
 				},
-				"25": {
+				"202": {
 					"nombre": "Casco de hierro",
 					"descripcion": "ofrece defensa entre 4 y 8.",
 					"imagen": "maximus-male.png"
 				},
-				"26": {
+				"203": {
 					"nombre": "Sombrero mágico",
 					"descripcion": "casco que ofrece una defensa entre 4 y 12.",
 					"imagen": "moon-male.png"
@@ -274,12 +274,12 @@
 		"escudos": {
 			"reemplaza": "escudo",
 			"datos": {
-				"27": {
+				"301": {
 					"nombre": "Escudo de tortuga",
 					"descripcion": "ofrece defensa entre 1 y 2.",
 					"imagen": "spartan_male.png"
 				},
-				"28": {
+				"302": {
 					"nombre": "Escudo de hierro",
 					"descripcion": "ofrece defensa entre 1 y 4.", 
 					"imagen": "kiteshield_red_gray.png" 
@@ -399,6 +399,19 @@
 			"cinto": ["leather_male.png"],
 			"pelo": ["longhawk/white-blonde.png"],
 			"cabeza": []
+		},
+		"BolsaDeItems": {
+			"cuerpo" : ["bag.png"],
+			"ojos": [],
+			"cicatrices" : [],
+			"nariz": [],
+			"facial": [],
+			"pies": [],
+			"piernas": [],
+			"torso": [],
+			"cinto": [],
+			"pelo": [],
+			"cabeza": []
 		}
 	},
 	"animacion": {
@@ -492,6 +505,25 @@
 				"Caminar": {
 					"fila": [0, 1, 2, 3],
 					"cantidad": 3
+				}
+			}
+		},
+		"bolsadeitems": {
+			"Ancho": 32,
+			"Alto": 32,
+			"Columnas": 1,
+
+			"Direcciones": {
+				"Abajo": 0,
+				"Izquierda": 0,
+				"Derecha": 0,
+				"Arriba": 0
+			},
+			"Quieto": 0,
+			"Estados": {
+				"Caminar": {
+					"fila": [0, 0, 0, 0],
+					"cantidad": 1
 				}
 			}
 		}

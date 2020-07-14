@@ -17,7 +17,7 @@
             "Ruta": "../mapa.json",
             "SpawnCriaturas": [
                 "Esqueleto",
-		"Zombie"
+		        "Zombie"
             ],
             "LimiteCriaturas": 3,
 	    "TiempoRespawn": 30000,

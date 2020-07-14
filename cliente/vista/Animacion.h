@@ -11,6 +11,8 @@
 
 class Animacion {
 public:
+    Animacion(Animacion&& otro) = default;
+    Animacion(EntidadParser& parser): parser(parser) {}
     Animacion(EntidadParser& parser, const std::string& tipo);
     virtual ~Animacion() = default;
     virtual void actualizar(unsigned int delta_t);
