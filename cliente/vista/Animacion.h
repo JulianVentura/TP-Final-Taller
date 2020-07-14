@@ -16,7 +16,7 @@ public:
     Animacion(EntidadParser& parser, const std::string& tipo);
     virtual ~Animacion() = default;
     virtual void actualizar(unsigned int delta_t);
-    void setAnimacion(const std::string& tipo);
+    void setAnimacion(DatosApariencia& apariencia);
     void setDireccion(const std::string& direccion);
     void setAccion(const std::string& accion);
     void setMascara(SDL_Rect& mascara);
@@ -29,7 +29,8 @@ private:
     EntidadParser& parser;
 
 protected:
-    std::string tipo;
+    // std::string tipo;
+    DatosApariencia apariencia;
     std::string accion;
     std::string direccion;
     int columna = 0;

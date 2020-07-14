@@ -17,7 +17,7 @@
             "Ruta": "../mapa.json",
             "SpawnCriaturas": [
                 "Esqueleto",
-		        "Zombie"
+                "Arania"
             ],
             "SpawnPortales": {
                 "Portal#1": "mapa2"

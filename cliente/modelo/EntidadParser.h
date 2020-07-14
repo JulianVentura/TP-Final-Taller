@@ -81,15 +81,12 @@ public:
                                                     const std::string& parte);
     std::unordered_map<std::string, Imagen*> getEquipables(DatosApariencia& apariencia);
 
-    int getAncho(std::string& raza, std::string& tipo);
-    int getAlto(std::string& raza, std::string& tipo);
-    int getAncho(std::string& tipo);
-    int getAlto(std::string& tipo);
-    int getGuid(std::string& tipo, std::string& accion, std::string& direccion, 
+    int getGuid(DatosApariencia& apariencia, std::string& accion, std::string& direccion, 
                                                 int columna, bool quieto=true);
-    
-    int getAnimacionCantidadTipo(std::string& tipo);
-    int getAnimacionCantidad(std::string& tipo, std::string& accion, 
+    int getAncho(DatosApariencia& apariencia);
+    int getAlto(DatosApariencia& apariencia);
+    int getAnimacionCantidadTipo(DatosApariencia& apariencia);
+    int getAnimacionCantidad(DatosApariencia& apariencia, std::string& accion, 
                                                         std::string& direccion);
 
 private:
@@ -102,6 +99,10 @@ private:
     void parsearAnimaciones();
     void parsearImagen(imagenes_t& setDeImagenes, const std::string& tipo,
                                                 const std::string& variante);
+    int getAncho(std::string& raza, std::string& tipo);
+    int getAlto(std::string& raza, std::string& tipo);
+    int getAncho(std::string& tipo);
+    int getAlto(std::string& tipo);
     EntornoGrafico& entorno;
     nlohmann::json parser;
     std::string raiz;

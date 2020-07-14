@@ -226,25 +226,25 @@ int AnimacionParser::getColumnas(std::string& accion, std::string& direccion) {
     return animaciones[id].size();
 }
 
-int EntidadParser::getGuid(std::string& tipo, std::string& accion, 
+int EntidadParser::getGuid(DatosApariencia& apariencia, std::string& accion, 
                             std::string& direccion, int columna, bool quieto) {
     std::string local_tipo = BASE;
-    aMinuscula(tipo);
-    if (animaciones.count(tipo)) local_tipo = tipo;
+    aMinuscula(apariencia.tipo);
+    if (animaciones.count(apariencia.tipo)) local_tipo = apariencia.tipo;
     return animaciones[local_tipo].getGuid(accion, direccion, columna, quieto);
 }
 
-int EntidadParser::getAnimacionCantidadTipo(std::string& tipo) {
+int EntidadParser::getAnimacionCantidadTipo(DatosApariencia& apariencia) {
     std::string local_tipo = BASE;
-    aMinuscula(tipo);
-    if (animaciones.count(tipo)) local_tipo = tipo;
+    aMinuscula(apariencia.tipo);
+    if (animaciones.count(apariencia.tipo)) local_tipo = apariencia.tipo;
     return animaciones[local_tipo].getColumnas();
 }
 
-int EntidadParser::getAnimacionCantidad(std::string& tipo, std::string& accion, 
+int EntidadParser::getAnimacionCantidad(DatosApariencia& apariencia, std::string& accion, 
                                                     std::string& direccion) {
     std::string local_tipo = BASE;
-    if (animaciones.count(tipo)) local_tipo = tipo;
+    if (animaciones.count(apariencia.tipo)) local_tipo = apariencia.tipo;
     return animaciones[local_tipo].getColumnas(accion, direccion);
 }
 
@@ -254,7 +254,10 @@ const std::vector<Imagen*>& EntidadParser::getImagenes(
     aMinuscula(id);
     if (id.size())
         return getImagenes(id, parte);
-    else 
+    // TODO: provisorio
+        // return getImagenes("Arania", parte);
+    // else if (apariencia.estado == "101")
+    else
         return getImagenes(apariencia.raza, apariencia.clase, parte);
 }
 std::unordered_map<std::string, Imagen*> EntidadParser::getEquipables(
@@ -264,8 +267,7 @@ std::unordered_map<std::string, Imagen*> EntidadParser::getEquipables(
         apariencia.arma,
         apariencia.armadura,
         apariencia.casco,
-        apariencia.escudo,
-        apariencia.estado
+        apariencia.escudo
     };
     for (auto& id: ids) {
         if (!equipables.count(id)) continue;
@@ -317,4 +319,11 @@ int EntidadParser::getAlto(std::string& tipo) {
     aMinuscula(tipo);
     if (animaciones.count(tipo)) local_tipo = tipo;
     return parser["animacion"][local_tipo]["Alto"];
+}
+
+int EntidadParser::getAncho(DatosApariencia& apariencia) {
+    return getAncho(apariencia.raza, apariencia.tipo);
+}
+int EntidadParser::getAlto(DatosApariencia& apariencia) {
+    return getAlto(apariencia.raza, apariencia.tipo);
 }

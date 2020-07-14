@@ -4,7 +4,7 @@
 AnimacionEnteDireccionable::AnimacionEnteDireccionable(EntidadParser& parser,
         const std::string& tipo): 
         Animacion(parser, tipo) {
-    setAccion("caminar");
+    setAccion("mover");
 }
 
 void AnimacionEnteDireccionable::actualizarEstado(unsigned int delta_t, 
