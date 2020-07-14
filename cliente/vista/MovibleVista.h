@@ -7,23 +7,35 @@
 #include "Imagen.h"
 #include "../modelo/EntidadParser.h"
 
-class MovibleVista: public IObstruible {
+class EntidadVista: public IObstruible {
 public:
-    MovibleVista(EntornoGrafico& entorno, IPosicionable* modelo, 
+    EntidadVista(EntornoGrafico& entorno, IPosicionable* modelo, 
                                                         EntidadParser& parser);
-    virtual ~MovibleVista() {};
-    void actualizarApariencia(DatosApariencia& apariencia);
-    void render() override;
-    void actualizar(unsigned int delta_t) override;
-    bool contienePunto(int x, int y);
-    
-private:
+    EntidadVista(EntornoGrafico& entorno, IPosicionable* modelo, 
+                                    EntidadParser& parser, std::string& tipo);
+    virtual bool contienePunto(int x, int y);
+    virtual void actualizarApariencia(DatosApariencia& apariencia);
+
+protected:
     imagenes_t imagenes;
     std::string ultimo_estado;
     IPosicionable* modelo;
     EntidadParser& parser;
+    Animacion animacion;
+};
+
+class MovibleVista: public EntidadVista {
+public:
+    MovibleVista(EntornoGrafico& entorno, IPosicionable* modelo, 
+                                                        EntidadParser& parser);
+    virtual ~MovibleVista() {};
+    void actualizarApariencia(DatosApariencia& apariencia) override;
+    void render() override;
+    void actualizar(unsigned int delta_t) override;
+    
+private:
     DatosApariencia apariencia;
-    AnimacionEnteDireccionable animacion;
+    AnimacionEnteDireccionable animacion_local;
     bool esta_apariencia;
     SDL_Rect mascara = {};
     const static std::vector<std::string> ordenDeImagenes;
