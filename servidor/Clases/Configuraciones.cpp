@@ -1,6 +1,7 @@
 #include "Configuraciones.h"
 #include "Entidad.h"
 #include "Personaje.h"
+#include "Criatura.h"
 #include "Raza.h"
 #include "Clase.h"
 #include "Arma.h"
@@ -28,7 +29,7 @@ void Configuraciones::leerArchivo(const char* nombreArchivo){
     archivoEntrada >> json;
 }
 
-Configuraciones::Configuraciones(){
+Configuraciones::Configuraciones() : motorAleatorio(std::time(0)){
     //Se crea
 }
 
@@ -54,8 +55,8 @@ static bool floatComp(float a, float b, float epsilon = 0.0001){
 
 /*
 Devuelve un numero pseudo aleatorio perteneciente a [a, b]
-*/
 
+*/
 static unsigned int numeroRandom(unsigned int a, unsigned int b){
     if ((b - a) == 0) return 0;
     return rand() % (b - a + 1) + a;
@@ -428,14 +429,25 @@ unsigned int Configuraciones::calcularExpPorMatar(Entidad *objetivo, Entidad *at
 
 unsigned int Configuraciones::calcularDanioAtaque(Entidad *objetivo, Entidad *atacante, Arma *arma){
     //return Fuerza * rand(DanioArmaMin, DanioArmaMax)
+    //std::uniform_int_distribution<> dis(arma->danioMin, arma->danioMax);
+
     return atacante->fuerza * numeroRandom(arma->danioMin, arma->danioMax);
+    //return atacante->fuerza * dis(motorAleatorio);
 }
 
 bool Configuraciones::seEsquivaElGolpe(Entidad *entidad){
     //return rand(0, 1) ^ Agilidad < 0.001
-    float suerte = rand()/RAND_MAX;
     return false;
-    return std::pow(suerte, entidad->agilidad/2) < 0.000000001;
+    double suerte = numeroRandom(0, 10000) / 10000;
+    fprintf(stderr, "Salio el numero %.12f\n", suerte);
+    double temp = std::pow(suerte, entidad->agilidad);
+    fprintf(stderr, "El valor de temp es %.12f\n", temp);
+    return  temp < 0.000000001;
+    /*
+    std::uniform_int_distribution<> dis(0, 1000);
+    float suerte = dis(motorAleatorio) / 1000;
+    return std::pow(suerte, entidad->agilidad/10) < 0.000000001;
+    */
 }
 
 unsigned int Configuraciones::calcularDefensa(Personaje *personaje){
@@ -509,10 +521,8 @@ std::string Configuraciones::calcularDropPocion(std::string &idCriatura){
 }
 
 
-unsigned int Configuraciones::calcularDropOro(std::string &idCriatura){
-    unsigned int dropMax = json.at("Criaturas").at(idCriatura).at("Drops").at("Oro").at("DropMax").get<unsigned int>();
-    unsigned int dropMin = json.at("Criaturas").at(idCriatura).at("Drops").at("Oro").at("DropMin").get<unsigned int>();
-    return numeroRandom(dropMin, dropMax);
+unsigned int Configuraciones::calcularDropOro(Criatura *criatura){
+    return numeroRandom(0, 200) / 1000 * criatura->vidaMaxima;
 }
 
 std::string Configuraciones::obtenerItemRandom(std::string &idCriatura, std::string idItem){

@@ -272,7 +272,7 @@ std::unordered_map<std::string, Imagen*> EntidadParser::getEquipables(
         resultado.insert({equipables[id].getReemplazaA() , 
                                                 equipables[id].getImagen()});
     }
-    return std::move(resultado);
+    return resultado;
 }
 
 const std::vector<Imagen*>& EntidadParser::getImagenes(const std::string& tipo, 

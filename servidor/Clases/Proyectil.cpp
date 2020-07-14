@@ -3,7 +3,7 @@
 #include "Mapa.h"
 #include <sstream>
 
-#define LIMITE_CONTADOR 1000
+#define LIMITE_CONTADOR 1000 
 
 std::atomic<int> Proyectil::contador(0);
 
@@ -13,13 +13,14 @@ Proyectil::Proyectil(std::string unId, Posicion origen, Posicion unDestino) : En
                                                                               haLlegadoADestino(false),
                                                                               tiempoTranscurrido(0),
                                                                               tiempoDespawn(0){
-    Configuraciones *config = Configuraciones::obtenerInstancia();                                                                            
+    Configuraciones *config = Configuraciones::obtenerInstancia();                                                                          
     this->posicion = std::move(origen);
     this->desplazamiento = config->obtenerProyectilVelDesplazamiento(this->id);
     this->tiempoDespawn = config->obtenerProyectilTiempoDespawn(this->id);
     std::stringstream _id;
     if (contador >= LIMITE_CONTADOR) contador = 0;
-    _id << id << "#" << contador++;
+    _id << id << "#" << contador;
+    contador++;
     id = std::move(_id.str());
 }
 
@@ -59,7 +60,7 @@ void Proyectil::actualizarEstado(double tiempo){
         tiempoTranscurrido += tiempo;
         if (tiempoTranscurrido >= tiempoDespawn) finalizado = true;
     }else{
-        Posicion nuevaPos = this->posicion.perseguir(destino, desplazamiento);
+        Posicion nuevaPos = std::move(this->posicion.perseguir(destino, desplazamiento));
         if (posicion == nuevaPos) haLlegadoADestino = true;
         posicion.actualizarPosicion(std::move(nuevaPos));
     }

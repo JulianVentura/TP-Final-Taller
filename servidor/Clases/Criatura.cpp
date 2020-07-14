@@ -92,7 +92,7 @@ void Criatura::dropearItems(Entidad *atacante){
     Configuraciones *config = Configuraciones::obtenerInstancia();
     TipoDrop tipo = config->calcularDrop(id);
     if (tipo == ORO){
-        unsigned int cantidad = config->calcularDropOro(id);
+        unsigned int cantidad = config->calcularDropOro(this);
         atacante->recibirOro(cantidad);
     }else if (tipo == ITEM){
         //Siempre se va a obtener un drop

@@ -2,6 +2,7 @@
 #define __CONFIGURACIONES_H__
 #include <nlohmann/json.hpp>
 #include <vector>
+#include <random>
 #include <cstdint>
 
 typedef enum ITEM {ARMA,
@@ -14,11 +15,15 @@ typedef enum DROP {ITEM,
                    NADA} TipoDrop;
 class Entidad;
 class Personaje;
+class Criatura;
 class Arma;
 class Configuraciones{
     private:
     nlohmann::json json;
+    std::mt19937 motorAleatorio;
+
     std::string obtenerItemRandom(std::string &idCriatura, std::string idItem);
+    
     public:
     static Configuraciones* obtenerInstancia();
     static void crearInstancia(const char *nombreArchivo);
@@ -157,7 +162,7 @@ class Configuraciones{
     std::string calcularDropEscudo(std::string &idCriatura);
     std::string calcularDropCasco(std::string &idCriatura);
     std::string calcularDropPocion(std::string &idCriatura);
-    unsigned int calcularDropOro(std::string &idCriatura);
+    unsigned int calcularDropOro(Criatura *criatura);
     unsigned int calcularDefensa(Personaje *personaje);
     
     TipoDrop calcularDrop(std::string &idCriatura);

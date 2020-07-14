@@ -19,8 +19,8 @@
                 "Esqueleto",
 		"Zombie"
             ],
-            "LimiteCriaturas": 3,
-	    "TiempoRespawn": 30000,
+            "LimiteCriaturas": 6,
+	    "TiempoRespawn": 10000,
             "PosicionSpawnInicial": [
                 100,
                 100
