@@ -75,27 +75,23 @@ void MovibleVista::render() {
     for (auto& equipable: equipables) 
         renderImagen(equipable.second, mascara, getX(), getY(), ancho, alto);
     animacion_local.avanzar();
-    renderer->setColor(51, 0, 51);
-    renderer->rect(getX(), getY(), getAncho(), getAlto());
+    // renderer->setColor(51, 0, 51);
+    // renderer->rect(getX(), getY(), getAncho(), getAlto());
 }
 
-// bool MovibleVista::contienePunto(int x, int y) {
-//     if (!esta_apariencia) return false;
-//     SDL_Point punto = { x, y };
-//     SDL_Rect rect = { getX(), getY(), ancho, alto};
-//     return SDL_PointInRect(&punto, &rect);
-// }
-
 void MovibleVista::actualizarApariencia(DatosApariencia& apariencia) {
-    if (apariencia.tipo.size() > 0) {
-        if (esta_apariencia) return;
+    if (apariencia.tipo.size() > 0)
         animacion_local.setTiempoPorCuadro(NPC_ANIMACION);
+    if (apariencia.estado == "101") {
+        // TODO: provisorio
+        this->apariencia = {};
+        apariencia.tipo = "Fantasma";
     }
     esta_apariencia = true;
     this->apariencia = apariencia;
-    ancho = parser.getAncho(apariencia.raza, apariencia.tipo);
-    alto = parser.getAlto(apariencia.raza, apariencia.tipo);
-    animacion_local.setAnimacion(apariencia.tipo);
+    ancho = parser.getAncho(apariencia);
+    alto = parser.getAlto(apariencia);
+    animacion_local.setAnimacion(apariencia);
 }
 
 

@@ -387,6 +387,21 @@
 			"pelo": [],
 			"cabeza": []
 		},
+		"Fantasma": {
+			"cuerpo" : ["fantasmas.png"],
+			"ojos": [],
+			"cicatrices" : [],
+			"nariz": [],
+			"facial": [],
+			"pies": [],
+			"piernas": [],
+			"torso": [],
+			"cinto": [],
+			"pelo": [],
+			"cabeza": [],
+			"armas": [],
+			"animacion": "fantasma"
+		},
 		"Comerciante": {
 			"cuerpo" : ["man-white.png"],
 			"ojos": [],
@@ -435,7 +450,7 @@
 					"fila": [4, 5, 6, 7],
 					"cantidad": 8
 				},
-				"Caminar": {
+				"mover": {
 					"fila": [8, 9, 10, 11],
 					"cantidad": 9
 				},
@@ -483,7 +498,7 @@
 			},
 			"Quieto": 0,
 			"Estados": {
-				"Caminar": {
+				"mover": {
 					"fila": [0, 1, 2, 3],
 					"cantidad": 3
 				}
@@ -502,7 +517,26 @@
 			},
 			"Quieto": 0,
 			"Estados": {
-				"Caminar": {
+				"mover": {
+					"fila": [0, 1, 2, 3],
+					"cantidad": 3
+				}
+			}
+		},
+		"fantasma": {
+			"Ancho": 48,
+			"Alto": 48,
+			"Columnas": 3,
+
+			"Direcciones": {
+				"Abajo": 0,
+				"Izquierda": 1,
+				"Derecha": 2,
+				"Arriba": 3
+			},
+			"Quieto": 0,
+			"Estados": {
+				"mover": {
 					"fila": [0, 1, 2, 3],
 					"cantidad": 3
 				}
@@ -521,7 +555,7 @@
 			},
 			"Quieto": 0,
 			"Estados": {
-				"Caminar": {
+				"mover": {
 					"fila": [0, 0, 0, 0],
 					"cantidad": 1
 				}
