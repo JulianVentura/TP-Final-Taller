@@ -93,12 +93,12 @@ void Banquero::listar(Personaje *personaje, Cliente *cliente){
 
 //Ataque
 
-void Banquero::atacar(Personaje *objetivo){
-    //Nada
+std::string Banquero::atacar(Personaje *objetivo){
+    return "";
 }
 
-void Banquero::atacar(Criatura *objetivo){
-    //Nada
+std::string Banquero::atacar(Criatura *objetivo){
+    return "";
 }
 
 void Banquero::serAtacadoPor(Personaje *atacante){
@@ -109,8 +109,8 @@ void Banquero::serAtacadoPor(Criatura *atacante){
     //Nada
 }
 
-bool Banquero::recibirDanio(int danio, Entidad *atacante){
-    return false;
+std::string Banquero::recibirDanio(int danio, Entidad *atacante){
+    return "";
 }
 
 //Estado

@@ -52,12 +52,12 @@ bool Sacerdote::curar(Personaje *personaje, Cliente *cliente){
 
 //Ataque
 
-void Sacerdote::atacar(Personaje *objetivo){
-    //Nada
+std::string Sacerdote::atacar(Personaje *objetivo){
+    return "";
 }
 
-void Sacerdote::atacar(Criatura *objetivo){
-    //Nada
+std::string Sacerdote::atacar(Criatura *objetivo){
+    return "";
 }
 
 void Sacerdote::serAtacadoPor(Personaje *atacante){
@@ -68,8 +68,8 @@ void Sacerdote::serAtacadoPor(Criatura *atacante){
     //Nada
 }
 
-bool Sacerdote::recibirDanio(int danio, Entidad *atacante){
-    return false;
+std::string Sacerdote::recibirDanio(int danio, Entidad *atacante){
+    return "";
 }
 
 //Estado

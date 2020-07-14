@@ -3,11 +3,12 @@
 
 #include "Entidad.h"
 #include <vector>
+#include <atomic>
 class Personaje;
 class Item;
 class BolsaDeItems : public Entidad{
     private:
-    static uint32_t contadorInstancias;
+    static std::atomic<uint32_t> contadorInstancias;
     std::vector<Item*> items;
     Item* itemNulo;
     uint32_t elementos;
@@ -17,11 +18,11 @@ class BolsaDeItems : public Entidad{
     BolsaDeItems(Posicion posicion, std::vector<Item*> items);
     BolsaDeItems(Posicion posicion, Item *item);
     //Ataques
-    void atacar(Personaje *objetivo) override;
-    void atacar(Criatura *objetivo) override;
+    std::string atacar(Personaje *objetivo) override;
+    std::string atacar(Criatura *objetivo) override;
     void serAtacadoPor(Personaje *atacante) override;
     void serAtacadoPor(Criatura *atacante) override;
-    bool recibirDanio(int danio, Entidad *atacante) override;
+    std::string recibirDanio(int danio, Entidad *atacante) override;
     //Comercio
     void interactuar(Estado *estado, Cliente *cliente) override;
     void comprar(unsigned int pos, Estado *estad, Cliente *clienteo) override;

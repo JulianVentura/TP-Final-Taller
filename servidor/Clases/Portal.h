@@ -8,11 +8,11 @@ class Portal : public Entidad{
     Portal(float x, float y);
     std::string idMapa;
     //Ataques
-    void atacar(Personaje *objetivo) override;
-    void atacar(Criatura *objetivo) override;
+    std::string atacar(Personaje *objetivo) override;
+    std::string atacar(Criatura *objetivo) override;
     void serAtacadoPor(Personaje *atacante) override;
     void serAtacadoPor(Criatura *atacante) override;
-    bool recibirDanio(int danio, Entidad *atacante) override;
+    std::string recibirDanio(int danio, Entidad *atacante) override;
     //Comercio
     void interactuar(Estado *estado, Cliente *cliente) override;
     void comprar(unsigned int pos, Estado *estad, Cliente *clienteo) override;

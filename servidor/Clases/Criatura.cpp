@@ -60,16 +60,14 @@ const std::string Criatura::obtenerId() const {
 }
 
 
-bool Criatura::recibirDanio(int danio, Entidad *atacante){
+std::string Criatura::recibirDanio(int danio, Entidad *atacante){
     this->idObjetivo = atacante->obtenerId();   //Mi objetivo sera mi ultimo atacante.
     Divulgador *divulgador = Divulgador::obtenerInstancia();
     Configuraciones *config = Configuraciones::obtenerInstancia();
     std::stringstream mensaje;
     if (config->seEsquivaElGolpe(this)){
         //Informarle a atacante que el golpe se esquiva.
-        mensaje << "El oponente ha esquivado el golpe";
-        divulgador->encolarMensaje(atacante->obtenerId(), mensaje.str());
-        return true;
+        return "El oponente ha esquivado el golpe";
     }
     unsigned int experiencia = config->calcularExpPorGolpe(this,
                                                            atacante,
@@ -85,7 +83,7 @@ bool Criatura::recibirDanio(int danio, Entidad *atacante){
     }else{
         this->vidaActual -= danio;
     }
-    return true;
+    return mensaje.str();
 }
 
 
@@ -143,14 +141,15 @@ bool Criatura::haFinalizado(){
 //Ataque
 
 
-void Criatura::atacar(Personaje *personaje){
-	this->idObjetivo = personaje->obtenerId();
-	this->arma->atacar(personaje, this, mapaAlQuePertenece); //Si esto falla es porque no me da el radio de ataque.
+std::string Criatura::atacar(Personaje *personaje){
+    idObjetivo = personaje->obtenerId();
+	arma->atacar(personaje, this, mapaAlQuePertenece); //Si esto falla es porque no me da el radio de ataque.
 	perseguir(personaje);
+    return "";
 }
 
-void Criatura::atacar(Criatura *objetivo){
-    //No puedo atacar a una criatura.
+std::string Criatura::atacar(Criatura *objetivo){
+    return "";
 }
 
 void Criatura::serAtacadoPor(Criatura *atacante){

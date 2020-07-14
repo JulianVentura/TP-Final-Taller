@@ -30,11 +30,11 @@ class Criatura : public Entidad{
     void actualizarEstado(double tiempo) override;
     bool haFinalizado() override;
     //Ataques
-    void atacar(Personaje *objetivo) override;
-    void atacar(Criatura *objetivo) override;
+    std::string atacar(Personaje *objetivo) override;
+    std::string atacar(Criatura *objetivo) override;
     void serAtacadoPor(Personaje *atacante) override;
     void serAtacadoPor(Criatura *atacante) override;
-    bool recibirDanio(int danio, Entidad *atacante) override;
+    std::string recibirDanio(int danio, Entidad *atacante) override;
     //Equipo
     void dropearItems(Entidad *atacante) override;
     //Comercio

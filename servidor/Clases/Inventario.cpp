@@ -41,7 +41,7 @@ int Inventario::almacenar(Item* item){
 }
 
 Item* Inventario::obtenerItem(unsigned int pos){
-    if (pos >= LIMITE_INVENTARIO || !items[pos]){
+    if (pos >= LIMITE_INVENTARIO || items[pos] == itemNulo){
         throw Excepcion("Error: No hay ningun item almacenado en la posicion solicitada.");
     }
     return items[pos];

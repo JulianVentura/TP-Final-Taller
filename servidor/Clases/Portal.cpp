@@ -29,15 +29,15 @@ void Portal::listar(Personaje *personaje, Cliente *cliente){}
 
 //Ataque
 
-void Portal::atacar(Personaje *objetivo){}
+std::string Portal::atacar(Personaje *objetivo){ return "";}
 
-void Portal::atacar(Criatura *objetivo){}
+std::string Portal::atacar(Criatura *objetivo){ return "";}
 
 void Portal::serAtacadoPor(Personaje *atacante){}
 
 void Portal::serAtacadoPor(Criatura *atacante){}
 
-bool Portal::recibirDanio(int danio, Entidad *atacante){ return false;}
+std::string Portal::recibirDanio(int danio, Entidad *atacante){ return "";}
 
 //Estado
 

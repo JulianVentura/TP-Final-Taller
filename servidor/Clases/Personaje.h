@@ -4,6 +4,7 @@
 #include "Raza.h"
 #include "Clase.h"
 #include "Inventario.h"
+#include <string>
 
 #define NO_EQUIPADO -1
 
@@ -52,9 +53,9 @@ class Personaje : public Entidad{
     public:
     Personaje();
     Personaje(float x, float y, std::string idPersonaje,
-     std::string idClase, std::string idRaza);
+              std::string idClase, std::string idRaza);
     Personaje(std::string idPersonaje, std::string idRaza,
-    std::string idClase, serializacionPersonaje& datos);
+              std::string idClase, serializacionPersonaje& datos);
     Personaje(Personaje &otro) = delete;
     Personaje(Personaje &&otro) = delete;
     Personaje& operator=(Personaje &otro) = delete;
@@ -67,11 +68,11 @@ class Personaje : public Entidad{
     std::vector<Item*>& obtenerAlmacen();
     std::vector<Item*>* obtenerInventario();
     //Ataque
-    void atacar(Personaje *objetivo) override;
-    void atacar(Criatura *objetivo) override;
+    std::string atacar(Personaje *objetivo) override;
+    std::string atacar(Criatura *objetivo) override;
     void serAtacadoPor(Personaje *atacante) override;
     void serAtacadoPor(Criatura *atacante) override;
-    bool recibirDanio(int danio, Entidad *atacante) override;
+    std::string recibirDanio(int danio, Entidad *atacante) override;
     void dropearItems(Entidad *atacante) override;
     void obtenerExperiencia(unsigned int cantidad);
     //Equipo

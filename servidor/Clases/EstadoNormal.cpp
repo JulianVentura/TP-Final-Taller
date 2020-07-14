@@ -9,6 +9,7 @@
 #include "Cliente.h"
 #include "Item.h"
 #include "Divulgador.h"
+#include <utility>
 
 EstadoNormal::EstadoNormal(Personaje *unPersonaje) : Estado(unPersonaje){
     Configuraciones *config = Configuraciones::obtenerInstancia();
@@ -18,19 +19,12 @@ EstadoNormal::EstadoNormal(Personaje *unPersonaje) : Estado(unPersonaje){
 
 //Ataque
 
-void EstadoNormal::atacar(Entidad *objetivo, Arma *arma){
-    if (arma){
-        arma->atacar(objetivo, personaje, personaje->mapaAlQuePertenece);
-    }
+std::string EstadoNormal::atacar(Entidad *objetivo, Arma *arma){
+    return std::move(arma->atacar(objetivo, personaje, personaje->mapaAlQuePertenece));
 }
 
-
-bool EstadoNormal::recibirDanio(int danio, Entidad *atacante){
-    return personaje->_recibirDanio(danio, atacante);
-}
-
-void EstadoNormal::serAtacadoPor(Entidad *atacante){
-    atacante->atacar(personaje);
+std::string EstadoNormal::serAtacadoPor(Entidad *atacante){
+    return std::move(atacante->atacar(personaje));
 }
 
 //Otras acciones

@@ -42,15 +42,15 @@ void Proyectil::curar(Personaje *personaje, Cliente *cliente){}
 
 //Ataque
 
-void Proyectil::atacar(Personaje *objetivo){}
+std::string Proyectil::atacar(Personaje *objetivo){ return ""; }
 
-void Proyectil::atacar(Criatura *objetivo){}
+std::string Proyectil::atacar(Criatura *objetivo){ return ""; }
 
 void Proyectil::serAtacadoPor(Personaje *atacante){}
 
 void Proyectil::serAtacadoPor(Criatura *atacante){}
 
-bool Proyectil::recibirDanio(int danio, Entidad *atacante){ return false;}
+std::string Proyectil::recibirDanio(int danio, Entidad *atacante){ return ""; }
 
 //Estado
 
