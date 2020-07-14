@@ -55,6 +55,10 @@ class Configuraciones{
     const uint32_t obtenerPersonajeAlto() const;
     //Estados
     const uint16_t obtenerEstadoIDTCP(std::string &id) const;
+    //Portales
+    const std::string obtenerPortalMapaATeletransportar(const std::string &idNPC, const std::string &idMapa);
+    const uint32_t obtenerPortalAncho() const;
+    const uint32_t obtenerPortalAlto() const;
     //Ciudadanos
     const uint32_t obtenerCiudadanoAncho(std::string &id) const;
     const uint32_t obtenerCiudadanoAlto(std::string &id) const;

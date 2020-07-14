@@ -14,7 +14,7 @@
 #include <unordered_map>
 #include <list>
 #include <memory>
-#include "FabricaDeCriaturas.h"
+#include "FabricaDeNPC.h"
 #include <random>
 #include <ctime>
 
@@ -37,7 +37,7 @@ class Mapa{
     std::unordered_map<std::string, Entidad*> entidades;
     std::list<std::unique_ptr<Entidad>> npcs;
 
-    FabricaDeCriaturas fabricaCriaturas;
+    FabricaDeNPC fabricaNPC;
     std::mt19937 motorAleatorio;
     /*
     Devuelve true si la nueva posicion o el area no colisiona con

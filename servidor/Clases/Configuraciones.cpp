@@ -139,6 +139,17 @@ const uint32_t Configuraciones::obtenerCiudadanoAncho(std::string &id) const{
 const uint32_t Configuraciones::obtenerCiudadanoAlto(std::string &id) const{
     return json.at("Ciudadanos").at(id).at("Alto").get<uint32_t>();
 }
+//Portales
+const std::string Configuraciones::obtenerPortalMapaATeletransportar(const std::string &idNPC, 
+                                                                     const std::string &idMapa){
+    return json.at("Mapas").at(idMapa).at("SpawnPortales").at(idNPC).get<std::string>();
+}   
+const uint32_t Configuraciones::obtenerPortalAncho() const{
+    return json.at("Portales").at("Ancho").get<uint32_t>();
+}
+const uint32_t Configuraciones::obtenerPortalAlto() const{
+    return json.at("Portales").at("Alto").get<uint32_t>();
+}
 //Criaturas
 const uint32_t Configuraciones::obtenerCriaturaVidaMax(std::string &id) const{
     return json.at("Criaturas").at(id).at("Vida").get<uint32_t>();
@@ -389,8 +400,7 @@ float Configuraciones::calcularRecuperacionVida(Personaje *personaje, double tie
 }
 
 unsigned int Configuraciones::calcularManaMax(Personaje *personaje){
-    uint32_t manaBase = json.at("Personaje").at("VidaBase").get<uint32_t>();
-    return manaBase + personaje->inteligencia * personaje->clase.FClaseMana * 
+    return personaje->inteligencia * personaje->clase.FClaseMana * 
            personaje->raza.FRazaMana * personaje->nivel;
 }
 

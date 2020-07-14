@@ -84,14 +84,14 @@ Personaje::Personaje(std::string idPersonaje, std::string idRaza,
     estado = std::move(std::unique_ptr<Estado>(new EstadoNormal(this)));
     FabricaDeItems *fabricaItems = FabricaDeItems::obtenerInstancia();
     almacen.resize(TAMANIO_ALMACEN, fabricaItems -> crearItemNulo());
+    experiencia = datos.experiencia;
+    nivel = datos.nivel;
     actualizarAtributos();
     //vidaMaxima = datos.vidaMaxima;
     vidaActual = datos.vidaActual;
     //manaMaximo = datos.manaMaximo;
     manaActual = datos.manaActual;
-    experiencia = datos.experiencia;
     //limiteParaSubir = datos.limiteParaSubir;
-    nivel = datos.nivel;
     cantidadOro = datos.cantidadOro;
 
     auto inventarioTemp = inventario.obtenerTodosLosItems();
@@ -170,8 +170,9 @@ std::string Personaje::recibirDanio(int danio, Entidad *atacante){
         divulgador->encolarMensaje(this->id, mensaje.str());
         return "El oponente ha esquivado el golpe";
     }
-    unsigned int defensa = config->calcularDefensa(this);
-    if (danio - defensa < 0){
+    int defensa = config->calcularDefensa(this);
+    //Guarda que quizas haya que hacer esto mismo con vidaActual < danio mas abajo.
+    if (danio <= defensa){
         danio = 0;
     }else{
         danio -= defensa;
@@ -180,7 +181,7 @@ std::string Personaje::recibirDanio(int danio, Entidad *atacante){
     divulgador->encolarMensaje(this->id, mensaje.str());
     unsigned int exp = config->calcularExpPorGolpe(this, atacante, danio);
     atacante->obtenerExperiencia(exp);
-    if (vidaActual - danio <= 0){
+    if ((vidaActual - danio) <= 0){
         vidaActual = 0;
         exp = config->calcularExpPorMatar(this, atacante);
         atacante->obtenerExperiencia(exp);

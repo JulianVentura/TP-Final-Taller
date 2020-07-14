@@ -5,7 +5,7 @@
 class Personaje;
 class Portal : public Entidad{
     public:
-    Portal(float x, float y);
+    Portal(float x, float y, const std::string &id, const std::string &idMapaATeletransportar);
     std::string idMapa;
     //Ataques
     std::string atacar(Personaje *objetivo) override;

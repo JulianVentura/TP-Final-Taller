@@ -19,6 +19,9 @@
                 "Esqueleto",
 		        "Zombie"
             ],
+            "SpawnPortales": {
+                "Portal#1": "mapa2"
+            },
             "LimiteCriaturas": 6,
 	    "TiempoRespawn": 10000,
             "PosicionSpawnInicial": [
@@ -67,7 +70,7 @@
     "Criaturas": {
         "Goblin": {
             "IdArma": "Garra",
-            "Vida": 100,
+            "Vida": 200,
             "Mana": 100,
             "Nivel": 1,
             "Fuerza": 5,
@@ -75,8 +78,8 @@
             "Agilidad": 5,
             "Constitucion": 5,
             "VelDesplazamiento": 0.7,
-            "RadioVisibilidad": 50,
-            "RadioAgresividad": 100,
+            "RadioVisibilidad": 300,
+            "RadioAgresividad": 500,
             "TiempoDespawn": 1000,
             "Ancho": 8,
             "Alto": 8,
@@ -150,7 +153,7 @@
         },
         "Esqueleto": {
             "IdArma": "ManoHuesuda",
-            "Vida": 100,
+            "Vida": 200,
             "Mana": 100,
             "Nivel": 1,
             "Fuerza": 5,
@@ -158,8 +161,8 @@
             "Agilidad": 5,
             "Constitucion": 5,
             "VelDesplazamiento": 0.8,
-            "RadioVisibilidad": 50,
-            "RadioAgresividad": 100,
+            "RadioVisibilidad": 300,
+            "RadioAgresividad": 500,
             "TiempoDespawn": 1000,
             "Ancho": 6,
             "Alto": 6,
@@ -233,7 +236,7 @@
         },
         "Zombie": {
             "IdArma": "ManoPodrida",
-            "Vida": 100,
+            "Vida": 200,
             "Mana": 100,
             "Nivel": 1,
             "Fuerza": 5,
@@ -241,8 +244,8 @@
             "Agilidad": 5,
             "Constitucion": 5,
             "VelDesplazamiento": 0.5,
-            "RadioVisibilidad": 50,
-            "RadioAgresividad": 100,
+            "RadioVisibilidad": 300,
+            "RadioAgresividad": 500,
             "TiempoDespawn": 1000,
             "Ancho": 8,
             "Alto": 8,
@@ -316,7 +319,7 @@
         },
         "Arania": {
             "IdArma": "ColmilloVenenoso",
-            "Vida": 100,
+            "Vida": 200,
             "Mana": 100,
             "Nivel": 1,
             "Fuerza": 5,
@@ -324,8 +327,8 @@
             "Agilidad": 5,
             "Constitucion": 5,
             "VelDesplazamiento": 0.9,
-            "RadioVisibilidad": 50,
-            "RadioAgresividad": 100,
+            "RadioVisibilidad": 300,
+            "RadioAgresividad": 500,
             "TiempoDespawn": 1000,
             "Ancho": 8,
             "Alto": 8,
@@ -415,7 +418,7 @@
             "VelDesplazamiento": 20,
             "TiempoDespawn": 300
         },
-        "CuerpoACuerpo": {
+        "Cuerpo": {
             "VelDesplazamiento": 10,
             "TiempoDespawn": 300
         },
@@ -427,46 +430,46 @@
     "Clases": {
         "Guerrero": {
             "FClaseVida": 2,
-            "FClaseMana": 2,
+            "FClaseMana": 0,
             "FClaseRecuperacion": 2,
-            "FClaseMeditacion": 2,
+            "FClaseMeditacion": 0,
             "MejoraFuerzaEnSubida": 2,
-            "MejoraInteligenciaEnSubida": 2,
-            "MejoraAgilidadEnSubida": 2,
+            "MejoraInteligenciaEnSubida": 0,
+            "MejoraAgilidadEnSubida": 1,
             "MejoraConstitucionEnSubida": 2,
             "idTCP": 0
         },
         "Mago": {
-            "FClaseVida": 2,
+            "FClaseVida": 1,
             "FClaseMana": 2,
             "FClaseRecuperacion": 2,
-            "FClaseMeditacion": 2,
-            "MejoraFuerzaEnSubida": 2,
-            "MejoraInteligenciaEnSubida": 2,
+            "FClaseMeditacion": 3,
+            "MejoraFuerzaEnSubida": 1,
+            "MejoraInteligenciaEnSubida": 3,
             "MejoraAgilidadEnSubida": 2,
-            "MejoraConstitucionEnSubida": 2,
+            "MejoraConstitucionEnSubida": 1,
             "idTCP": 1
         },
         "Paladin": {
             "FClaseVida": 2,
             "FClaseMana": 2,
-            "FClaseRecuperacion": 2,
-            "FClaseMeditacion": 2,
+            "FClaseRecuperacion": 1,
+            "FClaseMeditacion": 1,
             "MejoraFuerzaEnSubida": 2,
-            "MejoraInteligenciaEnSubida": 2,
-            "MejoraAgilidadEnSubida": 2,
+            "MejoraInteligenciaEnSubida": 1,
+            "MejoraAgilidadEnSubida": 1,
             "MejoraConstitucionEnSubida": 2,
             "idTCP": 2
         },
         "Clerigo": {
             "FClaseVida": 2,
             "FClaseMana": 2,
-            "FClaseRecuperacion": 2,
-            "FClaseMeditacion": 2,
+            "FClaseRecuperacion": 3,
+            "FClaseMeditacion": 1,
             "MejoraFuerzaEnSubida": 2,
             "MejoraInteligenciaEnSubida": 2,
-            "MejoraAgilidadEnSubida": 2,
-            "MejoraConstitucionEnSubida": 2,
+            "MejoraAgilidadEnSubida": 1,
+            "MejoraConstitucionEnSubida": 1,
             "idTCP": 3
         }
     },
@@ -523,12 +526,12 @@
 	},
         "Armas": {
             "Espada": {
-                "DanioMax": 5,
-                "DanioMin": 2,
+                "DanioMax": 8,
+                "DanioMin": 1,
                 "Rango": 50,
                 "ConsumoMana": 0,
                 "TiempoAtaque": 800,
-                "Proyectil": "CuerpoACuerpo",
+                "Proyectil": "Cuerpo",
                 "Precio": 10,
                 "idTCP": 1
             },
@@ -538,7 +541,7 @@
                 "Rango": 100,
                 "ConsumoMana": 0,
                 "TiempoAtaque": 1500,
-                "Proyectil": "CuerpoACuerpo",
+                "Proyectil": "Cuerpo",
                 "Precio": 10,
                 "idTCP": 2
             },
@@ -548,7 +551,7 @@
                 "Rango": 120,
                 "ConsumoMana": 0,
                 "TiempoAtaque": 1800,
-                "Proyectil": "CuerpoACuerpo",
+                "Proyectil": "Cuerpo",
                 "Precio": 10,
                 "idTCP": 3
             },
@@ -613,42 +616,42 @@
                 "idTCP": 9
             },
             "Garra": {
-                "DanioMax": 0,
-                "DanioMin": 0,
-                "Rango": 5,
+                "DanioMax": 4,
+                "DanioMin": 1,
+                "Rango": 50,
                 "ConsumoMana": 0,
                 "TiempoAtaque": 1000,
-                "Proyectil": "CuerpoACuerpo",
+                "Proyectil": "Cuerpo",
                 "Precio": 10,
                 "idTCP": 10
             },
             "ManoHuesuda": {
-                "DanioMax": 0,
-                "DanioMin": 0,
-                "Rango": 8,
+                "DanioMax": 4,
+                "DanioMin": 1,
+                "Rango": 80,
                 "ConsumoMana": 0,
                 "TiempoAtaque": 1000,
-                "Proyectil": "CuerpoACuerpo",
+                "Proyectil": "Cuerpo",
                 "Precio": 10,
                 "idTCP": 11
             },
             "ManoPodrida": {
-                "DanioMax": 0,
-                "DanioMin": 0,
-                "Rango": 4,
+                "DanioMax": 4,
+                "DanioMin": 1,
+                "Rango": 40,
                 "ConsumoMana": 0,
                 "TiempoAtaque": 1000,
-                "Proyectil": "CuerpoACuerpo",
+                "Proyectil": "Cuerpo",
                 "Precio": 10,
                 "idTCP": 12
             },
             "ColmilloVenenoso": {
-                "DanioMax": 0,
-                "DanioMin": 0,
-                "Rango": 3,
+                "DanioMax": 4,
+                "DanioMin": 1,
+                "Rango": 40,
                 "ConsumoMana": 0,
                 "TiempoAtaque": 1000,
-                "Proyectil": "CuerpoACuerpo",
+                "Proyectil": "Cuerpo",
                 "Precio": 10,
                 "idTCP": 13
             }

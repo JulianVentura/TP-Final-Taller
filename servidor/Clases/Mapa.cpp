@@ -49,7 +49,7 @@ Mapa::Mapa(std::string nombre) :        nombreMapa(nombre),
                                         cantidadCriaturas(0),
                                         tiempoRespawn(0),
                                         tiempoTranscurrido(0),
-                                        fabricaCriaturas(entidades),
+                                        fabricaNPC(entidades),
                                         motorAleatorio(std::time(0)){
 
     Configuraciones *config = Configuraciones::obtenerInstancia();
@@ -92,17 +92,24 @@ Mapa::Mapa(std::string nombre) :        nombreMapa(nombre),
     for (std::size_t i=0; i<objetosEstaticos.size(); i++){
         quadTreeEstatico.add(&(objetosEstaticos[i]));
     }
-    //Esto que esta completamente hardcodeado deberia levantarse del configuraciones.json
-    //La idea es que el mapa sepa las posiciones del Sacerdote, Banquero y Comerciante.
-    std::unique_ptr<Entidad> sacerdote(new Sacerdote(500, 500));
-    std::unique_ptr<Entidad> banquero(new Banquero(300, 350));
-    std::unique_ptr<Entidad> comerciante(new Comerciante(200, 200));
-    cargarEntidad(sacerdote.get());
-    cargarEntidad(banquero.get());
-    cargarEntidad(comerciante.get());
-    npcs.push_back(std::move(sacerdote));
-    npcs.push_back(std::move(banquero));
-    npcs.push_back(std::move(comerciante));
+
+    //Spawneo de npcs pasivos (ciudadanos y portales)    
+    quadtree::Box<float> spawnActual;
+    std::string idActual;
+    float x = 0;
+    float y = 0;
+    for (auto& capa: archivoJson["layers"]) {
+        if (capa["type"] != "objectgroup" || 
+            capa["name"] != "spawnPasivos") continue;
+        for (auto &spawn : capa["objects"]){
+            spawn.get_to(spawnActual);
+            x = spawnActual.getCenter().obtenerX();
+            y = spawnActual.getCenter().obtenerY();
+            spawn["name"].get_to(idActual);
+            cargarEntidad(fabricaNPC.obtenerNPCPasivo(x, y, idActual, nombreMapa));
+        }
+        break;
+    }
 }
 void Mapa::actualizarPosicion(Entidad *entidad, Posicion &&nuevaPosicion){
     if (!posicionValida(entidad, nuevaPosicion)) return;
@@ -184,7 +191,7 @@ void Mapa::cargarCriatura(){
     float x = dis_x(motorAleatorio);
     float y = dis_y(motorAleatorio);
 
-    cargarEntidad(std::move(fabricaCriaturas.obtenerCriaturaAleatoria(x, y, nombreMapa)));
+    cargarEntidad(std::move(fabricaNPC.obtenerCriaturaAleatoria(x, y, nombreMapa)));
     cantidadCriaturas++;
 }
 
@@ -286,3 +293,45 @@ const std::vector<char> Mapa::obtenerInformacionMapa(){
     const std::vector<char> vector(contenido_archivo.begin(), contenido_archivo.end());
     return vector;
 }
+
+
+
+/*
+Ideas para la inicializacion de npcs en cada Mapa.
+
+Cada archivo con la informacion de los tiles del mapa podria tener distintas zonas con un nombre especifico en donde
+se aclare el spawn de cierto NPC.
+Entonces se pueden crear zonas con los siguientes ids:
+
+
+* RespawnNPC:
+
+- Sacerdote
+- Banquero
+- Comerciante
+- Portal#1
+- Portal#2
+
+
+Luego en el configuraciones.json se escribira el nombre de los npcs que el mapa debe spawnear y su nombre debera
+coincidir con el de las zonas, de forma tal que:
+
+Mapa: {
+    "mapa": {
+        "SpawnPortales": {
+            "Portal#1": "mapa2", 
+            "Portal#2": "mapa3"
+            }
+    }
+}
+
+Si algun npc figura pero su zona de spawn no esta en el mapa simplemente no se lo spawnea, lo mismo en caso contrario.
+
+En algun lugar se debera realizar el parseo entre el nombre del NPC y la entidad en si, quizas en la FabricaDeNPC.
+
+De esta forma el mapa simplemente parsea la zona, la busca dentro del json.
+
+
+
+
+*/
