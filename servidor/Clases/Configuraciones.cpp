@@ -438,26 +438,15 @@ unsigned int Configuraciones::calcularExpPorMatar(Entidad *objetivo, Entidad *at
 }
 
 unsigned int Configuraciones::calcularDanioAtaque(Entidad *objetivo, Entidad *atacante, Arma *arma){
-    //return Fuerza * rand(DanioArmaMin, DanioArmaMax)
-    //std::uniform_int_distribution<> dis(arma->danioMin, arma->danioMax);
-
     return atacante->fuerza * numeroRandom(arma->danioMin, arma->danioMax);
-    //return atacante->fuerza * dis(motorAleatorio);
 }
 
 bool Configuraciones::seEsquivaElGolpe(Entidad *entidad){
     //return rand(0, 1) ^ Agilidad < 0.001
-    return false;
-    double suerte = numeroRandom(0, 10000) / 10000;
-    fprintf(stderr, "Salio el numero %.12f\n", suerte);
+    double suerte = numeroRandom(0, 1000);
+    suerte /= 1000;
     double temp = std::pow(suerte, entidad->agilidad);
-    fprintf(stderr, "El valor de temp es %.12f\n", temp);
-    return  temp < 0.000000001;
-    /*
-    std::uniform_int_distribution<> dis(0, 1000);
-    float suerte = dis(motorAleatorio) / 1000;
-    return std::pow(suerte, entidad->agilidad/10) < 0.000000001;
-    */
+    return temp < 1e-12;
 }
 
 unsigned int Configuraciones::calcularDefensa(Personaje *personaje){
@@ -532,7 +521,9 @@ std::string Configuraciones::calcularDropPocion(std::string &idCriatura){
 
 
 unsigned int Configuraciones::calcularDropOro(Criatura *criatura){
-    return numeroRandom(0, 200) / 1000 * criatura->vidaMaxima;
+    double suerte = numeroRandom(0, 200);
+    suerte /= 100;
+    return suerte * criatura->vidaMaxima;
 }
 
 std::string Configuraciones::obtenerItemRandom(std::string &idCriatura, std::string idItem){
@@ -571,8 +562,8 @@ TipoDrop Configuraciones::calcularDrop(std::string &idCriatura){
     //Tiro el dado
     float numero = (float) rand()/RAND_MAX;
     //Calculo el drop
-    if (numero < probaItem && numero >= 0) return ORO;
-    if (numero < probaOro && numero >= probaItem) return ITEM;
+    if (numero < probaItem && numero >= 0) return ITEM;
+    if (numero < probaOro && numero >= probaItem) return ORO;
     return NADA;
 }
 

@@ -62,11 +62,9 @@ const std::string Criatura::obtenerId() const {
 
 std::string Criatura::recibirDanio(int danio, Entidad *atacante){
     this->idObjetivo = atacante->obtenerId();   //Mi objetivo sera mi ultimo atacante.
-    Divulgador *divulgador = Divulgador::obtenerInstancia();
     Configuraciones *config = Configuraciones::obtenerInstancia();
     std::stringstream mensaje;
     if (config->seEsquivaElGolpe(this)){
-        //Informarle a atacante que el golpe se esquiva.
         return "El oponente ha esquivado el golpe";
     }
     unsigned int experiencia = config->calcularExpPorGolpe(this,
@@ -74,7 +72,6 @@ std::string Criatura::recibirDanio(int danio, Entidad *atacante){
                                                            danio);
     atacante->obtenerExperiencia(experiencia);
     mensaje << "Realizas " << danio << "de danio";
-    divulgador->encolarMensaje(atacante->obtenerId(), mensaje.str());
     if (vidaActual - danio <= 0){
         this->vidaActual = 0;
         experiencia = config->calcularExpPorMatar(this, atacante);
@@ -92,8 +89,12 @@ void Criatura::dropearItems(Entidad *atacante){
     Configuraciones *config = Configuraciones::obtenerInstancia();
     TipoDrop tipo = config->calcularDrop(id);
     if (tipo == ORO){
+        std::stringstream mensaje;
+        Divulgador *divulgador = Divulgador::obtenerInstancia();
         unsigned int cantidad = config->calcularDropOro(this);
+        mensaje << "Recibes " << cantidad << " oro";
         atacante->recibirOro(cantidad);
+        divulgador->encolarMensaje(atacante->obtenerId(), mensaje.str());
     }else if (tipo == ITEM){
         //Siempre se va a obtener un drop
         Item* item = fabricaItems->obtenerItemAleatorio(id);
@@ -157,7 +158,8 @@ void Criatura::serAtacadoPor(Criatura *atacante){
 }
 
 void Criatura::serAtacadoPor(Personaje *atacante){
-    atacante->atacar(this);
+    Divulgador *divulgador = Divulgador::obtenerInstancia();
+    divulgador->encolarMensaje(atacante->obtenerId(), atacante->atacar(this));
 }
 
 void Criatura::continuarAtacando(){

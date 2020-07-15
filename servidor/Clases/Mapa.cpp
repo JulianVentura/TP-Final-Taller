@@ -130,7 +130,7 @@ std::vector<struct PosicionEncapsulada> Mapa::recolectarPosiciones(){
 
 Entidad* Mapa::obtener(std::string &id){
     std::unordered_map<std::string, Entidad*>::iterator it = entidades.find(id);
-    if (it == entidades.end()) throw ErrorServidor("No se encontró id %s\n", id); 
+    if (it == entidades.end()) throw ErrorServidor("Error en Mapa: No se encontró el id %s\n", id); 
     return it->second;
 }
 
@@ -151,7 +151,6 @@ void Mapa::cargarEntidadNoColisionable(Entidad *entidad){
 void Mapa::cargarEntidadNoColisionable(std::unique_ptr<Entidad> entidad){
     cargarEntidadNoColisionable(entidad.get());
     npcs.push_back(std::move(entidad));
-
 }
 
 void Mapa::cargarEntidad(Entidad *entidad){
