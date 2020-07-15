@@ -1,6 +1,7 @@
 #include "Configuraciones.h"
 #include "Entidad.h"
 #include "Personaje.h"
+#include "Criatura.h"
 #include "Raza.h"
 #include "Clase.h"
 #include "Arma.h"
@@ -28,7 +29,7 @@ void Configuraciones::leerArchivo(const char* nombreArchivo){
     archivoEntrada >> json;
 }
 
-Configuraciones::Configuraciones(){
+Configuraciones::Configuraciones() : motorAleatorio(std::time(0)){
     //Se crea
 }
 
@@ -54,8 +55,8 @@ static bool floatComp(float a, float b, float epsilon = 0.0001){
 
 /*
 Devuelve un numero pseudo aleatorio perteneciente a [a, b]
-*/
 
+*/
 static unsigned int numeroRandom(unsigned int a, unsigned int b){
     if ((b - a) == 0) return 0;
     return rand() % (b - a + 1) + a;
@@ -137,6 +138,17 @@ const uint32_t Configuraciones::obtenerCiudadanoAncho(std::string &id) const{
 }
 const uint32_t Configuraciones::obtenerCiudadanoAlto(std::string &id) const{
     return json.at("Ciudadanos").at(id).at("Alto").get<uint32_t>();
+}
+//Portales
+const std::string Configuraciones::obtenerPortalMapaATeletransportar(const std::string &idNPC, 
+                                                                     const std::string &idMapa){
+    return json.at("Mapas").at(idMapa).at("SpawnPortales").at(idNPC).get<std::string>();
+}   
+const uint32_t Configuraciones::obtenerPortalAncho() const{
+    return json.at("Portales").at("Ancho").get<uint32_t>();
+}
+const uint32_t Configuraciones::obtenerPortalAlto() const{
+    return json.at("Portales").at("Alto").get<uint32_t>();
 }
 //Criaturas
 const uint32_t Configuraciones::obtenerCriaturaVidaMax(std::string &id) const{
@@ -388,8 +400,7 @@ float Configuraciones::calcularRecuperacionVida(Personaje *personaje, double tie
 }
 
 unsigned int Configuraciones::calcularManaMax(Personaje *personaje){
-    uint32_t manaBase = json.at("Personaje").at("VidaBase").get<uint32_t>();
-    return manaBase + personaje->inteligencia * personaje->clase.FClaseMana * 
+    return personaje->inteligencia * personaje->clase.FClaseMana * 
            personaje->raza.FRazaMana * personaje->nivel;
 }
 
@@ -427,15 +438,22 @@ unsigned int Configuraciones::calcularExpPorMatar(Entidad *objetivo, Entidad *at
 }
 
 unsigned int Configuraciones::calcularDanioAtaque(Entidad *objetivo, Entidad *atacante, Arma *arma){
-    //return Fuerza * rand(DanioArmaMin, DanioArmaMax)
     return atacante->fuerza * numeroRandom(arma->danioMin, arma->danioMax);
 }
 
 bool Configuraciones::seEsquivaElGolpe(Entidad *entidad){
     //return rand(0, 1) ^ Agilidad < 0.001
-    float suerte = rand()/RAND_MAX;
-    return false;
-    return std::pow(suerte, entidad->agilidad/2) < 0.000000001;
+    double suerte = numeroRandom(0, 1000);
+    suerte /= 1000;
+    double temp = std::pow(suerte, entidad->agilidad);
+    return temp < 1e-12;
+}
+
+bool Configuraciones::esGolpeCritico(Entidad *atacante, Entidad *oponente){
+    double suerte = numeroRandom(0, 1000);
+    suerte /= 1000;
+    double temp = std::pow(suerte, atacante->agilidad);
+    return temp < 1e-16;
 }
 
 unsigned int Configuraciones::calcularDefensa(Personaje *personaje){
@@ -509,10 +527,10 @@ std::string Configuraciones::calcularDropPocion(std::string &idCriatura){
 }
 
 
-unsigned int Configuraciones::calcularDropOro(std::string &idCriatura){
-    unsigned int dropMax = json.at("Criaturas").at(idCriatura).at("Drops").at("Oro").at("DropMax").get<unsigned int>();
-    unsigned int dropMin = json.at("Criaturas").at(idCriatura).at("Drops").at("Oro").at("DropMin").get<unsigned int>();
-    return numeroRandom(dropMin, dropMax);
+unsigned int Configuraciones::calcularDropOro(Criatura *criatura){
+    double suerte = numeroRandom(0, 200);
+    suerte /= 100;
+    return suerte * criatura->vidaMaxima;
 }
 
 std::string Configuraciones::obtenerItemRandom(std::string &idCriatura, std::string idItem){
@@ -551,8 +569,8 @@ TipoDrop Configuraciones::calcularDrop(std::string &idCriatura){
     //Tiro el dado
     float numero = (float) rand()/ (float) RAND_MAX;
     //Calculo el drop
-    if (numero < probaItem && numero >= 0) return ORO;
-    if (numero < probaOro && numero >= probaItem) return ITEM;
+    if (numero < probaItem && numero >= 0) return ITEM;
+    if (numero < probaOro && numero >= probaItem) return ORO;
     return NADA;
 }
 

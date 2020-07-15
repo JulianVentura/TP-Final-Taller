@@ -40,10 +40,12 @@ std::string Arma::atacar(Entidad *objetivo, Entidad *atacante, Mapa *mapa){
                                                               this);
     atacante->consumirMana(this->consumoMana);
     std::string mensaje = std::move(objetivo->recibirDanio(danio, atacante));
+    /*
     std::unique_ptr<Entidad> proyectil(new Proyectil(this->proyectil, 
                                                          atacante->obtenerPosicion(), 
                                                          objetivo->obtenerPosicion()));
     mapa->cargarEntidadNoColisionable(std::move(proyectil));
+    */
     return mensaje;
 }
 

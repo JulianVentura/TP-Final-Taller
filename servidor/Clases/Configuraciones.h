@@ -2,6 +2,7 @@
 #define __CONFIGURACIONES_H__
 #include <nlohmann/json.hpp>
 #include <vector>
+#include <random>
 #include <cstdint>
 
 typedef enum ITEM {ARMA,
@@ -14,11 +15,15 @@ typedef enum DROP {ITEM,
                    NADA} TipoDrop;
 class Entidad;
 class Personaje;
+class Criatura;
 class Arma;
 class Configuraciones{
     private:
     nlohmann::json json;
+    std::mt19937 motorAleatorio;
+
     std::string obtenerItemRandom(std::string &idCriatura, std::string idItem);
+    
     public:
     static Configuraciones* obtenerInstancia();
     static void crearInstancia(const char *nombreArchivo);
@@ -50,6 +55,10 @@ class Configuraciones{
     const uint32_t obtenerPersonajeAlto() const;
     //Estados
     const uint16_t obtenerEstadoIDTCP(std::string &id) const;
+    //Portales
+    const std::string obtenerPortalMapaATeletransportar(const std::string &idNPC, const std::string &idMapa);
+    const uint32_t obtenerPortalAncho() const;
+    const uint32_t obtenerPortalAlto() const;
     //Ciudadanos
     const uint32_t obtenerCiudadanoAncho(std::string &id) const;
     const uint32_t obtenerCiudadanoAlto(std::string &id) const;
@@ -152,17 +161,18 @@ class Configuraciones{
     unsigned int calcularInteligencia(Personaje *personaje);
     unsigned int calcularAgilidad(Personaje *personaje);
     unsigned int calcularConstitucion(Personaje *personaje);
-    std::string calcularDropArma(std::string &idCriatura);
-    std::string calcularDropArmadura(std::string &idCriatura);
-    std::string calcularDropEscudo(std::string &idCriatura);
-    std::string calcularDropCasco(std::string &idCriatura);
-    std::string calcularDropPocion(std::string &idCriatura);
-    unsigned int calcularDropOro(std::string &idCriatura);
+    std::string  calcularDropArma(std::string &idCriatura);
+    std::string  calcularDropArmadura(std::string &idCriatura);
+    std::string  calcularDropEscudo(std::string &idCriatura);
+    std::string  calcularDropCasco(std::string &idCriatura);
+    std::string  calcularDropPocion(std::string &idCriatura);
+    unsigned int calcularDropOro(Criatura *criatura);
     unsigned int calcularDefensa(Personaje *personaje);
     
     TipoDrop calcularDrop(std::string &idCriatura);
     TipoItem calcularDropItem(std::string &idCriatura);
     bool seEsquivaElGolpe(Entidad *entidad);
+    bool esGolpeCritico(Entidad *atacante, Entidad *oponente);
     const std::string obtenerMapaSpawnCriaturaAleatoria(const std::string &id) const;
     bool sePuedeAtacar(Personaje *objetivo, Personaje *atacante);
 

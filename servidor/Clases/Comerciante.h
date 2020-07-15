@@ -7,7 +7,7 @@
 class Personaje;
 class Item;
 class Comerciante : public Entidad{
-    private:
+    protected:
     std::vector<Item*> items;
     Item* itemNulo;
     uint32_t tamTienda;

@@ -11,14 +11,13 @@
 
 Comerciante::Comerciante(float x, float y) : Entidad("Comerciante#"), tamTienda(0){
     Configuraciones *config = Configuraciones::obtenerInstancia();
+    FabricaDeItems *fabrica = FabricaDeItems::obtenerInstancia();
     std::string id_base = "Comerciante";
     uint32_t ancho = config->obtenerCiudadanoAncho(id_base);
     uint32_t alto = config->obtenerCiudadanoAlto(id_base);
     tamTienda = config->obtenerTamanioTienda();
     posicion = std::move(Posicion(x, y, ancho, alto));
-    
-    std::string idItem;
-    FabricaDeItems *fabrica = FabricaDeItems::obtenerInstancia();
+    unsigned int cont = 0;
     itemNulo = fabrica -> crearItemNulo();
     /*
     idItem = "Hacha";
@@ -36,17 +35,17 @@ Comerciante::Comerciante(float x, float y) : Entidad("Comerciante#"), tamTienda(
     idItem = "EscudoDeTortuga";
     items.push_back(fabrica->crearEscudo(idItem));
     */
+    std::string idItem;
+    items.resize(tamTienda, itemNulo);
     idItem = "Espada";
-    items.push_back(fabrica->crearArma(idItem));
-    idItem = "VaraDeFresno";
-    items.push_back(fabrica->crearArma(idItem));
+    items[cont] = fabrica->crearArma(idItem);
+    cont++;
     idItem = "PocionVida";
-    items.push_back(fabrica->crearPocion(idItem));
+    items[cont] = fabrica->crearPocion(idItem);
+    cont++;
     idItem = "PocionMana";
-    items.push_back(fabrica->crearPocion(idItem));
-    for(int i = 0;i < 14;i++){
-        items.push_back(itemNulo);
-    }
+    items[cont] = fabrica->crearPocion(idItem);
+    cont++;
 }
 
 void Comerciante::interactuar(Estado *estado, Cliente *cliente){

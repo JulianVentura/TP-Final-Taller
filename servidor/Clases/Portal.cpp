@@ -5,11 +5,15 @@
 #define ANCHO 4
 #define ALTO 4
 
-Portal::Portal(float x, float y) : Entidad("Portal#"), idMapa("mapa2"){
+Portal::Portal(float x, 
+               float y, 
+               const std::string &id,
+               const std::string &idMapaATeletransportar) : 
+               Entidad(id), 
+               idMapa(idMapaATeletransportar){
     Configuraciones *config = Configuraciones::obtenerInstancia();
-    std::string id_base = "Portal";
-    uint32_t ancho = config->obtenerCiudadanoAncho(id_base);
-    uint32_t alto = config->obtenerCiudadanoAlto(id_base);
+    uint32_t ancho = config->obtenerPortalAncho();
+    uint32_t alto = config->obtenerPortalAlto();
     posicion = std::move(Posicion(x, y, ancho, alto));
 }
 

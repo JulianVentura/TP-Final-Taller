@@ -23,8 +23,8 @@ void OperacionInteractuar::ejecutar(){
         Personaje *personaje = cliente->obtenerPersonaje();
         Estado *estado = personaje->obtenerEstado();
         entidad->interactuar(estado, cliente);
-    }catch(std::exception &e){
-        cliente->enviarChat(e.what(), false);
+    }catch(const std::exception &e){
+        std::cerr << e.what() << std::endl;
     }catch(...){
         std::cerr << "Error desconocido atrapado en OperacionVender" << std::endl;
     }

@@ -2423,6 +2423,50 @@
         }, 
         {
          "draworder":"topdown",
+         "id":35,
+         "name":"spawnPasivos",
+         "objects":[
+                {
+                 "height":32,
+                 "id":225,
+                 "name":"Banquero",
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":32,
+                 "x":576,
+                 "y":512
+                }, 
+                {
+                 "height":32,
+                 "id":226,
+                 "name":"Comerciante",
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":32,
+                 "x":640,
+                 "y":512
+                }, 
+                {
+                 "height":32,
+                 "id":227,
+                 "name":"Sacerdote",
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":32,
+                 "x":704,
+                 "y":512
+                }],
+         "opacity":1,
+         "type":"objectgroup",
+         "visible":true,
+         "x":0,
+         "y":0
+        }, 
+        {
+         "draworder":"topdown",
          "id":34,
          "name":"respawn",
          "objects":[
@@ -2465,8 +2509,8 @@
          "x":0,
          "y":0
         }],
- "nextlayerid":35,
- "nextobjectid":225,
+ "nextlayerid":36,
+ "nextobjectid":228,
  "orientation":"orthogonal",
  "renderorder":"right-down",
  "tiledversion":"1.4.1",
