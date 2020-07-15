@@ -145,11 +145,15 @@ void Mapa::cargarEntidadNoColisionable(Entidad *entidad){
         throw ErrorServidor("La entidad de id %s ya se encuentra cargada en el Mapa\n", id);
     }
     entidad->indicarMapaAlQuePertenece(this);
-    entidades[id] = entidad;
+    colaDeCarga.push(entidad);
 }
 
 void Mapa::cargarEntidadNoColisionable(std::unique_ptr<Entidad> entidad){
     cargarEntidadNoColisionable(entidad.get());
+    /*
+    No hay riesgo de carga sobre npcs ya que se hace siempre secuencialmente en una
+    operacion del gameloop o en la actualizacion de estado de una entidad.
+    */
     npcs.push_back(std::move(entidad));
 }
 
@@ -164,8 +168,9 @@ void Mapa::cargarEntidad(Entidad *entidad){
         Posicion nuevaPosicion = buscarPosicionValida(entidad->obtenerPosicion());
         entidad->actualizarPosicion(std::move(nuevaPosicion));
     }
+    //El quadtree es seguro (protegido con mutex).
     quadTreeDinamico.add(entidad);
-    entidades[id] = entidad;
+    colaDeCarga.push(entidad);
 }
 
 void Mapa::cargarEntidad(std::unique_ptr<Entidad> entidad){
@@ -189,11 +194,18 @@ void Mapa::cargarCriatura(){
     std::uniform_int_distribution<> dis_y(y1, y2);
     float x = dis_x(motorAleatorio);
     float y = dis_y(motorAleatorio);
-
     cargarEntidad(std::move(fabricaNPC.obtenerCriaturaAleatoria(x, y, nombreMapa)));
     cantidadCriaturas++;
 }
 
+
+void Mapa::cargar(Entidad *entidad){
+    std::string id = entidad->obtenerId();
+    std::unordered_map<std::string, Entidad*>::iterator it = entidades.find(id);
+    //Esto solo puede fallar si se intenta cargar una entidad en operaciones consecutivas.
+    if (it != entidades.end()) return;
+    entidades[id] = entidad;
+}
 
 bool Mapa::posicionValida(Entidad *entidad, const quadtree::Box<float> &area){
     if (!frontera.contains(area)) return false;
@@ -251,6 +263,7 @@ void Mapa::eliminarEntidad(Entidad *entidad){
 }
 
 void Mapa::eliminarEntidad(const std::string &id){
+    std::unique_lock<std::mutex> lock(this->mutex);
     std::unordered_map<std::string, Entidad*>::iterator it = entidades.find(id);
     if (it == entidades.end()){
         throw ErrorServidor("No se encontró id %s\n", id.c_str());
@@ -260,6 +273,7 @@ void Mapa::eliminarEntidad(const std::string &id){
 }
 
 void Mapa::eliminarEntidadNoColisionable(Entidad *entidad){
+    std::unique_lock<std::mutex> lock(this->mutex);
     std::string id = entidad->obtenerId();
     std::unordered_map<std::string, Entidad*>::iterator it = entidades.find(id);
     if (it == entidades.end()){
@@ -274,9 +288,12 @@ void Mapa::entidadesActualizarEstados(double tiempo){
         tiempoTranscurrido = 0;
         this->cargarCriatura();
     }
+    //Atomizo la actualizacion de estados de las entidades.
+    mutex.lock();
     for (auto& entidad: entidades){
         entidad.second->actualizarEstado(tiempo);
     }
+    mutex.unlock();
     //Limpio completados
     std::list<std::unique_ptr<Entidad>>::iterator it = npcs.begin();
     while (it != npcs.end()){
@@ -284,6 +301,17 @@ void Mapa::entidadesActualizarEstados(double tiempo){
             it = npcs.erase(it);
         }else{
             ++it;
+        }
+    }
+    //Cargo las entidades.
+    bool seguirIterando = true;
+    Entidad *entidadActual = nullptr;
+    while (seguirIterando){
+        entidadActual = colaDeCarga.pop();
+        if (entidadActual){
+            cargar(entidadActual);  //Es un metodo privado del mapa.
+        }else{
+            seguirIterando = false;
         }
     }
 }
