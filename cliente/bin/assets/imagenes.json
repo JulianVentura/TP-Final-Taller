@@ -333,32 +333,10 @@
 		},
 		"Arania": {
 			"cuerpo" : ["spider1.png"],
-			"ojos": [],
-			"cicatrices" : [],
-			"nariz": [],
-			"facial": [],
-			"pies": [],
-			"piernas": [],
-			"torso": [],
-			"cinto": [],
-			"pelo": [],
-			"cabeza": [],
-			"armas": [],
 			"animacion": "arania"
 		},
 		"Arania2": {
 			"cuerpo" : ["spider2.png"],
-			"ojos": [],
-			"cicatrices" : [],
-			"nariz": [],
-			"facial": [],
-			"pies": [],
-			"piernas": [],
-			"torso": [],
-			"cinto": [],
-			"pelo": [],
-			"cabeza": [],
-			"armas": [],
 			"animacion": "arania2"
 		},
 		"Banquero": {
@@ -389,17 +367,6 @@
 		},
 		"Fantasma": {
 			"cuerpo" : ["fantasmas.png"],
-			"ojos": [],
-			"cicatrices" : [],
-			"nariz": [],
-			"facial": [],
-			"pies": [],
-			"piernas": [],
-			"torso": [],
-			"cinto": [],
-			"pelo": [],
-			"cabeza": [],
-			"armas": [],
 			"animacion": "fantasma"
 		},
 		"Comerciante": {
@@ -416,17 +383,7 @@
 			"cabeza": []
 		},
 		"BolsaDeItems": {
-			"cuerpo" : ["bag.png"],
-			"ojos": [],
-			"cicatrices" : [],
-			"nariz": [],
-			"facial": [],
-			"pies": [],
-			"piernas": [],
-			"torso": [],
-			"cinto": [],
-			"pelo": [],
-			"cabeza": []
+			"cuerpo" : ["bag.png"]
 		}
 	},
 	"animacion": {

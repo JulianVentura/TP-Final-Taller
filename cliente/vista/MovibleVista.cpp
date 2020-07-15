@@ -80,8 +80,8 @@ void MovibleVista::render() {
 }
 
 void MovibleVista::actualizarApariencia(DatosApariencia& apariencia) {
-    if (apariencia.tipo.size() > 0)
-        animacion_local.setTiempoPorCuadro(NPC_ANIMACION);
+    // if (apariencia.tipo.size() > 0)
+        // animacion_local.setTiempoPorCuadro(NPC_ANIMACION);
     if (apariencia.estado == "101") {
         // TODO: provisorio
         this->apariencia = {};

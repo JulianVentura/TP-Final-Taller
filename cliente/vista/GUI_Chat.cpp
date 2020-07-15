@@ -1,6 +1,8 @@
 #include "../vista/GUI_Chat.h"
 #include "../vista/Ventana.h"
 
+#define MAX_ANCHO_CHAT 380
+
 GUI_Chat::GUI_Chat(EntornoGrafico& entorno, Colores& paleta)
 		: GUI_CajaTexto(entorno, paleta) {
 	entorno.agregarRendereable(this);
@@ -34,7 +36,7 @@ void GUI_Chat::actualizarDimension(){
 	marco_mensajes.x = 0;
 	marco_mensajes.y = ventana_alto*0.25;
 	marco_mensajes.h = ventana_alto*0.4;
-	marco_mensajes.w = ventana_ancho*0.25;
+	marco_mensajes.w = std::min<float>(ventana_ancho*0.25, MAX_ANCHO_CHAT);
 	marco_entrada.x = 0;
 	marco_entrada.h = 2*ALTO_CARACTER;
 	marco_entrada.y = marco_mensajes.h + marco_mensajes.y;
