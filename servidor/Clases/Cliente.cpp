@@ -35,10 +35,6 @@ Cliente::Cliente(Socket &&socket,
     ColaOperaciones *colaDeOperaciones = miSala->obtenerCola();
     clienteProxy.actualizarCola(colaDeOperaciones);
     
-    //TODO:
-    //clienteProxy.enviarDatosPersonaje();
-    //
-
     miSala->cargarCliente(this);
     continuar = true;
     clienteProxy.enviarConfirmacion();

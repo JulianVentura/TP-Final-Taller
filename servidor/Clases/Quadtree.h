@@ -5,6 +5,7 @@
 #include <memory>
 #include <type_traits>
 #include <vector>
+#include <mutex>
 #include "Box.h"
 
 namespace quadtree
@@ -29,24 +30,28 @@ public:
     }
 
     void add(const T& value)
-    {
+    {   
+        std::lock_guard<std::mutex> lock(mutex);
         add(mRoot.get(), 0, mBox, value);
     }
 
     void remove(const T& value)
-    {
+    {   
+        std::lock_guard<std::mutex> lock(mutex);
         remove(mRoot.get(), nullptr, mBox, value);
     }
 
-    std::vector<T> query(const Box<Float>& box) const
-    {
+    std::vector<T> query(const Box<Float>& box)
+    {   
+        std::lock_guard<std::mutex> lock(mutex);
         auto values = std::vector<T>();
         query(mRoot.get(), mBox, box, values);
         return values;
     }
 
-    std::vector<std::pair<T, T>> findAllIntersections() const
-    {
+    std::vector<std::pair<T, T>> findAllIntersections()
+    {   
+        std::lock_guard<std::mutex> lock(mutex);
         auto intersections = std::vector<std::pair<T, T>>();
         findAllIntersections(mRoot.get(), intersections);
         return intersections;
@@ -62,6 +67,7 @@ private:
         std::vector<T> values;
     };
 
+    std::mutex mutex;
     Box<Float> mBox;
     std::unique_ptr<Node> mRoot;
     GetBox mGetBox;

@@ -8,7 +8,9 @@
 #include "Criatura.h"
 #include "Interactuable.h"
 #include "BolsaDeItems.h"
+#include "ColaDeEntidades.h"
 #include "Box.h"
+#include <mutex>
 #include <vector>
 #include <string>
 #include <unordered_map>
@@ -24,12 +26,14 @@ class Entidad;
 class Mapa{
     private:
     std::string nombreMapa;
+    std::mutex mutex;
     std::string contenido_archivo;
     quadtree::Box<float> frontera;
     ObtenerCaja obtenerCaja;
     quadtree::Quadtree<Colisionable*, ObtenerCaja> quadTreeEstatico;
     quadtree::Quadtree<Entidad*, ObtenerCaja> quadTreeDinamico;
     std::vector<ObjetoColisionable> objetosEstaticos;
+    ColaDeEntidades colaDeCarga;
     std::vector<quadtree::Box<float>> zonasRespawn;
     unsigned int limiteCriaturas;
     std::atomic<unsigned int> cantidadCriaturas;
@@ -55,6 +59,8 @@ class Mapa{
     Buscara spawnear una nueva Criatura aleatoria en alguna de las zonas de respawn.
     */
     void cargarCriatura();
+
+    void cargar(Entidad *entidad);
 
     public:
     Mapa(std::string nombre);
