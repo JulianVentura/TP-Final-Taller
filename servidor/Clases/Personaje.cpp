@@ -165,7 +165,11 @@ std::string Personaje::recibirDanio(int danio, Entidad *atacante){
     Configuraciones *config = Configuraciones::obtenerInstancia();
     Divulgador *divulgador = Divulgador::obtenerInstancia();
     std::stringstream mensaje;
-    if (config->seEsquivaElGolpe(this)){
+    std::string mensajeGolpeCritico = "";
+    if (config->esGolpeCritico(atacante, this)){
+        danio *= 2;
+        mensajeGolpeCritico = "Golpe critico. ";
+    }else if (config->seEsquivaElGolpe(this)){
         mensaje << "Has esquivado el golpe";
         divulgador->encolarMensaje(this->id, mensaje.str());
         return "El oponente ha esquivado el golpe";
@@ -193,7 +197,7 @@ std::string Personaje::recibirDanio(int danio, Entidad *atacante){
         vidaActual -= danio;
     }
     mensaje.str("");
-    mensaje << "Realizas " << danio << " de danio";
+    mensaje << mensajeGolpeCritico << "Realizas " << danio << " de danio";
     return mensaje.str();
 }
 
@@ -238,7 +242,7 @@ void Personaje::curar(float curVida, float curMana){
 }
 
 void Personaje::curar(){
-    this->curar(vidaMaxima, manaMaximo);
+    estado->curar(vidaMaxima, manaMaximo);
 }
 
 void Personaje::eliminarDeInventario(unsigned int pos){

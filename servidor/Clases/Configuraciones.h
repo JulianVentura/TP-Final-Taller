@@ -161,17 +161,18 @@ class Configuraciones{
     unsigned int calcularInteligencia(Personaje *personaje);
     unsigned int calcularAgilidad(Personaje *personaje);
     unsigned int calcularConstitucion(Personaje *personaje);
-    std::string calcularDropArma(std::string &idCriatura);
-    std::string calcularDropArmadura(std::string &idCriatura);
-    std::string calcularDropEscudo(std::string &idCriatura);
-    std::string calcularDropCasco(std::string &idCriatura);
-    std::string calcularDropPocion(std::string &idCriatura);
+    std::string  calcularDropArma(std::string &idCriatura);
+    std::string  calcularDropArmadura(std::string &idCriatura);
+    std::string  calcularDropEscudo(std::string &idCriatura);
+    std::string  calcularDropCasco(std::string &idCriatura);
+    std::string  calcularDropPocion(std::string &idCriatura);
     unsigned int calcularDropOro(Criatura *criatura);
     unsigned int calcularDefensa(Personaje *personaje);
     
     TipoDrop calcularDrop(std::string &idCriatura);
     TipoItem calcularDropItem(std::string &idCriatura);
     bool seEsquivaElGolpe(Entidad *entidad);
+    bool esGolpeCritico(Entidad *atacante, Entidad *oponente);
     const std::string obtenerMapaSpawnCriaturaAleatoria(const std::string &id) const;
     bool sePuedeAtacar(Personaje *objetivo, Personaje *atacante);
 

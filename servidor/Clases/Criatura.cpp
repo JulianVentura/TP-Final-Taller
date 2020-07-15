@@ -64,14 +64,18 @@ std::string Criatura::recibirDanio(int danio, Entidad *atacante){
     this->idObjetivo = atacante->obtenerId();   //Mi objetivo sera mi ultimo atacante.
     Configuraciones *config = Configuraciones::obtenerInstancia();
     std::stringstream mensaje;
-    if (config->seEsquivaElGolpe(this)){
+    std::string mensajeGolpeCritico = "";
+    if (config->esGolpeCritico(atacante, this)){
+        danio *= 2;
+        mensajeGolpeCritico = "Golpe critico. ";
+    }else if (config->seEsquivaElGolpe(this)){
         return "El oponente ha esquivado el golpe";
     }
     unsigned int experiencia = config->calcularExpPorGolpe(this,
                                                            atacante,
                                                            danio);
     atacante->obtenerExperiencia(experiencia);
-    mensaje << "Realizas " << danio << "de danio";
+    mensaje << mensajeGolpeCritico << "Realizas " << danio << "de danio";
     if (vidaActual - danio <= 0){
         this->vidaActual = 0;
         experiencia = config->calcularExpPorMatar(this, atacante);
@@ -169,6 +173,7 @@ void Criatura::continuarAtacando(){
     }catch(const ErrorServidor &e){
         idObjetivo = ""; //Solo sucedera si el jugador se desconecta o teletransporta.
     }
+    if (!objetivo) return;
     idObjetivo = "";
     float distancia = this->posicion.calcularDistancia(objetivo->obtenerPosicion());
 	if (distancia > radioAgresividad) return;

@@ -53,14 +53,14 @@ void GameLoop::finalizar(){
 
 
 void GameLoop::procesarOperaciones(){
-    bool continuar = true;
+    bool seguirIterando = true;
     Operacion* operacionActual;
-    while (continuar){
+    while (seguirIterando){
         operacionActual = colaDeOperaciones.pop();
         if (operacionActual){
             operacionActual->ejecutar();
         }else{
-            continuar = false;
+            seguirIterando = false;
         }
     }
 }

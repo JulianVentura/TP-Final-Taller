@@ -53,9 +53,8 @@ void EstadoMeditacion::interactuar(Entidad *entidad){
     //No hacer nada o lanzar excepcion
 }
 
-void EstadoMeditacion::pedirCuracion(Sacerdote *sacerdote, Cliente *cliente){
-    std::string mensaje = "No puede interactuar mientras medita";
-    cliente->enviarChat(mensaje, false);
+void EstadoMeditacion::curar(float curVida, float curMana){
+    //No hace nada.
 }
 
 void EstadoMeditacion::pedirListado(Interactuable *interactuable, Cliente *cliente){

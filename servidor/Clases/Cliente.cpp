@@ -23,10 +23,10 @@ Cliente::Cliente(Socket &&socket,
     */
     
     std::pair<std::string, std::string> credenciales =
-     std::move(login(organizadorClientes));
+    std::move(login(organizadorClientes));
 
     std::pair<std::string, std::unique_ptr<Personaje>> datos =
-     miBaseDeDatos.cargarCliente(credenciales);
+    miBaseDeDatos.cargarCliente(credenciales);
     this->id = credenciales.first;
     this->personaje = std::move(datos.second);
     this->salaActual = std::move(datos.first);
@@ -164,8 +164,6 @@ std::pair<std::string, std::string> Cliente::login(OrganizadorClientes &organiza
                         " La cantidad de letras no debe superar 19");
                 }
             }
-            
-            
         }
     }
 }

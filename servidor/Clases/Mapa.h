@@ -14,6 +14,7 @@
 #include <unordered_map>
 #include <list>
 #include <memory>
+#include <atomic>
 #include "FabricaDeNPC.h"
 #include <random>
 #include <ctime>
@@ -31,7 +32,7 @@ class Mapa{
     std::vector<ObjetoColisionable> objetosEstaticos;
     std::vector<quadtree::Box<float>> zonasRespawn;
     unsigned int limiteCriaturas;
-    unsigned int cantidadCriaturas;
+    std::atomic<unsigned int> cantidadCriaturas;
     double tiempoRespawn;
     double tiempoTranscurrido;
     std::unordered_map<std::string, Entidad*> entidades;

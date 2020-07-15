@@ -14,7 +14,7 @@ class EstadoFantasma : public Estado{
     void actualizar(double tiempo) override;
     //Comercio
     void interactuar(Entidad *entidad) override;
-    void pedirCuracion(Sacerdote *sacerdote, Cliente *cliente) override;
+    void curar(float curVida, float curMana) override;
     void pedirListado(Interactuable *interactuable, Cliente *cliente) override;
     void pedirCompra(unsigned int pos, Interactuable *interactuable, Cliente *cliente) override;
     void pedirVenta(unsigned int pos, Interactuable *interactuable, Cliente *cliente) override;

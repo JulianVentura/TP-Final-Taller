@@ -53,8 +53,8 @@ void EstadoNormal::interactuar(Entidad *entidad){
     //entidad->interactuar(personaje);
 }
 
-void EstadoNormal::pedirCuracion(Sacerdote *sacerdote, Cliente *cliente){
-    sacerdote->curar(personaje, cliente);
+void EstadoNormal::curar(float curVida, float curMana){
+    personaje->curar(curVida, curMana);
 }
 
 void EstadoNormal::pedirListado(Interactuable *interactuable, Cliente *cliente){

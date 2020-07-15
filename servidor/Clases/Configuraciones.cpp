@@ -449,6 +449,13 @@ bool Configuraciones::seEsquivaElGolpe(Entidad *entidad){
     return temp < 1e-12;
 }
 
+bool Configuraciones::esGolpeCritico(Entidad *atacante, Entidad *oponente){
+    double suerte = numeroRandom(0, 1000);
+    suerte /= 1000;
+    double temp = std::pow(suerte, atacante->agilidad);
+    return temp < 1e-16;
+}
+
 unsigned int Configuraciones::calcularDefensa(Personaje *personaje){
     unsigned int temp = 0;
     Armadura *armadura = nullptr;

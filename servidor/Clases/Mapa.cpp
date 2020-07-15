@@ -334,3 +334,83 @@ De esta forma el mapa simplemente parsea la zona, la busca dentro del json.
 
 
 */
+
+
+/*
+Como manejar la carga/descarga de entidades y jugadores en el mapa.
+
+Requisitos:
+
+- Una entidad/jugador no puede ser cargado ni descargado mientras se actualizan los estados de las demas entidades.
+- Una actualizacion de estado de una entidad puede producir la carga de una nueva entidad.
+
+Si el mapa tiene dos colas de carga.
+
+Mapa::cargarEntidad(std::unique_ptr<Entidad> entidad){
+    this->cargarEntidad(entidad.get());
+    npcs.push(entidad);
+}
+
+Mapa::cargarEntidad(Entidad *entidad){
+    colaEntidades.push(entidad);                    //Es una cola segura, no bloqueante.
+}
+
+Mapa::cargarEntidadNoColisionable(std::unique_ptr<Entidad> entidad){
+    colaEntidadesNoColisiobables.push(entidad);     //Es una cola segura, no bloqueante.
+    npcs.push(entidad);
+}
+
+Mapa::eliminarEntidad(Entidad *entidad){
+    std::unique_lock<std::mutex> lock(this->mutex);
+    //Eliminar de quadTree
+    //Eliminar de hash de entidades.
+}
+
+Mapa::eliminarEntidadNoColisionable(Entidad *entidad){
+    std::unique_lock<std::mutex> lock(this->mutex);
+    //Eliminar de hash de entidades.
+}
+
+
+Mapa::entidadesActualizarEstados(tiempo){
+    tiempoTransc += tiempo;
+    if (tiempoTransc >= tiempoRespawn){
+        tiempoTransc = 0;
+        spawnearCriatura();
+    }
+    mutex->lock();
+    for (auto &entidad : entidades){
+        entidad->actualizarEstado(tiempo)
+    }
+    mutex->unlock();
+    //Descargo entidades finalizadas
+    for (auto &npc : npcs){
+        if (npc->haFinalizado()){
+            npc.erase();
+        }
+    }
+    bool seguir_iterando = true;
+    Entidad *entidadActual = nullptr;
+    while (seguirIterando){
+        entidadActual = colaEntidades.pop();
+        if (entidadActual){
+            cargarColisionable(entidadActual)   //Es un metodo privado de mapa
+        }else{
+            seguirIterando = false;
+        }
+    }
+    seguirIterando = true;
+    while (seguirIterando){
+        entidadActual = colaEntidadesNoColisionables.pop();
+        if (entidadActual){
+            cargarNoColisionable(entidadActual)   //Es un metodo privado de mapa
+        }else{
+            seguirIterando = false;
+        }
+    }
+}
+
+
+
+
+*/
