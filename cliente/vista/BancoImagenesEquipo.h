@@ -10,6 +10,7 @@
 
 class BancoImagenesEquipo{
 private:
+	Imagen textErr;
 	std::unordered_map<int, Imagen> imagenes;
 public:
 	explicit BancoImagenesEquipo(EntornoGrafico& entorno);

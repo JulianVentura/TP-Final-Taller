@@ -2,7 +2,8 @@
 #include <iostream>
 #include "BancoImagenesEquipo.h"
 
-BancoImagenesEquipo::BancoImagenesEquipo(EntornoGrafico& entorno){
+BancoImagenesEquipo::BancoImagenesEquipo(EntornoGrafico& entorno)
+: textErr(entorno, "assets/equipo/textErr.png"){
 	
 	imagenes.emplace(std::piecewise_construct, std::forward_as_tuple(401),
 	 std::forward_as_tuple(entorno, "assets/equipo/401.png"));
@@ -25,5 +26,8 @@ void BancoImagenesEquipo::render(uint16_t indice, int x, int y){
 	try{
 		imagenes.at(indice).setPosicion(x, y);
 		imagenes.at(indice).render();
-	}catch(std::exception& e){}
+	}catch(std::exception& e){
+		textErr.setPosicion(x, y);
+		textErr.render();
+	}
 }
