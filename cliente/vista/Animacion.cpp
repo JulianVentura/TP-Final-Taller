@@ -3,7 +3,7 @@
 #include <string>
 #define DELTA_T 25
 Animacion::Animacion(EntidadParser& parser, const std::string& tipo):
-        parser(parser)/*, tipo(tipo)*/ {
+        parser(parser) {
     direccion = ANIMACION_ABAJO;
     reiniciar();
 }
@@ -37,7 +37,7 @@ void Animacion::reiniciar() {
 }
 
 void Animacion::setAnimacion(DatosApariencia& apariencia) {
-    // if (this->tipo == tipo) return;
+    // if (this->tipo == tipo) return;  
     this->apariencia = apariencia;
     // reiniciar();
 }
