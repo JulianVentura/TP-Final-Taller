@@ -36,6 +36,8 @@ public:
     void reiniciar(Renderer* renderer);
 
     void transformar(int& x, int& y) const;
+
+    void getFrontera(SDL_Rect& frontera);
     
 private:
     int maxX();
@@ -46,5 +48,7 @@ private:
     int desplazamientoX = 0;
     int desplazamientoY = 0;
     float zoom = 1.0f;
+    int margen_h = 0;
+    int margen_v = 0;
 };
 #endif

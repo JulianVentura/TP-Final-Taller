@@ -106,7 +106,7 @@ class Personaje : public Entidad{
     uint16_t obtenerOro();
     //Serializacion
     serializacionPersonaje serializar();
-    serializacionEstado serializarEstado();
+    serializacionDibujado serializarEstado();
 
     ~Personaje();
 

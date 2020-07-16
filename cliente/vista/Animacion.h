@@ -29,7 +29,6 @@ private:
     EntidadParser& parser;
 
 protected:
-    // std::string tipo;
     DatosApariencia apariencia;
     std::string accion;
     std::string direccion;
@@ -38,7 +37,7 @@ protected:
     int tiempo_hasta_proximo_ciclo = 0;
     int tiempo_hasta_proximo_cuadro = 0;
     int tiempo_por_ciclo = REPETIR_INDEFINIDAMENTE;
-    int tiempo_por_cuadro = 80;
+    int tiempo_por_cuadro = 100;
     unsigned int ultimo_delta_t = 0;
 };
 

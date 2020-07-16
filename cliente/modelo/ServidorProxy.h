@@ -70,7 +70,7 @@ public:
 	std::string obtenerMapa();
 	void enviarMovimiento(uint32_t movimiento);
 	void agregarPosicionable(std::string& id, IPosicionable* posicionable);
-	void borrarPosicionable(std::string& id);
+	void borrarPosicionable(const std::string& id);
 	void recibir_estados();
 	
 	// Inventario

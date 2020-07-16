@@ -40,19 +40,6 @@ int main(int argc, const char* argv[]) {
         ventana.borrarRendereables();
         if (!servidor.estaLogueado()) return 0;
         // JUEGO EN SI //
-        // TODO: <Login provisorio>
-        
-        // std::string direccion("localhost");
-        // std::string servicio("3080");
-        // // std::string id_usuario("jugador");
-        // std::string id_usuario(argv[1]);
-        // std::string password("jugador");
-        // std::string raza("Humano");
-        // std::string clase("Paladin");
-        // // datos_personaje.id = id_usuario;
-        // servidor.conectar(direccion, servicio);
-        // servidor.comenzarRecepcionConcurrente();
-        // servidor.enviarNuevaCuenta(id_usuario, password, raza, clase);
 
         BuclePrincipal bucle(ventana);
         Juego juego(entorno, datos_personaje, servidor);

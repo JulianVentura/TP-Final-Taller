@@ -156,13 +156,13 @@
 			}
 		},
 		"6": {
-			"copiar": "humano",
+			"copiar": "4",
 			"nombre": "Enanos",
 			"descripcion": "son muy fuertes y resistentes, pero la agilidad no es lo suyo.",
 			"escala": 0.9
 		},
 		"7": {
-			"copiar": "elfo",
+			"copiar": "5",
 			"nombre": "Gnomos",
 			"descripcion": "inteligentes y resistentes, pero mucho menos ágiles que los elfos.",
 			"escala": 0.9
@@ -371,16 +371,16 @@
 		},
 		"Comerciante": {
 			"cuerpo" : ["man-white.png"],
-			"ojos": [],
+			"ojos": ["brown.png"],
 			"cicatrices" : [],
-			"nariz": [],
-			"facial": ["5.png", "barba/blonde2.png"],
-			"pies": ["brown_shoes_male.png"],
-			"piernas": ["male_pants_green.png"],
-			"torso": ["male_shirt_green.png", "formal_vest stripes.png"],
-			"cinto": ["leather_male.png"],
-			"pelo": ["longhawk/white-blonde.png"],
-			"cabeza": []
+			"nariz": ["bignose_light.png"],
+			"facial": ["bigote/black.png"],
+			"pies": ["maroon_shoes_male.png"],
+			"piernas": ["Pants_black.png"],
+			"torso": ["formal_stripes_shirt.png"],
+			"cinto": [],
+			"pelo": [],
+			"cabeza": ["formal_hat.png"]
 		},
 		"BolsaDeItems": {
 			"cuerpo" : ["bag.png"]

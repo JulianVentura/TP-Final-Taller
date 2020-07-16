@@ -37,7 +37,7 @@ public:
     void agregarObstruible(IObstruible* obstruible);
     void actualizarPosiciones(std::unordered_map<std::string, std::pair<int, 
                                                             int>> posiciones);
-    void actualizarEstados(std::vector<serializacionEstado> estados);
+    void actualizarEstados(std::vector<serializacionDibujado> estados);
 
 private:
     EntornoGrafico& entorno;
@@ -58,7 +58,7 @@ private:
     std::unordered_map<std::string, std::pair<IPosicionable*, 
                                                     MovibleVista*>> movibles;
     void agregarEntidad(std::string& id, DatosApariencia& apariencia);
-    void borrarEntidad(std::string& id);
+    void borrarEntidad(const std::string& id);
 
     std::pair<IPosicionable*, MovibleVista*> crearEntidad(std::string& id, 
                                                 DatosApariencia& apariencia);

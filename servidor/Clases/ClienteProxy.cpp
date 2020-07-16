@@ -256,7 +256,7 @@ void ClienteProxy::enviarEstado(uint16_t vidaActual,
     protocolo.enviarUint16(socket, limiteParaSubir);
 }
 
-void ClienteProxy::enviarEstadosPersonajes(const std::vector<struct serializacionEstado> &estados){
+void ClienteProxy::enviarEstadosPersonajes(const std::vector<struct serializacionDibujado> &estados){
     std::lock_guard<std::mutex> lock(m);
     protocolo.enviarUint32(socket, CODIGO_ESTADOS);
     uint32_t largo = estados.size();

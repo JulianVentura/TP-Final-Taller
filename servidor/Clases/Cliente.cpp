@@ -55,7 +55,7 @@ void Cliente::nuevoUsuario(std::pair<std::string, std::string> &credenciales,
 
 
 void Cliente::actualizarEstado(const std::vector<struct PosicionEncapsulada> &posiciones,
-                               const std::vector<struct serializacionEstado> &estados){
+                               const std::vector<struct serializacionDibujado> &estados){
     try{
         clienteProxy.enviarEstado(personaje->vidaActual,
                                   personaje->vidaMaxima,

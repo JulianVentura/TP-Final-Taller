@@ -197,7 +197,7 @@ std::string Personaje::recibirDanio(int danio, Entidad *atacante){
         vidaActual -= danio;
     }
     mensaje.str("");
-    mensaje << mensajeGolpeCritico << "Realizas " << danio << " de danio";
+    mensaje << mensajeGolpeCritico << "Realizas " << danio << " de danio ";
     return mensaje.str();
 }
 
@@ -433,8 +433,8 @@ serializacionPersonaje Personaje::serializar(){
     return datos;
 }
 
-serializacionEstado Personaje::serializarEstado(){
-    struct serializacionEstado serEstado = {0};
+serializacionDibujado Personaje::serializarEstado(){
+    struct serializacionDibujado serEstado = {0};
     strncpy(serEstado.id, id.c_str(), TAM_ID - 1);
     serEstado.id[TAM_ID - 1] = 0;
     if (arma == NO_EQUIPADO){

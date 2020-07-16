@@ -57,7 +57,7 @@ class Cliente : public Thread{
     //Envio
     void cargarMapa(const std::vector<char> &&infoMapa);
     void actualizarEstado(const std::vector<struct PosicionEncapsulada> &posiciones,
-                          const std::vector<struct serializacionEstado> &estados);
+                          const std::vector<struct serializacionDibujado> &estados);
     void enviarMensaje(const std::string& mensaje);
     void enviarChat(const std::string& mensaje, bool mensaje_publico);
     void enviarTienda(std::vector<Item*>& items);

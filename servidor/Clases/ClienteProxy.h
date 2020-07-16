@@ -54,7 +54,7 @@ public:
     bool recibirOperacion();
     //Envio
     void enviarPosiciones(const std::vector<struct PosicionEncapsulada> &posiciones);
-    void enviarEstadosPersonajes(const std::vector<struct serializacionEstado> &estados);
+    void enviarEstadosPersonajes(const std::vector<struct serializacionDibujado> &estados);
     void enviarInformacionMapa(const std::vector<char> &infoMapa);
     void enviarError(std::string mensaje);
     void enviarMensaje(const std::string& mensaje);

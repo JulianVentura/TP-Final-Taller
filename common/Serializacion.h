@@ -11,7 +11,7 @@ typedef struct PosicionEncapsulada{
 }posicion_t;
 
 
-typedef struct serializacionEstado{
+typedef struct serializacionDibujado{
     char     id[TAM_ID];
     uint16_t idArmaEquipada;
     uint16_t idArmaduraEquipada;
@@ -20,6 +20,6 @@ typedef struct serializacionEstado{
     uint16_t idRaza;
     uint16_t idClase;
     uint16_t idEstado;
-} serializacionEstado;
+} serializacionDibujado;
 
 #endif

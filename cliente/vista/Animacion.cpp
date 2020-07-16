@@ -1,7 +1,9 @@
 #include "Animacion.h"
 #include "AnimacionEnteDireccionable.h"
 #include <string>
-#define DELTA_T 25
+
+#define DELTA_T 30
+
 Animacion::Animacion(EntidadParser& parser, const std::string& tipo):
         parser(parser) {
     direccion = ANIMACION_ABAJO;
@@ -56,8 +58,8 @@ void Animacion::setAccion(const std::string& accion) {
 
 void Animacion::actualizar(unsigned int delta_t) {
     tiempo_hasta_proximo_ciclo -= delta_t;
-    ultimo_delta_t = DELTA_T;
-    // ultimo_delta_t = delta_t;
+    // ultimo_delta_t = DELTA_T;
+    ultimo_delta_t = delta_t;
 }
 
 
