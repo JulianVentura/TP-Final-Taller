@@ -94,6 +94,9 @@ void ServidorProxy::recibirMensajeConOperacion(uint32_t operacion) {
 		break;
 
 		case CODIGO_INVENTARIO:
+		for(int i = 0; i < ESPACIOS_EQUIPO; i++){
+			datos_personaje.equipados[i] = protocolo.recibirUint16(socket);
+		}
 		for(int i = 0; i < INV_ANCHO*INV_ALTO; i++){
 			datos_personaje.inventario[i] = protocolo.recibirUint16(socket);
 		}
