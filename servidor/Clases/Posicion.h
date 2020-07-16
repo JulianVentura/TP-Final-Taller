@@ -30,13 +30,15 @@ class Posicion{
     void moverHaciaAbajo(float desplazamiento);
     void moverHaciaDerecha(float desplazamiento);
     void moverHaciaIzquierda(float desplazamiento);
-    Posicion mover();
+    Posicion mover(const double tiempo) const;
     void detenerse();
     const quadtree::Box<float>& obtenerAreaQueOcupa() const;
     float longitudMaximaDeColision() const;
     float calcularDistancia(const Posicion &otra) const;
     Posicion nuevaPosicionDesplazada(float x, float y) const;
-    Posicion perseguir(const Posicion &otraPosicion, const float desplazamiento) const;
+    Posicion perseguir(const Posicion &otraPosicion, 
+                       const float factorDesplazamiento, 
+                       const double tiempo) const;
     /*
     Devuelve un cuadrado de lado radio.
     */

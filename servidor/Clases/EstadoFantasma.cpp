@@ -40,7 +40,7 @@ void EstadoFantasma::actualizar(double tiempo){
     //No se regenera vida ni mana
     personaje->vidaActual = 0;
     personaje->manaActual = 0;
-    Posicion nuevaPosicion = personaje->posicion.mover();
+    Posicion nuevaPosicion = personaje->posicion.mover(tiempo);
     personaje->mapaAlQuePertenece->actualizarPosicion(personaje, std::move(nuevaPosicion));
 }
 

@@ -130,7 +130,7 @@ std::vector<struct PosicionEncapsulada> Mapa::recolectarPosiciones(){
 
 Entidad* Mapa::obtener(std::string &id){
     std::unordered_map<std::string, Entidad*>::iterator it = entidades.find(id);
-    if (it == entidades.end()) throw ErrorServidor("Error en Mapa: No se encontró el id %s\n", id); 
+    if (it == entidades.end()) throw ErrorServidor("Error en Mapa: No se encontró el id %s\n", id.c_str()); 
     return it->second;
 }
 
@@ -142,7 +142,7 @@ void Mapa::cargarEntidadNoColisionable(Entidad *entidad){
     std::string id = entidad->obtenerId();
     std::unordered_map<std::string, Entidad*>::iterator it = entidades.find(id);
     if (it != entidades.end()){
-        throw ErrorServidor("La entidad de id %s ya se encuentra cargada en el Mapa\n", id);
+        throw ErrorServidor("La entidad de id %s ya se encuentra cargada en el Mapa\n", id.c_str());
     }
     entidad->indicarMapaAlQuePertenece(this);
     colaDeCarga.push(entidad);
@@ -161,7 +161,7 @@ void Mapa::cargarEntidad(Entidad *entidad){
     std::string id = entidad->obtenerId();
     std::unordered_map<std::string, Entidad*>::iterator it = entidades.find(id);
     if (it != entidades.end()){
-        throw ErrorServidor("La entidad de id %s ya se encuentra cargada en el Mapa\n", id);
+        throw ErrorServidor("La entidad de id %s ya se encuentra cargada en el Mapa\n", id.c_str());
     }
     entidad->indicarMapaAlQuePertenece(this);
     if (!posicionValida(entidad, entidad->obtenerArea())){
