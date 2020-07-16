@@ -35,6 +35,7 @@ private:
     Protocolo protocolo;
     bool decodificarCodigo(uint32_t codigo);
     void decodificarMovimiento();
+    void decodificarMeditacion();
     void decodificarMensajeChat();
     void decodificarInteraccion();
     void decodificarCompra();

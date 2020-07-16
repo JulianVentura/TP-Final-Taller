@@ -10,6 +10,7 @@
 #include "../vista/BancoImagenesEquipo.h"
 #include "../vista/Colores.h"
 #include "../vista/GUI_BotonInventario.h"
+#include "../vista/GUI_BotonMeditar.h"
 #include "../vista/GUI_Oro.h"
 #include "../vista/GUI_Dock.h"
 #include "../vista/GUI_BarraVida.h"
@@ -30,6 +31,7 @@ private:
 	BancoImagenesEquipo imagenes_equipo;
 	GUI_PanelInventario inventario_vista;
 	GUI_BotonInventario boton_inventario_vista;
+	GUI_BotonMeditar boton_meditar_vista;
 	GUI_PanelTienda tienda_vista;
 	GUI_Chat chat_vista;
 
