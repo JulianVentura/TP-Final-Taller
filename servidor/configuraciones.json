@@ -39,7 +39,7 @@
         "InteligenciaBase": 8,
         "AgilidadBase": 5,
         "ConstitucionBase": 5,
-        "VelDesplazamiento": 1.3,
+        "VelDesplazamiento": 1300,
         "Ancho": 6,
         "Alto": 6
     },
@@ -78,7 +78,7 @@
             "Inteligencia": 2,
             "Agilidad": 8,
             "Constitucion": 3,
-            "VelDesplazamiento": 0.7,
+            "VelDesplazamiento": 700,
             "RadioVisibilidad": 300,
             "RadioAgresividad": 500,
             "TiempoDespawn": 600,
@@ -161,7 +161,7 @@
             "Inteligencia": 1,
             "Agilidad": 8,
             "Constitucion": 10,
-            "VelDesplazamiento": 0.8,
+            "VelDesplazamiento": 800,
             "RadioVisibilidad": 300,
             "RadioAgresividad": 500,
             "TiempoDespawn": 600,
@@ -244,7 +244,7 @@
             "Inteligencia": 2,
             "Agilidad": 1,
             "Constitucion": 10,
-            "VelDesplazamiento": 0.5,
+            "VelDesplazamiento": 500,
             "RadioVisibilidad": 300,
             "RadioAgresividad": 500,
             "TiempoDespawn": 600,
@@ -327,7 +327,7 @@
             "Inteligencia": 3,
             "Agilidad": 10,
             "Constitucion": 5,
-            "VelDesplazamiento": 0.9,
+            "VelDesplazamiento": 900,
             "RadioVisibilidad": 300,
             "RadioAgresividad": 500,
             "TiempoDespawn": 600,
@@ -404,27 +404,27 @@
     },
     "Proyectiles": {
         "FlechaMagica": {
-            "VelDesplazamiento": 20,
+            "VelDesplazamiento": 10000,
             "TiempoDespawn": 300
         },
         "Curar": {
-            "VelDesplazamiento": 20,
+            "VelDesplazamiento": 10000,
             "TiempoDespawn": 300
         },
         "Misil": {
-            "VelDesplazamiento": 20,
+            "VelDesplazamiento": 10000,
             "TiempoDespawn": 300
         },
         "Explosion": {
-            "VelDesplazamiento": 20,
+            "VelDesplazamiento": 10000,
             "TiempoDespawn": 300
         },
         "Cuerpo": {
-            "VelDesplazamiento": 10,
+            "VelDesplazamiento": 10000,
             "TiempoDespawn": 300
         },
         "Flechazo": {
-            "VelDesplazamiento": 20,
+            "VelDesplazamiento": 10000,
             "TiempoDespawn": 300
         }
     },

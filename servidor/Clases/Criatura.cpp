@@ -14,6 +14,7 @@
 Criatura::Criatura(float x, float y, std::string unId) : 
                                        Entidad(unId),
                                        diferenciador(0),
+                                       tiempoUltimaActualizacion(0),
                                        tiempoDespawn(0),
                                        tiempoTranscurrido(0),
                                        radioAgresividad(0),
@@ -102,7 +103,7 @@ void Criatura::dropearItems(Entidad *atacante){
     }else if (tipo == ITEM){
         //Siempre se va a obtener un drop
         Item* item = fabricaItems->obtenerItemAleatorio(id);
-        //No hay riesgo de RC al cargar algo a mapa porque este es el unico hilo que accede a el.
+        //El mapa protege las cargas para evitar RC.
         this->mapaAlQuePertenece->cargarEntidad(std::unique_ptr<BolsaDeItems>(new BolsaDeItems(this->posicion, item)));
     }
 }
@@ -110,6 +111,7 @@ void Criatura::dropearItems(Entidad *atacante){
 //Estado / IA
 
 void Criatura::actualizarEstado(double tiempo){
+    tiempoUltimaActualizacion = tiempo;
     if (vidaActual <= 0){
         tiempoTranscurrido += tiempo;
         if (tiempoTranscurrido >= tiempoDespawn) finalizado = true;
@@ -131,7 +133,9 @@ void Criatura::buscarObjetivo(){
 }
 
 void Criatura::perseguir(Personaje *objetivo){
-	Posicion nuevaPos = std::move(this->posicion.perseguir(objetivo->obtenerPosicion(), this->desplazamiento));
+	Posicion nuevaPos = std::move(this->posicion.perseguir(objetivo->obtenerPosicion(), 
+                                                           this->desplazamiento,
+                                                           tiempoUltimaActualizacion));
 	mapaAlQuePertenece->actualizarPosicion(this, std::move(nuevaPos));
 }
 
@@ -177,7 +181,7 @@ void Criatura::continuarAtacando(){
     idObjetivo = "";
     float distancia = this->posicion.calcularDistancia(objetivo->obtenerPosicion());
 	if (distancia > radioAgresividad) return;
-	//Esto se hace porque quizas el objetivo muere o entra en estado pacifico y no puede ser atacado, entonces se tiene que liberar el objetivo.
+	//Esto se hace porque quizas el objetivo muere y no puede ser atacado, entonces se tiene que liberar el objetivo.
 	objetivo->serAtacadoPor(this);
 }
 

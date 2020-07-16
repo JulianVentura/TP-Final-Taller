@@ -43,7 +43,7 @@ void EstadoNormal::actualizar(double tiempo){
     float regenVida = config->calcularRecuperacionVida(personaje, tiempo);
     float regenMana = config->calcularRecupManaTiempo(personaje, tiempo);
     personaje->curar(regenVida, regenMana);
-    Posicion nuevaPosicion = personaje->posicion.mover();
+    Posicion nuevaPosicion = personaje->posicion.mover(tiempo);
     personaje->mapaAlQuePertenece->actualizarPosicion(personaje, std::move(nuevaPosicion));
 }
 

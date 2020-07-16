@@ -60,7 +60,7 @@ void Proyectil::actualizarEstado(double tiempo){
         tiempoTranscurrido += tiempo;
         if (tiempoTranscurrido >= tiempoDespawn) finalizado = true;
     }else{
-        Posicion nuevaPos = std::move(this->posicion.perseguir(destino, desplazamiento));
+        Posicion nuevaPos = std::move(this->posicion.perseguir(destino, desplazamiento, tiempo));
         if (posicion == nuevaPos) haLlegadoADestino = true;
         posicion.actualizarPosicion(std::move(nuevaPos));
     }

@@ -6,6 +6,7 @@
 class Criatura : public Entidad{
     private:
     unsigned int diferenciador;
+    double tiempoUltimaActualizacion;
     double tiempoDespawn;
     double tiempoTranscurrido;
     float radioAgresividad;

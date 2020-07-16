@@ -3,7 +3,6 @@
 #include <utility>
 #include <sstream>
 #include <cmath>
-
 ////////////////////METODOS AUXILIARES////////////////////
 
 static bool floatComp(float a, float b, float epsilon = 0.1){
@@ -89,8 +88,8 @@ void Posicion::moverHaciaIzquierda(float factorDesplazamiento){
     desplazamiento = std::move(quadtree::Vector2<float>(-1, 0) * factorDesplazamiento);
 }
 
-Posicion Posicion::mover(){
-    Posicion nuevaPosicion(pos + desplazamiento, desplazamiento, ancho, alto);
+Posicion Posicion::mover(const double tiempo) const{
+    Posicion nuevaPosicion(pos + desplazamiento * (float)tiempo, desplazamiento, ancho, alto);
     return nuevaPosicion;
 }
 
@@ -127,14 +126,16 @@ float Posicion::calcularDistancia(const Posicion &otra) const{
     return pos.calcularDistancia(otra.pos);
 }
 
-Posicion Posicion::perseguir(const Posicion &otraPosicion, const float factorDesplazamiento) const{
+Posicion Posicion::perseguir(const Posicion &otraPosicion, 
+                             const float factorDesplazamiento, 
+                             const double tiempo) const{
     float distancia = pos.calcularDistancia(otraPosicion.pos);
-    if (distancia <= factorDesplazamiento){
+    if (distancia <= factorDesplazamiento * tiempo){
         return otraPosicion;
     }
     quadtree::Vector2<float> temp = (otraPosicion.pos - pos);
 	temp.normalizar();
-	return Posicion(pos + temp * factorDesplazamiento, desplazamiento, ancho, alto);
+	return Posicion(pos + temp * factorDesplazamiento * (float)tiempo, desplazamiento, ancho, alto);
 }
 
 const quadtree::Box<float> Posicion::obtenerAreaCentradaEnPosicion(float radio) const{
