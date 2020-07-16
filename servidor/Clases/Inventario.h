@@ -1,6 +1,7 @@
 #ifndef __INVENTARIO_H__
 #define __INVENTARIO_H__
 #include <vector>
+#include "../../common/Serializacion.h"
 #include "Item.h"
 
 class BolsaDeItems;
@@ -21,6 +22,7 @@ class Inventario{
     void eliminar(unsigned int pos);
     std::vector<Item*>* obtenerTodosLosItems();
     void eliminarTodosLosItems();
+    void serializar(SerializacionItem *ser);
 };
 
 

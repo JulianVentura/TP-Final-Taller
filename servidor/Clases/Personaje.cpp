@@ -81,7 +81,11 @@ Personaje::Personaje(std::string idPersonaje, std::string idRaza,
     float alto = config->obtenerPersonajeAlto();
     posicion = std::move(Posicion(datos.x, datos.y, ancho, alto));
     desplazamiento = config->obtenerPersonajeVelDesplazamiento();
-    estado = std::move(std::unique_ptr<Estado>(new EstadoNormal(this)));
+    if (datos.vidaActual <= 0){
+        estado = std::move(std::unique_ptr<Estado>(new EstadoFantasma(this)));
+    }else{
+        estado = std::move(std::unique_ptr<Estado>(new EstadoNormal(this)));
+    }
     FabricaDeItems *fabricaItems = FabricaDeItems::obtenerInstancia();
     almacen.resize(TAMANIO_ALMACEN, fabricaItems -> crearItemNulo());
     experiencia = datos.experiencia;
@@ -462,6 +466,17 @@ serializacionEstado Personaje::serializarEstado(){
     serEstado.idEstado = estado->obtenerIDTCP();
     
     return serEstado;
+}
+
+SerializacionEquipo Personaje::serializarEquipo(){
+    SerializacionEquipo ser = {0, 0, 0, 0, 0, {0}};
+    ser.armaEquipada        = (uint16_t)arma;
+    ser.armaduraEquipada    = (uint16_t)armadura;
+    ser.cascoEquipado       = (uint16_t)casco;
+    ser.escudoEquipado      = (uint16_t)escudo;
+    ser.oro                 = (uint16_t)cantidadOro;
+    inventario.serializar(ser.items);
+    return ser;
 }
 
 /*

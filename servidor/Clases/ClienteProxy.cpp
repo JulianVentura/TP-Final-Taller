@@ -225,13 +225,17 @@ void ClienteProxy::enviarContenedor(std::vector<Item*>& items){
     }
 }
 
-void ClienteProxy::enviarInventario(std::vector<Item*>& items, uint16_t oro){
+void ClienteProxy::enviarInventario(SerializacionEquipo serEquipo){
 	std::lock_guard<std::mutex> lock(m);
 	protocolo.enviarUint32(socket, CODIGO_INVENTARIO);
-    for(auto& item : items){
-        protocolo.enviarUint16(socket, item -> obtenerIDTCP());
+    protocolo.enviarUint16(socket, serEquipo.armaEquipada);
+    protocolo.enviarUint16(socket, serEquipo.armaduraEquipada);
+    protocolo.enviarUint16(socket, serEquipo.cascoEquipado);
+    protocolo.enviarUint16(socket, serEquipo.escudoEquipado);
+    for(auto& serItem : serEquipo.items){
+        protocolo.enviarUint16(socket, serItem.idTCP);
     }
-    protocolo.enviarUint16(socket, oro);
+    protocolo.enviarUint16(socket, serEquipo.oro);
 }
 
 void ClienteProxy::enviarConfirmacion(){

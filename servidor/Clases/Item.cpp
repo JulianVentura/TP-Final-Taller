@@ -22,3 +22,10 @@ unsigned int Item::obtenerPrecio(){
 const uint16_t Item::obtenerIDTCP() const{
     return idTCP;
 }
+
+const SerializacionItem Item::serializar() const{
+    SerializacionItem ser = {0, 0};
+    ser.idTCP  = this->idTCP;
+    ser.precio = this->precio;
+    return ser;
+}
