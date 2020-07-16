@@ -310,7 +310,7 @@ void Personaje::equipar(Arma *arma, unsigned int pos){
 }
 
 void Personaje::equipar(Armadura *armadura, unsigned int pos){
-    this->armadura = inventario.almacenar(armadura);
+    this->armadura = pos;
 }
 
 void Personaje::equipar(Casco *casco, unsigned int pos){
