@@ -38,12 +38,7 @@ Cliente::Cliente(Socket &&socket,
     miSala->cargarCliente(this);
     continuar = true;
     clienteProxy.enviarConfirmacion();
-
-    /*
-
-    ACA SE HACE CLIENTE->ENVIARINVENTARIO
-
-    */
+    this->enviarInventario();
 }
 
 void Cliente::nuevoUsuario(std::pair<std::string, std::string> &credenciales, 
@@ -61,16 +56,10 @@ void Cliente::nuevoUsuario(std::pair<std::string, std::string> &credenciales,
 
 
 void Cliente::actualizarEstado(const std::vector<struct PosicionEncapsulada> &posiciones,
-                               const std::vector<struct serializacionEstado> &estados){
+                               const std::vector<SerializacionDibujado> &dibujado){
     try{
-        clienteProxy.enviarEstado(personaje->vidaActual,
-                                  personaje->vidaMaxima,
-                                  personaje->manaActual,
-                                  personaje->manaMaximo,
-                                  personaje->experiencia,
-                                  personaje->limiteParaSubir);
-        enviarInventario();       //Refinar más adelante
-        clienteProxy.enviarEstadosPersonajes(estados);
+        clienteProxy.enviarEstado(std::move(personaje->serializarEstado()));
+        clienteProxy.enviarDibujadoPersonajes(dibujado);
         clienteProxy.enviarPosiciones(posiciones);
     }catch(...){
         //Cualquier error es motivo suficiente como para cortar
@@ -87,12 +76,12 @@ void Cliente::actualizarEstado(const std::vector<struct PosicionEncapsulada> &po
     clienteProxy.enviarChat(mensaje, mensaje_publico);
 }
 
-void Cliente::enviarContenedor(std::vector<Item*>& items){
-    clienteProxy.enviarContenedor(items);
+void Cliente::enviarContenedor(const std::vector<SerializacionItem> &&items){
+    clienteProxy.enviarContenedor(std::move(items));
 }
 
-void Cliente::enviarTienda(std::vector<Item*>& items){
-    clienteProxy.enviarTienda(items);
+void Cliente::enviarTienda(const std::vector<SerializacionItem> &&items){
+    clienteProxy.enviarTienda(std::move(items));
 }
 
 void Cliente::enviarInventario(){

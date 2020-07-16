@@ -215,26 +215,26 @@ void ClienteProxy::enviarInformacionMapa(const std::vector<char> &infoMapa){
     protocolo.enviarString(socket, mapa);
 }
 
-void ClienteProxy::enviarTienda(std::vector<Item*>& items){
+void ClienteProxy::enviarTienda(const std::vector<SerializacionItem> &&items){
 	std::lock_guard<std::mutex> lock(m);
 	protocolo.enviarUint32(socket, CODIGO_TIENDA);
     for(auto item : items){
-        protocolo.enviarUint16(socket, item -> obtenerIDTCP());
-    	protocolo.enviarUint16(socket, item -> obtenerPrecio());
+        protocolo.enviarUint16(socket, item.idTCP);
+    	protocolo.enviarUint16(socket, item.precio);
     }
 }
 
-void ClienteProxy::enviarContenedor(std::vector<Item*>& items){
+void ClienteProxy::enviarContenedor(const std::vector<SerializacionItem> &&items){
 	std::lock_guard<std::mutex> lock(m);
 	uint16_t cero = 0;
 	protocolo.enviarUint32(socket, CODIGO_TIENDA);
     for(auto& item : items){
-        protocolo.enviarUint16(socket, item -> obtenerIDTCP());
+        protocolo.enviarUint16(socket, item.idTCP);
     	protocolo.enviarUint16(socket, cero);
     }
 }
 
-void ClienteProxy::enviarInventario(SerializacionEquipo serEquipo){
+void ClienteProxy::enviarInventario(const SerializacionEquipo serEquipo){
 	std::lock_guard<std::mutex> lock(m);
 	protocolo.enviarUint32(socket, CODIGO_INVENTARIO);
     protocolo.enviarUint16(socket, serEquipo.armaEquipada);
@@ -253,35 +253,30 @@ void ClienteProxy::enviarConfirmacion(){
 }
 
 
-void ClienteProxy::enviarEstado(uint16_t vidaActual, 
-                                uint16_t vidaMaxima,
-                                uint16_t manaActual, 
-                                uint16_t manaMaximo,
-                                uint16_t experiencia,
-                                uint16_t limiteParaSubir){
+void ClienteProxy::enviarEstado(SerializacionEstado serEstado){
     std::lock_guard<std::mutex> lock(m);
     protocolo.enviarUint32(socket, CODIGO_ESTADISTICAS);
-    protocolo.enviarUint16(socket, vidaActual);
-    protocolo.enviarUint16(socket, vidaMaxima);
-    protocolo.enviarUint16(socket, manaActual);
-    protocolo.enviarUint16(socket, manaMaximo);
-    protocolo.enviarUint16(socket, experiencia);
-    protocolo.enviarUint16(socket, limiteParaSubir);
+    protocolo.enviarUint16(socket, serEstado.vidaActual);
+    protocolo.enviarUint16(socket, serEstado.vidaMaxima);
+    protocolo.enviarUint16(socket, serEstado.manaActual);
+    protocolo.enviarUint16(socket, serEstado.manaMaximo);
+    protocolo.enviarUint16(socket, serEstado.experiencia);
+    protocolo.enviarUint16(socket, serEstado.limiteParaSubir);
 }
 
-void ClienteProxy::enviarEstadosPersonajes(const std::vector<struct serializacionEstado> &estados){
+void ClienteProxy::enviarDibujadoPersonajes(const std::vector<SerializacionDibujado> &dibujados){
     std::lock_guard<std::mutex> lock(m);
     protocolo.enviarUint32(socket, CODIGO_ESTADOS);
-    uint32_t largo = estados.size();
+    uint32_t largo = dibujados.size();
     protocolo.enviarUint32(socket, largo);
-    for (auto &estado : estados){
-        socket.enviar(estado.id, TAM_ID);
-        protocolo.enviarUint16(socket, estado.idArmaEquipada);
-        protocolo.enviarUint16(socket, estado.idArmaduraEquipada);
-        protocolo.enviarUint16(socket, estado.idCascoEquipado);
-        protocolo.enviarUint16(socket, estado.idEscudoEquipado);
-        protocolo.enviarUint16(socket, estado.idRaza);
-        protocolo.enviarUint16(socket, estado.idClase);
-        protocolo.enviarUint16(socket, estado.idEstado);
+    for (auto &dibujado : dibujados){
+        socket.enviar(dibujado.id, TAM_ID);
+        protocolo.enviarUint16(socket, dibujado.idArmaEquipada);
+        protocolo.enviarUint16(socket, dibujado.idArmaduraEquipada);
+        protocolo.enviarUint16(socket, dibujado.idCascoEquipado);
+        protocolo.enviarUint16(socket, dibujado.idEscudoEquipado);
+        protocolo.enviarUint16(socket, dibujado.idRaza);
+        protocolo.enviarUint16(socket, dibujado.idClase);
+        protocolo.enviarUint16(socket, dibujado.idEstado);
     }
 }

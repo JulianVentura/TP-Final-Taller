@@ -21,13 +21,13 @@ void Sala::cargarCliente(Cliente *cliente){
 void Sala::actualizarClientes(){
     std::unique_lock<std::mutex> lock(this->mutex);
     std::vector<struct PosicionEncapsulada> posiciones = std::move(mapa.recolectarPosiciones());
-    std::vector<struct serializacionEstado> estados;
-    //Construyo el vector de estados de cada cliente.
+    std::vector<SerializacionDibujado> dibujado;
+    //Construyo el vector de dibujado de cada cliente.
     for (auto& cliente : clientes){
-        estados.push_back(std::move(cliente.second->obtenerPersonaje()->serializarEstado()));
+        dibujado.push_back(std::move(cliente.second->obtenerPersonaje()->serializarDibujado()));
     }
     for (auto& cliente : clientes){
-        cliente.second->actualizarEstado(posiciones, estados);
+        cliente.second->actualizarEstado(posiciones, dibujado);
     }
 }
 void Sala::eliminarCliente(const std::string &id){

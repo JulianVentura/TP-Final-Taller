@@ -437,35 +437,46 @@ serializacionPersonaje Personaje::serializar(){
     return datos;
 }
 
-serializacionEstado Personaje::serializarEstado(){
-    struct serializacionEstado serEstado = {0};
-    strncpy(serEstado.id, id.c_str(), TAM_ID - 1);
-    serEstado.id[TAM_ID - 1] = 0;
+SerializacionEstado Personaje::serializarEstado(){
+    SerializacionEstado serEstado = {0};
+    serEstado.experiencia       = this->experiencia;
+    serEstado.limiteParaSubir   = this->limiteParaSubir;
+    serEstado.vidaMaxima        = this->vidaMaxima;
+    serEstado.vidaActual        = this->vidaActual;
+    serEstado.manaMaximo        = this->manaMaximo;
+    serEstado.manaActual        = this->manaActual;
+    return serEstado;
+}
+
+SerializacionDibujado Personaje::serializarDibujado(){
+    SerializacionDibujado serDibujado = {0};
+    strncpy(serDibujado.id, id.c_str(), TAM_ID - 1);
+    serDibujado.id[TAM_ID - 1] = 0;
     if (arma == NO_EQUIPADO){
-        serEstado.idArmaEquipada = ID_NO_EQUIPADO;
+        serDibujado.idArmaEquipada = ID_NO_EQUIPADO;
     }else{
-        serEstado.idArmaEquipada = inventario.obtenerItem(arma)->obtenerIDTCP();
+        serDibujado.idArmaEquipada = inventario.obtenerItem(arma)->obtenerIDTCP();
     }
     if (armadura == NO_EQUIPADO){
-        serEstado.idArmaduraEquipada = ID_NO_EQUIPADO;
+        serDibujado.idArmaduraEquipada = ID_NO_EQUIPADO;
     }else{
-        serEstado.idArmaduraEquipada = inventario.obtenerItem(armadura)->obtenerIDTCP();
+        serDibujado.idArmaduraEquipada = inventario.obtenerItem(armadura)->obtenerIDTCP();
     }
     if (casco == NO_EQUIPADO){
-        serEstado.idCascoEquipado = ID_NO_EQUIPADO;
+        serDibujado.idCascoEquipado = ID_NO_EQUIPADO;
     }else{
-        serEstado.idCascoEquipado = inventario.obtenerItem(casco)->obtenerIDTCP();
+        serDibujado.idCascoEquipado = inventario.obtenerItem(casco)->obtenerIDTCP();
     }
     if (escudo == NO_EQUIPADO){
-        serEstado.idEscudoEquipado = ID_NO_EQUIPADO;
+        serDibujado.idEscudoEquipado = ID_NO_EQUIPADO;
     }else{
-        serEstado.idEscudoEquipado = inventario.obtenerItem(escudo)->obtenerIDTCP();
+        serDibujado.idEscudoEquipado = inventario.obtenerItem(escudo)->obtenerIDTCP();
     }
-    serEstado.idRaza = raza.obtenerIDTCP();
-    serEstado.idClase = clase.obtenerIDTCP();
-    serEstado.idEstado = estado->obtenerIDTCP();
+    serDibujado.idRaza = raza.obtenerIDTCP();
+    serDibujado.idClase = clase.obtenerIDTCP();
+    serDibujado.idEstado = estado->obtenerIDTCP();
     
-    return serEstado;
+    return serDibujado;
 }
 
 SerializacionEquipo Personaje::serializarEquipo(){

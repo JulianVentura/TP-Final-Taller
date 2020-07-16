@@ -9,8 +9,8 @@
         "NUM_CONEXIONES_EN_ESPERA": 10
     },
     "GameLoop": {
-        "MS_DESCANSO": 24,
-        "MS_POR_ACTUALIZACION": 8 
+        "MS_DESCANSO": 33,
+        "MS_POR_ACTUALIZACION": 11 
     },
     "Mapas": {
         "mapa": {

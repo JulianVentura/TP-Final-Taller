@@ -16,6 +16,7 @@ void OperacionUtilizar::ejecutar(){
     try{
         Personaje *personaje = cliente->obtenerPersonaje();
         personaje->utilizar(pos);
+        cliente->enviarInventario();
     }catch(std::exception &e){
         std::cerr << e.what() << std::endl;
     }catch(...){

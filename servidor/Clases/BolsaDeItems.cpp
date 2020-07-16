@@ -81,13 +81,13 @@ void BolsaDeItems::comprar(unsigned int pos, Personaje *personaje, Cliente *clie
     elementos--;
     if (elementos <= 0) bolsaVacia = true;
     cliente -> enviarInventario();
-    cliente -> enviarContenedor(items);
+    cliente -> enviarContenedor(std::move(this->serializarBolsa()));
 }
 void BolsaDeItems::vender(Item* item, Personaje *personaje, Cliente *cliente){
     //No se puede almacenar un item en una bolsa de items.
 }
 void BolsaDeItems::listar(Personaje *personaje, Cliente *cliente){
-    cliente -> enviarContenedor(items);
+    cliente -> enviarContenedor(std::move(this->serializarBolsa()));
 }
 
 bool BolsaDeItems::haFinalizado(){
@@ -125,6 +125,14 @@ void BolsaDeItems::actualizarEstado(double tiempo){
 
 void BolsaDeItems::dropearItems(Entidad *atacante){
     //Nada
+}
+
+std::vector<SerializacionItem> BolsaDeItems::serializarBolsa(){
+    std::vector<SerializacionItem> resultado(TAM_TIENDA);
+    for (std::size_t i=0; i<TAM_TIENDA; i++){
+        resultado[i] = std::move(items[i]->serializar());
+    }
+    return resultado;
 }
 
 BolsaDeItems::~BolsaDeItems(){

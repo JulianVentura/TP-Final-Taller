@@ -106,12 +106,12 @@ class Personaje : public Entidad{
     uint16_t obtenerOro();
     //Serializacion
     serializacionPersonaje serializar();
-    serializacionEstado serializarEstado();
+    SerializacionEstado serializarEstado();
+    SerializacionDibujado serializarDibujado();
     SerializacionEquipo serializarEquipo();
 
     ~Personaje();
 
-    friend class Cliente;               //ELIMINAR ESTO
     friend class Configuraciones;
     friend class BaseDeDatos;
     friend class EstadoNormal;

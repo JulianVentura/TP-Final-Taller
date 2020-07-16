@@ -3,6 +3,7 @@
 #include <cstdint>
 #define TAM_ID 20
 #define TAM_INVENTARIO 18
+#define TAM_TIENDA TAM_INVENTARIO
 #define ID_NO_EQUIPADO 0
 
 typedef struct PosicionEncapsulada{
@@ -12,7 +13,7 @@ typedef struct PosicionEncapsulada{
 }posicion_t;
 
 
-typedef struct serializacionEstado{
+typedef struct serializacionDibujado{
     char     id[TAM_ID];
     uint16_t idArmaEquipada;
     uint16_t idArmaduraEquipada;
@@ -21,7 +22,17 @@ typedef struct serializacionEstado{
     uint16_t idRaza;
     uint16_t idClase;
     uint16_t idEstado;
-} serializacionEstado;
+}SerializacionDibujado;
+
+
+typedef struct serializacionEstado{
+    uint16_t vidaActual; 
+    uint16_t vidaMaxima;
+    uint16_t manaActual;
+    uint16_t manaMaximo;
+    uint16_t experiencia;
+    uint16_t limiteParaSubir;
+}SerializacionEstado;
 
 typedef struct serializacionItem{
     uint16_t idTCP;
