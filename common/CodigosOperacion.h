@@ -11,11 +11,12 @@ enum CODIGOS : uint32_t {
                          CODIGO_MOVIMIENTO,
                          CODIGO_MENSAJE_CHAT,
                          CODIGO_DESCONECTAR,
-			             CODIGO_NUEVO_PERSONAJE,
+			          CODIGO_NUEVO_PERSONAJE,
                          CODIGO_CONFIRMACION,
                          CODIGO_ERROR,
                          OP_INFO_JUGADOR,
                          CODIGO_INTERACCION,
+                         CODIGO_MEDITACION,
                          CODIGO_COMPRA,
                          CODIGO_VENTA,
                          CODIGO_UTILIZACION,
@@ -24,7 +25,7 @@ enum CODIGOS : uint32_t {
                          CODIGO_INVENTARIO,
                          CODIGO_TIENDA,
                          CODIGO_ESTADISTICAS,
-			             CODIGO_ESTADOS
+			          CODIGO_ESTADOS
 };
 
 enum MOVIMIENTO : uint32_t {

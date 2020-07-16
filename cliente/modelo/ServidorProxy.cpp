@@ -259,6 +259,10 @@ void ServidorProxy::enviarInteraccion(const std::string& id){
 	protocolo.enviarString(socket, id);
 }
 
+void ServidorProxy::enviarMeditacion(){
+	protocolo.enviarUint32(socket, CODIGO_MEDITACION);
+}
+
 void ServidorProxy::setJuego(Juego* juego) {
 	this->juego = juego;
 }

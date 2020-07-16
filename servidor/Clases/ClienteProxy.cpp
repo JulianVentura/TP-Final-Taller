@@ -89,6 +89,10 @@ void ClienteProxy::decodificarTirado(){
     colaOperaciones->push(operacion);
 }
 
+void ClienteProxy::decodificarMeditacion(){
+    Operacion *operacion = new OperacionMeditar(cliente);
+    colaOperaciones->push(operacion);
+}
 
 bool ClienteProxy::decodificarCodigo(uint32_t codigo){
     switch (codigo){
@@ -127,6 +131,10 @@ bool ClienteProxy::decodificarCodigo(uint32_t codigo){
             decodificarAtaque();
             break;
 
+        case CODIGO_MEDITACION:
+            decodificarMeditacion();
+            break;
+
         default:
             enviarError("No se ha podido decodificar el codigo de operacion, finaliza la conexion");
             return false;
@@ -139,6 +147,7 @@ void ClienteProxy::decodificarJugador( std::string& id, std::string& clave){
     protocolo.recibirString(socket, id);
     protocolo.recibirString(socket, clave);
 }
+
 
 void ClienteProxy::decodificarNuevoJugador( std::string& id, std::string& clave){
     std::string raza, clase;
