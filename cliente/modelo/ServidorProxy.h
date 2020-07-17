@@ -53,6 +53,7 @@ public:
 	std::string mapa;
 	ServidorSalida* salida;
 	ServidorProxy(DatosPersonaje& datos_personaje, DatosTienda& datos_tienda);
+	~ServidorProxy();
 
 	// Conexion e inicio sesion
 	void conectar(std::string& direccion, std::string& servicio);

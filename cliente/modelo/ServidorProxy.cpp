@@ -25,6 +25,13 @@ ServidorProxy::ServidorProxy(DatosPersonaje& datos_personaje,
 		evento_salida.type = tipo_evento;
 		evento_salida.user.code = SALIR_LOGIN_EXITO;
 	}
+	enviador.comenzar();
+}
+
+ServidorProxy::~ServidorProxy(){
+	socket.cerrar_canal(SHUT_RDWR);
+	colaEnvio.cerrarCola();
+	enviador.recuperar();
 }
 
 void ServidorProxy::conectar(std::string& direccion, std::string& servicio){
@@ -35,6 +42,7 @@ void ServidorProxy::enviarLogin(std::string& nombre, std::string& clave){
 	protocolo.enviarUint32(socket, CODIGO_ID);
 	protocolo.enviarString(socket, nombre);
 	protocolo.enviarString(socket, clave);
+	encolarMensaje(std::move(protocolo.finalizarEnvio()));
 	datos_personaje.id = nombre;
 }
 
@@ -45,6 +53,7 @@ void ServidorProxy::enviarNuevaCuenta(std::string& nombre, std::string& clave,
 	protocolo.enviarString(socket, clave);
 	protocolo.enviarString(socket, raza);
 	protocolo.enviarString(socket, clase);
+	encolarMensaje(std::move(protocolo.finalizarEnvio()));
 	datos_personaje.id = nombre;
 }
 
