@@ -13,7 +13,7 @@ GUI_BotonInventario::GUI_BotonInventario(EntornoGrafico& entorno,
 
 void GUI_BotonInventario::actualizarDimension(){
 	x = ventana->getAncho()*0.2 + 4;
-	y =  ventana->getAlto() - imagen.getAlto() - 10;
+	y =  ventana->getAlto() - imagen.getAlto() - 20;
 	imagen.setPosicion(x, y);
 }
 
