@@ -10,6 +10,7 @@
 #include "Clases/Clase.h"
 #include "Clases/OrganizadorClientes.h"
 #include "Clases/Divulgador.h"
+#include "../common/Mensaje.h"
 #include <iostream>
 //Valores de retorno
 #define EXITO 0
@@ -18,6 +19,19 @@
 #define NUMERO_PARAMETROS 2
 #define POS_ARCHIVO_CONFIG 1
 
+
+int pruebaMensaje(const char* archivoConfig){
+    Mensaje mensaje;
+    std::string saludo = "Hola, como va?";
+    std::string respuesta = ".   RTA: Todo bien, vos?";
+    mensaje.agregarBytes(saludo.c_str(), saludo.length() + 1);
+    mensaje.agregarBytes(respuesta.c_str(), respuesta.length() + 1);
+    if (mensaje.obtenerTamanio() != (saludo.length() + respuesta.length() + 2)){
+        std::cerr << "Los tamanios no coinciden" << std::endl;
+    }
+    std::cout << mensaje.obtenerBytes().data() << std::endl;
+    return EXITO;
+}
 
 int pruebaLanzamientoProyectiles(const char* archivoConfig){
     try{
@@ -183,5 +197,5 @@ int pruebaCreacionObjetos(const char* nombreArchivo){
 }
 
 int main(int argc, const char* argv[]){
-    return pruebaLanzamientoProyectiles(argv[POS_ARCHIVO_CONFIG]);
+    return pruebaMensaje(argv[POS_ARCHIVO_CONFIG]);
 }

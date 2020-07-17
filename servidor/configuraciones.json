@@ -33,9 +33,9 @@
         }
     },
     "Personaje": {
-        "VidaBase": 10000,
+        "VidaBase": 100,
         "NivelBase": 1,
-        "FuerzaBase": 5000,
+        "FuerzaBase": 5,
         "InteligenciaBase": 8,
         "AgilidadBase": 5,
         "ConstitucionBase": 5,
@@ -59,22 +59,22 @@
             "Ancho": 6,
             "Alto": 6,
             "StockVenta": {
-                "Armas": [],
+                "Armas": ["VaraDeFresno", "FlautaElfica"],
                 "Armaduras": [],
                 "Cascos": [],
                 "Escudos": [],
-                "Pociones": []
+                "Pociones": ["PocionMana"]
             }
         },
         "Comerciante": {
             "Ancho": 6,
             "Alto": 6,
             "StockVenta": {
-                "Armas": [],
-                "Armaduras": [],
-                "Cascos": [],
-                "Escudos": [],
-                "Pociones": []
+                "Armas": ["Espada", "Hacha", "ArcoSimple"],
+                "Armaduras": ["ArmaduraDeCuero"],
+                "Cascos": ["Capucha"],
+                "Escudos": ["EscudoDeTortuga"],
+                "Pociones": ["PocionVida"]
             }
         },
         "Banquero": {
@@ -345,8 +345,8 @@
             "RadioVisibilidad": 300,
             "RadioAgresividad": 500,
             "TiempoDespawn": 600,
-            "Ancho": 16,
-            "Alto": 16,
+            "Ancho": 8,
+            "Alto": 8,
             "Drops": {
                 "Tipo": {
                     "Item": 0.1,

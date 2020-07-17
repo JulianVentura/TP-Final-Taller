@@ -8,8 +8,8 @@
 void Protocolo::enviarString(Socket& socket_comunicacion, const std::string& string){
 	uint32_t tam = string.size();
 	tam = htobe32(tam);
-	socket_comunicacion.enviar((char*)&tam, TAM_ENCABEZADO_STRING);
-	socket_comunicacion.enviar(string.c_str(), string.size());
+	mensajeActual.agregarBytes((char*)&tam, TAM_ENCABEZADO_STRING);
+	mensajeActual.agregarBytes(string.c_str(), string.size());
 }
 
 void Protocolo::recibirString(Socket& socket_comunicacion, std::string& string){
@@ -23,7 +23,7 @@ void Protocolo::recibirString(Socket& socket_comunicacion, std::string& string){
 }
 
 void Protocolo::enviarUint8(Socket& socket_comunicacion, uint8_t n){
-	socket_comunicacion.enviar((char*)&n, TAM_INT8);
+	mensajeActual.agregarBytes((char*)&n, TAM_INT8);
 }
 
 uint8_t Protocolo::recibirUint8(Socket& socket_comunicacion){
@@ -34,7 +34,7 @@ uint8_t Protocolo::recibirUint8(Socket& socket_comunicacion){
 
 void Protocolo::enviarUint16(Socket& socket_comunicacion, uint16_t n){
 	n = htobe16(n);
-	socket_comunicacion.enviar((char*)&n, TAM_INT16);
+	mensajeActual.agregarBytes((char*)&n, TAM_INT16);
 }
 
 uint16_t Protocolo::recibirUint16(Socket& socket_comunicacion){
@@ -47,7 +47,7 @@ uint16_t Protocolo::recibirUint16(Socket& socket_comunicacion){
 
 void Protocolo::enviarUint32(Socket& socket_comunicacion, uint32_t n){
 	n = htobe32(n);
-	socket_comunicacion.enviar((char*)&n, TAM_INT32);
+	mensajeActual.agregarBytes((char*)&n, TAM_INT32);
 }
 
 uint32_t Protocolo::recibirUint32(Socket& socket_comunicacion){
@@ -56,4 +56,8 @@ uint32_t Protocolo::recibirUint32(Socket& socket_comunicacion){
 	socket_comunicacion.recibir(buffer, TAM_INT32);
 	temp = (uint32_t*)buffer;
 	return be32toh(*temp);
+}
+
+Mensaje Protocolo::finalizarEnvio(){
+	return std::move(mensajeActual);
 }

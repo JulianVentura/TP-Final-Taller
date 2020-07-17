@@ -8,10 +8,18 @@
 ClienteProxy::ClienteProxy(Socket unSocket, Cliente *miCliente) : 
                            socket(std::move(unSocket)),
                            cliente(miCliente),
-                           colaOperaciones(nullptr){}
+                           colaOperaciones(nullptr),
+                           enviador(socket, colaEnvio),
+                           limiteCorte(0){
+    
+    limiteCorte = 5000; //Levantar de configuraciones.
+    enviador.comenzar();
+}
 
 void ClienteProxy::finalizar(){
     socket.cerrar_canal(SHUT_RDWR);
+    colaEnvio.cerrarCola();
+    enviador.recuperar();
 }
 
 void ClienteProxy::actualizarCola(ColaOperaciones *colaDeOperaciones){
@@ -208,6 +216,7 @@ void ClienteProxy::enviarError(std::string mensaje){
     std::lock_guard<std::mutex> lock(m);
     protocolo.enviarUint32(socket, CODIGO_ERROR);
     protocolo.enviarString(socket, mensaje);
+    encolarMensaje(std::move(protocolo.finalizarEnvio()));
 }
 
 void ClienteProxy::enviarPosiciones(const std::vector<struct PosicionEncapsulada> &posiciones){
@@ -223,6 +232,7 @@ void ClienteProxy::enviarPosiciones(const std::vector<struct PosicionEncapsulada
         temp = htonl(posicion.y);
         socket.enviar((char*)&temp, sizeof(float));
     }
+    encolarMensaje(std::move(protocolo.finalizarEnvio()));
 }
 
 void ClienteProxy::enviarInformacionMapa(const std::vector<char> &infoMapa){
@@ -230,6 +240,7 @@ void ClienteProxy::enviarInformacionMapa(const std::vector<char> &infoMapa){
     std::string mapa(infoMapa.begin(), infoMapa.end());
     protocolo.enviarUint32(socket, CODIGO_CARGA_MAPA);
     protocolo.enviarString(socket, mapa);
+    encolarMensaje(std::move(protocolo.finalizarEnvio()));
 }
 
 void ClienteProxy::enviarTienda(const std::vector<SerializacionItem> &&items){
@@ -239,6 +250,7 @@ void ClienteProxy::enviarTienda(const std::vector<SerializacionItem> &&items){
         protocolo.enviarUint16(socket, item.idTCP);
     	protocolo.enviarUint16(socket, item.precio);
     }
+    encolarMensaje(std::move(protocolo.finalizarEnvio()));
 }
 
 void ClienteProxy::enviarContenedor(const std::vector<SerializacionItem> &&items){
@@ -249,6 +261,7 @@ void ClienteProxy::enviarContenedor(const std::vector<SerializacionItem> &&items
         protocolo.enviarUint16(socket, item.idTCP);
     	protocolo.enviarUint16(socket, cero);
     }
+    encolarMensaje(std::move(protocolo.finalizarEnvio()));
 }
 
 void ClienteProxy::enviarInventario(const SerializacionEquipo serEquipo){
@@ -262,11 +275,13 @@ void ClienteProxy::enviarInventario(const SerializacionEquipo serEquipo){
         protocolo.enviarUint16(socket, serItem.idTCP);
     }
     protocolo.enviarUint16(socket, serEquipo.oro);
+    encolarMensaje(std::move(protocolo.finalizarEnvio()));
 }
 
 void ClienteProxy::enviarConfirmacion(){
     std::lock_guard<std::mutex> lock(m);
     protocolo.enviarUint32(socket, CODIGO_CONFIRMACION);
+    encolarMensaje(std::move(protocolo.finalizarEnvio()));
 }
 
 
@@ -280,6 +295,7 @@ void ClienteProxy::enviarEstado(SerializacionEstado serEstado){
     protocolo.enviarUint16(socket, serEstado.experiencia);
     protocolo.enviarUint16(socket, serEstado.limiteParaSubir);
     protocolo.enviarUint32(socket, serEstado.nivel);
+    encolarMensaje(std::move(protocolo.finalizarEnvio()));
 }
 
 void ClienteProxy::enviarDibujadoPersonajes(const std::vector<SerializacionDibujado> &dibujados){
@@ -297,4 +313,15 @@ void ClienteProxy::enviarDibujadoPersonajes(const std::vector<SerializacionDibuj
         protocolo.enviarUint16(socket, dibujado.idClase);
         protocolo.enviarUint16(socket, dibujado.idEstado);
     }
+    encolarMensaje(std::move(protocolo.finalizarEnvio()));
+}
+
+
+void ClienteProxy::encolarMensaje(Mensaje &&mensaje){
+    //Chequear el tamanio de la cola, si supera cierto limite se cierra la conexion y liberan los recursos.
+    if (colaEnvio.obtenerTamBytesAlmacenados() >= limiteCorte){
+        this->finalizar();
+        return;
+    }
+    colaEnvio.push(std::move(mensaje));
 }

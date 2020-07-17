@@ -5,6 +5,7 @@
 #include <cstdlib>
 #include <vector>
 #include <unordered_map>
+#include "Mensaje.h"
 
 class Socket;
 
@@ -19,6 +20,8 @@ class Socket;
 #define TAM_ID 20
          
 class Protocolo {
+private:
+    Mensaje mensajeActual;
 public:
     void enviarString(Socket& socket_comunicacion, const std::string& string);
     void recibirString(Socket& socket_comunicacion, std::string& string);
@@ -31,5 +34,7 @@ public:
 
     void enviarUint16(Socket& socket_comunicacion, uint16_t n);
     uint16_t recibirUint16(Socket& socket_comunicacion);
+
+    Mensaje finalizarEnvio();
 };
 #endif /*__PROTOCOLO_H__*/

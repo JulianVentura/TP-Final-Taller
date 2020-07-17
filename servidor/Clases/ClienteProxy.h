@@ -6,6 +6,9 @@
 #include <mutex>
 
 #include "ColaOperaciones.h"
+#include "ClienteProxyEnviador.h"
+#include "../../common/ColaBloqueanteMensajes.h"
+#include "../../common/Mensaje.h"
 #include "OperacionMover.h"
 #include "ExcepcionCliente.h"
 #include "Item.h"
@@ -33,7 +36,10 @@ private:
     Socket socket;
     Cliente *cliente;
     ColaOperaciones *colaOperaciones;
+    ColaBloqueanteMensajes colaEnvio;
+    ClienteProxyEnviador enviador;
     Protocolo protocolo;
+    uint32_t limiteCorte;
     bool decodificarCodigo(uint32_t codigo);
     void decodificarMovimiento();
     void decodificarMeditacion();
@@ -47,6 +53,8 @@ private:
     void decodificarTirado();
     void decodificarJugador( std::string& id, std::string& clave);
     void decodificarNuevoJugador( std::string& id, std::string& clave);
+
+    void encolarMensaje(Mensaje &&mensaje);
 
 public:
     ClienteProxy(Socket socket, Cliente *cliente);
