@@ -168,18 +168,10 @@ void ServidorProxy::actualizarPosiciones() {
 	uint32_t longitud = protocolo.recibirUint32(socket);
 	posiciones.reserve(longitud);
 	for (uint32_t i = 0; i < longitud; ++i) {
-		std::string id_temp;
-		id_temp.resize(TAM_ID);
-		socket.recibir(&id_temp[0], TAM_ID);
-		id_temp[TAM_ID - 1] = 0;
-		float x;
-		float y;
-		socket.recibir((char *) &x, TAM_INT32);
-		x = (float) ntohl(x);
-		socket.recibir((char *) &y, TAM_INT32);
-		y = (float) ntohl(y);
-		std::string id(id_temp.c_str());
-		posiciones[id] = { std::round(x), std::round(y) };
+		std::string id;
+		protocolo.recibirString(socket, id);
+		posiciones[id] = { protocolo.recibirUint32(socket),
+						   protocolo.recibirUint32(socket)};
 	}
 	if (!juego) return;
 	juego->actualizarPosiciones(std::move(posiciones));
@@ -205,7 +197,9 @@ void ServidorProxy::recibir_estados() {
 	std::vector<serializacionDibujado> resultado;
 	for (std::size_t i = 0; i < largo; i++) {
 		serializacionDibujado actual;
-		socket.recibir(actual.id, TAM_ID);
+		std::string id;
+		protocolo.recibirString(socket, id);
+		std::strncpy(actual.id, id.c_str(), id.length() + 1);
         actual.idArmaEquipada = protocolo.recibirUint16(socket);
 		actual.idArmaduraEquipada = protocolo.recibirUint16(socket);
 		actual.idCascoEquipado = protocolo.recibirUint16(socket);
@@ -299,7 +293,7 @@ void ServidorProxy::setJuego(Juego* juego) {
 }
 
 void ServidorProxy::encolarMensaje(Mensaje&& mensaje){
-    if (colaEnvio.obtenerTamBytesAlmacenados() <=  LIMITE_COLA_ENVIADOR){
+    //if (colaEnvio.obtenerTamBytesAlmacenados() <=  LIMITE_COLA_ENVIADOR){
     	colaEnvio.push(std::move(mensaje));
-    }
+    //}
 }
