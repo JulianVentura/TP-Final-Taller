@@ -1,4 +1,4 @@
-#include "MovibleVista.h"
+#include "EntidadVista.h"
 
 #include "Animacion.h"
 #include "AnimacionEnteDireccionable.h"
@@ -11,7 +11,7 @@
 #include <utility>
 #include <unordered_map>
 
-const std::vector<std::string> MovibleVista::ordenDeImagenes = {
+const std::vector<std::string> EntidadVista::ordenDeImagenes = {
     "cuerpo",
     "ojos",
     "cicatrices",
@@ -28,11 +28,10 @@ const std::vector<std::string> MovibleVista::ordenDeImagenes = {
     "escudo"
 };
 
-#define NPC_ANIMACION 60
-
-MovibleVista::MovibleVista(EntornoGrafico& entorno, IPosicionable* modelo, 
+EntidadVista::EntidadVista(EntornoGrafico& entorno, IPosicionable* modelo, 
                                                         EntidadParser& parser): 
-        EntidadVista(entorno, modelo, parser), animacion_local(parser, apariencia.tipo) {
+       modelo(modelo), parser(parser), animacion_local(parser, apariencia.tipo), 
+        animacion(parser, apariencia.tipo) {
     entorno.agregarRendereable(this);
     x = modelo->getX();
     y = modelo->getY();
@@ -40,7 +39,7 @@ MovibleVista::MovibleVista(EntornoGrafico& entorno, IPosicionable* modelo,
     esta_apariencia = false;
 }
 
-void MovibleVista::actualizar(unsigned int delta_t) {
+void EntidadVista::actualizar(unsigned int delta_t) {
     if (!esta_apariencia || !modelo || !modelo->esta_actualizado()) return;
     int ultimo_x = x;
     int ultimo_y = y;
@@ -53,6 +52,7 @@ void MovibleVista::actualizar(unsigned int delta_t) {
     animacion_local.setMascara(mascara);
     animacion_local.avanzar();
 }
+
 void renderImagen(Imagen* imagen, SDL_Rect& mascara, int x, int y, int ancho, int alto) {
     imagen->setMascara(mascara);
     imagen->setAncho(ancho);
@@ -60,7 +60,8 @@ void renderImagen(Imagen* imagen, SDL_Rect& mascara, int x, int y, int ancho, in
     imagen->setPosicion(x, y);
     imagen->render();
 }
-void MovibleVista::render() {
+
+void EntidadVista::render() {
     if (!esta_apariencia) return;
     std::unordered_map<std::string, Imagen*> equipables(std::move(parser.getEquipables(apariencia)));
     for (auto& parte: ordenDeImagenes) {
@@ -81,9 +82,7 @@ void MovibleVista::render() {
     // renderer->rect(getX(), getY(), getAncho(), getAlto());
 }
 
-void MovibleVista::actualizarApariencia(DatosApariencia& apariencia) {
-    // if (apariencia.tipo.size() > 0)
-        // animacion_local.setTiempoPorCuadro(NPC_ANIMACION);
+void EntidadVista::actualizarApariencia(DatosApariencia& apariencia) {
     // TODO: provisorio
     if (apariencia.estado == "101") {
         this->apariencia = {};
@@ -94,21 +93,6 @@ void MovibleVista::actualizarApariencia(DatosApariencia& apariencia) {
     ancho = parser.getAnchoReal(apariencia);
     alto = parser.getAltoReal(apariencia);
     animacion_local.setAnimacion(apariencia);
-}
-
-
-EntidadVista::EntidadVista(EntornoGrafico& entorno, IPosicionable* modelo, 
-        EntidadParser& parser): modelo(modelo), parser(parser), animacion(parser) {
-    entorno.agregarRendereable(this);
-}
-
-EntidadVista::EntidadVista(EntornoGrafico& entorno, IPosicionable* modelo, 
-        EntidadParser& parser, std::string& tipo): EntidadVista(entorno, modelo, parser) {
-    entorno.agregarRendereable(this);
-}
-
-
-void EntidadVista::actualizarApariencia(DatosApariencia& apariencia) {
 }
 
 bool EntidadVista::contienePunto(int x, int y) {

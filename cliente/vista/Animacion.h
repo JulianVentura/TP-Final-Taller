@@ -37,7 +37,7 @@ protected:
     int tiempo_hasta_proximo_ciclo = 0;
     int tiempo_hasta_proximo_cuadro = 0;
     int tiempo_por_ciclo = REPETIR_INDEFINIDAMENTE;
-    int tiempo_por_cuadro = 100;
+    int tiempo_por_cuadro = 80;
     unsigned int ultimo_delta_t = 0;
 };
 

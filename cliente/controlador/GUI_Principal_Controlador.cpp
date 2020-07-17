@@ -16,11 +16,11 @@ GUI_PrincipalControlador::GUI_PrincipalControlador(ServidorProxy& servidor,
     chat_controlador(vista_principal.chat_vista, servidor) {
         botones.push_back(&inventario_controlador);
         botones.push_back(&chat_controlador);
-        botones.push_back(&tienda_controlador);
         botones.push_back(&boton_inventario_controlador);
         botones.push_back(&boton_meditar_controlador);
         servidor.salida = &chat_controlador;
         botones.push_back(&boton_oro_controlador);
+        botones.push_back(&tienda_controlador);
     }
 
 bool GUI_PrincipalControlador::manejarEvento(SDL_Event& evento) {
