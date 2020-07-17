@@ -195,7 +195,7 @@ void ServidorProxy::recibir_estados() {
 	for (std::size_t i = 0; i < largo; i++) {
 		serializacionDibujado actual;
 		socket.recibir(actual.id, TAM_ID);
-        	actual.idArmaEquipada = protocolo.recibirUint16(socket);
+        actual.idArmaEquipada = protocolo.recibirUint16(socket);
 		actual.idArmaduraEquipada = protocolo.recibirUint16(socket);
 		actual.idCascoEquipado = protocolo.recibirUint16(socket);
 		actual.idEscudoEquipado = protocolo.recibirUint16(socket);
@@ -229,6 +229,7 @@ void ServidorProxy::enviarChat(std::string mensaje){
 // Inventario
 
 void ServidorProxy::enviarCompra(int pos){
+	if(!datos_tienda.activo) return;
 	protocolo.enviarUint32(socket, CODIGO_COMPRA);
 	protocolo.enviarString(socket, datos_tienda.id_vendedor);
 	protocolo.enviarUint16(socket, pos);
@@ -251,8 +252,10 @@ void ServidorProxy::enviarUtilizar(int pos){
 }
 
 void ServidorProxy::enviarTransaccion(bool esDeposito){
+	if(!datos_tienda.activo) return;
 	protocolo.enviarUint32(socket, CODIGO_TRANSACCION);
 	protocolo.enviarUint8(socket, esDeposito);
+	protocolo.enviarString(socket, datos_tienda.id_vendedor);
 }
 
 //Interaccion
