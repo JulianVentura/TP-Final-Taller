@@ -201,7 +201,7 @@ std::string Personaje::recibirDanio(int danio, Entidad *atacante){
         vidaActual -= danio;
     }
     mensaje.str("");
-    mensaje << mensajeGolpeCritico << "Realizas " << danio << " de danio";
+    mensaje << mensajeGolpeCritico << "Realizas " << danio << " de danio ";
     return mensaje.str();
 }
 

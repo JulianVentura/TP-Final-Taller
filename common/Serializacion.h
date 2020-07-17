@@ -22,7 +22,7 @@ typedef struct serializacionDibujado{
     uint16_t idRaza;
     uint16_t idClase;
     uint16_t idEstado;
-}SerializacionDibujado;
+} SerializacionDibujado;
 
 
 typedef struct serializacionEstado{

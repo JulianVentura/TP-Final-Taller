@@ -552,7 +552,7 @@ std::string Configuraciones::obtenerItemRandom(std::string &idCriatura, std::str
         ("Error: Se ha solicitado el calculo de una probabilidad para el item %s de la criatura %s, "
         "pero las probabilidades no suman 1");
     }
-    float resultado = (float) rand()/RAND_MAX;
+    float resultado = (float) rand() / (float) RAND_MAX;
 
     if (resultado < probas[0]) return posibles[0].first;   //Devuelvo el id que le corresponde a 0
     for (std::size_t i=1; i<probas.size(); i++){
@@ -567,7 +567,7 @@ TipoDrop Configuraciones::calcularDrop(std::string &idCriatura){
     float probaOro = json.at("Criaturas").at(idCriatura).at("Drops").at("Tipo").at("Oro").get<float>() + probaItem;
 
     //Tiro el dado
-    float numero = (float) rand()/RAND_MAX;
+    float numero = (float) rand()/ (float) RAND_MAX;
     //Calculo el drop
     if (numero < probaItem && numero >= 0) return ITEM;
     if (numero < probaOro && numero >= probaItem) return ORO;
@@ -581,7 +581,7 @@ TipoItem Configuraciones::calcularDropItem(std::string &idCriatura){
     float probaCasco = json.at("Criaturas").at(idCriatura).at("Drops").at("Cascos").at("Probabilidad").get<float>() + probaEscudo;
     float probaPocion = json.at("Criaturas").at(idCriatura).at("Drops").at("Pociones").at("Probabilidad").get<float>() + probaCasco;
     //Tiro el dado
-    float numero = (float) rand()/RAND_MAX;
+    float numero = (float) rand()/ (float) RAND_MAX;
     //Calculo el drop
     if (numero < probaArma && numero >= 0) return ARMA;
     if (numero < probaArmadura && numero >= probaArma) return ARMADURA;

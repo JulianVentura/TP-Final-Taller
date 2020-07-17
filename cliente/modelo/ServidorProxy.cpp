@@ -180,7 +180,7 @@ void ServidorProxy::agregarPosicionable(std::string& id,
 	posicionables[id] = posicionable;
 }
 
-void ServidorProxy::borrarPosicionable(std::string& id) {
+void ServidorProxy::borrarPosicionable(const std::string& id) {
 	posicionables.erase(id);
 }
 

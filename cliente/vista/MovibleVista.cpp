@@ -23,7 +23,9 @@ const std::vector<std::string> MovibleVista::ordenDeImagenes = {
     "torso",
     "cinto",
     "pelo",
-    "cabeza"
+    "cabeza",
+    "arma",
+    "escudo"
 };
 
 #define NPC_ANIMACION 60
@@ -80,17 +82,17 @@ void MovibleVista::render() {
 }
 
 void MovibleVista::actualizarApariencia(DatosApariencia& apariencia) {
-    if (apariencia.tipo.size() > 0)
-        animacion_local.setTiempoPorCuadro(NPC_ANIMACION);
+    // if (apariencia.tipo.size() > 0)
+        // animacion_local.setTiempoPorCuadro(NPC_ANIMACION);
+    // TODO: provisorio
     if (apariencia.estado == "101") {
-        // TODO: provisorio
         this->apariencia = {};
         apariencia.tipo = "Fantasma";
     }
     esta_apariencia = true;
     this->apariencia = apariencia;
-    ancho = parser.getAncho(apariencia);
-    alto = parser.getAlto(apariencia);
+    ancho = parser.getAnchoReal(apariencia);
+    alto = parser.getAltoReal(apariencia);
     animacion_local.setAnimacion(apariencia);
 }
 

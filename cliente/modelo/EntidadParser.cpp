@@ -82,10 +82,10 @@ void PersonajeParser::parsearImagen(EntornoGrafico& entorno, std::string& raiz,
 void EntidadParser::parsearRazas() {
     for (auto& raza: parser["razas"].items()) {
         auto clases = raza.value()["variantes"];
+        std::string raza_s = raza.key();
         if (raza.value().count("copiar")) {
-            std::string copiar_a;
-            raza.value()["copiar"].get_to(copiar_a);
-            clases = parser["razas"][copiar_a.c_str()]["variantes"];
+            raza.value()["copiar"].get_to(raza_s);
+            clases = parser["razas"][raza_s.c_str()]["variantes"];
         }
 
         imagenes_t setDeImagenesBase(aparienciaImagenesBase);
@@ -101,7 +101,7 @@ void EntidadParser::parsearRazas() {
         for (auto& clase: clases.items()) {
             clase_raza = raza.key() + DELIMITADOR + clase.key() ;
             personajes.insert({ clase_raza, PersonajeParser() });
-            personajes[clase_raza].parsear(entorno, parser, raiz, raza.key(), 
+            personajes[clase_raza].parsear(entorno, parser, raiz, raza_s, 
                                             clase.key(), setDeImagenesBase);
         }
     }
@@ -255,8 +255,8 @@ const std::vector<Imagen*>& EntidadParser::getImagenes(
     if (id.size())
         return getImagenes(id, parte);
     // TODO: provisorio
-        // return getImagenes("Arania", parte);
     // else if (apariencia.estado == "101")
+        // return getImagenes("Arania", parte);
     else
         return getImagenes(apariencia.raza, apariencia.clase, parte);
 }
@@ -291,6 +291,14 @@ const std::vector<Imagen*>& EntidadParser::getImagenes(const std::string& raza,
     return personajes[index].getImagenes(parte);
 }
 
+int EntidadParser::getAnchoReal(DatosApariencia& apariencia) {
+    return getAncho(apariencia.raza, apariencia.tipo);
+}
+
+int EntidadParser::getAltoReal(DatosApariencia& apariencia) {
+    return getAlto(apariencia.raza, apariencia.tipo);
+}
+
 int EntidadParser::getAncho(std::string& raza, std::string& tipo) {
     float factor = 1.0f;
     aMinuscula(raza);
@@ -322,8 +330,10 @@ int EntidadParser::getAlto(std::string& tipo) {
 }
 
 int EntidadParser::getAncho(DatosApariencia& apariencia) {
-    return getAncho(apariencia.raza, apariencia.tipo);
+    // return getAncho(apariencia.raza, apariencia.tipo);
+    return getAncho(apariencia.tipo);
 }
 int EntidadParser::getAlto(DatosApariencia& apariencia) {
-    return getAlto(apariencia.raza, apariencia.tipo);
+    // return getAlto(apariencia.raza, apariencia.tipo);
+    return getAlto(apariencia.tipo);
 }

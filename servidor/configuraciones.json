@@ -33,9 +33,9 @@
         }
     },
     "Personaje": {
-        "VidaBase": 100,
+        "VidaBase": 10000,
         "NivelBase": 1,
-        "FuerzaBase": 5,
+        "FuerzaBase": 5000,
         "InteligenciaBase": 8,
         "AgilidadBase": 5,
         "ConstitucionBase": 5,
@@ -331,8 +331,8 @@
             "RadioVisibilidad": 300,
             "RadioAgresividad": 500,
             "TiempoDespawn": 600,
-            "Ancho": 8,
-            "Alto": 8,
+            "Ancho": 16,
+            "Alto": 16,
             "Drops": {
                 "Tipo": {
                     "Item": 0.1,

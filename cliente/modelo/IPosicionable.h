@@ -3,6 +3,7 @@
 
 class IPosicionable {
 public:
+    virtual ~IPosicionable() {}
     void actualizarPosicion(int x, int y);
     int getX() const;
     int getY() const;
