@@ -7,18 +7,15 @@
 
 #define NPC_DELIMITADOR "#"
 
-
 using json = nlohmann::json;
 
-void Juego::agregarObstruible(IObstruible* obstruible) {
-    capaFrontal.agregarObstruible(obstruible);
-}
-
 void Juego::actualizar(unsigned int delta_t) {
+    std::lock_guard<std::mutex> l(mtx);
     escena.actualizar(delta_t);
 }
 
 void Juego::render() {
+    std::lock_guard<std::mutex> l(mtx);
     escena.render();
 }
 
@@ -73,9 +70,8 @@ void Juego::agregarEntidad(std::string& id, DatosApariencia& apariencia) {
     auto posicion_identificador = id.find(NPC_DELIMITADOR);
     if ((id.substr(0, posicion_identificador) == "FlechaMagica" || id.substr(0, posicion_identificador) == "Curar" || id.substr(0, posicion_identificador) == "Misil" || id.substr(0, posicion_identificador) == "Explosion" || id.substr(0, posicion_identificador) == "Cuerpo" || id.substr(0, posicion_identificador) == "Flechazo")) return;
     printf("%s \n", id.c_str());
-
     entidades[id] = std::move(crearEntidad(id, apariencia));
-    capaFrontal.agregarObstruible(entidades[id].second);
+    capaFrontal.agregarObstruible(id, entidades[id].second);
     servidor.agregarPosicionable(id, entidades[id].first);
     if (id == datos_personaje.id) 
         camara.setObjetivo(entidades[id].second);    
@@ -91,7 +87,7 @@ Juego::~Juego() {
 void Juego::borrarEntidad(const std::string& id) {
     if (!entidades.count(id)) return;
     servidor.borrarPosicionable(id);
-    capaFrontal.borrarObstruible(entidades[id].second);
+    capaFrontal.borrarObstruible(id);
     delete entidades[id].first;
     delete entidades[id].second;
     entidades[id].first = nullptr;
@@ -116,6 +112,7 @@ std::pair<IPosicionable*, EntidadVista*> Juego::crearEntidad(std::string& id,
 
 void Juego::actualizarPosiciones(std::unordered_map<std::string, std::pair<int, 
                                                             int>> posiciones) {
+    std::lock_guard<std::mutex> l(mtx);
     for (auto& posicion: posiciones) {
 		if (!entidades.count(posicion.first)) {
 			std::string id(posicion.first);

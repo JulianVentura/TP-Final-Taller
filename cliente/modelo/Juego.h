@@ -34,7 +34,6 @@ public:
     void render() override;
     void actualizar(unsigned int delta_t) override;
     void setObjetivoCamara(ITargeteable& objetivo);
-    void agregarObstruible(IObstruible* obstruible);
     void actualizarPosiciones(std::unordered_map<std::string, std::pair<int, 
                                                             int>> posiciones);
     void actualizarEstados(std::vector<SerializacionDibujado> dibujados);
@@ -43,6 +42,7 @@ private:
     EntornoGrafico& entorno;
     DatosPersonaje& datos_personaje;
     ServidorProxy& servidor;
+    std::mutex mtx;
     std::string mapa_s;
     nlohmann::json parser;      
     LibreriaConjuntoTileParser libreriaConjuntoTileParser;
