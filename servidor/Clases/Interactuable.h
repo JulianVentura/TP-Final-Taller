@@ -32,6 +32,7 @@ class Interactuable : public Movible{
     virtual void serAtacadoPor(Personaje *atacante) = 0;
     virtual void serAtacadoPor(Criatura *atacante) = 0;
     virtual std::string recibirDanio(int danio, Entidad *atacante) = 0;
+    virtual void recibirCuracion(unsigned int curacion, Entidad *lanzador) = 0;
 
     virtual const std::string obtenerId() const;
     virtual ~Interactuable();

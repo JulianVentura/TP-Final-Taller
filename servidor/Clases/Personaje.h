@@ -62,9 +62,8 @@ class Personaje : public Entidad{
     Personaje& operator=(Personaje &&otro);
     
 
-
     void curar(float curVida, float curMana);
-    void curar();
+    void sanar();
     std::vector<Item*>& obtenerAlmacen();
     std::vector<Item*>* obtenerInventario();
     //Ataque
@@ -75,6 +74,7 @@ class Personaje : public Entidad{
     std::string recibirDanio(int danio, Entidad *atacante) override;
     void dropearItems(Entidad *atacante) override;
     void obtenerExperiencia(unsigned int cantidad);
+    void recibirCuracion(unsigned int curacion, Entidad *lanzador) override;
     //Equipo
     void almacenar(Item *item);
     void eliminarDeInventario(unsigned int pos);
@@ -113,7 +113,6 @@ class Personaje : public Entidad{
     ~Personaje();
 
     friend class Configuraciones;
-    friend class BaseDeDatos;
     friend class EstadoNormal;
     friend class EstadoFantasma;
     friend class EstadoMeditacion;

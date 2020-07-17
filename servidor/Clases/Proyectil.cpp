@@ -53,6 +53,8 @@ void Proyectil::serAtacadoPor(Criatura *atacante){}
 
 std::string Proyectil::recibirDanio(int danio, Entidad *atacante){ return ""; }
 
+void Proyectil::recibirCuracion(unsigned int curacion, Entidad *lanzador){}
+
 //Estado
 
 void Proyectil::actualizarEstado(double tiempo){

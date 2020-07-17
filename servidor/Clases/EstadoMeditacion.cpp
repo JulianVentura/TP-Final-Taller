@@ -53,8 +53,12 @@ void EstadoMeditacion::interactuar(Entidad *entidad){
     //No hacer nada o lanzar excepcion
 }
 
-void EstadoMeditacion::curar(float curVida, float curMana){
-    //No hace nada.
+void EstadoMeditacion::sanar(){
+    //Nada
+}
+
+bool EstadoMeditacion::curar(float curVida, float curMana){
+    return false;
 }
 
 void EstadoMeditacion::pedirListado(Interactuable *interactuable, Cliente *cliente){

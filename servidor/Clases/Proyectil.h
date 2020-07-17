@@ -20,6 +20,7 @@ class Proyectil : public Entidad{
     void serAtacadoPor(Personaje *atacante) override;
     void serAtacadoPor(Criatura *atacante) override;
     std::string recibirDanio(int danio, Entidad *atacante) override;
+    void recibirCuracion(unsigned int curacion, Entidad *lanzador) override;
     //Comercio
     void interactuar(Estado *estado, Cliente *cliente) override;
     void comprar(unsigned int pos, Estado *estad, Cliente *clienteo) override;

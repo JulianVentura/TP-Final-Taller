@@ -43,6 +43,8 @@ void Portal::serAtacadoPor(Criatura *atacante){}
 
 std::string Portal::recibirDanio(int danio, Entidad *atacante){ return "";}
 
+void Portal::recibirCuracion(unsigned int curacion, Entidad *lanzador){}
+
 //Estado
 
 void Portal::actualizarEstado(double tiempo){}

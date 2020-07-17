@@ -50,9 +50,13 @@ void EstadoFantasma::interactuar(Entidad *entidad){
     //Interactuar normalmente.
 }
 
-void EstadoFantasma::curar(float curVida, float curMana){
-    personaje->curar(curVida, curMana);
+void EstadoFantasma::sanar(){
+    personaje->curar(personaje->vidaMaxima, personaje->manaMaximo);
     personaje->estadoNormal();
+}
+
+bool EstadoFantasma::curar(float curVida, float curMana){
+    return false;
 }
 
 void EstadoFantasma::pedirListado(Interactuable *interactuable, Cliente *cliente){

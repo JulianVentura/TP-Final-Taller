@@ -3,6 +3,7 @@
 #include <memory>
 #include <mutex>
 #include <unordered_map>
+#include <unordered_set>
 #include "ItemNulo.h"
 class Item;
 class Pocion;
@@ -18,6 +19,7 @@ class FabricaDeItems{
     std::unordered_map<std::string, std::unique_ptr<Casco>> cascos;
     std::unordered_map<std::string, std::unique_ptr<Escudo>> escudos;
     std::unordered_map<std::string, std::unique_ptr<Pocion>> pociones;
+    std::unordered_set<std::string> armasCuracion;
     std::unique_ptr<ItemNulo> itemNulo;
     std::unordered_map<int, std::string> conversor;
     unsigned int limiteArmas;
@@ -30,22 +32,24 @@ class FabricaDeItems{
 
     static void crearInstancia();
 
+    bool esArmaDeCuracion(const std::string &id) const;
+    Arma* crearArmaCuracion(const std::string &id);
     public:
-    Item* obtenerItemAleatorio(std::string &idCriatura);
-    Item* obtenerItemIDTCP(uint16_t id);
+    Item* obtenerItemAleatorio(const std::string &idCriatura);
+    Item* obtenerItemIDTCP(const uint16_t id);
     Item* crearItemNulo();
     static FabricaDeItems* obtenerInstancia();
 
     //Arma
-    Arma* crearArma(std::string &id);
+    Arma* crearArma(const std::string &id);
     //Armadura
-    Armadura* crearArmadura(std::string &id);
+    Armadura* crearArmadura(const std::string &id);
     //Escudo
-    Escudo* crearEscudo(std::string &id);
+    Escudo* crearEscudo(const std::string &id);
     //Casco
-    Casco* crearCasco(std::string &id);
+    Casco* crearCasco(const std::string &id);
     //Pocion
-    Pocion* crearPocion(std::string &id);
+    Pocion* crearPocion(const std::string &id);
     
     private:
     FabricaDeItems();

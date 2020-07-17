@@ -237,6 +237,12 @@ void Personaje::serAtacadoPor(Criatura *atacante){
     estado->serAtacadoPor(atacante);
 }
 
+void Personaje::recibirCuracion(unsigned int curacion, Entidad *lanzador){
+    if (estado->curar(curacion, 0)){
+        Divulgador *divulgador = Divulgador::obtenerInstancia();
+        divulgador->encolarMensaje(this->id, "Has sido curado");
+    }
+}
 
 void Personaje::curar(float curVida, float curMana){
     vidaActual += curVida;
@@ -245,8 +251,8 @@ void Personaje::curar(float curVida, float curMana){
     if (manaActual > manaMaximo) manaActual = manaMaximo;
 }
 
-void Personaje::curar(){
-    estado->curar(vidaMaxima, manaMaximo);
+void Personaje::sanar(){
+    estado->sanar();
 }
 
 void Personaje::eliminarDeInventario(unsigned int pos){
@@ -272,8 +278,7 @@ void Personaje::dropearItems(Entidad *atacante){
         mensaje << "Recibes " << oroAEntregar << " oro";
         divulgador->encolarMensaje(atacante->obtenerId(), mensaje.str());
     }
-
-    //No hay riesgo de RC al cargar algo a mapa porque este es el unico hilo que accede a el.
+    //El mapa se asegura de que no haya una RC al cargar
     mapaAlQuePertenece->cargarEntidad(std::move(bolsa));
 }
 

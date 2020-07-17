@@ -53,8 +53,14 @@ void EstadoNormal::interactuar(Entidad *entidad){
     //entidad->interactuar(personaje);
 }
 
-void EstadoNormal::curar(float curVida, float curMana){
+void EstadoNormal::sanar(){
+    personaje->curar(personaje->vidaMaxima, personaje->manaMaximo);
+    personaje->estadoNormal();
+}
+
+bool EstadoNormal::curar(float curVida, float curMana){
     personaje->curar(curVida, curMana);
+    return true;
 }
 
 void EstadoNormal::pedirListado(Interactuable *interactuable, Cliente *cliente){

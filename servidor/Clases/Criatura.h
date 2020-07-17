@@ -36,6 +36,7 @@ class Criatura : public Entidad{
     void serAtacadoPor(Personaje *atacante) override;
     void serAtacadoPor(Criatura *atacante) override;
     std::string recibirDanio(int danio, Entidad *atacante) override;
+    void recibirCuracion(unsigned int curacion, Entidad *lanzador) override;
     //Equipo
     void dropearItems(Entidad *atacante) override;
     //Comercio

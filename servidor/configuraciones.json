@@ -57,11 +57,25 @@
     "Ciudadanos": {
         "Sacerdote": {
             "Ancho": 6,
-            "Alto": 6
+            "Alto": 6,
+            "StockVenta": {
+                "Armas": [],
+                "Armaduras": [],
+                "Cascos": [],
+                "Escudos": [],
+                "Pociones": []
+            }
         },
         "Comerciante": {
             "Ancho": 6,
-            "Alto": 6
+            "Alto": 6,
+            "StockVenta": {
+                "Armas": [],
+                "Armaduras": [],
+                "Cascos": [],
+                "Escudos": [],
+                "Pociones": []
+            }
         },
         "Banquero": {
             "Ancho": 6,
@@ -567,8 +581,8 @@
                 "idTCP": 4
             },
             "FlautaElfica": {
-                "DanioMax": -100,
-                "DanioMin": -100,
+                "CuracionMax": 100,
+                "CuracionMin": 100,
                 "Rango": 50,
                 "ConsumoMana": 50,
                 "TiempoAtaque": 1000,
@@ -731,7 +745,8 @@
         "LimiteDeArmaduras": 200,
         "LimiteDeCascos": 300,
         "LimiteDeEscudos": 400,
-        "LimiteDePociones": 500
+        "LimiteDePociones": 500,
+        "ArmasDeCuracion": ["FlautaElfica"]
     },
     "Varios": {
         "BolsaDeDrop": {

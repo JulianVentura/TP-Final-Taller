@@ -7,7 +7,6 @@ class Sacerdote : public Comerciante{
     public:
     Sacerdote(float x, float y);
     void serAtacadoPor(Personaje *atacante) override;
-    bool curar(Personaje *personaje, Cliente *cliente);
     ~Sacerdote() override; 
 };
 

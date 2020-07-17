@@ -14,7 +14,8 @@ class EstadoMeditacion : public Estado{
     void actualizar(double tiempo) override;
     //Comercio
     void interactuar(Entidad *entidad) override;
-    void curar(float curVida, float curMana) override;
+    bool curar(float curVida, float curMana) override;
+    void sanar() override;
     void pedirListado(Interactuable *interactuable, Cliente *cliente) override;
     void pedirCompra(unsigned int pos, Interactuable *interactuable, Cliente *cliente) override;
     void pedirVenta(unsigned int pos, Interactuable *interactuable, Cliente *cliente) override;

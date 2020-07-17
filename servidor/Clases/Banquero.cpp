@@ -93,25 +93,17 @@ void Banquero::listar(Personaje *personaje, Cliente *cliente){
 
 //Ataque
 
-std::string Banquero::atacar(Personaje *objetivo){
-    return "";
-}
+std::string Banquero::atacar(Personaje *objetivo){ return ""; }
 
-std::string Banquero::atacar(Criatura *objetivo){
-    return "";
-}
+std::string Banquero::atacar(Criatura *objetivo){ return ""; }
 
-void Banquero::serAtacadoPor(Personaje *atacante){
-    //Nada
-}
+void Banquero::serAtacadoPor(Personaje *atacante){}
 
-void Banquero::serAtacadoPor(Criatura *atacante){
-    //Nada
-}
+void Banquero::serAtacadoPor(Criatura *atacante){}
 
-std::string Banquero::recibirDanio(int danio, Entidad *atacante){
-    return "";
-}
+std::string Banquero::recibirDanio(int danio, Entidad *atacante){ return ""; }
+
+void Banquero::recibirCuracion(unsigned int curacion, Entidad *lanzador){}
 
 //Estado
 

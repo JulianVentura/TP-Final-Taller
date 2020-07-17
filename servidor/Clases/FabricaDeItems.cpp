@@ -3,6 +3,7 @@
 #include "Excepcion.h"
 #include "Item.h"
 #include "Arma.h"
+#include "ArmaCuracion.h"
 #include "Armadura.h"
 #include "Escudo.h"
 #include "Casco.h"
@@ -27,6 +28,7 @@ void FabricaDeItems::crearInstancia(){
     instancia.limiteEscudos = config->obtenerFabricaDeItemsLimiteEscudos();
     instancia.limitePociones = config->obtenerFabricaDeItemsLimitePociones();
     instancia.conversor = std::move(config->obtenerFabricaDeItemsConversor());
+    instancia.armasCuracion = std::move(config->obtenerFabricaDeItemsArmasDeCuracion());
     instanciaCreada = true;
 }
 
@@ -39,7 +41,7 @@ FabricaDeItems::FabricaDeItems(){
     itemNulo = nullptr;
 }
 
-Item* FabricaDeItems::obtenerItemAleatorio(std::string &idCriatura){
+Item* FabricaDeItems::obtenerItemAleatorio(const std::string &idCriatura){
     Configuraciones *config = Configuraciones::obtenerInstancia();
     std::string idItem = "";
     TipoItem result = config->calcularDropItem(idCriatura);
@@ -68,11 +70,13 @@ Item* FabricaDeItems::obtenerItemAleatorio(std::string &idCriatura){
     return itemNulo.get();                                      //No hay drop
 }
 //Armas
-Arma* FabricaDeItems::crearArma(std::string &id){
+Arma* FabricaDeItems::crearArma(const std::string &id){
     std::unique_lock<std::mutex> lock(this->mutex);
     std::unordered_map<std::string, std::unique_ptr<Arma>>::iterator it = armas.find(id);
     if (it != armas.end()){
         return it->second.get();
+    }else if (esArmaDeCuracion(id)){
+        return crearArmaCuracion(id);
     }
     Configuraciones *config = Configuraciones::obtenerInstancia();
     int danioMax = config->obtenerArmaDanioMax(id);
@@ -95,8 +99,30 @@ Arma* FabricaDeItems::crearArma(std::string &id){
     return armas[id].get();
 }
 
+Arma* FabricaDeItems::crearArmaCuracion(const std::string &id){
+    Configuraciones *config = Configuraciones::obtenerInstancia();
+    uint32_t curacionMax = config->obtenerArmaCuracionMax(id);
+    uint32_t curacionMin = config->obtenerArmaCuracionMin(id);
+    float radioAtaque = config->obtenerArmaRangoAtaque(id);
+    double tiempoAtaque = config->obtenerArmaTiempoAtaque(id);
+    uint32_t consumoMana = config->obtenerArmaConsumoMana(id);
+    uint32_t precio = config->obtenerArmaPrecio(id);
+    uint16_t idTCP = config->obtenerArmaIDTCP(id);
+    std::string idProyectil = config->obtenerArmaIDProyectil(id);
+    armas[id] = std::unique_ptr<Arma>(new ArmaCuracion(curacionMax, 
+                                                       curacionMin, 
+                                                       consumoMana, 
+                                                       radioAtaque, 
+                                                       tiempoAtaque, 
+                                                       id,
+                                                       idProyectil, 
+                                                       idTCP, 
+                                                       precio));
+    return armas[id].get();
+}
+
 //Armadura
-Armadura* FabricaDeItems::crearArmadura(std::string &id){
+Armadura* FabricaDeItems::crearArmadura(const std::string &id){
     std::unique_lock<std::mutex> lock(this->mutex);
     std::unordered_map<std::string, std::unique_ptr<Armadura>>::iterator it = armaduras.find(id);
     if (it != armaduras.end()){
@@ -111,7 +137,7 @@ Armadura* FabricaDeItems::crearArmadura(std::string &id){
     return armaduras[id].get();
 }
 //Escudo
-Escudo* FabricaDeItems::crearEscudo(std::string &id){
+Escudo* FabricaDeItems::crearEscudo(const std::string &id){
     std::unique_lock<std::mutex> lock(this->mutex);
     std::unordered_map<std::string, std::unique_ptr<Escudo>>::iterator it = escudos.find(id);
     if (it != escudos.end()){
@@ -126,7 +152,7 @@ Escudo* FabricaDeItems::crearEscudo(std::string &id){
     return escudos[id].get();
 }
 //Casco
-Casco* FabricaDeItems::crearCasco(std::string &id){
+Casco* FabricaDeItems::crearCasco(const std::string &id){
     std::unique_lock<std::mutex> lock(this->mutex);
     std::unordered_map<std::string, std::unique_ptr<Casco>>::iterator it = cascos.find(id);
     if (it != cascos.end()){
@@ -141,7 +167,7 @@ Casco* FabricaDeItems::crearCasco(std::string &id){
     return cascos[id].get();
 }
 //Pocion
-Pocion* FabricaDeItems::crearPocion(std::string &id){
+Pocion* FabricaDeItems::crearPocion(const std::string &id){
     std::unique_lock<std::mutex> lock(this->mutex);
     std::unordered_map<std::string, std::unique_ptr<Pocion>>::iterator it = pociones.find(id);
     if (it != pociones.end()){
@@ -188,4 +214,11 @@ Item* FabricaDeItems::obtenerItemIDTCP(uint16_t idTCP){
     }
     //Si se llego aca es porque el id es erroneo
     throw Excepcion("Error al fabricar item: El id %u es erroneo", idTCP);
+}
+
+
+bool FabricaDeItems::esArmaDeCuracion(const std::string &id) const{
+    std::unordered_set<std::string>::const_iterator it = armasCuracion.find(id);
+    if (it == armasCuracion.end()) return false;
+    return true;
 }
