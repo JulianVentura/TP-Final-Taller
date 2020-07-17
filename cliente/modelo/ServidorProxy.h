@@ -78,6 +78,7 @@ public:
 	void enviarCompra(int pos);
 	void enviarUtilizar(int pos);
 	void enviarTirar(int pos);
+	void enviarTransaccion(bool esDeposito);
 
 	// Interaccion
 	void enviarInteraccion(const std::string& id);

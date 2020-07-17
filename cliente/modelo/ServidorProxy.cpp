@@ -250,6 +250,11 @@ void ServidorProxy::enviarUtilizar(int pos){
 	protocolo.enviarUint16(socket, pos);
 }
 
+void ServidorProxy::enviarTransaccion(bool esDeposito){
+	protocolo.enviarUint32(socket, CODIGO_TRANSACCION);
+	protocolo.enviarUint8(socket, esDeposito);
+}
+
 //Interaccion
 
 void ServidorProxy::enviarAtaque(const std::string& id){
