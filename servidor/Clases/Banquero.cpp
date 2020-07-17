@@ -107,7 +107,7 @@ void Banquero::transaccion(bool esDeposito, Estado *estado, Cliente *cliente){
 }
 
 void Banquero::transaccion(bool esDeposito, Personaje *personaje, Cliente *cliente){
-    uint32_t oroEnAlmacen = personaje->obtenerOroAlmacen();
+    uint32_t &oroEnAlmacen = personaje->obtenerOroAlmacen();
     uint32_t oroEncima = personaje->obtenerOro();
     //std::vector<Item*>& almacen = personaje->obtenerAlmacen();
     uint32_t monto = 0;
@@ -121,12 +121,12 @@ void Banquero::transaccion(bool esDeposito, Personaje *personaje, Cliente *clien
     }
     if (monto < limiteTransaccion) monto = limiteTransaccion;
     if (esDeposito){
-        if (monto < oroEncima) monto = oroEncima;
+        if (oroEncima < monto) monto = oroEncima;
         personaje->restarOro(monto);
         oroEnAlmacen += monto;
         mensaje << "Has depositado " << monto << " oro.";
     }else{
-        if (monto < oroEnAlmacen) monto = oroEnAlmacen;
+        if (oroEnAlmacen < monto) monto = oroEnAlmacen;
         personaje->recibirOro(monto);
         oroEnAlmacen -= monto;
         mensaje << "Has retirado " << monto << " oro.";
