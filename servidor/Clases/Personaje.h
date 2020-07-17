@@ -107,6 +107,8 @@ class Personaje : public Entidad{
     //Serializacion
     serializacionPersonaje serializar();
     serializacionDibujado serializarEstado();
+    // serializacionEstado serializarEstado();
+    SerializacionEquipo serializarEquipo();
 
     ~Personaje();
 

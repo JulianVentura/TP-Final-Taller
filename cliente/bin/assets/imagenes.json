@@ -40,7 +40,7 @@
 					"ojos": [],
 					"cicatrices" : [],
 					"nariz": [],
-					"facial": ["formal_monocle.png"],
+					"facial": [],
 					"pies": ["black_shoes_male.png"],
 					"piernas": ["male_robe_bottom_dark.png"],
 					"torso": ["formal_iverness.png"],
@@ -177,9 +177,9 @@
 	"ruta_equipables": "equipables/",
 	"equipables": {
 		"armas": {
-			"reemplaza": "armas",
+			"reemplaza": "arma",
 			"datos": {
-				"1": { 
+				"14": { 
 					"nombre": "Espada",
 					"descripcion": "arma de combate a mano, tiene un daño de 2 a 5.",
 					"imagen": "long_knife.png"
@@ -213,7 +213,7 @@
 					"animacion": "oversize",
 					"imagen": "13.png"
 				},
-				"14": {
+				"1": {
 					"nombre": "Báculo engarzado",
 					"descripcion": "permite lanzar el hechizo explosion que tiene un daño a distancia de 8 a 20. Consume 30 de mana.",
 					"animacion": "oversize",
@@ -341,16 +341,16 @@
 		},
 		"Banquero": {
 			"cuerpo" : ["man-white.png"],
-			"ojos": [],
+			"ojos": ["green.png"],
 			"cicatrices" : [],
 			"nariz": [],
-			"facial": ["5.png", "barba/blonde2.png"],
-			"pies": ["brown_shoes_male.png"],
-			"piernas": ["male_pants_green.png"],
-			"torso": ["male_shirt_green.png", "formal_vest stripes.png"],
-			"cinto": ["leather_male.png"],
-			"pelo": ["longhawk/white-blonde.png"],
-			"cabeza": []
+			"facial": ["formal_glasses.png"],
+			"pies": ["black_shoes_male.png"],
+			"piernas": ["Pants_black.png"],
+			"torso": ["formal_shirt.png", "9.png"],
+			"cinto": [],
+			"pelo": ["shorthawk/brunette.png"],
+			"cabeza": ["formal_tophat_black.png"]
 		},
 		"Sacerdote": {
 			"cuerpo" : ["man-white.png"],

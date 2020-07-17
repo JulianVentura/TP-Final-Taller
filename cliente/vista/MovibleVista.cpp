@@ -23,7 +23,9 @@ const std::vector<std::string> MovibleVista::ordenDeImagenes = {
     "torso",
     "cinto",
     "pelo",
-    "cabeza"
+    "cabeza",
+    "arma",
+    "escudo"
 };
 
 #define NPC_ANIMACION 60

@@ -30,6 +30,8 @@ void GameLoop::procesar(){
         while (continuar){
             transcurrido = reloj.actualizar();
             lag += transcurrido;
+            //Descomentar para ver FPS
+            //fprintf(stderr, "FPS: %f\n", 1000/transcurrido);
             //Proceso las operaciones de la cola
             procesarOperaciones();
             while (lag >= msPorActualizacion){
@@ -64,3 +66,38 @@ void GameLoop::procesarOperaciones(){
         }
     }
 }
+
+/*
+
+Almacenero guarda oro:
+
+Nueva operacion CODIGO_TRANSFERIR que recibe un id y un monto con signo.
+
+Se ira a buscar a tal id al mapa y se le solicitara tal operacion:
+
+
+OperacionTransferir::ejecutar(mapa, cliente, id, monto){
+    Entidad *entidad = mapa->buscar(id);
+    Personaje *personaje = cliente->obtenerPersonaje();
+
+    entidad->solicitarTransferencia(personaje->estado(), cliente, monto);
+}
+
+Banquero::solicitarTransferencia(estado, cliente, monto){
+    estado->pedirTransferencia(this, monto, cliente);
+}
+
+EstadoNormal::pedirTransferencia(banquero, monto, cliente){
+    banquero->transferir(this->personaje, monto, cliente);
+}
+//Monto > 0 : El banquero recibe dinero
+//Monto <= 0 : El banquero entrega dinero
+Banquero::transferir(personaje, cliente, monto){
+    if (monto >= 0){
+        if (personaje->oroAlmacenado < monto){
+            //No tiene oro suficiente.
+        }
+    }
+}
+
+*/

@@ -89,6 +89,10 @@ void ClienteProxy::decodificarTirado(){
     colaOperaciones->push(operacion);
 }
 
+void ClienteProxy::decodificarMeditacion(){
+    Operacion *operacion = new OperacionMeditar(cliente);
+    colaOperaciones->push(operacion);
+}
 
 bool ClienteProxy::decodificarCodigo(uint32_t codigo){
     switch (codigo){
@@ -127,6 +131,10 @@ bool ClienteProxy::decodificarCodigo(uint32_t codigo){
             decodificarAtaque();
             break;
 
+        case CODIGO_MEDITACION:
+            decodificarMeditacion();
+            break;
+
         default:
             enviarError("No se ha podido decodificar el codigo de operacion, finaliza la conexion");
             return false;
@@ -139,6 +147,7 @@ void ClienteProxy::decodificarJugador( std::string& id, std::string& clave){
     protocolo.recibirString(socket, id);
     protocolo.recibirString(socket, clave);
 }
+
 
 void ClienteProxy::decodificarNuevoJugador( std::string& id, std::string& clave){
     std::string raza, clase;
@@ -225,13 +234,17 @@ void ClienteProxy::enviarContenedor(std::vector<Item*>& items){
     }
 }
 
-void ClienteProxy::enviarInventario(std::vector<Item*>& items, uint16_t oro){
+void ClienteProxy::enviarInventario(SerializacionEquipo serEquipo){
 	std::lock_guard<std::mutex> lock(m);
 	protocolo.enviarUint32(socket, CODIGO_INVENTARIO);
-    for(auto& item : items){
-        protocolo.enviarUint16(socket, item -> obtenerIDTCP());
+    protocolo.enviarUint16(socket, serEquipo.armaEquipada);
+    protocolo.enviarUint16(socket, serEquipo.armaduraEquipada);
+    protocolo.enviarUint16(socket, serEquipo.cascoEquipado);
+    protocolo.enviarUint16(socket, serEquipo.escudoEquipado);
+    for(auto& serItem : serEquipo.items){
+        protocolo.enviarUint16(socket, serItem.idTCP);
     }
-    protocolo.enviarUint16(socket, oro);
+    protocolo.enviarUint16(socket, serEquipo.oro);
 }
 
 void ClienteProxy::enviarConfirmacion(){

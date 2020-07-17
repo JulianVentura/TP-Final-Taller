@@ -35,6 +35,7 @@ private:
     Protocolo protocolo;
     bool decodificarCodigo(uint32_t codigo);
     void decodificarMovimiento();
+    void decodificarMeditacion();
     void decodificarMensajeChat();
     void decodificarInteraccion();
     void decodificarCompra();
@@ -63,7 +64,7 @@ public:
     void enviarConfirmacion();
     void enviarTienda(std::vector<Item*>& items);
     void enviarContenedor(std::vector<Item*>& items);
-    void enviarInventario(std::vector<Item*>& items, uint16_t oro);
+    void enviarInventario(SerializacionEquipo serEquipo);
     void enviarEstado(uint16_t vidaActual, 
                       uint16_t vidaMaxima,
                       uint16_t manaActual, 

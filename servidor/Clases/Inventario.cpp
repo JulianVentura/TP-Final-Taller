@@ -2,16 +2,14 @@
 #include "BolsaDeItems.h"
 #include "Excepcion.h"
 #include "FabricaDeItems.h"
-//Esto deberia sincronizarse con el cliente, un define en un common.
-#define LIMITE_INVENTARIO 18
-//Ver si es necesario levantar el limite de items del archivo de configuraciones
 
-Inventario::Inventario() : limiteItems(LIMITE_INVENTARIO){
+
+Inventario::Inventario() : limiteItems(TAM_INVENTARIO){
     //Provisorio
     items.clear();
     FabricaDeItems *fabricaItems = FabricaDeItems::obtenerInstancia();
     itemNulo = fabricaItems -> crearItemNulo();
-    for(int i = 0;i < LIMITE_INVENTARIO;i++){
+    for(int i = 0;i < TAM_INVENTARIO;i++){
         items.push_back(itemNulo);
     }
 }
@@ -41,14 +39,14 @@ int Inventario::almacenar(Item* item){
 }
 
 Item* Inventario::obtenerItem(unsigned int pos){
-    if (pos >= LIMITE_INVENTARIO || items[pos] == itemNulo){
+    if (pos >= TAM_INVENTARIO || items[pos] == itemNulo){
         throw Excepcion("Error: No hay ningun item almacenado en la posicion solicitada.");
     }
     return items[pos];
 }
 
 void Inventario::eliminar(unsigned int pos){
-    if (pos >= LIMITE_INVENTARIO) return;
+    if (pos >= TAM_INVENTARIO) return;
     items[pos] = itemNulo;
 }
 
@@ -58,5 +56,11 @@ std::vector<Item*>* Inventario::obtenerTodosLosItems(){
 
 void Inventario::eliminarTodosLosItems(){
     items.clear();
-    items.resize(LIMITE_INVENTARIO, itemNulo);
+    items.resize(TAM_INVENTARIO, itemNulo);
+}
+
+void Inventario::serializar(SerializacionItem *ser){
+    for (std::size_t i=0; i < TAM_INVENTARIO; i++){
+        ser[i] = std::move(items[i]->serializar());
+    }
 }

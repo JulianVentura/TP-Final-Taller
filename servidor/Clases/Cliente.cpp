@@ -38,6 +38,12 @@ Cliente::Cliente(Socket &&socket,
     miSala->cargarCliente(this);
     continuar = true;
     clienteProxy.enviarConfirmacion();
+
+    /*
+
+    ACA SE HACE CLIENTE->ENVIARINVENTARIO
+
+    */
 }
 
 void Cliente::nuevoUsuario(std::pair<std::string, std::string> &credenciales, 
@@ -90,8 +96,7 @@ void Cliente::enviarTienda(std::vector<Item*>& items){
 }
 
 void Cliente::enviarInventario(){
-    clienteProxy.enviarInventario(*personaje -> obtenerInventario(),
-     personaje -> obtenerOro());
+    clienteProxy.enviarInventario(std::move(personaje->serializarEquipo()));
 }
 
 void Cliente::cargarMapa(const std::vector<char> &&infoMapa){
@@ -106,6 +111,7 @@ void Cliente::cargarMapa(const std::vector<char> &&infoMapa){
 std::string Cliente::obtenerId(){
     return this->id;
 }
+
 Personaje* Cliente::obtenerPersonaje(){
     return personaje.get();
 }

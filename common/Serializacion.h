@@ -2,6 +2,7 @@
 #define __SERIALIZACION_H__
 #include <cstdint>
 #define TAM_ID 20
+#define TAM_INVENTARIO 18
 #define ID_NO_EQUIPADO 0
 
 typedef struct PosicionEncapsulada{
@@ -21,5 +22,19 @@ typedef struct serializacionDibujado{
     uint16_t idClase;
     uint16_t idEstado;
 } serializacionDibujado;
+
+typedef struct serializacionItem{
+    uint16_t idTCP;
+    uint16_t precio;
+}SerializacionItem;
+
+typedef struct serializacionEquipo{
+    uint16_t armaEquipada;
+    uint16_t armaduraEquipada;
+    uint16_t cascoEquipado;
+    uint16_t escudoEquipado;
+    uint16_t oro;
+    SerializacionItem items[TAM_INVENTARIO];
+}SerializacionEquipo;
 
 #endif

@@ -54,6 +54,7 @@ public:
 	void enviarLogin(std::string& nombre, std::string& clave);
 	void enviarNuevaCuenta(std::string& nombre, std::string& clave,
 						   std::string& raza, std::string& clase);
+	void enviarMeditacion();
 	bool estaLogueado() const;
 
 	// General
