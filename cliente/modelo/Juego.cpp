@@ -5,18 +5,15 @@
 #include <string>
 #define NPC_DELIMITADOR "#"
 
-
 using json = nlohmann::json;
 
-void Juego::agregarObstruible(IObstruible* obstruible) {
-    capaFrontal.agregarObstruible(obstruible);
-}
-
 void Juego::actualizar(unsigned int delta_t) {
+    std::lock_guard<std::mutex> l(mtx);
     escena.actualizar(delta_t);
 }
 
 void Juego::render() {
+    std::lock_guard<std::mutex> l(mtx);
     escena.render();
 }
 
@@ -70,7 +67,7 @@ void Juego::agregarEntidad(std::string& id, DatosApariencia& apariencia) {
     if (movibles.count(id)) return;
     printf("%s \n", id.c_str());
     movibles[id] = std::move(crearEntidad(id, apariencia));
-    capaFrontal.agregarObstruible(movibles[id].second);
+    capaFrontal.agregarObstruible(id, movibles[id].second);
     servidor.agregarPosicionable(id, movibles[id].first);
     if (id == datos_personaje.id) 
         camara.setObjetivo(movibles[id].second);    
@@ -78,17 +75,16 @@ void Juego::agregarEntidad(std::string& id, DatosApariencia& apariencia) {
 
 Juego::~Juego() {
     for (auto& movible: movibles) {
-        borrarEntidad(movible.first);
-        // delete movible.second.first;
-        // delete movible.second.second;
+        delete movible.second.first;
+        delete movible.second.second;
     }
 }
 
 void Juego::borrarEntidad(const std::string& id) {
     if (!movibles.count(id)) return;
     servidor.borrarPosicionable(id);
-    capaFrontal.borrarObstruible(movibles[id].second);
-    delete movibles[id].first;
+    capaFrontal.borrarObstruible(id);
+    delete movibles[id].first;  
     delete movibles[id].second;
     movibles[id].first = nullptr;
     movibles[id].second = nullptr;
@@ -112,6 +108,7 @@ std::pair<IPosicionable*, MovibleVista*> Juego::crearEntidad(std::string& id,
 
 void Juego::actualizarPosiciones(std::unordered_map<std::string, std::pair<int, 
                                                             int>> posiciones) {
+    std::lock_guard<std::mutex> l(mtx);
     for (auto& posicion: posiciones) {
 		if (!movibles.count(posicion.first)) {
 			std::string id(posicion.first);

@@ -53,6 +53,7 @@ void MovibleVista::actualizar(unsigned int delta_t) {
     animacion_local.setMascara(mascara);
     animacion_local.avanzar();
 }
+
 void renderImagen(Imagen* imagen, SDL_Rect& mascara, int x, int y, int ancho, int alto) {
     imagen->setMascara(mascara);
     imagen->setAncho(ancho);
@@ -60,6 +61,7 @@ void renderImagen(Imagen* imagen, SDL_Rect& mascara, int x, int y, int ancho, in
     imagen->setPosicion(x, y);
     imagen->render();
 }
+
 void MovibleVista::render() {
     if (!esta_apariencia) return;
     std::unordered_map<std::string, Imagen*> equipables(std::move(parser.getEquipables(apariencia)));

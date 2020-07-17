@@ -33,9 +33,9 @@
         }
     },
     "Personaje": {
-        "VidaBase": 10000,
+        "VidaBase": 400,
         "NivelBase": 1,
-        "FuerzaBase": 5000,
+        "FuerzaBase": 50,
         "InteligenciaBase": 8,
         "AgilidadBase": 5,
         "ConstitucionBase": 5,

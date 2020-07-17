@@ -16,9 +16,6 @@ EntornoGrafico::~EntornoGrafico() {
         TTF_CloseFont(font);
         TTF_Quit();
     }
-    // for (auto& textura: textures)
-    //     SDL_DestroyTexture(textura.second);
-    
     SDL_Quit();
 }
 
