@@ -1,5 +1,5 @@
 #include "Escena.h"
-#include "MovibleVista.h"
+#include "EntidadVista.h"
 #include "LibreriaConjuntoTiles.h"
 #include "CapaFrontal.h"
 
