@@ -445,6 +445,7 @@ SerializacionEstado Personaje::serializarEstado(){
     serEstado.vidaActual        = this->vidaActual;
     serEstado.manaMaximo        = this->manaMaximo;
     serEstado.manaActual        = this->manaActual;
+    serEstado.nivel             = this -> nivel;
     return serEstado;
 }
 

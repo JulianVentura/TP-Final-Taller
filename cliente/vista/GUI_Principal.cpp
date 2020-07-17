@@ -22,7 +22,8 @@ GUI_Principal::GUI_Principal(EntornoGrafico& entorno, Colores& paleta,
 	boton_meditar_vista(entorno, paleta),
 	tienda_vista(entorno, paleta, imagenes_equipo, datos_tienda.inventario,
 	 datos_tienda.precios, datos_tienda.activo),
-	chat_vista(entorno, paleta){
+	chat_vista(entorno, paleta),
+	nivel_vista(entorno, paleta, datos_personaje.nivel){
 	entorno.agregarRendereable(this);
 }
 
@@ -41,6 +42,7 @@ void GUI_Principal::render() {
 	inventario_vista.render();
 	tienda_vista.render();
 	boton_oro_vista.render();
+	nivel_vista.render();
 }
 
 void GUI_Principal::actualizarDimension(){
@@ -54,6 +56,7 @@ void GUI_Principal::actualizarDimension(){
 	tienda_vista.actualizarDimension();
 	boton_oro_vista.actualizarDimension();
 	chat_vista.actualizarDimension();
+	nivel_vista.actualizarDimension();
 }
 
 GUI_Principal::~GUI_Principal(){}

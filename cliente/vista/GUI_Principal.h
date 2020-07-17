@@ -17,6 +17,7 @@
 #include "../vista/GUI_BarraMana.h"
 #include "../vista/GUI_BarraExp.h"
 #include "../vista/GUI_Chat.h"
+#include "../vista/GUI_Nivel.h"
 #include "../vista/GUI_PanelInventario.h"
 #include "../vista/GUI_PanelTienda.h"
 #include "../controlador/GUI_Principal_Controlador.h"
@@ -34,6 +35,7 @@ private:
 	GUI_BotonMeditar boton_meditar_vista;
 	GUI_PanelTienda tienda_vista;
 	GUI_Chat chat_vista;
+	GUI_Nivel nivel_vista;
 
 public:
 	GUI_Principal(EntornoGrafico& entorno, Colores& paleta,

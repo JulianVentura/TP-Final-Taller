@@ -15,7 +15,7 @@ public:
 	std::atomic<uint16_t> vida, vida_max,
 					 mana, mana_max,
 					 exp , exp_max,
-					 oro;
+					 nivel, oro;
 	std::atomic<uint16_t> inventario[INV_ANCHO*INV_ALTO];
 	std::atomic<uint16_t> equipados[ESPACIOS_EQUIPO];
 	DatosPersonaje();

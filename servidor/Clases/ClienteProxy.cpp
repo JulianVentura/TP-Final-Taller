@@ -262,6 +262,7 @@ void ClienteProxy::enviarEstado(SerializacionEstado serEstado){
     protocolo.enviarUint16(socket, serEstado.manaMaximo);
     protocolo.enviarUint16(socket, serEstado.experiencia);
     protocolo.enviarUint16(socket, serEstado.limiteParaSubir);
+    protocolo.enviarUint32(socket, serEstado.nivel);
 }
 
 void ClienteProxy::enviarDibujadoPersonajes(const std::vector<SerializacionDibujado> &dibujados){
