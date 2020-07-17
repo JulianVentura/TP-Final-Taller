@@ -550,7 +550,7 @@ std::string Configuraciones::obtenerItemRandom(std::string &idCriatura, std::str
     if (!floatComp(probas[probas.size()-1], 1)){
         throw Excepcion
         ("Error: Se ha solicitado el calculo de una probabilidad para el item %s de la criatura %s, "
-        "pero las probabilidades no suman 1");
+        "pero las probabilidades no suman 1", idItem.c_str(), idCriatura.c_str());
     }
     float resultado = (float) rand() / (float) RAND_MAX;
 
