@@ -1,6 +1,7 @@
 #include "EntornoMusical.h"
 
-#define NUEVO_AUDIO(x,y) sonidos[x] = createAudio(y, 0, SDL_MIX_MAXVOLUME)
+#define VOLUMEN SDL_MIX_MAXVOLUME*0.8
+#define NUEVO_AUDIO(x,y) sonidos[x] = createAudio(y, 0, VOLUMEN)
 
 std::unordered_map<std::string, Audio*> EntornoMusical::sonidos;
 EntornoMusical EntornoMusical::instancia;
@@ -18,14 +19,14 @@ EntornoMusical* EntornoMusical::obtenerInstancia(){
 void EntornoMusical::reproducirSonido(std::string nombre){
 	try{
 		playSoundFromMemory(sonidos.at(nombre),
-			SDL_MIX_MAXVOLUME/2);
+			VOLUMEN/2);
 	}catch(std::exception& e){}
 }
 
 void EntornoMusical::reproducirMusica(std::string nombre){
 	try{
 		playMusicFromMemory(sonidos.at(nombre),
-			SDL_MIX_MAXVOLUME);
+			VOLUMEN);
 	}catch(std::exception& e){}
 }
 
