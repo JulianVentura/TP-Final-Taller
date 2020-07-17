@@ -26,7 +26,7 @@ std::string Arma::atacar(Entidad *objetivo, Entidad *atacante, Mapa *mapa){
     tiempoTranscurrido += reloj.actualizar();
     if (tiempoTranscurrido < tiempoAtaque) return "";
     tiempoTranscurrido = 0;
-
+    if (atacante == objetivo) return "";
     float distancia = atacante->obtenerPosicion().calcularDistancia(objetivo->obtenerPosicion());
     if (distancia > this->radioAtaque){
         return "Estas muy lejos del oponente";

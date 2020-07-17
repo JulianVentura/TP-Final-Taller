@@ -9,7 +9,7 @@
 class Mapa;
 class Entidad;
 class Arma : public Item{
-    private:
+    protected:
     unsigned int danioMax;
     unsigned int danioMin;
     unsigned int consumoMana;
@@ -33,7 +33,7 @@ class Arma : public Item{
     Arma(Arma &&otro) = delete;
     Arma& operator=(Arma &otro) = delete;
     Arma& operator=(Arma &&otro) = delete;
-    std::string atacar(Entidad *objetivo, Entidad *atacante, Mapa *mapa);
+    virtual std::string atacar(Entidad *objetivo, Entidad *atacante, Mapa *mapa);
     void utilizar(Personaje *personaje, unsigned int pos) override;
     void desequipar(Personaje *personaje, unsigned int pos) override;
     friend class Configuraciones;

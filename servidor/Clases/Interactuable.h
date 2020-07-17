@@ -26,12 +26,14 @@ class Interactuable : public Movible{
     virtual void vender(unsigned int pos, Estado *estado, Cliente *cliente) = 0;
     virtual void vender(Item* item, Personaje *personaje, Cliente *cliente) = 0;
     virtual void listar(Personaje *personaje, Cliente *cliente) = 0;
+    virtual void transaccion(bool esDeposito, Estado *estado, Cliente *cliente) = 0;
     //Ataques
     virtual std::string atacar(Personaje *objetivo) = 0;
     virtual std::string atacar(Criatura *objetivo) = 0;
     virtual void serAtacadoPor(Personaje *atacante) = 0;
     virtual void serAtacadoPor(Criatura *atacante) = 0;
     virtual std::string recibirDanio(int danio, Entidad *atacante) = 0;
+    virtual void recibirCuracion(unsigned int curacion, Entidad *lanzador) = 0;
 
     virtual const std::string obtenerId() const;
     virtual ~Interactuable();

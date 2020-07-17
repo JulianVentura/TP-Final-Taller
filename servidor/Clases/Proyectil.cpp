@@ -38,6 +38,8 @@ void Proyectil::vender(Item* item, Personaje *personaje, Cliente *cliente){}
 
 void Proyectil::listar(Personaje *personaje, Cliente *cliente){}
 
+void Proyectil::transaccion(bool esDeposito, Estado *estado, Cliente *cliente){}
+
 void Proyectil::curar(Personaje *personaje, Cliente *cliente){}
 
 
@@ -52,6 +54,8 @@ void Proyectil::serAtacadoPor(Personaje *atacante){}
 void Proyectil::serAtacadoPor(Criatura *atacante){}
 
 std::string Proyectil::recibirDanio(int danio, Entidad *atacante){ return ""; }
+
+void Proyectil::recibirCuracion(unsigned int curacion, Entidad *lanzador){}
 
 //Estado
 

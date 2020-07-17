@@ -10,7 +10,7 @@ class Mapa;
 class Interactuable;
 class Cliente;
 class Item;
-class Sacerdote;
+class Banquero;
 class Estado{
     protected:
     Personaje *personaje;
@@ -27,10 +27,12 @@ class Estado{
     virtual void actualizar(double tiempo) = 0;
     //Comercio
     virtual void interactuar(Entidad *entidad) = 0;
-    virtual void curar(float curVida, float curMana) = 0;
+    virtual bool curar(float curVida, float curMana) = 0;
+    virtual void sanar() = 0;
     virtual void pedirListado(Interactuable *interactuable, Cliente *cliente) = 0;
     virtual void pedirCompra(unsigned int pos, Interactuable *interactuable, Cliente *cliente) = 0;
     virtual void pedirVenta(unsigned int pos, Interactuable *interactuable, Cliente *cliente) = 0;
+    virtual void pedirTransaccion(bool esDeposito, Cliente *cliente, Banquero *banquero) = 0;
     const uint16_t obtenerIDTCP() const;
 
     virtual ~Estado();

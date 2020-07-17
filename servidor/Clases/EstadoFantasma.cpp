@@ -5,7 +5,7 @@
 #include "Mapa.h"
 #include "Configuraciones.h"
 #include "Interactuable.h"
-#include "Sacerdote.h"
+#include "Banquero.h"
 #include "Cliente.h"
 #include "Item.h"
 #include "Divulgador.h"
@@ -50,9 +50,13 @@ void EstadoFantasma::interactuar(Entidad *entidad){
     //Interactuar normalmente.
 }
 
-void EstadoFantasma::curar(float curVida, float curMana){
-    personaje->curar(curVida, curMana);
+void EstadoFantasma::sanar(){
+    personaje->curar(personaje->vidaMaxima, personaje->manaMaximo);
     personaje->estadoNormal();
+}
+
+bool EstadoFantasma::curar(float curVida, float curMana){
+    return false;
 }
 
 void EstadoFantasma::pedirListado(Interactuable *interactuable, Cliente *cliente){
@@ -67,6 +71,11 @@ void EstadoFantasma::pedirCompra(unsigned int pos, Interactuable *interactuable,
 
 void EstadoFantasma::pedirVenta(unsigned int pos, Interactuable *interactuable, Cliente *cliente){
     std::string mensaje = "No puede comerciar siendo fantasma";
+    cliente->enviarChat(mensaje, false);
+}
+
+void EstadoFantasma::pedirTransaccion(bool esDeposito, Cliente *cliente, Banquero *banquero){
+    std::string mensaje = "No puede realizar una transaccion siendo fantasma";
     cliente->enviarChat(mensaje, false);
 }
 

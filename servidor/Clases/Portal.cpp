@@ -31,6 +31,8 @@ void Portal::vender(Item* item, Personaje *personaje, Cliente *cliente){}
 
 void Portal::listar(Personaje *personaje, Cliente *cliente){}
 
+void Portal::transaccion(bool esDeposito, Estado *estado, Cliente *cliente){}
+
 //Ataque
 
 std::string Portal::atacar(Personaje *objetivo){ return "";}
@@ -42,6 +44,8 @@ void Portal::serAtacadoPor(Personaje *atacante){}
 void Portal::serAtacadoPor(Criatura *atacante){}
 
 std::string Portal::recibirDanio(int danio, Entidad *atacante){ return "";}
+
+void Portal::recibirCuracion(unsigned int curacion, Entidad *lanzador){}
 
 //Estado
 

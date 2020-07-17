@@ -90,6 +90,8 @@ void BolsaDeItems::listar(Personaje *personaje, Cliente *cliente){
     cliente -> enviarContenedor(std::move(this->serializarBolsa()));
 }
 
+void BolsaDeItems::transaccion(bool esDeposito, Estado *estado, Cliente *cliente){}
+
 bool BolsaDeItems::haFinalizado(){
     if (bolsaVacia){
         mapaAlQuePertenece->eliminarEntidad(this);
@@ -99,33 +101,21 @@ bool BolsaDeItems::haFinalizado(){
 
 //Ataque
 
-std::string BolsaDeItems::atacar(Personaje *objetivo){
-    return "";
-}
+std::string BolsaDeItems::atacar(Personaje *objetivo){ return ""; }
 
-std::string BolsaDeItems::atacar(Criatura *objetivo){
-    return "";
-}
+std::string BolsaDeItems::atacar(Criatura *objetivo){ return ""; }
 
-void BolsaDeItems::serAtacadoPor(Personaje *atacante){
-    //Nada
-}
+void BolsaDeItems::serAtacadoPor(Personaje *atacante){}
 
-void BolsaDeItems::serAtacadoPor(Criatura *atacante){
-    //Nada
-}
+void BolsaDeItems::serAtacadoPor(Criatura *atacante){}
 
-std::string BolsaDeItems::recibirDanio(int danio, Entidad *atacante){
-    return "";
-}
+std::string BolsaDeItems::recibirDanio(int danio, Entidad *atacante){ return "";}
 
-void BolsaDeItems::actualizarEstado(double tiempo){
-    //Logica de despawn.
-}
+void BolsaDeItems::actualizarEstado(double tiempo){}
 
-void BolsaDeItems::dropearItems(Entidad *atacante){
-    //Nada
-}
+void BolsaDeItems::dropearItems(Entidad *atacante){}
+
+void BolsaDeItems::recibirCuracion(unsigned int curacion, Entidad *lanzador){}
 
 std::vector<SerializacionItem> BolsaDeItems::serializarBolsa(){
     std::vector<SerializacionItem> resultado(TAM_TIENDA);

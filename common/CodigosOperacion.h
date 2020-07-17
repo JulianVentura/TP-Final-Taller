@@ -19,6 +19,7 @@ enum CODIGOS : uint32_t {
                          CODIGO_MEDITACION,
                          CODIGO_COMPRA,
                          CODIGO_VENTA,
+                         CODIGO_TRANSACCION,
                          CODIGO_UTILIZACION,
                          CODIGO_TIRADO,
                          CODIGO_ATAQUE,

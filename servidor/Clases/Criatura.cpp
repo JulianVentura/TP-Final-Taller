@@ -185,6 +185,8 @@ void Criatura::continuarAtacando(){
 	objetivo->serAtacadoPor(this);
 }
 
+void Criatura::recibirCuracion(unsigned int curacion, Entidad *lanzador){}
+
 //Comercio
 
 void Criatura::interactuar(Estado *estado, Cliente *cliente){
@@ -210,5 +212,7 @@ void Criatura::vender(Item* item, Personaje *personaje, Cliente *cliente){
 void Criatura::listar(Personaje *personaje, Cliente *cliente){
     //No hago nada
 }
+
+void Criatura::transaccion(bool esDeposito, Estado *estado, Cliente *cliente){}
 
 Criatura::~Criatura(){}

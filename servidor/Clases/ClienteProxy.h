@@ -10,6 +10,7 @@
 #include "ExcepcionCliente.h"
 #include "Item.h"
 #include "OperacionInteractuar.h"
+#include "OperacionTransaccion.h"
 #include "OperacionComprar.h"
 #include "OperacionVender.h"
 #include "OperacionAtacar.h"
@@ -38,6 +39,7 @@ private:
     void decodificarMeditacion();
     void decodificarMensajeChat();
     void decodificarInteraccion();
+    void decodificarTransaccion();
     void decodificarCompra();
     void decodificarVenta();
     void decodificarAtaque();

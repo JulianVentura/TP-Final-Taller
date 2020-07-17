@@ -36,6 +36,7 @@ class Criatura : public Entidad{
     void serAtacadoPor(Personaje *atacante) override;
     void serAtacadoPor(Criatura *atacante) override;
     std::string recibirDanio(int danio, Entidad *atacante) override;
+    void recibirCuracion(unsigned int curacion, Entidad *lanzador) override;
     //Equipo
     void dropearItems(Entidad *atacante) override;
     //Comercio
@@ -45,6 +46,7 @@ class Criatura : public Entidad{
     void vender(unsigned int pos, Estado *estado, Cliente *cliente) override;
     void vender(Item* item, Personaje *personaje, Cliente *cliente) override;
     void listar(Personaje *personaje, Cliente *cliente) override;
+    void transaccion(bool esDeposito, Estado *estado, Cliente *cliente) override;
 
     ~Criatura();
 

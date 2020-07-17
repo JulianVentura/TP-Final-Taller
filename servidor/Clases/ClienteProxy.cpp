@@ -60,6 +60,19 @@ void ClienteProxy::decodificarCompra(){
     colaOperaciones->push(operacion);
 }
 
+void ClienteProxy::decodificarTransaccion(){
+    bool esDeposito = protocolo.recibirUint8(socket);
+    std::string id;
+    protocolo.recibirString(socket, id);
+    
+    Operacion *operacion = new OperacionTransaccion(cliente, 
+                                                    cliente -> obtenerSala() -> obtenerMapa(),
+                                                    id, 
+                                                    esDeposito);
+    colaOperaciones->push(operacion);
+
+}
+
 void ClienteProxy::decodificarVenta(){
     std::string id;
     protocolo.recibirString(socket, id);
@@ -133,6 +146,10 @@ bool ClienteProxy::decodificarCodigo(uint32_t codigo){
 
         case CODIGO_MEDITACION:
             decodificarMeditacion();
+            break;
+
+        case CODIGO_TRANSACCION:
+            decodificarTransaccion();
             break;
 
         default:
@@ -262,6 +279,7 @@ void ClienteProxy::enviarEstado(SerializacionEstado serEstado){
     protocolo.enviarUint16(socket, serEstado.manaMaximo);
     protocolo.enviarUint16(socket, serEstado.experiencia);
     protocolo.enviarUint16(socket, serEstado.limiteParaSubir);
+    protocolo.enviarUint32(socket, serEstado.nivel);
 }
 
 void ClienteProxy::enviarDibujadoPersonajes(const std::vector<SerializacionDibujado> &dibujados){

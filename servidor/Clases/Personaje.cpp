@@ -24,6 +24,7 @@ Personaje::Personaje() : Entidad(""),
                          experiencia(0),
                          limiteParaSubir(0),
                          cantidadOro(0),
+                         oroEnAlmacen(0),
                          arma(NO_EQUIPADO),
                          armadura(NO_EQUIPADO),
                          escudo(NO_EQUIPADO),
@@ -43,6 +44,7 @@ Personaje::Personaje(float x, float y, std::string id, std::string idClase, std:
                                        experiencia(0),
                                        limiteParaSubir(0),
                                        cantidadOro(0),
+                                       oroEnAlmacen(0),
                                        arma(NO_EQUIPADO),
                                        armadura(NO_EQUIPADO),
                                        escudo(NO_EQUIPADO),
@@ -97,6 +99,7 @@ Personaje::Personaje(std::string idPersonaje, std::string idRaza,
     manaActual = datos.manaActual;
     //limiteParaSubir = datos.limiteParaSubir;
     cantidadOro = datos.cantidadOro;
+    oroEnAlmacen = 0; //Falta persistir el oro del almacen
 
     auto inventarioTemp = inventario.obtenerTodosLosItems();
 
@@ -237,6 +240,12 @@ void Personaje::serAtacadoPor(Criatura *atacante){
     estado->serAtacadoPor(atacante);
 }
 
+void Personaje::recibirCuracion(unsigned int curacion, Entidad *lanzador){
+    if (estado->curar(curacion, 0)){
+        Divulgador *divulgador = Divulgador::obtenerInstancia();
+        divulgador->encolarMensaje(this->id, "Has sido curado");
+    }
+}
 
 void Personaje::curar(float curVida, float curMana){
     vidaActual += curVida;
@@ -245,8 +254,8 @@ void Personaje::curar(float curVida, float curMana){
     if (manaActual > manaMaximo) manaActual = manaMaximo;
 }
 
-void Personaje::curar(){
-    estado->curar(vidaMaxima, manaMaximo);
+void Personaje::sanar(){
+    estado->sanar();
 }
 
 void Personaje::eliminarDeInventario(unsigned int pos){
@@ -272,13 +281,16 @@ void Personaje::dropearItems(Entidad *atacante){
         mensaje << "Recibes " << oroAEntregar << " oro";
         divulgador->encolarMensaje(atacante->obtenerId(), mensaje.str());
     }
-
-    //No hay riesgo de RC al cargar algo a mapa porque este es el unico hilo que accede a el.
+    //El mapa se asegura de que no haya una RC al cargar
     mapaAlQuePertenece->cargarEntidad(std::move(bolsa));
 }
 
 std::vector<Item*>& Personaje::obtenerAlmacen(){
     return almacen;
+}
+
+uint32_t& Personaje::obtenerOroAlmacen(){
+    return oroEnAlmacen;
 }
 
 std::vector<Item*>* Personaje::obtenerInventario(){
@@ -408,6 +420,7 @@ void Personaje::listar(Personaje *personaje, Cliente *cliente){
     //No hago nada
 }
 
+void Personaje::transaccion(bool esDeposito, Estado *estado, Cliente *cliente){}
 
 //Serializacion
 
@@ -445,6 +458,7 @@ SerializacionEstado Personaje::serializarEstado(){
     serEstado.vidaActual        = this->vidaActual;
     serEstado.manaMaximo        = this->manaMaximo;
     serEstado.manaActual        = this->manaActual;
+    serEstado.nivel             = this -> nivel;
     return serEstado;
 }
 

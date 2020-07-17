@@ -9,43 +9,46 @@
 #include "Pocion.h"
 #include "FabricaDeItems.h"
 
-Comerciante::Comerciante(float x, float y) : Entidad("Comerciante#"), tamTienda(0){
+Comerciante::Comerciante(float x, float y) : Entidad("Comerciante#"){
     Configuraciones *config = Configuraciones::obtenerInstancia();
     FabricaDeItems *fabrica = FabricaDeItems::obtenerInstancia();
     std::string id_base = "Comerciante";
     uint32_t ancho = config->obtenerCiudadanoAncho(id_base);
     uint32_t alto = config->obtenerCiudadanoAlto(id_base);
-    tamTienda = config->obtenerTamanioTienda();
     posicion = std::move(Posicion(x, y, ancho, alto));
     unsigned int cont = 0;
     itemNulo = fabrica -> crearItemNulo();
-    /*
-    idItem = "Hacha";
-    items.push_back(fabrica->crearArma(idItem));
-    idItem = "Martillo";
-    items.push_back(fabrica->crearArma(idItem));
-    idItem = "VaraDeFresno";
-    items.push_back(fabrica->crearArma(idItem));
-    idItem = "ArmaduraDeCuero";
-    items.push_back(fabrica->crearArmadura(idItem));
-    idItem = "ArmaduraDePlacas";
-    items.push_back(fabrica->crearArmadura(idItem));
-    idItem = "Capucha";
-    items.push_back(fabrica->crearCasco(idItem));
-    idItem = "EscudoDeTortuga";
-    items.push_back(fabrica->crearEscudo(idItem));
-    */
-    std::string idItem;
-    items.resize(tamTienda, itemNulo);
-    idItem = "Espada";
-    items[cont] = fabrica->crearArma(idItem);
-    cont++;
-    idItem = "PocionVida";
-    items[cont] = fabrica->crearPocion(idItem);
-    cont++;
-    idItem = "PocionMana";
-    items[cont] = fabrica->crearPocion(idItem);
-    cont++;
+    items.resize(TAM_TIENDA, itemNulo);
+    std::vector<std::string> idItems = config->obtenerCiudadanoStockArmas(id_base);
+    for (auto &idArma : idItems){
+        if (cont == TAM_TIENDA) break;
+        items[cont] = fabrica->crearArma(idArma);
+        cont++;
+    }
+    idItems = config->obtenerCiudadanoStockArmaduras(id_base);
+    for (auto &idArmadura : idItems){
+        if (cont == TAM_TIENDA) break;
+        items[cont] = fabrica->crearArmadura(idArmadura);
+        cont++;
+    }
+    idItems = config->obtenerCiudadanoStockEscudos(id_base);
+    for (auto &idEscudo : idItems){
+        if (cont == TAM_TIENDA) break;
+        items[cont] = fabrica->crearEscudo(idEscudo);
+        cont++;
+    }
+    idItems = config->obtenerCiudadanoStockCascos(id_base);
+    for (auto &idCasco : idItems){
+        if (cont == TAM_TIENDA) break;
+        items[cont] = fabrica->crearCasco(idCasco);
+        cont++;
+    }
+    idItems = config->obtenerCiudadanoStockPociones(id_base);
+    for (auto &idPocion : idItems){
+        if (cont == TAM_TIENDA) break;
+        items[cont] = fabrica->crearPocion(idPocion);
+        cont++;
+    }   
 }
 
 void Comerciante::interactuar(Estado *estado, Cliente *cliente){
@@ -65,7 +68,7 @@ void Comerciante::comprar(unsigned int pos, Personaje *personaje, Cliente *clien
         cliente->enviarChat(mensaje, false);
         return;
     }
-    if (pos >= tamTienda || items[pos] == itemNulo){
+    if (pos >= TAM_TIENDA || items[pos] == itemNulo){
         //No hay nada que comprar
         return;
     }
@@ -107,27 +110,21 @@ void Comerciante::listar(Personaje *personaje, Cliente *cliente){
     cliente -> enviarTienda(this->serializarTienda());
 }
 
+void Comerciante::transaccion(bool esDeposito, Estado *estado, Cliente *cliente){}
+
 //Ataque
 
-std::string Comerciante::atacar(Personaje *objetivo){
-    return "";
-}
+std::string Comerciante::atacar(Personaje *objetivo){ return ""; }
 
-std::string Comerciante::atacar(Criatura *objetivo){
-    return "";
-}
+std::string Comerciante::atacar(Criatura *objetivo){ return ""; }
 
-void Comerciante::serAtacadoPor(Personaje *atacante){
-    //Nada
-}
+void Comerciante::serAtacadoPor(Personaje *atacante){}
 
-void Comerciante::serAtacadoPor(Criatura *atacante){
-    //Nada
-}
+void Comerciante::serAtacadoPor(Criatura *atacante){}
 
-std::string Comerciante::recibirDanio(int danio, Entidad *atacante){
-    return "";;
-}
+std::string Comerciante::recibirDanio(int danio, Entidad *atacante){ return "";}
+
+void Comerciante::recibirCuracion(unsigned int curacion, Entidad *lanzador){}
 
 //Estado
 

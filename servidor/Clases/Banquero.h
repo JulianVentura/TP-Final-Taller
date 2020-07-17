@@ -10,7 +10,8 @@ class Personaje;
 class Item;
 class Banquero : public Entidad{
     private:
-    uint32_t tamAlmacen;
+    uint32_t limiteTransaccion;
+    float fraccionTransaccion;
     Item* itemNulo;
     public:
     Banquero(float x, float y);
@@ -20,6 +21,7 @@ class Banquero : public Entidad{
     void serAtacadoPor(Personaje *atacante) override;
     void serAtacadoPor(Criatura *atacante) override;
     std::string recibirDanio(int danio, Entidad *atacante) override;
+    void recibirCuracion(unsigned int curacion, Entidad *lanzador) override;
     //Comercio
     void interactuar(Estado *estado, Cliente *cliente) override;
     void comprar(unsigned int pos, Estado *estad, Cliente *clienteo) override;
@@ -27,6 +29,8 @@ class Banquero : public Entidad{
     void vender(unsigned int pos, Estado *estado, Cliente *cliente) override;
     void vender(Item* item, Personaje *personaje, Cliente *cliente) override;
     void listar(Personaje *personaje, Cliente *cliente) override;
+    void transaccion(bool esDeposito, Estado *estado, Cliente *cliente) override;
+    void transaccion(bool esDeposito, Personaje *personaje, Cliente *cliente);
     //Estado
     void actualizarEstado(double tiempo) override;
     void dropearItems(Entidad *atacante) override;

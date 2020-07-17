@@ -6,13 +6,14 @@
 #include "Configuraciones.h"
 #include "Excepcion.h"
 
-Banquero::Banquero(float x, float y) : Entidad("Banquero#"), tamAlmacen(0){
+Banquero::Banquero(float x, float y) : Entidad("Banquero#"), limiteTransaccion(0), fraccionTransaccion(0){
     Configuraciones *config = Configuraciones::obtenerInstancia();
     std::string id_base = "Banquero";
     uint32_t ancho = config->obtenerCiudadanoAncho(id_base);
     uint32_t alto = config->obtenerCiudadanoAlto(id_base);
-    tamAlmacen = config->obtenerTamanioTienda();
     posicion = std::move(Posicion(x, y, ancho, alto));
+    limiteTransaccion = 100;
+    fraccionTransaccion = 0.2;  //Levantar esto de config.json
 
     FabricaDeItems *fabrica = FabricaDeItems::obtenerInstancia();
     itemNulo = fabrica -> crearItemNulo();
@@ -38,7 +39,7 @@ void Banquero::comprar(unsigned int pos, Personaje *personaje, Cliente *cliente)
         return;
     }
     std::vector<Item*>& almacen = personaje->obtenerAlmacen();
-    if (pos >= tamAlmacen || almacen[pos] == itemNulo){
+    if (pos >= TAM_TIENDA || almacen[pos] == itemNulo){
         //No hay nada que entregarle
         return;
     }
@@ -62,7 +63,7 @@ void Banquero::vender(Item* item, Personaje *personaje, Cliente *cliente){
     //Comprarle el item que pide y notificarle a cliente
     std::vector<Item*>& almacen = personaje->obtenerAlmacen();
     bool almacenado = false;
-    for (std::size_t i=0; i<tamAlmacen; i++){
+    for (std::size_t i=0; i<TAM_TIENDA; i++){
         if (almacen[i] == itemNulo){
             almacen[i] = item;
             almacenado = true;
@@ -91,27 +92,48 @@ void Banquero::listar(Personaje *personaje, Cliente *cliente){
     cliente -> enviarContenedor(std::move(this->serializarAlmacen(almacen)));
 }
 
+void Banquero::transaccion(bool esDeposito, Estado *estado, Cliente *cliente){
+    estado->pedirTransaccion(esDeposito, cliente, this);
+}
+
+void Banquero::transaccion(bool esDeposito, Personaje *personaje, Cliente *cliente){
+    uint32_t oroEnAlmacen = personaje->obtenerOroAlmacen();
+    uint32_t oroEncima = personaje->obtenerOro();
+    uint32_t monto = 0;
+    std::stringstream mensaje;
+    if (esDeposito){
+        monto = oroEncima * fraccionTransaccion;
+    }else{
+        monto = oroEnAlmacen * fraccionTransaccion;
+    }
+    if (monto < limiteTransaccion) monto = limiteTransaccion;
+    if (esDeposito){
+        if (monto < oroEncima) monto = oroEncima;
+        personaje->restarOro(monto);
+        oroEnAlmacen += monto;
+        mensaje << "Has depositado " << monto << " oro.";
+    }else{
+        if (monto < oroEnAlmacen) monto = oroEnAlmacen;
+        personaje->recibirOro(monto);
+        oroEnAlmacen -= monto;
+        mensaje << "Has retirado " << monto << " oro.";
+    }
+    cliente->enviarInventario();
+}
+
 //Ataque
 
-std::string Banquero::atacar(Personaje *objetivo){
-    return "";
-}
+std::string Banquero::atacar(Personaje *objetivo){ return ""; }
 
-std::string Banquero::atacar(Criatura *objetivo){
-    return "";
-}
+std::string Banquero::atacar(Criatura *objetivo){ return ""; }
 
-void Banquero::serAtacadoPor(Personaje *atacante){
-    //Nada
-}
+void Banquero::serAtacadoPor(Personaje *atacante){}
 
-void Banquero::serAtacadoPor(Criatura *atacante){
-    //Nada
-}
+void Banquero::serAtacadoPor(Criatura *atacante){}
 
-std::string Banquero::recibirDanio(int danio, Entidad *atacante){
-    return "";
-}
+std::string Banquero::recibirDanio(int danio, Entidad *atacante){ return ""; }
+
+void Banquero::recibirCuracion(unsigned int curacion, Entidad *lanzador){}
 
 //Estado
 

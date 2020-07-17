@@ -85,6 +85,7 @@ void ServidorProxy::recibirMensajeConOperacion(uint32_t operacion) {
 			datos_personaje.mana_max = protocolo.recibirUint16(socket);
 			datos_personaje.exp = protocolo.recibirUint16(socket);
 			datos_personaje.exp_max = protocolo.recibirUint16(socket);
+			datos_personaje.nivel = protocolo.recibirUint32(socket);
 		break;
 		
 		case CODIGO_ERROR:
@@ -194,7 +195,7 @@ void ServidorProxy::recibir_estados() {
 	for (std::size_t i = 0; i < largo; i++) {
 		serializacionDibujado actual;
 		socket.recibir(actual.id, TAM_ID);
-        actual.idArmaEquipada = protocolo.recibirUint16(socket);
+        	actual.idArmaEquipada = protocolo.recibirUint16(socket);
 		actual.idArmaduraEquipada = protocolo.recibirUint16(socket);
 		actual.idCascoEquipado = protocolo.recibirUint16(socket);
 		actual.idEscudoEquipado = protocolo.recibirUint16(socket);
@@ -247,6 +248,11 @@ void ServidorProxy::enviarTirar(int pos){
 void ServidorProxy::enviarUtilizar(int pos){
 	protocolo.enviarUint32(socket, CODIGO_UTILIZACION);
 	protocolo.enviarUint16(socket, pos);
+}
+
+void ServidorProxy::enviarTransaccion(bool esDeposito){
+	protocolo.enviarUint32(socket, CODIGO_TRANSACCION);
+	protocolo.enviarUint8(socket, esDeposito);
 }
 
 //Interaccion
