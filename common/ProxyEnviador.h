@@ -6,6 +6,8 @@
 #include "../common/Mensaje.h"
 #include "../common/commonSocket.h"
 
+#define LIMITE_COLA_ENVIADOR 5000
+
 class ProxyEnviador final : public Thread{
     private:
     ColaBloqueanteMensajes& colaMensajes;

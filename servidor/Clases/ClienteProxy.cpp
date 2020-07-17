@@ -9,10 +9,7 @@ ClienteProxy::ClienteProxy(Socket unSocket, Cliente *miCliente) :
                            socket(std::move(unSocket)),
                            cliente(miCliente),
                            colaOperaciones(nullptr),
-                           enviador(socket, colaEnvio),
-                           limiteCorte(0){
-    
-    limiteCorte = 5000; //Levantar de configuraciones.
+                           enviador(socket, colaEnvio){
     enviador.comenzar();
 }
 
@@ -316,7 +313,7 @@ void ClienteProxy::enviarDibujadoPersonajes(const std::vector<SerializacionDibuj
 
 void ClienteProxy::encolarMensaje(Mensaje &&mensaje){
     //Chequear el tamanio de la cola, si supera cierto limite se cierra la conexion y liberan los recursos.
-    if (colaEnvio.obtenerTamBytesAlmacenados() >= limiteCorte){
+    if (colaEnvio.obtenerTamBytesAlmacenados() >=  LIMITE_COLA_ENVIADOR){
         this->finalizar();
         return;
     }
