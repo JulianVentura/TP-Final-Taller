@@ -5,8 +5,8 @@
 #include <sys/socket.h> // Para SHUT_RDWR
 
 #include "../../common/commonSocket.h"
+#include "../../common/Thread.h"
 
-#include "Thread.h"
 #include "BaseDeDatos.h"
 #include "OrganizadorSalas.h"
 #include "OrganizadorClientes.h"

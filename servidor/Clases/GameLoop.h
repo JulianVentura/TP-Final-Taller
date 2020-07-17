@@ -1,6 +1,6 @@
 #ifndef __GAME_LOOP_H__
 #define __GAME_LOOP_H__
-#include "Thread.h"
+#include "../../common/Thread.h"
 #include "Mapa.h"
 #include "ColaOperaciones.h"
 #include "Reloj.h"

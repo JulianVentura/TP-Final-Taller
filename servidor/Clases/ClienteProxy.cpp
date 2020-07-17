@@ -44,13 +44,6 @@ void ClienteProxy::decodificarMensajeChat(){
     divulgador->encolarMensaje(origen, destino, mensaje);
 }
 
-void ClienteProxy::enviarChat(const std::string& mensaje, bool mensaje_publico){
-    std::lock_guard<std::mutex> lock(m);
-    protocolo.enviarUint32(socket, CODIGO_MENSAJE_CHAT);
-    protocolo.enviarString(socket, mensaje);
-    socket.enviar((char*) &mensaje_publico, 1);
-}
-
 void ClienteProxy::decodificarInteraccion(){
     std::string id;
     protocolo.recibirString(socket, id);
@@ -207,6 +200,14 @@ bool ClienteProxy::recibirOperacion(){
 }
 
 //////////////////////////ENVIO DE MENSAJES/////////////////////////////
+
+void ClienteProxy::enviarChat(const std::string& mensaje, bool mensaje_publico){
+    std::lock_guard<std::mutex> lock(m);
+    protocolo.enviarUint32(socket, CODIGO_MENSAJE_CHAT);
+    protocolo.enviarString(socket, mensaje);
+    protocolo.enviarUint8(socket, mensaje_publico);
+    encolarMensaje(std::move(protocolo.finalizarEnvio()));
+}
 
 void ClienteProxy::enviarError(std::string mensaje){
     std::lock_guard<std::mutex> lock(m);
