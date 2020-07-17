@@ -41,6 +41,8 @@ GUI_Login::GUI_Login(EntornoGrafico& entorno, Colores& paleta,
 	botones.push_back(&selector_raza);
 	botones.push_back(&selector_clase);
 
+	entrada_sup_vista.marco_entrada.h = 24;
+	entrada_sup_vista.marco_entrada.w = 150;
 	entrada_sup_vista.entrada = "localhost";
 	entrada_inf_vista.entrada = "3080";
 
@@ -68,14 +70,9 @@ void GUI_Login::render() {
 }
 
 void GUI_Login::actualizarDimension(){
-	int ventana_ancho  = ventana -> getAncho();
-	int ventana_alto = ventana -> getAlto();
-
 	//Cuadros entrada
-	entrada_sup_vista.marco_entrada.x = ventana_ancho*0.1;
-	entrada_sup_vista.marco_entrada.y = ventana_alto*0.2 + 20;
-	entrada_sup_vista.marco_entrada.h = 24;
-	entrada_sup_vista.marco_entrada.w = ventana_ancho*0.2;
+	entrada_sup_vista.marco_entrada.x = X_BASE_LOGIN;
+	entrada_sup_vista.marco_entrada.y = Y_BASE_LOGIN + 20;
 	entrada_inf_vista.marco_entrada = entrada_sup_vista.marco_entrada;
 	entrada_inf_vista.marco_entrada.y += 56;
 	entrada_sup_vista.actualizarDimension();

@@ -78,17 +78,20 @@ void Juego::agregarEntidad(std::string& id, DatosApariencia& apariencia) {
 
 Juego::~Juego() {
     for (auto& movible: movibles) {
-        delete movible.second.first;
-        delete movible.second.second;
+        borrarEntidad(movible.first);
+        // delete movible.second.first;
+        // delete movible.second.second;
     }
 }
 
-void Juego::borrarEntidad(std::string& id) {
+void Juego::borrarEntidad(const std::string& id) {
     if (!movibles.count(id)) return;
     servidor.borrarPosicionable(id);
     capaFrontal.borrarObstruible(movibles[id].second);
     delete movibles[id].first;
     delete movibles[id].second;
+    movibles[id].first = nullptr;
+    movibles[id].second = nullptr;
     movibles.erase(id);
 }
 

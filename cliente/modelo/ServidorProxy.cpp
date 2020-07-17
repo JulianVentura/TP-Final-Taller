@@ -85,6 +85,7 @@ void ServidorProxy::recibirMensajeConOperacion(uint32_t operacion) {
 			datos_personaje.mana_max = protocolo.recibirUint16(socket);
 			datos_personaje.exp = protocolo.recibirUint16(socket);
 			datos_personaje.exp_max = protocolo.recibirUint16(socket);
+			datos_personaje.nivel = protocolo.recibirUint32(socket);
 		break;
 		
 		case CODIGO_ERROR:
@@ -179,7 +180,7 @@ void ServidorProxy::agregarPosicionable(std::string& id,
 	posicionables[id] = posicionable;
 }
 
-void ServidorProxy::borrarPosicionable(std::string& id) {
+void ServidorProxy::borrarPosicionable(const std::string& id) {
 	posicionables.erase(id);
 }
 
@@ -190,11 +191,11 @@ void ServidorProxy::enviarMovimiento(uint32_t movimiento) {
 
 void ServidorProxy::recibir_estados() {
 	uint32_t largo = protocolo.recibirUint32(socket);
-	std::vector<SerializacionDibujado> resultado;
+	std::vector<serializacionDibujado> resultado;
 	for (std::size_t i = 0; i < largo; i++) {
-		SerializacionDibujado actual;
+		serializacionDibujado actual;
 		socket.recibir(actual.id, TAM_ID);
-        actual.idArmaEquipada = protocolo.recibirUint16(socket);
+        	actual.idArmaEquipada = protocolo.recibirUint16(socket);
 		actual.idArmaduraEquipada = protocolo.recibirUint16(socket);
 		actual.idCascoEquipado = protocolo.recibirUint16(socket);
 		actual.idEscudoEquipado = protocolo.recibirUint16(socket);

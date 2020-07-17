@@ -76,7 +76,7 @@ std::string Criatura::recibirDanio(int danio, Entidad *atacante){
                                                            atacante,
                                                            danio);
     atacante->obtenerExperiencia(experiencia);
-    mensaje << mensajeGolpeCritico << "Realizas " << danio << "de danio";
+    mensaje << mensajeGolpeCritico << "Realizas " << danio << " de danio ";
     if (vidaActual - danio <= 0){
         this->vidaActual = 0;
         experiencia = config->calcularExpPorMatar(this, atacante);
@@ -212,5 +212,7 @@ void Criatura::vender(Item* item, Personaje *personaje, Cliente *cliente){
 void Criatura::listar(Personaje *personaje, Cliente *cliente){
     //No hago nada
 }
+
+void Criatura::transaccion(bool esDeposito, Estado *estado, Cliente *cliente){}
 
 Criatura::~Criatura(){}

@@ -40,7 +40,7 @@
 					"ojos": [],
 					"cicatrices" : [],
 					"nariz": [],
-					"facial": ["formal_monocle.png"],
+					"facial": [],
 					"pies": ["black_shoes_male.png"],
 					"piernas": ["male_robe_bottom_dark.png"],
 					"torso": ["formal_iverness.png"],
@@ -156,13 +156,13 @@
 			}
 		},
 		"6": {
-			"copiar": "humano",
+			"copiar": "4",
 			"nombre": "Enanos",
 			"descripcion": "son muy fuertes y resistentes, pero la agilidad no es lo suyo.",
 			"escala": 0.9
 		},
 		"7": {
-			"copiar": "elfo",
+			"copiar": "5",
 			"nombre": "Gnomos",
 			"descripcion": "inteligentes y resistentes, pero mucho menos ágiles que los elfos.",
 			"escala": 0.9
@@ -177,7 +177,7 @@
 	"ruta_equipables": "equipables/",
 	"equipables": {
 		"armas": {
-			"reemplaza": "armas",
+			"reemplaza": "arma",
 			"datos": {
 				"1": { 
 					"nombre": "Espada",
@@ -333,46 +333,24 @@
 		},
 		"Arania": {
 			"cuerpo" : ["spider1.png"],
-			"ojos": [],
-			"cicatrices" : [],
-			"nariz": [],
-			"facial": [],
-			"pies": [],
-			"piernas": [],
-			"torso": [],
-			"cinto": [],
-			"pelo": [],
-			"cabeza": [],
-			"armas": [],
 			"animacion": "arania"
 		},
 		"Arania2": {
 			"cuerpo" : ["spider2.png"],
-			"ojos": [],
-			"cicatrices" : [],
-			"nariz": [],
-			"facial": [],
-			"pies": [],
-			"piernas": [],
-			"torso": [],
-			"cinto": [],
-			"pelo": [],
-			"cabeza": [],
-			"armas": [],
 			"animacion": "arania2"
 		},
 		"Banquero": {
 			"cuerpo" : ["man-white.png"],
-			"ojos": [],
+			"ojos": ["green.png"],
 			"cicatrices" : [],
 			"nariz": [],
-			"facial": ["5.png", "barba/blonde2.png"],
-			"pies": ["brown_shoes_male.png"],
-			"piernas": ["male_pants_green.png"],
-			"torso": ["male_shirt_green.png", "formal_vest stripes.png"],
-			"cinto": ["leather_male.png"],
-			"pelo": ["longhawk/white-blonde.png"],
-			"cabeza": []
+			"facial": ["formal_glasses.png"],
+			"pies": ["black_shoes_male.png"],
+			"piernas": ["Pants_black.png"],
+			"torso": ["formal_shirt.png", "9.png"],
+			"cinto": [],
+			"pelo": ["shorthawk/brunette.png"],
+			"cabeza": ["formal_tophat_black.png"]
 		},
 		"Sacerdote": {
 			"cuerpo" : ["man-white.png"],
@@ -389,44 +367,23 @@
 		},
 		"Fantasma": {
 			"cuerpo" : ["fantasmas.png"],
-			"ojos": [],
-			"cicatrices" : [],
-			"nariz": [],
-			"facial": [],
-			"pies": [],
-			"piernas": [],
-			"torso": [],
-			"cinto": [],
-			"pelo": [],
-			"cabeza": [],
-			"armas": [],
 			"animacion": "fantasma"
 		},
 		"Comerciante": {
 			"cuerpo" : ["man-white.png"],
-			"ojos": [],
+			"ojos": ["brown.png"],
 			"cicatrices" : [],
-			"nariz": [],
-			"facial": ["5.png", "barba/blonde2.png"],
-			"pies": ["brown_shoes_male.png"],
-			"piernas": ["male_pants_green.png"],
-			"torso": ["male_shirt_green.png", "formal_vest stripes.png"],
-			"cinto": ["leather_male.png"],
-			"pelo": ["longhawk/white-blonde.png"],
-			"cabeza": []
-		},
-		"BolsaDeItems": {
-			"cuerpo" : ["bag.png"],
-			"ojos": [],
-			"cicatrices" : [],
-			"nariz": [],
-			"facial": [],
-			"pies": [],
-			"piernas": [],
-			"torso": [],
+			"nariz": ["bignose_light.png"],
+			"facial": ["bigote/black.png"],
+			"pies": ["maroon_shoes_male.png"],
+			"piernas": ["Pants_black.png"],
+			"torso": ["formal_stripes_shirt.png"],
 			"cinto": [],
 			"pelo": [],
-			"cabeza": []
+			"cabeza": ["formal_hat.png"]
+		},
+		"BolsaDeItems": {
+			"cuerpo" : ["bag.png"]
 		}
 	},
 	"animacion": {

@@ -46,6 +46,7 @@ class Criatura : public Entidad{
     void vender(unsigned int pos, Estado *estado, Cliente *cliente) override;
     void vender(Item* item, Personaje *personaje, Cliente *cliente) override;
     void listar(Personaje *personaje, Cliente *cliente) override;
+    void transaccion(bool esDeposito, Estado *estado, Cliente *cliente) override;
 
     ~Criatura();
 

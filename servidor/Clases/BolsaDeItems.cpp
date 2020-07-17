@@ -90,6 +90,8 @@ void BolsaDeItems::listar(Personaje *personaje, Cliente *cliente){
     cliente -> enviarContenedor(std::move(this->serializarBolsa()));
 }
 
+void BolsaDeItems::transaccion(bool esDeposito, Estado *estado, Cliente *cliente){}
+
 bool BolsaDeItems::haFinalizado(){
     if (bolsaVacia){
         mapaAlQuePertenece->eliminarEntidad(this);

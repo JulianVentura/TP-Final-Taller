@@ -30,13 +30,13 @@ void Camara::transformar(int& x, int& y) const {
 }
 
 void Camara::centrar(Renderer* renderer, int ancho_unidad, float radio) {
-    if (!objetivo) return;
+    if (!objetivo || !marco) return;
     zoom = marco->getAncho() / (ancho_unidad * radio);
     zoom = round(zoom * ancho_unidad) / ancho_unidad;
     renderer->escalar(zoom);
 
-    int margen_h = (marco->getAncho() / zoom - objetivo->getAncho()) / 2;
-    int margen_v = (marco->getAlto() / zoom - objetivo->getAlto()) / 2;
+    margen_h = (marco->getAncho() / zoom - objetivo->getAncho()) / 2;
+    margen_v = (marco->getAlto() / zoom - objetivo->getAlto()) / 2;
     desplazamientoX = (objetivo->getX() - margen_h) * zoom;
     desplazamientoY = (objetivo->getY() - margen_v) * zoom;
     desplazamientoX = acotar(desplazamientoX, 0, maxX());
@@ -48,4 +48,12 @@ void Camara::reiniciar(Renderer* renderer) {
     if (!objetivo) return;
     renderer->desplazar(desplazamientoX, desplazamientoY);
     renderer->escalar(1.0f);
+}
+
+void Camara::getFrontera(SDL_Rect& frontera) {
+    if (!objetivo) return;
+    frontera.x = desplazamientoX / zoom;
+    frontera.y = desplazamientoY / zoom;
+    frontera.w = marco->getAncho() / zoom;
+    frontera.h = marco->getAlto() / zoom;
 }

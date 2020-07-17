@@ -22,7 +22,7 @@ typedef struct serializacionDibujado{
     uint16_t idRaza;
     uint16_t idClase;
     uint16_t idEstado;
-}SerializacionDibujado;
+} SerializacionDibujado;
 
 
 typedef struct serializacionEstado{
@@ -32,6 +32,7 @@ typedef struct serializacionEstado{
     uint16_t manaMaximo;
     uint16_t experiencia;
     uint16_t limiteParaSubir;
+    uint32_t nivel;
 }SerializacionEstado;
 
 typedef struct serializacionItem{

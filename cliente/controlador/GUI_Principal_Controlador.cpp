@@ -11,6 +11,7 @@ GUI_PrincipalControlador::GUI_PrincipalControlador(ServidorProxy& servidor,
             vista_principal.inventario_vista),
     boton_meditar_controlador(vista_principal.boton_meditar_vista, 
             servidor),
+    boton_oro_controlador(vista_principal.boton_oro_vista, servidor),
     tienda_controlador(vista_principal.tienda_vista, servidor),
     chat_controlador(vista_principal.chat_vista, servidor) {
         botones.push_back(&inventario_controlador);
@@ -19,6 +20,7 @@ GUI_PrincipalControlador::GUI_PrincipalControlador(ServidorProxy& servidor,
         botones.push_back(&boton_inventario_controlador);
         botones.push_back(&boton_meditar_controlador);
         servidor.salida = &chat_controlador;
+        botones.push_back(&boton_oro_controlador);
     }
 
 bool GUI_PrincipalControlador::manejarEvento(SDL_Event& evento) {

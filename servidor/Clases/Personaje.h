@@ -33,6 +33,7 @@ class Personaje : public Entidad{
     uint32_t experiencia;
     uint32_t limiteParaSubir;
     uint32_t cantidadOro;
+    uint32_t oroEnAlmacen;
     int arma;
     int armadura;
     int escudo;
@@ -65,6 +66,7 @@ class Personaje : public Entidad{
     void curar(float curVida, float curMana);
     void sanar();
     std::vector<Item*>& obtenerAlmacen();
+    uint32_t& obtenerOroAlmacen();
     std::vector<Item*>* obtenerInventario();
     //Ataque
     std::string atacar(Personaje *objetivo) override;
@@ -100,6 +102,7 @@ class Personaje : public Entidad{
     void vender(unsigned int pos, Estado *estado, Cliente *cliente) override;
     void vender(Item* item, Personaje *personaje, Cliente *cliente) override;
     void listar(Personaje *personaje, Cliente *cliente) override;
+    void transaccion(bool esDeposito, Estado *estado, Cliente *cliente) override;
     bool tieneOroSuficiente(unsigned int cantOro);
     void restarOro(unsigned int cantOro);
     void recibirOro(unsigned int cantOro);

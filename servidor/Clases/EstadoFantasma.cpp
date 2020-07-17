@@ -5,7 +5,7 @@
 #include "Mapa.h"
 #include "Configuraciones.h"
 #include "Interactuable.h"
-#include "Sacerdote.h"
+#include "Banquero.h"
 #include "Cliente.h"
 #include "Item.h"
 #include "Divulgador.h"
@@ -71,6 +71,11 @@ void EstadoFantasma::pedirCompra(unsigned int pos, Interactuable *interactuable,
 
 void EstadoFantasma::pedirVenta(unsigned int pos, Interactuable *interactuable, Cliente *cliente){
     std::string mensaje = "No puede comerciar siendo fantasma";
+    cliente->enviarChat(mensaje, false);
+}
+
+void EstadoFantasma::pedirTransaccion(bool esDeposito, Cliente *cliente, Banquero *banquero){
+    std::string mensaje = "No puede realizar una transaccion siendo fantasma";
     cliente->enviarChat(mensaje, false);
 }
 

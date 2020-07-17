@@ -5,7 +5,7 @@
 #include "Mapa.h"
 #include "Configuraciones.h"
 #include "Interactuable.h"
-#include "Sacerdote.h"
+#include "Banquero.h"
 #include "Cliente.h"
 #include "Item.h"
 #include "Divulgador.h"
@@ -31,6 +31,8 @@ std::string EstadoNormal::serAtacadoPor(Entidad *atacante){
 
 void EstadoNormal::meditar(){
     if (personaje->manaActual == personaje->manaMaximo) return;
+    Divulgador *divulgador = Divulgador::obtenerInstancia();
+    divulgador->encolarMensaje(personaje->id, "La concentracion hace al maestro, comienza a meditar.");
     personaje->estadoMeditacion();
 }
 
@@ -76,6 +78,10 @@ void EstadoNormal::pedirVenta(unsigned int pos, Interactuable *interactuable, Cl
     item->desequipar(personaje, pos);
     personaje->inventario.eliminar(pos);
     interactuable->vender(item, personaje, cliente);
+}
+
+void EstadoNormal::pedirTransaccion(bool esDeposito, Cliente *cliente, Banquero *banquero){
+    banquero->transaccion(esDeposito, personaje, cliente);
 }
 
 

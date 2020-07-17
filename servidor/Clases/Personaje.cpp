@@ -24,6 +24,7 @@ Personaje::Personaje() : Entidad(""),
                          experiencia(0),
                          limiteParaSubir(0),
                          cantidadOro(0),
+                         oroEnAlmacen(0),
                          arma(NO_EQUIPADO),
                          armadura(NO_EQUIPADO),
                          escudo(NO_EQUIPADO),
@@ -43,6 +44,7 @@ Personaje::Personaje(float x, float y, std::string id, std::string idClase, std:
                                        experiencia(0),
                                        limiteParaSubir(0),
                                        cantidadOro(0),
+                                       oroEnAlmacen(0),
                                        arma(NO_EQUIPADO),
                                        armadura(NO_EQUIPADO),
                                        escudo(NO_EQUIPADO),
@@ -97,6 +99,7 @@ Personaje::Personaje(std::string idPersonaje, std::string idRaza,
     manaActual = datos.manaActual;
     //limiteParaSubir = datos.limiteParaSubir;
     cantidadOro = datos.cantidadOro;
+    oroEnAlmacen = 0; //Falta persistir el oro del almacen
 
     auto inventarioTemp = inventario.obtenerTodosLosItems();
 
@@ -201,7 +204,7 @@ std::string Personaje::recibirDanio(int danio, Entidad *atacante){
         vidaActual -= danio;
     }
     mensaje.str("");
-    mensaje << mensajeGolpeCritico << "Realizas " << danio << " de danio";
+    mensaje << mensajeGolpeCritico << "Realizas " << danio << " de danio ";
     return mensaje.str();
 }
 
@@ -284,6 +287,10 @@ void Personaje::dropearItems(Entidad *atacante){
 
 std::vector<Item*>& Personaje::obtenerAlmacen(){
     return almacen;
+}
+
+uint32_t& Personaje::obtenerOroAlmacen(){
+    return oroEnAlmacen;
 }
 
 std::vector<Item*>* Personaje::obtenerInventario(){
@@ -413,6 +420,7 @@ void Personaje::listar(Personaje *personaje, Cliente *cliente){
     //No hago nada
 }
 
+void Personaje::transaccion(bool esDeposito, Estado *estado, Cliente *cliente){}
 
 //Serializacion
 
@@ -450,6 +458,7 @@ SerializacionEstado Personaje::serializarEstado(){
     serEstado.vidaActual        = this->vidaActual;
     serEstado.manaMaximo        = this->manaMaximo;
     serEstado.manaActual        = this->manaActual;
+    serEstado.nivel             = this -> nivel;
     return serEstado;
 }
 

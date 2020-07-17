@@ -19,6 +19,7 @@ class EstadoNormal : public Estado{
     void pedirListado(Interactuable *interactuable, Cliente *cliente) override;
     void pedirCompra(unsigned int pos, Interactuable *interactuable, Cliente *cliente) override;
     void pedirVenta(unsigned int pos, Interactuable *interactuable, Cliente *cliente) override;
+    void pedirTransaccion(bool esDeposito, Cliente *cliente, Banquero *banquero) override;
 
     ~EstadoNormal() override;
 };

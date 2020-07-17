@@ -1,6 +1,7 @@
 #ifndef MAPAVISTA_H
 #define MAPAVISTA_H
 
+#include "Camara.h"
 #include "IRendereable.h"
 #include "Imagen.h"
 #include "TileConjunto.h"
@@ -17,6 +18,7 @@ public:
     int getFilas();
     int getAnchoTile();
     int getAltoTile();
+    void setFrontera(SDL_Rect& frontera);
 
 private:
     LibreriaConjuntoTiles& conjuntosTiles;
@@ -25,6 +27,7 @@ private:
     int filas;
     int ancho_tile;
     int alto_tile;
+    SDL_Rect frontera = {};
 };
 
 #endif

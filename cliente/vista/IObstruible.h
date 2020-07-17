@@ -7,6 +7,7 @@ class IObstruible: public IRendereable, public ITargeteable {
 public:
     int getX() override;
     int getY() override;
+    void getFrontera(SDL_Rect& frontera);
     static bool comparar(IObstruible* obstruible,  IObstruible* otro);
 };
 

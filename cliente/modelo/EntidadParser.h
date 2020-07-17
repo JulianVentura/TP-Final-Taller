@@ -84,7 +84,9 @@ public:
     int getGuid(DatosApariencia& apariencia, std::string& accion, std::string& direccion, 
                                                 int columna, bool quieto=true);
     int getAncho(DatosApariencia& apariencia);
+    int getAnchoReal(DatosApariencia& apariencia);
     int getAlto(DatosApariencia& apariencia);
+    int getAltoReal(DatosApariencia& apariencia);
     int getAnimacionCantidadTipo(DatosApariencia& apariencia);
     int getAnimacionCantidad(DatosApariencia& apariencia, std::string& accion, 
                                                         std::string& direccion);

@@ -110,6 +110,8 @@ void Comerciante::listar(Personaje *personaje, Cliente *cliente){
     cliente -> enviarTienda(this->serializarTienda());
 }
 
+void Comerciante::transaccion(bool esDeposito, Estado *estado, Cliente *cliente){}
+
 //Ataque
 
 std::string Comerciante::atacar(Personaje *objetivo){ return ""; }

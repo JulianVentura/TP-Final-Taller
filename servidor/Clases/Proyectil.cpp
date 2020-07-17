@@ -38,6 +38,8 @@ void Proyectil::vender(Item* item, Personaje *personaje, Cliente *cliente){}
 
 void Proyectil::listar(Personaje *personaje, Cliente *cliente){}
 
+void Proyectil::transaccion(bool esDeposito, Estado *estado, Cliente *cliente){}
+
 void Proyectil::curar(Personaje *personaje, Cliente *cliente){}
 
 

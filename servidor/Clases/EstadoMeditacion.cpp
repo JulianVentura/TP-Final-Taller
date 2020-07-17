@@ -5,7 +5,7 @@
 #include "Mapa.h"
 #include "Configuraciones.h"
 #include "Interactuable.h"
-#include "Sacerdote.h"
+#include "Banquero.h"
 #include "Cliente.h"
 #include "Item.h"
 #include "Divulgador.h"
@@ -73,6 +73,11 @@ void EstadoMeditacion::pedirCompra(unsigned int pos, Interactuable *interactuabl
 
 void EstadoMeditacion::pedirVenta(unsigned int pos, Interactuable *interactuable, Cliente *cliente){
     std::string mensaje = "No puede interactuar mientras medita";
+    cliente->enviarChat(mensaje, false);
+}
+
+void EstadoMeditacion::pedirTransaccion(bool esDeposito, Cliente *cliente, Banquero *banquero){
+    std::string mensaje = "No puede realizar una transaccion mientras medita";
     cliente->enviarChat(mensaje, false);
 }
 

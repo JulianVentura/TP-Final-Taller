@@ -17,12 +17,16 @@ public:
     void actualizar(unsigned int delta_t) override;
     void agregarObstruible(IObstruible* obstruible);
     void borrarObstruible(IObstruible* obstruible);
+    void setFrontera(SDL_Rect& frontera);
 
 private:
+    void renderearObstruiblesVisibles();
+
     std::vector<IObstruible*> obstruibles;
     std::unordered_map<std::string, std::vector<int>> capas;
     std::unordered_map<std::string, std::vector<Obstaculo>> capasObstaculos;
     LibreriaConjuntoTiles& tiles;
+    SDL_Rect frontera;
     int columnas;
     int filas;
 };

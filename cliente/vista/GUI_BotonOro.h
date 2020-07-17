@@ -1,5 +1,5 @@
-#ifndef __GUI_ORO_H__
-#define __GUI_ORO_H__
+#ifndef __GUI_BOTON_ORO_H__
+#define __GUI_BOTON_ORO_H__
 
 #include <SDL2/SDL_render.h>
 #include <atomic>
@@ -9,16 +9,17 @@
 #include "../vista/EntornoGrafico.h"
 #include "../vista/IRendereable.h"
 
-class GUI_Oro  : public IRendereable{
+class GUI_BotonOro  : public IRendereable{
 private:
-	Imagen imagen;
-	SDL_Rect marco;
 	Colores& paleta;
 	std::atomic<uint16_t>& oro;
 public:
-	GUI_Oro(EntornoGrafico& entorno, Colores& paleta, std::atomic<uint16_t>& oro);
+	SDL_Rect marco;
+	Imagen imagen;
+	GUI_BotonOro(EntornoGrafico& entorno, Colores& paleta,
+	 std::atomic<uint16_t>& oro);
 	void render();
 	void actualizarDimension();
 };
 
-#endif /*__GUI_ORO_H__*/
+#endif /*__GUI_BOTON_ORO_H__*/
