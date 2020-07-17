@@ -61,13 +61,16 @@ void ClienteProxy::decodificarCompra(){
 }
 
 void ClienteProxy::decodificarTransaccion(){
-    //bool esDeposito = protocolo.recibirUint8(socket);
-    //std::string id = protocolo.recibirString(socket);
-    /*
-    Operacion *operacion = new OperacionTransar(cliente,
-    esDeposito, id);
+    bool esDeposito = protocolo.recibirUint8(socket);
+    std::string id;
+    protocolo.recibirString(socket, id);
+    
+    Operacion *operacion = new OperacionTransaccion(cliente, 
+                                                    cliente -> obtenerSala() -> obtenerMapa(),
+                                                    id, 
+                                                    esDeposito);
     colaOperaciones->push(operacion);
-    */
+
 }
 
 void ClienteProxy::decodificarVenta(){

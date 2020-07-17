@@ -10,6 +10,7 @@
 #include "ExcepcionCliente.h"
 #include "Item.h"
 #include "OperacionInteractuar.h"
+#include "OperacionTransaccion.h"
 #include "OperacionComprar.h"
 #include "OperacionVender.h"
 #include "OperacionAtacar.h"

@@ -118,6 +118,7 @@ void Banquero::transaccion(bool esDeposito, Personaje *personaje, Cliente *clien
         oroEnAlmacen -= monto;
         mensaje << "Has retirado " << monto << " oro.";
     }
+    cliente->enviarInventario();
 }
 
 //Ataque
