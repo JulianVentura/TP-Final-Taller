@@ -14,7 +14,7 @@
     },
     "Mapas": {
         "mapa": {
-            "Ruta": "../bosque.json",
+            "Ruta": "../mapa.json",
             "SpawnCriaturas": [
                 "Esqueleto",
                 "Arania",
