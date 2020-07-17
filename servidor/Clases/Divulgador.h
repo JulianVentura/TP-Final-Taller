@@ -2,12 +2,14 @@
 #define __DIVULGADOR_H__
 
 #include <string>
-#include "Thread.h"
+#include <atomic>
+#include <tuple>
+
+#include "../../common/Thread.h"
 #include "colaBloqueante.h"
 #include "OrganizadorClientes.h"
 #include "Cliente.h"
-#include <atomic>
-#include <tuple>
+
 
 #define PALABRA_RESERVADA " "
 

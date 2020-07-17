@@ -14,7 +14,8 @@
 
 ServidorProxy::ServidorProxy(DatosPersonaje& datos_personaje,
 	DatosTienda& datos_tienda)
-	 : datos_personaje(datos_personaje), datos_tienda(datos_tienda) {
+	 : datos_personaje(datos_personaje), datos_tienda(datos_tienda),
+	  enviador(socket, colaEnvio) {
 	salir = false;
 	se_recibio_mapa = false;
 	esta_logueado = false;
@@ -24,6 +25,13 @@ ServidorProxy::ServidorProxy(DatosPersonaje& datos_personaje,
 		evento_salida.type = tipo_evento;
 		evento_salida.user.code = SALIR_LOGIN_EXITO;
 	}
+	enviador.comenzar();
+}
+
+ServidorProxy::~ServidorProxy(){
+	socket.cerrar_canal(SHUT_RDWR);
+	colaEnvio.cerrarCola();
+	enviador.recuperar();
 }
 
 void ServidorProxy::conectar(std::string& direccion, std::string& servicio){
@@ -34,6 +42,7 @@ void ServidorProxy::enviarLogin(std::string& nombre, std::string& clave){
 	protocolo.enviarUint32(socket, CODIGO_ID);
 	protocolo.enviarString(socket, nombre);
 	protocolo.enviarString(socket, clave);
+	encolarMensaje(std::move(protocolo.finalizarEnvio()));
 	datos_personaje.id = nombre;
 }
 
@@ -44,6 +53,7 @@ void ServidorProxy::enviarNuevaCuenta(std::string& nombre, std::string& clave,
 	protocolo.enviarString(socket, clave);
 	protocolo.enviarString(socket, raza);
 	protocolo.enviarString(socket, clase);
+	encolarMensaje(std::move(protocolo.finalizarEnvio()));
 	datos_personaje.id = nombre;
 }
 
@@ -187,6 +197,7 @@ void ServidorProxy::borrarPosicionable(const std::string& id) {
 void ServidorProxy::enviarMovimiento(uint32_t movimiento) {
 	protocolo.enviarUint32(socket, CODIGO_MOVIMIENTO);
 	protocolo.enviarUint32(socket, movimiento);
+	encolarMensaje(std::move(protocolo.finalizarEnvio()));
 }
 
 void ServidorProxy::recibir_estados() {
@@ -224,6 +235,7 @@ void ServidorProxy::enviarChat(std::string mensaje){
 	protocolo.enviarString(socket, datos_personaje.id);
 	protocolo.enviarString(socket, destino);
 	protocolo.enviarString(socket, mensaje);
+	encolarMensaje(std::move(protocolo.finalizarEnvio()));
 }
 
 // Inventario
@@ -233,6 +245,7 @@ void ServidorProxy::enviarCompra(int pos){
 	protocolo.enviarUint32(socket, CODIGO_COMPRA);
 	protocolo.enviarString(socket, datos_tienda.id_vendedor);
 	protocolo.enviarUint16(socket, pos);
+	encolarMensaje(std::move(protocolo.finalizarEnvio()));
 }
 
 void ServidorProxy::enviarTirar(int pos){
@@ -244,11 +257,13 @@ void ServidorProxy::enviarTirar(int pos){
 		protocolo.enviarUint32(socket, CODIGO_TIRADO);
 		protocolo.enviarUint16(socket, pos);
 	}
+	encolarMensaje(std::move(protocolo.finalizarEnvio()));
 }
 
 void ServidorProxy::enviarUtilizar(int pos){
 	protocolo.enviarUint32(socket, CODIGO_UTILIZACION);
 	protocolo.enviarUint16(socket, pos);
+	encolarMensaje(std::move(protocolo.finalizarEnvio()));
 }
 
 void ServidorProxy::enviarTransaccion(bool esDeposito){
@@ -256,6 +271,7 @@ void ServidorProxy::enviarTransaccion(bool esDeposito){
 	protocolo.enviarUint32(socket, CODIGO_TRANSACCION);
 	protocolo.enviarUint8(socket, esDeposito);
 	protocolo.enviarString(socket, datos_tienda.id_vendedor);
+	encolarMensaje(std::move(protocolo.finalizarEnvio()));
 }
 
 //Interaccion
@@ -263,18 +279,27 @@ void ServidorProxy::enviarTransaccion(bool esDeposito){
 void ServidorProxy::enviarAtaque(const std::string& id){
 	protocolo.enviarUint32(socket, CODIGO_ATAQUE);
 	protocolo.enviarString(socket, id);
+	encolarMensaje(std::move(protocolo.finalizarEnvio()));
 }
 
 void ServidorProxy::enviarInteraccion(const std::string& id){
 	datos_tienda.id_vendedor = id;
 	protocolo.enviarUint32(socket, CODIGO_INTERACCION);
 	protocolo.enviarString(socket, id);
+	encolarMensaje(std::move(protocolo.finalizarEnvio()));
 }
 
 void ServidorProxy::enviarMeditacion(){
 	protocolo.enviarUint32(socket, CODIGO_MEDITACION);
+	encolarMensaje(std::move(protocolo.finalizarEnvio()));
 }
 
 void ServidorProxy::setJuego(Juego* juego) {
 	this->juego = juego;
+}
+
+void ServidorProxy::encolarMensaje(Mensaje&& mensaje){
+    if (colaEnvio.obtenerTamBytesAlmacenados() <=  LIMITE_COLA_ENVIADOR){
+    	colaEnvio.push(std::move(mensaje));
+    }
 }

@@ -6,7 +6,7 @@ set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g -Wall -Werror -pedantic -pedantic-er
 set (CMAKE_EXE_LINKER_FLAGS  "-pthread")
 set (CMAKE_BUILD_TYPE "Debug")
 
-add_executable(servidor servidor_main.cpp ../common/commonSocket.cpp ../common/commonProtocolo.cpp ../common/FallaConexionException.cpp ../common/ExcepcionColaCerrada.cpp ../common/ColaBloqueanteMensajes.cpp ../common/Mensaje.cpp)
+add_executable(servidor servidor_main.cpp ../common/commonSocket.cpp ../common/commonProtocolo.cpp ../common/FallaConexionException.cpp ../common/Thread.cpp ../common/Mensaje.cpp ../common/ColaBloqueanteMensajes.cpp ../common/ExcepcionColaCerrada.cpp ../common/ProxyEnviador.cpp)
 
 add_subdirectory(Clases)
 

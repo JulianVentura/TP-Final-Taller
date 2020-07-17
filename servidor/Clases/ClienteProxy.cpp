@@ -9,10 +9,7 @@ ClienteProxy::ClienteProxy(Socket unSocket, Cliente *miCliente) :
                            socket(std::move(unSocket)),
                            cliente(miCliente),
                            colaOperaciones(nullptr),
-                           enviador(socket, colaEnvio),
-                           limiteCorte(0){
-    
-    limiteCorte = 5000; //Levantar de configuraciones.
+                           enviador(socket, colaEnvio){
     enviador.comenzar();
 }
 
@@ -42,13 +39,6 @@ void ClienteProxy::decodificarMensajeChat(){
     protocolo.recibirString(socket, destino);
     protocolo.recibirString(socket, mensaje);
     divulgador->encolarMensaje(origen, destino, mensaje);
-}
-
-void ClienteProxy::enviarChat(const std::string& mensaje, bool mensaje_publico){
-    std::lock_guard<std::mutex> lock(m);
-    protocolo.enviarUint32(socket, CODIGO_MENSAJE_CHAT);
-    protocolo.enviarString(socket, mensaje);
-    socket.enviar((char*) &mensaje_publico, 1);
 }
 
 void ClienteProxy::decodificarInteraccion(){
@@ -208,6 +198,14 @@ bool ClienteProxy::recibirOperacion(){
 
 //////////////////////////ENVIO DE MENSAJES/////////////////////////////
 
+void ClienteProxy::enviarChat(const std::string& mensaje, bool mensaje_publico){
+    std::lock_guard<std::mutex> lock(m);
+    protocolo.enviarUint32(socket, CODIGO_MENSAJE_CHAT);
+    protocolo.enviarString(socket, mensaje);
+    protocolo.enviarUint8(socket, mensaje_publico);
+    encolarMensaje(std::move(protocolo.finalizarEnvio()));
+}
+
 void ClienteProxy::enviarError(std::string mensaje){
     std::lock_guard<std::mutex> lock(m);
     protocolo.enviarUint32(socket, CODIGO_ERROR);
@@ -315,7 +313,7 @@ void ClienteProxy::enviarDibujadoPersonajes(const std::vector<SerializacionDibuj
 
 void ClienteProxy::encolarMensaje(Mensaje &&mensaje){
     //Chequear el tamanio de la cola, si supera cierto limite se cierra la conexion y liberan los recursos.
-    if (colaEnvio.obtenerTamBytesAlmacenados() >= limiteCorte){
+    if (colaEnvio.obtenerTamBytesAlmacenados() >=  LIMITE_COLA_ENVIADOR){
         this->finalizar();
         return;
     }

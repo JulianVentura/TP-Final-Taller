@@ -13,6 +13,9 @@
 #include "ServidorSalida.h"
 #include "IPosicionable.h"
 
+#include "../../common/ColaBloqueanteMensajes.h"
+#include "../../common/Mensaje.h"
+#include "../../common/ProxyEnviador.h"
 #include "../../common/commonProtocolo.h"
 #include "../../common/commonSocket.h"
 #include "../../common/CodigosOperacion.h"
@@ -30,6 +33,7 @@ class ServidorProxy;
 class ServidorProxy{
 private:
 	std::condition_variable cv;
+	ColaBloqueanteMensajes colaEnvio;
 	std::mutex mtx;
 	std::thread hilo_recepcion;
 	bool salir;
@@ -38,7 +42,8 @@ private:
 	Socket socket;
 	DatosPersonaje& datos_personaje;
 	DatosTienda& datos_tienda;
-	Protocolo protocolo;	
+	Protocolo protocolo;
+	ProxyEnviador enviador;	
 	Juego* juego = nullptr;
 	std::unordered_map<std::string, IPosicionable*> posicionables;
 	SDL_Event evento_salida;
@@ -48,6 +53,7 @@ public:
 	std::string mapa;
 	ServidorSalida* salida;
 	ServidorProxy(DatosPersonaje& datos_personaje, DatosTienda& datos_tienda);
+	~ServidorProxy();
 
 	// Conexion e inicio sesion
 	void conectar(std::string& direccion, std::string& servicio);
@@ -63,6 +69,7 @@ public:
 	void recibirMensaje();
 	void comenzarRecepcionConcurrente();
 	void terminar();
+	void encolarMensaje(Mensaje&& mensaje);
 
 	// Chat
 	void enviarChat(std::string mensaje);

@@ -1,12 +1,11 @@
-#include "ClienteProxyEnviador.h"
+#include "ProxyEnviador.h"
 
-ClienteProxyEnviador::ClienteProxyEnviador(Socket &skt, 
+ProxyEnviador::ProxyEnviador(Socket &skt, 
                                            ColaBloqueanteMensajes &cola) : 
                                            colaMensajes(cola),
-                                           socket(skt){
+                                           socket(skt){}
 
-}
-void ClienteProxyEnviador::procesar(){
+void ProxyEnviador::procesar(){
     bool continuar = true;
     while (continuar){
         try{
@@ -19,3 +18,5 @@ void ClienteProxyEnviador::procesar(){
         }
     }
 }
+
+ProxyEnviador::~ProxyEnviador(){}

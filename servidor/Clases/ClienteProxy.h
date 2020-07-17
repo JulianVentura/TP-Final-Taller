@@ -6,7 +6,6 @@
 #include <mutex>
 
 #include "ColaOperaciones.h"
-#include "ClienteProxyEnviador.h"
 #include "../../common/ColaBloqueanteMensajes.h"
 #include "../../common/Mensaje.h"
 #include "OperacionMover.h"
@@ -25,6 +24,7 @@
 #include "../../common/commonSocket.h"
 #include "../../common/CodigosOperacion.h"
 #include "../../common/Serializacion.h"
+#include "../../common/ProxyEnviador.h"
 
 class Divulgador;
 class Cliente;
@@ -37,7 +37,7 @@ private:
     Cliente *cliente;
     ColaOperaciones *colaOperaciones;
     ColaBloqueanteMensajes colaEnvio;
-    ClienteProxyEnviador enviador;
+    ProxyEnviador enviador;
     Protocolo protocolo;
     uint32_t limiteCorte;
     bool decodificarCodigo(uint32_t codigo);
