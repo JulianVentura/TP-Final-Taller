@@ -179,7 +179,7 @@
 		"armas": {
 			"reemplaza": "arma",
 			"datos": {
-				"14": { 
+				"1": { 
 					"nombre": "Espada",
 					"descripcion": "arma de combate a mano, tiene un daño de 2 a 5.",
 					"imagen": "long_knife.png"
@@ -213,7 +213,7 @@
 					"animacion": "oversize",
 					"imagen": "13.png"
 				},
-				"1": {
+				"14": {
 					"nombre": "Báculo engarzado",
 					"descripcion": "permite lanzar el hechizo explosion que tiene un daño a distancia de 8 a 20. Consume 30 de mana.",
 					"animacion": "oversize",

@@ -133,17 +133,17 @@ void Juego::actualizarPosiciones(std::unordered_map<std::string, std::pair<int,
         borrarEntidad(movible);
 }
 
-void Juego::actualizarEstados(std::vector<serializacionDibujado> estados) {
-    for (auto& estado: estados) {
+void Juego::actualizarEstados(std::vector<SerializacionDibujado> dibujados) {
+    for (auto& dibujado: dibujados) {
         DatosApariencia apariencia;
-        apariencia.raza = std::to_string(estado.idRaza);
-        apariencia.clase = std::to_string(estado.idClase);
-        apariencia.arma = std::to_string(estado.idArmaEquipada);
-		apariencia.armadura = std::to_string(estado.idArmaduraEquipada);
-		apariencia.casco = std::to_string(estado.idCascoEquipado);
-		apariencia.escudo = std::to_string(estado.idEscudoEquipado);
-		apariencia.estado = std::to_string(estado.idEstado);
-        if (movibles.count(estado.id))
-            movibles[estado.id].second->actualizarApariencia(apariencia);
+        apariencia.raza = std::to_string(dibujado.idRaza);
+        apariencia.clase = std::to_string(dibujado.idClase);
+        apariencia.arma = std::to_string(dibujado.idArmaEquipada);
+		apariencia.armadura = std::to_string(dibujado.idArmaduraEquipada);
+		apariencia.casco = std::to_string(dibujado.idCascoEquipado);
+		apariencia.escudo = std::to_string(dibujado.idEscudoEquipado);
+		apariencia.estado = std::to_string(dibujado.idEstado);
+        if (movibles.count(dibujado.id))
+            movibles[dibujado.id].second->actualizarApariencia(apariencia);
     }
 }

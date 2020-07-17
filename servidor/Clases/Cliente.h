@@ -57,11 +57,11 @@ class Cliente : public Thread{
     //Envio
     void cargarMapa(const std::vector<char> &&infoMapa);
     void actualizarEstado(const std::vector<struct PosicionEncapsulada> &posiciones,
-                          const std::vector<struct serializacionDibujado> &estados);
+                          const std::vector<SerializacionDibujado> &dibujado);
     void enviarMensaje(const std::string& mensaje);
     void enviarChat(const std::string& mensaje, bool mensaje_publico);
-    void enviarTienda(std::vector<Item*>& items);
-    void enviarContenedor(std::vector<Item*>& items);
+    void enviarTienda(const std::vector<SerializacionItem> &&items);
+    void enviarContenedor(const std::vector<SerializacionItem> &&items);
     void enviarInventario();
 
     //ClienteProxy es friend de Cliente

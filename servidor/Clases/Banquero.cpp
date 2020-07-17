@@ -46,7 +46,7 @@ void Banquero::comprar(unsigned int pos, Personaje *personaje, Cliente *cliente)
     personaje->almacenar(almacen[pos]);
     almacen[pos] = itemNulo;
     cliente -> enviarInventario();
-    cliente -> enviarContenedor(almacen);
+    cliente -> enviarContenedor(std::move(this->serializarAlmacen(almacen)));
     std::string mensaje = "Se recibio " + temp->obtenerId();
     cliente->enviarChat(mensaje, false);
 }
@@ -76,7 +76,7 @@ void Banquero::vender(Item* item, Personaje *personaje, Cliente *cliente){
         throw Excepcion("Error: No hay espacio para almacenar mas items en el banquero");
     }
     cliente -> enviarInventario();
-    cliente -> enviarContenedor(almacen);
+    cliente -> enviarContenedor(std::move(this->serializarAlmacen(almacen)));
     std::string mensaje = "Se almaceno " + item->obtenerId();
     cliente->enviarChat(mensaje, false);
 }
@@ -88,7 +88,7 @@ void Banquero::listar(Personaje *personaje, Cliente *cliente){
         return;
     }
     std::vector<Item*>& almacen = personaje->obtenerAlmacen();
-    cliente -> enviarContenedor(almacen);
+    cliente -> enviarContenedor(std::move(this->serializarAlmacen(almacen)));
 }
 
 //Ataque
@@ -121,6 +121,14 @@ void Banquero::actualizarEstado(double tiempo){
 
 void Banquero::dropearItems(Entidad *atacante){
     //Nada
+}
+
+std::vector<SerializacionItem> Banquero::serializarAlmacen(const std::vector<Item*> &almacen){
+    std::vector<SerializacionItem> resultado(TAM_TIENDA);
+    for (std::size_t i=0; i<TAM_TIENDA; i++){
+        resultado[i] = std::move(almacen[i]->serializar());
+    }
+    return resultado;
 }
 
 

@@ -16,6 +16,7 @@
 #include "../vista/GUI_Principal.h"
 #include "../vista/GUI_Login.h"
 #include "../vista/ErrorGrafico.h"
+#include "../vista/EntornoMusical.h"
 
 int main(int argc, const char* argv[]) {
     try {
@@ -25,7 +26,7 @@ int main(int argc, const char* argv[]) {
 
         Ventana ventana(entorno, "Argentum Online");
         Renderer renderer(entorno);
-
+        EntornoMusical::obtenerInstancia() -> reproducirMusica("musicaMenu");
         Colores paleta;
         DatosPersonaje datos_personaje;
         DatosTienda datos_tienda;

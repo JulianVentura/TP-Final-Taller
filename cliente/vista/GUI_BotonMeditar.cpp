@@ -12,8 +12,8 @@ GUI_BotonMeditar::GUI_BotonMeditar(EntornoGrafico& entorno,
 }
 
 void GUI_BotonMeditar::actualizarDimension(){
-	x = ventana->getAncho()*0.2 + 60;
-	y =  ventana->getAlto() - imagen.getAlto() - 10;
+	x = ventana->getAncho()*0.8 - 35 - imagen.getAncho()/2;
+	y =  ventana->getAlto() - imagen.getAlto() - 15;
 	imagen.setPosicion(x, y);
 }
 

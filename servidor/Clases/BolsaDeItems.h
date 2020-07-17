@@ -35,6 +35,8 @@ class BolsaDeItems : public Entidad{
     void dropearItems(Entidad *atacante) override;
 
     bool haFinalizado() override;
+
+    std::vector<SerializacionItem> serializarBolsa();
     ~BolsaDeItems() override;
 };
 

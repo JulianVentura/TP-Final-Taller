@@ -11,7 +11,7 @@ class LoginFondo : public IRendereable{
 private:
 	Colores& paleta;
 	bool& conectado;
-	Imagen imagen;
+	Imagen fondo, logo;
 public:
 	LoginFondo(EntornoGrafico& entorno, Colores& paleta,bool& conectado);
 	void render();

@@ -55,22 +55,17 @@ public:
     bool recibirOperacion();
     //Envio
     void enviarPosiciones(const std::vector<struct PosicionEncapsulada> &posiciones);
-    void enviarEstadosPersonajes(const std::vector<struct serializacionDibujado> &estados);
+    void enviarDibujadoPersonajes(const std::vector<SerializacionDibujado> &dibujados);
     void enviarInformacionMapa(const std::vector<char> &infoMapa);
     void enviarError(std::string mensaje);
     void enviarMensaje(const std::string& mensaje);
     void enviarChat(const std::string& mensaje, bool mensaje_publico);
     void enviarEstadisticas();
     void enviarConfirmacion();
-    void enviarTienda(std::vector<Item*>& items);
-    void enviarContenedor(std::vector<Item*>& items);
-    void enviarInventario(SerializacionEquipo serEquipo);
-    void enviarEstado(uint16_t vidaActual, 
-                      uint16_t vidaMaxima,
-                      uint16_t manaActual, 
-                      uint16_t manaMaximo,
-                      uint16_t experiencia,
-                      uint16_t limiteParaSubir);
+    void enviarTienda(const std::vector<SerializacionItem> &&items);
+    void enviarContenedor(const std::vector<SerializacionItem> &&items);
+    void enviarInventario(const SerializacionEquipo serEquipo);
+    void enviarEstado(SerializacionEstado serializacionEstado);
 };
 
 #endif

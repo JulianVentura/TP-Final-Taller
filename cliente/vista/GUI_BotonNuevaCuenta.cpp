@@ -1,6 +1,7 @@
 #include <SDL2/SDL_render.h>
 
 #include "GUI_BotonNuevaCuenta.h"
+#include "../vista/GUI_Login.h"
 
 GUI_BotonNuevaCuenta::GUI_BotonNuevaCuenta(EntornoGrafico& entorno,
  Colores& paleta) : imagen(entorno, "assets/botonNuevaCuenta.png"){
@@ -9,8 +10,8 @@ GUI_BotonNuevaCuenta::GUI_BotonNuevaCuenta(EntornoGrafico& entorno,
 }
 
 void GUI_BotonNuevaCuenta::actualizarDimension(){
-	x = ventana->getAncho()*0.1;
-	y = ventana->getAlto() - 100;
+	x = X_BASE_LOGIN;
+	y = ventana->getAlto() - 45;
 	imagen.setPosicion(x, y);
 }
 

@@ -73,7 +73,7 @@ void Comerciante::comprar(unsigned int pos, Personaje *personaje, Cliente *clien
         personaje->almacenar(items[pos]);
         personaje->restarOro(items[pos]->obtenerPrecio());
         cliente -> enviarInventario();
-        cliente -> enviarTienda(items);
+        cliente -> enviarTienda(std::move(this->serializarTienda()));
         std::string mensaje = "Se compro " + items[pos]->obtenerId();
         cliente->enviarChat(mensaje, false);
     }else{
@@ -93,7 +93,7 @@ void Comerciante::vender(Item* item, Personaje *personaje, Cliente *cliente){
     
     personaje->recibirOro(item->obtenerPrecio());
     cliente -> enviarInventario();
-    cliente -> enviarTienda(items);
+    cliente -> enviarTienda(std::move(this->serializarTienda()));
     std::string mensaje = "Se vendio " + item->obtenerId();
     cliente->enviarChat(mensaje, false);
 }
@@ -104,7 +104,7 @@ void Comerciante::listar(Personaje *personaje, Cliente *cliente){
         //Estamos muy lejos
         return;
     }
-    cliente -> enviarTienda(items);
+    cliente -> enviarTienda(this->serializarTienda());
 }
 
 //Ataque
@@ -137,6 +137,14 @@ void Comerciante::actualizarEstado(double tiempo){
 
 void Comerciante::dropearItems(Entidad *atacante){
     //Nada
+}
+
+std::vector<SerializacionItem> Comerciante::serializarTienda(){
+    std::vector<SerializacionItem> resultado(TAM_TIENDA);
+    for (std::size_t i=0; i<TAM_TIENDA; i++){
+        resultado[i] = std::move(items[i]->serializar());
+    }
+    return resultado;
 }
 
 

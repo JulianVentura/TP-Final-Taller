@@ -30,6 +30,7 @@ class Comerciante : public Entidad{
     //Estado
     void actualizarEstado(double tiempo) override;
     void dropearItems(Entidad *atacante) override;
+    std::vector<SerializacionItem> serializarTienda();
     ~Comerciante() override;
 };
 

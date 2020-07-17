@@ -16,6 +16,7 @@ void OperacionTirar::ejecutar(){
     try{
         Personaje *personaje = cliente->obtenerPersonaje();
         personaje->tirar(pos);
+        cliente->enviarInventario();
     }catch(std::exception &e){
         std::cerr << e.what() << std::endl;
     }catch(...){

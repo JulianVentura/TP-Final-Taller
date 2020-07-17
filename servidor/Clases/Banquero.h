@@ -30,6 +30,7 @@ class Banquero : public Entidad{
     //Estado
     void actualizarEstado(double tiempo) override;
     void dropearItems(Entidad *atacante) override;
+    std::vector<SerializacionItem> serializarAlmacen(const std::vector<Item*> &almacen);
     ~Banquero() override;
 };
 

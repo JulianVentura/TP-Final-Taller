@@ -32,9 +32,9 @@ void GUI_PanelInventario::render(){
 		j = pos/marco.w;
 		i = pos - j*marco.w;
 		mueca_equipado.setPosicion(marco.x + SEPARACION+ i*(LADO_CASILLA +
-		 SEPARACION) + LADO_CASILLA - mueca_equipado.getAncho()/2,
+		 SEPARACION) + LADO_CASILLA - mueca_equipado.getAncho()/2 - 10,
 		marco.y + SEPARACION + j*(LADO_CASILLA + SEPARACION) + LADO_CASILLA
-		-mueca_equipado.getAlto()/2);
+		-mueca_equipado.getAlto()/2 - 10);
 		mueca_equipado.render();
 	}
 }
