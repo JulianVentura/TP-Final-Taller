@@ -4,6 +4,7 @@
 #include "Personaje.h"
 #include "FabricaDeItems.h"
 #include "Configuraciones.h"
+#include "../../common/Serializacion.h"
 #include "Excepcion.h"
 
 Banquero::Banquero(float x, float y) : Entidad("Banquero#"), limiteTransaccion(0), fraccionTransaccion(0){
@@ -48,6 +49,9 @@ void Banquero::comprar(unsigned int pos, Personaje *personaje, Cliente *cliente)
     almacen[pos] = itemNulo;
     cliente -> enviarInventario();
     cliente -> enviarContenedor(std::move(this->serializarAlmacen(almacen)));
+    /*
+    cliente->enviarContenedor(std::move(serializarAlmacen(almacen, oroEnAlmacen)));
+    */
     std::string mensaje = "Se recibio " + temp->obtenerId();
     cliente->enviarChat(mensaje, false);
 }
@@ -78,6 +82,9 @@ void Banquero::vender(Item* item, Personaje *personaje, Cliente *cliente){
     }
     cliente -> enviarInventario();
     cliente -> enviarContenedor(std::move(this->serializarAlmacen(almacen)));
+    /*
+    cliente->enviarContenedor(std::move(serializarAlmacen(almacen, oroEnAlmacen)));
+    */
     std::string mensaje = "Se almaceno " + item->obtenerId();
     cliente->enviarChat(mensaje, false);
 }
@@ -90,6 +97,9 @@ void Banquero::listar(Personaje *personaje, Cliente *cliente){
     }
     std::vector<Item*>& almacen = personaje->obtenerAlmacen();
     cliente -> enviarContenedor(std::move(this->serializarAlmacen(almacen)));
+    /*
+    cliente->enviarContenedor(std::move(serializarAlmacen(almacen, oroEnAlmacen)));
+    */
 }
 
 void Banquero::transaccion(bool esDeposito, Estado *estado, Cliente *cliente){
@@ -99,11 +109,14 @@ void Banquero::transaccion(bool esDeposito, Estado *estado, Cliente *cliente){
 void Banquero::transaccion(bool esDeposito, Personaje *personaje, Cliente *cliente){
     uint32_t oroEnAlmacen = personaje->obtenerOroAlmacen();
     uint32_t oroEncima = personaje->obtenerOro();
+    //std::vector<Item*>& almacen = personaje->obtenerAlmacen();
     uint32_t monto = 0;
     std::stringstream mensaje;
     if (esDeposito){
+        if (oroEncima == 0) return;
         monto = oroEncima * fraccionTransaccion;
     }else{
+        if (oroEnAlmacen == 0) return;
         monto = oroEnAlmacen * fraccionTransaccion;
     }
     if (monto < limiteTransaccion) monto = limiteTransaccion;
@@ -119,6 +132,9 @@ void Banquero::transaccion(bool esDeposito, Personaje *personaje, Cliente *clien
         mensaje << "Has retirado " << monto << " oro.";
     }
     cliente->enviarInventario();
+    /*
+    cliente->enviarContenedor(std::move(serializarAlmacen(almacen, oroEnAlmacen)));
+    */
 }
 
 //Ataque
