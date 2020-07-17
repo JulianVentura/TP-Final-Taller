@@ -1,6 +1,7 @@
 #include "CapaFrontal.h"
 #include <SDL2/SDL_rect.h>
 #include <algorithm>
+#include <mutex>
 #include <utility>
 
 CapaFrontal::CapaFrontal(const CapasParser& parser, 
@@ -13,17 +14,19 @@ CapaFrontal::CapaFrontal(const CapasParser& parser,
     for (const auto& nombreCapa: parser.getCapasOrdenadas()) {
         if (capasObstaculos.count(nombreCapa) < 0) continue;
         for (auto& obstaculo: capasObstaculos[nombreCapa])
-            obstruibles.push_back(&obstaculo);
+            obstruiblesFijos.push_back(&obstaculo);
     }
 }
 
-void CapaFrontal::agregarObstruible(IObstruible* obstruible) {
-    this->obstruibles.push_back(obstruible);
+void CapaFrontal::agregarObstruible(const std::string& id, IObstruible* obstruible) {
+    std::lock_guard<std::mutex> l(m);
+    if (obstruibles.count(id)) return;
+    obstruibles.insert({ id, obstruible });
 }
 
-void CapaFrontal::borrarObstruible(IObstruible* obstruible) {
-    obstruibles.erase(std::remove(obstruibles.begin(), obstruibles.end(), 
-                                                obstruible), obstruibles.end());
+void CapaFrontal::borrarObstruible(const std::string& id) {
+    std::lock_guard<std::mutex> l(m);
+    obstruibles.erase(id);
 }
 
 void CapaFrontal::setFrontera(SDL_Rect& frontera) {
@@ -53,12 +56,22 @@ void CapaFrontal::render() {
 }
 
 void CapaFrontal::renderearObstruiblesVisibles() {
+    // std::lock_guard<std::mutex> l(m);
     SDL_Rect frontera_real = { frontera.x * tiles.getAnchoTile(), 
                                frontera.y * tiles.getAltoTile(), 
                                frontera.w * tiles.getAnchoTile() * 2, 
                                frontera.h * tiles.getAltoTile() * 2 };
     std::vector<IObstruible*> obstruibles_visibles;
     for (auto& obstruible: obstruibles) {
+        if (!obstruible.second) continue;
+        SDL_Rect obstruible_r;
+        SDL_Rect interseccion;
+        obstruible.second->getFrontera(obstruible_r);
+        if (SDL_IntersectRect(&frontera_real, &obstruible_r, 
+                                        &interseccion) == SDL_FALSE) continue; 
+        obstruibles_visibles.push_back(obstruible.second);
+    }
+    for (auto& obstruible: obstruiblesFijos) {
         if (!obstruible) continue;
         SDL_Rect obstruible_r;
         SDL_Rect interseccion;
@@ -67,6 +80,7 @@ void CapaFrontal::renderearObstruiblesVisibles() {
                                         &interseccion) == SDL_FALSE) continue; 
         obstruibles_visibles.push_back(obstruible);
     }
+
     std::stable_sort(obstruibles_visibles.begin(), obstruibles_visibles.end(), 
                                                         IObstruible::comparar);
     for (auto& obstruible: obstruibles_visibles) {
@@ -76,6 +90,8 @@ void CapaFrontal::renderearObstruiblesVisibles() {
 }
 
 void CapaFrontal::actualizar(unsigned int delta_t) {
-    for (auto& obstruible: obstruibles)
+    for (auto& obstruible: obstruiblesFijos)
         obstruible->actualizar(delta_t);
+    for (auto& obstruible: obstruibles)
+        obstruible.second->actualizar(delta_t);
 }
