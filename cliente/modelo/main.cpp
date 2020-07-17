@@ -26,7 +26,7 @@ int main(int argc, const char* argv[]) {
 
         Ventana ventana(entorno, "Argentum Online");
         Renderer renderer(entorno);
-        // EntornoMusical::obtenerInstancia() -> reproducirMusica("musicaMenu");
+        EntornoMusical::obtenerInstancia() -> reproducirMusica("musicaMenu");
         Colores paleta;
         DatosPersonaje datos_personaje;
         DatosTienda datos_tienda;
