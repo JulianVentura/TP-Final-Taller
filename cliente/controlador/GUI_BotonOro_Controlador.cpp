@@ -11,11 +11,11 @@ GUI_BotonOroControlador::GUI_BotonOroControlador
 bool GUI_BotonOroControlador::enClick(){
 	switch(SDL_GetMouseState(NULL, NULL)){
 		case SDL_BUTTON_LEFT:
-		//servidor.enviarUtilizar(obtenerIndiceClick());
+		servidor.enviarTransaccion(true);
 		break;
 
 		default:
-		//servidor.enviarTirar(obtenerIndiceClick());
+		servidor.enviarTransaccion(false);
 		break;
 	}
 

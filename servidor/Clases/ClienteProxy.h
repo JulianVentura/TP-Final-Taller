@@ -38,6 +38,7 @@ private:
     void decodificarMeditacion();
     void decodificarMensajeChat();
     void decodificarInteraccion();
+    void decodificarTransaccion();
     void decodificarCompra();
     void decodificarVenta();
     void decodificarAtaque();
