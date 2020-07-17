@@ -215,16 +215,14 @@ void ClienteProxy::enviarError(std::string mensaje){
 
 void ClienteProxy::enviarPosiciones(const std::vector<struct PosicionEncapsulada> &posiciones){
     std::lock_guard<std::mutex> lock(m);
+    std::string id;
     protocolo.enviarUint32(socket, CODIGO_POSICIONES);
-    uint32_t largo = posiciones.size();
-    largo = htonl(largo);
-    socket.enviar((char*)&largo, sizeof(largo));
+    protocolo.enviarUint32(socket, posiciones.size());
     for (auto &posicion : posiciones){
-        socket.enviar(posicion.id, TAM_ID);
-        float temp = htonl(posicion.x);
-        socket.enviar((char*)&temp, sizeof(float));
-        temp = htonl(posicion.y);
-        socket.enviar((char*)&temp, sizeof(float));
+        id.assign(posicion.id);
+        protocolo.enviarString(socket, posicion.id);
+        protocolo.enviarUint32(socket, std::round(posicion.x));
+        protocolo.enviarUint32(socket, std::round(posicion.y));
     }
     encolarMensaje(std::move(protocolo.finalizarEnvio()));
 }
@@ -295,10 +293,10 @@ void ClienteProxy::enviarEstado(SerializacionEstado serEstado){
 void ClienteProxy::enviarDibujadoPersonajes(const std::vector<SerializacionDibujado> &dibujados){
     std::lock_guard<std::mutex> lock(m);
     protocolo.enviarUint32(socket, CODIGO_ESTADOS);
-    uint32_t largo = dibujados.size();
-    protocolo.enviarUint32(socket, largo);
+    protocolo.enviarUint32(socket, dibujados.size());
     for (auto &dibujado : dibujados){
-        socket.enviar(dibujado.id, TAM_ID);
+        std::string id(dibujado.id);
+        protocolo.enviarString(socket, id);
         protocolo.enviarUint16(socket, dibujado.idArmaEquipada);
         protocolo.enviarUint16(socket, dibujado.idArmaduraEquipada);
         protocolo.enviarUint16(socket, dibujado.idCascoEquipado);
@@ -313,9 +311,9 @@ void ClienteProxy::enviarDibujadoPersonajes(const std::vector<SerializacionDibuj
 
 void ClienteProxy::encolarMensaje(Mensaje &&mensaje){
     //Chequear el tamanio de la cola, si supera cierto limite se cierra la conexion y liberan los recursos.
-    if (colaEnvio.obtenerTamBytesAlmacenados() >=  LIMITE_COLA_ENVIADOR){
-        this->finalizar();
-        return;
-    }
+    //if (colaEnvio.obtenerTamBytesAlmacenados() >=  LIMITE_COLA_ENVIADOR){
+      //  this->finalizar();
+      //  return;
+   // }
     colaEnvio.push(std::move(mensaje));
 }
