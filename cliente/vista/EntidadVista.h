@@ -1,5 +1,5 @@
-#ifndef MOVIBLEVISTA_H
-#define MOVIBLEVISTA_H
+#ifndef ENTIDADVISTA_H
+#define ENTIDADVISTA_H
 
 #include <string>
 #include "AnimacionEnteDireccionable.h"
@@ -13,29 +13,20 @@ public:
                                                         EntidadParser& parser);
     EntidadVista(EntornoGrafico& entorno, IPosicionable* modelo, 
                                     EntidadParser& parser, std::string& tipo);
-    virtual bool contienePunto(int x, int y);
-    virtual void actualizarApariencia(DatosApariencia& apariencia);
-
-protected:
-    imagenes_t imagenes;
-    std::string ultimo_estado;
-    IPosicionable* modelo;
-    EntidadParser& parser;
-    Animacion animacion;
-};
-
-class MovibleVista: public EntidadVista {
-public:
-    MovibleVista(EntornoGrafico& entorno, IPosicionable* modelo, 
-                                                        EntidadParser& parser);
-    virtual ~MovibleVista() {};
-    void actualizarApariencia(DatosApariencia& apariencia) override;
+    bool contienePunto(int x, int y);
+    virtual ~EntidadVista() {};
+    void actualizarApariencia(DatosApariencia& apariencia);
     void render() override;
     void actualizar(unsigned int delta_t) override;
     
 private:
-    DatosApariencia apariencia;
+    imagenes_t imagenes;
+    std::string ultimo_estado;
+    IPosicionable* modelo;
+    EntidadParser& parser;
     AnimacionEnteDireccionable animacion_local;
+    Animacion animacion;
+    DatosApariencia apariencia;
     bool esta_apariencia;
     SDL_Rect mascara = {};
     const static std::vector<std::string> ordenDeImagenes;

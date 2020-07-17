@@ -18,7 +18,7 @@
 #include "../vista/MapaVista.h"
 #include "../vista/Camara.h"
 #include "../vista/Escena.h"
-#include "../vista/MovibleVista.h"
+#include "../vista/EntidadVista.h"
 
 #include "../controlador/MovibleControlador.h"
 #include "../controlador/IInteractivo.h"
@@ -56,11 +56,11 @@ private:
     MovibleControlador personajeManejable;
     EntidadParser entidadParser;
     std::unordered_map<std::string, std::pair<IPosicionable*, 
-                                                    MovibleVista*>> movibles;
+                                                    EntidadVista*>> entidades;
     void agregarEntidad(std::string& id, DatosApariencia& apariencia);
     void borrarEntidad(const std::string& id);
 
-    std::pair<IPosicionable*, MovibleVista*> crearEntidad(std::string& id, 
+    std::pair<IPosicionable*, EntidadVista*> crearEntidad(std::string& id, 
                                                 DatosApariencia& apariencia);
 };
 #endif
