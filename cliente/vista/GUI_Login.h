@@ -26,6 +26,9 @@
 #include "../vista/GUI_SelectorClase.h"
 #include "../vista/GUI_SelectorRaza.h"
 
+#define X_BASE_LOGIN 90
+#define Y_BASE_LOGIN 140
+
 class GUI_BotonNuevaCuenta;
 
 class GUI_Login : public IRendereable {

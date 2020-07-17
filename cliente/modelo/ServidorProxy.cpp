@@ -190,9 +190,9 @@ void ServidorProxy::enviarMovimiento(uint32_t movimiento) {
 
 void ServidorProxy::recibir_estados() {
 	uint32_t largo = protocolo.recibirUint32(socket);
-	std::vector<serializacionEstado> resultado;
+	std::vector<serializacionDibujado> resultado;
 	for (std::size_t i = 0; i < largo; i++) {
-		serializacionEstado actual;
+		serializacionDibujado actual;
 		socket.recibir(actual.id, TAM_ID);
         actual.idArmaEquipada = protocolo.recibirUint16(socket);
 		actual.idArmaduraEquipada = protocolo.recibirUint16(socket);

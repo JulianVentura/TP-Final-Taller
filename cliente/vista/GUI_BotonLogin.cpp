@@ -1,5 +1,5 @@
 #include <SDL2/SDL_render.h>
-
+#include "../vista/GUI_Login.h"
 #include "GUI_BotonLogin.h"
 
 GUI_BotonLogin::GUI_BotonLogin(EntornoGrafico& entorno,
@@ -9,9 +9,8 @@ GUI_BotonLogin::GUI_BotonLogin(EntornoGrafico& entorno,
 }
 
 void GUI_BotonLogin::actualizarDimension(){
-	x = ventana->getAncho()*0.1;
-	y = ventana->getAlto() - 140;
-
+	x = X_BASE_LOGIN;
+	y = ventana->getAlto() - 90;
 	imagen.setPosicion(x, y);
 }
 

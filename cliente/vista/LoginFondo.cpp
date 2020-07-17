@@ -1,27 +1,29 @@
 #include "LoginFondo.h"
+#include "../vista/GUI_Login.h"
 
 LoginFondo::LoginFondo(EntornoGrafico& entorno, Colores& paleta,bool& conectado)
-: paleta(paleta), conectado(conectado), imagen(entorno,"assets/fondoLogin.png"){
+: paleta(paleta), conectado(conectado), fondo(entorno,"assets/fondoLogin.png"),
+logo(entorno,"assets/logo.png"){
 	entorno.agregarRendereable(this);
+	fondo.setPosicion(0,0);
+	logo.setPosicion(0, 0);
 }
 
 void LoginFondo::render(){
-	int ventana_ancho  = ventana -> getAncho();
-	int ventana_alto = ventana -> getAlto();
-	imagen.setPosicion(0,(ventana_alto - imagen.getAlto())/2);
-	imagen.renderExpandido();
+	fondo.renderExpandido();
+	logo.render();
 	renderer -> setColor(paleta.login_texto);
 	if(conectado){
-		renderer -> texto("Nombre", ventana_ancho*0.1,ventana_alto*0.2);
-		renderer -> texto("Clave", ventana_ancho*0.1,ventana_alto*0.2 + 56);
+		renderer -> texto("Nombre", X_BASE_LOGIN, Y_BASE_LOGIN);
+		renderer -> texto("Clave", X_BASE_LOGIN, Y_BASE_LOGIN + 56);
 		renderer -> setColor(paleta.chat_texto);
-		renderer -> texto("Nombre", ventana_ancho*0.1,ventana_alto*0.2 - 2);
-		renderer -> texto("Clave", ventana_ancho*0.1,ventana_alto*0.2 + 54);
+		renderer -> texto("Nombre", X_BASE_LOGIN, Y_BASE_LOGIN - 2);
+		renderer -> texto("Clave", X_BASE_LOGIN, Y_BASE_LOGIN + 56 - 2);
 	}else{
-		renderer -> texto("Direccion", ventana_ancho*0.1,ventana_alto*0.2);
-		renderer -> texto("Puerto", ventana_ancho*0.1,ventana_alto*0.2 + 56);
+		renderer -> texto("Direccion", X_BASE_LOGIN, Y_BASE_LOGIN);
+		renderer -> texto("Puerto", X_BASE_LOGIN, Y_BASE_LOGIN + 56);
 		renderer -> setColor(paleta.chat_texto);
-		renderer -> texto("Direccion", ventana_ancho*0.1,ventana_alto*0.2 - 2);
-		renderer -> texto("Puerto", ventana_ancho*0.1,ventana_alto*0.2 + 54);
+		renderer -> texto("Direccion", X_BASE_LOGIN, Y_BASE_LOGIN - 2);
+		renderer -> texto("Puerto", X_BASE_LOGIN, Y_BASE_LOGIN + 56 - 2);
 	}
 }
