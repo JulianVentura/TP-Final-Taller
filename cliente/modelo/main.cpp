@@ -26,7 +26,6 @@ int main(int argc, const char* argv[]) {
 
         Ventana ventana(entorno, "Argentum Online");
         Renderer renderer(entorno);
-        EntornoMusical::obtenerInstancia() -> reproducirMusica("musicaMenu");
         Colores paleta;
         DatosPersonaje datos_personaje;
         DatosTienda datos_tienda;
@@ -34,6 +33,7 @@ int main(int argc, const char* argv[]) {
         ServidorProxy servidor(datos_personaje, datos_tienda);
 
         // // PANTALLA DE LOGIN //
+        EntornoMusical::obtenerInstancia() -> reproducirMusica("musicaMenu");
         GUI_Login gui_login(entorno, paleta, servidor);
         BucleLogin bucle_login(ventana, gui_login, servidor);
         ventana.agregarRendereable(&gui_login);
@@ -41,7 +41,7 @@ int main(int argc, const char* argv[]) {
         ventana.borrarRendereables();
         if (!servidor.estaLogueado()) return 0;
         // JUEGO EN SI //
-
+        EntornoMusical::obtenerInstancia() -> reproducirMusica("musicaJuego");
         BuclePrincipal bucle(ventana);
         Juego juego(entorno, datos_personaje, servidor);
         GUI_Principal gui(entorno, paleta, datos_personaje, datos_tienda);
