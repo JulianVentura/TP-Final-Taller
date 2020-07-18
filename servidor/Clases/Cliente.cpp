@@ -1,5 +1,6 @@
 #include "Cliente.h"
 #include "OrganizadorClientes.h"
+#include "Configuraciones.h"
 #include "Divulgador.h"
 
 #include <iostream> //DEBUG
@@ -15,13 +16,12 @@ Cliente::Cliente(Socket &&socket,
                  miBaseDeDatos(unaBaseDeDatos),
                  salaActual(""),
                  finalizado(false),
-                 continuar(false){
-    /*
-    El id y pass del cliente se obtienen a traves de ClienteProxy, con ellos se accede a BaseDeDatos.
-    El id de la sala y toda la informacion del personaje se obtiene con
-    la base de datos.
-    */
+                 continuar(false),
+                 tiempoTranscurrido(0),
+                 tiempoActualizacionInventario(0){
     
+    Configuraciones *config = Configuraciones::obtenerInstancia();
+    tiempoActualizacionInventario = config->obtenerClienteTiempoActualizacionInventario();
     std::pair<std::string, std::string> credenciales =
     std::move(login(organizadorClientes));
 
@@ -56,8 +56,14 @@ void Cliente::nuevoUsuario(std::pair<std::string, std::string> &credenciales,
 
 
 void Cliente::actualizarEstado(const std::vector<struct PosicionEncapsulada> &posiciones,
-                               const std::vector<SerializacionDibujado> &dibujado){
+                               const std::vector<SerializacionDibujado> &dibujado,
+                               double tiempo){
     try{
+        tiempoTranscurrido += tiempo;
+        if (tiempoTranscurrido >= tiempoActualizacionInventario){
+            tiempoTranscurrido = 0;
+            this->enviarInventario();
+        }
         clienteProxy.enviarEstado(std::move(personaje->serializarEstado()));
         clienteProxy.enviarDibujadoPersonajes(dibujado);
         clienteProxy.enviarPosiciones(posiciones);

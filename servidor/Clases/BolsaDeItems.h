@@ -13,7 +13,6 @@ class BolsaDeItems : public Entidad{
     Item* itemNulo;
     uint32_t elementos;
     bool bolsaVacia;
-    uint32_t tamBolsa;
     public:
     BolsaDeItems(Posicion posicion, std::vector<Item*> items);
     BolsaDeItems(Posicion posicion, Item *item);
@@ -34,7 +33,7 @@ class BolsaDeItems : public Entidad{
     void transaccion(bool esDeposito, Estado *estado, Cliente *cliente) override;
     //Estado
     void actualizarEstado(double tiempo) override;
-    void dropearItems(Entidad *atacante) override;
+    std::string dropearItems(Entidad *atacante) override;
 
     bool haFinalizado() override;
 

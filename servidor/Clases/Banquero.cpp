@@ -153,9 +153,7 @@ void Banquero::actualizarEstado(double tiempo){
     //Nada
 }
 
-void Banquero::dropearItems(Entidad *atacante){
-    //Nada
-}
+std::string Banquero::dropearItems(Entidad *atacante){ return "";}
 
 SerializacionContenedor Banquero::serializarAlmacen(const std::vector<Item*> &almacen, uint32_t oro){
     SerializacionContenedor serContenedor;

@@ -32,6 +32,7 @@ typedef struct serializacionEstado{
     uint16_t manaMaximo;
     uint16_t experiencia;
     uint16_t limiteParaSubir;
+    uint16_t limiteExpInferior;
     uint32_t nivel;
 }SerializacionEstado;
 

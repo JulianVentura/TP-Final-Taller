@@ -95,6 +95,7 @@ void ServidorProxy::recibirMensajeConOperacion(uint32_t operacion) {
 			datos_personaje.mana_max = protocolo.recibirUint16(socket);
 			datos_personaje.exp = protocolo.recibirUint16(socket);
 			datos_personaje.exp_max = protocolo.recibirUint16(socket);
+			//datos_personaje.exp_min = protocolo.recibirUint16(socket);
 			datos_personaje.nivel = protocolo.recibirUint32(socket);
 		break;
 		

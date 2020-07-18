@@ -237,9 +237,9 @@ void ClienteProxy::enviarInformacionMapa(const std::vector<char> &infoMapa){
 
 void ClienteProxy::enviarTienda(const SerializacionContenedor &&contenedor){
 	std::lock_guard<std::mutex> lock(m);
-    uint16_t cero = 0;
+    //uint16_t cero = 0;
 	protocolo.enviarUint32(socket, CODIGO_TIENDA);
-    protocolo.enviarUint16(socket, cero);
+    //protocolo.enviarUint16(socket, cero);
     for(auto item : contenedor.items){
         protocolo.enviarUint16(socket, item.idTCP);
     	protocolo.enviarUint16(socket, item.precio);
@@ -251,7 +251,7 @@ void ClienteProxy::enviarContenedor(const SerializacionContenedor &&contenedor){
 	std::lock_guard<std::mutex> lock(m);
 	uint16_t cero = 0;
 	protocolo.enviarUint32(socket, CODIGO_TIENDA);
-    protocolo.enviarUint16(socket, contenedor.oroContenedor);
+    //protocolo.enviarUint16(socket, contenedor.oroContenedor);
     for(auto& item : contenedor.items){
         protocolo.enviarUint16(socket, item.idTCP);
     	protocolo.enviarUint16(socket, cero);
@@ -289,6 +289,7 @@ void ClienteProxy::enviarEstado(SerializacionEstado serEstado){
     protocolo.enviarUint16(socket, serEstado.manaMaximo);
     protocolo.enviarUint16(socket, serEstado.experiencia);
     protocolo.enviarUint16(socket, serEstado.limiteParaSubir);
+    protocolo.enviarUint16(socket, serEstado.limiteExpInferior);
     protocolo.enviarUint32(socket, serEstado.nivel);
     encolarMensaje(std::move(protocolo.finalizarEnvio()));
 }

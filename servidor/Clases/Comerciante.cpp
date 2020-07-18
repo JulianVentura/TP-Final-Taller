@@ -132,9 +132,7 @@ void Comerciante::actualizarEstado(double tiempo){
     //Nada
 }
 
-void Comerciante::dropearItems(Entidad *atacante){
-    //Nada
-}
+std::string Comerciante::dropearItems(Entidad *atacante){ return "";}
 
 SerializacionContenedor Comerciante::serializarTienda(){
     SerializacionContenedor serContenedor;

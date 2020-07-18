@@ -89,7 +89,7 @@ std::string Criatura::recibirDanio(int danio, Entidad *atacante){
 }
 
 
-void Criatura::dropearItems(Entidad *atacante){
+std::string Criatura::dropearItems(Entidad *atacante){
     FabricaDeItems *fabricaItems = FabricaDeItems::obtenerInstancia();
     Configuraciones *config = Configuraciones::obtenerInstancia();
     TipoDrop tipo = config->calcularDrop(id);
@@ -106,6 +106,7 @@ void Criatura::dropearItems(Entidad *atacante){
         //El mapa protege las cargas para evitar RC.
         this->mapaAlQuePertenece->cargarEntidad(std::unique_ptr<BolsaDeItems>(new BolsaDeItems(this->posicion, item)));
     }
+    return "";
 }
 
 //Estado / IA

@@ -403,11 +403,11 @@ const uint32_t Configuraciones::obtenerBolsaDeDropAncho() const{
 const uint32_t Configuraciones::obtenerBolsaDeDropAlto() const{
     return json.at("Varios").at("BolsaDeDrop").at("Alto").get<uint32_t>();
 }
-const uint32_t Configuraciones::obtenerTamanioTienda() const{
-    return json.at("Varios").at("TamanioTiendas").get<uint32_t>();
-}
 const float    Configuraciones::obtenerDistanciaMaximaDeInteraccion() const{
     return json.at("Varios").at("DistanciaInteraccion").get<float>();
+}
+const double   Configuraciones::obtenerClienteTiempoActualizacionInventario() const{
+    return json.at("Varios").at("ClienteTiempoActualizacionInventario").get<double>();
 }
 
 
@@ -557,7 +557,8 @@ std::string Configuraciones::calcularDropPocion(const std::string &idCriatura){
 
 const uint32_t Configuraciones::calcularDropOro(const Entidad *entidad){
     //return rand(0, 0.2) * VidaMaxNPC
-    float suerte = numeroRandom(0, 2000) / 10000;
+    float suerte = numeroRandom(0, 2000);
+    suerte /= 10000;
     return suerte * entidad->vidaMaxima;
 }
 

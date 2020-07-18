@@ -51,7 +51,7 @@ void Portal::recibirCuracion(unsigned int curacion, Entidad *lanzador){}
 
 void Portal::actualizarEstado(double tiempo){}
 
-void Portal::dropearItems(Entidad *atacante){}
+std::string Portal::dropearItems(Entidad *atacante){ return "";}
 
 Portal::~Portal(){
 

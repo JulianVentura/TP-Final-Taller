@@ -753,11 +753,11 @@
             "Ancho": 1,
             "Alto": 1
         },
-        "TamanioTiendas": 18,
         "DistanciaInteraccion": 50,
         "FairPlay": {
             "NivelDiferenciaMaximo": 10,
             "NivelNewbie": 12
-        }
+        },
+	"ClienteTiempoActualizacionInventario": 1200
     }
 }

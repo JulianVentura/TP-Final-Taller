@@ -153,8 +153,8 @@ class Configuraciones{
     //Varios
     const uint32_t obtenerBolsaDeDropAncho() const;
     const uint32_t obtenerBolsaDeDropAlto() const;
-    const uint32_t obtenerTamanioTienda() const;
     const float    obtenerDistanciaMaximaDeInteraccion() const;
+    const double   obtenerClienteTiempoActualizacionInventario() const;
     /* FORMULAS DEL JUEGO */ 
     unsigned int   calcularVidaMax(const Personaje *personaje);
     float          calcularRecuperacionVida(const Personaje *personaje, double tiempo);

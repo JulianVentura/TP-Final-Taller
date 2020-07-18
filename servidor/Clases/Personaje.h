@@ -32,6 +32,7 @@ class Personaje : public Entidad{
     private:
     uint32_t experiencia;
     uint32_t limiteParaSubir;
+    uint32_t limiteExpInferior;
     uint32_t cantidadOro;
     uint32_t oroEnAlmacen;
     int arma;
@@ -74,7 +75,7 @@ class Personaje : public Entidad{
     void serAtacadoPor(Personaje *atacante) override;
     void serAtacadoPor(Criatura *atacante) override;
     std::string recibirDanio(int danio, Entidad *atacante) override;
-    void dropearItems(Entidad *atacante) override;
+    std::string dropearItems(Entidad *atacante) override;
     void obtenerExperiencia(unsigned int cantidad);
     void recibirCuracion(unsigned int curacion, Entidad *lanzador) override;
     //Equipo

@@ -18,7 +18,7 @@ void Sala::cargarCliente(Cliente *cliente){
     mapa.cargarEntidad(cliente->obtenerPersonaje());
     cliente->cargarMapa(std::move(mapa.obtenerInformacionMapa()));
 }
-void Sala::actualizarClientes(){
+void Sala::actualizarClientes(double tiempo){
     std::unique_lock<std::mutex> lock(this->mutex);
     std::vector<struct PosicionEncapsulada> posiciones = std::move(mapa.recolectarPosiciones());
     std::vector<SerializacionDibujado> dibujado;
@@ -27,7 +27,7 @@ void Sala::actualizarClientes(){
         dibujado.push_back(std::move(cliente.second->obtenerPersonaje()->serializarDibujado()));
     }
     for (auto& cliente : clientes){
-        cliente.second->actualizarEstado(posiciones, dibujado);
+        cliente.second->actualizarEstado(posiciones, dibujado, tiempo);
     }
 }
 void Sala::eliminarCliente(const std::string &id){

@@ -12,16 +12,14 @@ std::atomic<uint32_t> BolsaDeItems::contadorInstancias(0);
 BolsaDeItems::BolsaDeItems(Posicion unaPosicion, Item *item) : 
                                                             Entidad(""),
                                                             elementos(1),
-                                                            bolsaVacia(false),
-                                                            tamBolsa(0){
+                                                            bolsaVacia(false){
     
     Configuraciones *config = Configuraciones::obtenerInstancia();
     uint32_t ancho = config->obtenerBolsaDeDropAncho();
     uint32_t alto = config->obtenerBolsaDeDropAlto();
-    tamBolsa = config->obtenerTamanioTienda();
     FabricaDeItems *fabrica = FabricaDeItems::obtenerInstancia();
     itemNulo = fabrica -> crearItemNulo();
-    items.resize(tamBolsa, itemNulo);
+    items.resize(TAM_TIENDA, itemNulo);
     items[0] = item;
     std::stringstream nuevoId;
     nuevoId << "BolsaDeItems#" << contadorInstancias++;
@@ -34,14 +32,12 @@ BolsaDeItems::BolsaDeItems(Posicion unaPosicion, std::vector<Item*> unosItems) :
                                                            Entidad(""),
                                                            items(std::move(unosItems)),
                                                            elementos(0),
-                                                           bolsaVacia(true),
-                                                           tamBolsa(0){
+                                                           bolsaVacia(true){
     Configuraciones *config = Configuraciones::obtenerInstancia();
     FabricaDeItems *fabrica = FabricaDeItems::obtenerInstancia();
     itemNulo = fabrica -> crearItemNulo();
     uint32_t ancho = config->obtenerBolsaDeDropAncho();
     uint32_t alto = config->obtenerBolsaDeDropAlto();
-    tamBolsa = config->obtenerTamanioTienda();    
     std::stringstream nuevoId;
     nuevoId << "BolsaDeItems#" << contadorInstancias++;
     id = nuevoId.str(); 
@@ -71,7 +67,7 @@ void BolsaDeItems::comprar(unsigned int pos, Personaje *personaje, Cliente *clie
         cliente->enviarChat(mensaje, false);
         return;
     }
-    if (pos >= tamBolsa || items[pos] == itemNulo){
+    if (pos >= TAM_TIENDA || items[pos] == itemNulo){
         //No hay nada que entregarle
         return;
     }
@@ -113,7 +109,7 @@ std::string BolsaDeItems::recibirDanio(int danio, Entidad *atacante){ return "";
 
 void BolsaDeItems::actualizarEstado(double tiempo){}
 
-void BolsaDeItems::dropearItems(Entidad *atacante){}
+std::string BolsaDeItems::dropearItems(Entidad *atacante){ return "";}
 
 void BolsaDeItems::recibirCuracion(unsigned int curacion, Entidad *lanzador){}
 

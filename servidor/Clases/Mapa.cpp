@@ -266,7 +266,7 @@ void Mapa::eliminarEntidad(const std::string &id){
     std::unique_lock<std::mutex> lock(this->mutex);
     std::unordered_map<std::string, Entidad*>::iterator it = entidades.find(id);
     if (it == entidades.end()){
-        throw ErrorServidor("No se encontró id %s\n", id.c_str());
+        throw ErrorServidor("Error Mapa: No se encontró id %s\n", id.c_str());
     }
     quadTreeDinamico.remove(it->second);
     entidades.erase(it);
@@ -277,7 +277,7 @@ void Mapa::eliminarEntidadNoColisionable(Entidad *entidad){
     std::string id = entidad->obtenerId();
     std::unordered_map<std::string, Entidad*>::iterator it = entidades.find(id);
     if (it == entidades.end()){
-        throw ErrorServidor("No se encontró id %s\n", id.c_str());
+        throw ErrorServidor("Error Mapa: No se encontró id %s\n", id.c_str());
     } 
     entidades.erase(it);
 }
@@ -294,15 +294,6 @@ void Mapa::entidadesActualizarEstados(double tiempo){
         entidad.second->actualizarEstado(tiempo);
     }
     mutex.unlock();
-    //Limpio completados
-    std::list<std::unique_ptr<Entidad>>::iterator it = npcs.begin();
-    while (it != npcs.end()){
-        if ((*it)->haFinalizado()){
-            it = npcs.erase(it);
-        }else{
-            ++it;
-        }
-    }
     //Cargo las entidades.
     bool seguirIterando = true;
     Entidad *entidadActual = nullptr;
@@ -312,6 +303,15 @@ void Mapa::entidadesActualizarEstados(double tiempo){
             cargar(entidadActual);  //Es un metodo privado del mapa.
         }else{
             seguirIterando = false;
+        }
+    }
+    //Limpio completados
+    std::list<std::unique_ptr<Entidad>>::iterator it = npcs.begin();
+    while (it != npcs.end()){
+        if ((*it)->haFinalizado()){
+            it = npcs.erase(it);
+        }else{
+            ++it;
         }
     }
 }

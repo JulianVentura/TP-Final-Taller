@@ -24,7 +24,7 @@ class Sala{
     Sala& operator=(Sala &otro) = delete;
     Sala& operator=(Sala &&otro) = delete;
     void cargarCliente(Cliente *cliente);
-    void actualizarClientes();
+    void actualizarClientes(double tiempo);
     void eliminarCliente(const std::string &id);
     Mapa *obtenerMapa();
     std::string& obtenerNombre();

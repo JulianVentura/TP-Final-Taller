@@ -23,6 +23,7 @@
 Personaje::Personaje() : Entidad(""),
                          experiencia(0),
                          limiteParaSubir(0),
+                         limiteExpInferior(0),
                          cantidadOro(0),
                          oroEnAlmacen(0),
                          arma(NO_EQUIPADO),
@@ -43,6 +44,7 @@ Personaje::Personaje(float x, float y, std::string id, std::string idClase, std:
                                        Entidad(id),
                                        experiencia(0),
                                        limiteParaSubir(0),
+                                       limiteExpInferior(0),
                                        cantidadOro(0),
                                        oroEnAlmacen(0),
                                        arma(NO_EQUIPADO),
@@ -123,6 +125,7 @@ Personaje& Personaje::operator=(Personaje &&otro){
     this->nivel      = otro.nivel;
     this->experiencia = otro.experiencia;
     this->limiteParaSubir = otro.limiteParaSubir;
+    this->limiteExpInferior = otro.limiteExpInferior;
     this->id = std::move(otro.id);
     this->posicion = std::move(otro.posicion);
     this->desplazamiento = otro.desplazamiento;
@@ -142,6 +145,7 @@ void Personaje::actualizarAtributos(){
     agilidad = configuraciones->calcularAgilidad(this);
     constitucion = configuraciones->calcularConstitucion(this);
     limiteParaSubir = configuraciones->calcularLimiteParaSubir(this);
+    limiteExpInferior = configuraciones->calcularLimiteExpInferior(this);
     vidaMaxima = configuraciones->calcularVidaMax(this);
     vidaActual = vidaMaxima;
     manaMaximo = configuraciones->calcularManaMax(this);
@@ -173,6 +177,7 @@ std::string Personaje::recibirDanio(int danio, Entidad *atacante){
     Divulgador *divulgador = Divulgador::obtenerInstancia();
     std::stringstream mensaje;
     std::string mensajeGolpeCritico = "";
+    std::string mensajeDrop = "";
     if (config->esGolpeCritico(atacante, this)){
         danio *= 2;
         mensajeGolpeCritico = "Golpe critico. ";
@@ -196,7 +201,7 @@ std::string Personaje::recibirDanio(int danio, Entidad *atacante){
         vidaActual = 0;
         exp = config->calcularExpPorMatar(this, atacante);
         atacante->obtenerExperiencia(exp);
-        dropearItems(atacante);
+        mensajeDrop = std::move(dropearItems(atacante));
         mensaje.str() = "Has muerto";
         divulgador->encolarMensaje(this->id, mensaje.str());
         estadoFantasma();
@@ -204,7 +209,7 @@ std::string Personaje::recibirDanio(int danio, Entidad *atacante){
         vidaActual -= danio;
     }
     mensaje.str("");
-    mensaje << mensajeGolpeCritico << "Realizas " << danio << " de danio ";
+    mensaje << mensajeGolpeCritico << "Realizas " << danio << " de danio. " << mensajeDrop;
     return mensaje.str();
 }
 
@@ -262,9 +267,8 @@ void Personaje::eliminarDeInventario(unsigned int pos){
     inventario.eliminar(pos);
 }
 
-void Personaje::dropearItems(Entidad *atacante){
+std::string Personaje::dropearItems(Entidad *atacante){
     Configuraciones *config = Configuraciones::obtenerInstancia();
-    Divulgador *divulgador = Divulgador::obtenerInstancia();
     std::vector<Item*> drop = std::move(*this->inventario.obtenerTodosLosItems());
     inventario.eliminarTodosLosItems();
     for (std::size_t i=0; i<drop.size(); i++){
@@ -278,11 +282,11 @@ void Personaje::dropearItems(Entidad *atacante){
         unsigned int oroAEntregar = cantidadOro - oroSeguro;
         atacante->recibirOro(oroAEntregar);
         restarOro(oroAEntregar);
-        mensaje << "Recibes " << oroAEntregar << " oro";
-        divulgador->encolarMensaje(atacante->obtenerId(), mensaje.str());
+        mensaje <<  "Recibes " << oroAEntregar << " oro.";
     }
     //El mapa se asegura de que no haya una RC al cargar
     mapaAlQuePertenece->cargarEntidad(std::move(bolsa));
+    return mensaje.str();
 }
 
 std::vector<Item*>& Personaje::obtenerAlmacen(){
@@ -454,6 +458,7 @@ SerializacionEstado Personaje::serializarEstado(){
     SerializacionEstado serEstado = {0};
     serEstado.experiencia       = this->experiencia;
     serEstado.limiteParaSubir   = this->limiteParaSubir;
+    serEstado.limiteExpInferior = this->limiteExpInferior;
     serEstado.vidaMaxima        = this->vidaMaxima;
     serEstado.vidaActual        = this->vidaActual;
     serEstado.manaMaximo        = this->manaMaximo;
