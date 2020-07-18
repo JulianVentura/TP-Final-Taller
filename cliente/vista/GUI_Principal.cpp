@@ -21,7 +21,7 @@ GUI_Principal::GUI_Principal(EntornoGrafico& entorno, Colores& paleta,
 	boton_inventario_vista(entorno, paleta),
 	boton_meditar_vista(entorno, paleta),
 	tienda_vista(entorno, paleta, imagenes_equipo, datos_tienda.inventario,
-	 datos_tienda.precios, datos_tienda.activo),
+	 datos_tienda.precios, datos_tienda.oro_almacenado, datos_tienda.activo),
 	chat_vista(entorno, paleta),
 	nivel_vista(entorno, paleta, datos_personaje.nivel){
 	entorno.agregarRendereable(this);

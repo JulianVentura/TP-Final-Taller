@@ -1,5 +1,6 @@
 #include "Cliente.h"
 #include "OrganizadorClientes.h"
+#include "Configuraciones.h"
 #include "Divulgador.h"
 
 #include <iostream> //DEBUG
@@ -15,13 +16,12 @@ Cliente::Cliente(Socket &&socket,
                  miBaseDeDatos(unaBaseDeDatos),
                  salaActual(""),
                  finalizado(false),
-                 continuar(false){
-    /*
-    El id y pass del cliente se obtienen a traves de ClienteProxy, con ellos se accede a BaseDeDatos.
-    El id de la sala y toda la informacion del personaje se obtiene con
-    la base de datos.
-    */
+                 continuar(false),
+                 tiempoTranscurrido(0),
+                 tiempoActualizacionInventario(0){
     
+    Configuraciones *config = Configuraciones::obtenerInstancia();
+    tiempoActualizacionInventario = config->obtenerClienteTiempoActualizacionInventario();
     std::pair<std::string, std::string> credenciales =
     std::move(login(organizadorClientes));
 
@@ -49,15 +49,21 @@ void Cliente::nuevoUsuario(std::pair<std::string, std::string> &credenciales,
     std::pair<float, float> pos = config->obtenerMapaPosicionSpawn(salaActual);
     auto personaje = std::unique_ptr<Personaje> (new Personaje(pos.first, pos.second,
     credenciales.first, idClase, idRaza));
-    personaje -> recibirOro(1000);
+    personaje -> recibirOro(10000);
     miBaseDeDatos.nuevoCliente(credenciales, idRaza, idClase,
     salaActual, personaje.get());
 }
 
 
 void Cliente::actualizarEstado(const std::vector<struct PosicionEncapsulada> &posiciones,
-                               const std::vector<SerializacionDibujado> &dibujado){
+                               const std::vector<SerializacionDibujado> &dibujado,
+                               double tiempo){
     try{
+        tiempoTranscurrido += tiempo;
+        if (tiempoTranscurrido >= tiempoActualizacionInventario){
+            tiempoTranscurrido = 0;
+            this->enviarInventario();
+        }
         clienteProxy.enviarEstado(std::move(personaje->serializarEstado()));
         clienteProxy.enviarDibujadoPersonajes(dibujado);
         clienteProxy.enviarPosiciones(posiciones);
@@ -76,12 +82,12 @@ void Cliente::actualizarEstado(const std::vector<struct PosicionEncapsulada> &po
     clienteProxy.enviarChat(mensaje, mensaje_publico);
 }
 
-void Cliente::enviarContenedor(const std::vector<SerializacionItem> &&items){
-    clienteProxy.enviarContenedor(std::move(items));
+void Cliente::enviarContenedor(const SerializacionContenedor &&serContenedor){
+    clienteProxy.enviarContenedor(std::move(serContenedor));
 }
 
-void Cliente::enviarTienda(const std::vector<SerializacionItem> &&items){
-    clienteProxy.enviarTienda(std::move(items));
+void Cliente::enviarTienda(const SerializacionContenedor &&serContenedor){
+    clienteProxy.enviarTienda(std::move(serContenedor));
 }
 
 void Cliente::enviarInventario(){

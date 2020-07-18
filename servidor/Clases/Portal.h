@@ -24,7 +24,7 @@ class Portal : public Entidad{
     void transaccion(bool esDeposito, Estado *estado, Cliente *cliente) override;
     //Estado
     void actualizarEstado(double tiempo) override;
-    void dropearItems(Entidad *atacante) override;
+    std::string dropearItems(Entidad *atacante) override;
     ~Portal() override;
 };
 

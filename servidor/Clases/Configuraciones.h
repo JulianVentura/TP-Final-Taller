@@ -153,8 +153,8 @@ class Configuraciones{
     //Varios
     const uint32_t obtenerBolsaDeDropAncho() const;
     const uint32_t obtenerBolsaDeDropAlto() const;
-    const uint32_t obtenerTamanioTienda() const;
     const float    obtenerDistanciaMaximaDeInteraccion() const;
+    const double   obtenerClienteTiempoActualizacionInventario() const;
     /* FORMULAS DEL JUEGO */ 
     unsigned int   calcularVidaMax(const Personaje *personaje);
     float          calcularRecuperacionVida(const Personaje *personaje, double tiempo);
@@ -163,6 +163,7 @@ class Configuraciones{
     float          calcularRecupManaTiempo(const Personaje *personaje, double tiempo);
     const uint32_t calcularMaxOroSeguro(const Personaje *personaje);
     const uint32_t calcularLimiteParaSubir(const Personaje *personaje);
+    const uint32_t calcularLimiteExpInferior(const Personaje *personaje);
     const uint32_t calcularExpPorGolpe(const Entidad *objetivo, const Entidad *atacante, unsigned int danio);
     const uint32_t calcularExpPorMatar(const Entidad *objetivo, const Entidad *atacante);
     const uint32_t calcularDanioAtaque(const Entidad *objetivo, const Entidad *atacante, const Arma *arma);

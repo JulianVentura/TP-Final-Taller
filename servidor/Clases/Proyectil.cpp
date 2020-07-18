@@ -77,6 +77,6 @@ bool Proyectil::haFinalizado(){
     return finalizado;
 }
 
-void Proyectil::dropearItems(Entidad *atacante){}
+std::string Proyectil::dropearItems(Entidad *atacante){ return "";}
 
 Proyectil::~Proyectil(){}

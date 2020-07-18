@@ -3,7 +3,6 @@
 
 #include "Item.h"
 #include "Entidad.h"
-
 #include <vector>
 
 class Personaje;
@@ -33,8 +32,8 @@ class Banquero : public Entidad{
     void transaccion(bool esDeposito, Personaje *personaje, Cliente *cliente);
     //Estado
     void actualizarEstado(double tiempo) override;
-    void dropearItems(Entidad *atacante) override;
-    std::vector<SerializacionItem> serializarAlmacen(const std::vector<Item*> &almacen);
+    std::string dropearItems(Entidad *atacante) override;
+    SerializacionContenedor serializarAlmacen(const std::vector<Item*> &almacen, uint32_t oro);
     ~Banquero() override;
 };
 

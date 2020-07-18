@@ -403,11 +403,11 @@ const uint32_t Configuraciones::obtenerBolsaDeDropAncho() const{
 const uint32_t Configuraciones::obtenerBolsaDeDropAlto() const{
     return json.at("Varios").at("BolsaDeDrop").at("Alto").get<uint32_t>();
 }
-const uint32_t Configuraciones::obtenerTamanioTienda() const{
-    return json.at("Varios").at("TamanioTiendas").get<uint32_t>();
-}
 const float    Configuraciones::obtenerDistanciaMaximaDeInteraccion() const{
     return json.at("Varios").at("DistanciaInteraccion").get<float>();
+}
+const double   Configuraciones::obtenerClienteTiempoActualizacionInventario() const{
+    return json.at("Varios").at("ClienteTiempoActualizacionInventario").get<double>();
 }
 
 
@@ -443,6 +443,10 @@ const uint32_t Configuraciones::calcularMaxOroSeguro(const Personaje *personaje)
 
 const uint32_t Configuraciones::calcularLimiteParaSubir(const Personaje *personaje){
     return 1000 * std::pow(personaje->nivel, 1.8);
+}
+
+const uint32_t Configuraciones::calcularLimiteExpInferior(const Personaje *personaje){
+    return 1000 * std::pow(personaje->nivel - 1, 1.8);
 }
 
 const uint32_t Configuraciones::calcularExpPorGolpe(const Entidad *objetivo, const Entidad *atacante, unsigned int danio){
@@ -525,7 +529,7 @@ bool Configuraciones::sePuedeAtacar(const Personaje *objetivo, const Personaje *
                                         at("NivelDiferenciaMaximo").get<uint32_t>();
     uint32_t nivelNewbie = json.at("Varios").at("FairPlay").at("NivelNewbie").get<uint32_t>();
     if (objetivo->nivel <= nivelNewbie || atacante->nivel <= nivelNewbie) return false;
-    if (abs(objetivo->nivel - atacante->nivel) > nivelDiferenciaMaximo) return false;
+    if (abs(objetivo->nivel - atacante->nivel) > abs(nivelDiferenciaMaximo)) return false;
     return true;
 }
 
@@ -553,7 +557,8 @@ std::string Configuraciones::calcularDropPocion(const std::string &idCriatura){
 
 const uint32_t Configuraciones::calcularDropOro(const Entidad *entidad){
     //return rand(0, 0.2) * VidaMaxNPC
-    float suerte = numeroRandom(0, 2000) / 10000;
+    float suerte = numeroRandom(0, 2000);
+    suerte /= 10000;
     return suerte * entidad->vidaMaxima;
 }
 

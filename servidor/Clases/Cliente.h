@@ -31,6 +31,8 @@ class Cliente : public Thread{
     std::atomic<bool> finalizado;
     std::atomic<bool> continuar;
     std::pair<std::string, std::string> login(OrganizadorClientes &organizador);
+    double tiempoTranscurrido;
+    double tiempoActualizacionInventario;
 
     public:
     Cliente(Socket &&socket,
@@ -57,11 +59,12 @@ class Cliente : public Thread{
     //Envio
     void cargarMapa(const std::vector<char> &&infoMapa);
     void actualizarEstado(const std::vector<struct PosicionEncapsulada> &posiciones,
-                          const std::vector<SerializacionDibujado> &dibujado);
+                          const std::vector<SerializacionDibujado> &dibujado,
+                          double tiempo);
     void enviarMensaje(const std::string& mensaje);
     void enviarChat(const std::string& mensaje, bool mensaje_publico);
-    void enviarTienda(const std::vector<SerializacionItem> &&items);
-    void enviarContenedor(const std::vector<SerializacionItem> &&items);
+    void enviarTienda(const SerializacionContenedor &&serContenedor);
+    void enviarContenedor(const SerializacionContenedor &&serContenedor);
     void enviarInventario();
 
     //ClienteProxy es friend de Cliente

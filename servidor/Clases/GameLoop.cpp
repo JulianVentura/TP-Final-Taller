@@ -39,7 +39,7 @@ void GameLoop::procesar(){
                 mapa.entidadesActualizarEstados(msPorActualizacion);
                 lag -= msPorActualizacion;
             }
-            miSala.actualizarClientes();
+            miSala.actualizarClientes(transcurrido);
             reloj.dormir(msDescanso);
         }
     }catch (const std::exception &e){

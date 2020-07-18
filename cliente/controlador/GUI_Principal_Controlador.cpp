@@ -28,6 +28,7 @@ bool GUI_PrincipalControlador::manejarEvento(SDL_Event& evento) {
         vista_principal.actualizarDimension();
         boton_inventario_controlador.actualizarDimension();
         boton_meditar_controlador.actualizarDimension();
+        boton_oro_controlador.actualizarDimension();
         inventario_controlador.actualizarDimension();
         chat_controlador.actualizarDimension();
         tienda_controlador.actualizarDimension();

@@ -32,7 +32,7 @@ class Proyectil : public Entidad{
     void curar(Personaje *personaje, Cliente *cliente);
     //Estado
     void actualizarEstado(double tiempo) override;
-    void dropearItems(Entidad *atacante) override;
+    std::string dropearItems(Entidad *atacante) override;
 
     bool haFinalizado() override;
 

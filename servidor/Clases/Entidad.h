@@ -28,7 +28,7 @@ class Entidad : public Interactuable{
     virtual void actualizarEstado(double tiempo) = 0;
     virtual void obtenerExperiencia(unsigned int cantidad);
     virtual void recibirOro(unsigned int cantidad);
-    virtual void dropearItems(Entidad *atacante) = 0;
+    virtual std::string dropearItems(Entidad *atacante) = 0;
     //void atacar(Entidad *objetivo) override;
     void indicarMapaAlQuePertenece(Mapa *mapa);
     void consumirMana(unsigned int cantidad);

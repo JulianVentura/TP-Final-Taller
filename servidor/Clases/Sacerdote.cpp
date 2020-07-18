@@ -68,6 +68,4 @@ void Sacerdote::serAtacadoPor(Personaje *personaje){
     divulgador->encolarMensaje(personaje->obtenerId(), mensaje);
 }
 
-Sacerdote::~Sacerdote(){
-
-}
+Sacerdote::~Sacerdote(){}

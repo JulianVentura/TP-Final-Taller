@@ -1,6 +1,6 @@
 #include "EntornoMusical.h"
 
-#define VOLUMEN SDL_MIX_MAXVOLUME*0.8
+#define VOLUMEN SDL_MIX_MAXVOLUME
 #define NUEVO_AUDIO(x,y) sonidos[x] = createAudio(y, 0, VOLUMEN)
 
 std::unordered_map<std::string, Audio*> EntornoMusical::sonidos;
@@ -10,6 +10,7 @@ EntornoMusical::EntornoMusical(){
 	SDL_InitSubSystem(SDL_INIT_AUDIO);
 	initAudio();
 	NUEVO_AUDIO("musicaMenu", "assets/audio/musicaMenu.wav");
+	NUEVO_AUDIO("musicaJuego", "assets/audio/musicaJuego.wav");
 }
 
 EntornoMusical* EntornoMusical::obtenerInstancia(){

@@ -95,6 +95,11 @@ void ServidorProxy::recibirMensajeConOperacion(uint32_t operacion) {
 			datos_personaje.mana_max = protocolo.recibirUint16(socket);
 			datos_personaje.exp = protocolo.recibirUint16(socket);
 			datos_personaje.exp_max = protocolo.recibirUint16(socket);
+			{
+			uint16_t exp_min = protocolo.recibirUint16(socket);
+			datos_personaje.exp -= exp_min;
+			datos_personaje.exp_max -= exp_min;
+			}
 			datos_personaje.nivel = protocolo.recibirUint32(socket);
 		break;
 		
@@ -115,6 +120,7 @@ void ServidorProxy::recibirMensajeConOperacion(uint32_t operacion) {
 		break;
 
 		case CODIGO_TIENDA:
+		datos_tienda.oro_almacenado = protocolo.recibirUint16(socket);
 		for(int i = 0; i < INV_ANCHO*INV_ALTO; i++){
 			datos_tienda.inventario[i] = protocolo.recibirUint16(socket);
 			datos_tienda.precios[i] = protocolo.recibirUint16(socket);

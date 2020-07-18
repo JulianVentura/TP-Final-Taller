@@ -235,28 +235,31 @@ void ClienteProxy::enviarInformacionMapa(const std::vector<char> &infoMapa){
     encolarMensaje(std::move(protocolo.finalizarEnvio()));
 }
 
-void ClienteProxy::enviarTienda(const std::vector<SerializacionItem> &&items){
+void ClienteProxy::enviarTienda(const SerializacionContenedor &&contenedor){
 	std::lock_guard<std::mutex> lock(m);
+    uint16_t cero = 0;
 	protocolo.enviarUint32(socket, CODIGO_TIENDA);
-    for(auto item : items){
+    protocolo.enviarUint16(socket, cero);
+    for(auto item : contenedor.items){
         protocolo.enviarUint16(socket, item.idTCP);
     	protocolo.enviarUint16(socket, item.precio);
     }
     encolarMensaje(std::move(protocolo.finalizarEnvio()));
 }
 
-void ClienteProxy::enviarContenedor(const std::vector<SerializacionItem> &&items){
+void ClienteProxy::enviarContenedor(const SerializacionContenedor &&contenedor){
 	std::lock_guard<std::mutex> lock(m);
 	uint16_t cero = 0;
 	protocolo.enviarUint32(socket, CODIGO_TIENDA);
-    for(auto& item : items){
+    protocolo.enviarUint16(socket, contenedor.oroContenedor);
+    for(auto& item : contenedor.items){
         protocolo.enviarUint16(socket, item.idTCP);
     	protocolo.enviarUint16(socket, cero);
     }
     encolarMensaje(std::move(protocolo.finalizarEnvio()));
 }
 
-void ClienteProxy::enviarInventario(const SerializacionEquipo serEquipo){
+void ClienteProxy::enviarInventario(const SerializacionEquipo &&serEquipo){
 	std::lock_guard<std::mutex> lock(m);
 	protocolo.enviarUint32(socket, CODIGO_INVENTARIO);
     protocolo.enviarUint16(socket, serEquipo.armaEquipada);
@@ -286,6 +289,7 @@ void ClienteProxy::enviarEstado(SerializacionEstado serEstado){
     protocolo.enviarUint16(socket, serEstado.manaMaximo);
     protocolo.enviarUint16(socket, serEstado.experiencia);
     protocolo.enviarUint16(socket, serEstado.limiteParaSubir);
+    protocolo.enviarUint16(socket, serEstado.limiteExpInferior);
     protocolo.enviarUint32(socket, serEstado.nivel);
     encolarMensaje(std::move(protocolo.finalizarEnvio()));
 }

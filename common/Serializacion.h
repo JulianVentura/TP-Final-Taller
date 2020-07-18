@@ -32,6 +32,7 @@ typedef struct serializacionEstado{
     uint16_t manaMaximo;
     uint16_t experiencia;
     uint16_t limiteParaSubir;
+    uint16_t limiteExpInferior;
     uint32_t nivel;
 }SerializacionEstado;
 
@@ -48,5 +49,11 @@ typedef struct serializacionEquipo{
     uint16_t oro;
     SerializacionItem items[TAM_INVENTARIO];
 }SerializacionEquipo;
+
+
+typedef struct serializacionContenedor{
+    uint16_t oroContenedor;
+    SerializacionItem items[TAM_TIENDA];
+}SerializacionContenedor;
 
 #endif
