@@ -49,7 +49,7 @@ void Cliente::nuevoUsuario(std::pair<std::string, std::string> &credenciales,
     std::pair<float, float> pos = config->obtenerMapaPosicionSpawn(salaActual);
     auto personaje = std::unique_ptr<Personaje> (new Personaje(pos.first, pos.second,
     credenciales.first, idClase, idRaza));
-    personaje -> recibirOro(1000);
+    personaje -> recibirOro(10000);
     miBaseDeDatos.nuevoCliente(credenciales, idRaza, idClase,
     salaActual, personaje.get());
 }

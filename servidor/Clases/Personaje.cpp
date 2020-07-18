@@ -554,3 +554,4 @@ OperacionAtacar::ejecutar(){
     Lo que tiene esto es que si el ataque se origina de otra forma (como?) no se chequea
     si se encuentra sobre una zona segura.
 }
+*/

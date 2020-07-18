@@ -1,15 +1,24 @@
 #ifndef __GUI_ORO_ALMACENADO_H__
 #define __GUI_ORO_ALMACENADO_H__
 
-#include "../vista/GUI_Panel.h"
-#include "../vista/GUI_BotonOro.h"
+#include <SDL2/SDL_render.h>
+#include <atomic>
 
-class GUI_OroAlmacenado : public GUI_BotonOro{
+#include "../vista/Imagen.h"
+#include "../vista/Colores.h"
+#include "../vista/EntornoGrafico.h"
+#include "../vista/IRendereable.h"
+#include "../vista/GUI_Panel.h"
+
+class GUI_OroAlmacenado : public IRendereable{
 private:
-	std::atomic<uint32_t>& oro;
+	Colores& paleta;
+	std::atomic<uint16_t>& oro;
+	SDL_Rect marco;
+	Imagen imagen;
 public:
 	GUI_OroAlmacenado(EntornoGrafico& entorno, Colores& paleta,
-	 std::atomic<uint32_t>& oro);
+	 std::atomic<uint16_t>& oro);
 	void actualizarDimension();
 	void render();
 };

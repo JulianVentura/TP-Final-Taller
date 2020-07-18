@@ -13,7 +13,7 @@ public:
 	std::atomic<bool>& activo;
 	GUI_PanelTienda(EntornoGrafico& entorno, Colores& paleta,
 	 BancoImagenesEquipo& imagenes_equipo, std::atomic<uint16_t>* inventario,
-	 std::atomic<uint16_t>* precios, std::atomic<uint32_t>& oro_almacenado,
+	 std::atomic<uint16_t>* precios, std::atomic<uint16_t>& oro_almacenado,
 	 std::atomic<bool>& activo);
 	void render() override;
 	void actualizarDimension();

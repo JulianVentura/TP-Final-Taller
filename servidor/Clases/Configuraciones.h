@@ -163,6 +163,7 @@ class Configuraciones{
     float          calcularRecupManaTiempo(const Personaje *personaje, double tiempo);
     const uint32_t calcularMaxOroSeguro(const Personaje *personaje);
     const uint32_t calcularLimiteParaSubir(const Personaje *personaje);
+    const uint32_t calcularLimiteExpInferior(const Personaje *personaje);
     const uint32_t calcularExpPorGolpe(const Entidad *objetivo, const Entidad *atacante, unsigned int danio);
     const uint32_t calcularExpPorMatar(const Entidad *objetivo, const Entidad *atacante);
     const uint32_t calcularDanioAtaque(const Entidad *objetivo, const Entidad *atacante, const Arma *arma);
