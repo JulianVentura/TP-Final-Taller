@@ -6,7 +6,6 @@
 #include <unordered_set>
 
 #define NPC_DELIMITADOR "#"
-
 using json = nlohmann::json;
 
 void Juego::actualizar(unsigned int delta_t) {
@@ -16,21 +15,17 @@ void Juego::actualizar(unsigned int delta_t) {
 }
 
 void Juego::actualizarMapa() {
-    for (auto& entidad: entidades) {
-        if (entidad.first == datos_personaje.id) continue;
-        borrarEntidad(entidad.first);
-    }
     parser = json::parse(mapa_s.c_str());
     libreriaConjuntoTileParser.parse(parser);
     conjuntoTiles.parse(entorno, libreriaConjuntoTileParser);
     capasParser.parse(parser, conjuntoTiles);
     capaFrontal.parse(capasParser, conjuntoTiles);
-    if (entidades.count(datos_personaje.id))
-        capaFrontal.agregarObstruible(datos_personaje.id, 
-                                        entidades[datos_personaje.id].second);
     mapaParser.parse(parser);
     mapa.parse(mapaParser, conjuntoTiles);
     camara.setContenedor(mapa);
+    for (auto& entidad: entidades) {
+        capaFrontal.agregarObstruible(entidad.first, entidad.second.second);
+    }
     hay_que_actualizar_mapa = false;
 }
 void Juego::render() {
@@ -40,8 +35,8 @@ void Juego::render() {
 }
 
 bool Juego::manejarEvento(SDL_Event& evento) {
-    std::lock_guard<std::mutex> l(mtx);
     if (evento.type == SDL_MOUSEBUTTONDOWN) {
+        std::lock_guard<std::mutex> l(mtx);
         if (hay_que_actualizar_mapa) return false;
         int x = evento.button.x;
         int y = evento.button.y;
@@ -82,10 +77,10 @@ Juego::Juego(EntornoGrafico& entorno, DatosPersonaje& datos_personaje,
         escena(entorno, camara, mapa, capaFrontal, conjuntoTiles),
         personajeManejable(servidor),
         entidadParser(entorno) {
-    cambiarMapa(mapa_s);
     entorno.agregarRendereable(this);
     servidor.setJuego(this);
     camara.setMarco(ventana);
+
 }
 
 void Juego::cambiarMapa(const std::string& mapa_s) {
@@ -155,7 +150,7 @@ void Juego::actualizarPosiciones(std::unordered_map<std::string, std::pair<int,
     std::unordered_set<std::string> paraBorrar;
     for (auto& entidad: entidades) {
         if (posiciones.count(entidad.first)) continue;
-        // if (entidad.first == datos_personaje.id) continue;
+        if (entidad.first == datos_personaje.id) continue;
         paraBorrar.insert(entidad.first);
     }
     for (auto& entidad: paraBorrar)
@@ -166,6 +161,7 @@ void Juego::actualizarEstados(std::vector<SerializacionDibujado> dibujados) {
     std::lock_guard<std::mutex> l(mtx);
     if (hay_que_actualizar_mapa) return;
     for (auto& dibujado: dibujados) {
+        if (!entidades.count(dibujado.id)) continue;
         DatosApariencia apariencia;
         apariencia.raza = std::to_string(dibujado.idRaza);
         apariencia.clase = std::to_string(dibujado.idClase);
@@ -174,7 +170,6 @@ void Juego::actualizarEstados(std::vector<SerializacionDibujado> dibujados) {
 		apariencia.casco = std::to_string(dibujado.idCascoEquipado);
 		apariencia.escudo = std::to_string(dibujado.idEscudoEquipado);
 		apariencia.estado = std::to_string(dibujado.idEstado);
-        if (entidades.count(dibujado.id))
-            entidades[dibujado.id].second->actualizarApariencia(apariencia);
+        entidades[dibujado.id].second->actualizarApariencia(apariencia);
     }
 }
