@@ -44,9 +44,9 @@ std::unique_ptr<Entidad> FabricaDeNPC::obtenerNPCPasivo(const float x,
     if (idNPC == "Banquero") return std::unique_ptr<Entidad>(new Banquero(x, y));
     if (idNPC == "Comerciante") return std::unique_ptr<Entidad>(new Comerciante(x, y));
     if (idNPC == "Sacerdote") return std::unique_ptr<Entidad>(new Sacerdote(x, y));
-    std::string sub = idNPC.substr(idNPC.find("#"));
+    std::string sub = idNPC.substr(0, idNPC.find("#"));
     Configuraciones *config = Configuraciones::obtenerInstancia();
     std::string mapaATeletransportar = config->obtenerPortalMapaATeletransportar(idNPC, idMapa);
     if (sub == "Portal") return std::unique_ptr<Entidad>(new Portal(x, y, idNPC, mapaATeletransportar));
-    throw Excepcion("Error FabricaDeNPC: No se pudo parsear el NPC de id %s", idNPC);
+    throw Excepcion("Error FabricaDeNPC: No se pudo parsear el NPC de id %s", idNPC.c_str());
 }

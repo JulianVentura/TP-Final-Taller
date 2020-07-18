@@ -11,6 +11,9 @@
 class CapasParser {
 public:
     CapasParser(nlohmann::json& parser, LibreriaConjuntoTiles& tiles);
+    CapasParser& operator=(CapasParser&& otro);
+
+    void parse(nlohmann::json& parser, LibreriaConjuntoTiles& tiles);
     std::unordered_map<std::string, std::vector<int>> getCapas() const;
     std::vector<std::string> getCapasOrdenadas() const;
     std::unordered_map<std::string, std::vector<Obstaculo>> 

@@ -38,6 +38,7 @@ public:
     void transformar(int& x, int& y) const;
 
     void getFrontera(SDL_Rect& frontera);
+    void setContenedor(IDimensionable& contenedor);
     
 private:
     int maxX();

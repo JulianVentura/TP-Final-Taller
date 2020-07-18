@@ -5,17 +5,38 @@
 #include <utility>
 
 CapaFrontal::CapaFrontal(const CapasParser& parser, 
-                                                LibreriaConjuntoTiles& tiles):
-        capas(std::move(parser.getCapas())),
-        tiles(tiles), 
-        columnas(parser.getColumnas()), 
-        filas(parser.getFilas()) {
+                                                LibreriaConjuntoTiles& tiles) {
+    parse(parser, tiles);
+}
+
+void CapaFrontal::parse(const CapasParser& parser, 
+                                                LibreriaConjuntoTiles& tiles) {
+    capas.clear();
+    capasObstaculos.clear();
+    obstruibles.clear();
+    obstruiblesFijos.clear();
+    capas = std::move(parser.getCapas());
+    this->tiles = &tiles;
+    columnas = parser.getColumnas(); 
+    filas = parser.getFilas();
     capasObstaculos = std::move(parser.getCapasObstaculos());
     for (const auto& nombreCapa: parser.getCapasOrdenadas()) {
         if (capasObstaculos.count(nombreCapa) < 0) continue;
         for (auto& obstaculo: capasObstaculos[nombreCapa])
             obstruiblesFijos.push_back(&obstaculo);
     }
+}
+
+CapaFrontal& CapaFrontal::operator=(const CapaFrontal&& otro) {
+    this->frontera = otro.frontera;
+    this->obstruibles = std::move(otro.obstruibles);
+    this->obstruiblesFijos = std::move(otro.obstruiblesFijos);
+    // this->capasObstaculos = std::move(otro.capasObstaculos);
+    this->capas = std::move(otro.capas);
+    this->tiles = otro.tiles;
+    this->filas = otro.filas;
+    this->columnas = otro.columnas;
+    return *this;
 }
 
 void CapaFrontal::agregarObstruible(const std::string& id, IObstruible* obstruible) {
@@ -44,10 +65,10 @@ void CapaFrontal::render() {
             for (auto& capa: capas) {
                 int id = capa.second[indice];
                 if (id == 0) continue;
-                Imagen* tile = tiles.getTile(id);
+                Imagen* tile = tiles->getTile(id);
                 if (tile == nullptr) continue;
-                tile->setPosicion(x * tiles.getAnchoTile(),
-                                  y * tiles.getAltoTile());
+                tile->setPosicion(x * tiles->getAnchoTile(),
+                                  y * tiles->getAltoTile());
                 tile->render();
             }
         }
@@ -56,11 +77,10 @@ void CapaFrontal::render() {
 }
 
 void CapaFrontal::renderearObstruiblesVisibles() {
-    // std::lock_guard<std::mutex> l(m);
-    SDL_Rect frontera_real = { frontera.x * tiles.getAnchoTile(), 
-                               frontera.y * tiles.getAltoTile(), 
-                               frontera.w * tiles.getAnchoTile() * 2, 
-                               frontera.h * tiles.getAltoTile() * 2 };
+    SDL_Rect frontera_real = { frontera.x * tiles->getAnchoTile(), 
+                               frontera.y * tiles->getAltoTile(), 
+                               frontera.w * tiles->getAnchoTile() * 2, 
+                               frontera.h * tiles->getAltoTile() * 2 };
     std::vector<IObstruible*> obstruibles_visibles;
     for (auto& obstruible: obstruibles) {
         if (!obstruible.second) continue;
@@ -90,8 +110,12 @@ void CapaFrontal::renderearObstruiblesVisibles() {
 }
 
 void CapaFrontal::actualizar(unsigned int delta_t) {
-    for (auto& obstruible: obstruiblesFijos)
+    for (auto& obstruible: obstruiblesFijos) {
+        if (!obstruible) continue;
         obstruible->actualizar(delta_t);
-    for (auto& obstruible: obstruibles)
+    }
+    for (auto& obstruible: obstruibles) {
+        if (!obstruible.second) continue;
         obstruible.second->actualizar(delta_t);
+    }
 }

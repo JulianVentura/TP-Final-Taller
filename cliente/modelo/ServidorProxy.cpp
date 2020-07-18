@@ -126,6 +126,7 @@ void ServidorProxy::recibirMensajeConOperacion(uint32_t operacion) {
 		{
 			std::unique_lock<std::mutex> lock(mtx);
 			protocolo.recibirString(socket, mapa);
+			if (juego) juego->cambiarMapa(mapa);
 			se_recibio_mapa = true;
 			cv.notify_all();
 		}
@@ -175,15 +176,6 @@ void ServidorProxy::actualizarPosiciones() {
 	}
 	if (!juego) return;
 	juego->actualizarPosiciones(std::move(posiciones));
-}
-
-void ServidorProxy::agregarPosicionable(std::string& id, 
-	IPosicionable* posicionable) {
-	posicionables[id] = posicionable;
-}
-
-void ServidorProxy::borrarPosicionable(const std::string& id) {
-	posicionables.erase(id);
 }
 
 void ServidorProxy::enviarMovimiento(uint32_t movimiento) {

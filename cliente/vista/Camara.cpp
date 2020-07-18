@@ -2,6 +2,7 @@
 
 Camara::Camara(IDimensionable& contenedor):
                 contenedor(contenedor), marco(&contenedor), objetivo(nullptr) {}
+
 void Camara::setMarco(IDimensionable* marco) {
     this->marco = marco;
 }
@@ -56,4 +57,8 @@ void Camara::getFrontera(SDL_Rect& frontera) {
     frontera.y = desplazamientoY / zoom;
     frontera.w = marco->getAncho() / zoom;
     frontera.h = marco->getAlto() / zoom;
+}
+
+void Camara::setContenedor(IDimensionable& contenedor) {
+    this->contenedor = contenedor;
 }

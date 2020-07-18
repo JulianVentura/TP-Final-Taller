@@ -34,7 +34,7 @@ int pruebaMensaje(const char* archivoConfig){
 }
 
 int pruebaLanzamientoProyectiles(const char* archivoConfig){
-    try{
+    /* try{
         Configuraciones::crearInstancia(archivoConfig);
         OrganizadorClientes organizador;
         Divulgador::inicializarInstancia(&organizador);
@@ -56,7 +56,7 @@ int pruebaLanzamientoProyectiles(const char* archivoConfig){
         std::cerr << "Error desconocido capturado en pruebaServidor" <<std::endl;
         return ERROR;
     }
-
+    */
     return EXITO;
 }
 

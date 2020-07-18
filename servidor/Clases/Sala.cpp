@@ -12,7 +12,7 @@ void Sala::cargarCliente(Cliente *cliente){
     std::unique_lock<std::mutex> lock(this->mutex);
     if (clientes.count(cliente->obtenerId())){
         throw Excepcion("Error en Cliente: "
-        "El cliente de id %s ya esta cargado en el mapa", cliente->obtenerId().c_str());
+        "El cliente de id %s ya esta cargado en el mapa %s", cliente->obtenerId().c_str(), nombre.c_str());
     }
     clientes[cliente->obtenerId()] = cliente;
     mapa.cargarEntidad(cliente->obtenerPersonaje());

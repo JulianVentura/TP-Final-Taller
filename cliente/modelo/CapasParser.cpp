@@ -22,7 +22,24 @@ std::vector<std::string> CapasParser::getCapasOrdenadas() const {
     return std::move(this->capasOrdenadas);
 }
 
+CapasParser& CapasParser::operator=(CapasParser&& otro) {
+    this->capas = std::move(otro.capas);
+    this->capasOrdenadas = std::move(otro.capasOrdenadas);
+    this->capasObstaculos = (otro.capasObstaculos);
+    this->obstaculoParser = std::move(otro.obstaculoParser);
+    this->filas = otro.filas;
+    this->columnas = otro.columnas;
+    return *this;
+}
+
 CapasParser::CapasParser(nlohmann::json& parser, LibreriaConjuntoTiles& tiles) {
+    parse(parser, tiles);
+}
+
+void CapasParser::parse(nlohmann::json& parser, LibreriaConjuntoTiles& tiles) {
+    capasOrdenadas.clear();
+    capas.clear();
+    capasObstaculos.clear();
     parser["width"].get_to(columnas);
     parser["height"].get_to(filas);
     for (auto& grupo: parser["layers"]) {
@@ -33,6 +50,6 @@ CapasParser::CapasParser(nlohmann::json& parser, LibreriaConjuntoTiles& tiles) {
             capasOrdenadas.push_back(capa["name"]);
         }
     }
-    capasObstaculos = std::move(ObstaculoParser(parser, capas, 
+    capasObstaculos = /*std::move*/(ObstaculoParser(parser, capas, 
                                                 tiles).getCapasObstaculos());
 }

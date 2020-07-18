@@ -11,7 +11,7 @@ int MapaVista::getAltoTile() { return alto_tile; }
 
 MapaVista::MapaVista(EntornoGrafico& entorno, const MapaParser& parser, 
                     LibreriaConjuntoTiles& conjuntosTiles): 
-        conjuntosTiles(conjuntosTiles),
+        conjuntosTiles(&conjuntosTiles),
         capasFondo(std::move(parser.getCapas())), 
         columnas(parser.getColumnas()), 
         filas(parser.getFilas()), 
@@ -20,6 +20,21 @@ MapaVista::MapaVista(EntornoGrafico& entorno, const MapaParser& parser,
     entorno.agregarRendereable(this);
     this->ancho = columnas * ancho_tile;
     this->alto = filas * alto_tile;
+}
+
+MapaVista& MapaVista::operator=(const MapaVista&& otro) {
+    this->conjuntosTiles = otro.conjuntosTiles;
+    this->capasFondo = std::move(otro.capasFondo);
+    this->columnas = otro.columnas;
+    this->filas = otro.filas;
+    this->ancho_tile = otro.ancho_tile;
+    this->alto_tile = otro.alto_tile;
+    this->ancho_tile = otro.ancho_tile;
+    this->alto = otro.alto;
+    this->ancho = otro.ancho;
+    this->renderer = otro.renderer;
+    this->ventana = otro.ventana;
+    return *this;
 }
 
 void MapaVista::render() {
@@ -32,7 +47,7 @@ void MapaVista::render() {
             int indice = y * columnas + x;
             for (auto& capa: capasFondo) {
                 int id = capa[indice];
-                Imagen* tile = conjuntosTiles.getTile(id);
+                Imagen* tile = conjuntosTiles->getTile(id);
                 if (!tile) continue;
                 tile->setPosicion(x * ancho_tile, y * alto_tile);
                 tile->render();

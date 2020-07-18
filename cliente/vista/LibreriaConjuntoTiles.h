@@ -9,6 +9,7 @@ class LibreriaConjuntoTiles {
 public:
     LibreriaConjuntoTiles(EntornoGrafico& entorno, 
                                     const LibreriaConjuntoTileParser& parser);
+    LibreriaConjuntoTiles& operator=(LibreriaConjuntoTiles&& otro);
     Imagen* getTile(int id);
     int getColumnas();
     int getAnchoTile();

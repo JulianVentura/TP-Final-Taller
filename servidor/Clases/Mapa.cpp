@@ -27,6 +27,7 @@ static quadtree::Box<float> inicializarFrontera(json& archivoJson,
     archivoJson["tileheight"].get_to(altoTile);
     return std::move(quadtree::Box<float>(0, 0, alto * altoTile, ancho * anchoTile));
 }
+
 namespace quadtree{
     static void from_json(const json& j, quadtree::Box<float>& caja) {
         float ancho;
@@ -204,6 +205,7 @@ void Mapa::cargar(Entidad *entidad){
     std::unordered_map<std::string, Entidad*>::iterator it = entidades.find(id);
     //Esto solo puede fallar si se intenta cargar una entidad en operaciones consecutivas.
     if (it != entidades.end()) return;
+    printf("Se cargo entidad %s\n", id.c_str());
     entidades[id] = entidad;
 }
 

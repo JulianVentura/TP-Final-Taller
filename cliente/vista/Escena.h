@@ -11,13 +11,14 @@ class Escena: public IRendereable {
 public:
     Escena(EntornoGrafico& entorno, Camara& camara, MapaVista& mapa, 
                 CapaFrontal& capaFrontal, LibreriaConjuntoTiles& conjuntoTiles);
+    Escena& operator=(const Escena&& otro);
     void render() override;
     void actualizar(unsigned int delta_t) override;
 
 private:
-    Camara& camara;
-    MapaVista& mapa;
-    CapaFrontal& capaFrontal;
-    LibreriaConjuntoTiles& conjuntoTiles;
+    Camara* camara;
+    MapaVista* mapa;
+    CapaFrontal* capaFrontal;
+    LibreriaConjuntoTiles* conjuntoTiles;
 };
 #endif

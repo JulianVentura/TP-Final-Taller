@@ -12,6 +12,8 @@ using json = nlohmann::json;
 void Juego::actualizar(unsigned int delta_t) {
     std::lock_guard<std::mutex> l(mtx);
     escena.actualizar(delta_t);
+    if (entidades.count(datos_personaje.id))
+        printf("%d %d \n", entidades[datos_personaje.id].second->getX(), entidades[datos_personaje.id].second->getY());
 }
 
 void Juego::render() {
@@ -20,7 +22,10 @@ void Juego::render() {
 }
 
 bool Juego::manejarEvento(SDL_Event& evento) {
+    std::lock_guard<std::mutex> l(mtx);
     if (evento.type == SDL_MOUSEBUTTONDOWN) {
+        printf("Click\n");
+        servidor.enviarInteraccion("Portal#1");
         int x = evento.button.x;
         int y = evento.button.y;
         camara.transformar(x, y);
@@ -60,19 +65,55 @@ Juego::Juego(EntornoGrafico& entorno, DatosPersonaje& datos_personaje,
         escena(entorno, camara, mapa, capaFrontal, conjuntoTiles),
         personajeManejable(servidor),
         entidadParser(entorno) {
+    cambiarMapa(mapa_s);
     entorno.agregarRendereable(this);
     servidor.setJuego(this);
     camara.setMarco(ventana);
 }
 
+void Juego::cambiarMapa(const std::string& mapa_s) {
+    std::lock_guard<std::mutex> l(mtx);
+    printf("se está cambiando mapa \n");
+
+    // std::string mapa_s;
+    // nlohmann::json parser;
+
+    // LibreriaConjuntoTileParser libreriaConjuntoTileParser;
+    // LibreriaConjuntoTiles conjuntoTiles;
+    
+    // CapasParser capasParser;
+    // CapaFrontal capaFrontal;
+    // MapaParser mapaParser;
+    // MapaVista mapa;
+    // Camara camara;
+    // Escena escena;
+    for (auto& entidad: entidades) {
+        if (entidad.first == datos_personaje.id) continue;
+        borrarEntidad(entidad.first);
+    }
+    parser = (json::parse(mapa_s.c_str()));
+    libreriaConjuntoTileParser.parse(parser);
+    // libreriaConjuntoTileParser = std::move(LibreriaConjuntoTileParser(parser));
+    conjuntoTiles = std::move(LibreriaConjuntoTiles(entorno, libreriaConjuntoTileParser));
+    
+    capasParser.parse(parser, conjuntoTiles);
+    capaFrontal.parse(capasParser, conjuntoTiles);
+    // = std::move(CapaFrontal(capasParser, conjuntoTiles));
+
+    mapaParser = std::move(MapaParser(parser));
+    mapa = std::move(MapaVista(entorno, mapaParser, conjuntoTiles));
+    
+    camara.setContenedor(mapa);
+    // camara.setObjetivo(nullptr);
+    escena = std::move(Escena(entorno, camara, mapa, capaFrontal, conjuntoTiles));
+    printf("se logra cambiar mapa\n");
+}
+
 void Juego::agregarEntidad(std::string& id, DatosApariencia& apariencia) {
     if (entidades.count(id)) return;
-    auto posicion_identificador = id.find(NPC_DELIMITADOR);
-    if ((id.substr(0, posicion_identificador) == "FlechaMagica" || id.substr(0, posicion_identificador) == "Curar" || id.substr(0, posicion_identificador) == "Misil" || id.substr(0, posicion_identificador) == "Explosion" || id.substr(0, posicion_identificador) == "Cuerpo" || id.substr(0, posicion_identificador) == "Flechazo")) return;
-    printf("%s \n", id.c_str());
+    printf("se agrega %s \n", id.c_str());
     entidades[id] = std::move(crearEntidad(id, apariencia));
     capaFrontal.agregarObstruible(id, entidades[id].second);
-    servidor.agregarPosicionable(id, entidades[id].first);
     if (id == datos_personaje.id) 
         camara.setObjetivo(entidades[id].second);    
 }
@@ -86,7 +127,6 @@ Juego::~Juego() {
 
 void Juego::borrarEntidad(const std::string& id) {
     if (!entidades.count(id)) return;
-    servidor.borrarPosicionable(id);
     capaFrontal.borrarObstruible(id);
     delete entidades[id].first;
     delete entidades[id].second;
@@ -118,7 +158,6 @@ void Juego::actualizarPosiciones(std::unordered_map<std::string, std::pair<int,
 			std::string id(posicion.first);
             DatosApariencia apariencia;
             agregarEntidad(id, apariencia);
-			// continue;
 		}
 		if (!entidades.count(posicion.first)) continue;
 		auto& coordenadas = posicion.second;
@@ -135,6 +174,7 @@ void Juego::actualizarPosiciones(std::unordered_map<std::string, std::pair<int,
 }
 
 void Juego::actualizarEstados(std::vector<SerializacionDibujado> dibujados) {
+    std::lock_guard<std::mutex> l(mtx);
     for (auto& dibujado: dibujados) {
         DatosApariencia apariencia;
         apariencia.raza = std::to_string(dibujado.idRaza);

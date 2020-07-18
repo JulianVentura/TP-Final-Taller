@@ -45,7 +45,6 @@ private:
 	Protocolo protocolo;
 	ProxyEnviador enviador;	
 	Juego* juego = nullptr;
-	std::unordered_map<std::string, IPosicionable*> posicionables;
 	SDL_Event evento_salida;
 	void actualizarPosiciones();
 
@@ -77,8 +76,6 @@ public:
 	// Manejo mapa
 	std::string obtenerMapa();
 	void enviarMovimiento(uint32_t movimiento);
-	void agregarPosicionable(std::string& id, IPosicionable* posicionable);
-	void borrarPosicionable(const std::string& id);
 	void recibir_estados();
 	
 	// Inventario

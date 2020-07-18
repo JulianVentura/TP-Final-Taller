@@ -1,7 +1,8 @@
 {
-    "MapaInicial": "mapa",
+    "MapaInicial": "bosque",
     "Salas": [
-        "mapa"
+        "ciudad",
+        "bosque"
     ],
     "Aceptador": {
         "Puerto": "3080",
@@ -13,16 +14,30 @@
         "MS_POR_ACTUALIZACION": 11 
     },
     "Mapas": {
-        "mapa": {
-            "Ruta": "../mapa.json",
+        "ciudad": {
+            "Ruta": "../ciudad.json",
             "SpawnCriaturas": [
                 "Esqueleto",
-                "Arania",
-                "Zombie",
-                "Goblin"
+                "Zombie"
             ],
             "SpawnPortales": {
-                "Portal#1": "mapa2"
+                "Portal#1": "bosque"
+            },
+            "LimiteCriaturas": 6,
+            "TiempoRespawn": 10000,
+            "PosicionSpawnInicial": [
+                100,
+                100
+            ]
+        },
+        "bosque": {
+            "Ruta": "../bosque.json",
+            "SpawnCriaturas": [
+                "Goblin",
+                "Arania"
+            ],
+            "SpawnPortales": {
+                "Portal#1": "ciudad"
             },
             "LimiteCriaturas": 6,
             "TiempoRespawn": 10000,
@@ -31,6 +46,10 @@
                 100
             ]
         }
+    },
+    "Portales": {
+        "Ancho": 2,
+        "Alto": 2
     },
     "Personaje": {
         "VidaBase": 100,

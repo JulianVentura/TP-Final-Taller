@@ -9,6 +9,14 @@ int LibreriaConjuntoTiles::getColumnas() { return columnas; }
 int LibreriaConjuntoTiles::getAnchoTile() { return ancho_tile ;}
 int LibreriaConjuntoTiles::getAltoTile() { return alto_tile; }
 
+LibreriaConjuntoTiles& LibreriaConjuntoTiles::operator=(LibreriaConjuntoTiles&& otro) {
+    this->alto_tile = otro.alto_tile;
+    this->ancho_tile = otro.ancho_tile;
+    this->columnas = otro.columnas;
+    this->conjuntosTiles = std::move(otro.conjuntosTiles);
+    return *this;
+}
+
 LibreriaConjuntoTiles::LibreriaConjuntoTiles(EntornoGrafico& entorno,
                                     const LibreriaConjuntoTileParser& parser) {
     columnas = parser.getColumnas();

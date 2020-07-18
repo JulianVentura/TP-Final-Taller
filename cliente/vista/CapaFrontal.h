@@ -14,6 +14,8 @@
 class CapaFrontal: public IRendereable {
 public:
     CapaFrontal(const CapasParser& parser, LibreriaConjuntoTiles& tiles);
+    CapaFrontal& operator=(const CapaFrontal&& otro);
+    void parse(const CapasParser& parser, LibreriaConjuntoTiles& tiles);
     void render() override;
     void actualizar(unsigned int delta_t) override;
     void agregarObstruible(const std::string& id, IObstruible* obstruible);
@@ -22,12 +24,11 @@ public:
 
 private:
     void renderearObstruiblesVisibles();
-
     std::vector<IObstruible*> obstruiblesFijos;
     std::unordered_map<std::string, IObstruible*> obstruibles;
     std::unordered_map<std::string, std::vector<int>> capas;
     std::unordered_map<std::string, std::vector<Obstaculo>> capasObstaculos;
-    LibreriaConjuntoTiles& tiles;
+    LibreriaConjuntoTiles* tiles;
     SDL_Rect frontera;
     std::mutex m;
     int columnas;

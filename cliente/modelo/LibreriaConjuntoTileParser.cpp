@@ -12,7 +12,8 @@ std::vector<InformacionConjuntoTile>
     return std::move(this->conjuntosTiles);
 }
 
-LibreriaConjuntoTileParser::LibreriaConjuntoTileParser(nlohmann::json& parser) {
+void LibreriaConjuntoTileParser::parse(nlohmann::json& parser) {
+    conjuntosTiles.clear();
     parser["tileheight"].get_to(alto_tile);
     parser["tilewidth"].get_to(ancho_tile);
     parser["width"].get_to(columnas);
@@ -24,11 +25,14 @@ LibreriaConjuntoTileParser::LibreriaConjuntoTileParser(nlohmann::json& parser) {
         conjunto_tile["tilecount"].get_to(info.cantidad_tiles);
         conjunto_tile["tileheight"].get_to(info.alto_tile);
         conjunto_tile["tilewidth"].get_to(info.ancho_tile);
-
         if (conjunto_tile.count("transparentcolor")) {
             conjunto_tile["transparentcolor"].get_to(info.color_transparente);
         }
         conjuntosTiles.push_back(std::move(info));
     }
+}
+
+LibreriaConjuntoTileParser::LibreriaConjuntoTileParser(nlohmann::json& parser) {
+    parse(parser);    
 }
 

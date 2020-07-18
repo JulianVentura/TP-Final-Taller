@@ -37,6 +37,7 @@ public:
     void actualizarPosiciones(std::unordered_map<std::string, std::pair<int, 
                                                             int>> posiciones);
     void actualizarEstados(std::vector<SerializacionDibujado> dibujados);
+    void cambiarMapa(const std::string& mapa_s);
 
 private:
     EntornoGrafico& entorno;
