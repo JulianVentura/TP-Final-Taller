@@ -5,6 +5,7 @@
 #include "EstadoNormal.h"
 #include "EstadoFantasma.h"
 #include "EstadoMeditacion.h"
+#include "EstadoInmovilizado.h"
 #include "Arma.h"
 #include "Armadura.h"
 #include "Escudo.h"
@@ -375,8 +376,16 @@ void Personaje::estadoMeditacion(){
     estado = std::move(std::unique_ptr<Estado>(new EstadoMeditacion(this)));
 }
 
+void Personaje::estadoInmovilizado(double tiempo){
+    estado = std::move(std::unique_ptr<Estado>(new EstadoInmovilizado(this, tiempo)));
+}
+
 Estado *Personaje::obtenerEstado(){
     return this->estado.get();
+}
+
+void Personaje::resucitar(double tiempo){
+    estado->resucitar(tiempo);
 }
 
 
@@ -500,77 +509,3 @@ SerializacionEquipo Personaje::serializarEquipo(){
     inventario.serializar(ser.items);
     return ser;
 }
-
-/*
-TEMA DE LAS ZONAS SEGURAS, DOS POSIBLES IMPLEMENTACIONES:
-
-1- Mas orientada a objetos
-
-Se crea un EstadoPacifico el cual permita unicamente comerciar con npcs.
-
-Cada vez que una entidad se mueve el mapa debera chequear si esta entrando o saliendo de una zona
-segura. 
-En caso de que este entrando:
-
-entidad->cambiaAPacifico();
-
-En caso de que este saliendo:
-
-entidad->cambiaDePacifico();
-
-La entidad sabra responder a estos mensajes, es decir que solo el Personaje respondera realmente, las demas
-entidades dejaran ese metodo vacio.
-
-Personaje::cambiaAPacifico(){
-    this->estadoCambiarAPacifico();
-    this->estadoPrevio = this->estadoActual;
-    this->estadoActual = new EstadoPacifico();
-}
-
-EstadoNormal::cambiarAPacifico(){
-    personaje->estadoPrevio = this;
-    personaje->estadoPacifico() //Esto setea el estado actual a pacifico.
-}
-
-EstadoPacifico::cambiarAPacifico(){
-    //Do nothing
-}
-
-Personaje::cambiaDePacifico(){
-    estado->cambiaDePacifico();
-}
-
-EstadoNormal::cambiarDePacifico(){
-    //Do nothing
-}
-
-EstadoPacifico::cambiarDePacifico(){
-    estadoActual = estadoPrevio;
-    estadoPrevio = this;    //Esto en realidad no es necesario.
-}
-
-El estado pacifico debera realizar las acciones de comercio delegando en el estado anterior, de forma que si
-el estado anterior era fantasma no se permita comerciar, pero si se permita si el estado anterior era normal.
-
-El ataque se debera denegar sin importar el estado anterior.
-
-
-2- Menos objetosa, mucho mas eficiente
-
-Cada vez que queremos atacar (incluso quizas solo en la OperacionAtacar misma) debemos preguntarle al
-mapa si alguna de las entidades, atacante u oponente se encuentra sobre una zona segura. En tal caso se
-cancela el ataque.
-
-OperacionAtacar::ejecutar(){
-    Personaje *personaje = Cliente->obtenerPersonaje();
-    if (mapa->entidadSobreZonaSegura(personaje)) return;
-    Entidad *objetivo = mapa->obtener(idObjetivo);
-    if (mapa->entidadSobreZonaSegura(objetivo)) return;
-
-    //Continua la operacion como se encuentra actualmente.
-
-    Lo que tiene esto es que si el ataque se origina de otra forma (como?) no se chequea
-    si se encuentra sobre una zona segura.
-}
-
-*/

@@ -53,6 +53,7 @@ class Cliente : public Thread{
     Personaje* obtenerPersonaje();
     
     void cambiarDeMapa(std::string &idMapa);
+    void cambiarDeMapa(std::string &idMapa, Posicion nuevaPos);
     void procesar();
     bool haFinalizado();
 

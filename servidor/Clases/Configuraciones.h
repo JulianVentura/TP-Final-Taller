@@ -14,6 +14,8 @@ typedef enum ITEM {ARMA,
 typedef enum DROP {ITEM,
                    ORO,
                    NADA} TipoDrop;
+class Posicion;
+class Mapa;
 class Entidad;
 class Personaje;
 class Criatura;
@@ -43,10 +45,12 @@ class Configuraciones{
     //Mapas
     const std::string obtenerMapaRuta(const std::string &id) const;
     const std::string obtenerMapaInicial() const;
-    const std::pair<float, float> obtenerMapaPosicionSpawn(const std::string &id) const;
+    Posicion obtenerMapaPosicionSpawn(const std::string &id) const;
     const uint32_t obtenerMapaLimiteCriaturas(std::string &id) const;
     const double   obtenerMapaTiempoRespawn(std::string &id) const;
     const bool elMapaEsSeguro(std::string &id) const;
+    const std::string obtenerCiudadMasCercana(const std::string &id) const;
+    Posicion obtenerPuntoSpawnResurreccion(const std::string &id) const;
     //Personaje
     const uint32_t obtenerPersonajeNivelBase() const;
     const uint32_t obtenerPersonajeFuerzaBase() const;
@@ -156,6 +160,7 @@ class Configuraciones{
     const uint32_t obtenerBolsaDeDropAlto() const;
     const float    obtenerDistanciaMaximaDeInteraccion() const;
     const double   obtenerClienteTiempoActualizacionInventario() const;
+    const double   obtenerPenalizacionRevivir(Mapa *mapaActual, Personaje *personaje) const;
     /* FORMULAS DEL JUEGO */ 
     unsigned int   calcularVidaMax(const Personaje *personaje);
     float          calcularRecuperacionVida(const Personaje *personaje, double tiempo);

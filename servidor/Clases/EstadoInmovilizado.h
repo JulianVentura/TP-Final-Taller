@@ -1,10 +1,13 @@
-#ifndef __ESTADO_MEDITACION_H__
-#define __ESTADO_MEDITACION_H__
+#ifndef __ESTADO_INMOVILIZADO_H__
+#define __ESTADO_INMOVILIZADO_H__
 #include "Estado.h"
-
-class EstadoMeditacion : public Estado{
+#include "Posicion.h"
+class EstadoInmovilizado : public Estado{
+    private:
+    double penalizacion;
+    double timepoTranscurrido;
     public:
-    EstadoMeditacion(Personaje *unPersonaje); 
+    EstadoInmovilizado(Personaje *unPersonaje, double pen);
     //Ataque
     std::string atacar(Entidad *objetivo, Arma *arma) override;
     std::string serAtacadoPor(Entidad *atacante) override;
@@ -21,8 +24,9 @@ class EstadoMeditacion : public Estado{
     void pedirCompra(unsigned int pos, Interactuable *interactuable, Cliente *cliente) override;
     void pedirVenta(unsigned int pos, Interactuable *interactuable, Cliente *cliente) override;
     void pedirTransaccion(bool esDeposito, Cliente *cliente, Banquero *banquero) override;
-    ~EstadoMeditacion() override;
-};
+    
+    ~EstadoInmovilizado() override;
 
+};
 
 #endif

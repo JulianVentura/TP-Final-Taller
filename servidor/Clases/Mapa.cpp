@@ -324,6 +324,9 @@ const std::vector<char> Mapa::obtenerInformacionMapa(){
     return vector;
 }
 
+const std::string Mapa::obtenerId() const{
+    return nombreMapa;
+}
 
 const bool Mapa::esMapaSeguro() const{
     return esSeguro;

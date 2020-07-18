@@ -12,6 +12,7 @@ class EstadoNormal : public Estado{
     void meditar() override;
     void dejarDeMeditar() override;
     void actualizar(double tiempo) override;
+    void resucitar(double tiempo) override;
     //Comercio
     void interactuar(Entidad *entidad) override;
     bool curar(float curVida, float curMana) override;

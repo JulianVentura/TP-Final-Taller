@@ -47,6 +47,10 @@ void EstadoMeditacion::actualizar(double tiempo){
     //El personaje no se puede mover
 }
 
+void EstadoMeditacion::resucitar(double tiempo){
+    throw Excepcion("Se ha solicitado resureccion en estado meditacion");
+}
+
 //Comerciar
 
 void EstadoMeditacion::interactuar(Entidad *entidad){

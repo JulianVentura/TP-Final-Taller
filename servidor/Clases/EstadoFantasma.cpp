@@ -44,6 +44,10 @@ void EstadoFantasma::actualizar(double tiempo){
     personaje->mapaAlQuePertenece->actualizarPosicion(personaje, std::move(nuevaPosicion));
 }
 
+void EstadoFantasma::resucitar(double tiempo){
+    this->personaje->estadoInmovilizado(tiempo);
+}
+
 //Comercio
 
 void EstadoFantasma::interactuar(Entidad *entidad){

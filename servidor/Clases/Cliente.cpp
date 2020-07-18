@@ -46,10 +46,13 @@ void Cliente::nuevoUsuario(std::pair<std::string, std::string> &credenciales,
                            std::string &idClase){
     Configuraciones *config = config->obtenerInstancia();
     salaActual = config->obtenerMapaInicial();
-    std::pair<float, float> pos = config->obtenerMapaPosicionSpawn(salaActual);
-    auto personaje = std::unique_ptr<Personaje> (new Personaje(pos.first, pos.second,
-    credenciales.first, idClase, idRaza));
-    personaje -> recibirOro(10000);
+    auto personaje = std::unique_ptr<Personaje> (new Personaje(0, 
+                                                               0,
+                                                               credenciales.first, 
+                                                               idClase, 
+                                                               idRaza));
+    personaje->actualizarPosicion(std::move(config->obtenerMapaPosicionSpawn(salaActual)));
+    personaje -> recibirOro(1000);
     miBaseDeDatos.nuevoCliente(credenciales, idRaza, idClase,
     salaActual, personaje.get());
 }
@@ -167,12 +170,16 @@ std::pair<std::string, std::string> Cliente::login(OrganizadorClientes &organiza
 
 void Cliente::cambiarDeMapa(std::string &idMapa){
     Configuraciones *config = config->obtenerInstancia();
+    this->cambiarDeMapa(idMapa, std::move(config->obtenerMapaPosicionSpawn(salaActual)));
+}
+
+
+void Cliente::cambiarDeMapa(std::string &idMapa, Posicion nuevaPos){
+    Configuraciones *config = config->obtenerInstancia();
     Sala *salaDestino = organizadorSalas.obtenerSala(idMapa);
     Sala *salaOrigen = organizadorSalas.obtenerSala(salaActual);
     salaActual = idMapa;
     salaOrigen->eliminarCliente(this->id); //Se descarga y se elimina al personaje del mapa.
-    std::pair<float, float> pos = config->obtenerMapaPosicionSpawn(salaActual);
-    Posicion posicion(pos.first, pos.second, 0,0);
-    personaje->actualizarPosicion(std::move(posicion)); //Tambien se podria directamente obtener un Posicion de configuraciones.
+    personaje->actualizarPosicion(std::move(nuevaPos));
     salaDestino->cargarCliente(this);
 }

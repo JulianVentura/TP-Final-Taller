@@ -16,12 +16,13 @@ OperacionResucitar::~OperacionResucitar(){
 
 void OperacionResucitar::ejecutar(){
     try{
-        /*
-        Entidad *entidad = mapa->obtener(idObjetivo);
         Personaje *personaje = cliente->obtenerPersonaje();
-        Estado *estado = personaje->obtenerEstado();
-        entidad->transaccion(esDeposito, estado, cliente);
-        */
+        Configuraciones *config = Configuraciones::obtenerInstancia();
+        double penalidad = config->obtenerPenalizacionRevivir(mapa, personaje);
+        personaje->resucitar(penalidad);
+        std::string ciudad = config->obtenerCiudadMasCercana(mapa->obtenerId());
+        cliente->cambiarDeMapa(ciudad,
+                               config->obtenerPuntoSpawnResurreccion(ciudad));
     }catch(const std::exception &e){
         std::cerr << e.what() << std::endl;
     }catch(...){

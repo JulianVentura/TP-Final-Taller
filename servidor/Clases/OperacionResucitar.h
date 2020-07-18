@@ -39,8 +39,25 @@ EstadoInmovilizado::actualizarEstado(double tiempo){
     }
     personaje->estadoNormal();
 }
+Necesito obtener la penalidad y el mapa al cual teletransportarme.
 
+La penalidad se puede obtener en funcion de la distancia hacia el teletransportador a la ciudad mas cercana.
 
+Si tenemos la posicion del personaje podemos calcular la distancia a la ciudad mas proxima de la sig forma:
+
+Necesitamos la posicion del portal que nos lleva a la ciudad mas proxima, para eso necesitamos el id de la ciudad
+mas proxima y el id del mapa actual.
+
+Configuraciones::obtenerPenalizacionRevivir(mapaActual, personaje){
+    posPersonaje = personaje->posicion;
+    std::string ciudadDestino = this->obtenerCiudadMasCercana();
+
+    //Iterar sobre los portales del mapa actual y encontrar el que lleva a ciudadDestino 
+    std::string idPortalDestino = //Iterar.
+    Entidad *portalDestino = mapaActual->obtener(idPortalDestino);
+    double distancia = posPersonaje.calcularDistancia(portalDestino->obtenerPosicion());
+    return 10000 + distancia * 1000;
+}
 
 */
 

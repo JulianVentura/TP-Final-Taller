@@ -29,7 +29,9 @@
             "PosicionSpawnInicial": [
                 100,
                 100
-            ]
+            ],
+	    "CiudadMasCercana": "ciudad",
+	    "PosicionSpawnResurreccion": [288, 544] 
         },
         "bosque": {
             "Ruta": "../bosque.json",
@@ -43,6 +45,7 @@
             "LimiteCriaturas": 6,
             "TiempoRespawn": 10000,
 	    "EsSeguro": false,
+	    "CiudadMasCercana": "ciudad",
             "PosicionSpawnInicial": [
                 100,
                 100

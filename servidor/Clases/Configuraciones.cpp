@@ -1,4 +1,5 @@
 #include "Configuraciones.h"
+#include "Mapa.h"
 #include "Entidad.h"
 #include "Personaje.h"
 #include "Criatura.h"
@@ -10,6 +11,8 @@
 #include "Escudo.h"
 #include "Casco.h"
 #include "Excepcion.h"
+#include "Mapa.h"
+#include "Posicion.h"
 #include <random>
 #include <algorithm>
 #include <ctime>
@@ -96,8 +99,10 @@ const uint32_t Configuraciones::obtenerMapaLimiteCriaturas(std::string &id) cons
 const std::string Configuraciones::obtenerMapaInicial() const{
     return json.at("MapaInicial").get<std::string>();
 }
-const std::pair<float, float> Configuraciones::obtenerMapaPosicionSpawn(const std::string &id) const{
-    return json.at("Mapas").at(id).at("PosicionSpawnInicial").get<std::pair<float, float>>();
+Posicion Configuraciones::obtenerMapaPosicionSpawn(const std::string &id) const{
+    float x = json.at("Mapas").at(id).at("PosicionSpawnInicial")[0].get<float>();
+    float y = json.at("Mapas").at(id).at("PosicionSpawnInicial")[1].get<float>();
+    return Posicion(x, y, 0, 0);
 }
 
 const double  Configuraciones::obtenerMapaTiempoRespawn(std::string &id) const{
@@ -105,6 +110,14 @@ const double  Configuraciones::obtenerMapaTiempoRespawn(std::string &id) const{
 }
 const bool Configuraciones::elMapaEsSeguro(std::string &id) const{
     return json.at("Mapas").at(id).at("EsSeguro").get<bool>();
+}
+const std::string Configuraciones::obtenerCiudadMasCercana(const std::string &id) const{
+    return json.at("Mapas").at(id).at("CiudadMasCercana").get<std::string>();
+}
+Posicion Configuraciones::obtenerPuntoSpawnResurreccion(const std::string &id) const{
+    float x = json.at("Mapas").at(id).at("PosicionSpawnResurreccion")[0].get<float>();
+    float y = json.at("Mapas").at(id).at("PosicionSpawnResurreccion")[1].get<float>();
+    return Posicion(x, y, 0, 0);
 }
 
 //Personaje
@@ -411,6 +424,24 @@ const float    Configuraciones::obtenerDistanciaMaximaDeInteraccion() const{
 }
 const double   Configuraciones::obtenerClienteTiempoActualizacionInventario() const{
     return json.at("Varios").at("ClienteTiempoActualizacionInventario").get<double>();
+}
+const double   Configuraciones::obtenerPenalizacionRevivir(Mapa *mapaActual, Personaje *personaje) const{
+    Posicion posPersonaje = personaje->obtenerPosicion();
+    std::string idMapaActual = mapaActual->obtenerId();
+    std::string ciudadDestino = obtenerCiudadMasCercana(idMapaActual);
+    if (ciudadDestino == idMapaActual){
+        return 10000;
+    }
+    std::string idPortal;
+    for (auto& a: json["Mapas"][idMapaActual]["SpawnPortales"].items()){
+        if (a.value() == ciudadDestino){
+            idPortal = a.key();
+            break;
+        }
+    }
+    Entidad *portalDestino = mapaActual->obtener(idPortal);
+    double distancia = posPersonaje.calcularDistancia(portalDestino->obtenerPosicion());
+    return 10000 + distancia * 10;
 }
 
 

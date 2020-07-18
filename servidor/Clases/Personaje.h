@@ -49,6 +49,7 @@ class Personaje : public Entidad{
     void estadoNormal();
     void estadoFantasma();
     void estadoMeditacion();
+    void estadoInmovilizado(double tiempo);
 
     public:
     Personaje();
@@ -92,6 +93,7 @@ class Personaje : public Entidad{
     void meditar();
     void frenarMeditacion();
     Estado *obtenerEstado();
+    void resucitar(double tiempo);
     //Comercio
     void tirar(unsigned int pos);
     void utilizar(unsigned int pos);
@@ -118,6 +120,7 @@ class Personaje : public Entidad{
     friend class EstadoNormal;
     friend class EstadoFantasma;
     friend class EstadoMeditacion;
+    friend class EstadoInmovilizado;
 };
 
 #endif
