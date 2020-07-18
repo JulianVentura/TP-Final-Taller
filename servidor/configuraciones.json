@@ -25,6 +25,7 @@
             },
             "LimiteCriaturas": 6,
             "TiempoRespawn": 10000,
+	    "EsSeguro": true,
             "PosicionSpawnInicial": [
                 100,
                 100
@@ -41,6 +42,7 @@
             },
             "LimiteCriaturas": 6,
             "TiempoRespawn": 10000,
+	    "EsSeguro": false,
             "PosicionSpawnInicial": [
                 100,
                 100

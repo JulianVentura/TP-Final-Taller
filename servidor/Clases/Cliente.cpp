@@ -169,6 +169,7 @@ void Cliente::cambiarDeMapa(std::string &idMapa){
     Configuraciones *config = config->obtenerInstancia();
     Sala *salaDestino = organizadorSalas.obtenerSala(idMapa);
     Sala *salaOrigen = organizadorSalas.obtenerSala(salaActual);
+    salaActual = idMapa;
     salaOrigen->eliminarCliente(this->id); //Se descarga y se elimina al personaje del mapa.
     std::pair<float, float> pos = config->obtenerMapaPosicionSpawn(salaActual);
     Posicion posicion(pos.first, pos.second, 0,0);

@@ -213,15 +213,12 @@ std::string Personaje::recibirDanio(int danio, Entidad *atacante){
 
 std::string Personaje::atacar(Personaje *objetivo){
     if (arma == NO_EQUIPADO) return "";
-    //Estoy seguro de que el casteo sera valido.
-    
-    /* COMENTO POR DEBUG
     Configuraciones *config = Configuraciones::obtenerInstancia();
     
     if (!config->sePuedeAtacar(objetivo, this)){
-        return = "No se puede realizar el ataque por FairPlay";
+        return "No se puede realizar el ataque por FairPlay";
     }
-    */
+    //Estoy seguro de que el casteo sera valido.
     return std::move(estado->atacar(objetivo, (Arma*)inventario.obtenerItem(arma)));
 }
 

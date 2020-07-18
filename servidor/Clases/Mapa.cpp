@@ -51,12 +51,14 @@ Mapa::Mapa(std::string nombre) :        nombreMapa(nombre),
                                         tiempoRespawn(0),
                                         tiempoTranscurrido(0),
                                         fabricaNPC(entidades),
-                                        motorAleatorio(std::time(0)){
+                                        motorAleatorio(std::time(0)),
+                                        esSeguro(false){
 
     Configuraciones *config = Configuraciones::obtenerInstancia();
     std::string rutaArchivo = config->obtenerMapaRuta(nombreMapa);
     limiteCriaturas = config->obtenerMapaLimiteCriaturas(nombreMapa);
     tiempoRespawn = config->obtenerMapaTiempoRespawn(nombreMapa);
+    esSeguro = config->elMapaEsSeguro(nombreMapa);
     std::ifstream archivo(rutaArchivo);
     if (!archivo.is_open()){
         throw ErrorServidor("Error: No se ha podido abrir el archivo de nombre %s", nombreMapa.c_str()); 
@@ -322,6 +324,10 @@ const std::vector<char> Mapa::obtenerInformacionMapa(){
     return vector;
 }
 
+
+const bool Mapa::esMapaSeguro() const{
+    return esSeguro;
+}
 
 
 /*

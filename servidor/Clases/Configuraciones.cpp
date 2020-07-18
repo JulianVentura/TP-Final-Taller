@@ -103,7 +103,10 @@ const std::pair<float, float> Configuraciones::obtenerMapaPosicionSpawn(const st
 const double  Configuraciones::obtenerMapaTiempoRespawn(std::string &id) const{
     return json.at("Mapas").at(id).at("TiempoRespawn").get<double>();
 }
-     
+const bool Configuraciones::elMapaEsSeguro(std::string &id) const{
+    return json.at("Mapas").at(id).at("EsSeguro").get<bool>();
+}
+
 //Personaje
 const uint32_t Configuraciones::obtenerPersonajeNivelBase() const{
     return json.at("Personaje").at("NivelBase").get<uint32_t>();
