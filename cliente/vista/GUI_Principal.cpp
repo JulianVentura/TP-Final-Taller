@@ -20,6 +20,7 @@ GUI_Principal::GUI_Principal(EntornoGrafico& entorno, Colores& paleta,
 	boton_oro_vista(entorno, paleta, datos_personaje.oro),
 	boton_inventario_vista(entorno, paleta),
 	boton_meditar_vista(entorno, paleta),
+	boton_resucitar_vista(entorno, paleta),
 	tienda_vista(entorno, paleta, imagenes_equipo, datos_tienda.inventario,
 	 datos_tienda.precios, datos_tienda.oro_almacenado, datos_tienda.activo),
 	chat_vista(entorno, paleta),
@@ -39,6 +40,7 @@ void GUI_Principal::render() {
 	chat_vista.render();
 	boton_inventario_vista.render();
 	boton_meditar_vista.render();
+	boton_resucitar_vista.render();
 	inventario_vista.render();
 	tienda_vista.render();
 	boton_oro_vista.render();
@@ -52,6 +54,7 @@ void GUI_Principal::actualizarDimension(){
 	barra_mana.actualizarDimension();
 	boton_inventario_vista.actualizarDimension();
 	boton_meditar_vista.actualizarDimension();
+	boton_resucitar_vista.actualizarDimension();
 	inventario_vista.actualizarDimension();
 	tienda_vista.actualizarDimension();
 	boton_oro_vista.actualizarDimension();

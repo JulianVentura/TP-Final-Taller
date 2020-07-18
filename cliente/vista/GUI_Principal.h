@@ -11,6 +11,7 @@
 #include "../vista/Colores.h"
 #include "../vista/GUI_BotonInventario.h"
 #include "../vista/GUI_BotonMeditar.h"
+#include "../vista/GUI_BotonResucitar.h"
 #include "../vista/GUI_BotonOro.h"
 #include "../vista/GUI_Dock.h"
 #include "../vista/GUI_BarraVida.h"
@@ -33,6 +34,7 @@ private:
 	GUI_BotonOro boton_oro_vista;
 	GUI_BotonInventario boton_inventario_vista;
 	GUI_BotonMeditar boton_meditar_vista;
+	GUI_BotonResucitar boton_resucitar_vista;
 	GUI_PanelTienda tienda_vista;
 	GUI_Chat chat_vista;
 	GUI_Nivel nivel_vista;

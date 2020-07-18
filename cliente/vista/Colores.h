@@ -27,7 +27,8 @@ public:
 	chat_texto_privado,
 	login_texto,
 	login_fondo,
-	login_alarma;
+	login_alarma,
+	oro;
 
 	/**
      * @brief Color de SDL dado un color en formato hexadecimal.

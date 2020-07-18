@@ -24,6 +24,7 @@ Colores::Colores(){
 	login_texto = {24,54,73,255};
 	login_fondo = {16,28,99,255};
 	login_alarma = {199,66,37,255};
+	oro = {213, 158, 63,255};
 }
 
 SDL_Color Colores::colorDesdeHexa(std::string hexa) {

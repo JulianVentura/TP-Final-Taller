@@ -21,6 +21,7 @@ enum CODIGOS : uint32_t {
                          CODIGO_VENTA,
                          CODIGO_TRANSACCION,
                          CODIGO_UTILIZACION,
+                         CODIGO_RESUCITACION,
                          CODIGO_TIRADO,
                          CODIGO_ATAQUE,
                          CODIGO_INVENTARIO,

@@ -9,7 +9,7 @@ std::atomic<uint16_t>& nivel) : nivel(nivel), paleta(paleta),
 
 void GUI_Nivel::render(){
 	imagen.render();
-	renderer -> setColor(paleta.chat_texto);
+	renderer -> setColor(paleta.oro);
 	renderer -> texto(std::to_string(nivel), x , y);
 }
 
@@ -18,5 +18,5 @@ void GUI_Nivel::actualizarDimension(){
 	y =  ventana->getAlto() - 50 - imagen.getAlto()/2;
 	imagen.setPosicion(x, y);
 	x += (imagen.getAncho())/4 + 2;
-	y += imagen.getAlto()/4 ;
+	y += imagen.getAlto()/2 ;
 }
