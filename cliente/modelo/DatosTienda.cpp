@@ -6,4 +6,5 @@ DatosTienda::DatosTienda(){
 		inventario[i] = 0;
 		precios[i] = 0;
 	}
+	oro_almacenado = 720;
 }

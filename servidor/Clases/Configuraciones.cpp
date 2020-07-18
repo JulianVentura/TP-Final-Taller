@@ -529,7 +529,7 @@ bool Configuraciones::sePuedeAtacar(const Personaje *objetivo, const Personaje *
                                         at("NivelDiferenciaMaximo").get<uint32_t>();
     uint32_t nivelNewbie = json.at("Varios").at("FairPlay").at("NivelNewbie").get<uint32_t>();
     if (objetivo->nivel <= nivelNewbie || atacante->nivel <= nivelNewbie) return false;
-    if (abs(objetivo->nivel - atacante->nivel) > nivelDiferenciaMaximo) return false;
+    if (abs(objetivo->nivel - atacante->nivel) > abs(nivelDiferenciaMaximo)) return false;
     return true;
 }
 

@@ -2,9 +2,11 @@
 
 GUI_PanelTienda::GUI_PanelTienda(EntornoGrafico& entorno, Colores& paleta,
 	 BancoImagenesEquipo& imagenes_equipo, std::atomic<uint16_t>* inventario,
-	 std::atomic<uint16_t>* precios,  std::atomic<bool>& activo)
+	 std::atomic<uint16_t>* precios, std::atomic<uint16_t>& oro_almacenado,
+	 std::atomic<bool>& activo)
 	  : GUI_Panel(entorno, paleta, imagenes_equipo, inventario, {}),
-	   precios(precios), activo(activo){
+	   oro_almacenado(entorno, paleta, oro_almacenado), precios(precios),
+	   activo(activo){
 	visible = true;
 	marco.w = 3;
 	marco.h = 6;
@@ -40,6 +42,7 @@ void GUI_PanelTienda::render(){
 			 marco.y + SEPARACION + j*(LADO_CASILLA + SEPARACION));
 		}
 	}
+	oro_almacenado.render();
 }
 
 void GUI_PanelTienda::actualizarDimension(){
@@ -47,4 +50,5 @@ void GUI_PanelTienda::actualizarDimension(){
 	 + (marco.w/2)*(SEPARACION + LADO_CASILLA);
 	marco.y = ventana->getAlto()*0.9 - marco.h*(SEPARACION + LADO_CASILLA)
 	 - 4*SEPARACION;
+	oro_almacenado.actualizarDimension();
 }

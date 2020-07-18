@@ -10,14 +10,12 @@
 
 struct serializacionPersonaje{
     uint32_t x, y;
-    uint32_t vidaMaxima;
     uint32_t vidaActual;
-    uint32_t manaMaximo;
     uint32_t manaActual;
     uint32_t experiencia;
-    uint32_t limiteParaSubir;
     uint32_t nivel;
     uint32_t cantidadOro;
+    uint32_t oroEnAlmacen;
     uint16_t inventario[18];
     uint16_t almacen[18];
 }__attribute__((packed, aligned(4)));
