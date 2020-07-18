@@ -27,7 +27,7 @@
             "TiempoRespawn": 10000,
             "PosicionSpawnInicial": [
                 100,
-                100
+                2000
             ]
         },
         "bosque": {
