@@ -19,7 +19,7 @@ void GUI_OroAlmacenado::actualizarDimension(){
 void GUI_OroAlmacenado::render(){
 	if(oro == 0) return;
 	imagen.render();
-	renderer -> setColor(paleta.chat_texto);
+	renderer -> setColor(paleta.oro);
 	int corrimiento_x;
 	renderer -> calcularDimensionTexto(std::to_string(oro),
 	 &corrimiento_x, NULL);

@@ -18,6 +18,7 @@
 #include "OperacionAtacar.h"
 #include "OperacionUtilizar.h"
 #include "OperacionMeditar.h"
+#include "OperacionResucitar.h"
 #include "OperacionTirar.h"
 
 #include "../../common/commonProtocolo.h"
@@ -43,6 +44,7 @@ private:
     bool decodificarCodigo(uint32_t codigo);
     void decodificarMovimiento();
     void decodificarMeditacion();
+    void decodificarResucitacion();
     void decodificarMensajeChat();
     void decodificarInteraccion();
     void decodificarTransaccion();

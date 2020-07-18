@@ -59,7 +59,6 @@ public:
 	void enviarLogin(std::string& nombre, std::string& clave);
 	void enviarNuevaCuenta(std::string& nombre, std::string& clave,
 						   std::string& raza, std::string& clase);
-	void enviarMeditacion();
 	bool estaLogueado() const;
 
 	// General
@@ -87,7 +86,8 @@ public:
 	// Interaccion
 	void enviarInteraccion(const std::string& id);
 	void enviarAtaque(const std::string& id);
-
+	void enviarMeditacion();
+	void enviarResucitacion();
 	void setJuego(Juego* juego);
 };
 

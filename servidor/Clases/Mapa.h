@@ -41,9 +41,9 @@ class Mapa{
     double tiempoTranscurrido;
     std::unordered_map<std::string, Entidad*> entidades;
     std::list<std::unique_ptr<Entidad>> npcs;
-
     FabricaDeNPC fabricaNPC;
     std::mt19937 motorAleatorio;
+    bool esSeguro;
     /*
     Devuelve true si la nueva posicion o el area no colisiona con
     algun Colisionable ya presente en el mapa.
@@ -107,6 +107,8 @@ class Mapa{
     void cargarEntidad(std::unique_ptr<Entidad> entidad);
     void cargarEntidadNoColisionable(Entidad *entidad);
     void cargarEntidadNoColisionable(std::unique_ptr<Entidad> entidad);
+
+    const bool esMapaSeguro() const;
 
 };
 

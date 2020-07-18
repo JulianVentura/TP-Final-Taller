@@ -101,6 +101,12 @@ void ClienteProxy::decodificarMeditacion(){
     colaOperaciones->push(operacion);
 }
 
+void ClienteProxy::decodificarResucitacion(){
+    Operacion *operacion = new OperacionResucitar(cliente,
+        cliente -> obtenerSala() -> obtenerMapa());
+    colaOperaciones->push(operacion);
+}
+
 bool ClienteProxy::decodificarCodigo(uint32_t codigo){
     switch (codigo){
         case CODIGO_INTERACCION:
@@ -140,6 +146,10 @@ bool ClienteProxy::decodificarCodigo(uint32_t codigo){
 
         case CODIGO_MEDITACION:
             decodificarMeditacion();
+            break;
+
+        case CODIGO_RESUCITACION:
+            decodificarResucitacion();
             break;
 
         case CODIGO_TRANSACCION:

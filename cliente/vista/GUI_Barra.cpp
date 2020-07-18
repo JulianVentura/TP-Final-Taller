@@ -33,9 +33,8 @@ void GUI_Barra::render(){
 	renderer -> rect(marco.x - 1,marco.y + marco.h, marco.w + 1, 1);
 
 	renderer -> setColor(paleta.chat_texto);
-
 	renderer -> texto(std::to_string(capacidad_actual) + "|" +
-	 std::to_string(capacidad_max), marco.x + marco.w/2 - 30, marco.y + marco.h/2 - 12);
+	 std::to_string(capacidad_max), marco.x + marco.w/2 - 30, marco.y + marco.h - 15);
 }
 
 GUI_Barra::~GUI_Barra(){}

@@ -286,6 +286,12 @@ void ServidorProxy::enviarMeditacion(){
 	encolarMensaje(std::move(protocolo.finalizarEnvio()));
 }
 
+void ServidorProxy::enviarResucitacion(){
+	protocolo.enviarUint32(socket, CODIGO_RESUCITACION);
+	encolarMensaje(std::move(protocolo.finalizarEnvio()));
+}
+
+
 void ServidorProxy::setJuego(Juego* juego) {
 	this->juego = juego;
 }

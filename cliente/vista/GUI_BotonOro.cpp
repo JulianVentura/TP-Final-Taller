@@ -12,7 +12,7 @@ GUI_BotonOro::GUI_BotonOro(EntornoGrafico& entorno, Colores& paleta,
 
 void GUI_BotonOro::render(){
 	imagen.render();
-	renderer -> setColor(paleta.chat_texto);
+	renderer -> setColor(paleta.oro);
 	int corrimiento_x;
 	renderer -> calcularDimensionTexto(std::to_string(oro),
 	 &corrimiento_x, NULL);
