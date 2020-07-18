@@ -93,13 +93,10 @@ Personaje::Personaje(std::string idPersonaje, std::string idRaza,
     experiencia = datos.experiencia;
     nivel = datos.nivel;
     actualizarAtributos();
-    //vidaMaxima = datos.vidaMaxima;
     vidaActual = datos.vidaActual;
-    //manaMaximo = datos.manaMaximo;
     manaActual = datos.manaActual;
-    //limiteParaSubir = datos.limiteParaSubir;
     cantidadOro = datos.cantidadOro;
-    oroEnAlmacen = 0; //Falta persistir el oro del almacen
+    oroEnAlmacen = datos.oroEnAlmacen;
 
     auto inventarioTemp = inventario.obtenerTodosLosItems();
 
@@ -429,14 +426,12 @@ serializacionPersonaje Personaje::serializar(){
     serializacionPersonaje datos;
     datos.x = posicion.obtenerX();
     datos.y = posicion.obtenerY();
-    datos.vidaMaxima = vidaMaxima;
     datos.vidaActual = vidaActual;
-    datos.manaMaximo = manaMaximo;
     datos.manaActual = manaActual;
     datos.experiencia =  experiencia;
-    datos.limiteParaSubir = limiteParaSubir;
     datos.nivel = nivel;
     datos.cantidadOro = cantidadOro;
+    datos.oroEnAlmacen = oroEnAlmacen;
 
     auto inventarioTemp = inventario.obtenerTodosLosItems();
     for(unsigned int i = 0; i < inventarioTemp -> size();i++){
