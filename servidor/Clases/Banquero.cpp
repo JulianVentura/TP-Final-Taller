@@ -47,11 +47,10 @@ void Banquero::comprar(unsigned int pos, Personaje *personaje, Cliente *cliente)
     Item *temp = almacen[pos];
     personaje->almacenar(almacen[pos]);
     almacen[pos] = itemNulo;
+    uint32_t &oroEnAlmacen = personaje->obtenerOroAlmacen();
     cliente -> enviarInventario();
-    cliente -> enviarContenedor(std::move(this->serializarAlmacen(almacen)));
-    /*
     cliente->enviarContenedor(std::move(serializarAlmacen(almacen, oroEnAlmacen)));
-    */
+    
     std::string mensaje = "Se recibio " + temp->obtenerId();
     cliente->enviarChat(mensaje, false);
 }
@@ -80,11 +79,10 @@ void Banquero::vender(Item* item, Personaje *personaje, Cliente *cliente){
         cliente->enviarChat(mensaje, false);
         throw Excepcion("Error: No hay espacio para almacenar mas items en el banquero");
     }
+    uint32_t &oroEnAlmacen = personaje->obtenerOroAlmacen();
     cliente -> enviarInventario();
-    cliente -> enviarContenedor(std::move(this->serializarAlmacen(almacen)));
-    /*
     cliente->enviarContenedor(std::move(serializarAlmacen(almacen, oroEnAlmacen)));
-    */
+    
     std::string mensaje = "Se almaceno " + item->obtenerId();
     cliente->enviarChat(mensaje, false);
 }
@@ -95,11 +93,10 @@ void Banquero::listar(Personaje *personaje, Cliente *cliente){
         cliente->enviarChat(mensaje, false);
         return;
     }
+    uint32_t &oroEnAlmacen = personaje->obtenerOroAlmacen();
     std::vector<Item*>& almacen = personaje->obtenerAlmacen();
-    cliente -> enviarContenedor(std::move(this->serializarAlmacen(almacen)));
-    /*
     cliente->enviarContenedor(std::move(serializarAlmacen(almacen, oroEnAlmacen)));
-    */
+    
 }
 
 void Banquero::transaccion(bool esDeposito, Estado *estado, Cliente *cliente){
@@ -109,7 +106,7 @@ void Banquero::transaccion(bool esDeposito, Estado *estado, Cliente *cliente){
 void Banquero::transaccion(bool esDeposito, Personaje *personaje, Cliente *cliente){
     uint32_t &oroEnAlmacen = personaje->obtenerOroAlmacen();
     uint32_t oroEncima = personaje->obtenerOro();
-    //std::vector<Item*>& almacen = personaje->obtenerAlmacen();
+    std::vector<Item*>& almacen = personaje->obtenerAlmacen();
     uint32_t monto = 0;
     std::stringstream mensaje;
     if (esDeposito){
@@ -132,9 +129,8 @@ void Banquero::transaccion(bool esDeposito, Personaje *personaje, Cliente *clien
         mensaje << "Has retirado " << monto << " oro.";
     }
     cliente->enviarInventario();
-    /*
     cliente->enviarContenedor(std::move(serializarAlmacen(almacen, oroEnAlmacen)));
-    */
+    
 }
 
 //Ataque
@@ -161,12 +157,13 @@ void Banquero::dropearItems(Entidad *atacante){
     //Nada
 }
 
-std::vector<SerializacionItem> Banquero::serializarAlmacen(const std::vector<Item*> &almacen){
-    std::vector<SerializacionItem> resultado(TAM_TIENDA);
+SerializacionContenedor Banquero::serializarAlmacen(const std::vector<Item*> &almacen, uint32_t oro){
+    SerializacionContenedor serContenedor;
     for (std::size_t i=0; i<TAM_TIENDA; i++){
-        resultado[i] = std::move(almacen[i]->serializar());
+        serContenedor.items[i] = std::move(almacen[i]->serializar());
     }
-    return resultado;
+    serContenedor.oroContenedor = oro;
+    return serContenedor;
 }
 
 

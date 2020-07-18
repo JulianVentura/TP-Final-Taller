@@ -60,8 +60,8 @@ class Cliente : public Thread{
                           const std::vector<SerializacionDibujado> &dibujado);
     void enviarMensaje(const std::string& mensaje);
     void enviarChat(const std::string& mensaje, bool mensaje_publico);
-    void enviarTienda(const std::vector<SerializacionItem> &&items);
-    void enviarContenedor(const std::vector<SerializacionItem> &&items);
+    void enviarTienda(const SerializacionContenedor &&serContenedor);
+    void enviarContenedor(const SerializacionContenedor &&serContenedor);
     void enviarInventario();
 
     //ClienteProxy es friend de Cliente

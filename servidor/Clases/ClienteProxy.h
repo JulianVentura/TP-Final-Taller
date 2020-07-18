@@ -72,9 +72,9 @@ public:
     void enviarChat(const std::string& mensaje, bool mensaje_publico);
     void enviarEstadisticas();
     void enviarConfirmacion();
-    void enviarTienda(const std::vector<SerializacionItem> &&items);
-    void enviarContenedor(const std::vector<SerializacionItem> &&items);
-    void enviarInventario(const SerializacionEquipo serEquipo);
+    void enviarTienda(const SerializacionContenedor &&contenedor);
+    void enviarContenedor(const SerializacionContenedor &&contenedor);
+    void enviarInventario(const SerializacionEquipo &&serEquipo);
     void enviarEstado(SerializacionEstado serializacionEstado);
 };
 
