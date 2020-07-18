@@ -136,12 +136,14 @@ void Comerciante::dropearItems(Entidad *atacante){
     //Nada
 }
 
-std::vector<SerializacionItem> Comerciante::serializarTienda(){
+SerializacionContenedor Comerciante::serializarTienda(){
+    SerializacionContenedor serContenedor;
+    serContenedor.oroContenedor = 0;
     std::vector<SerializacionItem> resultado(TAM_TIENDA);
     for (std::size_t i=0; i<TAM_TIENDA; i++){
-        resultado[i] = std::move(items[i]->serializar());
+        serContenedor.items[i] = std::move(items[i]->serializar());
     }
-    return resultado;
+    return serContenedor;
 }
 
 

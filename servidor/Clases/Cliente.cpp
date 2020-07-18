@@ -76,12 +76,12 @@ void Cliente::actualizarEstado(const std::vector<struct PosicionEncapsulada> &po
     clienteProxy.enviarChat(mensaje, mensaje_publico);
 }
 
-void Cliente::enviarContenedor(const std::vector<SerializacionItem> &&items){
-    clienteProxy.enviarContenedor(std::move(items));
+void Cliente::enviarContenedor(const SerializacionContenedor &&serContenedor){
+    clienteProxy.enviarContenedor(std::move(serContenedor));
 }
 
-void Cliente::enviarTienda(const std::vector<SerializacionItem> &&items){
-    clienteProxy.enviarTienda(std::move(items));
+void Cliente::enviarTienda(const SerializacionContenedor &&serContenedor){
+    clienteProxy.enviarTienda(std::move(serContenedor));
 }
 
 void Cliente::enviarInventario(){

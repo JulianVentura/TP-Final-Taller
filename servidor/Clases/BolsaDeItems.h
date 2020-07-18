@@ -38,7 +38,7 @@ class BolsaDeItems : public Entidad{
 
     bool haFinalizado() override;
 
-    std::vector<SerializacionItem> serializarBolsa();
+    SerializacionContenedor serializarBolsa();
     ~BolsaDeItems() override;
 };
 

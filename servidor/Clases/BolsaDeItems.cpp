@@ -117,12 +117,14 @@ void BolsaDeItems::dropearItems(Entidad *atacante){}
 
 void BolsaDeItems::recibirCuracion(unsigned int curacion, Entidad *lanzador){}
 
-std::vector<SerializacionItem> BolsaDeItems::serializarBolsa(){
+SerializacionContenedor BolsaDeItems::serializarBolsa(){
+    SerializacionContenedor serContenedor;
+    serContenedor.oroContenedor = 0;
     std::vector<SerializacionItem> resultado(TAM_TIENDA);
     for (std::size_t i=0; i<TAM_TIENDA; i++){
-        resultado[i] = std::move(items[i]->serializar());
+        serContenedor.items[i] = std::move(items[i]->serializar());
     }
-    return resultado;
+    return serContenedor;
 }
 
 BolsaDeItems::~BolsaDeItems(){
