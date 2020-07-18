@@ -14,16 +14,6 @@ Escena::Escena(EntornoGrafico& entorno, Camara& camara, MapaVista& mapa,
     entorno.agregarRendereable(this);
 }
 
-Escena& Escena::operator=(const Escena&& otro) {
-    this->camara = otro.camara;
-    this->capaFrontal = otro.capaFrontal;
-    this->conjuntoTiles = conjuntoTiles;
-    this->mapa = otro.mapa;
-    this->renderer = otro.renderer;
-    this->ventana = otro.ventana;
-    return *this;
-}
-
 void Escena::render() {
     camara->centrar(renderer, mapa->getAnchoTile(), RADIO);
     camara->getFrontera(frontera);

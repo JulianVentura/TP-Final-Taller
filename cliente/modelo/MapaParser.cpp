@@ -5,6 +5,11 @@
 using json = nlohmann::json;
 
 MapaParser::MapaParser(nlohmann::json& parser) {
+    parse(parser);
+}
+
+void MapaParser::parse(nlohmann::json& parser) {
+    capasFondo.clear();
     for (auto& grupo: parser["layers"]) {
         if (grupo["type"] != "group" || grupo["name"] != "fondo") continue;
         for (auto& capa: grupo["layers"]) {

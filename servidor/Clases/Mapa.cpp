@@ -205,7 +205,6 @@ void Mapa::cargar(Entidad *entidad){
     std::unordered_map<std::string, Entidad*>::iterator it = entidades.find(id);
     //Esto solo puede fallar si se intenta cargar una entidad en operaciones consecutivas.
     if (it != entidades.end()) return;
-    printf("Se cargo entidad %s\n", id.c_str());
     entidades[id] = entidad;
 }
 

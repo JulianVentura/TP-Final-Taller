@@ -14,6 +14,7 @@ void Animacion::setMascara(SDL_Rect& mascara) {
     if (tiempo_hasta_proximo_ciclo > 0) return;
     if (tiempo_hasta_proximo_cuadro > 0) return;
     if (esta_quieto) columna = 0;
+    if (parser.getAnimacionCantidadTipo(apariencia) == 0) return;
     int guid = parser.getGuid(apariencia, accion, direccion, columna, esta_quieto);
     int ancho = parser.getAncho(apariencia);
     int alto = parser.getAlto(apariencia);
@@ -27,9 +28,10 @@ void Animacion::avanzar() {
     if (tiempo_hasta_proximo_ciclo > 0) return;
     tiempo_hasta_proximo_cuadro -= ultimo_delta_t;
     ++columna;
-    columna %= parser.getAnimacionCantidad(apariencia, accion, direccion);
-    if (columna == parser.getAnimacionCantidad(apariencia, accion, direccion)) 
+    if (columna == parser.getAnimacionCantidad(apariencia, accion, direccion)) {
         tiempo_hasta_proximo_ciclo = tiempo_por_ciclo;
+        columna = 0;
+    }
 }
 
 void Animacion::reiniciar() {

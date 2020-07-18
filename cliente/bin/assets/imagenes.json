@@ -384,6 +384,10 @@
 		},
 		"BolsaDeItems": {
 			"cuerpo" : ["bag.png"]
+		},
+		"Portal": {
+			"cuerpo" : ["teleport_128.png"], 
+			"animacion": "portal"
 		}
 	},
 	"animacion": {
@@ -503,7 +507,6 @@
 			"Ancho": 32,
 			"Alto": 32,
 			"Columnas": 1,
-
 			"Direcciones": {
 				"Abajo": 0,
 				"Izquierda": 0,
@@ -515,6 +518,24 @@
 				"mover": {
 					"fila": [0, 0, 0, 0],
 					"cantidad": 1
+				}
+			}
+		},
+		"portal": {
+			"Ancho": 128,
+			"Alto": 64,
+			"Columnas": 1,
+			"Direcciones": {
+				"Abajo": 0,
+				"Izquierda": 0,
+				"Derecha": 0,
+				"Arriba": 0
+			},
+			"Quieto": 0,
+			"Estados": {
+				"mover": {
+					"fila": [0, 0, 0, 0],
+					"cantidad": 5
 				}
 			}
 		}

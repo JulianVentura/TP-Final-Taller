@@ -166,7 +166,6 @@ std::pair<std::string, std::string> Cliente::login(OrganizadorClientes &organiza
 }
 
 void Cliente::cambiarDeMapa(std::string &idMapa){
-    printf("CambiarDeMapa\n");
     Configuraciones *config = config->obtenerInstancia();
     Sala *salaDestino = organizadorSalas.obtenerSala(idMapa);
     Sala *salaOrigen = organizadorSalas.obtenerSala(salaActual);

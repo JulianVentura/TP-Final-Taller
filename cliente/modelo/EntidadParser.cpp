@@ -212,7 +212,7 @@ AnimacionParser::AnimacionParser(nlohmann::json& parser,
 int AnimacionParser::getGuid(std::string &accion, std::string &direccion, int columna, bool quieto) {
     std::string id = accion + DELIMITADOR + direccion;
     aMinuscula(id);
-    if (quieto) return animaciones[id][0];
+    if (quieto || columna == 0) return animaciones[id][0];
     return animaciones[id][columna % animaciones[id].size()];
 }
 

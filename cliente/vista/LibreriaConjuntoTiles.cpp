@@ -9,21 +9,21 @@ int LibreriaConjuntoTiles::getColumnas() { return columnas; }
 int LibreriaConjuntoTiles::getAnchoTile() { return ancho_tile ;}
 int LibreriaConjuntoTiles::getAltoTile() { return alto_tile; }
 
-LibreriaConjuntoTiles& LibreriaConjuntoTiles::operator=(LibreriaConjuntoTiles&& otro) {
-    this->alto_tile = otro.alto_tile;
-    this->ancho_tile = otro.ancho_tile;
-    this->columnas = otro.columnas;
-    this->conjuntosTiles = std::move(otro.conjuntosTiles);
-    return *this;
-}
-
 LibreriaConjuntoTiles::LibreriaConjuntoTiles(EntornoGrafico& entorno,
                                     const LibreriaConjuntoTileParser& parser) {
+    parse(entorno, parser);
+}
+
+void LibreriaConjuntoTiles::parse(EntornoGrafico& entorno,
+                                    const LibreriaConjuntoTileParser& parser) {
+    conjuntosTiles.clear();
     columnas = parser.getColumnas();
     ancho_tile = parser.getAnchoTile();
     alto_tile = parser.getAltoTile();
+
     std::vector<InformacionConjuntoTile> info_tiles = 
                                     std::move(parser.getInformacionLibreria());
+    
     for (auto& info_tile: info_tiles) {
         SDL_Color color = {};
         SDL_Color *color_ptr = nullptr;
@@ -32,11 +32,10 @@ LibreriaConjuntoTiles::LibreriaConjuntoTiles(EntornoGrafico& entorno,
             color_ptr = &color;
         }
         Imagen img = Imagen(entorno, RUTA_ASSETS + info_tile.ruta, color_ptr);
-        TileConjunto tile_conjunto = TileConjunto(std::move(img), info_tile);
-        conjuntosTiles.push_back(std::move(tile_conjunto));
-    } 
+        TileConjunto tile_conjunto = TileConjunto(/*std::move*/(img), info_tile);
+        conjuntosTiles.push_back(/*std::move*/(tile_conjunto));
+    }
 }
-
 Imagen* LibreriaConjuntoTiles::getTile(int id) {
     Imagen* tile = nullptr;
     for (auto& conjunto_tile: conjuntosTiles) {

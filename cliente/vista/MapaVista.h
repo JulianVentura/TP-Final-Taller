@@ -13,7 +13,9 @@ class MapaVista: public IRendereable, public IDimensionable {
 public:
     MapaVista(EntornoGrafico& entorno, const MapaParser& parser, 
                                         LibreriaConjuntoTiles& conjuntosTiles);
-    MapaVista& operator=(const MapaVista&& otro);
+    void parse(const MapaParser& parser, 
+                                        LibreriaConjuntoTiles& conjuntosTiles);
+    
     void render() override;
     int getColumnas();
     int getFilas();

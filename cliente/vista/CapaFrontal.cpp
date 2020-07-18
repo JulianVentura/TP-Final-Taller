@@ -27,18 +27,6 @@ void CapaFrontal::parse(const CapasParser& parser,
     }
 }
 
-CapaFrontal& CapaFrontal::operator=(const CapaFrontal&& otro) {
-    this->frontera = otro.frontera;
-    this->obstruibles = std::move(otro.obstruibles);
-    this->obstruiblesFijos = std::move(otro.obstruiblesFijos);
-    // this->capasObstaculos = std::move(otro.capasObstaculos);
-    this->capas = std::move(otro.capas);
-    this->tiles = otro.tiles;
-    this->filas = otro.filas;
-    this->columnas = otro.columnas;
-    return *this;
-}
-
 void CapaFrontal::agregarObstruible(const std::string& id, IObstruible* obstruible) {
     std::lock_guard<std::mutex> l(m);
     if (obstruibles.count(id)) return;

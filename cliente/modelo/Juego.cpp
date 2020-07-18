@@ -10,10 +10,24 @@
 using json = nlohmann::json;
 
 void Juego::actualizar(unsigned int delta_t) {
-    std::lock_guard<std::mutex> l(mtx);
+    {
+        std::lock_guard<std::mutex> l(mtx);
+        if (hay_que_actualizar_mapa) {
+            parser = json::parse(mapa_s.c_str());
+            libreriaConjuntoTileParser.parse(parser);
+            conjuntoTiles.parse(entorno, libreriaConjuntoTileParser);
+            capasParser.parse(parser, conjuntoTiles);
+            capaFrontal.parse(capasParser, conjuntoTiles);
+            if (entidades.count(datos_personaje.id))
+                capaFrontal.agregarObstruible(datos_personaje.id, 
+                                                entidades[datos_personaje.id].second);
+            mapaParser.parse(parser);
+            mapa.parse(mapaParser, conjuntoTiles);
+            camara.setContenedor(mapa);
+            hay_que_actualizar_mapa = false;
+        }
+    }
     escena.actualizar(delta_t);
-    if (entidades.count(datos_personaje.id))
-        printf("%d %d \n", entidades[datos_personaje.id].second->getX(), entidades[datos_personaje.id].second->getY());
 }
 
 void Juego::render() {
@@ -24,8 +38,6 @@ void Juego::render() {
 bool Juego::manejarEvento(SDL_Event& evento) {
     std::lock_guard<std::mutex> l(mtx);
     if (evento.type == SDL_MOUSEBUTTONDOWN) {
-        printf("Click\n");
-        servidor.enviarInteraccion("Portal#1");
         int x = evento.button.x;
         int y = evento.button.y;
         camara.transformar(x, y);
@@ -73,40 +85,8 @@ Juego::Juego(EntornoGrafico& entorno, DatosPersonaje& datos_personaje,
 
 void Juego::cambiarMapa(const std::string& mapa_s) {
     std::lock_guard<std::mutex> l(mtx);
-    printf("se está cambiando mapa \n");
-
-    // std::string mapa_s;
-    // nlohmann::json parser;
-
-    // LibreriaConjuntoTileParser libreriaConjuntoTileParser;
-    // LibreriaConjuntoTiles conjuntoTiles;
-    
-    // CapasParser capasParser;
-    // CapaFrontal capaFrontal;
-    // MapaParser mapaParser;
-    // MapaVista mapa;
-    // Camara camara;
-    // Escena escena;
-    for (auto& entidad: entidades) {
-        if (entidad.first == datos_personaje.id) continue;
-        borrarEntidad(entidad.first);
-    }
-    parser = (json::parse(mapa_s.c_str()));
-    libreriaConjuntoTileParser.parse(parser);
-    // libreriaConjuntoTileParser = std::move(LibreriaConjuntoTileParser(parser));
-    conjuntoTiles = std::move(LibreriaConjuntoTiles(entorno, libreriaConjuntoTileParser));
-    
-    capasParser.parse(parser, conjuntoTiles);
-    capaFrontal.parse(capasParser, conjuntoTiles);
-    // = std::move(CapaFrontal(capasParser, conjuntoTiles));
-
-    mapaParser = std::move(MapaParser(parser));
-    mapa = std::move(MapaVista(entorno, mapaParser, conjuntoTiles));
-    
-    camara.setContenedor(mapa);
-    // camara.setObjetivo(nullptr);
-    escena = std::move(Escena(entorno, camara, mapa, capaFrontal, conjuntoTiles));
-    printf("se logra cambiar mapa\n");
+    this->mapa_s = std::move(mapa_s);
+    hay_que_actualizar_mapa = true;
 }
 
 void Juego::agregarEntidad(std::string& id, DatosApariencia& apariencia) {
@@ -153,8 +133,9 @@ std::pair<IPosicionable*, EntidadVista*> Juego::crearEntidad(std::string& id,
 void Juego::actualizarPosiciones(std::unordered_map<std::string, std::pair<int, 
                                                             int>> posiciones) {
     std::lock_guard<std::mutex> l(mtx);
+    if (hay_que_actualizar_mapa) return;
     for (auto& posicion: posiciones) {
-		if (!entidades.count(posicion.first)) {
+    	if (!entidades.count(posicion.first)) {
 			std::string id(posicion.first);
             DatosApariencia apariencia;
             agregarEntidad(id, apariencia);
@@ -167,6 +148,7 @@ void Juego::actualizarPosiciones(std::unordered_map<std::string, std::pair<int,
     std::unordered_set<std::string> paraBorrar;
     for (auto& entidad: entidades) {
         if (posiciones.count(entidad.first)) continue;
+        if (entidad.first == datos_personaje.id) continue;
         paraBorrar.insert(entidad.first);
     }
     for (auto& entidad: paraBorrar)

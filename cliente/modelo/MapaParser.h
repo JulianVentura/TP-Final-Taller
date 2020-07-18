@@ -7,6 +7,7 @@
 class MapaParser {
 public:
     explicit MapaParser(nlohmann::json& parser);
+    void parse(nlohmann::json& parser);
     int getColumnas() const;
     int getFilas() const;
     int getAnchoTile() const;

@@ -14,7 +14,6 @@
 class CapaFrontal: public IRendereable {
 public:
     CapaFrontal(const CapasParser& parser, LibreriaConjuntoTiles& tiles);
-    CapaFrontal& operator=(const CapaFrontal&& otro);
     void parse(const CapasParser& parser, LibreriaConjuntoTiles& tiles);
     void render() override;
     void actualizar(unsigned int delta_t) override;

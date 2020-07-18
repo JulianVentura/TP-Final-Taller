@@ -35,4 +35,3 @@ void LibreriaConjuntoTileParser::parse(nlohmann::json& parser) {
 LibreriaConjuntoTileParser::LibreriaConjuntoTileParser(nlohmann::json& parser) {
     parse(parser);    
 }
-

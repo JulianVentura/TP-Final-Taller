@@ -58,6 +58,7 @@ private:
     EntidadParser entidadParser;
     std::unordered_map<std::string, std::pair<IPosicionable*, 
                                                     EntidadVista*>> entidades;
+    bool hay_que_actualizar_mapa = false;
     void agregarEntidad(std::string& id, DatosApariencia& apariencia);
     void borrarEntidad(const std::string& id);
 

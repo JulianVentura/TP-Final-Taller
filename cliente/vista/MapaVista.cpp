@@ -10,31 +10,21 @@ int MapaVista::getAnchoTile() { return ancho_tile; }
 int MapaVista::getAltoTile() { return alto_tile; }
 
 MapaVista::MapaVista(EntornoGrafico& entorno, const MapaParser& parser, 
-                    LibreriaConjuntoTiles& conjuntosTiles): 
-        conjuntosTiles(&conjuntosTiles),
-        capasFondo(std::move(parser.getCapas())), 
-        columnas(parser.getColumnas()), 
-        filas(parser.getFilas()), 
-        ancho_tile(parser.getAnchoTile()), 
-        alto_tile(parser.getAltoTile()) {
+                    LibreriaConjuntoTiles& conjuntosTiles) {
     entorno.agregarRendereable(this);
-    this->ancho = columnas * ancho_tile;
-    this->alto = filas * alto_tile;
+    parse(parser, conjuntosTiles);
 }
-
-MapaVista& MapaVista::operator=(const MapaVista&& otro) {
-    this->conjuntosTiles = otro.conjuntosTiles;
-    this->capasFondo = std::move(otro.capasFondo);
-    this->columnas = otro.columnas;
-    this->filas = otro.filas;
-    this->ancho_tile = otro.ancho_tile;
-    this->alto_tile = otro.alto_tile;
-    this->ancho_tile = otro.ancho_tile;
-    this->alto = otro.alto;
-    this->ancho = otro.ancho;
-    this->renderer = otro.renderer;
-    this->ventana = otro.ventana;
-    return *this;
+void MapaVista::parse(const MapaParser& parser, 
+                                        LibreriaConjuntoTiles& conjuntosTiles) {
+    capasFondo.clear();
+    this->conjuntosTiles = (&conjuntosTiles);
+    capasFondo = std::move(parser.getCapas()); 
+    columnas = parser.getColumnas();
+    filas = parser.getFilas();
+    ancho_tile = parser.getAnchoTile(); 
+    alto_tile = parser.getAltoTile();
+    ancho = columnas * ancho_tile;
+    alto = filas * alto_tile;
 }
 
 void MapaVista::render() {

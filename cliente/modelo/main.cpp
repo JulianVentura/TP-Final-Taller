@@ -43,9 +43,9 @@ int main(int argc, const char* argv[]) {
         // JUEGO EN SI //
         EntornoMusical::obtenerInstancia() -> reproducirMusica("musicaJuego");
         BuclePrincipal bucle(ventana);
-        Juego juego(entorno, datos_personaje, servidor);
         GUI_Principal gui(entorno, paleta, datos_personaje, datos_tienda);
         GUI_PrincipalControlador gui_controllador(servidor, gui);
+        Juego juego(entorno, datos_personaje, servidor);
         ventana.agregarRendereable(&juego);
         ventana.agregarRendereable(&gui);
         
@@ -59,6 +59,7 @@ int main(int argc, const char* argv[]) {
         bucle.agregarInteractivo(SDL_MOUSEWHEEL, &gui_controllador);
         bucle.correr();
         servidor.terminar();
+
     } catch (std::exception& e) {
         std::cerr << e.what() << std::endl;
     }
