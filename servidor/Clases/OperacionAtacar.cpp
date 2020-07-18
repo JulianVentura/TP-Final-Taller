@@ -19,6 +19,10 @@ OperacionAtacar::~OperacionAtacar(){
 
 void OperacionAtacar::ejecutar(){
     try{
+        if (mapa->esMapaSeguro()){
+            cliente->enviarChat("No podes atacar en zonas seguras", false);
+            return;
+        }
         Entidad *entidad = mapa->obtener(idObjetivo);
         Personaje *personaje = cliente->obtenerPersonaje();
         entidad->serAtacadoPor(personaje);
