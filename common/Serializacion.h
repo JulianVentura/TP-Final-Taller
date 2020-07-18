@@ -49,4 +49,10 @@ typedef struct serializacionEquipo{
     SerializacionItem items[TAM_INVENTARIO];
 }SerializacionEquipo;
 
+
+typedef struct serializacionContenedor{
+    uint16_t oroContenedor;
+    SerializacionItem items[TAM_TIENDA];
+}SerializacionContenedor;
+
 #endif
