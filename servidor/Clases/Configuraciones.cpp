@@ -445,6 +445,10 @@ const uint32_t Configuraciones::calcularLimiteParaSubir(const Personaje *persona
     return 1000 * std::pow(personaje->nivel, 1.8);
 }
 
+const uint32_t Configuraciones::calcularLimiteExpInferior(const Personaje *personaje){
+    return 1000 * std::pow(personaje->nivel - 1, 1.8);
+}
+
 const uint32_t Configuraciones::calcularExpPorGolpe(const Entidad *objetivo, const Entidad *atacante, unsigned int danio){
     //return Danio * max(NivelDelOtro - Nivel + 10, 0)
     return danio * std::max(objetivo->nivel - atacante->nivel + 10, (unsigned int)0);
