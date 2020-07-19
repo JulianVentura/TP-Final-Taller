@@ -4,7 +4,6 @@
 #include "Posicion.h"
 class EstadoInmovilizado : public Estado{
     private:
-    double penalizacion;
     double tiempoTranscurrido;
     public:
     EstadoInmovilizado(Personaje *unPersonaje, double pen);
