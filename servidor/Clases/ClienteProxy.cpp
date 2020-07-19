@@ -325,14 +325,11 @@ void ClienteProxy::enviarDibujadoPersonajes(const std::vector<SerializacionDibuj
 
 void ClienteProxy::encolarMensaje(Mensaje &&mensaje){
     try{
-        //Chequear el tamanio de la cola, si supera cierto limite se cierra la conexion y liberan los recursos.
-        /*
-        if (colaEnvio.obtenerTamBytesAlmacenados() >=  LIMITE_COLA_ENVIADOR){
-            this->finalizar();
-            return;
+        if(enviador.envioBloqueado()){
+            this -> finalizar();
+        }else{
+            colaEnvio.push(std::move(mensaje));
         }
-        */
-        colaEnvio.push(std::move(mensaje));
     }catch(...){
         //Cualquier error es motivo suficiente como para cortar la comunicacion.
         this->finalizar();

@@ -27,8 +27,8 @@ void ColaBloqueanteMensajes::push(Mensaje mensaje){
     if (this->colaCerrada){
         throw Excepcion("No se pueden encolar mas mensajes, la cola ha sido cerrada");
     }
-    this->cola.push(std::move(mensaje));
     tamanioBytesAlmacenados += mensaje.obtenerTamanio();
+    this->cola.push(std::move(mensaje));
     conditionVariable.notify_all();
 }
 
