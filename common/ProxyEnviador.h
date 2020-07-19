@@ -6,10 +6,12 @@
 #include "../common/Mensaje.h"
 #include "../common/commonSocket.h"
 
-#define LIMITE_COLA_ENVIADOR 5000
+#define LIMITE_COLA_ENVIADOR 2000
+#define MUESTRAS 20
 
 class ProxyEnviador final : public Thread{
     private:
+    int contador;
     ColaBloqueanteMensajes& colaMensajes;
     Socket& socket;
 
@@ -19,6 +21,7 @@ class ProxyEnviador final : public Thread{
     ProxyEnviador(ProxyEnviador &&otro) = delete;
     ProxyEnviador& operator=(ProxyEnviador &otro) = delete;
     ProxyEnviador& operator=(ProxyEnviador &&otro) = delete;
+    bool envioBloqueado();
     void procesar();
     ~ProxyEnviador();
 };

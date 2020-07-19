@@ -1,7 +1,8 @@
 #include "ProxyEnviador.h"
 
 ProxyEnviador::ProxyEnviador(Socket &skt, 
-                                           ColaBloqueanteMensajes &cola) : 
+                                           ColaBloqueanteMensajes &cola) :
+                                           contador(0), 
                                            colaMensajes(cola),
                                            socket(skt){}
 
@@ -18,6 +19,15 @@ void ProxyEnviador::procesar(){
 	        colaMensajes.cerrarCola();
         }
     }
+}
+
+bool ProxyEnviador::envioBloqueado(){
+  contador++;
+  if(contador > MUESTRAS && colaMensajes.obtenerTamBytesAlmacenados()
+   >=  LIMITE_COLA_ENVIADOR){
+     return true;
+  }
+  return false;
 }
 
 ProxyEnviador::~ProxyEnviador(){}

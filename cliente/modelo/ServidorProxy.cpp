@@ -295,7 +295,9 @@ void ServidorProxy::setJuego(Juego* juego) {
 }
 
 void ServidorProxy::encolarMensaje(Mensaje&& mensaje){
-    //if (colaEnvio.obtenerTamBytesAlmacenados() <=  LIMITE_COLA_ENVIADOR){
-    	colaEnvio.push(std::move(mensaje));
-    //}
+        if(enviador.envioBloqueado()){
+            SDL_PushEvent(&evento_salida);
+        }else{
+            colaEnvio.push(std::move(mensaje));
+        }
 }
