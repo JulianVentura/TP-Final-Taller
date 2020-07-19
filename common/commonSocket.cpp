@@ -118,14 +118,15 @@ static int _bindConOpciones(int sockfd, const struct sockaddr *addr,
 }
 
 
-void Socket::ligar(const char* servicio){
+void Socket::ligar(const char* direccion, const char* servicio){
 	struct addrinfo hints;
 	memset(&hints, 0, sizeof hints);
 	hints.ai_family = AF_INET;
 	hints.ai_socktype = SOCK_STREAM;
 	hints.ai_flags = AI_PASSIVE;
 
-	if(_iterarDirecciones(file_descriptor,0,servicio,&hints,&_bindConOpciones)
+	if(_iterarDirecciones(file_descriptor, direccion,
+	 servicio, &hints,&_bindConOpciones)
 		== ERROR_CONEXION)
 		throw FallaConexionException("Error socket bind\n");
 }
