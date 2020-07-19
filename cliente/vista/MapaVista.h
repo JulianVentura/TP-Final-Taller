@@ -6,7 +6,7 @@
 #include "Imagen.h"
 #include "TileConjunto.h"
 #include "LibreriaConjuntoTiles.h"
-#include "../modelo/MapaParser.h"
+#include "../modelo/parsers/MapaParser.h"
 #include <vector>
 
 class MapaVista: public IRendereable, public IDimensionable {
@@ -17,6 +17,8 @@ public:
                                         LibreriaConjuntoTiles& conjuntosTiles);
     
     void render() override;
+    void actualizar(unsigned int delta_t) override;
+    void agregarRendereable(std::string& id, IRendereable* rendereable);
     int getColumnas();
     int getFilas();
     int getAnchoTile();
@@ -26,6 +28,7 @@ public:
 private:
     LibreriaConjuntoTiles* conjuntosTiles;
     std::vector<std::vector<int>> capasFondo;
+    std::unordered_map<std::string, IRendereable*> rendereables;
     int columnas;
     int filas;
     int ancho_tile;

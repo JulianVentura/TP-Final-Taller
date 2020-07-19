@@ -5,7 +5,7 @@
 #include <vector>
 #include <string>
 #include <nlohmann/json.hpp>
-#include "../vista/LibreriaConjuntoTiles.h"
+#include "../../vista/LibreriaConjuntoTiles.h"
 #include "ObstaculoParser.h"
 
 class CapasParser {

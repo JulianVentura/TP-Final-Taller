@@ -41,6 +41,6 @@ void CapasParser::parse(nlohmann::json& parser, LibreriaConjuntoTiles& tiles) {
             capasOrdenadas.push_back(capa["name"]);
         }
     }
-    capasObstaculos = /*std::move*/(ObstaculoParser(parser, capas, 
+    capasObstaculos = std::move(ObstaculoParser(parser, capas, 
                                                 tiles).getCapasObstaculos());
 }

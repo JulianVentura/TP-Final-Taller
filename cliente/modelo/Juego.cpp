@@ -1,5 +1,5 @@
 #include "Juego.h"
-#include "EntidadParser.h"
+#include "parsers/EntidadParser.h"
 #include "ServidorProxy.h"
 #include <SDL2/SDL_mouse.h>
 #include <string>
@@ -24,10 +24,12 @@ void Juego::actualizarMapa() {
     mapa.parse(mapaParser, conjuntoTiles);
     camara.setContenedor(mapa);
     for (auto& entidad: entidades) {
-        capaFrontal.agregarObstruible(entidad.first, entidad.second.second);
+        std::string id(entidad.first); 
+        agregarEntidad(id);
     }
     hay_que_actualizar_mapa = false;
 }
+
 void Juego::render() {
     std::lock_guard<std::mutex> l(mtx);
     if (hay_que_actualizar_mapa) return;
@@ -89,11 +91,17 @@ void Juego::cambiarMapa(const std::string& mapa_s) {
     hay_que_actualizar_mapa = true;
 }
 
-void Juego::agregarEntidad(std::string& id, DatosApariencia& apariencia) {
-    if (entidades.count(id)) return;
-    printf("se agrega %s \n", id.c_str());
-    entidades[id] = std::move(crearEntidad(id, apariencia));
-    capaFrontal.agregarObstruible(id, entidades[id].second);
+void Juego::agregarEntidad(std::string& id) {
+    DatosApariencia apariencia;
+    auto posicion_identificador = id.find(NPC_DELIMITADOR);
+    if (posicion_identificador != std::string::npos) {
+        apariencia.tipo = id.substr(0, posicion_identificador);
+        entidades[id].second->actualizarApariencia(apariencia);
+    }
+    if (entidadParser.esObstruible(apariencia)) 
+        capaFrontal.agregarObstruible(id, entidades[id].second);
+    else
+        mapa.agregarRendereable(id, entidades[id].second);
     if (id == datos_personaje.id) 
         camara.setObjetivo(entidades[id].second);    
 }
@@ -115,17 +123,11 @@ void Juego::borrarEntidad(const std::string& id) {
     entidades.erase(id);
 }
 
-std::pair<IPosicionable*, EntidadVista*> Juego::crearEntidad(std::string& id, 
-                                                DatosApariencia& apariencia) {
+std::pair<IPosicionable*, EntidadVista*> Juego::crearEntidad(std::string& id) {
     std::pair<IPosicionable*, EntidadVista*> resultado;
-    auto posicion_identificador = id.find(NPC_DELIMITADOR);
     resultado.first = new IPosicionable();
     resultado.second = new EntidadVista(entorno, resultado.first, 
                                                                 entidadParser);
-    if (posicion_identificador != std::string::npos) {
-        apariencia.tipo = id.substr(0, posicion_identificador);
-        resultado.second->actualizarApariencia(apariencia);
-    }
     return resultado;
 }
 
@@ -134,13 +136,13 @@ void Juego::actualizarPosiciones(std::unordered_map<std::string, std::pair<int,
                                                             int>> posiciones) {
     std::lock_guard<std::mutex> l(mtx);
     if (hay_que_actualizar_mapa) return;
-    printf("---------------------------------------------------\n");
     for (auto& posicion: posiciones) {
-        printf("se recibe %s \n", posicion.first.c_str());
     	if (!entidades.count(posicion.first)) {
 			std::string id(posicion.first);
-            DatosApariencia apariencia;
-            agregarEntidad(id, apariencia);
+            if (!entidades.count(id)) {
+                entidades[id] = std::move(crearEntidad(id));
+                agregarEntidad(id);
+            }
 		}
 		if (!entidades.count(posicion.first)) continue;
 		auto& coordenadas = posicion.second;

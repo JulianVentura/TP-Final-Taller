@@ -3,8 +3,8 @@
 
 #include "IRendereable.h" 
 #include "LibreriaConjuntoTiles.h"
-#include "../modelo/ObstaculoParser.h"
-#include "../modelo/CapasParser.h"
+#include "../modelo/parsers/ObstaculoParser.h"
+#include "../modelo/parsers/CapasParser.h"
 #include <string>
 #include <unordered_map>
 #include <vector>

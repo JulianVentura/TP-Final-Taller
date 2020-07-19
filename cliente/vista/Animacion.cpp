@@ -1,35 +1,48 @@
 #include "Animacion.h"
-#include "AnimacionEnteDireccionable.h"
+#include "AnimacionCuatroDirecciones.h"
+#include "../modelo/parsers/AnimacionParser.h"
 #include <string>
 
-#define DELTA_T 20
+#define DELTA_T 30
 
-Animacion::Animacion(EntidadParser& parser, const std::string& tipo):
-        parser(parser) {
-    direccion = ANIMACION_ABAJO;
+Animacion::Animacion() {
     reiniciar();
 }
 
-void Animacion::setMascara(SDL_Rect& mascara) {
-    if (tiempo_hasta_proximo_ciclo > 0) return;
-    if (tiempo_hasta_proximo_cuadro > 0) return;
-    if (esta_quieto) columna = 0;
-    if (parser.getAnimacionCantidadTipo(apariencia) == 0) return;
-    int guid = parser.getGuid(apariencia, accion, direccion, columna, esta_quieto);
-    int ancho = parser.getAncho(apariencia);
-    int alto = parser.getAlto(apariencia);
-    int fila = (guid - columna) / parser.getAnimacionCantidadTipo(apariencia);
-    mascara = { columna * ancho, fila * alto, ancho, alto };
+void Animacion::setInfo(AnimacionBase* infoAnimacion) {
+    if (!infoAnimacion) return;
+    this->infoAnimacion = infoAnimacion;
+    tiempo_por_ciclo = infoAnimacion->getTiempoPorCiclo();
+    tiempo_por_cuadro = infoAnimacion->getTiempoPorCuadro();
+    reiniciar();
+}
+void Animacion::actualizar(unsigned int delta_t) {
+    if (!infoAnimacion) return;
+    ultimo_delta_t = DELTA_T;
+    // ultimo_delta_t = delta_t;
+}
+
+void Animacion::setMascara(SDL_Rect& mascara, int delta_x, int delta_y) {
+    if (!infoAnimacion) return;
+    infoAnimacion->getMascara(mascara, columna, delta_x, delta_y);
 }
 
 void Animacion::avanzar() {
+    if (!infoAnimacion) return;
+    if (tiempo_hasta_proximo_ciclo > 0) {
+        tiempo_hasta_proximo_ciclo -= ultimo_delta_t;
+        return;
+    }
+    if (tiempo_hasta_proximo_cuadro > 0) {
+        tiempo_hasta_proximo_cuadro -= ultimo_delta_t;
+        return;
+    }
     if (tiempo_hasta_proximo_cuadro <= 0) 
         tiempo_hasta_proximo_cuadro = tiempo_por_cuadro;
-    if (tiempo_hasta_proximo_ciclo > 0) return;
-    tiempo_hasta_proximo_cuadro -= ultimo_delta_t;
     ++columna;
-    if (columna == parser.getAnimacionCantidad(apariencia, accion, direccion)) {
+    if (columna >= infoAnimacion->getColumnas()) {
         tiempo_hasta_proximo_ciclo = tiempo_por_ciclo;
+        tiempo_hasta_proximo_cuadro = 0;
         columna = 0;
     }
 }
@@ -40,29 +53,11 @@ void Animacion::reiniciar() {
     tiempo_hasta_proximo_ciclo = 0;
 }
 
-void Animacion::setAnimacion(DatosApariencia& apariencia) {
-    // if (this->tipo == tipo) return;  
-    this->apariencia = apariencia;
-    // reiniciar();
-}
-
-void Animacion::setDireccion(const std::string& direccion) {
-    if (this->direccion == direccion) return;
-    this->direccion = direccion;
-    // reiniciar();
-}
-
 void Animacion::setAccion(const std::string& accion) {
     if (this->accion == accion) return;
     this->accion = accion;
-    // reiniciar();
 }
 
-void Animacion::actualizar(unsigned int delta_t) {
-    tiempo_hasta_proximo_ciclo -= delta_t;
-    ultimo_delta_t = DELTA_T;
-    // ultimo_delta_t = delta_t;
-}
 
 
 void Animacion::setTiempoPorCiclo(unsigned int tiempo_por_ciclo) {

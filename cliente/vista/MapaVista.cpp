@@ -17,6 +17,7 @@ MapaVista::MapaVista(EntornoGrafico& entorno, const MapaParser& parser,
 void MapaVista::parse(const MapaParser& parser, 
                                         LibreriaConjuntoTiles& conjuntosTiles) {
     capasFondo.clear();
+    rendereables.clear();
     this->conjuntosTiles = (&conjuntosTiles);
     capasFondo = std::move(parser.getCapas()); 
     columnas = parser.getColumnas();
@@ -25,6 +26,16 @@ void MapaVista::parse(const MapaParser& parser,
     alto_tile = parser.getAltoTile();
     ancho = columnas * ancho_tile;
     alto = filas * alto_tile;
+}
+
+void MapaVista::actualizar(unsigned int delta_t) {
+    for (auto& rendereable: rendereables)
+        rendereable.second->actualizar(delta_t);
+}
+
+void MapaVista::agregarRendereable(std::string& id, IRendereable* rendereable) {
+    if (rendereables.count(id)) return;
+    rendereables[id] = rendereable;
 }
 
 void MapaVista::render() {
@@ -44,6 +55,8 @@ void MapaVista::render() {
             }
         }
     }
+    for (auto& rendereable: rendereables)
+        rendereable.second->render();
 }
 
 void MapaVista::setFrontera(SDL_Rect& frontera) {

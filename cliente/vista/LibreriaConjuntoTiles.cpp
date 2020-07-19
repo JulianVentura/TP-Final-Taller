@@ -32,8 +32,8 @@ void LibreriaConjuntoTiles::parse(EntornoGrafico& entorno,
             color_ptr = &color;
         }
         Imagen img = Imagen(entorno, RUTA_ASSETS + info_tile.ruta, color_ptr);
-        TileConjunto tile_conjunto = TileConjunto(/*std::move*/(img), info_tile);
-        conjuntosTiles.push_back(/*std::move*/(tile_conjunto));
+        TileConjunto tile_conjunto = TileConjunto(std::move(img), info_tile);
+        conjuntosTiles.push_back(std::move(tile_conjunto));
     }
 }
 Imagen* LibreriaConjuntoTiles::getTile(int id) {

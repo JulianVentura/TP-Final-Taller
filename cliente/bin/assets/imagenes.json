@@ -1,5 +1,8 @@
 {
 	"raiz": "assets/personaje/",
+	"ancho": 40,
+	"alto": 64,
+	"base": "100",
 	"razas": {
 		"4": {
 			"nombre": "Humanos",
@@ -7,74 +10,85 @@
 			"escala": 1,
 			"variantes": {
 				"base": {
-					"cuerpo": ["tanned.png"],
-					"ojos": ["brown.png"],
-					"cicatrices": [],
-					"nariz": ["straightnose_tanned.png"],
-					"orejas": [],
-					"facial": [],
-					"pies": [],
-					"piernas": [],
-					"torso": [],
-					"cinto": [],
-					"pelo": [],
-					"cabeza": []
+					"nombre": "Base",
+					"estructura": {
+						"cuerpo": ["tanned.png"],
+						"ojos": ["brown.png"],
+						"cicatrices": [],
+						"nariz": ["straightnose_tanned.png"],
+						"orejas": [],
+						"facial": [],
+						"pies": [],
+						"piernas": [],
+						"torso": [],
+						"cinto": [],
+						"pelo": [],
+						"cabeza": []
+					}
 				},
 				"1" : {
-					"Nombre": "Mago",
-					"cuerpo" : ["man-white.png"],
-					"ojos": ["gray.png"],
-					"cicatrices" : [],
-					"nariz": [],
-					"facial": ["bigote/white.png", "barba/white.png"],
-					"pies": ["black_shoes_male.png"],
-					"piernas": ["male_robe_bottom_dark.png"],
-					"torso": ["formal_trenchcoat.png"],
-					"cinto": [],
-					"pelo": [],
-					"cabeza": ["brown.png"]
+					"nombre": "Mago",
+					"estructura": {
+						"cuerpo" : ["man-white.png"],
+						"ojos": ["gray.png"],
+						"cicatrices" : [],
+						"nariz": [],
+						"facial": ["bigote/white.png", "barba/white.png"],
+						"pies": ["black_shoes_male.png"],
+						"piernas": ["male_robe_bottom_dark.png"],
+						"torso": ["formal_trenchcoat.png"],
+						"cinto": [],
+						"pelo": [],
+						"cabeza": ["brown.png"]
+					}
 				},
 				"3": {
-					"Nombre": "Clerigo",
-					"cuerpo" : ["man-white.png"],
-					"ojos": [],
-					"cicatrices" : [],
-					"nariz": [],
-					"facial": [],
-					"pies": ["black_shoes_male.png"],
-					"piernas": ["male_robe_bottom_dark.png"],
-					"torso": ["formal_iverness.png"],
-					"cinto": [],
-					"pelo": [],
-					"cabeza": []
+					"nombre": "Clerigo",
+					"estructura": {
+						"cuerpo" : ["man-white.png"],
+						"ojos": [],
+						"cicatrices" : [],
+						"nariz": [],
+						"facial": [],
+						"pies": ["black_shoes_male.png"],
+						"piernas": ["male_robe_bottom_dark.png"],
+						"torso": ["formal_iverness.png"],
+						"cinto": [],
+						"pelo": [],
+						"cabeza": []
+					}
 				},
 				"2": {
-					"Nombre": "Paladin",
-					"cuerpo" : [],
-					"ojos": [],
-					"cicatrices" : [],
-					"nariz": [],
-					"facial": ["5.png", "barba/blonde2.png"],
-					"pies": ["brown_shoes_male.png"],
-					"piernas": ["male_pants_green.png"],
-					"torso": ["white_longsleeve.png"],
-					"cinto": ["leather_male.png"],
-					"pelo": ["longhawk/white-blonde.png"],
-					"cabeza": []
+					"nombre": "Paladin",
+					"estructura": {
+						"cuerpo" : [],
+						"ojos": [],
+						"cicatrices" : [],
+						"nariz": [],
+						"facial": ["5.png", "barba/blonde2.png"],
+						"pies": ["brown_shoes_male.png"],
+						"piernas": ["male_pants_green.png"],
+						"torso": ["white_longsleeve.png"],
+						"cinto": ["leather_male.png"],
+						"pelo": ["longhawk/white-blonde.png"],
+						"cabeza": []
+					}
 				},
 				"0": {
-					"Nombre": "Guerrero",
-					"cuerpo" : ["tanned2.png"],
-					"ojos": ["blue.png"],
-					"cicatrices" : ["eye_blood.png"],
-					"nariz": [],
-					"facial": [],
-					"pies": ["Male_sandals.png"],
-					"piernas": ["Male_legionSkirt.png"],
-					"torso": [],
-					"cinto": [],
-					"pelo": ["shorthawk/brunette.png"],
-					"cabeza": []
+					"nombre": "Guerrero",
+					"estructura": {
+						"cuerpo" : ["tanned2.png"],
+						"ojos": ["blue.png"],
+						"cicatrices" : ["eye_blood.png"],
+						"nariz": [],
+						"facial": [],
+						"pies": ["Male_sandals.png"],
+						"piernas": ["Male_legionSkirt.png"],
+						"torso": [],
+						"cinto": [],
+						"pelo": ["shorthawk/brunette.png"],
+						"cabeza": []
+					}
 				}
 			}
 		},
@@ -84,74 +98,85 @@
 			"escala": 1,
 			"variantes": {
 				"base": {
-					"cuerpo": ["light.png"],
-					"ojos": ["brown.png"],
-					"cicatrices": [],
-					"nariz": ["straightnose_tanned.png"],
-					"orejas": ["elvenears_light.png"],
-					"facial": [],
-					"pies": [],
-					"piernas": [],
-					"torso": [],
-					"cinto": [],
-					"pelo": [],
-					"cabeza": []
+					"nombre": "Base",
+					"estructura": {
+						"cuerpo": ["light.png"],
+						"ojos": ["brown.png"],
+						"cicatrices": [],
+						"nariz": ["straightnose_tanned.png"],
+						"orejas": ["elvenears_light.png"],
+						"facial": [],
+						"pies": [],
+						"piernas": [],
+						"torso": [],
+						"cinto": [],
+						"pelo": [],
+						"cabeza": []
+					}
 				},
 				"1": {
-					"Nombre": "Mago",
-					"cuerpo" : ["man-white.png"],
-					"ojos": ["gray.png"],
-					"cicatrices" : [],
-					"nariz": [],
-					"facial": ["bigote/white.png", "barba/white.png"],
-					"pies": ["black_shoes_male.png"],
-					"piernas": ["male_robe_bottom_dark.png"],
-					"torso": ["formal_trenchcoat.png"],
-					"cinto": [],
-					"pelo": [],
-					"cabeza": ["brown.png"]
+					"nombre": "Mago",
+					"estructura": {
+						"cuerpo" : ["man-white.png"],
+						"ojos": ["gray.png"],
+						"cicatrices" : [],
+						"nariz": [],
+						"facial": ["bigote/white.png", "barba/white.png"],
+						"pies": ["black_shoes_male.png"],
+						"piernas": ["male_robe_bottom_dark.png"],
+						"torso": ["formal_trenchcoat.png"],
+						"cinto": [],
+						"pelo": [],
+						"cabeza": ["brown.png"]
+					}
 				},
 				"3": {
-					"Nombre": "Clerigo",
-					"cuerpo" : ["man-white.png"],
-					"ojos": [],
-					"cicatrices" : [],
-					"nariz": [],
-					"facial": ["formal_monocle.png"],
-					"pies": ["black_shoes_male.png"],
-					"piernas": ["male_robe_bottom_dark.png"],
-					"torso": ["formal_iverness.png"],
-					"cinto": [],
-					"pelo": [],
-					"cabeza": []
+					"nombre": "Clerigo",
+					"estructura": {
+						"cuerpo" : ["man-white.png"],
+						"ojos": [],
+						"cicatrices" : [],
+						"nariz": [],
+						"facial": ["formal_monocle.png"],
+						"pies": ["black_shoes_male.png"],
+						"piernas": ["male_robe_bottom_dark.png"],
+						"torso": ["formal_iverness.png"],
+						"cinto": [],
+						"pelo": [],
+						"cabeza": []
+					}
 				},
 				"2": {
-					"Nombre": "Paladin",
-					"cuerpo" : [],
-					"ojos": [],
-					"cicatrices" : [],
-					"nariz": [],
-					"facial": ["5.png", "barba/blonde2.png"],
-					"pies": ["brown_shoes_male.png"],
-					"piernas": ["male_pants_green.png"],
-					"torso": ["male_shirt_green.png", "formal_vest stripes.png"],
-					"cinto": ["leather_male.png"],
-					"pelo": ["longhawk/white-blonde.png"],
-					"cabeza": []
+					"nombre": "Paladin",
+					"estructura": {
+						"cuerpo" : [],
+						"ojos": [],
+						"cicatrices" : [],
+						"nariz": [],
+						"facial": ["5.png", "barba/blonde2.png"],
+						"pies": ["brown_shoes_male.png"],
+						"piernas": ["male_pants_green.png"],
+						"torso": ["male_shirt_green.png", "formal_vest stripes.png"],
+						"cinto": ["leather_male.png"],
+						"pelo": ["longhawk/white-blonde.png"],
+						"cabeza": []
+					}
 				},
 				"0": {
-					"Nombre": "Guerrero",
-					"cuerpo" : ["tanned2.png"],
-					"ojos": ["blue.png"],
-					"cicatrices" : ["eye_blood.png"],
-					"nariz": [],
-					"facial": [],
-					"pies": ["Male_sandals.png"],
-					"piernas": ["Male_legionSkirt.png"],
-					"torso": [],
-					"cinto": [],
-					"pelo": ["shorthawk/brunette.png"],
-					"cabeza": []
+					"nombre": "Guerrero",
+					"estructura": {
+						"cuerpo" : ["tanned2.png"],
+						"ojos": ["blue.png"],
+						"cicatrices" : ["eye_blood.png"],
+						"nariz": [],
+						"facial": [],
+						"pies": ["Male_sandals.png"],
+						"piernas": ["Male_legionSkirt.png"],
+						"torso": [],
+						"cinto": [],
+						"pelo": ["shorthawk/brunette.png"],
+						"cabeza": []
+					}
 				}
 			}
 		},
@@ -289,160 +314,205 @@
 	},
 	"npc": {
 		"Goblin": {
-			"cuerpo" : ["Drake_male_blue_complete_nw.png"],
-			"ojos": ["red.png"],
-			"cicatrices" : ["arm_blood.png"],
-			"nariz": [],
-			"facial": [],
-			"pies": [],
-			"piernas": [],
-			"torso": ["sleevless_brown.png"],
-			"cinto": ["leather_male.png"],
-			"pelo": [],
-			"cabeza": ["lizardMale_hood.png"],
-			"armas": ["dagger_female.png"]
+			"ancho": 48,
+			"alto": 48,
+			"estructura": {
+				"cuerpo" : ["Drake_male_blue_complete_nw.png"],
+				"ojos": ["red.png"],
+				"cicatrices" : ["arm_blood.png"],
+				"nariz": [],
+				"facial": [],
+				"pies": [],
+				"piernas": [],
+				"torso": ["sleevless_brown.png"],
+				"cinto": ["leather_male.png"],
+				"pelo": [],
+				"cabeza": ["lizardMale_hood.png"],
+				"armas": ["dagger_female.png"]
+			}
 		},
 		"Esqueleto": {
-			"cuerpo" : ["skeleton.png"],
-			"ojos": [],
-			"cicatrices" : ["ribs_blood.png", "eye_blood.png"],
-			"nariz": [],
-			"facial": [],
-			"pies": [],
-			"piernas": [],
-			"torso": [],
-			"cinto": [],
-			"pelo": [],
-			"cabeza": [],
-			"armas": []
+			"ancho": 48,
+			"alto": 48,
+			"estructura": {
+				"cuerpo" : ["skeleton.png"],
+				"ojos": [],
+				"cicatrices" : ["ribs_blood.png", "eye_blood.png"]
+			}
 		},
 
 		"Zombie": {
-			"cuerpo" : ["zombie.png"],
-			"ojos": [],
-			"cicatrices" : ["ribs_blood.png", "eye_blood.png", "brain_blood.png"],
-			"nariz": [],
-			"facial": [],
-			"pies": [],
-			"piernas": [],
-			"torso": [],
-			"cinto": [],
-			"pelo": [],
-			"cabeza": [],
-			"armas": []
+			"ancho": 48,
+			"alto": 48,
+			"estructura": {
+				"cuerpo" : ["zombie.png"],
+				"cicatrices" : ["ribs_blood.png", "eye_blood.png", "brain_blood.png"]
+			}
 		},
 		"Arania": {
-			"cuerpo" : ["spider1.png"],
+			"ancho": 48,
+			"alto": 48,
+			"imagen" : ["spider1.png"],
 			"animacion": "arania"
 		},
 		"Arania2": {
-			"cuerpo" : ["spider2.png"],
+			"ancho": 48,
+			"alto": 48,
+			"imagen" : ["spider2.png"],
 			"animacion": "arania2"
 		},
 		"Banquero": {
-			"cuerpo" : ["man-white.png"],
-			"ojos": ["green.png"],
-			"cicatrices" : [],
-			"nariz": [],
-			"facial": ["formal_glasses.png"],
-			"pies": ["black_shoes_male.png"],
-			"piernas": ["Pants_black.png"],
-			"torso": ["formal_shirt.png", "9.png"],
-			"cinto": [],
-			"pelo": ["shorthawk/brunette.png"],
-			"cabeza": ["formal_tophat_black.png"]
+			"ancho": 48,
+			"alto": 48,
+			"estructura": {
+				"cuerpo" : ["man-white.png"],
+				"ojos": ["green.png"],
+				"cicatrices" : [],
+				"nariz": [],
+				"facial": ["formal_glasses.png"],
+				"pies": ["black_shoes_male.png"],
+				"piernas": ["Pants_black.png"],
+				"torso": ["formal_shirt.png", "9.png"],
+				"cinto": [],
+				"pelo": ["shorthawk/brunette.png"],
+				"cabeza": ["formal_tophat_black.png"]
+			}
 		},
 		"Sacerdote": {
-			"cuerpo" : ["man-white.png"],
-			"ojos": [],
-			"cicatrices" : [],
-			"nariz": [],
-			"facial": ["formal_monocle.png"],
-			"pies": ["black_shoes_male.png"],
-			"piernas": ["male_robe_bottom_dark.png"],
-			"torso": ["formal_iverness.png"],
-			"cinto": [],
-			"pelo": [],
-			"cabeza": []
+			"ancho": 48,
+			"alto": 48,
+			"estructura": {
+				"cuerpo" : ["man-white.png"],
+				"ojos": [],
+				"cicatrices" : [],
+				"nariz": [],
+				"facial": ["formal_monocle.png"],
+				"pies": ["black_shoes_male.png"],
+				"piernas": ["male_robe_bottom_dark.png"],
+				"torso": ["formal_iverness.png"],
+				"cinto": [],
+				"pelo": [],
+				"cabeza": []
+			}
 		},
-		"Fantasma": {
-			"cuerpo" : ["fantasmas.png"],
+		"101": {
+			"nombre": "Fantasma",
+			"ancho": 48,
+			"alto": 48,
+			"imagen": ["fantasmas.png"],
 			"animacion": "fantasma"
 		},
 		"Comerciante": {
-			"cuerpo" : ["man-white.png"],
-			"ojos": ["brown.png"],
-			"cicatrices" : [],
-			"nariz": ["bignose_light.png"],
-			"facial": ["bigote/black.png"],
-			"pies": ["maroon_shoes_male.png"],
-			"piernas": ["Pants_black.png"],
-			"torso": ["formal_stripes_shirt.png"],
-			"cinto": [],
-			"pelo": [],
-			"cabeza": ["formal_hat.png"]
+			"ancho": 64,
+			"alto": 64,
+			"estructura": {
+				"cuerpo" : ["man-white.png"],
+				"ojos": ["brown.png"],
+				"cicatrices" : [],
+				"nariz": ["bignose_light.png"],
+				"facial": ["bigote/black.png"],
+				"pies": ["maroon_shoes_male.png"],
+				"piernas": ["Pants_black.png"],
+				"torso": ["formal_stripes_shirt.png"],
+				"cinto": [],
+				"pelo": [],
+				"cabeza": ["formal_hat.png"]
+			}
 		},
 		"BolsaDeItems": {
-			"cuerpo" : ["bag.png"]
+			"ancho": 32,
+			"alto": 32,
+			"imagen" : ["bag.png"],
+			"animacion": ""
 		},
 		"Portal": {
-			"cuerpo" : ["teleport_128.png"], 
+			"ancho": 128,
+			"alto": 64,
+			"es_obstruible": false,
+			"imagen": ["teleport_128.png"], 
 			"animacion": "portal"
+		},
+		"FlechaMagica": {
+			"ancho": 64,
+			"alto": 64,
+			"imagen": ["icicle.png"], 
+			"animacion": "flechamagica"
+		},
+		"Misil": {
+			"ancho": 64,
+			"alto": 64,
+			"imagen": ["fireball_0.png"], 
+			"animacion": "flechamagica"
+		},
+		"Flechazo": {
+			"ancho": 32,
+			"alto": 32,
+			"imagen": ["flechas.png"], 
+			"animacion": "flechas"
 		}
 	},
 	"animacion": {
 		"base": {
 			"Ancho": 64,
 			"Alto": 64,
+			"tiempo_por_cuadro": 60,
+			"tiempo_entre_ciclo": 0,
+			"Direcciones": 4,
 			"Columnas": 13,
-			"Direcciones": {
-				"Arriba": 0,
-				"Izquierda": 1,
-				"Abajo": 2,
-				"Derecha": 3
-			},
-			"Quieto": 0,
+			"Columna": 0,
+			"Estado-Inicial": "Mover",
+			"Direccion-Inicial": "Abajo",
 			"Estados": {
-				"Estirar": {
-					"fila": [0, 1, 2, 3],
+				"Estirar-Arriba": {
+					"fila": 0,
 					"cantidad": 7
 				},
-				"Daga": {
-					"fila": [4, 5, 6, 7],
-					"cantidad": 8
+				"Estirar-Izquierda": {
+					"fila": 1,
+					"cantidad": 7
 				},
-				"mover": {
-					"fila": [8, 9, 10, 11],
+				"Estirar-Abajo": {
+					"fila": 2,
+					"cantidad": 7
+				},
+				"Estirar-Derecha": {
+					"fila": 3,
+					"cantidad": 7
+				},
+				"Mover-Arriba": {
+					"fila": 8,
 					"cantidad": 9
 				},
-				"Arma": {
-					"fila": [12, 13, 14, 15],
-					"cantidad": 6
+				"Mover-Izquierda": {
+					"fila": 9,
+					"cantidad": 9
 				},
-				"Arco": {
-					"fila": [14, 15, 16, 17],
+				"Mover-Abajo": {
+					"fila": 10,
+					"cantidad": 9
+				},
+				"Mover-Derecha": {
+					"fila": 11,
+					"cantidad": 9
+				},
+				"Arco-Arriba": {
+					"fila": 14,
+					"cantidad": 13
+				},
+				"Arco-Izquierda": {
+					"fila": 15,
+					"cantidad": 13
+				},
+				"Arco-Abajo": {
+					"fila": 16,
+					"cantidad": 13
+				},
+				"Arco-Derecha": {
+					"fila": 17,
 					"cantidad": 13
 				},
 				"Morir": {
-					"fila": [18],
-					"cantidad": 6
-				}
-			}
-		},
-		"oversize": {
-			"Ancho": 192,
-			"Alto": 192,
-			"Columnas": 6,
-			"Direcciones": {
-				"Arriba": 0,
-				"Izquierda": 1,
-				"Abajo": 2,
-				"Derecha": 3
-			},
-			"Quieto": 0,
-			"Estados": {
-				"Arma": {
-					"fila": [0, 1, 2, 3],
+					"fila": 18,
 					"cantidad": 6
 				}
 			}
@@ -450,17 +520,28 @@
 		"arania": {
 			"Ancho": 48,
 			"Alto": 48,
+			"tiempo_por_cuadro": 60,
+			"tiempo_entre_ciclo": 0,
+			"Direcciones": 4,
 			"Columnas": 3,
-			"Direcciones": {
-				"Abajo": 0,
-				"Izquierda": 1,
-				"Derecha": 2,
-				"Arriba": 3
-			},
-			"Quieto": 0,
+			"Columna": 0,
+			"Estado-Inicial": "Mover",
+			"Direccion-Inicial": "Abajo",
 			"Estados": {
-				"mover": {
-					"fila": [0, 1, 2, 3],
+				"Mover-Abajo": {
+					"fila": 0,
+					"cantidad": 3
+				},
+				"Mover-Izquierda": {
+					"fila": 1,
+					"cantidad": 3
+				},
+				"Mover-Derecha": {
+					"fila": 2,
+					"cantidad": 3
+				},
+				"Mover-Arriba": {
+					"fila": 3,
 					"cantidad": 3
 				}
 			}
@@ -468,18 +549,28 @@
 		"arania2": {
 			"Ancho": 134,
 			"Alto": 89,
+			"tiempo_por_cuadro": 60,
+			"tiempo_entre_ciclo": 0,
+			"Direcciones": 4,
 			"Columnas": 3,
-
-			"Direcciones": {
-				"Abajo": 0,
-				"Izquierda": 1,
-				"Derecha": 2,
-				"Arriba": 3
-			},
-			"Quieto": 0,
+			"Columna": 0,
+			"Estado-Inicial": "Mover",
+			"Direccion-Inicial": "Abajo",
 			"Estados": {
-				"mover": {
-					"fila": [0, 1, 2, 3],
+				"Mover-Abajo": {
+					"fila": 0,
+					"cantidad": 3
+				},
+				"Mover-Izquierda": {
+					"fila": 1,
+					"cantidad": 3
+				},
+				"Mover-Derecha": {
+					"fila": 2,
+					"cantidad": 3
+				},
+				"Mover-Arriba": {
+					"fila": 3,
 					"cantidad": 3
 				}
 			}
@@ -487,55 +578,136 @@
 		"fantasma": {
 			"Ancho": 48,
 			"Alto": 48,
+			"tiempo_por_cuadro": 90,
+			"tiempo_entre_ciclo": 0,
+			"Direcciones": 4,
 			"Columnas": 3,
-
-			"Direcciones": {
-				"Abajo": 0,
-				"Izquierda": 1,
-				"Derecha": 2,
-				"Arriba": 3
-			},
-			"Quieto": 0,
+			"Columna": 0,
+			"Estado-Inicial": "Mover",
+			"Direccion-Inicial": "Abajo",
 			"Estados": {
-				"mover": {
-					"fila": [0, 1, 2, 3],
+				"Mover-Abajo": {
+					"fila": 0,
 					"cantidad": 3
-				}
-			}
-		},
-		"bolsadeitems": {
-			"Ancho": 32,
-			"Alto": 32,
-			"Columnas": 1,
-			"Direcciones": {
-				"Abajo": 0,
-				"Izquierda": 0,
-				"Derecha": 0,
-				"Arriba": 0
-			},
-			"Quieto": 0,
-			"Estados": {
-				"mover": {
-					"fila": [0, 0, 0, 0],
-					"cantidad": 1
+				},
+				"Mover-Izquierda": {
+					"fila": 1,
+					"cantidad": 3
+				},
+				"Mover-Derecha": {
+					"fila": 2,
+					"cantidad": 3
+				},
+				"Mover-Arriba": {
+					"fila": 3,
+					"cantidad": 3
 				}
 			}
 		},
 		"portal": {
 			"Ancho": 128,
 			"Alto": 64,
-			"Columnas": 1,
-			"Direcciones": {
-				"Abajo": 0,
-				"Izquierda": 0,
-				"Derecha": 0,
-				"Arriba": 0
-			},
-			"Quieto": 0,
+			"tiempo_por_cuadro": 100,
+			"tiempo_entre_ciclo": 0,
+			"Direcciones": 0,
+			"Columnas": 4,
+			"Columna": 0,
+			"Estado-Inicial": "portal",
+			"Direccion-Inicial": "",
 			"Estados": {
-				"mover": {
-					"fila": [0, 0, 0, 0],
-					"cantidad": 5
+				"portal": {
+					"fila": 0,
+					"cantidad": 4
+				}
+			}
+		},
+		"flechamagica": {
+			"Ancho": 64,
+			"Alto": 64,
+			"tiempo_por_cuadro": 60,
+			"tiempo_entre_ciclo": 0,
+			"Direcciones": 8,
+			"Columnas": 8,
+			"Columna": 0,
+			"Estado-Inicial": "Mover",
+			"Direccion-Inicial": "Abajo",
+			"Estados": {
+				"Mover-Izquierda": {
+					"fila": 0,
+					"cantidad": 8
+				},
+				"Mover-Izquierda-Arriba": {
+					"fila": 1,
+					"cantidad": 8
+				},
+				"Mover-Arriba": {
+					"fila": 2,
+					"cantidad": 8
+				},
+				"Mover-Derecha-Arriba": {
+					"fila": 3,
+					"cantidad": 8
+				},
+				"Mover-Derecha": {
+					"fila": 4,
+					"cantidad": 8
+				},
+				"Mover-Derecha-Abajo": {
+					"fila": 5,
+					"cantidad": 8
+				},
+				"Mover-Abajo": {
+					"fila": 6,
+					"cantidad": 8
+				},
+				"Mover-Izquierda-Abajo": {
+					"fila": 7,
+					"cantidad": 8
+				}
+			}
+		},
+		"flechas": {
+			"Ancho": 32,
+			"Alto": 32,
+			"tiempo_por_cuadro": 60,
+			"tiempo_entre_ciclo": 0,
+			"Direcciones": 8,
+			"Columnas": 4,
+			"Columna": 0,
+			"Estado-Inicial": "Mover",
+			"Direccion-Inicial": "Abajo",
+			"Estados": {
+				"Mover-Izquierda": {
+					"fila": 0,
+					"cantidad": 4
+				},
+				"Mover-Izquierda-Arriba": {
+					"fila": 1,
+					"cantidad": 4
+				},
+				"Mover-Arriba": {
+					"fila": 2,
+					"cantidad": 4
+				},
+				"Mover-Derecha-Arriba": {
+					"fila": 3,
+					"cantidad": 4
+				},
+				"Mover-Derecha": {
+					"fila": 4,
+					"cantidad": 4
+				},
+				"Mover-Derecha-Abajo": {
+					"fila": 5,
+					"cantidad": 4
+				},
+				"Mover-Abajo": {
+					"fila": 6,
+					"cantidad": 4
+				},
+				"Mover-Izquierda-Abajo": {
+					"fila": 7,
+					"cantidad": 4
 				}
 			}
 		}

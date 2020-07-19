@@ -6,7 +6,7 @@
 #include <vector>
 #include <nlohmann/json.hpp>
 
-#include "../vista/Obstaculo.h"
+#include "../../vista/Obstaculo.h"
 
 class ObstaculoParser {
 public:

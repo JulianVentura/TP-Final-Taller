@@ -3,7 +3,7 @@
 #include <string>
 #include <vector>
 #include <nlohmann/json.hpp>
-#include "InformacionConjuntoTile.h"
+#include "../InformacionConjuntoTile.h"
 
 class LibreriaConjuntoTileParser {
 public:

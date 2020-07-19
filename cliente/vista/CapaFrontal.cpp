@@ -88,7 +88,6 @@ void CapaFrontal::renderearObstruiblesVisibles() {
                                         &interseccion) == SDL_FALSE) continue; 
         obstruibles_visibles.push_back(obstruible);
     }
-
     std::stable_sort(obstruibles_visibles.begin(), obstruibles_visibles.end(), 
                                                         IObstruible::comparar);
     for (auto& obstruible: obstruibles_visibles) {

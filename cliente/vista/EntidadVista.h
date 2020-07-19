@@ -2,10 +2,11 @@
 #define ENTIDADVISTA_H
 
 #include <string>
-#include "AnimacionEnteDireccionable.h"
+#include "AnimacionCuatroDirecciones.h"
 #include "IObstruible.h"
 #include "Imagen.h"
-#include "../modelo/EntidadParser.h"
+#include "../modelo/parsers/EntidadParser.h"
+#include "../modelo/Sprite.h"
 
 class EntidadVista: public IObstruible {
 public:
@@ -20,16 +21,15 @@ public:
     void actualizar(unsigned int delta_t) override;
     
 private:
-    imagenes_t imagenes;
+    Sprite sprite;
     std::string ultimo_estado;
     IPosicionable* modelo;
     EntidadParser& parser;
-    AnimacionEnteDireccionable animacion_local;
     Animacion animacion;
+    AnimacionBase* infoAnimacion;
     DatosApariencia apariencia;
     bool esta_apariencia;
     SDL_Rect mascara = {};
-    const static std::vector<std::string> ordenDeImagenes;
 };
 
 #endif

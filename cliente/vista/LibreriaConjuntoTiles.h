@@ -1,6 +1,6 @@
 #ifndef LIBRERIACONJUNTOTILES_H
 #define LIBRERIACONJUNTOTILES_H
-#include "../modelo/LibreriaConjuntoTileParser.h"
+#include "../modelo/parsers/LibreriaConjuntoTileParser.h"
 #include "Imagen.h"
 #include "TileConjunto.h"
 #include <vector>

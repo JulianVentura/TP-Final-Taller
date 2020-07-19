@@ -6,10 +6,10 @@
 #include <vector>
 
 #include "DatosPersonaje.h"
-#include "LibreriaConjuntoTileParser.h"
-#include "CapasParser.h"
-#include "MapaParser.h"
-#include "EntidadParser.h"
+#include "parsers/LibreriaConjuntoTileParser.h"
+#include "parsers/CapasParser.h"
+#include "parsers/MapaParser.h"
+#include "parsers/EntidadParser.h"
 #include "ServidorProxy.h"
 
 #include "../vista/IRendereable.h"
@@ -59,11 +59,10 @@ private:
     std::unordered_map<std::string, std::pair<IPosicionable*, 
                                                     EntidadVista*>> entidades;
     bool hay_que_actualizar_mapa = false;
-    void agregarEntidad(std::string& id, DatosApariencia& apariencia);
+    void agregarEntidad(std::string& id);
     void borrarEntidad(const std::string& id);
     void actualizarMapa();
 
-    std::pair<IPosicionable*, EntidadVista*> crearEntidad(std::string& id, 
-                                                DatosApariencia& apariencia);
+    std::pair<IPosicionable*, EntidadVista*> crearEntidad(std::string& id);
 };
 #endif
