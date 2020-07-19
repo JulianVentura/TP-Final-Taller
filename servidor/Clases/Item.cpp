@@ -3,13 +3,9 @@
 Item::Item(std::string unId, uint16_t unidTCP, unsigned int unPrecio) : 
                                                id(unId),
                                                idTCP(unidTCP), 
-                                               precio(unPrecio){
-    //Do nothing
-}
+                                               precio(unPrecio){}
 
-Item::~Item(){
-    //Do nothing
-}
+Item::~Item(){}
 
 std::string Item::obtenerId(){
     return id;

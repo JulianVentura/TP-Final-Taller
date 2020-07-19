@@ -10,8 +10,7 @@
 #include <utility>
 #include <sstream>
 #include <cmath>
-#include <cstring> //Para memcpy
-#include <iostream> //DEBUG
+
 //pi/4
 #define PI_4 0.7853982
 // Por conveniencia
@@ -303,7 +302,7 @@ void Mapa::entidadesActualizarEstados(double tiempo){
     while (seguirIterando){
         entidadActual = colaDeCarga.pop();
         if (entidadActual){
-            cargar(entidadActual);  //Es un metodo privado del mapa.
+            cargar(entidadActual);
         }else{
             seguirIterando = false;
         }

@@ -24,9 +24,6 @@ class ColaDeEntidades{
     en ejecuciones concurrentes.
     */
     void push(Entidad* entidad);
-
-
-
 };
 
 #endif

@@ -56,9 +56,7 @@ void EstadoNormal::resucitar(double tiempo){
 
 //Comerciar
 
-void EstadoNormal::interactuar(Entidad *entidad){
-    //entidad->interactuar(personaje);
-}
+void EstadoNormal::interactuar(Entidad *entidad){}
 
 void EstadoNormal::sanar(){
     personaje->curar(personaje->vidaMaxima, personaje->manaMaximo);
