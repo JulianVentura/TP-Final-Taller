@@ -27,6 +27,7 @@ Personaje::Personaje() : Entidad(""),
                          limiteExpInferior(0),
                          cantidadOro(0),
                          oroEnAlmacen(0),
+                         penalidad(0),
                          arma(NO_EQUIPADO),
                          armadura(NO_EQUIPADO),
                          escudo(NO_EQUIPADO),
@@ -48,6 +49,7 @@ Personaje::Personaje(float x, float y, std::string id, std::string idClase, std:
                                        limiteExpInferior(0),
                                        cantidadOro(0),
                                        oroEnAlmacen(0),
+                                       penalidad(0),
                                        arma(NO_EQUIPADO),
                                        armadura(NO_EQUIPADO),
                                        escudo(NO_EQUIPADO),
@@ -86,11 +88,16 @@ Personaje::Personaje(std::string idPersonaje, std::string idRaza,
     float alto = config->obtenerPersonajeAlto();
     posicion = std::move(Posicion(datos.x, datos.y, ancho, alto));
     desplazamiento = config->obtenerPersonajeVelDesplazamiento();
-    if (datos.vidaActual <= 0){
+    
+    penalidad = datos.penalidad;
+    if(penalidad > 0){
+        estado = std::move(std::unique_ptr<Estado>(new EstadoInmovilizado(this, penalidad)));
+    }else if (datos.vidaActual == 0){
         estado = std::move(std::unique_ptr<Estado>(new EstadoFantasma(this)));
     }else{
         estado = std::move(std::unique_ptr<Estado>(new EstadoNormal(this)));
     }
+
     FabricaDeItems *fabricaItems = FabricaDeItems::obtenerInstancia();
     almacen.resize(TAMANIO_ALMACEN, fabricaItems -> crearItemNulo());
     experiencia = datos.experiencia;
@@ -102,7 +109,6 @@ Personaje::Personaje(std::string idPersonaje, std::string idRaza,
     oroEnAlmacen = datos.oroEnAlmacen;
 
     auto inventarioTemp = inventario.obtenerTodosLosItems();
-
     for(unsigned int i = 0; i < inventarioTemp -> size();i++){
         (*inventarioTemp)[i] = fabricaItems
          -> obtenerItemIDTCP(datos.inventario[i]);
@@ -445,7 +451,8 @@ serializacionPersonaje Personaje::serializar(){
     datos.nivel = nivel;
     datos.cantidadOro = cantidadOro;
     datos.oroEnAlmacen = oroEnAlmacen;
-
+    datos.penalidad = penalidad;
+    
     auto inventarioTemp = inventario.obtenerTodosLosItems();
     for(unsigned int i = 0; i < inventarioTemp -> size();i++){
         datos.inventario[i] = (*inventarioTemp)[i] -> obtenerIDTCP();

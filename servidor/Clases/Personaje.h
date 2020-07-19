@@ -18,6 +18,7 @@ struct serializacionPersonaje{
     uint32_t oroEnAlmacen;
     uint16_t inventario[18];
     uint16_t almacen[18];
+    uint32_t penalidad;
 }__attribute__((packed, aligned(4)));
 
 class Estado;
@@ -33,6 +34,7 @@ class Personaje : public Entidad{
     uint32_t limiteExpInferior;
     uint32_t cantidadOro;
     uint32_t oroEnAlmacen;
+    uint32_t penalidad;
     int arma;
     int armadura;
     int escudo;
