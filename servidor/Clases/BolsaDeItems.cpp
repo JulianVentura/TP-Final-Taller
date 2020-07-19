@@ -57,14 +57,14 @@ void BolsaDeItems::comprar(unsigned int pos, Estado *estado, Cliente *cliente){
 }
 void BolsaDeItems::vender(unsigned int pos, Estado *estado, Cliente *cliente){
     std::string mensaje = "No puede almacenar items en una bolsa de drop";
-    cliente->enviarChat(mensaje, false);
+    cliente->enviarMensaje(mensaje, false);
 }
 
 void BolsaDeItems::comprar(unsigned int pos, Personaje *personaje, Cliente *cliente){
     float distancia = this->posicion.calcularDistancia(personaje->obtenerPosicion());
     if (distancia > distanciaMaximaDeInteraccion){
         std::string mensaje = "La distancia es muy grande";
-        cliente->enviarChat(mensaje, false);
+        cliente->enviarMensaje(mensaje, false);
         return;
     }
     if (pos >= TAM_TIENDA || items[pos] == itemNulo){

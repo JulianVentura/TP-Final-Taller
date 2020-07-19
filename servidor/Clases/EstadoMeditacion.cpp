@@ -67,22 +67,22 @@ bool EstadoMeditacion::curar(float curVida, float curMana){
 
 void EstadoMeditacion::pedirListado(Interactuable *interactuable, Cliente *cliente){
     std::string mensaje = "No puede interactuar mientras medita";
-    cliente->enviarChat(mensaje, false);
+    cliente->enviarMensaje(mensaje, false);
 }
 
 void EstadoMeditacion::pedirCompra(unsigned int pos, Interactuable *interactuable, Cliente *cliente){
     std::string mensaje = "No puede interactuar mientras medita";
-    cliente->enviarChat(mensaje, false);
+    cliente->enviarMensaje(mensaje, false);
 }
 
 void EstadoMeditacion::pedirVenta(unsigned int pos, Interactuable *interactuable, Cliente *cliente){
     std::string mensaje = "No puede interactuar mientras medita";
-    cliente->enviarChat(mensaje, false);
+    cliente->enviarMensaje(mensaje, false);
 }
 
 void EstadoMeditacion::pedirTransaccion(bool esDeposito, Cliente *cliente, Banquero *banquero){
     std::string mensaje = "No puede realizar una transaccion mientras medita";
-    cliente->enviarChat(mensaje, false);
+    cliente->enviarMensaje(mensaje, false);
 }
 
 EstadoMeditacion::~EstadoMeditacion(){}

@@ -83,10 +83,10 @@ const std::string Configuraciones::obtenerAceptadorHost() const{
     return json.at("Aceptador").at("Host").get<std::string>();
 }
 //GameLoop
-const uint32_t Configuraciones::obtenerGameLoopMSdescanso() const{
+const uint32_t Configuraciones::obtenerBuclePrincipalMSdescanso() const{
     return json.at("GameLoop").at("MS_DESCANSO").get<uint32_t>();
 }
-const uint32_t Configuraciones::obtenerGameLoopMSporActualizacion() const{
+const uint32_t Configuraciones::obtenerBuclePrincipalMSporActualizacion() const{
     return json.at("GameLoop").at("MS_POR_ACTUALIZACION").get<uint32_t>();
 }
 //Mapas
@@ -170,6 +170,12 @@ const std::vector<std::string> Configuraciones::obtenerCiudadanoStockCascos(cons
 }
 const std::vector<std::string> Configuraciones::obtenerCiudadanoStockPociones(const std::string &id) const{
     return json.at("Ciudadanos").at(id).at("StockVenta").at("Pociones").get<std::vector<std::string>>();
+}
+const uint32_t Configuraciones::obtenerBanqueroLimiteTransaccion() const{
+    return json.at("Ciudadanos").at("Banquero").at("LimiteTransaccion").get<uint32_t>();
+}
+const double Configuraciones::obtenerBanqueroFraccionTransaccion() const{
+    return json.at("Ciudadanos").at("Banquero").at("FraccionTransaccion").get<double>();
 }
 //Portales
 const std::string Configuraciones::obtenerPortalMapaATeletransportar(const std::string &idNPC, 

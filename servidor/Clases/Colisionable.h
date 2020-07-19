@@ -15,6 +15,9 @@ class Colisionable{
     Colisionable& operator=(Colisionable &&otro) = delete;
     Colisionable& operator=(Colisionable &otro) = delete;
     virtual ~Colisionable();
+    /*
+    Devuelve un rectangulo que simula el area de colision que ocupa el colisionable.
+    */
     virtual const quadtree::Box<float>& obtenerArea() const;
     virtual bool colisionaCon(const Colisionable &otro) const;
     virtual bool colisionaCon(const quadtree::Box<float> &area) const;

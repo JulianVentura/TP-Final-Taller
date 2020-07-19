@@ -190,12 +190,12 @@ std::pair<std::string, std::string> ClienteProxy::recibirId(){
             decodificarNuevoJugador(id, clave);
             break;
         case CODIGO_DESCONECTAR:
-            throw ExcepcionCliente
+            throw Excepcion
             ("Conexion no completada por peticion del cliente");  
         default:
-            enviarError("No se ha interpretado la operacion solicitada. "
+            enviarError("Error: No se ha interpretado la operacion solicitada. "
                 "Finaliza la conexion");
-            throw ExcepcionCliente
+            throw Excepcion
             ("No se ha recibido el id por parte del cliente");  
     }
 
@@ -208,7 +208,7 @@ bool ClienteProxy::recibirOperacion(){
 
 //////////////////////////ENVIO DE MENSAJES/////////////////////////////
 
-void ClienteProxy::enviarChat(const std::string& mensaje, bool mensaje_publico){
+void ClienteProxy::enviarMensaje(const std::string& mensaje, bool mensaje_publico){
     std::lock_guard<std::mutex> lock(m);
     protocolo.enviarUint32(socket, CODIGO_MENSAJE_CHAT);
     protocolo.enviarString(socket, mensaje);

@@ -65,22 +65,22 @@ bool EstadoFantasma::curar(float curVida, float curMana){
 
 void EstadoFantasma::pedirListado(Interactuable *interactuable, Cliente *cliente){
     std::string mensaje = "No puede comerciar siendo fantasma";
-    cliente->enviarChat(mensaje, false);
+    cliente->enviarMensaje(mensaje, false);
 }
 
 void EstadoFantasma::pedirCompra(unsigned int pos, Interactuable *interactuable, Cliente *cliente){
     std::string mensaje = "No puede comerciar siendo fantasma";
-    cliente->enviarChat(mensaje, false);
+    cliente->enviarMensaje(mensaje, false);
 }
 
 void EstadoFantasma::pedirVenta(unsigned int pos, Interactuable *interactuable, Cliente *cliente){
     std::string mensaje = "No puede comerciar siendo fantasma";
-    cliente->enviarChat(mensaje, false);
+    cliente->enviarMensaje(mensaje, false);
 }
 
 void EstadoFantasma::pedirTransaccion(bool esDeposito, Cliente *cliente, Banquero *banquero){
     std::string mensaje = "No puede realizar una transaccion siendo fantasma";
-    cliente->enviarChat(mensaje, false);
+    cliente->enviarMensaje(mensaje, false);
 }
 
 EstadoFantasma::~EstadoFantasma(){}

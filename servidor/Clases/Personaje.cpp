@@ -227,7 +227,6 @@ std::string Personaje::atacar(Criatura *objetivo){
     if (arma == NO_EQUIPADO) return "";
     //Estoy seguro de que el casteo sera valido.
     return std::move(estado->atacar(objetivo, (Arma*)inventario.obtenerItem(arma)));
-    //Envio danio realizado
 }
 
 void Personaje::serAtacadoPor(Personaje *atacante){

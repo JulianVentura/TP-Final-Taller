@@ -5,7 +5,7 @@
 Sala::Sala(std::string nombreMapa) : nombre(nombreMapa),
                                      mapa(nombreMapa),
                                      colaOperaciones(),
-                                     gameLoop(colaOperaciones, mapa, *this){}
+                                     buclePrincipal(colaOperaciones, mapa, *this){}
 
 
 void Sala::cargarCliente(Cliente *cliente){
@@ -43,12 +43,12 @@ std::string& Sala::obtenerNombre(){
 }
 
 void Sala::comenzar(){
-    gameLoop.comenzar();
+    buclePrincipal.comenzar();
 }
 
 void Sala::finalizar(){
-    gameLoop.finalizar();
-    gameLoop.recuperar();
+    buclePrincipal.finalizar();
+    buclePrincipal.recuperar();
 }
 
 Mapa* Sala::obtenerMapa(){

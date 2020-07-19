@@ -32,8 +32,7 @@ Cliente::Cliente(Socket &&socket,
     this->salaActual = std::move(datos.first);
 
     Sala* miSala = organizadorSalas.obtenerSala(salaActual);
-    ColaOperaciones *colaDeOperaciones = miSala->obtenerCola();
-    clienteProxy.actualizarCola(colaDeOperaciones);
+    clienteProxy.actualizarCola(miSala->obtenerCola());
     
     miSala->cargarCliente(this);
     continuar = true;
@@ -77,12 +76,8 @@ void Cliente::actualizarEstado(const std::vector<struct PosicionEncapsulada> &po
     }
 }  
 
- void Cliente::enviarMensaje(const std::string& mensaje){
-    //clienteProxy.enviarMensaje(mensaje);
- }
-
- void Cliente::enviarChat(const std::string& mensaje, bool mensaje_publico){
-    clienteProxy.enviarChat(mensaje, mensaje_publico);
+void Cliente::enviarMensaje(const std::string& mensaje, bool mensaje_publico){
+    clienteProxy.enviarMensaje(mensaje, mensaje_publico);
 }
 
 void Cliente::enviarContenedor(const SerializacionContenedor &&serContenedor){
@@ -122,12 +117,11 @@ std::string& Cliente::obtenerIdSala(){
     return salaActual;
 }
 void Cliente::procesar(){
+    //Cualquier error es motivo suficiente como para finalizar la comunicacion.
     try{
         while(continuar){
             continuar = clienteProxy.recibirOperacion();
         }
-    }catch(const ExcepcionSocket &e){
-        //No me interesa reportar un error de socket, no aporta nada.
     }catch(const std::exception &e){
         std::cerr << e.what() << std::endl;
     }catch(...){
@@ -180,6 +174,7 @@ void Cliente::cambiarDeMapa(std::string &idMapa, Posicion nuevaPos){
     Sala *salaOrigen = organizadorSalas.obtenerSala(salaActual);
     salaActual = idMapa;
     salaOrigen->eliminarCliente(this->id); //Se descarga y se elimina al personaje del mapa.
+    clienteProxy.actualizarCola(salaDestino->obtenerCola());
     personaje->actualizarPosicion(std::move(nuevaPos));
     salaDestino->cargarCliente(this);
 }

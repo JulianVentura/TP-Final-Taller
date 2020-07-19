@@ -11,7 +11,6 @@ Servidor::Servidor(const char* archivoConfig) : organizadorSalas(archivoConfig),
 }
 
 
-//Se podria obtener la tecla de escape del archivo de config tambien.
 void Servidor::procesar(){
     organizadorSalas.comenzar();
     aceptador.comenzar();

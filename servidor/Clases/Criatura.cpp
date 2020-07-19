@@ -5,7 +5,7 @@
 #include "FabricaDeItems.h"
 #include "BolsaDeItems.h"
 #include "Divulgador.h"
-#include "ErrorServidor.h"
+#include "Excepcion.h"
 #include <sstream>
 #include <utility>
 #include <memory>
@@ -175,7 +175,7 @@ void Criatura::continuarAtacando(){
     Entidad *objetivo = nullptr;
     try{ 
         objetivo = mapaAlQuePertenece->obtener(this->idObjetivo);
-    }catch(const ErrorServidor &e){
+    }catch(const Excepcion &e){
         idObjetivo = ""; //Solo sucedera si el jugador se desconecta o teletransporta.
     }
     if (!objetivo) return;

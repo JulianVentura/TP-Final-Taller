@@ -3,7 +3,7 @@
 #include "Mapa.h"
 #include "Excepcion.h"
 #include "ColaOperaciones.h"
-#include "GameLoop.h"
+#include "BuclePrincipal.h"
 #include <map>
 #include <mutex>
 
@@ -15,7 +15,7 @@ class Sala{
     std::map<std::string, Cliente*> clientes;
     Mapa mapa;
     ColaOperaciones colaOperaciones;
-    GameLoop gameLoop;
+    BuclePrincipal buclePrincipal;
 
     public:
     Sala(std::string nombreMapa);

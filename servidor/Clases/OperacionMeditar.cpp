@@ -11,12 +11,6 @@ OperacionMeditar::~OperacionMeditar(){
 }
 
 void OperacionMeditar::ejecutar(){
-    try{
-        Personaje *personaje = cliente->obtenerPersonaje();
-        personaje->meditar();
-    }catch(std::exception &e){
-        std::cerr << e.what() << std::endl;
-    }catch(...){
-        std::cerr << "Error desconocido atrapado en OperacionMeditar" << std::endl;
-    }
+    Personaje *personaje = cliente->obtenerPersonaje();
+    personaje->meditar();
 } 

@@ -25,7 +25,13 @@ class Configuraciones{
     private:
     nlohmann::json json;
     std::mt19937 motorAleatorio;
-
+    /*
+    Devuelve el id de un item seleccionado de forma pseudo-alatoria a partir de la lista de drops de la criatura
+    de idCriatura y la seccion de items idItem.
+    Lanza una excepcion en caso de error en las probabilidades de la lista de configuraciones.json
+    Se representa un no-drop como una cadena vacia. Un no-drop puede suceder unicamente si la lista de opciones
+    de la categoria seleccionada esta vacia.  
+    */
     const std::string obtenerItemRandom(const std::string &idCriatura, const std::string idItem) const;
     
     public:
@@ -39,9 +45,9 @@ class Configuraciones{
     const uint32_t obtenerAceptadorNumConexionesEnEspera() const;
     const std::string obtenerAceptadorPuerto() const;
     const std::string obtenerAceptadorHost() const;
-    //GameLoop
-    const uint32_t obtenerGameLoopMSdescanso() const;
-    const uint32_t obtenerGameLoopMSporActualizacion() const;
+    //BuclePrincipal
+    const uint32_t obtenerBuclePrincipalMSdescanso() const;
+    const uint32_t obtenerBuclePrincipalMSporActualizacion() const;
     //Mapas
     const std::string obtenerMapaRuta(const std::string &id) const;
     const std::string obtenerMapaInicial() const;
@@ -74,6 +80,8 @@ class Configuraciones{
     const std::vector<std::string> obtenerCiudadanoStockEscudos(const std::string &id) const;
     const std::vector<std::string> obtenerCiudadanoStockCascos(const std::string &id) const;
     const std::vector<std::string> obtenerCiudadanoStockPociones(const std::string &id) const;
+    const uint32_t obtenerBanqueroLimiteTransaccion() const;
+    const double obtenerBanqueroFraccionTransaccion() const;
     //Criaturas
     const uint32_t obtenerCriaturaVidaMax(const std::string &id) const;
     const uint32_t obtenerCriaturaManaMax(const std::string &id) const;
@@ -185,8 +193,16 @@ class Configuraciones{
     std::string    calcularDropPocion(const std::string &idCriatura);
     const uint32_t calcularDropOro(const Entidad *entidad);
     const uint32_t calcularDefensa(Personaje *personaje);
-    
+    /*
+    Devuelve el tipo de drop de la criatura de forma pseudo-aleatoria.
+    Los tipos posibles son ORO, ITEM o NADA.
+    No se realizara chequeo de probabilidades.
+    */
     TipoDrop calcularDrop(const std::string &idCriatura) const;
+    /*
+    Devuelve el tipo de item que debera ser dropeado por la criatura de id idCriatura.
+    Lanzara excepcion en caso de que las probabilidades de los items no sumen 1.
+    */
     TipoItem calcularDropItem(const std::string &idCriatura);
     bool seEsquivaElGolpe(const Entidad *entidad);
     bool esGolpeCritico(const Entidad *atacante, const Entidad *oponente);

@@ -3,7 +3,7 @@
 #include "Sacerdote.h"
 #include "Banquero.h"
 #include "Comerciante.h"
-#include "ErrorServidor.h"
+#include "Excepcion.h"
 #include "Box.h"
 #include <nlohmann/json.hpp>
 #include <fstream>
@@ -61,7 +61,7 @@ Mapa::Mapa(std::string nombre) :        nombreMapa(nombre),
     esSeguro = config->elMapaEsSeguro(nombreMapa);
     std::ifstream archivo(rutaArchivo);
     if (!archivo.is_open()){
-        throw ErrorServidor("Error: No se ha podido abrir el archivo de nombre %s", nombreMapa.c_str()); 
+        throw Excepcion("Error: No se ha podido abrir el archivo de nombre %s", nombreMapa.c_str()); 
     }
     json archivoJson;
     contenido_archivo = std::string((std::istreambuf_iterator<char>(archivo)), std::istreambuf_iterator<char>());
@@ -133,7 +133,7 @@ std::vector<struct PosicionEncapsulada> Mapa::recolectarPosiciones(){
 
 Entidad* Mapa::obtener(std::string &id){
     std::unordered_map<std::string, Entidad*>::iterator it = entidades.find(id);
-    if (it == entidades.end()) throw ErrorServidor("Error en Mapa: No se encontró el id %s\n", id.c_str()); 
+    if (it == entidades.end()) throw Excepcion("Error en Mapa: No se encontró el id %s\n", id.c_str()); 
     return it->second;
 }
 
@@ -145,7 +145,7 @@ void Mapa::cargarEntidadNoColisionable(Entidad *entidad){
     std::string id = entidad->obtenerId();
     std::unordered_map<std::string, Entidad*>::iterator it = entidades.find(id);
     if (it != entidades.end()){
-        throw ErrorServidor("La entidad de id %s ya se encuentra cargada en el Mapa\n", id.c_str());
+        throw Excepcion("La entidad de id %s ya se encuentra cargada en el Mapa\n", id.c_str());
     }
     entidad->indicarMapaAlQuePertenece(this);
     colaDeCarga.push(entidad);
@@ -164,7 +164,7 @@ void Mapa::cargarEntidad(Entidad *entidad){
     std::string id = entidad->obtenerId();
     std::unordered_map<std::string, Entidad*>::iterator it = entidades.find(id);
     if (it != entidades.end()){
-        throw ErrorServidor("La entidad de id %s ya se encuentra cargada en el Mapa\n", id.c_str());
+        throw Excepcion("La entidad de id %s ya se encuentra cargada en el Mapa\n", id.c_str());
     }
     entidad->indicarMapaAlQuePertenece(this);
     if (!posicionValida(entidad, entidad->obtenerArea())){
@@ -269,7 +269,7 @@ void Mapa::eliminarEntidad(const std::string &id){
     std::unique_lock<std::mutex> lock(this->mutex);
     std::unordered_map<std::string, Entidad*>::iterator it = entidades.find(id);
     if (it == entidades.end()){
-        throw ErrorServidor("Error Mapa: No se encontró id %s\n", id.c_str());
+        throw Excepcion("Error Mapa: No se encontró id %s\n", id.c_str());
     }
     quadTreeDinamico.remove(it->second);
     entidades.erase(it);
@@ -280,7 +280,7 @@ void Mapa::eliminarEntidadNoColisionable(Entidad *entidad){
     std::string id = entidad->obtenerId();
     std::unordered_map<std::string, Entidad*>::iterator it = entidades.find(id);
     if (it == entidades.end()){
-        throw ErrorServidor("Error Mapa: No se encontró id %s\n", id.c_str());
+        throw Excepcion("Error Mapa: No se encontró id %s\n", id.c_str());
     } 
     entidades.erase(it);
 }
@@ -331,124 +331,3 @@ const std::string Mapa::obtenerId() const{
 const bool Mapa::esMapaSeguro() const{
     return esSeguro;
 }
-
-
-/*
-Ideas para la inicializacion de npcs en cada Mapa.
-
-Cada archivo con la informacion de los tiles del mapa podria tener distintas zonas con un nombre especifico en donde
-se aclare el spawn de cierto NPC.
-Entonces se pueden crear zonas con los siguientes ids:
-
-
-* RespawnNPC:
-
-- Sacerdote
-- Banquero
-- Comerciante
-- Portal#1
-- Portal#2
-
-
-Luego en el configuraciones.json se escribira el nombre de los npcs que el mapa debe spawnear y su nombre debera
-coincidir con el de las zonas, de forma tal que:
-
-Mapa: {
-    "mapa": {
-        "SpawnPortales": {
-            "Portal#1": "mapa2", 
-            "Portal#2": "mapa3"
-            }
-    }
-}
-
-Si algun npc figura pero su zona de spawn no esta en el mapa simplemente no se lo spawnea, lo mismo en caso contrario.
-
-En algun lugar se debera realizar el parseo entre el nombre del NPC y la entidad en si, quizas en la FabricaDeNPC.
-
-De esta forma el mapa simplemente parsea la zona, la busca dentro del json.
-
-
-
-
-*/
-
-
-/*
-Como manejar la carga/descarga de entidades y jugadores en el mapa.
-
-Requisitos:
-
-- Una entidad/jugador no puede ser cargado ni descargado mientras se actualizan los estados de las demas entidades.
-- Una actualizacion de estado de una entidad puede producir la carga de una nueva entidad.
-
-Si el mapa tiene dos colas de carga.
-
-Mapa::cargarEntidad(std::unique_ptr<Entidad> entidad){
-    this->cargarEntidad(entidad.get());
-    npcs.push(entidad);
-}
-
-Mapa::cargarEntidad(Entidad *entidad){
-    colaEntidades.push(entidad);                    //Es una cola segura, no bloqueante.
-}
-
-Mapa::cargarEntidadNoColisionable(std::unique_ptr<Entidad> entidad){
-    colaEntidadesNoColisiobables.push(entidad);     //Es una cola segura, no bloqueante.
-    npcs.push(entidad);
-}
-
-Mapa::eliminarEntidad(Entidad *entidad){
-    std::unique_lock<std::mutex> lock(this->mutex);
-    //Eliminar de quadTree
-    //Eliminar de hash de entidades.
-}
-
-Mapa::eliminarEntidadNoColisionable(Entidad *entidad){
-    std::unique_lock<std::mutex> lock(this->mutex);
-    //Eliminar de hash de entidades.
-}
-
-
-Mapa::entidadesActualizarEstados(tiempo){
-    tiempoTransc += tiempo;
-    if (tiempoTransc >= tiempoRespawn){
-        tiempoTransc = 0;
-        spawnearCriatura();
-    }
-    mutex->lock();
-    for (auto &entidad : entidades){
-        entidad->actualizarEstado(tiempo)
-    }
-    mutex->unlock();
-    //Descargo entidades finalizadas
-    for (auto &npc : npcs){
-        if (npc->haFinalizado()){
-            npc.erase();
-        }
-    }
-    bool seguir_iterando = true;
-    Entidad *entidadActual = nullptr;
-    while (seguirIterando){
-        entidadActual = colaEntidades.pop();
-        if (entidadActual){
-            cargarColisionable(entidadActual)   //Es un metodo privado de mapa
-        }else{
-            seguirIterando = false;
-        }
-    }
-    seguirIterando = true;
-    while (seguirIterando){
-        entidadActual = colaEntidadesNoColisionables.pop();
-        if (entidadActual){
-            cargarNoColisionable(entidadActual)   //Es un metodo privado de mapa
-        }else{
-            seguirIterando = false;
-        }
-    }
-}
-
-
-
-
-*/
