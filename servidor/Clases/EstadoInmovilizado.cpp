@@ -14,7 +14,7 @@ EstadoInmovilizado::EstadoInmovilizado(Personaje *unPersonaje,
                                        double pen) : 
                                        Estado(unPersonaje),
                                        penalizacion(pen),
-                                       timepoTranscurrido(0){
+                                       tiempoTranscurrido(0){
     Configuraciones *config = Configuraciones::obtenerInstancia();
     std::string id = "EstadoInmovilizado";
     //Quiero que el estado inmovilizado se vea como un estado fantasma fuera de esta clase.
@@ -43,13 +43,13 @@ void EstadoInmovilizado::dejarDeMeditar(){
 
 void EstadoInmovilizado::actualizar(double tiempo){
     //No se regenera vida ni mana
-    personaje->vidaActual = 0;
+    personaje->vidaActual += tiempo * personaje->vidaMaxima / penalizacion;
     personaje->manaActual = 0;
-    timepoTranscurrido += tiempo;
-    if (timepoTranscurrido >= penalizacion){
+    if (personaje->vidaActual >= personaje->vidaMaxima){
+        personaje->vidaActual = personaje->vidaMaxima;
         personaje->estadoNormal();
     }
-    //El jugador permanece inmovil como penalizacion de tiempo hasta ser teletransportado.
+    //El jugador permanece inmovil como penalizacion de tiempo.
 
 }
 

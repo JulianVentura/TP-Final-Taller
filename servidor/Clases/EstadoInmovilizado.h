@@ -5,7 +5,7 @@
 class EstadoInmovilizado : public Estado{
     private:
     double penalizacion;
-    double timepoTranscurrido;
+    double tiempoTranscurrido;
     public:
     EstadoInmovilizado(Personaje *unPersonaje, double pen);
     //Ataque
