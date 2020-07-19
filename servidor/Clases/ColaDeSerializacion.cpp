@@ -1,15 +1,14 @@
-#include "ColaBloqueanteMensajes.h"
-#include "Excepcion.h"
+#include "ColaDeSerializacion.h"
+#include "../../common/Excepcion.h"
 #include <utility> 
 
-ColaBloqueanteMensajes::ColaBloqueanteMensajes() : 
+ColaSerializacion::ColaSerializacion() : 
                         conditionVariable(), 
                         cola(), 
                         mutex(),
-                        colaCerrada(false),
-                        tamanioBytesAlmacenados(0){}
+                        colaCerrada(false){}
 
-Mensaje ColaBloqueanteMensajes::pop(){
+SerializacionCliente ColaSerializacion::pop(){
     std::unique_lock<std::mutex> lock(this->mutex);
     while (this->cola.empty()){
         if (this->colaCerrada){
@@ -17,28 +16,22 @@ Mensaje ColaBloqueanteMensajes::pop(){
         }
         conditionVariable.wait(lock);
     }
-    Mensaje unMensaje = std::move(this->cola.front());
-    tamanioBytesAlmacenados -= unMensaje.obtenerTamanio();
+    SerializacionCliente unCliente = std::move(this->cola.front());
     this->cola.pop();
-    return unMensaje;
+    return unCliente;
 }
-void ColaBloqueanteMensajes::push(Mensaje mensaje){
+void ColaSerializacion::push(SerializacionCliente cliente){
     std::unique_lock<std::mutex> lock(this->mutex);
     if (this->colaCerrada){
         throw Excepcion("No se pueden encolar mas mensajes, la cola ha sido cerrada");
     }
-    this->cola.push(std::move(mensaje));
-    tamanioBytesAlmacenados += mensaje.obtenerTamanio();
+    this->cola.push(std::move(cliente));
     conditionVariable.notify_all();
 }
 
-void ColaBloqueanteMensajes::cerrarCola(){
+void ColaSerializacion::cerrarCola(){
     std::unique_lock<std::mutex> lock(this->mutex);
     if (this->colaCerrada) return;
     this->colaCerrada = true;
     this->conditionVariable.notify_all();
-}
-
-uint32_t ColaBloqueanteMensajes::obtenerTamBytesAlmacenados(){
-    return tamanioBytesAlmacenados;
 }

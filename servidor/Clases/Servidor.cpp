@@ -3,10 +3,11 @@
 #include <iostream>
 #define TECLA_ESCAPE "q"
 
-Servidor::Servidor(const char* archivoConfig) : organizadorSalas(archivoConfig),
+Servidor::Servidor(const char* archivoConfig) : organizadorSalas(archivoConfig, colaSerializacion),
                                                 baseDeDatos(),
                                                 aceptador(organizadorSalas, 
-                                                          baseDeDatos){
+                                                          baseDeDatos),
+                                                persistidor(colaSerializacion, baseDeDatos){
     //Si aca creo el singleton entonces no va a estar inicializado para cuando se llame a la member
 }
 
@@ -14,6 +15,7 @@ Servidor::Servidor(const char* archivoConfig) : organizadorSalas(archivoConfig),
 void Servidor::procesar(){
     organizadorSalas.comenzar();
     aceptador.comenzar();
+    persistidor.comenzar();
     std::string entrada("");
     while (entrada != TECLA_ESCAPE){
         std::cin >> entrada;
@@ -21,4 +23,6 @@ void Servidor::procesar(){
     aceptador.finalizar();
     aceptador.recuperar();
     organizadorSalas.finalizar();
+    colaSerializacion.cerrarCola();
+    persistidor.recuperar();
 }

@@ -130,7 +130,7 @@ void Cliente::procesar(){
     //Liberar recursos, guardar los datos en BaseDeDatos.
     Sala *miSala = organizadorSalas.obtenerSala(salaActual);
     miSala->eliminarCliente(id);
-    miBaseDeDatos.guardarCliente(this);
+    miBaseDeDatos.guardarCliente(std::move(this->serializar()));
     clienteProxy.finalizar();
     finalizado = true;
 }
@@ -177,4 +177,12 @@ void Cliente::cambiarDeMapa(std::string &idMapa, Posicion nuevaPos){
     clienteProxy.actualizarCola(salaDestino->obtenerCola());
     personaje->actualizarPosicion(std::move(nuevaPos));
     salaDestino->cargarCliente(this);
+}
+
+SerializacionCliente Cliente::serializar(){
+    SerializacionCliente ser;
+    ser.idCliente = this->id;
+    ser.idSala = salaActual;
+    ser.infoPersonaje = std::move(personaje->serializar());
+    return ser;
 }

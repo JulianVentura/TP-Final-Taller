@@ -169,6 +169,7 @@ class Configuraciones{
     const float    obtenerDistanciaMaximaDeInteraccion() const;
     const double   obtenerClienteTiempoActualizacionInventario() const;
     const double   obtenerPenalizacionRevivir(Mapa *mapaActual, Personaje *personaje) const;
+    const double   obtenerSalaTiempoPersistencia() const;
     /* FORMULAS DEL JUEGO */ 
     unsigned int   calcularVidaMax(const Personaje *personaje);
     float          calcularRecuperacionVida(const Personaje *personaje, double tiempo);

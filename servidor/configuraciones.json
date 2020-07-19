@@ -784,6 +784,7 @@
             "NivelDiferenciaMaximo": 10,
             "NivelNewbie": 12
         },
-	"ClienteTiempoActualizacionInventario": 1200
+	"ClienteTiempoActualizacionInventario": 1200,
+	"SalaTiempoPersistencia": 300000
     }
 }
