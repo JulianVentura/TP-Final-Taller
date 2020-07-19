@@ -232,6 +232,10 @@ std::string Personaje::atacar(Criatura *objetivo){
 
 void Personaje::serAtacadoPor(Personaje *atacante){
     Divulgador *divulgador = Divulgador::obtenerInstancia();
+    if (mapaAlQuePertenece->esMapaSeguro()){
+        divulgador->encolarMensaje(atacante->obtenerId(), "No puede atacar en una zona segura.");
+        return;
+    }
     std::string mensaje = estado->serAtacadoPor(atacante);
     divulgador->encolarMensaje(atacante->obtenerId(), mensaje);
 }

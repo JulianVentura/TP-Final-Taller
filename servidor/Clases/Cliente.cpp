@@ -170,7 +170,7 @@ std::pair<std::string, std::string> Cliente::login(OrganizadorClientes &organiza
 
 void Cliente::cambiarDeMapa(std::string &idMapa){
     Configuraciones *config = config->obtenerInstancia();
-    this->cambiarDeMapa(idMapa, std::move(config->obtenerMapaPosicionSpawn(salaActual)));
+    this->cambiarDeMapa(idMapa, std::move(config->obtenerMapaPosicionSpawn(idMapa)));
 }
 
 
