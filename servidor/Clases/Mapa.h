@@ -66,6 +66,9 @@ class Mapa{
     Mapa(std::string nombre);
     Mapa(Mapa &otroMapa) = delete;
     Mapa(Mapa &&otroMapa) = delete;
+
+    const std::string obtenerId() const;
+
     /*
     Intenta actualizar la posicion del colisionable a nuevaPosicion.
     En caso de exito se actualiza la posicion en el mapa y se devuelve true.

@@ -31,7 +31,7 @@ Divulgador* Divulgador::obtenerInstancia(){
 static void _enviarMensaje(std::unique_ptr<Cliente>& cliente, void* mensaje){
 	std::pair<std::string, bool>* par_mensaje =
 	(std::pair<std::string, bool>*) mensaje; 
-	cliente -> enviarChat(std::get<0>(*par_mensaje), std::get<1>(*par_mensaje));
+	cliente -> enviarMensaje(std::get<0>(*par_mensaje), std::get<1>(*par_mensaje));
 }
 
 Divulgador::Divulgador(OrganizadorClientes* clientes) : clientes(clientes),
@@ -59,16 +59,20 @@ void Divulgador::procesar(){
 			if(std::get<1>(tupla_mensaje) != PALABRA_RESERVADA){
 				destino = clientes->obtenerCliente(std::get<1>(tupla_mensaje));
 				if(std::get<0>(tupla_mensaje) != PALABRA_RESERVADA)
-					origen  -> enviarChat(mensaje, false);
-				destino -> enviarChat(mensaje, false);
+					origen  -> enviarMensaje(mensaje, false);
+				destino -> enviarMensaje(mensaje, false);
 			}else{
 				std::pair<std::string, bool> par_mensaje = 
 				std::make_pair(mensaje, true);
 				clientes->aplicarFuncion(_enviarMensaje, &par_mensaje);
 			}
-		}catch(const std::exception& e){
+		}catch (const ColaVacia &e){
+			//No quiero reportar un mensaje de cola vacia.
+		}catch (const std::exception& e){
+			//Si otro tipo de excepcion
 			std::cerr << e.what() << std::endl;
-			continue;
+		}catch (...){
+			std::cerr << "Error desconocido capturado en Divulgador" << std::endl;
 		}
 	}
 }

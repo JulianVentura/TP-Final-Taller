@@ -49,6 +49,11 @@ void EstadoNormal::actualizar(double tiempo){
     personaje->mapaAlQuePertenece->actualizarPosicion(personaje, std::move(nuevaPosicion));
 }
 
+
+void EstadoNormal::resucitar(double tiempo){
+    throw Excepcion("Se ha solicitado resureccion en estado normal");
+}
+
 //Comerciar
 
 void EstadoNormal::interactuar(Entidad *entidad){

@@ -4,8 +4,7 @@
 #include <utility> //Para std::move
 #include <thread>
 
-#include "ExcepcionSocket.h"
-#include "ExcepcionCliente.h"
+#include "../../common/Excepcion.h"
 #include "Divulgador.h"
 
 
@@ -18,13 +17,11 @@ Aceptador::Aceptador(OrganizadorSalas &unOrganizadorSalas,
                      continuar(true){
     Divulgador::inicializarInstancia(&organizadorClientes);
     Configuraciones *config = Configuraciones::obtenerInstancia();
-    //El socket defaultea a "localhost", para la entrega final eso se va
-    //a poder elegir del configuraciones.json
-    //std::string host = config->obtenerAceptadorHost();
+    std::string host = config->obtenerAceptadorHost();
     std::string puerto = config->obtenerAceptadorPuerto();
     unsigned int numConexionesEnEspera = config->
     obtenerAceptadorNumConexionesEnEspera();
-    servidor.ligar( puerto.c_str());
+    servidor.ligar( host.c_str(), puerto.c_str());
     servidor.escuchar(numConexionesEnEspera);
 }
 
@@ -40,11 +37,17 @@ void Aceptador::procesar(){
                                                          baseDeDatos));
             cliente.get()->comenzar();
             organizadorClientes.incorporarCliente(std::move(cliente));
-        }catch(const std::exception &e){
+        }catch(const Excepcion &e){
+            //No me interesa imprimir una excepcion propia ni cortar el loop.
             std::cerr << e.what() << std::endl;
+        }catch(const std::exception &e){
+            //Si me interesa imprimir una excepcion mas generica y cortar el loop.
+            std::cerr << e.what() << std::endl;
+            continuar = false;
         }catch(...){
             std::cerr << "Error desconocido encontrado dentro del "
                      "metodo procesar de la clase Aceptador" << std::endl;
+            continuar = false;
         }      
     }    
     //Esto en realidad no es necesario, pero mejor setearlo a false

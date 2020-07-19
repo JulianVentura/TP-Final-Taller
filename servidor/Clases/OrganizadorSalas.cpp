@@ -1,13 +1,14 @@
 #include "OrganizadorSalas.h"
-#include "Excepcion.h"
+#include "../../common/Excepcion.h"
 
 
-OrganizadorSalas::OrganizadorSalas(const char *archivoConfig){
+OrganizadorSalas::OrganizadorSalas(const char *archivoConfig, 
+                                   ColaSerializacion &cola){
     Configuraciones::crearInstancia(archivoConfig);
     Configuraciones *config = Configuraciones::obtenerInstancia();
     std::vector<std::string> listaSalas = config->obtenerSalas();
     for (auto &sala : listaSalas){
-        salas[sala] = std::move(std::unique_ptr<Sala>(new Sala(sala)));
+        salas[sala] = std::move(std::unique_ptr<Sala>(new Sala(sala, cola)));
     }
 }
 Sala* OrganizadorSalas::obtenerSala(std::string id){

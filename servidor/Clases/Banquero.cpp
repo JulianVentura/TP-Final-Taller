@@ -5,7 +5,7 @@
 #include "FabricaDeItems.h"
 #include "Configuraciones.h"
 #include "../../common/Serializacion.h"
-#include "Excepcion.h"
+#include "../../common/Excepcion.h"
 
 Banquero::Banquero(float x, float y) : Entidad("Banquero#"), limiteTransaccion(0), fraccionTransaccion(0){
     Configuraciones *config = Configuraciones::obtenerInstancia();
@@ -13,8 +13,8 @@ Banquero::Banquero(float x, float y) : Entidad("Banquero#"), limiteTransaccion(0
     uint32_t ancho = config->obtenerCiudadanoAncho(id_base);
     uint32_t alto = config->obtenerCiudadanoAlto(id_base);
     posicion = std::move(Posicion(x, y, ancho, alto));
-    limiteTransaccion = 100;
-    fraccionTransaccion = 0.2;  //Levantar esto de config.json
+    limiteTransaccion = config->obtenerBanqueroLimiteTransaccion();
+    fraccionTransaccion = config->obtenerBanqueroFraccionTransaccion();
 
     FabricaDeItems *fabrica = FabricaDeItems::obtenerInstancia();
     itemNulo = fabrica -> crearItemNulo();
@@ -36,7 +36,7 @@ void Banquero::comprar(unsigned int pos, Personaje *personaje, Cliente *cliente)
     float distancia = this->posicion.calcularDistancia(personaje->obtenerPosicion());
     if (distancia > distanciaMaximaDeInteraccion){
         std::string mensaje = "La distancia es muy grande";
-        cliente->enviarChat(mensaje, false);
+        cliente->enviarMensaje(mensaje, false);
         return;
     }
     std::vector<Item*>& almacen = personaje->obtenerAlmacen();
@@ -52,14 +52,14 @@ void Banquero::comprar(unsigned int pos, Personaje *personaje, Cliente *cliente)
     cliente->enviarContenedor(std::move(serializarAlmacen(almacen, oroEnAlmacen)));
     
     std::string mensaje = "Se recibio " + temp->obtenerId();
-    cliente->enviarChat(mensaje, false);
+    cliente->enviarMensaje(mensaje, false);
 }
 
 void Banquero::vender(Item* item, Personaje *personaje, Cliente *cliente){
     float distancia = this->posicion.calcularDistancia(personaje->obtenerPosicion());
     if (distancia > distanciaMaximaDeInteraccion){
         std::string mensaje = "La distancia es muy grande";
-        cliente->enviarChat(mensaje, false);
+        cliente->enviarMensaje(mensaje, false);
         personaje->almacenar(item);
         return;
     }
@@ -76,21 +76,21 @@ void Banquero::vender(Item* item, Personaje *personaje, Cliente *cliente){
     if (!almacenado){
         std::string mensaje = "No hay espacio para almacenar mas items en el banquero";
         personaje->almacenar(item);
-        cliente->enviarChat(mensaje, false);
-        throw Excepcion("Error: No hay espacio para almacenar mas items en el banquero");
+        cliente->enviarMensaje(mensaje, false);
+        return;
     }
     uint32_t &oroEnAlmacen = personaje->obtenerOroAlmacen();
     cliente -> enviarInventario();
     cliente->enviarContenedor(std::move(serializarAlmacen(almacen, oroEnAlmacen)));
     
     std::string mensaje = "Se almaceno " + item->obtenerId();
-    cliente->enviarChat(mensaje, false);
+    cliente->enviarMensaje(mensaje, false);
 }
 void Banquero::listar(Personaje *personaje, Cliente *cliente){
     float distancia = this->posicion.calcularDistancia(personaje->obtenerPosicion());
     if (distancia > distanciaMaximaDeInteraccion){
         std::string mensaje = "La distancia es muy grande";
-        cliente->enviarChat(mensaje, false);
+        cliente->enviarMensaje(mensaje, false);
         return;
     }
     uint32_t &oroEnAlmacen = personaje->obtenerOroAlmacen();
@@ -130,7 +130,6 @@ void Banquero::transaccion(bool esDeposito, Personaje *personaje, Cliente *clien
     }
     cliente->enviarInventario();
     cliente->enviarContenedor(std::move(serializarAlmacen(almacen, oroEnAlmacen)));
-    
 }
 
 //Ataque

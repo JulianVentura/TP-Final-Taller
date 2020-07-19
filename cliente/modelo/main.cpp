@@ -41,7 +41,7 @@ int main(int argc, const char* argv[]) {
         ventana.borrarRendereables();
         if (!servidor.estaLogueado()) return 0;
         // JUEGO EN SI //
-        EntornoMusical::obtenerInstancia() -> reproducirMusica("musicaJuego");
+        EntornoMusical::obtenerInstancia() -> reproducirMusica("musicaJuego2");
         BuclePrincipal bucle(ventana);
         GUI_Principal gui(entorno, paleta, datos_personaje, datos_tienda);
         GUI_PrincipalControlador gui_controllador(servidor, gui);

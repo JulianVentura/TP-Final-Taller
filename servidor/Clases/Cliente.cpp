@@ -32,8 +32,7 @@ Cliente::Cliente(Socket &&socket,
     this->salaActual = std::move(datos.first);
 
     Sala* miSala = organizadorSalas.obtenerSala(salaActual);
-    ColaOperaciones *colaDeOperaciones = miSala->obtenerCola();
-    clienteProxy.actualizarCola(colaDeOperaciones);
+    clienteProxy.actualizarCola(miSala->obtenerCola());
     
     miSala->cargarCliente(this);
     continuar = true;
@@ -46,10 +45,13 @@ void Cliente::nuevoUsuario(std::pair<std::string, std::string> &credenciales,
                            std::string &idClase){
     Configuraciones *config = config->obtenerInstancia();
     salaActual = config->obtenerMapaInicial();
-    std::pair<float, float> pos = config->obtenerMapaPosicionSpawn(salaActual);
-    auto personaje = std::unique_ptr<Personaje> (new Personaje(pos.first, pos.second,
-    credenciales.first, idClase, idRaza));
-    personaje -> recibirOro(10000);
+    auto personaje = std::unique_ptr<Personaje> (new Personaje(0, 
+                                                               0,
+                                                               credenciales.first, 
+                                                               idClase, 
+                                                               idRaza));
+    personaje->actualizarPosicion(std::move(config->obtenerMapaPosicionSpawn(salaActual)));
+    personaje -> recibirOro(1000);
     miBaseDeDatos.nuevoCliente(credenciales, idRaza, idClase,
     salaActual, personaje.get());
 }
@@ -74,12 +76,8 @@ void Cliente::actualizarEstado(const std::vector<struct PosicionEncapsulada> &po
     }
 }  
 
- void Cliente::enviarMensaje(const std::string& mensaje){
-    //clienteProxy.enviarMensaje(mensaje);
- }
-
- void Cliente::enviarChat(const std::string& mensaje, bool mensaje_publico){
-    clienteProxy.enviarChat(mensaje, mensaje_publico);
+void Cliente::enviarMensaje(const std::string& mensaje, bool mensaje_publico){
+    clienteProxy.enviarMensaje(mensaje, mensaje_publico);
 }
 
 void Cliente::enviarContenedor(const SerializacionContenedor &&serContenedor){
@@ -119,12 +117,11 @@ std::string& Cliente::obtenerIdSala(){
     return salaActual;
 }
 void Cliente::procesar(){
+    //Cualquier error es motivo suficiente como para finalizar la comunicacion.
     try{
         while(continuar){
             continuar = clienteProxy.recibirOperacion();
         }
-    }catch(const ExcepcionSocket &e){
-        //No me interesa reportar un error de socket, no aporta nada.
     }catch(const std::exception &e){
         std::cerr << e.what() << std::endl;
     }catch(...){
@@ -133,7 +130,7 @@ void Cliente::procesar(){
     //Liberar recursos, guardar los datos en BaseDeDatos.
     Sala *miSala = organizadorSalas.obtenerSala(salaActual);
     miSala->eliminarCliente(id);
-    miBaseDeDatos.guardarCliente(this);
+    miBaseDeDatos.guardarCliente(std::move(this->serializar()));
     clienteProxy.finalizar();
     finalizado = true;
 }
@@ -167,12 +164,25 @@ std::pair<std::string, std::string> Cliente::login(OrganizadorClientes &organiza
 
 void Cliente::cambiarDeMapa(std::string &idMapa){
     Configuraciones *config = config->obtenerInstancia();
+    this->cambiarDeMapa(idMapa, std::move(config->obtenerMapaPosicionSpawn(idMapa)));
+}
+
+
+void Cliente::cambiarDeMapa(std::string &idMapa, Posicion nuevaPos){
+    Configuraciones *config = config->obtenerInstancia();
     Sala *salaDestino = organizadorSalas.obtenerSala(idMapa);
     Sala *salaOrigen = organizadorSalas.obtenerSala(salaActual);
     salaActual = idMapa;
     salaOrigen->eliminarCliente(this->id); //Se descarga y se elimina al personaje del mapa.
-    std::pair<float, float> pos = config->obtenerMapaPosicionSpawn(salaActual);
-    Posicion posicion(pos.first, pos.second, 0,0);
-    personaje->actualizarPosicion(std::move(posicion)); //Tambien se podria directamente obtener un Posicion de configuraciones.
+    clienteProxy.actualizarCola(salaDestino->obtenerCola());
+    personaje->actualizarPosicion(std::move(nuevaPos));
     salaDestino->cargarCliente(this);
+}
+
+SerializacionCliente Cliente::serializar(){
+    SerializacionCliente ser;
+    ser.idCliente = this->id;
+    ser.idSala = salaActual;
+    ser.infoPersonaje = std::move(personaje->serializar());
+    return ser;
 }

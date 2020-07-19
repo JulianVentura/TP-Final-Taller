@@ -5,6 +5,7 @@
 #include <fstream>
 #include <iomanip>
 #include <nlohmann/json.hpp>
+#include "../../common/Serializacion.h"
 
 #include <string>
 #include <mutex>
@@ -41,7 +42,7 @@ class BaseDeDatos{
                       std::string& idRaza, std::string& idClase,
                       std::string& idMapa, Personaje *personaje);
 
-    void guardarCliente(Cliente* cliente);
+    void guardarCliente(SerializacionCliente cliente);
 
     std::pair<std::string, std::unique_ptr<Personaje>>
      cargarCliente(std::pair<std::string, std::string> &credenciales);

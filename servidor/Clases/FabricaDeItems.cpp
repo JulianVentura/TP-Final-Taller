@@ -1,6 +1,6 @@
 #include "FabricaDeItems.h"
 #include "Configuraciones.h"
-#include "Excepcion.h"
+#include "../../common/Excepcion.h"
 #include "Item.h"
 #include "Arma.h"
 #include "ArmaCuracion.h"

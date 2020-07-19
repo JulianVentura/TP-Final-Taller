@@ -8,18 +8,7 @@
 
 #define NO_EQUIPADO -1
 
-struct serializacionPersonaje{
-    uint32_t x, y;
-    uint32_t vidaActual;
-    uint32_t manaActual;
-    uint32_t experiencia;
-    uint32_t nivel;
-    uint32_t cantidadOro;
-    uint32_t oroEnAlmacen;
-    uint16_t inventario[18];
-    uint16_t almacen[18];
-}__attribute__((packed, aligned(4)));
-
+struct serializacionPersonaje;
 class Estado;
 class Criatura;
 class Casco;
@@ -33,6 +22,7 @@ class Personaje : public Entidad{
     uint32_t limiteExpInferior;
     uint32_t cantidadOro;
     uint32_t oroEnAlmacen;
+    uint32_t penalidad;
     int arma;
     int armadura;
     int escudo;
@@ -43,12 +33,11 @@ class Personaje : public Entidad{
     Inventario inventario;
     std::vector<Item*> almacen;
 
-    bool _recibirDanio(int danio, Entidad *atacante);
-
     void actualizarAtributos();
     void estadoNormal();
     void estadoFantasma();
     void estadoMeditacion();
+    void estadoInmovilizado(double tiempo);
 
     public:
     Personaje();
@@ -92,6 +81,7 @@ class Personaje : public Entidad{
     void meditar();
     void frenarMeditacion();
     Estado *obtenerEstado();
+    void resucitar(double tiempo);
     //Comercio
     void tirar(unsigned int pos);
     void utilizar(unsigned int pos);
@@ -118,6 +108,7 @@ class Personaje : public Entidad{
     friend class EstadoNormal;
     friend class EstadoFantasma;
     friend class EstadoMeditacion;
+    friend class EstadoInmovilizado;
 };
 
 #endif

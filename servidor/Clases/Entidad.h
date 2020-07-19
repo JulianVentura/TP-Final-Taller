@@ -29,12 +29,20 @@ class Entidad : public Interactuable{
     virtual void obtenerExperiencia(unsigned int cantidad);
     virtual void recibirOro(unsigned int cantidad);
     virtual std::string dropearItems(Entidad *atacante) = 0;
-    //void atacar(Entidad *objetivo) override;
+    /*
+    Le indica a la entidad (this) el mapa al cual fue cargada.
+    */
     void indicarMapaAlQuePertenece(Mapa *mapa);
     void consumirMana(unsigned int cantidad);
     bool manaSuficiente(unsigned int cantidad);
+    /*
+    Permite al mapa saber cuando puede descargar la entidad.
+    */
     virtual bool haFinalizado();
     //Serializacion
+    /*
+    Serializa la posicion de la entidad junto a su id.
+    */
     const struct PosicionEncapsulada serializarPosicion() const;
     
     friend class Configuraciones;

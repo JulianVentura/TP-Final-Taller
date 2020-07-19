@@ -1,6 +1,5 @@
 #include "OrganizadorClientes.h"
-#include "Excepcion.h"
-
+#include "../../common/Excepcion.h"
 
 OrganizadorClientes::OrganizadorClientes(){
     //Do nothing

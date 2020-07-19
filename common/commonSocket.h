@@ -54,7 +54,7 @@ public:
 	int enviar(const char* buffer,size_t largo);
 	int recibir(char* buffer, size_t largo);
 
-	void ligar(const char* servicio);
+	void ligar(const char* direccion, const char* servicio);
 	
 	~Socket();
 };

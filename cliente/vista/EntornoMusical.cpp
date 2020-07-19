@@ -11,6 +11,7 @@ EntornoMusical::EntornoMusical(){
 	initAudio();
 	NUEVO_AUDIO("musicaMenu", "assets/audio/musicaMenu.wav");
 	NUEVO_AUDIO("musicaJuego", "assets/audio/musicaJuego.wav");
+	NUEVO_AUDIO("musicaJuego2", "assets/audio/musicaJuego2.wav");
 }
 
 EntornoMusical* EntornoMusical::obtenerInstancia(){

@@ -1,9 +1,10 @@
 #ifndef __SALA_H__
 #define __SALA_H__
 #include "Mapa.h"
-#include "Excepcion.h"
+#include "../../common/Excepcion.h"
 #include "ColaOperaciones.h"
-#include "GameLoop.h"
+#include "BuclePrincipal.h"
+#include "ColaDeSerializacion.h"
 #include <map>
 #include <mutex>
 
@@ -15,10 +16,13 @@ class Sala{
     std::map<std::string, Cliente*> clientes;
     Mapa mapa;
     ColaOperaciones colaOperaciones;
-    GameLoop gameLoop;
+    BuclePrincipal buclePrincipal;
+    ColaSerializacion &colaSerializacion;
+    double tiempoTranscurrido;
+    double tiempoPersistencia;
 
     public:
-    Sala(std::string nombreMapa);
+    Sala(std::string nombreMapa, ColaSerializacion &cola);
     Sala(Sala &&otro) = delete;
     Sala(Sala &otro) = delete;
     Sala& operator=(Sala &otro) = delete;
@@ -26,6 +30,7 @@ class Sala{
     void cargarCliente(Cliente *cliente);
     void actualizarClientes(double tiempo);
     void eliminarCliente(const std::string &id);
+    void persistirClientes(double tiempo);
     Mapa *obtenerMapa();
     std::string& obtenerNombre();
     void comenzar();

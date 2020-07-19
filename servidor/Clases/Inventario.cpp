@@ -1,6 +1,6 @@
 #include "Inventario.h"
 #include "BolsaDeItems.h"
-#include "Excepcion.h"
+#include "../../common/Excepcion.h"
 #include "FabricaDeItems.h"
 
 

@@ -25,6 +25,7 @@ class Estado{
     virtual void meditar() = 0;
     virtual void dejarDeMeditar() = 0;
     virtual void actualizar(double tiempo) = 0;
+    virtual void resucitar(double tiempo) = 0;
     //Comercio
     virtual void interactuar(Entidad *entidad) = 0;
     virtual bool curar(float curVida, float curMana) = 0;

@@ -5,11 +5,13 @@
 #include "EstadoNormal.h"
 #include "EstadoFantasma.h"
 #include "EstadoMeditacion.h"
+#include "EstadoInmovilizado.h"
 #include "Arma.h"
 #include "Armadura.h"
 #include "Escudo.h"
 #include "Casco.h"
-#include "Excepcion.h"
+#include "../../common/Serializacion.h"
+#include "../../common/Excepcion.h"
 #include "Criatura.h"
 #include "FabricaDeItems.h"
 #include "Divulgador.h"
@@ -26,6 +28,7 @@ Personaje::Personaje() : Entidad(""),
                          limiteExpInferior(0),
                          cantidadOro(0),
                          oroEnAlmacen(0),
+                         penalidad(0),
                          arma(NO_EQUIPADO),
                          armadura(NO_EQUIPADO),
                          escudo(NO_EQUIPADO),
@@ -47,6 +50,7 @@ Personaje::Personaje(float x, float y, std::string id, std::string idClase, std:
                                        limiteExpInferior(0),
                                        cantidadOro(0),
                                        oroEnAlmacen(0),
+                                       penalidad(0),
                                        arma(NO_EQUIPADO),
                                        armadura(NO_EQUIPADO),
                                        escudo(NO_EQUIPADO),
@@ -85,11 +89,16 @@ Personaje::Personaje(std::string idPersonaje, std::string idRaza,
     float alto = config->obtenerPersonajeAlto();
     posicion = std::move(Posicion(datos.x, datos.y, ancho, alto));
     desplazamiento = config->obtenerPersonajeVelDesplazamiento();
-    if (datos.vidaActual <= 0){
+    
+    penalidad = datos.penalidad;
+    if(penalidad > 0){
+        estado = std::move(std::unique_ptr<Estado>(new EstadoInmovilizado(this, penalidad)));
+    }else if (datos.vidaActual == 0){
         estado = std::move(std::unique_ptr<Estado>(new EstadoFantasma(this)));
     }else{
         estado = std::move(std::unique_ptr<Estado>(new EstadoNormal(this)));
     }
+
     FabricaDeItems *fabricaItems = FabricaDeItems::obtenerInstancia();
     almacen.resize(TAMANIO_ALMACEN, fabricaItems -> crearItemNulo());
     experiencia = datos.experiencia;
@@ -101,7 +110,6 @@ Personaje::Personaje(std::string idPersonaje, std::string idRaza,
     oroEnAlmacen = datos.oroEnAlmacen;
 
     auto inventarioTemp = inventario.obtenerTodosLosItems();
-
     for(unsigned int i = 0; i < inventarioTemp -> size();i++){
         (*inventarioTemp)[i] = fabricaItems
          -> obtenerItemIDTCP(datos.inventario[i]);
@@ -226,11 +234,14 @@ std::string Personaje::atacar(Criatura *objetivo){
     if (arma == NO_EQUIPADO) return "";
     //Estoy seguro de que el casteo sera valido.
     return std::move(estado->atacar(objetivo, (Arma*)inventario.obtenerItem(arma)));
-    //Envio danio realizado
 }
 
 void Personaje::serAtacadoPor(Personaje *atacante){
     Divulgador *divulgador = Divulgador::obtenerInstancia();
+    if (mapaAlQuePertenece->esMapaSeguro()){
+        divulgador->encolarMensaje(atacante->obtenerId(), "No puede atacar en una zona segura.");
+        return;
+    }
     std::string mensaje = estado->serAtacadoPor(atacante);
     divulgador->encolarMensaje(atacante->obtenerId(), mensaje);
 }
@@ -375,8 +386,16 @@ void Personaje::estadoMeditacion(){
     estado = std::move(std::unique_ptr<Estado>(new EstadoMeditacion(this)));
 }
 
+void Personaje::estadoInmovilizado(double tiempo){
+    estado = std::move(std::unique_ptr<Estado>(new EstadoInmovilizado(this, tiempo)));
+}
+
 Estado *Personaje::obtenerEstado(){
     return this->estado.get();
+}
+
+void Personaje::resucitar(double tiempo){
+    estado->resucitar(tiempo);
 }
 
 
@@ -433,7 +452,8 @@ serializacionPersonaje Personaje::serializar(){
     datos.nivel = nivel;
     datos.cantidadOro = cantidadOro;
     datos.oroEnAlmacen = oroEnAlmacen;
-
+    datos.penalidad = penalidad;
+    
     auto inventarioTemp = inventario.obtenerTodosLosItems();
     for(unsigned int i = 0; i < inventarioTemp -> size();i++){
         datos.inventario[i] = (*inventarioTemp)[i] -> obtenerIDTCP();
@@ -500,77 +520,3 @@ SerializacionEquipo Personaje::serializarEquipo(){
     inventario.serializar(ser.items);
     return ser;
 }
-
-/*
-TEMA DE LAS ZONAS SEGURAS, DOS POSIBLES IMPLEMENTACIONES:
-
-1- Mas orientada a objetos
-
-Se crea un EstadoPacifico el cual permita unicamente comerciar con npcs.
-
-Cada vez que una entidad se mueve el mapa debera chequear si esta entrando o saliendo de una zona
-segura. 
-En caso de que este entrando:
-
-entidad->cambiaAPacifico();
-
-En caso de que este saliendo:
-
-entidad->cambiaDePacifico();
-
-La entidad sabra responder a estos mensajes, es decir que solo el Personaje respondera realmente, las demas
-entidades dejaran ese metodo vacio.
-
-Personaje::cambiaAPacifico(){
-    this->estadoCambiarAPacifico();
-    this->estadoPrevio = this->estadoActual;
-    this->estadoActual = new EstadoPacifico();
-}
-
-EstadoNormal::cambiarAPacifico(){
-    personaje->estadoPrevio = this;
-    personaje->estadoPacifico() //Esto setea el estado actual a pacifico.
-}
-
-EstadoPacifico::cambiarAPacifico(){
-    //Do nothing
-}
-
-Personaje::cambiaDePacifico(){
-    estado->cambiaDePacifico();
-}
-
-EstadoNormal::cambiarDePacifico(){
-    //Do nothing
-}
-
-EstadoPacifico::cambiarDePacifico(){
-    estadoActual = estadoPrevio;
-    estadoPrevio = this;    //Esto en realidad no es necesario.
-}
-
-El estado pacifico debera realizar las acciones de comercio delegando en el estado anterior, de forma que si
-el estado anterior era fantasma no se permita comerciar, pero si se permita si el estado anterior era normal.
-
-El ataque se debera denegar sin importar el estado anterior.
-
-
-2- Menos objetosa, mucho mas eficiente
-
-Cada vez que queremos atacar (incluso quizas solo en la OperacionAtacar misma) debemos preguntarle al
-mapa si alguna de las entidades, atacante u oponente se encuentra sobre una zona segura. En tal caso se
-cancela el ataque.
-
-OperacionAtacar::ejecutar(){
-    Personaje *personaje = Cliente->obtenerPersonaje();
-    if (mapa->entidadSobreZonaSegura(personaje)) return;
-    Entidad *objetivo = mapa->obtener(idObjetivo);
-    if (mapa->entidadSobreZonaSegura(objetivo)) return;
-
-    //Continua la operacion como se encuentra actualmente.
-
-    Lo que tiene esto es que si el ataque se origina de otra forma (como?) no se chequea
-    si se encuentra sobre una zona segura.
-}
-
-*/

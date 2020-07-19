@@ -1,6 +1,6 @@
 #include "Entidad.h"
 #include "Mapa.h"
-#include "Excepcion.h"
+#include "../../common/Excepcion.h"
 #include <vector>
 #include <cstring>
 
@@ -20,7 +20,7 @@ Entidad::Entidad(std::string unId) :
 
 void Entidad::consumirMana(unsigned int cantidad){
     if ((manaActual - cantidad) < 0){
-        throw Excepcion("No hay mana suficiente");
+        throw Excepcion("Error Entidad: No hay mana suficiente para consumir");
     }
     manaActual -= cantidad;
 }

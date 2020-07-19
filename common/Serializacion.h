@@ -1,6 +1,7 @@
 #ifndef __SERIALIZACION_H__
 #define __SERIALIZACION_H__
 #include <cstdint>
+#include <string>
 #define TAM_ID 20
 #define TAM_INVENTARIO 18
 #define TAM_TIENDA TAM_INVENTARIO
@@ -55,5 +56,26 @@ typedef struct serializacionContenedor{
     uint16_t oroContenedor;
     SerializacionItem items[TAM_TIENDA];
 }SerializacionContenedor;
+
+
+struct serializacionPersonaje{
+    uint32_t x, y;
+    uint32_t vidaActual;
+    uint32_t manaActual;
+    uint32_t experiencia;
+    uint32_t nivel;
+    uint32_t cantidadOro;
+    uint32_t oroEnAlmacen;
+    uint16_t inventario[18];
+    uint16_t almacen[18];
+    uint32_t penalidad;
+}__attribute__((packed, aligned(4)));
+
+typedef struct serializacionCliente{
+    std::string idCliente;
+    std::string idSala;
+    struct serializacionPersonaje infoPersonaje;
+}SerializacionCliente;
+
 
 #endif

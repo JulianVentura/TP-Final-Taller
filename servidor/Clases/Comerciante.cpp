@@ -65,7 +65,7 @@ void Comerciante::comprar(unsigned int pos, Personaje *personaje, Cliente *clien
     float distancia = this->posicion.calcularDistancia(personaje->obtenerPosicion());
     if (distancia > distanciaMaximaDeInteraccion){
         std::string mensaje = "La distancia es muy grande";
-        cliente->enviarChat(mensaje, false);
+        cliente->enviarMensaje(mensaje, false);
         return;
     }
     if (pos >= TAM_TIENDA || items[pos] == itemNulo){
@@ -78,10 +78,10 @@ void Comerciante::comprar(unsigned int pos, Personaje *personaje, Cliente *clien
         cliente -> enviarInventario();
         cliente -> enviarTienda(std::move(this->serializarTienda()));
         std::string mensaje = "Se compro " + items[pos]->obtenerId();
-        cliente->enviarChat(mensaje, false);
+        cliente->enviarMensaje(mensaje, false);
     }else{
         std::string mensaje = "No tiene oro suficiente";
-        cliente->enviarChat(mensaje, false);
+        cliente->enviarMensaje(mensaje, false);
     }
 }
 
@@ -89,7 +89,7 @@ void Comerciante::vender(Item* item, Personaje *personaje, Cliente *cliente){
     float distancia = this->posicion.calcularDistancia(personaje->obtenerPosicion());
     if (distancia > distanciaMaximaDeInteraccion){
         std::string mensaje = "La distancia es muy grande";
-        cliente->enviarChat(mensaje, false);
+        cliente->enviarMensaje(mensaje, false);
         personaje->almacenar(item);
         return;
     }
@@ -98,7 +98,7 @@ void Comerciante::vender(Item* item, Personaje *personaje, Cliente *cliente){
     cliente -> enviarInventario();
     cliente -> enviarTienda(std::move(this->serializarTienda()));
     std::string mensaje = "Se vendio " + item->obtenerId();
-    cliente->enviarChat(mensaje, false);
+    cliente->enviarMensaje(mensaje, false);
 }
 
 void Comerciante::listar(Personaje *personaje, Cliente *cliente){
