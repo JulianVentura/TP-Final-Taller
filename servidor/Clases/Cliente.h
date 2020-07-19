@@ -117,9 +117,6 @@ class Cliente : public Thread{
     Devuelve una serializacion con informacion de la sala actual y del personaje.
     */
     SerializacionCliente serializar();
-
-    //ClienteProxy es friend de Cliente
-    friend class ClienteProxy;
 };
 
 #endif

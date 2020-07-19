@@ -5,13 +5,10 @@
 
 
 Inventario::Inventario() : limiteItems(TAM_INVENTARIO){
-    //Provisorio
     items.clear();
     FabricaDeItems *fabricaItems = FabricaDeItems::obtenerInstancia();
     itemNulo = fabricaItems -> crearItemNulo();
-    for(int i = 0;i < TAM_INVENTARIO;i++){
-        items.push_back(itemNulo);
-    }
+    items.resize(TAM_INVENTARIO, itemNulo);
 }
 
 

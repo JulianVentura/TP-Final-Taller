@@ -27,7 +27,7 @@ void ClienteProxy::actualizarCola(ColaOperaciones *colaDeOperaciones){
 
 void ClienteProxy::decodificarMovimiento(){
     uint32_t direccionMovimiento = protocolo.recibirUint32(socket);
-    Operacion *operacion = new OperacionMover(cliente->personaje.get(),
+    Operacion *operacion = new OperacionMover(cliente->obtenerPersonaje(),
      (DireccionMovimiento)direccionMovimiento);
     colaOperaciones->push(operacion);
 }

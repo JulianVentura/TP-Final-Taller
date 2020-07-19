@@ -42,7 +42,7 @@ void EstadoInmovilizado::dejarDeMeditar(){
 }
 
 void EstadoInmovilizado::actualizar(double tiempo){
-    //No se regenera vida ni mana
+    //La regeneracion de vida modela la barra de progreso hasta revivir.
     personaje->vidaActual += tiempo * personaje->vidaMaxima / personaje->penalidad;
     personaje->manaActual = 0;
     if (personaje->vidaActual >= personaje->vidaMaxima){
