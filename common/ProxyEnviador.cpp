@@ -15,6 +15,7 @@ void ProxyEnviador::procesar(){
             //Cualquier excepcion o error que salte es motivo suficiente como para finalizar.
             //No me interesa reportar el error.
             continuar = false;
+	        colaMensajes.cerrarCola();
         }
     }
 }

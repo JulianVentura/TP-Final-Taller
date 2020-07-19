@@ -103,7 +103,9 @@
         },
         "Banquero": {
             "Ancho": 6,
-            "Alto": 6
+            "Alto": 6,
+	    "LimiteTransaccion": 100,
+	    "FraccionTransaccion": 0.2
         }
     },
     "Criaturas": {

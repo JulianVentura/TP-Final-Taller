@@ -68,10 +68,10 @@ void Divulgador::procesar(){
 			}
 		}catch (const ColaVacia &e){
 			//No quiero reportar un mensaje de cola vacia.
-		}catch(const std::exception& e){
+		}catch (const std::exception& e){
 			//Si otro tipo de excepcion
 			std::cerr << e.what() << std::endl;
-		}catch(...){
+		}catch (...){
 			std::cerr << "Error desconocido capturado en Divulgador" << std::endl;
 		}
 	}
