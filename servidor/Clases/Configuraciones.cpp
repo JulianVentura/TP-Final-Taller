@@ -441,7 +441,7 @@ const double   Configuraciones::obtenerPenalizacionRevivir(Mapa *mapaActual, Per
     }
     Entidad *portalDestino = mapaActual->obtener(idPortal);
     double distancia = posPersonaje.calcularDistancia(portalDestino->obtenerPosicion());
-    return 10000 + distancia * 10;
+    return 10000 + distancia * 6;
 }
 
 

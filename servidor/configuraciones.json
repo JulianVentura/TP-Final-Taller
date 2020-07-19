@@ -23,7 +23,7 @@
             "SpawnPortales": {
                 "Portal#1": "bosque"
             },
-            "LimiteCriaturas": 6,
+            "LimiteCriaturas": 0,
             "TiempoRespawn": 10000,
 	    "EsSeguro": true,
             "PosicionSpawnInicial": [
@@ -31,7 +31,7 @@
                 100
             ],
 	    "CiudadMasCercana": "ciudad",
-	    "PosicionSpawnResurreccion": [288, 544] 
+	    "PosicionSpawnResurreccion": [288, 544]
         },
         "bosque": {
             "Ruta": "../bosque.json",
@@ -42,13 +42,13 @@
             "SpawnPortales": {
                 "Portal#1": "ciudad"
             },
-            "LimiteCriaturas": 6,
+            "LimiteCriaturas": 30,
             "TiempoRespawn": 10000,
 	    "EsSeguro": false,
 	    "CiudadMasCercana": "ciudad",
             "PosicionSpawnInicial": [
                 100,
-                100
+                2000
             ]
         }
     },

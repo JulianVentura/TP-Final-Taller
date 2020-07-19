@@ -163,9 +163,7 @@ void ServidorProxy::terminar() {
 
 std::string ServidorProxy::obtenerMapa() {
 	std::unique_lock<std::mutex> lock(mtx);
-	while (!se_recibio_mapa) {
-		cv.wait(lock);
-	}
+	while (!se_recibio_mapa) cv.wait(lock);
 	se_recibio_mapa = false;
 	return std::move(mapa);
 }

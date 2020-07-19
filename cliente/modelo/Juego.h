@@ -61,6 +61,7 @@ private:
     bool hay_que_actualizar_mapa = false;
     void agregarEntidad(std::string& id, DatosApariencia& apariencia);
     void borrarEntidad(const std::string& id);
+    void actualizarMapa();
 
     std::pair<IPosicionable*, EntidadVista*> crearEntidad(std::string& id, 
                                                 DatosApariencia& apariencia);
