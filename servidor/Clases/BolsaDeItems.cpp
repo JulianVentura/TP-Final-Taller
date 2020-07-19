@@ -5,7 +5,7 @@
 #include "FabricaDeItems.h"
 #include "Configuraciones.h"
 #include <sstream>
-#include "Excepcion.h"
+#include "../../common/Excepcion.h"
 
 std::atomic<uint32_t> BolsaDeItems::contadorInstancias(0);
 

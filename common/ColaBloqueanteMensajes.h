@@ -4,6 +4,7 @@
 #include "Mensaje.h"
 #include <condition_variable>
 #include <mutex>
+#include <atomic>
 #include <queue>
 
 
@@ -13,7 +14,7 @@ class ColaBloqueanteMensajes{
     std::queue<Mensaje> cola;
     std::mutex mutex;
     bool colaCerrada;
-    uint32_t tamanioBytesAlmacenados;
+    std::atomic<uint32_t> tamanioBytesAlmacenados;
 
     public:
     ColaBloqueanteMensajes();

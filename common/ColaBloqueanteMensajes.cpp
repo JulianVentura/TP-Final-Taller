@@ -1,5 +1,5 @@
 #include "ColaBloqueanteMensajes.h"
-#include "ExcepcionColaCerrada.h"
+#include "Excepcion.h"
 #include <utility> //Me lo pide el SERCOM para usar std::move
 
 ColaBloqueanteMensajes::ColaBloqueanteMensajes() : 
@@ -13,7 +13,7 @@ Mensaje ColaBloqueanteMensajes::pop(){
     std::unique_lock<std::mutex> lock(this->mutex);
     while (this->cola.empty()){
         if (this->colaCerrada){
-            throw ExcepcionColaCerrada();
+            throw Excepcion("Cola cerrada");
         }
         conditionVariable.wait(lock);
     }
@@ -24,6 +24,9 @@ Mensaje ColaBloqueanteMensajes::pop(){
 }
 void ColaBloqueanteMensajes::push(Mensaje mensaje){
     std::unique_lock<std::mutex> lock(this->mutex);
+    if (this->colaCerrada){
+        throw Excepcion("No se pueden encolar mas mensajes, la cola ha sido cerrada");
+    }
     this->cola.push(std::move(mensaje));
     tamanioBytesAlmacenados += mensaje.obtenerTamanio();
     conditionVariable.notify_all();
@@ -31,6 +34,7 @@ void ColaBloqueanteMensajes::push(Mensaje mensaje){
 
 void ColaBloqueanteMensajes::cerrarCola(){
     std::unique_lock<std::mutex> lock(this->mutex);
+    if (this->colaCerrada) return;
     this->colaCerrada = true;
     this->conditionVariable.notify_all();
 }

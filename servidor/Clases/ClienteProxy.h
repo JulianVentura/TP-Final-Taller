@@ -9,7 +9,7 @@
 #include "../../common/ColaBloqueanteMensajes.h"
 #include "../../common/Mensaje.h"
 #include "OperacionMover.h"
-#include "Excepcion.h"
+#include "../../common/Excepcion.h"
 #include "Item.h"
 #include "OperacionInteractuar.h"
 #include "OperacionTransaccion.h"

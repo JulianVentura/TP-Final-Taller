@@ -3,7 +3,7 @@
 #include "Sacerdote.h"
 #include "Banquero.h"
 #include "Comerciante.h"
-#include "Excepcion.h"
+#include "../../common/Excepcion.h"
 #include "Box.h"
 #include <nlohmann/json.hpp>
 #include <fstream>

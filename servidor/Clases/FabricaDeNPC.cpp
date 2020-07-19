@@ -3,7 +3,7 @@
 #include "Comerciante.h"
 #include "Sacerdote.h"
 #include "Portal.h"
-#include "Excepcion.h"
+#include "../../common/Excepcion.h"
 #include <sstream>
 #define LIMITE_CONTADOR 99999 //Podria ser otro numero
 

@@ -5,7 +5,7 @@
 #include "FabricaDeItems.h"
 #include "Configuraciones.h"
 #include "../../common/Serializacion.h"
-#include "Excepcion.h"
+#include "../../common/Excepcion.h"
 
 Banquero::Banquero(float x, float y) : Entidad("Banquero#"), limiteTransaccion(0), fraccionTransaccion(0){
     Configuraciones *config = Configuraciones::obtenerInstancia();

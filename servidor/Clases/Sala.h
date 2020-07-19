@@ -1,7 +1,7 @@
 #ifndef __SALA_H__
 #define __SALA_H__
 #include "Mapa.h"
-#include "Excepcion.h"
+#include "../../common/Excepcion.h"
 #include "ColaOperaciones.h"
 #include "BuclePrincipal.h"
 #include <map>

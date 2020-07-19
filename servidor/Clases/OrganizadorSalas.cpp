@@ -1,5 +1,5 @@
 #include "OrganizadorSalas.h"
-#include "Excepcion.h"
+#include "../../common/Excepcion.h"
 
 
 OrganizadorSalas::OrganizadorSalas(const char *archivoConfig){

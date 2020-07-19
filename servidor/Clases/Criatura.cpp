@@ -5,7 +5,7 @@
 #include "FabricaDeItems.h"
 #include "BolsaDeItems.h"
 #include "Divulgador.h"
-#include "Excepcion.h"
+#include "../../common/Excepcion.h"
 #include <sstream>
 #include <utility>
 #include <memory>

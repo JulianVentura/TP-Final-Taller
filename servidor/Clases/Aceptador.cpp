@@ -4,7 +4,7 @@
 #include <utility> //Para std::move
 #include <thread>
 
-#include "Excepcion.h"
+#include "../../common/Excepcion.h"
 #include "Divulgador.h"
 
 

@@ -12,7 +12,7 @@
 #include "OrganizadorSalas.h"
 
 #include "Item.h"
-#include "Excepcion.h"
+#include "../../common/Excepcion.h"
 #include "BaseDeDatos.h"
 #include <memory>
 

@@ -10,7 +10,7 @@
 #include "Armadura.h"
 #include "Escudo.h"
 #include "Casco.h"
-#include "Excepcion.h"
+#include "../../common/Excepcion.h"
 #include "Mapa.h"
 #include "Posicion.h"
 #include <random>

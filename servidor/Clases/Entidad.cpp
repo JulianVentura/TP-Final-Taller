@@ -1,6 +1,6 @@
 #include "Entidad.h"
 #include "Mapa.h"
-#include "Excepcion.h"
+#include "../../common/Excepcion.h"
 #include <vector>
 #include <cstring>
 
