@@ -22,11 +22,6 @@ void EntidadParser::parsearRazas() {
     for (auto& raza: parser["razas"].items()) {
         auto clases = raza.value()["variantes"];
         std::string raza_s = raza.key();
-        
-        if (raza.value().count("copiar")) {
-            raza.value()["copiar"].get_to(raza_s);
-            clases = parser["razas"][raza_s]["variantes"];
-        }
         imagenes_t setDeImagenesBase;
         for (auto& campos: clases[ENTIDADPARSER_BASE]["estructura"].items()) {
             for (auto& imagen: campos.value()) {

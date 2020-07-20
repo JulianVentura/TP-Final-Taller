@@ -637,7 +637,7 @@
 		"base": {
 			"Ancho": 64,
 			"Alto": 64,
-			"tiempo_por_cuadro": 40,
+			"tiempo_por_cuadro": 20,
 			"tiempo_entre_ciclo": 0,
 			"Direcciones": 4,
 			"Columnas": 13,

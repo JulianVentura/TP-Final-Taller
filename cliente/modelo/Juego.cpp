@@ -92,7 +92,7 @@ void Juego::cambiarMapa(const std::string& mapa_s) {
 
 void Juego::agregarEntidad(std::string& id) {
     DatosApariencia apariencia;
-    printf("Se agrega %s", id.c_str());
+    printf("Se agrega %s\n", id.c_str());
     auto posicion_identificador = id.find(NPC_DELIMITADOR);
     if (posicion_identificador != std::string::npos) {
         apariencia.tipo = id.substr(0, posicion_identificador);
@@ -134,7 +134,7 @@ std::pair<IPosicionable*, EntidadVista*> Juego::crearEntidad(std::string& id) {
 
 void Juego::actualizarPosiciones(std::unordered_map<std::string, std::pair<int, 
                                                             int>> posiciones) {
-    std::lock_guard<std::mutex> l(mtx);
+    // std::lock_guard<std::mutex> l(mtx);
     if (hay_que_actualizar_mapa) return;
     for (auto& posicion: posiciones) {
     	if (!entidades.count(posicion.first)) {
