@@ -165,17 +165,13 @@ const std::vector<Imagen*>& EntidadParser::getImagenes(const std::string& raza,
 
 int EntidadParser::getAnchoReal(DatosApariencia& apariencia) {
     std::string id = idReal(apariencia);
-    printf("ancho real de %s: ", id.c_str());
     if (!entidades.count(id)) return 0;
-    printf("%d\n", entidades.at(id).getAncho());
     return entidades.at(id).getAncho();
 }
 
 int EntidadParser::getAltoReal(DatosApariencia& apariencia) {
     std::string id = idReal(apariencia);
-    printf("alto real de %s: ", id.c_str());
     if (!entidades.count(id)) return 0;
-    printf("%d\n", entidades.at(id).getAlto());
     return entidades.at(id).getAlto();
 }
 

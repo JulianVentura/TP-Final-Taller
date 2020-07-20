@@ -617,23 +617,20 @@
 			"ancho": 57,
 			"alto": 57,
 			"imagen": ["3798.png"], 
-			"animacion": "explosion",
-			"key_color": "#000000"
+			"animacion": "explosion"
 		},
 		"Curar": {
 			"ancho": 76,
 			"alto": 76,
 			"imagen": ["3795.png"], 
-			"animacion": "curar",
-			"key_color": "#000000"
+			"animacion": "curar"
 		},
 		"sup-102": {
 			"nombre": "Meditar",
 			"ancho": 113,
 			"alto": 113,
 			"imagen": ["3797.png"], 
-			"animacion": "meditar",
-			"key_color": "#000000"
+			"animacion": "meditar"
 		}
 	},
 	"animacion": {
@@ -899,11 +896,11 @@
 		"explosion": {
 			"Ancho": 57,
 			"Alto": 57,
-			"tiempo_por_cuadro": 100,
+			"tiempo_por_cuadro": 5,
 			"tiempo_entre_ciclo": 5000,
 			"Direcciones": 0,
 			"Columnas": 5,
-			"Columna": 0,
+			"Columna": 3,
 			"Estado-Inicial": "explosion",
 			"Direccion-Inicial": "",
 			"Estados": {
@@ -916,11 +913,11 @@
 		"curar": {
 			"Ancho": 76,
 			"Alto": 76,
-			"tiempo_por_cuadro": 100,
+			"tiempo_por_cuadro": 5,
 			"tiempo_entre_ciclo": 0,
 			"Direcciones": 0,
 			"Columnas": 5,
-			"Columna": 0,
+			"Columna": 3,
 			"Estado-Inicial": "curar",
 			"Direccion-Inicial": "",
 			"Estados": {
