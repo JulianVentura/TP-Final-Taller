@@ -449,6 +449,9 @@ const double   Configuraciones::obtenerPenalizacionRevivir(Mapa *mapaActual, Per
     double distancia = posPersonaje.calcularDistancia(portalDestino->obtenerPosicion());
     return 10000 + distancia * 6;
 }
+const double   Configuraciones::obtenerSalaTiempoPersistencia() const{
+    return json.at("Varios").at("SalaTiempoPersistencia").get<double>();
+}
 
 
 /* FORMULAS DEL JUEGO */

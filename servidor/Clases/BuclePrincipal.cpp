@@ -37,6 +37,7 @@ void BuclePrincipal::procesar(){
                 lag -= msPorActualizacion;
             }
             miSala.actualizarClientes(transcurrido);
+            miSala.persistirClientes(transcurrido);
             reloj.dormir(msDescanso);
         }catch(const Excepcion &e){
             //No me interesa reportar una excepcion mia, se que no implica un problema grave.

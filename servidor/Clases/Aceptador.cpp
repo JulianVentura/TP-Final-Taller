@@ -17,8 +17,6 @@ Aceptador::Aceptador(OrganizadorSalas &unOrganizadorSalas,
                      continuar(true){
     Divulgador::inicializarInstancia(&organizadorClientes);
     Configuraciones *config = Configuraciones::obtenerInstancia();
-    //El socket defaultea a "localhost", para la entrega final eso se va
-    //a poder elegir del configuraciones.json
     std::string host = config->obtenerAceptadorHost();
     std::string puerto = config->obtenerAceptadorPuerto();
     unsigned int numConexionesEnEspera = config->

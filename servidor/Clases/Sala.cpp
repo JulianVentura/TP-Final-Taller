@@ -1,11 +1,19 @@
 #include "Sala.h"
 #include "Cliente.h"
+#include "Configuraciones.h"
 #include "../../common/Serializacion.h"
 
-Sala::Sala(std::string nombreMapa) : nombre(nombreMapa),
+Sala::Sala(std::string nombreMapa, ColaSerializacion &cola) : 
+                                     nombre(nombreMapa),
                                      mapa(nombreMapa),
                                      colaOperaciones(),
-                                     buclePrincipal(colaOperaciones, mapa, *this){}
+                                     buclePrincipal(colaOperaciones, mapa, *this),
+                                     colaSerializacion(cola),
+                                     tiempoTranscurrido(0),
+                                     tiempoPersistencia(0){
+    Configuraciones *config = Configuraciones::obtenerInstancia();
+    tiempoPersistencia = config->obtenerSalaTiempoPersistencia();
+}
 
 
 void Sala::cargarCliente(Cliente *cliente){
@@ -37,6 +45,17 @@ void Sala::eliminarCliente(const std::string &id){
     clientes.erase(it);
     mapa.eliminarEntidad(id);
 }
+
+void Sala::persistirClientes(double tiempo){
+    std::unique_lock<std::mutex> lock(this->mutex);
+    tiempoTranscurrido += tiempo;
+    if (tiempoTranscurrido < tiempoPersistencia) return;
+    tiempoTranscurrido = 0;
+    for (auto& cliente : clientes){
+        colaSerializacion.push(std::move(cliente.second->serializar()));
+    }
+}
+
 std::string& Sala::obtenerNombre(){
     //Aca no es necesario hacer un lock, el nombre no sera modificado.
     return this->nombre;
@@ -66,5 +85,15 @@ Si justo algun cliente intenta loguearse entonces el GameLoop se quedara bloquea
 correctamente tanto en el mapa como en la lista de clientes.
 Si justo algun cliente intenta desloguearse sucedera lo mismo.
 Por lo tanto la sala debera encargarse de solicitarle al mapa las posiciones de las entidades, no el GameLoop.
+
+*/
+
+/*
+Persistencia periodica en cada sala.
+Cada sala recibira el pedido de persisencia de los clientes que tiene.
+Serializara a cada uno, creando un vector de serializacion de clientes.
+Luego encolara dicho vector en una ColaDeSerializacion.
+
+Otro hilo se encargara de levantar de dicha cola el vector y utilizando la base de datos guardara los datos del cliente.
 
 */

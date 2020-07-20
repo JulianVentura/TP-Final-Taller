@@ -3,7 +3,7 @@
 #include "Configuraciones.h"
 #include "Divulgador.h"
 
-#include <iostream> //DEBUG
+#include <iostream>
 
 Cliente::Cliente(Socket &&socket,
                  OrganizadorSalas &unOrganizadorSalas,
@@ -60,20 +60,14 @@ void Cliente::nuevoUsuario(std::pair<std::string, std::string> &credenciales,
 void Cliente::actualizarEstado(const std::vector<struct PosicionEncapsulada> &posiciones,
                                const std::vector<SerializacionDibujado> &dibujado,
                                double tiempo){
-    try{
-        tiempoTranscurrido += tiempo;
-        if (tiempoTranscurrido >= tiempoActualizacionInventario){
-            tiempoTranscurrido = 0;
-            this->enviarInventario();
-        }
-        clienteProxy.enviarEstado(std::move(personaje->serializarEstado()));
-        clienteProxy.enviarDibujadoPersonajes(dibujado);
-        clienteProxy.enviarPosiciones(posiciones);
-    }catch(...){
-        //Cualquier error es motivo suficiente como para cortar
-        // la comunicacion con el Cliente
-        continuar = false;
+    tiempoTranscurrido += tiempo;
+    if (tiempoTranscurrido >= tiempoActualizacionInventario){
+        tiempoTranscurrido = 0;
+        this->enviarInventario();
     }
+    clienteProxy.enviarEstado(std::move(personaje->serializarEstado()));
+    clienteProxy.enviarDibujadoPersonajes(dibujado);
+    clienteProxy.enviarPosiciones(posiciones);
 }  
 
 void Cliente::enviarMensaje(const std::string& mensaje, bool mensaje_publico){
@@ -93,12 +87,7 @@ void Cliente::enviarInventario(){
 }
 
 void Cliente::cargarMapa(const std::vector<char> &&infoMapa){
-    try{
-        clienteProxy.enviarInformacionMapa(infoMapa);
-    }catch(...){
-        //Cualquier error es motivo suficiente como para cortar la comunicacion con el Cliente
-        continuar = false;
-    }
+    clienteProxy.enviarInformacionMapa(infoMapa);
 }
 
 std::string Cliente::obtenerId(){
@@ -130,7 +119,7 @@ void Cliente::procesar(){
     //Liberar recursos, guardar los datos en BaseDeDatos.
     Sala *miSala = organizadorSalas.obtenerSala(salaActual);
     miSala->eliminarCliente(id);
-    miBaseDeDatos.guardarCliente(this);
+    miBaseDeDatos.guardarCliente(std::move(this->serializar()));
     clienteProxy.finalizar();
     finalizado = true;
 }
@@ -177,4 +166,12 @@ void Cliente::cambiarDeMapa(std::string &idMapa, Posicion nuevaPos){
     clienteProxy.actualizarCola(salaDestino->obtenerCola());
     personaje->actualizarPosicion(std::move(nuevaPos));
     salaDestino->cargarCliente(this);
+}
+
+SerializacionCliente Cliente::serializar(){
+    SerializacionCliente ser;
+    ser.idCliente = this->id;
+    ser.idSala = salaActual;
+    ser.infoPersonaje = std::move(personaje->serializar());
+    return ser;
 }

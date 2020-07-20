@@ -10,6 +10,7 @@
 #include "Armadura.h"
 #include "Escudo.h"
 #include "Casco.h"
+#include "../../common/Serializacion.h"
 #include "../../common/Excepcion.h"
 #include "Criatura.h"
 #include "FabricaDeItems.h"

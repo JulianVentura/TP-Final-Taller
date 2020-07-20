@@ -1,33 +1,31 @@
-#ifndef __COLA_BLOQUEANTE__
-#define __COLA_BLOQUEANTE__
+#ifndef __COLA_DE_SERIALIZACION_H__
+#define __COLA_DE_SERIALIZACION_H__
 
-#include "Mensaje.h"
+#include "../../common/Serializacion.h"
 #include <condition_variable>
 #include <mutex>
-#include <atomic>
 #include <queue>
 
 
-class ColaBloqueanteMensajes{
+class ColaSerializacion{
     private:
     std::condition_variable conditionVariable;
-    std::queue<Mensaje> cola;
+    std::queue<SerializacionCliente> cola;
     std::mutex mutex;
     bool colaCerrada;
-    std::atomic<uint32_t> tamanioBytesAlmacenados;
 
     public:
-    ColaBloqueanteMensajes();
+    ColaSerializacion();
     /*
-    Obtiene un objeto Mensaje de la cola bloqueante por movimiento.
+    Obtiene un objeto SerializacionCliente de la cola bloqueante por movimiento.
     Este metodo es thread safe, por lo tanto no existiran conflictos
     en ejecuciones concurrentes.
     Este metodo es bloqueante, en caso de que la cola no contenga objetos
     Mensaje se mandara a dormir al thread.
     */
-    Mensaje pop();
+    SerializacionCliente pop();
     /*
-    Guarda un objeto Mensaje en la cola bloqueante por movimiento.
+    Guarda un objeto SerializacionCliente en la cola bloqueante por movimiento.
     Este metodo es thread safe, por lo tanto no existiran conflictos
     en ejecuciones concurrentes.
     Al finalizar su ejecucion avisara a los threads en espera que un 
@@ -35,18 +33,13 @@ class ColaBloqueanteMensajes{
     En caso de que la cola haya sido cerrada lanzara la excepcion
     Excepcion.
     */
-    void push(Mensaje mensaje);
+    void push(SerializacionCliente mensaje);
     /*
     Cierra la cola bloqueante y despierta a los threads en espera
     Este metodo es thread safe, por lo tanto no existiran conflictos
     en ejecuciones concurrentes.
     */
     void cerrarCola();
-    /*
-    Devuleve la cantidad de bytes almacenados dentro de la cola en base al tamanio
-    de los mensajes que han sido introducidos.
-    */
-    uint32_t obtenerTamBytesAlmacenados();
 };
 
 #endif
