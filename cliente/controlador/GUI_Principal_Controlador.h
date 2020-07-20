@@ -11,6 +11,14 @@
 #include "../controlador/GUI_Tienda_Controlador.h"
 #include "../controlador/IInteractivo.h"
 
+/*
+*	Clase que reune los controladores de la interfaz involucrados en
+*	la ejecución normal del juego. Permite explicitar la prioridad
+*	con la que se manejan los eventos.
+*	Cuando un componente puede responder a un evento, lo consume y éste
+*	no alcanza al resto.
+*/
+
 class GUI_Principal;
 
 class GUI_PrincipalControlador: public IInteractivo {

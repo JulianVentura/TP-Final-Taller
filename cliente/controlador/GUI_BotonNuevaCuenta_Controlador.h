@@ -6,6 +6,11 @@
 #include "../controlador/GUI_Boton_Controlador.h"
 #include "../vista/GUI_BotonNuevaCuenta.h"
 
+/*
+*	Ver GUI_Boton_Controlador.
+*/
+
+
 class GUI_BotonNuevaCuentaControlador final : public GUI_BotonControlador{
 private:
 	ServidorProxy& servidor; 
@@ -15,6 +20,11 @@ private:
 	std::string& raza;
 	std::string& clase;
 	bool& conectado;
+
+	/*	Si conectado es verdadero, intenta crear una cuenta con los datos provistos.
+	*	Ante una falla imprime un mensaje por "salida", en caso de desconexion establece
+	*	conectado en falso.
+	*/
 	bool enClick() override;
 public:
 	GUI_BotonNuevaCuentaControlador(GUI_BotonNuevaCuenta& vista,

@@ -8,6 +8,7 @@
 #include "../controlador/GUI_Clickeable.h"
 #include "../vista/GUI_SelectorLista.h"
 
+
 class GUI_SelectorListaControlador : public GUI_Clickeable{
 private:
 	int i;
@@ -16,7 +17,11 @@ private:
 public:
 	GUI_SelectorListaControlador(GUI_SelectorLista& vista,
 	 std::vector<std::string>& lista);
+
+	// Realiza una iteración circular por los elementos de "lista"
+	// y actualiza la salida de "vista".
 	bool enClick() override;
+
 	virtual void actualizarDimension();
 };
 
