@@ -8,7 +8,6 @@
 #include <vector>
 #include <string>
 
-
 class Animacion {
 public:
     explicit Animacion();
@@ -17,6 +16,7 @@ public:
     void setInfo(AnimacionBase* infoAnimacion);
     void setAccion(const std::string& accion);
     void setMascara(SDL_Rect& mascara, int delta_x, int delta_y);
+    void setMascara(AnimacionParser* parser, SDL_Rect& mascara, std::string& direccion, bool esta_quieto);
     void avanzar();
     void setTiempoPorCiclo(unsigned int tiempo_por_ciclo);
     void setTiempoPorCuadro(unsigned int tiempo_por_cuadro);
@@ -25,6 +25,7 @@ private:
     void reiniciar();
     AnimacionBase* infoAnimacion;
     std::string accion;
+    std::string direccion;
     int columna = 0;
     int tiempo_hasta_proximo_ciclo = 0;
     int tiempo_hasta_proximo_cuadro = 0;

@@ -35,6 +35,14 @@ void CapaSprite::renderImagen(Imagen* imagen, int x, int y, int ancho, int alto)
     imagen->render();
 }
 
+void CapaSprite::render(EntidadParser& parser, std::unordered_map<std::string, 
+                    Imagen*>& equipables, int x, int y, int ancho, int alto, DatosApariencia& apariencia) {
+    for (auto& setDeImagen: setDeImagenes) {
+        for (auto& imagen: setDeImagen.second)
+            renderImagen(imagen, x, y, ancho, alto);
+    }
+}
+
 void CapaSpritePersonaje::render(EntidadParser& parser, std::unordered_map<
         std::string, Imagen*>& equipables, int x, int y, int ancho, int alto, DatosApariencia& apariencia) {
     for (auto& parte: ordenDeImagenes) {
@@ -53,20 +61,11 @@ void CapaSpritePersonaje::render(EntidadParser& parser, std::unordered_map<
     for (auto& equipable: equipables) 
         renderImagen(equipable.second, x, y, ancho, alto);
 }
-
-
-void CapaSprite::render(EntidadParser& parser, std::unordered_map<std::string, 
-                    Imagen*>& equipables, int x, int y, int ancho, int alto, DatosApariencia& apariencia) {
-    for (auto& setDeImagen: setDeImagenes) {
-        for (auto& imagen: setDeImagen.second)
-            renderImagen(imagen, x, y, ancho, alto);
-    }
-}
-
 CapaSprite::CapaSprite(imagenes_t& setDeImagenes): 
     setDeImagenes(setDeImagenes) {}
 CapaSpritePersonaje::CapaSpritePersonaje(imagenes_t& setDeImagenes): 
     CapaSprite(setDeImagenes) {}
+
 
 void CapaSprite::setMascara(SDL_Rect& mascara) {
     this->mascara = mascara;
@@ -74,19 +73,21 @@ void CapaSprite::setMascara(SDL_Rect& mascara) {
 
 void Sprite::render(EntidadParser& parser, std::unordered_map<std::string, Imagen*>& equipables) {
     if (!capa) return;
+    capa->setMascara(mascara);
     capa->render(parser, equipables, x, y, ancho, alto, apariencia);
 }
 
 void Sprite::setDimension(int x, int y, int ancho, int alto) {
-    this->x = x;
-    this->y = y;
+    this->x = x - ancho / 2;
+    this->y = y - alto;
     this->ancho = ancho;
     this->alto = alto;
 }
 
 void Sprite::setMascara(SDL_Rect& mascara) {
     if (!capa) return;
-    capa->setMascara(mascara);
+    // capa->setMascara(mascara);
+    this->mascara = mascara;
 }
 
 void Sprite::actualizar(EntidadParser& parser, DatosApariencia& apariencia) {

@@ -29,7 +29,7 @@ public:
 
 private:
     void parsearImagen(EntornoGrafico& entorno, std::string& raiz, imagenes_t& 
-        setDeImagenes, const std::string& tipo, const std::string& variante);
+        setDeImagenes, const std::string& tipo, const std::string& variante, std::string& color_fondo);
     imagenes_t setDeImagenes;
     std::vector<Imagen*> bufferImagenes;
     std::string id;

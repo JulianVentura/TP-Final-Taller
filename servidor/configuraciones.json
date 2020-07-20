@@ -443,7 +443,7 @@
         }
     },
     "Proyectiles": {
-        "FlechaMagica": {
+        "FlechaM": {
             "VelDesplazamiento": 0.9,
             "TiempoDespawn": 300
         },
@@ -602,7 +602,7 @@
                 "Rango": 300,
                 "ConsumoMana": 50,
                 "TiempoAtaque": 1500,
-                "Proyectil": "FlechaMagica",
+                "Proyectil": "FlechaM",
                 "Precio": 10,
                 "idTCP": 4
             },
@@ -639,7 +639,7 @@
             "ArcoSimple": {
                 "DanioMax": 4,
                 "DanioMin": 1,
-                "Rango": 50,
+                "Rango": 150,
                 "ConsumoMana": 0,
                 "TiempoAtaque": 1000,
                 "Proyectil": "Flechazo",
@@ -649,7 +649,7 @@
             "ArcoCompuesto": {
                 "DanioMax": 16,
                 "DanioMin": 4,
-                "Rango": 50,
+                "Rango": 250,
                 "ConsumoMana": 0,
                 "TiempoAtaque": 1000,
                 "Proyectil": "Flechazo",

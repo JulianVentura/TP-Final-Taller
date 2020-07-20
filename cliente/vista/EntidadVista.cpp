@@ -40,7 +40,7 @@ void EntidadVista::render() {
     if (!esta_apariencia) return;
     std::unordered_map<std::string, Imagen*> equipables(std::move(parser.getEquipables(apariencia)));
     sprite.setMascara(mascara);
-    sprite.setDimension(getX(), getY(), mascara.w, mascara.h);
+    sprite.setDimension(getX() + ancho / 2, getY() + alto, mascara.w, mascara.h);
     sprite.render(parser, equipables);
     renderer->setColor(51, 0, 51);
     renderer->rect(getX(), getY(), getAncho(), getAlto());

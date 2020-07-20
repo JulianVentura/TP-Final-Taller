@@ -5,13 +5,16 @@
 #define REPETIR_INDEFINIDAMENTE 0
 
 class AnimacionParser;
+class Animacion;
 class AnimacionBase {
 public:
     AnimacionBase() {};
     AnimacionBase(AnimacionParser& parser);
     virtual ~AnimacionBase() = default;
-    virtual void getMascara(SDL_Rect& mascara, int columna, int delta_x, int delta_y);
-    virtual int getColumnas();
+    AnimacionParser* getParser();
+    virtual void getMascara(Animacion& animacion, std::string& direccion_anterior, 
+            SDL_Rect& mascara, int delta_x, int delta_y);
+    virtual int getColumnas(std::string& accion, std::string& direccion);
     virtual int getTiempoPorCiclo();
     virtual int getTiempoPorCuadro();
 
@@ -20,13 +23,10 @@ private:
     AnimacionParser* parser;
 
 protected:
-    std::string accion;
-    std::string direccion;
-    int columna = 0;
+    virtual std::string getDireccion(int delta_x, int delta_y);
+    virtual bool estaQuieto(int delta_x, int delta_y);
     int tiempo_por_ciclo = REPETIR_INDEFINIDAMENTE;
     int tiempo_por_cuadro = 80;
-    unsigned int ultimo_delta_t = 0;
-    bool esta_quieto;
 };
 
 #endif

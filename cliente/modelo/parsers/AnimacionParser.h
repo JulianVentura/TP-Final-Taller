@@ -30,8 +30,8 @@ private:
     int columnas;
     int tiempo_por_cuadro;
     int tiempo_entre_ciclo;
-    std::string estado_inicial;
-    std::string direccion_inicial;
+    std::string estado_inicial = "";
+    std::string direccion_inicial = "";
     animaciones_t animaciones;
 };
 

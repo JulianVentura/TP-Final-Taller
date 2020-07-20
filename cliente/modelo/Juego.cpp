@@ -45,7 +45,6 @@ bool Juego::manejarEvento(SDL_Event& evento) {
         camara.transformar(x, y);
         auto boton = evento.button.button;
         for (auto& entidad: entidades) {
-            if(entidad.first == datos_personaje.id) continue;
             bool consumido = entidad.second.second->contienePunto(x, y);
             if (!consumido) continue;
             if (boton == SDL_BUTTON_LEFT) 
@@ -93,6 +92,7 @@ void Juego::cambiarMapa(const std::string& mapa_s) {
 
 void Juego::agregarEntidad(std::string& id) {
     DatosApariencia apariencia;
+    printf("Se agrega %s", id.c_str());
     auto posicion_identificador = id.find(NPC_DELIMITADOR);
     if (posicion_identificador != std::string::npos) {
         apariencia.tipo = id.substr(0, posicion_identificador);
@@ -115,6 +115,7 @@ Juego::~Juego() {
 
 void Juego::borrarEntidad(const std::string& id) {
     if (!entidades.count(id)) return;
+    printf("Se borra %s", id.c_str());
     capaFrontal.borrarObstruible(id);
     delete entidades[id].first;
     delete entidades[id].second;

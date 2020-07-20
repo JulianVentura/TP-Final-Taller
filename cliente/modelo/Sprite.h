@@ -46,6 +46,7 @@ protected:
     void renderImagen(Imagen* imagen);
     DatosApariencia apariencia;
     CapaSprite* capa = nullptr;
+    SDL_Rect mascara;
     int x; 
     int y;
     int ancho;

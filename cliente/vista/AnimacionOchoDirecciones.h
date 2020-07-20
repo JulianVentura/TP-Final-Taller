@@ -14,10 +14,8 @@ class AnimacionOchoDirecciones: public AnimacionBase {
 public:
     AnimacionOchoDirecciones(AnimacionParser& parser);
     virtual ~AnimacionOchoDirecciones() = default;
-    void getMascara(SDL_Rect& mascara, int columna, int delta_x, int delta_y) override;
-
-private:
-    void nuevoEstado(int delta_x, int delta_y);
+    std::string getDireccion(int delta_x, int delta_y) override;
+    bool estaQuieto(int delta_x, int delta_y) override;
 };
 
 #endif

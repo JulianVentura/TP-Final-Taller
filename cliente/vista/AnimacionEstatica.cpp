@@ -4,11 +4,12 @@
 
 AnimacionEstatica::AnimacionEstatica(int ancho, int alto): ancho(ancho), alto(alto) {}
 
-void AnimacionEstatica::getMascara(SDL_Rect& mascara, int columna, int delta_x, int delta_y) {
+void AnimacionEstatica::getMascara(Animacion& animacion, std::string& direccion_vieja, 
+                                        SDL_Rect& mascara, int delta_x, int delta_y) {
     mascara = {0, 0, ancho, alto}; 
 }
 
-int AnimacionEstatica::getColumnas() {
+int AnimacionEstatica::getColumnas(std::string& accion, std::string& direccion) {
     return 0;
 }
 

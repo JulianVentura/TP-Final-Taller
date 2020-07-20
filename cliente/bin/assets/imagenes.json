@@ -1,7 +1,7 @@
 {
 	"raiz": "assets/personaje/",
-	"ancho": 40,
-	"alto": 64,
+	"ancho": 32,
+	"alto": 50,
 	"base": "100",
 	"razas": {
 		"4": {
@@ -181,16 +181,180 @@
 			}
 		},
 		"6": {
-			"copiar": "4",
 			"nombre": "Enanos",
 			"descripcion": "son muy fuertes y resistentes, pero la agilidad no es lo suyo.",
-			"escala": 0.9
+			"escala": 0.9,
+			"variantes": {
+				"base": {
+					"nombre": "Base",
+					"estructura": {
+						"cuerpo": ["tanned.png"],
+						"ojos": ["brown.png"],
+						"cicatrices": [],
+						"nariz": ["straightnose_tanned.png"],
+						"orejas": [],
+						"facial": [],
+						"pies": [],
+						"piernas": [],
+						"torso": [],
+						"cinto": [],
+						"pelo": [],
+						"cabeza": []
+					}
+				},
+				"1" : {
+					"nombre": "Mago",
+					"estructura": {
+						"cuerpo" : ["man-white.png"],
+						"ojos": ["gray.png"],
+						"cicatrices" : [],
+						"nariz": [],
+						"facial": ["bigote/white.png", "barba/white.png"],
+						"pies": ["black_shoes_male.png"],
+						"piernas": ["male_robe_bottom_dark.png"],
+						"torso": ["formal_trenchcoat.png"],
+						"cinto": [],
+						"pelo": [],
+						"cabeza": ["brown.png"]
+					}
+				},
+				"3": {
+					"nombre": "Clerigo",
+					"estructura": {
+						"cuerpo" : ["man-white.png"],
+						"ojos": [],
+						"cicatrices" : [],
+						"nariz": [],
+						"facial": [],
+						"pies": ["black_shoes_male.png"],
+						"piernas": ["male_robe_bottom_dark.png"],
+						"torso": ["formal_iverness.png"],
+						"cinto": [],
+						"pelo": [],
+						"cabeza": []
+					}
+				},
+				"2": {
+					"nombre": "Paladin",
+					"estructura": {
+						"cuerpo" : [],
+						"ojos": [],
+						"cicatrices" : [],
+						"nariz": [],
+						"facial": ["5.png", "barba/blonde2.png"],
+						"pies": ["brown_shoes_male.png"],
+						"piernas": ["male_pants_green.png"],
+						"torso": ["white_longsleeve.png"],
+						"cinto": ["leather_male.png"],
+						"pelo": ["longhawk/white-blonde.png"],
+						"cabeza": []
+					}
+				},
+				"0": {
+					"nombre": "Guerrero",
+					"estructura": {
+						"cuerpo" : ["tanned2.png"],
+						"ojos": ["blue.png"],
+						"cicatrices" : ["eye_blood.png"],
+						"nariz": [],
+						"facial": [],
+						"pies": ["Male_sandals.png"],
+						"piernas": ["Male_legionSkirt.png"],
+						"torso": [],
+						"cinto": [],
+						"pelo": ["shorthawk/brunette.png"],
+						"cabeza": []
+					}
+				}
+			}
 		},
 		"7": {
-			"copiar": "5",
 			"nombre": "Gnomos",
 			"descripcion": "inteligentes y resistentes, pero mucho menos ágiles que los elfos.",
-			"escala": 0.9
+			"escala": 0.9,
+			"variantes": {
+				"base": {
+					"nombre": "Base",
+					"estructura": {
+						"cuerpo": ["light.png"],
+						"ojos": ["brown.png"],
+						"cicatrices": [],
+						"nariz": ["straightnose_tanned.png"],
+						"orejas": ["elvenears_light.png"],
+						"facial": [],
+						"pies": [],
+						"piernas": [],
+						"torso": [],
+						"cinto": [],
+						"pelo": [],
+						"cabeza": []
+					}
+				},
+				"1": {
+					"nombre": "Mago",
+					"estructura": {
+						"cuerpo" : ["man-white.png"],
+						"ojos": ["gray.png"],
+						"cicatrices" : [],
+						"nariz": [],
+						"facial": ["bigote/white.png", "barba/white.png"],
+						"pies": ["black_shoes_male.png"],
+						"piernas": ["male_robe_bottom_dark.png"],
+						"torso": ["formal_trenchcoat.png"],
+						"cinto": [],
+						"pelo": [],
+						"cabeza": ["brown.png"]
+					}
+				},
+				"3": {
+					"nombre": "Clerigo",
+					"estructura": {
+						"cuerpo" : ["man-white.png"],
+						"ojos": [],
+						"cicatrices" : [],
+						"nariz": [],
+						"facial": ["formal_monocle.png"],
+						"pies": ["black_shoes_male.png"],
+						"piernas": ["male_robe_bottom_dark.png"],
+						"torso": ["formal_iverness.png"],
+						"cinto": [],
+						"pelo": [],
+						"cabeza": []
+					}
+				},
+				"2": {
+					"nombre": "Paladin",
+					"estructura": {
+						"cuerpo" : [],
+						"ojos": [],
+						"cicatrices" : [],
+						"nariz": [],
+						"facial": ["5.png", "barba/blonde2.png"],
+						"pies": ["brown_shoes_male.png"],
+						"piernas": ["male_pants_green.png"],
+						"torso": ["male_shirt_green.png", "formal_vest stripes.png"],
+						"cinto": ["leather_male.png"],
+						"pelo": ["longhawk/white-blonde.png"],
+						"cabeza": []
+					}
+				},
+				"0": {
+					"nombre": "Guerrero",
+					"estructura": {
+						"cuerpo" : ["tanned2.png"],
+						"ojos": ["blue.png"],
+						"cicatrices" : ["eye_blood.png"],
+						"nariz": [],
+						"facial": [],
+						"pies": ["Male_sandals.png"],
+						"piernas": ["Male_legionSkirt.png"],
+						"torso": [],
+						"cinto": [],
+						"pelo": ["shorthawk/brunette.png"],
+						"cabeza": []
+					}
+				}
+			}
 		}
 	},
 	"clases": {
@@ -314,8 +478,8 @@
 	},
 	"npc": {
 		"Goblin": {
-			"ancho": 48,
-			"alto": 48,
+			"ancho": 32,
+			"alto": 50,
 			"estructura": {
 				"cuerpo" : ["Drake_male_blue_complete_nw.png"],
 				"ojos": ["red.png"],
@@ -332,26 +496,25 @@
 			}
 		},
 		"Esqueleto": {
-			"ancho": 48,
-			"alto": 48,
+			"ancho": 32,
+			"alto": 50,
 			"estructura": {
 				"cuerpo" : ["skeleton.png"],
 				"ojos": [],
 				"cicatrices" : ["ribs_blood.png", "eye_blood.png"]
 			}
 		},
-
 		"Zombie": {
-			"ancho": 48,
-			"alto": 48,
+			"ancho": 32,
+			"alto": 50,
 			"estructura": {
 				"cuerpo" : ["zombie.png"],
 				"cicatrices" : ["ribs_blood.png", "eye_blood.png", "brain_blood.png"]
 			}
 		},
 		"Arania": {
-			"ancho": 48,
-			"alto": 48,
+			"ancho": 40,
+			"alto": 40,
 			"imagen" : ["spider1.png"],
 			"animacion": "arania"
 		},
@@ -362,8 +525,8 @@
 			"animacion": "arania2"
 		},
 		"Banquero": {
-			"ancho": 48,
-			"alto": 48,
+			"ancho": 32,
+			"alto": 50,
 			"estructura": {
 				"cuerpo" : ["man-white.png"],
 				"ojos": ["green.png"],
@@ -379,8 +542,8 @@
 			}
 		},
 		"Sacerdote": {
-			"ancho": 48,
-			"alto": 48,
+			"ancho": 32,
+			"alto": 50,
 			"estructura": {
 				"cuerpo" : ["man-white.png"],
 				"ojos": [],
@@ -403,8 +566,8 @@
 			"animacion": "fantasma"
 		},
 		"Comerciante": {
-			"ancho": 64,
-			"alto": 64,
+			"ancho": 32,
+			"alto": 50,
 			"estructura": {
 				"cuerpo" : ["man-white.png"],
 				"ojos": ["brown.png"],
@@ -426,13 +589,13 @@
 			"animacion": ""
 		},
 		"Portal": {
-			"ancho": 128,
-			"alto": 64,
+			"ancho": 80,
+			"alto": 50,
 			"es_obstruible": false,
 			"imagen": ["teleport_128.png"], 
 			"animacion": "portal"
 		},
-		"FlechaMagica": {
+		"FlechaM": {
 			"ancho": 64,
 			"alto": 64,
 			"imagen": ["icicle.png"], 
@@ -449,13 +612,35 @@
 			"alto": 32,
 			"imagen": ["flechas.png"], 
 			"animacion": "flechas"
+		},
+		"Explosion": {
+			"ancho": 57,
+			"alto": 57,
+			"imagen": ["3798.png"], 
+			"animacion": "explosion",
+			"key_color": "#000000"
+		},
+		"Curar": {
+			"ancho": 76,
+			"alto": 76,
+			"imagen": ["3795.png"], 
+			"animacion": "curar",
+			"key_color": "#000000"
+		},
+		"sup-102": {
+			"nombre": "Meditar",
+			"ancho": 113,
+			"alto": 113,
+			"imagen": ["3797.png"], 
+			"animacion": "meditar",
+			"key_color": "#000000"
 		}
 	},
 	"animacion": {
 		"base": {
 			"Ancho": 64,
 			"Alto": 64,
-			"tiempo_por_cuadro": 60,
+			"tiempo_por_cuadro": 40,
 			"tiempo_entre_ciclo": 0,
 			"Direcciones": 4,
 			"Columnas": 13,
@@ -708,6 +893,57 @@
 				"Mover-Izquierda-Abajo": {
 					"fila": 7,
 					"cantidad": 4
+				}
+			}
+		},
+		"explosion": {
+			"Ancho": 57,
+			"Alto": 57,
+			"tiempo_por_cuadro": 100,
+			"tiempo_entre_ciclo": 5000,
+			"Direcciones": 0,
+			"Columnas": 5,
+			"Columna": 0,
+			"Estado-Inicial": "explosion",
+			"Direccion-Inicial": "",
+			"Estados": {
+				"explosion": {
+					"fila": 0,
+					"cantidad": 35
+				}
+			}
+		},
+		"curar": {
+			"Ancho": 76,
+			"Alto": 76,
+			"tiempo_por_cuadro": 100,
+			"tiempo_entre_ciclo": 0,
+			"Direcciones": 0,
+			"Columnas": 5,
+			"Columna": 0,
+			"Estado-Inicial": "curar",
+			"Direccion-Inicial": "",
+			"Estados": {
+				"curar": {
+					"fila": 0,
+					"cantidad": 30
+				}
+			}
+		},
+		"meditar": {
+			"Ancho": 113,
+			"Alto": 113,
+			"tiempo_por_cuadro": 100,
+			"tiempo_entre_ciclo": 0,
+			"Direcciones": 0,
+			"Columnas": 5,
+			"Columna": 0,
+			"Estado-Inicial": "meditar",
+			"Direccion-Inicial": "",
+			"Estados": {
+				"meditar": {
+					"fila": 0,
+					"cantidad": 20
 				}
 			}
 		}

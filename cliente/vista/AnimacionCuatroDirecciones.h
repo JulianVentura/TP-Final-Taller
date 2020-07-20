@@ -14,9 +14,7 @@ class AnimacionCuatroDirecciones: public AnimacionBase {
 public:
     AnimacionCuatroDirecciones(AnimacionParser& parser);
     virtual ~AnimacionCuatroDirecciones() = default;
-    void getMascara(SDL_Rect& mascara, int columna, int delta_x, int delta_y) override;
-
-private:
-    void nuevoEstado(int delta_x, int delta_y);
+    std::string getDireccion(int delta_x, int delta_y) override;
+    bool estaQuieto(int delta_x, int delta_y) override;
 };
 #endif

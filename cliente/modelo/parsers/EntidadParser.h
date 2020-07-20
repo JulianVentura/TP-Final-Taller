@@ -33,8 +33,6 @@ public:
     
     const std::vector<Imagen*>& getImagenes(DatosApariencia& apariencia);
     std::unordered_map<std::string, Imagen*> getEquipables(DatosApariencia& apariencia);
-    int getAncho(DatosApariencia& apariencia);
-    int getAlto(DatosApariencia& apariencia);
     int getAnchoReal(DatosApariencia& apariencia);
     int getAltoReal(DatosApariencia& apariencia);
     bool esObstruible(DatosApariencia& apariencia);

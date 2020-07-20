@@ -131,6 +131,7 @@ const std::vector<Imagen*>& EntidadParser::getImagenes(
     else
         return getImagenes(apariencia.raza, apariencia.clase, parte);
 }
+
 std::unordered_map<std::string, Imagen*> EntidadParser::getEquipables(
                                                 DatosApariencia& apariencia) {
     std::unordered_map<std::string, Imagen*> resultado;
@@ -164,54 +165,22 @@ const std::vector<Imagen*>& EntidadParser::getImagenes(const std::string& raza,
 
 int EntidadParser::getAnchoReal(DatosApariencia& apariencia) {
     std::string id = idReal(apariencia);
+    printf("ancho real de %s: ", id.c_str());
     if (!entidades.count(id)) return 0;
+    printf("%d\n", entidades.at(id).getAncho());
     return entidades.at(id).getAncho();
 }
 
 int EntidadParser::getAltoReal(DatosApariencia& apariencia) {
     std::string id = idReal(apariencia);
+    printf("alto real de %s: ", id.c_str());
     if (!entidades.count(id)) return 0;
+    printf("%d\n", entidades.at(id).getAlto());
     return entidades.at(id).getAlto();
 }
+
 bool EntidadParser::esObstruible(DatosApariencia& apariencia) {
     std::string id = idReal(apariencia);
     if (entidades.count(id)) return entidades[id].esObstruible();
     return true;
-}
-    
-// int EntidadParser::getAncho(std::string& raza, std::string& tipo) {
-//     float factor = 1.0f;
-//     aMinuscula(raza);
-//     if (parser["razas"].count(raza)) 
-//         parser["razas"][raza]["escala"].get_to(factor);
-//     return getAncho(tipo) * factor;
-// }
-
-// int EntidadParser::getAlto(std::string& raza, std::string& tipo) {
-//     float factor = 1.0f;
-//     aMinuscula(raza);
-//     if (parser["razas"].count(raza)) 
-//         parser["razas"][raza]["escala"].get_to(factor);
-//     return getAlto(tipo) * factor;
-// }
-
-int EntidadParser::getAncho(std::string& tipo) {
-    std::string local_tipo = ENTIDADPARSER_BASE;
-    aMinuscula(tipo);
-    if (animaciones.count(tipo)) local_tipo = tipo;
-    return (int) parser["animacion"][local_tipo]["Ancho"];
-}
-
-int EntidadParser::getAlto(std::string& tipo) {
-    std::string local_tipo = ENTIDADPARSER_BASE;
-    aMinuscula(tipo);
-    if (animaciones.count(tipo)) local_tipo = tipo;
-    return parser["animacion"][local_tipo]["Alto"];
-}
-
-int EntidadParser::getAncho(DatosApariencia& apariencia) {
-    return getAncho(apariencia.tipo);
-}
-int EntidadParser::getAlto(DatosApariencia& apariencia) {
-    return getAlto(apariencia.tipo);
 }
