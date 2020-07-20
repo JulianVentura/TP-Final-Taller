@@ -64,8 +64,12 @@ bool ServidorProxy::estaLogueado() const {
 }
 
 void ServidorProxy::recibirMensaje(){
-	while(!salir) {
-		recibirMensajeConOperacion(protocolo.recibirUint32(socket));
+	try{
+		while(!salir) {
+			recibirMensajeConOperacion(protocolo.recibirUint32(socket));
+		}
+	}catch(std::exception& e){
+		SDL_PushEvent(&evento_salida);
 	}
 }
 
@@ -155,8 +159,8 @@ void ServidorProxy::comenzarRecepcionConcurrente() {
 
 void ServidorProxy::terminar() {
 	salir = true;
-	hilo_recepcion.join();
 	socket.cerrar_canal(SHUT_RDWR);
+	hilo_recepcion.join();
 }
 
 // Manejo de mapa
@@ -295,12 +299,9 @@ void ServidorProxy::setJuego(Juego* juego) {
 }
 
 void ServidorProxy::encolarMensaje(Mensaje&& mensaje){
-	colaEnvio.push(std::move(mensaje));
-	/*
         if(enviador.envioBloqueado()){
             SDL_PushEvent(&evento_salida);
         }else{
-            
+            colaEnvio.push(std::move(mensaje));
         }
-        */
 }

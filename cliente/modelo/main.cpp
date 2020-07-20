@@ -11,6 +11,10 @@
 #include "../vista/Ventana.h"
 
 int main(int argc, const char* argv[]) {
+	DatosPersonaje datos_personaje;
+    DatosTienda datos_tienda;
+	ServidorProxy servidor(datos_personaje, datos_tienda);
+
     try {
         EntornoGrafico entorno;
         std::string fuente_ruta("assets/DejaVuSansMono.ttf"); 
@@ -18,17 +22,18 @@ int main(int argc, const char* argv[]) {
         Ventana ventana(entorno, "Argentum Online");
         Renderer renderer(entorno);
         Colores paleta;
-        DatosPersonaje datos_personaje;
-        DatosTienda datos_tienda;
-
-        ServidorProxy servidor(datos_personaje, datos_tienda);
+        
         main_login(entorno, ventana, servidor, paleta);
-        if (!servidor.estaLogueado()) return 0;
+        if (!servidor.estaLogueado()){
+        	servidor.terminar();
+        	return 0;
+        } 
         main_juego(entorno, ventana, servidor, paleta,
          datos_personaje, datos_tienda);
         servidor.terminar();
     } catch (std::exception& e) {
         std::cerr << e.what() << std::endl;
+        servidor.terminar();
     }
     return 0;
 }
