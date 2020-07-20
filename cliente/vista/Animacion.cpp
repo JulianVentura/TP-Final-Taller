@@ -11,7 +11,6 @@ Animacion::Animacion() {
 
 void Animacion::setMascara(AnimacionParser* parser, SDL_Rect& mascara, 
                                     std::string& direccion, bool esta_quieto) {
-    printf("second call |%s| |%s|\n", accion.c_str(), direccion.c_str());
     if (!accion.size()) accion = parser->getEstadoInicial();
     this->direccion = direccion;
     if (esta_quieto) columna = 0;
@@ -27,8 +26,6 @@ void Animacion::setInfo(AnimacionBase* infoAnimacion) {
     this->infoAnimacion = infoAnimacion;
     tiempo_por_ciclo = infoAnimacion->getTiempoPorCiclo();
     tiempo_por_cuadro = infoAnimacion->getTiempoPorCuadro();
-    // direccion = infoAnimacion->getParser()->getDireccionInicial();
-    // accion = infoAnimacion->getParser()->getEstadoInicial();
     reiniciar();
 }
 void Animacion::actualizar(unsigned int delta_t) {

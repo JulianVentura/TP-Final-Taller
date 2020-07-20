@@ -35,7 +35,6 @@ int AnimacionParser::getGuid(std::string &accion, std::string &direccion, int co
     else
         id = accion;
     EntidadParser::aMinuscula(id);
-    printf("%s\n", id.c_str());
     if (!animaciones.count(id)) return 0;
     if (quieto || columna == 0) return animaciones[id][0];
     return animaciones[id][columna % animaciones[id].size()];

@@ -42,8 +42,8 @@ void EntidadVista::render() {
     sprite.setMascara(mascara);
     sprite.setDimension(getX() + ancho / 2, getY() + alto, mascara.w, mascara.h);
     sprite.render(parser, equipables);
-    renderer->setColor(51, 0, 51);
-    renderer->rect(getX(), getY(), getAncho(), getAlto());
+    // renderer->setColor(51, 0, 51);
+    // renderer->rect(getX(), getY(), getAncho(), getAlto());
 }
 
 void EntidadVista::actualizarApariencia(DatosApariencia& apariencia) {

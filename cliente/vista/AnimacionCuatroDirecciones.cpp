@@ -7,7 +7,6 @@ AnimacionCuatroDirecciones::AnimacionCuatroDirecciones(AnimacionParser& parser):
 }
 
 std::string AnimacionCuatroDirecciones::getDireccion(int delta_x, int delta_y) {
-    printf("se llama al get dir de animac 4 dire\n");
     std::string direccion;
     if (delta_y > 0)
         direccion = ANIMACION_ABAJO;

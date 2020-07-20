@@ -115,7 +115,6 @@ Juego::~Juego() {
 
 void Juego::borrarEntidad(const std::string& id) {
     if (!entidades.count(id)) return;
-    printf("Se borra %s", id.c_str());
     capaFrontal.borrarObstruible(id);
     delete entidades[id].first;
     delete entidades[id].second;
