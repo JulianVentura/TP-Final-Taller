@@ -1,22 +1,10 @@
-#include <SDL2/SDL_render.h>
-
-#include "Imagen.h"
-#include "IRendereable.h"
 #include "GUI_BotonMeditar.h"
-#include "Ventana.h"
 
 GUI_BotonMeditar::GUI_BotonMeditar(EntornoGrafico& entorno,
- Colores& paleta) : imagen(entorno, "assets/botonMeditar.png"){
-	entorno.agregarRendereable(this);
-	actualizarDimension();
-}
+ Colores& paleta) : GUI_Boton(entorno, "assets/gui/botonMeditar.png"){}
 
 void GUI_BotonMeditar::actualizarDimension(){
 	x = ventana->getAncho()*0.8 - 8 - 2*imagen.getAncho();
 	y =  ventana->getAlto() - imagen.getAlto() - 10;
 	imagen.setPosicion(x, y);
-}
-
-void GUI_BotonMeditar::render() {
-	imagen.render();
 }

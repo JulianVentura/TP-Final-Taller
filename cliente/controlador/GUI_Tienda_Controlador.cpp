@@ -12,10 +12,11 @@ bool GUI_TiendaControlador::enClick(){
 }
 
 bool GUI_TiendaControlador::operator()(SDL_Event& evento){
-	if(!enRectangulo(rect, evento.button.x, evento.button.y)){
+	SDL_Point punto = {evento.button.x, evento.button.y};
+	if(!SDL_PointInRect(&punto, &rect)){
 		vista_tienda.activo = false;
 		return false;
-	}
+	} 
 	return enClick();
 }
 

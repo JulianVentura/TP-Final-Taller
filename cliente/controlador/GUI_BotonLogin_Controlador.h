@@ -6,9 +6,8 @@
 #include "../controlador/GUI_Boton_Controlador.h"
 #include "../vista/GUI_BotonLogin.h"
 
-class GUI_BotonLoginControlador : public GUI_BotonControlador{
+class GUI_BotonLoginControlador final : public GUI_BotonControlador{
 private:
-	GUI_BotonLogin& vista;
 	ServidorProxy& servidor; 
 	ServidorSalida& salida;
 	std::string& nombre;
@@ -19,7 +18,6 @@ public:
 	 ServidorProxy& servidor, ServidorSalida& salida, std::string& nombre,
 	 std::string& clave, bool& conectado);
 	bool enClick() override;
-	void actualizarDimension();
 };
 
 #endif /*__BOTON_LOGIN_CONTROLADOR_H__*/

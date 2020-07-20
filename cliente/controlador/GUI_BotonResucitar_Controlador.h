@@ -7,15 +7,13 @@
 #include "../controlador/GUI_Boton_Controlador.h"
 #include "../vista/GUI_BotonResucitar.h"
 
-class GUI_BotonResucitarControlador : public GUI_BotonControlador{
+class GUI_BotonResucitarControlador final : public GUI_BotonControlador{
 private:
-	GUI_BotonResucitar& vista;
-	ServidorProxy& servidor; 
+	ServidorProxy& servidor;
+	bool enClick() override;
 public:
 	GUI_BotonResucitarControlador(GUI_BotonResucitar& vista,
 	 ServidorProxy& servidor);
-	bool enClick() override;
-	void actualizarDimension();
 };
 
 #endif /*__BOTON_LOGIN_CONTROLADOR_H__*/

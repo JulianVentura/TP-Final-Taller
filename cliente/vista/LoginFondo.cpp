@@ -2,8 +2,8 @@
 #include "../vista/GUI_Login.h"
 
 LoginFondo::LoginFondo(EntornoGrafico& entorno, Colores& paleta,bool& conectado)
-: paleta(paleta), conectado(conectado), fondo(entorno,"assets/fondoLogin.png"),
-logo(entorno,"assets/logo.png"){
+: paleta(paleta), conectado(conectado), fondo(entorno,"assets/gui/fondoLogin.png"),
+logo(entorno,"assets/gui/logo.png"){
 	entorno.agregarRendereable(this);
 	fondo.setPosicion(0,0);
 	logo.setPosicion(0, 0);

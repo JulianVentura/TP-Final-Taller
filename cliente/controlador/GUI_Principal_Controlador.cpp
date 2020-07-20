@@ -24,7 +24,7 @@ GUI_PrincipalControlador::GUI_PrincipalControlador(ServidorProxy& servidor,
         servidor.salida = &chat_controlador;
         botones.push_back(&boton_oro_controlador);
         botones.push_back(&tienda_controlador);
-    }
+}
 
 bool GUI_PrincipalControlador::manejarEvento(SDL_Event& evento) {
     if (evento.type == SDL_WINDOWEVENT) {

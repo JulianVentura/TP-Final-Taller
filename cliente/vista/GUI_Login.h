@@ -6,6 +6,7 @@
 #include <string>
 
 #include "../modelo/ServidorProxy.h"
+#include "../controlador/GUI_Clickeable.h"
 #include "../controlador/GUI_Boton_Controlador.h"
 #include "../controlador/GUI_CajaTexto_Controlador.h"
 #include "../controlador/GUI_BotonConectar_Controlador.h"
@@ -50,7 +51,7 @@ private:
 	LoginFondo fondo;
 	
 public:
-	std::vector<GUI_BotonControlador*> botones;
+	std::vector<GUI_Clickeable*> botones;
 	GUI_Login(EntornoGrafico& entorno, Colores& paleta,
 		ServidorProxy& servidor);
 	~GUI_Login();

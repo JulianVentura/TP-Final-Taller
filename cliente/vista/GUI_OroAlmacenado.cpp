@@ -3,7 +3,7 @@
 
 GUI_OroAlmacenado::GUI_OroAlmacenado(EntornoGrafico& entorno, Colores& paleta,
 	std::atomic<uint16_t>& oro) : paleta(paleta), oro(oro),
-	imagen(entorno, "assets/oroAlmacen.png"){
+	imagen(entorno, "assets/gui/oroAlmacen.png"){
 	entorno.agregarRendereable(this);
 	marco.w = 40; marco.h = 15;
 	actualizarDimension();

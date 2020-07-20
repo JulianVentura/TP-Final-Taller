@@ -1,8 +1,7 @@
 #include "GUI_CajaTexto_Controlador.h"
 
 GUI_CajaTextoControlador::GUI_CajaTextoControlador(GUI_CajaTexto& vista): 
- GUI_BotonControlador(vista.marco_entrada.x, vista.marco_entrada.y,
- vista.marco_entrada.w, vista.marco_entrada.h), caja_vista(vista) {}
+ GUI_Clickeable(vista.marco_entrada), caja_vista(vista) {}
 
 void GUI_CajaTextoControlador::darFoco(bool enFoco) {
 	this->enFoco = enFoco;
@@ -32,7 +31,8 @@ bool GUI_CajaTextoControlador::manejarEvento(SDL_Event& evento) {
 }
 
 bool GUI_CajaTextoControlador::operator()(SDL_Event& evento){
-	enFoco = enRectangulo(rect, evento.button.x, evento.button.y);
+	SDL_Point punto = {evento.button.x, evento.button.y};
+	enFoco = SDL_PointInRect(&punto, &rect);
 	caja_vista.darFoco(enFoco);
 	return enFoco && enClick();
 }

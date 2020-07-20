@@ -2,17 +2,17 @@
 #define __GUI_BOTON_CONTROLADOR_H__
 
 #include <SDL2/SDL.h>
+#include "../vista/GUI_Boton.h"
+#include "GUI_Clickeable.h"
 
-bool enRectangulo(SDL_Rect& rect, int x, int y);
-
-class GUI_BotonControlador{
+class GUI_BotonControlador : public GUI_Clickeable{
 protected:
-	SDL_Rect rect;
+	GUI_Boton& vista;
 	virtual bool enClick() = 0;
 public:
-	GUI_BotonControlador(int x, int y, int ancho, int alto);
+	GUI_BotonControlador(GUI_Boton& vista);
 	virtual bool operator()(SDL_Event& evento);
-	virtual ~GUI_BotonControlador();
+	virtual void actualizarDimension();
 };
 
 #endif /*__GUI_BOTON_CONTROLADOR_H__*/

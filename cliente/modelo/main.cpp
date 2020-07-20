@@ -40,6 +40,7 @@ int main(int argc, const char* argv[]) {
         bucle_login.correr();
         ventana.borrarRendereables();
         if (!servidor.estaLogueado()) return 0;
+
         // JUEGO EN SI //
         EntornoMusical::obtenerInstancia() -> reproducirMusica("musicaJuego2");
         BuclePrincipal bucle(ventana);

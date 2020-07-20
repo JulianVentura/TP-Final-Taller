@@ -4,8 +4,7 @@
 #include "../vista/GUI_Dock.h"
 
 GUI_Dock::GUI_Dock(EntornoGrafico& entorno, Colores& paleta) :
-fondo(entorno,"assets/fondoDock.png"),
-borde(entorno,"assets/bordeDock.png"),
+fondo(entorno,"assets/gui/fondoDock.png"), borde(entorno,"assets/gui/bordeDock.png"),
 paleta(paleta){
 	entorno.agregarRendereable(this);
 	actualizarDimension();

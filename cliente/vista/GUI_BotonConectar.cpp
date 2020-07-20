@@ -1,13 +1,8 @@
-#include <SDL2/SDL_render.h>
-
 #include "GUI_BotonConectar.h"
 #include "../vista/GUI_Login.h"
 
 GUI_BotonConectar::GUI_BotonConectar(EntornoGrafico& entorno,
- Colores& paleta) : imagen(entorno, "assets/botonConectar.png"){
-	entorno.agregarRendereable(this);
-	actualizarDimension();
-}
+ Colores& paleta) : GUI_Boton(entorno, "assets/gui/botonConectar.png"){}
 
 void GUI_BotonConectar::actualizarDimension(){
 	x = X_BASE_LOGIN;
@@ -15,6 +10,4 @@ void GUI_BotonConectar::actualizarDimension(){
 	imagen.setPosicion(x, y);
 }
 
-void GUI_BotonConectar::render() {
-	imagen.render();
-}
+GUI_BotonConectar::~GUI_BotonConectar(){}
