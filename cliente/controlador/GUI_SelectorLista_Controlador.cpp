@@ -2,8 +2,8 @@
 
 GUI_SelectorListaControlador::GUI_SelectorListaControlador
 (GUI_SelectorLista& vista, std::vector<std::string>& lista) :
-GUI_BotonControlador(vista.x, vista.y, vista.imagen.getAncho(),
-  vista.imagen.getAlto()), vista(vista), lista(lista){
+GUI_Clickeable({vista.x, vista.y, vista.imagen.getAncho(),
+  vista.imagen.getAlto()}), vista(vista), lista(lista){
 	i = 0;
 }
 

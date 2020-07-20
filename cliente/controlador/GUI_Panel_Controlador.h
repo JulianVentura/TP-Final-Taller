@@ -3,9 +3,9 @@
 
 #include "../vista/GUI_Panel.h"
 #include "../vista/GUI_PanelInventario.h"
-#include "../controlador/GUI_Boton_Controlador.h"
+#include "../controlador/GUI_Clickeable.h"
 
-class GUI_PanelControlador : public GUI_BotonControlador{
+class GUI_PanelControlador : public GUI_Clickeable{
 protected:
 	GUI_Panel& panel;
 	int obtenerIndiceClick();

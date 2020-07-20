@@ -1,22 +1,10 @@
-#include <SDL2/SDL_render.h>
-
-#include "Imagen.h"
-#include "IRendereable.h"
-#include "GUI_BotonInventario.h"
-#include "Ventana.h"
+#include "../vista/GUI_BotonInventario.h"
 
 GUI_BotonInventario::GUI_BotonInventario(EntornoGrafico& entorno,
- Colores& paleta) : imagen(entorno, "assets/botonInventario.png"){
-	entorno.agregarRendereable(this);
-	actualizarDimension();
-}
+ Colores& paleta) : GUI_Boton(entorno, "assets/gui/botonInventario.png"){}
 
 void GUI_BotonInventario::actualizarDimension(){
 	x = ventana->getAncho()*0.2 + 4;
 	y =  ventana->getAlto() - imagen.getAlto() - 20;
 	imagen.setPosicion(x, y);
-}
-
-void GUI_BotonInventario::render() {
-	imagen.render();
 }

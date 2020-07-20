@@ -7,15 +7,13 @@
 #include "../controlador/GUI_Boton_Controlador.h"
 #include "../vista/GUI_BotonMeditar.h"
 
-class GUI_BotonMeditarControlador : public GUI_BotonControlador{
+class GUI_BotonMeditarControlador final : public GUI_BotonControlador{
 private:
-	GUI_BotonMeditar& vista;
-	ServidorProxy& servidor; 
+	ServidorProxy& servidor;
+	bool enClick() override;
 public:
 	GUI_BotonMeditarControlador(GUI_BotonMeditar& vista,
 	 ServidorProxy& servidor);
-	bool enClick() override;
-	void actualizarDimension();
 };
 
 #endif /*__BOTON_LOGIN_CONTROLADOR_H__*/

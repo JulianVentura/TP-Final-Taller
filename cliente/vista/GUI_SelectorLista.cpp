@@ -1,7 +1,7 @@
 #include "GUI_SelectorLista.h"
 
 GUI_SelectorLista::GUI_SelectorLista(EntornoGrafico& entorno, Colores& paleta):
-paleta(paleta), imagen(entorno, "assets/botonVacio.png"){
+paleta(paleta), imagen(entorno, "assets/gui/botonVacio.png"){
 	entorno.agregarRendereable(this);
 	actualizarDimension();
 }

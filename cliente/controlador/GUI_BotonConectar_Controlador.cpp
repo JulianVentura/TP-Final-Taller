@@ -3,8 +3,7 @@
 GUI_BotonConectarControlador::GUI_BotonConectarControlador(
 	GUI_BotonConectar& vista, ServidorProxy& servidor, ServidorSalida& salida,
 	 std::string& direccion, std::string& puerto, bool& conectado)
- : GUI_BotonControlador(vista.x, vista.y, vista.imagen.getAncho(),
-  vista.imagen.getAlto()), vista(vista), servidor(servidor), salida(salida),
+ : GUI_BotonControlador(vista), servidor(servidor), salida(salida),
   direccion(direccion), puerto(puerto), conectado(conectado){}
 
 bool GUI_BotonConectarControlador::enClick(){
@@ -21,11 +20,4 @@ bool GUI_BotonConectarControlador::enClick(){
 	}
 
 	return true;
-}
-
-void GUI_BotonConectarControlador::actualizarDimension(){
-	rect.x = vista.x;
-	rect.y = vista.y;
-	rect.w = vista.imagen.getAncho();
-	rect.h = vista.imagen.getAlto();
 }

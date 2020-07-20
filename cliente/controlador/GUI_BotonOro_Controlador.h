@@ -5,13 +5,11 @@
 #include "../vista/GUI_BotonOro.h"
 #include "../modelo/ServidorProxy.h"
 
-class GUI_BotonOroControlador : public GUI_BotonControlador{
+class GUI_BotonOroControlador final : public GUI_BotonControlador{
 private:
-	GUI_BotonOro& vista;
 	ServidorProxy& servidor;
-	bool enClick();
+	bool enClick() override;
 public:
-	void actualizarDimension();
 	GUI_BotonOroControlador(GUI_BotonOro& vista, ServidorProxy& servidor);
 };
 

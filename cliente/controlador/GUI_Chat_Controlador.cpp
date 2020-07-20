@@ -12,10 +12,8 @@ bool GUI_ChatControlador::enEnter(){
 }
 
 bool GUI_ChatControlador::operator()(SDL_Event& evento) {
-	enFoco = enRectangulo(chat_vista.marco_entrada, evento.button.x, 
-															evento.button.y);
-	// enFoco |= enRectangulo(chat_vista.marco_mensajes, evento.button.x, 
-	// 														evento.button.y);
+	SDL_Point punto = {evento.button.x, evento.button.y};
+	enFoco = SDL_PointInRect(&punto, &rect);
 	chat_vista.darFoco(enFoco);
 	if (!enFoco) {
 		SDL_StopTextInput();

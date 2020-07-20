@@ -26,6 +26,7 @@ GUI_Principal::GUI_Principal(EntornoGrafico& entorno, Colores& paleta,
 	chat_vista(entorno, paleta),
 	nivel_vista(entorno, paleta, datos_personaje.nivel){
 	entorno.agregarRendereable(this);
+	actualizarDimension();
 }
 
 void GUI_Principal::actualizar(unsigned int delta_t) {

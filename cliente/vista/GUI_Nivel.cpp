@@ -2,7 +2,7 @@
 
 GUI_Nivel::GUI_Nivel(EntornoGrafico& entorno, Colores& paleta,
 std::atomic<uint16_t>& nivel) : nivel(nivel), paleta(paleta),
-	imagen(entorno, "assets/nivel.png"){
+	imagen(entorno, "assets/gui/nivel.png"){
 	entorno.agregarRendereable(this);
 	actualizarDimension();
 }

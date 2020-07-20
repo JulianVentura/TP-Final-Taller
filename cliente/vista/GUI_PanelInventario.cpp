@@ -8,7 +8,7 @@ GUI_PanelInventario::GUI_PanelInventario(EntornoGrafico& entorno,
  Colores& paleta, BancoImagenesEquipo& imagenes_equipo,
   std::atomic<uint16_t>* inventario, std::atomic<uint16_t>* equipados)
 : GUI_Panel(entorno, paleta, imagenes_equipo, inventario, {}),
-mueca_equipado(entorno, "assets/mueca.png"), equipados(equipados){
+mueca_equipado(entorno, "assets/gui/mueca.png"), equipados(equipados){
 	marco.w = INV_ANCHO;
 	marco.h = INV_ALTO;
 	actualizarDimension();

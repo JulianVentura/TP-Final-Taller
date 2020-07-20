@@ -5,10 +5,10 @@
 #include <vector>
 #include <stdexcept>
 
-#include "../controlador/GUI_Boton_Controlador.h"
+#include "../controlador/GUI_Clickeable.h"
 #include "../vista/GUI_SelectorLista.h"
 
-class GUI_SelectorListaControlador : public GUI_BotonControlador{
+class GUI_SelectorListaControlador : public GUI_Clickeable{
 private:
 	int i;
 	GUI_SelectorLista& vista;

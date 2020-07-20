@@ -8,14 +8,12 @@
 #define ALTO_INVENTARIO  5
 #define ANCHO_INVENTARIO 3
 
-class GUI_BotonInventarioControlador : public GUI_BotonControlador{
+class GUI_BotonInventarioControlador final : public GUI_BotonControlador{
 private:
 	char inventario[ANCHO_INVENTARIO][ALTO_INVENTARIO];
-	GUI_BotonInventario& vista_boton;
 	GUI_PanelInventario& vista_inventario;
-	bool enClick();
+	bool enClick() override;
 public:
-	void actualizarDimension();
 	GUI_BotonInventarioControlador(GUI_BotonInventario& vista_boton,
 		GUI_PanelInventario& vista_inventario);
 };

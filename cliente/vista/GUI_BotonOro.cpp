@@ -4,11 +4,8 @@
 #include "../vista/Ventana.h"
 
 GUI_BotonOro::GUI_BotonOro(EntornoGrafico& entorno, Colores& paleta,
- std::atomic<uint16_t>& oro) : paleta(paleta), oro(oro),
- imagen(entorno, "assets/oro.png") {
-	entorno.agregarRendereable(this);
-	actualizarDimension();
-}
+ std::atomic<uint16_t>& oro) : GUI_Boton(entorno, "assets/gui/oro.png"),
+paleta(paleta), oro(oro){}
 
 void GUI_BotonOro::render(){
 	imagen.render();

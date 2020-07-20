@@ -1,6 +1,7 @@
 #ifndef __GUI_PRINCIPAL_CONTROLADOR_H__
 #define __GUI_PRINCIPAL_CONTROLADOR_H__
 
+#include "../controlador/GUI_Clickeable.h"
 #include "../controlador/GUI_BotonInventario_Controlador.h"
 #include "../controlador/GUI_BotonMeditar_Controlador.h"
 #include "../controlador/GUI_BotonResucitar_Controlador.h"
@@ -19,7 +20,7 @@ public:
     bool manejarEvento(SDL_Event& evento) override;
 
 private:
-	std::vector<GUI_BotonControlador*> botones;
+	std::vector<GUI_Clickeable*> botones;
 	GUI_Principal& vista_principal; 
 	GUI_InventarioControlador inventario_controlador;
 	GUI_BotonInventarioControlador boton_inventario_controlador;
