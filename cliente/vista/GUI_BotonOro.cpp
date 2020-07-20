@@ -20,8 +20,9 @@ void GUI_BotonOro::render(){
 void GUI_BotonOro::actualizarDimension(){
 	int ventana_ancho = ventana->getAncho();
 	int ventana_alto  = ventana->getAlto();
-	marco.x = ventana_ancho*0.2 + 4;
-	marco.y = ventana_alto - 19; 
+	x = ventana_ancho*0.2 + 4;
+	y = ventana_alto - 19; 
+	marco.x = x; marco.y = y;
 	marco.w = 40; marco.h = 15;
 	imagen.setPosicion(marco.x - 1, marco.y - 2);
 }

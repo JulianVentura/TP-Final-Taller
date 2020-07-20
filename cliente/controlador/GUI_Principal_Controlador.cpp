@@ -16,14 +16,15 @@ GUI_PrincipalControlador::GUI_PrincipalControlador(ServidorProxy& servidor,
     boton_oro_controlador(vista_principal.boton_oro_vista, servidor),
     tienda_controlador(vista_principal.tienda_vista, servidor),
     chat_controlador(vista_principal.chat_vista, servidor) {
+        botones.push_back(&boton_oro_controlador);
         botones.push_back(&inventario_controlador);
         botones.push_back(&chat_controlador);
         botones.push_back(&boton_inventario_controlador);
         botones.push_back(&boton_meditar_controlador);
         botones.push_back(&boton_resucitar_controlador);
-        servidor.salida = &chat_controlador;
-        botones.push_back(&boton_oro_controlador);
         botones.push_back(&tienda_controlador);
+
+        servidor.salida = &chat_controlador;
 }
 
 bool GUI_PrincipalControlador::manejarEvento(SDL_Event& evento) {
