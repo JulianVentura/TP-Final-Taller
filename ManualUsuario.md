@@ -2,7 +2,55 @@
 
 # MANUAL DE USUARIO
 
-Bienvenido a las hermosas y peligrosas tierras de **Argentum Online**. Como dicta un viejo refrán de la zona: "Quien falla en prepararse, debe prepararse para fallar".  Este manual te introducirá a los conceptos básicos para que ninguna criatura pueda enfrentarse a tu sabiduría. Todo comienza en la pantalla de inicio de sesión...
+Bienvenido a las hermosas y peligrosas tierras de **Argentum Online**. Como dicta un viejo refrán de la zona: "Quien falla en prepararse, debe prepararse para fallar".  Este manual te introducirá a los conceptos básicos para que ninguna criatura pueda enfrentarse a tu sabiduría. Todo comienza en la instalación...
+
+
+
+## Instalación
+
+Cliente: Ubicarse en cliente/ y ejecutar "make"
+```
+cd cliente
+make
+bin/cliente.out
+```
+
+Servidor: Ubicarse en servidor/build y ejecutar "cmake ..". El servidor se ejecuta como "./servidor <configuraciones.json>". Dicho archivo se encuenta en servidor/.
+```
+cd servidor
+mkdir build
+cd build
+cmake ..
+make
+./servidor ../configuraciones.json
+```
+
+
+
+### Requisitos mínimos
+
+#### Software
+
+- Sistema operativo Ubuntu/Linux 32 bits.
+
+- Biblioteca SDL2, SLD_Image, SDL_TTF .
+```
+sudo apt install -y libsdl2-dev libsdl2-image-dev libsdl2-ttf-dev
+```
+
+- Biblioteca Nlohman dev_3.7.0-2: http://mirrors.kernel.org/ubuntu/pool/universe/n/nlohmann-json3/nlohmann-json3-dev_3.7.0-2_all.deb
+
+Alternativamente se puede instalar con ```sudo apt install nlohmann-json3-dev```, pero en algunos sistemas se instala la versión equivocada.
+
+
+
+#### Hardware
+
+- Pantalla 400x500 pixeles.
+- Memoria Ram de 2 Gb.
+- 220 Mb de espacio libre en el disco duro.
+
+
 
 ### Pantalla de inicio de sesión
 
