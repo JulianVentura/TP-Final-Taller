@@ -24,8 +24,8 @@
             "TiempoRespawn": 10000,
 	    "EsSeguro": true,
             "PosicionSpawnInicial": [
-                100,
-                100
+                544,
+                1856
             ],
 	    "CiudadMasCercana": "ciudad",
 	    "PosicionSpawnResurreccion": [288, 544]
@@ -795,6 +795,7 @@
             "Ancho": 1,
             "Alto": 1
         },
+	"OroInicial": 50,
         "DistanciaInteraccion": 50,
         "FairPlay": {
             "NivelDiferenciaMaximo": 10,

@@ -452,7 +452,9 @@ const double   Configuraciones::obtenerPenalizacionRevivir(Mapa *mapaActual, Per
 const double   Configuraciones::obtenerSalaTiempoPersistencia() const{
     return json.at("Varios").at("SalaTiempoPersistencia").get<double>();
 }
-
+const uint32_t Configuraciones::obtenerOroInicial() const{
+    return json.at("Varios").at("OroInicial").get<uint32_t>();
+}
 
 /* FORMULAS DEL JUEGO */
 
@@ -507,7 +509,7 @@ const uint32_t Configuraciones::calcularExpPorMatar(const Entidad *objetivo, con
 }
 
 const uint32_t Configuraciones::calcularDanioAtaque(const Entidad *objetivo, const Entidad *atacante, const Arma *arma){
-    return atacante->fuerza * numeroRandom(arma->danioMin, arma->danioMax);
+    return std::max(atacante->fuerza, atacante->inteligencia/2) * numeroRandom(arma->danioMin, arma->danioMax);
 }
 
 const uint32_t Configuraciones::calcularCuracion(const Entidad *objetivo, 

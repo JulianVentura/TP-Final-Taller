@@ -36,7 +36,8 @@ void Cliente::nuevoUsuario(std::pair<std::string, std::string> &credenciales,
                                                                idClase, 
                                                                idRaza));
     personaje->actualizarPosicion(std::move(config->obtenerMapaPosicionSpawn(salaActual)));
-    personaje -> recibirOro(1000);
+    uint32_t oroInicial = config->obtenerOroInicial();
+    personaje -> recibirOro(oroInicial);
     miBaseDeDatos.nuevoCliente(credenciales, idRaza, idClase,
     salaActual, personaje.get());
 }
