@@ -27,7 +27,7 @@ sudo apt install -y libsdl2-dev libsdl2-image-dev libsdl2-ttf-dev
 
 - Biblioteca Nlohman dev_3.7.0-2: http://mirrors.kernel.org/ubuntu/pool/universe/n/nlohmann-json3/nlohmann-json3-dev_3.7.0-2_all.deb
 
-(Se puede instalar también con ```sudo apt install nlohmann-json3-dev```, pero en algunas versiones de ubuntu, se instala la versión 2, que no funciona para el tp).
+(Se puede instalar también con `sudo apt install nlohmann-json3-dev`, pero en algunas versiones de ubuntu, se instala la versión 2, que no funciona para el tp).
 
 - Biblioteca de audio incorporada en el propio código, no requiere instalación adicional.
 
@@ -45,7 +45,7 @@ El servidor no conoce el modo en el que el cliente enseña cada componente, much
 
 
 
- # Cliente
+# Cliente
 
 
 
@@ -87,6 +87,9 @@ La estructura básica del proyecto de una forma primitiva consiste en las clases
 - `BuclePrincipal`: Juega el papel de `GameLoop`, que estará escuchando a eventos y cuando recibe alguno, lo despachará a los `IInteractivos` que tiene almacenado. La propagación del evento será líneal, además de de que cortará la propagación cuando el primer interactivo haya consumido el evento. Cada interactivo puede subscribirse a más de un evento. Una vez despachado el evento, se procede a actualizar la ventana (y por consiguiente a los rendereables que contiene) y llama a `Ventana::render`. Una vez finalizado, se cuenta el tiempo que tardo todo el proceso, y se duermo un tiempo hasta completar un tiempo constante, permitiendo así, tener un framerate más estable.
 
 
+<p align="center"> 
+   <img src="documentacion/dc-entornografico.jpg" alt="Dirección derecha">
+</p>
 
 
 #### Interfaz de Usuario
@@ -144,7 +147,131 @@ Esto permite que los obstruibles que se encuentren más abajo del mapa se muestr
 
 Adicionalmente se crean la `Camara` (que se encargará de centrar y redimensionar la imagen al centro del personaje y además brindar esta información para acotar el rando de rendereado), la `Escena` que orquestará la disposición de la cámara (y su reincio) y el rendereabo de la capa y del mapa. Además se crea el controlador `MovibleControlador` que escuchará los eventos de teclado y cuando detecte alguna tecla ligada al moviento, enviará la solicitud al servidor. 
 
-A medida que el servidor va a notificando las posiciones de las entidades (personaje, enemigo, npc, objetos), en `Juego`, se verificará si esa entidad es una entidad es conocida, en tal caso, le actualizará la posición. Caso contrario, se creará tanto el modelo `IPosicionable` y la vista `EntidadVista`. El modelo encapsula la posición de la entidad y si esa posición está actualizada (información útil al animar en direcciones); la vista, contendrá toda la información relacionada con el dibujo de la entidad, incluyendo la/s imágen/es que correspondan con la entidad como la animación del mismo. La información a cer
+A medida que el servidor va a notificando las posiciones de las entidades (personaje, enemigo, npc, objetos), en `Juego`, se verificará si esa entidad es una entidad es conocida, en tal caso, le actualizará la posición. Caso contrario, se creará tanto el modelo `IPosicionable` y la vista `EntidadVista`. El modelo encapsula la posición de la entidad y si esa posición está actualizada (información útil al animar en direcciones); la vista, contendrá toda la información relacionada con el dibujo de la entidad, incluyendo la/s imágen/es que correspondan con la entidad como la animación del mismo. La información acerca de la vista, será levantada y parseada del archivo `imagenes.json`, en el mismo se tiene cómo se compone cada entidad, qué imágenes cuenta y qué animacion le corresponde.
+
+Se cuentan con tres tipos de animaciones: 
+- `AnimacionEstática`: La misma corresponde a una entidad que no se moverá o que el moviento no afecta en nada a la animación. 
+- `AnimacionCuatroDirecciones`: La entidad cuenta con cuatro estados: arriba, derecha, abajo e izquierda. La dirección se determinará con la información que brinda el modelo. En base a eso, se calcula un delta x y un delta y, mapeandolo a una dirección en particular. Para evitar, que los cambios pequeños en la dirección generen una animación erratica, se disminuye la tolerancia de los rangos del ángulo, quedando así regiones vacías cerca de las uniones, en caso de que el ángulo se encuentre en ese rango, no se actualiza la dirección y se usa la dirección anterior. Por ejemplo, en vez de tomar como derecha [-pi/2, pi/2], se toma un rango más pequeño que se ilustra en la siguiente imagen.
+
+<p align="center"> 
+   <img src="documentacion/animacion_angulo.jpg" alt="Dirección derecha">
+</p>
+
+- `AnimacionOchoDirecciones`: idem anterior salvo por que los intervalos se encuentra sobrelapados porque aumentan las combinaciones de direcciones a 8.
+
+Si bien, solamente se diseñaron e implementaron estas tres animaciones, se pueden agregar más tipos de animaciones, sin modificar código preexistente, respetando el principio open-closed.
+
+Cada entidad, además de tener una animación asociada, tiene `DatosApariencia`, que recibe del servidor de manera análoga a las posiciones, que modifica cómo se mostrará el personaje. Toda la configuración se encuentra en el archivo `imagenes.json`. 
+
+Por cuestiones de optimización, los sprites y la información son compartidas por todas las entidades, con lo cual el modificar un sprite tiene que hacerse inmediatamente antes de mostrar el sprite en la pantalla. Este comportamiento se encapsula en la clase `Sprite` que en base a la apariencia (clase, raza, tipo, estado) se determina qué animación e imagen corresponde.
+
+Estructura archivo
+---
+#### Archivo `imagenes.json`
+
+Cada entidad, en tiene asociada una estructura:
+``` json
+"estructura": {
+    "cuerpo": ["path_to_img"],
+    "ojos": ["path_to_img"],
+    "cicatrices": [],
+    "nariz": ["path_to_img"],
+    "orejas": [],
+    "facial": [],
+    "pies": [],
+    "piernas": [],
+    "torso": [],
+    "cinto": [],
+    "pelo": [],
+    "cabeza": []
+}
+```
+
+Donde uno puede definir qué imagen se va a mostrar para cada parte. Además se le puede sobreescribir el atributo `"animacion"`, para brindarle una animación personalizada, por ejemplo:
+``` json
+"Arania": {
+    "ancho": 40,
+    "alto": 40,
+    "imagen" : ["spider1.png"],
+    "animacion": "arania"
+}
+```
+Donde luego, en el apartado de animaciones, tendrá que aparecer alguno con el id `arania`.
+
+``` json
+"arania": {
+    "Ancho": 48,
+    "Alto": 48,
+    "tiempo_por_cuadro": 60,
+    "tiempo_entre_ciclo": 0,
+    "Direcciones": 4,
+    "Columnas": 3,
+    "Columna": 0,
+    "Estado-Inicial": "Mover",
+    "Direccion-Inicial": "Abajo",
+    "Estados": {
+        "Mover-Abajo": {
+            "fila": 0,
+            "cantidad": 3
+        },
+        "Mover-Izquierda": {
+            "fila": 1,
+            "cantidad": 3
+        },
+        "Mover-Derecha": {
+            "fila": 2,
+            "cantidad": 3
+        },
+        "Mover-Arriba": {
+            "fila": 3,
+            "cantidad": 3
+        }
+    }
+},
+```
+Donde `ancho` y `alto`, serán la dimensión del cuadro de la animación, `tiempo_por_cuadro` tiempo entre cuadro y cuadro, `tiempo_entre_ciclo`
+el tiempo entre que termina la animación y se reproduce nuevamente; `Direcciones` cantidad de direcciones (si hay 0 será una animación estática, si hay 4 será de 4 direcciones y si vale 8 será animación de 8 direcciones); `Columna` será la columna desde que se empieza a contar el sprite; `Columnas` cantidad _total_ de columnas que tiene el sprite (sería la máxima cantidad de filas ocupadas por fila); luego en cada estado, se definen la cantidad de columnas partículares que tiene esa animación en específico.
+
+#### Creacion de mapas
+
+Para la creación de mapas, se utiliza la herramiente _Tiled_. El mismo brinda una interfaz intuitiva para generar mapas de tipo tile y exportarlo al formato `json`.
+
+Para comenzas, se descarga e instala (si corresponde) [_Tiled_](https://www.mapeditor.org/).
+
+Se va a `File>New>New Map`, se deja la configuración por defecto, se puede cambiar el tamaño. 
+
+<p align="center"> 
+   <img src="documentacion/new_map.png" alt="Nuevo mapa">
+</p>
+
+Una vez agregado se pueden agregar imágenes, es importante que esté activado el tick `Embed in map` (esto hace que la información de la imagen, quede en el mismo archivo del mapa y no en un archivo adicional). En caso de que la imagen cuente con un fondo que quiesieramos quitar, se puede usar `Use transparent color` y hay que seleccionar el color de fondo.
+
+<p align="center"> 
+   <img src="documentacion/new_tile_set.png" alt="Nuevo tileset">
+</p>
+
+Una vez cargado, debería aparecer en la ventana de tiles y para agregarlo al mapa bastaría con pintar en el mapa.
+
+
+<p align="center"> 
+   <img src="documentacion/new_tile_set_cargado.png" alt="Nuevo tileset">
+</p>
+
+
+Para que funcione correctamente el mapa en nuestro juego, se debe respetar la siguiente estructura de capas
+
+<p align="center"> 
+   <img src="documentacion/tile_capas.png" alt="Nuevo mapa">
+</p>
+
+- Una capa de objetos con nombre `colisionables` (acá estarán los rectangulos donde se chequearan colisiones). Todos los rectangulos tienen que estar dentro del mapa. (Cuidado con los bordes).
+- Una capa `spawnPasivos` que contendrá rectangulos donde cada rectangulo tendrá por nombre el tipo de entidad que contendrá.
+- La capa `respawn` definirá las zonas donde aparecerán las crituras.
+- En el grupo `frente`
+   - Por cada capa de de tiles, habrá una capa de objetos con el mismo nombre encima. La capa de tiles contendrá las imágenes.
+   - Si se quiere hacer que un objeto sea obstruible (una lámpara por ejemplo), en la capa de objetos, se debe agregar un rectangulo que abarque toda la imagen de la lámpara. (Recomendación, cuidar el límite).
+- En el grupo `fondo`
+  - Solo habrá capas de tiles, no hay restricciones.
 
 
 #### Comunicación con el Servidor
