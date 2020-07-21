@@ -1,4 +1,4 @@
-    ![logo](documentacion/logo.png)
+![](documentacion/logo.png)
 
 # MANUAL DE USUARIO
 
@@ -60,7 +60,13 @@ Lo primero que te encontrarás al iniciar la aplicación es este tentador botón
 
 ![](documentacion/mu-login2.png)
 
-El siguiente paso es elegir un nombre, contraseña, raza y clase. Las últimas dos se seleccionan haciendo click sobre sus correspondientes botones. Cuando estés conforme con tu elección pulsa el botón **Nueva Cuenta**.
+El siguiente paso es elegir un nombre, contraseña, raza y clase. Las últimas dos se seleccionan haciendo click sobre sus correspondientes botones. 
+
+![](documentacion/mu-estadisticas.png)
+
+Cada raza presenta distintos atributos iniciales, pero es la clase lo que determina el modo en que evolucionan las estadísticas. El guerrero no puede manipular objetos de naturaleza mágica.
+
+Cuando estés conforme con tu elección pulsa el botón **Nueva Cuenta**.
 
 
 
@@ -121,9 +127,7 @@ Para enviar un mensaje privado basta con anteponer  "@nombre-del-destinatario " 
 
 ![](documentacion/mu-combate.png)
 
-Dentro de las ciudades estás seguro, pero ni bien cruces las puertas te encontrarás con jugadores
-
-y  criaturas poco amigables. Puedes correr o atacarlos con click derecho...
+Dentro de las ciudades estás seguro, pero ni bien cruces las puertas te encontrarás con jugadores y  criaturas poco amigables. Los esqueletos no causarán muchos problemas, pero los goblins  desafían hasta a los aventureros más osados. Puedes correr o atacarlos con click derecho...
 
 ![](documentacion/mu-combate2.png)
 
@@ -131,7 +135,7 @@ Pero si las cosas no resultan como esperabas lamentamos informarte que perderás
 
 ![](documentacion/mu-combate3.png)
 
-En todo caso la muerte no es el fin, busca al sacerdote y realiza click derecho sobre él para volver a la vida o presiona el botón con la cruz para ahorrarte el viaje. Con eso dicho, los sacerdotes no priorizan a los fantasmas vagos, tendrás que esperar a que te atienda si eliges esta segunda opción.
+En todo caso la muerte no es el fin, busca al sacerdote y realiza click derecho sobre él para volver a la vida o presiona el botón con la cruz para ahorrarte el viaje. Con eso dicho, los sacerdotes no priorizan a los fantasmas vagos, tendrás que esperar a que te atienda si eliges esta segunda opción. La barra de vida se llenará progresivamente, indicando el tiempo restante para resucitar.
 
 El botón de meditación, a la izquierda del de resurrección puede usarse en cualquier momento para restaurar maná.
 
