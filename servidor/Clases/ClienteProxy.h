@@ -26,7 +26,6 @@
 #include "../../common/CodigosOperacion.h"
 #include "../../common/Serializacion.h"
 #include "../../common/ProxyEnviador.h"
-#include "ExcepcionLogin.h"
 class Divulgador;
 class Cliente;
 class OrganizadorClientes;

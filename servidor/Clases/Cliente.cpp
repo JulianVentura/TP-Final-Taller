@@ -2,7 +2,6 @@
 #include "OrganizadorClientes.h"
 #include "Configuraciones.h"
 #include "Divulgador.h"
-#include "ExcepcionLogin.h"
 
 #include <iostream>
 
