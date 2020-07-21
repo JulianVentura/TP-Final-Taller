@@ -13,6 +13,11 @@
 #define SEG_A_MILLI 1000.0f
 #define MILLIS_POR_FRAME SEG_A_MILLI / FPS
 
+/*
+*	Clase que encapsula un gameloop, desencola eventos de SDL y lo envía
+*	a los interactivos que hayan sido agregados.
+*/
+
 class BuclePrincipal {
 private:
     Ventana* ventana;
@@ -24,6 +29,7 @@ private:
 public:
     BuclePrincipal(Ventana& ventana);
     void agregarInteractivo(Uint32 tipo_evento, IInteractivo* interactivo);
+    // Inicia el procesamiento de los eventos de SDL encolados
     void correr();
 };
 
