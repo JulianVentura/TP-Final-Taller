@@ -568,6 +568,7 @@ const uint32_t Configuraciones::calcularConstitucion(const Personaje *personaje)
 }
 
 bool Configuraciones::sePuedeAtacar(const Personaje *objetivo, const Personaje *atacante){
+    if (objetivo == atacante) return true;
     uint32_t nivelDiferenciaMaximo = json.at("Varios").at("FairPlay").
                                         at("NivelDiferenciaMaximo").get<uint32_t>();
     uint32_t nivelNewbie = json.at("Varios").at("FairPlay").at("NivelNewbie").get<uint32_t>();
