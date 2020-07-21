@@ -3,7 +3,7 @@
 int main_juego(EntornoGrafico& entorno, Ventana& ventana,
 	ServidorProxy& servidor, Colores& paleta, DatosPersonaje& datos_personaje,
 	DatosTienda& datos_tienda){
-	EntornoMusical::obtenerInstancia() -> reproducirMusica("musicaJuego2");
+	   EntornoMusical::obtenerInstancia() -> reproducirMusica("musicaJuego");
 	BuclePrincipal bucle(ventana);
 	GUI_Principal gui(entorno, paleta, datos_personaje, datos_tienda);
 	GUI_PrincipalControlador gui_controllador(servidor, gui);

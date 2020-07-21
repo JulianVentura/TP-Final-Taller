@@ -170,6 +170,7 @@ class Configuraciones{
     const double   obtenerClienteTiempoActualizacionInventario() const;
     const double   obtenerPenalizacionRevivir(Mapa *mapaActual, Personaje *personaje) const;
     const double   obtenerSalaTiempoPersistencia() const;
+    const uint32_t obtenerOroInicial() const;
     /* FORMULAS DEL JUEGO */ 
     unsigned int   calcularVidaMax(const Personaje *personaje);
     float          calcularRecuperacionVida(const Personaje *personaje, double tiempo);

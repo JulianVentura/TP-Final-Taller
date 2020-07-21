@@ -16,10 +16,7 @@
     "Mapas": {
         "ciudad": {
             "Ruta": "../ciudad.json",
-            "SpawnCriaturas": [
-                "Esqueleto",
-                "Zombie"
-            ],
+            "SpawnCriaturas": [],
             "SpawnPortales": {
                 "Portal#1": "bosque"
             },
@@ -27,8 +24,8 @@
             "TiempoRespawn": 10000,
 	    "EsSeguro": true,
             "PosicionSpawnInicial": [
-                100,
-                100
+                544,
+                1856
             ],
 	    "CiudadMasCercana": "ciudad",
 	    "PosicionSpawnResurreccion": [288, 544]
@@ -37,7 +34,9 @@
             "Ruta": "../bosque.json",
             "SpawnCriaturas": [
                 "Goblin",
-                "Arania"
+                "Arania",
+		"Esqueleto",
+		"Zombie"
             ],
             "SpawnPortales": {
                 "Portal#1": "ciudad"
@@ -58,6 +57,7 @@
     },
     "Personaje": {
         "VidaBase": 100,
+	"ManaBase": 100,
         "NivelBase": 1,
         "FuerzaBase": 5,
         "InteligenciaBase": 8,
@@ -83,7 +83,7 @@
             "Ancho": 6,
             "Alto": 6,
             "StockVenta": {
-                "Armas": ["VaraDeFresno", "FlautaElfica"],
+                "Armas": ["VaraDeFresno"],
                 "Armaduras": [],
                 "Cascos": [],
                 "Escudos": [],
@@ -94,10 +94,10 @@
             "Ancho": 6,
             "Alto": 6,
             "StockVenta": {
-                "Armas": ["Espada", "Hacha", "ArcoSimple"],
-                "Armaduras": ["ArmaduraDeCuero"],
+                "Armas": ["Espada", "ArcoSimple"],
+                "Armaduras": [],
                 "Cascos": ["Capucha"],
-                "Escudos": ["EscudoDeTortuga"],
+                "Escudos": [],
                 "Pociones": ["PocionVida"]
             }
         },
@@ -126,24 +126,32 @@
             "Alto": 8,
             "Drops": {
                 "Tipo": {
-                    "Item": 0.1,
+                    "Item": 0.2,
                     "Oro": 0.3
                 },
                 "Armas": {
-                    "Probabilidad": 0.2,
+                    "Probabilidad": 0.3,
                     "Posibles": [
                         [
                             "Martillo",
-                            0.5
+                            0.25
                         ],
                         [
                             "Hacha",
-                            0.5
+                            0.25
+                        ],
+                        [
+                            "FlautaElfica",
+                            0.25
+                        ],
+                        [
+                            "BaculoEngarzado",
+                            0.25
                         ]
                     ]
                 },
                 "Armaduras": {
-                    "Probabilidad": 0.2,
+                    "Probabilidad": 0.1,
                     "Posibles": [
                         [
                             "ArmaduraDeCuero",
@@ -216,7 +224,7 @@
                     "Probabilidad": 0.2,
                     "Posibles": [
                         [
-                            "Espada",
+                            "Martillo",
                             0.5
                         ],
                         [
@@ -292,19 +300,23 @@
             "Alto": 8,
             "Drops": {
                 "Tipo": {
-                    "Item": 0.1,
+                    "Item": 0.3,
                     "Oro": 0.3
                 },
                 "Armas": {
                     "Probabilidad": 0.4,
                     "Posibles": [
                         [
-                            "Espada",
-                            0.5
+                            "BaculoNudoso",
+                            0.3333
                         ],
                         [
                             "Hacha",
-                            0.5
+                            0.3333
+                        ],
+			[
+                            "ArcoCompuesto",
+                            0.3333
                         ]
                     ]
                 },
@@ -329,7 +341,7 @@
                             0.5
                         ],
                         [
-                            "SombreroMagico",
+                            "CascoDeHierro",
                             0.5
                         ]
                     ]
@@ -339,6 +351,10 @@
                     "Posibles": [
                         [
                             "EscudoDeTortuga",
+                            0.5
+                        ],
+			[
+                            "EscudoDeHierro",
                             0.5
                         ]
                     ]
@@ -375,14 +391,14 @@
             "Alto": 8,
             "Drops": {
                 "Tipo": {
-                    "Item": 0.1,
+                    "Item": 0.3,
                     "Oro": 0.3
                 },
                 "Armas": {
-                    "Probabilidad": 0,
+                    "Probabilidad": 0.1,
                     "Posibles": [
                         [
-                            "Espada",
+                            "ArcoCompuesto",
                             0.5
                         ],
                         [
@@ -392,10 +408,10 @@
                     ]
                 },
                 "Armaduras": {
-                    "Probabilidad": 0.4,
+                    "Probabilidad": 0.3,
                     "Posibles": [
                         [
-                            "ArmaduraDeCuero",
+                            "TunicaAzul",
                             0.5
                         ],
                         [
@@ -421,8 +437,8 @@
                     "Probabilidad": 0.2,
                     "Posibles": [
                         [
-                            "EscudoDeTortuga",
-                            0.5
+                            "EscudoDeHierro",
+                            1
                         ]
                     ]
                 },
@@ -470,45 +486,45 @@
     },
     "Clases": {
         "Guerrero": {
-            "FClaseVida": 3,
+            "FClaseVida": 2,
             "FClaseMana": 0,
             "FClaseRecuperacion": 2,
             "FClaseMeditacion": 0,
-            "MejoraFuerzaEnSubida": 3,
+            "MejoraFuerzaEnSubida": 2,
             "MejoraInteligenciaEnSubida": 0,
             "MejoraAgilidadEnSubida": 1,
-            "MejoraConstitucionEnSubida": 3,
+            "MejoraConstitucionEnSubida": 2,
             "idTCP": 0
         },
         "Mago": {
-            "FClaseVida": 1,
-            "FClaseMana": 4,
-            "FClaseRecuperacion": 4,
+            "FClaseVida": 0.5,
+            "FClaseMana": 2,
+            "FClaseRecuperacion": 3,
             "FClaseMeditacion": 5,
             "MejoraFuerzaEnSubida": 1,
-            "MejoraInteligenciaEnSubida": 4,
-            "MejoraAgilidadEnSubida": 3,
+            "MejoraInteligenciaEnSubida": 2,
+            "MejoraAgilidadEnSubida": 2,
             "MejoraConstitucionEnSubida": 1,
             "idTCP": 1
         },
         "Paladin": {
-            "FClaseVida": 2,
-            "FClaseMana": 2,
-            "FClaseRecuperacion": 2,
-            "FClaseMeditacion": 2,
+            "FClaseVida": 1.5,
+            "FClaseMana": 1.5,
+            "FClaseRecuperacion": 1.5,
+            "FClaseMeditacion": 1.5,
             "MejoraFuerzaEnSubida": 2,
-            "MejoraInteligenciaEnSubida": 2,
-            "MejoraAgilidadEnSubida": 2,
+            "MejoraInteligenciaEnSubida": 1,
+            "MejoraAgilidadEnSubida": 1,
             "MejoraConstitucionEnSubida": 2,
             "idTCP": 2
         },
         "Clerigo": {
-            "FClaseVida": 2,
-            "FClaseMana": 3,
+            "FClaseVida": 1.5,
+            "FClaseMana": 1.8,
             "FClaseRecuperacion": 3,
-            "FClaseMeditacion": 2,
-            "MejoraFuerzaEnSubida": 3,
-            "MejoraInteligenciaEnSubida": 3,
+            "FClaseMeditacion": 3,
+            "MejoraFuerzaEnSubida": 1,
+            "MejoraInteligenciaEnSubida": 2,
             "MejoraAgilidadEnSubida": 1,
             "MejoraConstitucionEnSubida": 2,
             "idTCP": 3
@@ -516,47 +532,47 @@
     },
     "Razas": {
         "Humano": {
-            "FRazaVida": 2,
-            "FRazaMana": 2,
+            "FRazaVida": 1.5,
+            "FRazaMana": 1.5,
             "FRazaRecuperacion": 5,
             "FRazaMeditacion": 2,
             "MejoraFuerzaEnSubida": 2,
             "MejoraInteligenciaEnSubida": 2,
-            "MejoraAgilidadEnSubida": 2,
-            "MejoraConstitucionEnSubida": 2,
+            "MejoraAgilidadEnSubida": 1,
+            "MejoraConstitucionEnSubida": 1,
             "idTCP": 4
         },
         "Elfo": {
-            "FRazaVida": 2,
-            "FRazaMana": 3,
+            "FRazaVida": 1.5,
+            "FRazaMana": 2,
             "FRazaRecuperacion": 8,
             "FRazaMeditacion": 2,
             "MejoraFuerzaEnSubida": 1,
-            "MejoraInteligenciaEnSubida": 3,
-            "MejoraAgilidadEnSubida": 3,
+            "MejoraInteligenciaEnSubida": 2,
+            "MejoraAgilidadEnSubida": 2,
             "MejoraConstitucionEnSubida": 1,
             "idTCP": 5
         },
         "Enano": {
-            "FRazaVida": 4,
-            "FRazaMana": 1,
+            "FRazaVida": 3,
+            "FRazaMana": 0.5,
             "FRazaRecuperacion": 5,
-            "FRazaMeditacion": 2,
-            "MejoraFuerzaEnSubida": 3,
+            "FRazaMeditacion": 1,
+            "MejoraFuerzaEnSubida": 2,
             "MejoraInteligenciaEnSubida": 1,
             "MejoraAgilidadEnSubida": 1,
-            "MejoraConstitucionEnSubida": 3,
+            "MejoraConstitucionEnSubida": 2,
             "idTCP": 6
         },
         "Gnomo": {
-            "FRazaVida": 3,
-            "FRazaMana": 3,
+            "FRazaVida": 2,
+            "FRazaMana": 2,
             "FRazaRecuperacion": 6,
             "FRazaMeditacion": 3,
             "MejoraFuerzaEnSubida": 1,
-            "MejoraInteligenciaEnSubida": 3,
-            "MejoraAgilidadEnSubida": 3,
-            "MejoraConstitucionEnSubida": 1,
+            "MejoraInteligenciaEnSubida": 2,
+            "MejoraAgilidadEnSubida": 1,
+            "MejoraConstitucionEnSubida": 2,
             "idTCP": 7
         }
     },
@@ -573,7 +589,7 @@
                 "ConsumoMana": 0,
                 "TiempoAtaque": 800,
                 "Proyectil": "Cuerpo",
-                "Precio": 10,
+                "Precio": 0,
                 "idTCP": 1
             },
             "Hacha": {
@@ -593,7 +609,7 @@
                 "ConsumoMana": 0,
                 "TiempoAtaque": 1800,
                 "Proyectil": "Cuerpo",
-                "Precio": 10,
+                "Precio": 20,
                 "idTCP": 3
             },
             "VaraDeFresno": {
@@ -603,7 +619,7 @@
                 "ConsumoMana": 50,
                 "TiempoAtaque": 1500,
                 "Proyectil": "FlechaM",
-                "Precio": 10,
+                "Precio": 0,
                 "idTCP": 4
             },
             "FlautaElfica": {
@@ -613,27 +629,27 @@
                 "ConsumoMana": 50,
                 "TiempoAtaque": 1000,
                 "Proyectil": "Curar",
-                "Precio": 10,
+                "Precio": 50,
                 "idTCP": 5
             },
             "BaculoNudoso": {
                 "DanioMax": 8,
                 "DanioMin": 4,
-                "Rango": 50,
+                "Rango": 350,
                 "ConsumoMana": 15,
                 "TiempoAtaque": 1000,
                 "Proyectil": "Misil",
-                "Precio": 10,
+                "Precio": 30,
                 "idTCP": 6
             },
             "BaculoEngarzado": {
                 "DanioMax": 20,
                 "DanioMin": 8,
-                "Rango": 50,
+                "Rango": 250,
                 "ConsumoMana": 30,
                 "TiempoAtaque": 1000,
                 "Proyectil": "Explosion",
-                "Precio": 10,
+                "Precio": 100,
                 "idTCP": 7
             },
             "ArcoSimple": {
@@ -643,7 +659,7 @@
                 "ConsumoMana": 0,
                 "TiempoAtaque": 1000,
                 "Proyectil": "Flechazo",
-                "Precio": 10,
+                "Precio": 0,
                 "idTCP": 8
             },
             "ArcoCompuesto": {
@@ -653,7 +669,7 @@
                 "ConsumoMana": 0,
                 "TiempoAtaque": 1000,
                 "Proyectil": "Flechazo",
-                "Precio": 10,
+                "Precio": 80,
                 "idTCP": 9
             },
             "Garra": {
@@ -701,19 +717,19 @@
             "ArmaduraDeCuero": {
                 "DefensaMax": 6,
                 "DefensaMin": 2,
-                "Precio": 10,
+                "Precio": 20,
                 "idTCP": 101
             },
             "ArmaduraDePlacas": {
                 "DefensaMax": 30,
                 "DefensaMin": 15,
-                "Precio": 10,
+                "Precio": 40,
                 "idTCP": 102
             },
             "TunicaAzul": {
                 "DefensaMax": 10,
                 "DefensaMin": 6,
-                "Precio": 10,
+                "Precio": 30,
                 "idTCP": 103
             }
         },
@@ -721,19 +737,19 @@
             "Capucha": {
                 "DefensaMax": 4,
                 "DefensaMin": 1,
-                "Precio": 10,
+                "Precio": 20,
                 "idTCP": 201
             },
             "CascoDeHierro": {
                 "DefensaMax": 8,
                 "DefensaMin": 4,
-                "Precio": 10,
+                "Precio": 40,
                 "idTCP": 202
             },
             "SombreroMagico": {
                 "DefensaMax": 12,
                 "DefensaMin": 4,
-                "Precio": 10,
+                "Precio": 80,
                 "idTCP": 203
             }
         },
@@ -741,13 +757,13 @@
             "EscudoDeTortuga": {
                 "DefensaMax": 2,
                 "DefensaMin": 1,
-                "Precio": 10,
+                "Precio": 30,
                 "idTCP": 301
             },
             "EscudoDeHierro": {
                 "DefensaMax": 4,
                 "DefensaMin": 1,
-                "Precio": 10,
+                "Precio": 50,
                 "idTCP": 302
             }
         },
@@ -779,6 +795,7 @@
             "Ancho": 1,
             "Alto": 1
         },
+	"OroInicial": 50,
         "DistanciaInteraccion": 50,
         "FairPlay": {
             "NivelDiferenciaMaximo": 10,

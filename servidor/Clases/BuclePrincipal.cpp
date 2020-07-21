@@ -72,7 +72,6 @@ void BuclePrincipal::procesarOperaciones(){
             }
         }catch(const Excepcion &e){
             //No me interesa imprimir mensajes de excepcion, tampoco cortar el ciclo.
-            std::cerr << e.what() << std::endl;
         }catch(const std::exception &e){
             //Si otras excepciones mas generales, pueden indicar errores de memoria por ejemplo.
             std::cerr << e.what() << std::endl;
