@@ -17,6 +17,7 @@
 #define MENSAJES_MAX   10
 #define ALTO_TEXTURA 1000
 
+
 class GUI_Chat : public GUI_CajaTexto{
 private:
 	std::mutex m;

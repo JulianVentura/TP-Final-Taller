@@ -63,12 +63,13 @@ public:
         
     /**
      * @brief Muestra texto en la pantalla en la esquina superior izquierda. 
-     * Opcionalmente se le puede establecer coordenadas o renderizar hacia una
-     * textura.
+     * Opcionalmente se le puede establecer coordenadas, renderizar hacia una
+     * textura o alinear el texto a izquierda.
      * @pre El EntornoGrafico cuenta con una fuente establecida.
      */
     void texto(const std::string& text);
     void texto(const std::string& text, int x, int y);
+    void textoAIzq(const std::string& text, int x, int y);
     void textoATextura(SDL_Texture* textura, const std::string& text,
      int x, int y);
     

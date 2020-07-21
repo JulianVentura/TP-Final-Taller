@@ -11,6 +11,14 @@ GUI_Chat::GUI_Chat(EntornoGrafico& entorno, Colores& paleta)
 	textura = renderer -> textura(marco_mensajes.w, ALTO_TEXTURA);
 }
 
+/*
+*	Normalmente se renderiza una textura con el texto de los mensajes previamente
+*	renderizado en ella. Cuando ingresa un nuevo mensaje, se cambia el valor
+*	de "esta_actualizado" y esto provoca la actualizacion del contenido de
+*	de la textura. renderizarTexto no puede ser llamado directamente en
+*	agregarMensaje, pues el render es un recurso sujeto a condiciones de carrera.
+*	Alternativamente pueden emplearse estrcturas de mutex más sofisticadas.
+*/
 void GUI_Chat::render() {
 	std::lock_guard<std::mutex> lock(m);
 	renderer -> setColor(paleta.chat_fondo);
@@ -92,5 +100,4 @@ void GUI_Chat::scroll(Sint32& incremento){
 	if (marco_textura.y > marco_textura.h) marco_textura.y = marco_textura.h;
 }
 
-GUI_Chat::~GUI_Chat(){
-}
+GUI_Chat::~GUI_Chat(){}

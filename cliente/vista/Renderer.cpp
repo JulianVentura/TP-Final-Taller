@@ -170,6 +170,12 @@ void Renderer::texto(const std::string& text, int x, int y) {
     renderTexturaTexto(superficie, x, y);
 }
 
+void Renderer::textoAIzq(const std::string& text, int x, int y){
+    int corrimiento_x;
+    calcularDimensionTexto(text, &corrimiento_x, NULL);
+    texto(text, x - corrimiento_x, y);
+}
+
 void  Renderer::textoATextura(SDL_Texture* textura, const std::string& text,
      int x, int y){
     SDL_Texture* objetivo_actual = SDL_GetRenderTarget(renderer);

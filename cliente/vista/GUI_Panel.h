@@ -10,6 +10,11 @@
 #define LADO_CASILLA 50
 #define SEPARACION 4
 
+/*
+*	Dibuja una matriz de cuadrados de lado LADO_CASILLA, con bordes de ancho
+*	SEPARACION.
+*/
+
 class GUI_Panel : public IRendereable{
 protected:
 	BancoImagenesEquipo& imagenes_equipo;
