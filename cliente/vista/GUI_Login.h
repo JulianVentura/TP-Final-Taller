@@ -30,6 +30,12 @@
 #define X_BASE_LOGIN 90
 #define Y_BASE_LOGIN 140
 
+/*
+*	Clase que reune la vista de los componentes que integran la interfaz de la
+*	pantalla de inicio de sesion. Provee un acceso uniforme y ordenado a la
+*	redimension	y renderizado de ellos.
+*/
+
 class GUI_BotonNuevaCuenta;
 
 class GUI_Login : public IRendereable {

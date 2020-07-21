@@ -9,6 +9,11 @@
 #include "../vista/Imagen.h"
 #include "../vista/Colores.h"
 
+/*
+*	Enseña texto sobre una imagen. No se verifica que el texto
+*	esté contenido en el ancho y alto de la imágen provista.
+*/
+
 class GUI_SelectorLista : public IRendereable{
 private:
 	Colores& paleta;
