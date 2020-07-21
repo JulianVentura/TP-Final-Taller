@@ -7,9 +7,14 @@
 #include "../controlador/GUI_Boton_Controlador.h"
 #include "../vista/GUI_BotonResucitar.h"
 
+/*
+*	Ver GUI_Boton_Controlador.
+*/
+
 class GUI_BotonResucitarControlador final : public GUI_BotonControlador{
 private:
 	ServidorProxy& servidor;
+	// Envía al servidor la operación de resurrección.
 	bool enClick() override;
 public:
 	GUI_BotonResucitarControlador(GUI_BotonResucitar& vista,

@@ -12,7 +12,7 @@ void ServidorSalidaAlerta::render(){
 	renderer -> setColor(paleta.chat_texto);
 	if(mensaje.size() > 58){
 		renderer -> texto(mensaje.substr(0, 58));
-		renderer -> texto(mensaje.substr(58, std::string::npos), 0, 10);
+		renderer -> texto(mensaje.substr(58, std::string::npos), 0, 14);
 	}else{
 		renderer -> texto(mensaje);
 	}

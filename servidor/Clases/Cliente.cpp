@@ -7,12 +7,13 @@
 
 Cliente::Cliente(Socket &&socket,
                  OrganizadorSalas &unOrganizadorSalas,
-                 OrganizadorClientes &organizadorClientes,
+                 OrganizadorClientes &unOrganizadorClientes,
                  BaseDeDatos &unaBaseDeDatos) : 
                  personaje(nullptr),
                  id(""),
                  clienteProxy(std::move(socket), this),
                  organizadorSalas(unOrganizadorSalas),
+                 organizadorClientes(unOrganizadorClientes),
                  miBaseDeDatos(unaBaseDeDatos),
                  salaActual(""),
                  finalizado(false),
@@ -22,22 +23,6 @@ Cliente::Cliente(Socket &&socket,
     
     Configuraciones *config = Configuraciones::obtenerInstancia();
     tiempoActualizacionInventario = config->obtenerClienteTiempoActualizacionInventario();
-    std::pair<std::string, std::string> credenciales =
-    std::move(login(organizadorClientes));
-
-    std::pair<std::string, std::unique_ptr<Personaje>> datos =
-    miBaseDeDatos.cargarCliente(credenciales);
-    this->id = credenciales.first;
-    this->personaje = std::move(datos.second);
-    this->salaActual = std::move(datos.first);
-
-    Sala* miSala = organizadorSalas.obtenerSala(salaActual);
-    clienteProxy.actualizarCola(miSala->obtenerCola());
-    
-    miSala->cargarCliente(this);
-    continuar = true;
-    clienteProxy.enviarConfirmacion();
-    this->enviarInventario();
 }
 
 void Cliente::nuevoUsuario(std::pair<std::string, std::string> &credenciales, 
@@ -108,6 +93,14 @@ std::string& Cliente::obtenerIdSala(){
 void Cliente::procesar(){
     //Cualquier error es motivo suficiente como para finalizar la comunicacion.
     try{
+        inicializar();
+    }catch(...){
+        clienteProxy.finalizar();
+        continuar = false;
+        finalizado = true;
+        return;
+    }
+    try{
         while(continuar){
             continuar = clienteProxy.recibirOperacion();
         }
@@ -174,4 +167,25 @@ SerializacionCliente Cliente::serializar(){
     ser.idSala = salaActual;
     ser.infoPersonaje = std::move(personaje->serializar());
     return ser;
+}
+
+
+
+void Cliente::inicializar(){
+    std::pair<std::string, std::string> credenciales =
+    std::move(login(organizadorClientes));
+
+    std::pair<std::string, std::unique_ptr<Personaje>> datos =
+    miBaseDeDatos.cargarCliente(credenciales);
+    this->id = credenciales.first;
+    this->personaje = std::move(datos.second);
+    this->salaActual = std::move(datos.first);
+    organizadorClientes.inicializarCliente(this);
+    Sala* miSala = organizadorSalas.obtenerSala(salaActual);
+    clienteProxy.actualizarCola(miSala->obtenerCola());
+    
+    miSala->cargarCliente(this);
+    continuar = true;
+    clienteProxy.enviarConfirmacion();
+    this->enviarInventario();
 }

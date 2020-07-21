@@ -10,6 +10,8 @@ class GUI_InventarioControlador : public GUI_PanelControlador{
 private:
 	GUI_PanelInventario& vista_inventario;
 	ServidorProxy& servidor;
+
+	//Envía las operaciones tirar, vender o utilizar.
 	bool enClick();
 public:
 	GUI_InventarioControlador(GUI_PanelInventario& vista_inventario,

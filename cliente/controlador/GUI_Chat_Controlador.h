@@ -20,7 +20,10 @@ private:
 public:
 	GUI_ChatControlador(GUI_Chat& vista, ServidorProxy& servidor);
 	void agregarMensaje(std::string mensaje, bool mensaje_publico) override;
+
+	// Espera eventos de la familia SDL_MouseWheelEvent.
 	bool scroll(SDL_Event& evento);
+	
 	bool operator()(SDL_Event& evento) override;
 	bool enClick() override;
 	void actualizarDimension();

@@ -4,6 +4,11 @@
 #include "../vista/IRendereable.h"
 #include "../vista/Colores.h"
 #include "../vista/Imagen.h"
+
+/*
+*	Dibuja un estante enmarcado cuyo fin es exclusivamente estético.
+*/
+
 class GUI_Dock final : public IRendereable{
 private:
 	Imagen fondo, borde;

@@ -23,6 +23,12 @@
 #include "../vista/GUI_PanelTienda.h"
 #include "../controlador/GUI_Principal_Controlador.h"
 
+/*
+*	Clase que reune la vista de los componentes que integran la interfaz de la
+*	pantalla de juego principal. Provee un acceso uniforme y ordenado a la
+*	redimension	y renderizado de ellos.
+*/
+
 class GUI_Principal : public IRendereable {
 private:
 	GUI_Dock dock;

@@ -25,6 +25,7 @@ class Cliente : public Thread{
     std::string id;
     ClienteProxy clienteProxy;
     OrganizadorSalas &organizadorSalas;
+    OrganizadorClientes &organizadorClientes;
     BaseDeDatos &miBaseDeDatos;
     std::string salaActual;
     std::atomic<bool> finalizado;
@@ -39,6 +40,11 @@ class Cliente : public Thread{
     Ademas permitira crear una nueva cuenta, sobre la cual realizara chequeos de validez de id de usuario.
     */
     std::pair<std::string, std::string> login(OrganizadorClientes &organizador);
+    /*
+    Ejecuta la operacion de login en el cliente, obtiene los datos de la base de datos,
+    inicializa la instancia de Personaje y carga al cliente en la sala correspondiente.
+    */
+    void inicializar();
 
     public:
     Cliente(Socket &&socket,

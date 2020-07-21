@@ -23,7 +23,6 @@ GUI_PrincipalControlador::GUI_PrincipalControlador(ServidorProxy& servidor,
         botones.push_back(&boton_meditar_controlador);
         botones.push_back(&boton_resucitar_controlador);
         botones.push_back(&tienda_controlador);
-
         servidor.salida = &chat_controlador;
 }
 

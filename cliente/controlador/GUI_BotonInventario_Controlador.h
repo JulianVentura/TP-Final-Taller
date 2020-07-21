@@ -8,10 +8,16 @@
 #define ALTO_INVENTARIO  5
 #define ANCHO_INVENTARIO 3
 
+/*
+*	Ver GUI_Boton_Controlador.
+*/
+
 class GUI_BotonInventarioControlador final : public GUI_BotonControlador{
 private:
 	char inventario[ANCHO_INVENTARIO][ALTO_INVENTARIO];
 	GUI_PanelInventario& vista_inventario;
+
+	// Alterna el atributo de visibilidad de vista_inventario.
 	bool enClick() override;
 public:
 	GUI_BotonInventarioControlador(GUI_BotonInventario& vista_boton,

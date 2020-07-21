@@ -10,11 +10,7 @@ paleta(paleta), oro(oro){}
 void GUI_BotonOro::render(){
 	imagen.render();
 	renderer -> setColor(paleta.oro);
-	int corrimiento_x;
-	renderer -> calcularDimensionTexto(std::to_string(oro),
-	 &corrimiento_x, NULL);
-	renderer -> texto(std::to_string(oro),
-	 marco.x + marco.w - corrimiento_x, marco.y - 1);
+	renderer -> textoAIzq(std::to_string(oro), marco.x + marco.w, marco.y - 1);
 }
 
 void GUI_BotonOro::actualizarDimension(){

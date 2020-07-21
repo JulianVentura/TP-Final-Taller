@@ -5,6 +5,12 @@
 #include "../vista/GUI_Boton.h"
 #include "GUI_Clickeable.h"
 
+/*
+*	Especialización pacial de GUI_Clickeable que ajusta la posición
+*	y dimensiones del área clickeable a las de la imágen que contiene
+*	"vista".
+*/
+
 class GUI_BotonControlador : public GUI_Clickeable{
 protected:
 	GUI_Boton& vista;

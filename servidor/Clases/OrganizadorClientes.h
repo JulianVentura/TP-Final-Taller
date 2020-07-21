@@ -6,8 +6,11 @@
 #include "Cliente.h"
 class OrganizadorClientes{
     private:
+    std::list<std::unique_ptr<Cliente>> noInicializados;
     std::map<std::string, std::unique_ptr<Cliente>> clientes;
     std::mutex mutex;
+
+    bool _idEnUso(std::string &id);
     public:
     OrganizadorClientes();
     OrganizadorClientes(OrganizadorClientes &otro) = delete;
@@ -15,6 +18,7 @@ class OrganizadorClientes{
     OrganizadorClientes& operator=(OrganizadorClientes &otro) = delete;
     OrganizadorClientes& operator=(OrganizadorClientes &&otro) = delete;
     void incorporarCliente(std::unique_ptr<Cliente> unCliente);
+    void inicializarCliente(Cliente *cliente);
     Cliente* obtenerCliente(std::string id);
     void recuperarFinalizados();
     void recuperarTodosLosClientes();

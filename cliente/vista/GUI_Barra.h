@@ -8,6 +8,13 @@
 #include "../vista/IRendereable.h"
 #include "../vista/Colores.h"
 
+/*
+* Dibuja una barra de progreso, cuya dismensión está dada por rect, siempre
+* que "capacidad_actual" sea menor a "capacidad_max".
+* El color principal se usa para el efecto de luz y el secundario para
+* la zona oscura.
+*/
+
 class GUI_Barra : public IRendereable{
 private:
 	Colores& paleta;
