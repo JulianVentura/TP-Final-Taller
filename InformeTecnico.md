@@ -160,10 +160,13 @@ Si bien, solamente se diseñaron e implementaron estas tres animaciones, se pued
 
 Cada entidad, además de tener una animación asociada, tiene `DatosApariencia`, que recibe del servidor de manera análoga a las posiciones, que modifica cómo se mostrará el personaje. Toda la configuración se encuentra en el archivo `imagenes.json`. 
 
-Estructura archivo de configuración
----
+Por cuestiones de optimización, los sprites y la información son compartidas por todas las entidades, con lo cual el modificar un sprite tiene que hacerse inmediatamente antes de mostrar el sprite en la pantalla. Este comportamiento se encapsula en la clase `Sprite` que en base a la apariencia (clase, raza, tipo, estado) se determina qué animación e imagen corresponde.
 
-Cada entidad, en `imagenes.json` tiene asociada una estructura:
+Estructura archivo
+---
+#### Archivo `imagenes.json`
+
+Cada entidad, en tiene asociada una estructura:
 ``` json
 "estructura": {
     "cuerpo": ["path_to_img"],
@@ -225,6 +228,48 @@ Donde luego, en el apartado de animaciones, tendrá que aparecer alguno con el i
 ```
 Donde `ancho` y `alto`, serán la dimensión del cuadro de la animación, `tiempo_por_cuadro` tiempo entre cuadro y cuadro, `tiempo_entre_ciclo`
 el tiempo entre que termina la animación y se reproduce nuevamente; `Direcciones` cantidad de direcciones (si hay 0 será una animación estática, si hay 4 será de 4 direcciones y si vale 8 será animación de 8 direcciones); `Columna` será la columna desde que se empieza a contar el sprite; `Columnas` cantidad _total_ de columnas que tiene el sprite (sería la máxima cantidad de filas ocupadas por fila); luego en cada estado, se definen la cantidad de columnas partículares que tiene esa animación en específico.
+
+#### Creacion de mapas
+
+Para la creación de mapas, se utiliza la herramiente _Tiled_. El mismo brinda una interfaz intuitiva para generar mapas de tipo tile y exportarlo al formato `json`.
+
+Para comenzas, se descarga e instala (si corresponde) [_Tiled_](https://www.mapeditor.org/).
+
+Se va a `File>New>New Map`, se deja la configuración por defecto, se puede cambiar el tamaño. 
+
+<p align="center"> 
+   <img src="documentacion/new_map.png" alt="Nuevo mapa">
+</p>
+
+Una vez agregado se pueden agregar imágenes, es importante que esté activado el tick `Embed in map` (esto hace que la información de la imagen, quede en el mismo archivo del mapa y no en un archivo adicional). En caso de que la imagen cuente con un fondo que quiesieramos quitar, se puede usar `Use transparent color` y hay que seleccionar el color de fondo.
+
+<p align="center"> 
+   <img src="documentacion/new_tile_set.png" alt="Nuevo tileset">
+</p>
+
+Una vez cargado, debería aparecer en la ventana de tiles y para agregarlo al mapa bastaría con pintar en el mapa.
+
+
+<p align="center"> 
+   <img src="documentacion/new_tile_set_cargado.png" alt="Nuevo tileset">
+</p>
+
+
+Para que funcione correctamente el mapa en nuestro juego, se debe respetar la siguiente estructura de capas
+
+<p align="center"> 
+   <img src="documentacion/tile_capas.png" alt="Nuevo mapa">
+</p>
+
+- Una capa de objetos con nombre `colisionables` (acá estarán los rectangulos donde se chequearan colisiones). Todos los rectangulos tienen que estar dentro del mapa. (Cuidado con los bordes).
+- Una capa `spawnPasivos` que contendrá rectangulos donde cada rectangulo tendrá por nombre el tipo de entidad que contendrá.
+- La capa `respawn` definirá las zonas donde aparecerán las crituras.
+- En el grupo `frente`
+   - Por cada capa de de tiles, habrá una capa de objetos con el mismo nombre encima. La capa de tiles contendrá las imágenes.
+   - Si se quiere hacer que un objeto sea obstruible (una lámpara por ejemplo), en la capa de objetos, se debe agregar un rectangulo que abarque toda la imagen de la lámpara. (Recomendación, cuidar el límite).
+- En el grupo `fondo`
+  - Solo habrá capas de tiles, no hay restricciones.
+
 
 #### Comunicación con el Servidor
 
