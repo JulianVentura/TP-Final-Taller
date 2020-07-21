@@ -1,6 +1,6 @@
 #include "EntornoMusical.h"
 
-#define VOLUMEN SDL_MIX_MAXVOLUME
+#define VOLUMEN SDL_MIX_MAXVOLUME/2
 #define NUEVO_AUDIO(x,y) sonidos[x] = createAudio(y, 0, VOLUMEN)
 
 std::unordered_map<std::string, Audio*> EntornoMusical::sonidos;
@@ -34,7 +34,7 @@ void EntornoMusical::reproducirSonido(std::string nombre){
 	if (!sonidos.count(nombre)) return;
 	try{
 		playSoundFromMemory(sonidos.at(nombre),
-			VOLUMEN/2);
+			VOLUMEN*2);
 	}catch(std::exception& e){}
 }
 
