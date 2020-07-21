@@ -160,6 +160,7 @@ void ServidorProxy::comenzarRecepcionConcurrente() {
 }
 
 void ServidorProxy::terminar() {
+	// std::unique_lock<std::mutex> lock(mtx);
 	salir = true;
 	socket.cerrar_canal(SHUT_RDWR);
 	if (comenzo_recepcion_concurrente)
@@ -176,6 +177,7 @@ std::string ServidorProxy::obtenerMapa() {
 }
 
 void ServidorProxy::actualizarPosiciones() {
+	// std::unique_lock<std::mutex> lock(mtx);
 	std::unordered_map<std::string, std::pair<int, int>> posiciones;
 	uint32_t longitud = protocolo.recibirUint32(socket);
 	posiciones.reserve(longitud);
@@ -196,6 +198,7 @@ void ServidorProxy::enviarMovimiento(uint32_t movimiento) {
 }
 
 void ServidorProxy::recibir_estados() {
+	// std::unique_lock<std::mutex> lock(mtx);
 	uint32_t largo = protocolo.recibirUint32(socket);
 	std::vector<serializacionDibujado> resultado;
 	for (std::size_t i = 0; i < largo; i++) {
@@ -302,9 +305,9 @@ void ServidorProxy::setJuego(Juego* juego) {
 }
 
 void ServidorProxy::encolarMensaje(Mensaje&& mensaje){
-        if(enviador.envioBloqueado()){
-            SDL_PushEvent(&evento_salida);
-        }else{
-            colaEnvio.push(std::move(mensaje));
-        }
+	if(enviador.envioBloqueado()){
+		SDL_PushEvent(&evento_salida);
+	}else{
+		colaEnvio.push(std::move(mensaje));
+	}
 }

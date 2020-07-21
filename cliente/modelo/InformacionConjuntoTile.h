@@ -4,11 +4,11 @@
 
 typedef struct InformacionConjuntoTile {
     std::string ruta;
-    int primer_id;
-    int cantidad_tiles;
-    int ancho_tile;
-    int alto_tile;
-    int columnas;
+    int primer_id = 0;
+    int cantidad_tiles = 0;
+    int ancho_tile = 0;
+    int alto_tile = 0;
+    int columnas = 0;
     std::string color_transparente;
 } InformacionConjuntoTile;
 

@@ -19,5 +19,6 @@ private:
     MapaVista* mapa;
     CapaFrontal* capaFrontal;
     LibreriaConjuntoTiles* conjuntoTiles;
+    SDL_Rect frontera = {};
 };
 #endif
