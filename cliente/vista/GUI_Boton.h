@@ -11,7 +11,7 @@
 
 class GUI_Boton :  public IRendereable{
 protected:
-	int x,y;
+	int x = 0, y = 0;
 	Imagen imagen;
 public:
 	GUI_Boton(EntornoGrafico& entorno, std::string ruta);

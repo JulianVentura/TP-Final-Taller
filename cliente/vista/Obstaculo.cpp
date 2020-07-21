@@ -17,7 +17,8 @@ Obstaculo::Obstaculo(SDL_Rect& dimension, std::vector<int>& guids,
 void Obstaculo::render() {
     for (int i = columna; i <= ultima_columna; ++i) {
         for (int j = fila; j <= ultima_fila; ++j) {
-            int indice = j * conjuntoTiles.getColumnas() + i;
+            unsigned int indice = j * conjuntoTiles.getColumnas() + i;
+            if (guids.size() <= indice) continue;
             int id = guids[indice];
             if (id == 0) continue;
             Imagen* tile = conjuntoTiles.getTile(id);

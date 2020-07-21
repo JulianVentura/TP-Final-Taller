@@ -26,7 +26,7 @@ public:
     void setFrontera(SDL_Rect& frontera);
 
 private:
-    LibreriaConjuntoTiles* conjuntosTiles;
+    LibreriaConjuntoTiles* conjuntosTiles = nullptr;
     std::vector<std::vector<int>> capasFondo;
     std::unordered_map<std::string, IRendereable*> rendereables;
     int columnas;

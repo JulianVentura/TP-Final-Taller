@@ -22,7 +22,7 @@ int main(int argc, const char* argv[]) {
         Ventana ventana(entorno, "Argentum Online");
         Renderer renderer(entorno);
         Colores paleta;
-        
+
         main_login(entorno, ventana, servidor, paleta);
         if (!servidor.estaLogueado()){
         	servidor.terminar();
