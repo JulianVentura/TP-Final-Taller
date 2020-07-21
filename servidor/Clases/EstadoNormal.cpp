@@ -60,7 +60,6 @@ void EstadoNormal::interactuar(Entidad *entidad){}
 
 void EstadoNormal::sanar(){
     personaje->curar(personaje->vidaMaxima, personaje->manaMaximo);
-    personaje->estadoNormal();
 }
 
 bool EstadoNormal::curar(float curVida, float curMana){

@@ -128,10 +128,7 @@ bool ClienteProxy::decodificarCodigo(uint32_t codigo){
         case CODIGO_VENTA:
             decodificarVenta();
             break;
-
-        case CODIGO_DESCONECTAR:
-            return false;
-       
+            
         case CODIGO_UTILIZACION:
             decodificarUtilizacion();
             break;
@@ -189,9 +186,6 @@ std::pair<std::string, std::string> ClienteProxy::recibirId(){
         case CODIGO_NUEVO_PERSONAJE:
             decodificarNuevoJugador(id, clave);
             break;
-        case CODIGO_DESCONECTAR:
-            throw Excepcion
-            ("Conexion no completada por peticion del cliente");  
         default:
             enviarError("Error: No se ha interpretado la operacion solicitada. "
                 "Finaliza la conexion");

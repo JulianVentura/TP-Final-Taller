@@ -37,9 +37,9 @@ void Aceptador::procesar(){
                                                          baseDeDatos));
             cliente.get()->comenzar();
             organizadorClientes.incorporarCliente(std::move(cliente));
-        }catch(const Excepcion &e){
+        }catch(const FallaConexionException &e){
             //No me interesa imprimir una excepcion propia ni cortar el loop.
-            std::cerr << e.what() << std::endl;
+            //std::cerr << e.what() << std::endl;
         }catch(const std::exception &e){
             //Si me interesa imprimir una excepcion mas generica y cortar el loop.
             std::cerr << e.what() << std::endl;

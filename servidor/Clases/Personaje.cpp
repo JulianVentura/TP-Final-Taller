@@ -15,7 +15,6 @@
 #include "Criatura.h"
 #include "FabricaDeItems.h"
 #include "Divulgador.h"
-#include "../../common/TCPIDs.h"        //Para el IDTCP de item nulo.
 #include <utility>
 #include <cstring>
 
