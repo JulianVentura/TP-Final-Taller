@@ -87,6 +87,9 @@ La estructura básica del proyecto de una forma primitiva consiste en las clases
 - `BuclePrincipal`: Juega el papel de `GameLoop`, que estará escuchando a eventos y cuando recibe alguno, lo despachará a los `IInteractivos` que tiene almacenado. La propagación del evento será líneal, además de de que cortará la propagación cuando el primer interactivo haya consumido el evento. Cada interactivo puede subscribirse a más de un evento. Una vez despachado el evento, se procede a actualizar la ventana (y por consiguiente a los rendereables que contiene) y llama a `Ventana::render`. Una vez finalizado, se cuenta el tiempo que tardo todo el proceso, y se duermo un tiempo hasta completar un tiempo constante, permitiendo así, tener un framerate más estable.
 
 
+<p align="center"> 
+   <img src="documentacion/dc-entornografico.jpg" alt="Dirección derecha">
+</p>
 
 
 #### Interfaz de Usuario
