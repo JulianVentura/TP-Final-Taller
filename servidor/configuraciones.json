@@ -444,27 +444,27 @@
     },
     "Proyectiles": {
         "FlechaM": {
-            "VelDesplazamiento": 0.9,
+            "VelDesplazamiento": 0.7,
             "TiempoDespawn": 300
         },
         "Curar": {
-            "VelDesplazamiento": 0.9,
+            "VelDesplazamiento": 0.7,
             "TiempoDespawn": 300
         },
         "Misil": {
-            "VelDesplazamiento": 0.9,
+            "VelDesplazamiento": 0.7,
             "TiempoDespawn": 300
         },
         "Explosion": {
-            "VelDesplazamiento": 0.9,
+            "VelDesplazamiento": 0.7,
             "TiempoDespawn": 300
         },
         "Cuerpo": {
-            "VelDesplazamiento": 0.9,
+            "VelDesplazamiento": 0.7,
             "TiempoDespawn": 300
         },
         "Flechazo": {
-            "VelDesplazamiento": 0.9,
+            "VelDesplazamiento": 0.7,
             "TiempoDespawn": 300
         }
     },

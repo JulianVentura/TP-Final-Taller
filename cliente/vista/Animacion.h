@@ -23,7 +23,7 @@ public:
 
 private:
     void reiniciar();
-    AnimacionBase* infoAnimacion;
+    AnimacionBase* infoAnimacion = nullptr;
     std::string accion;
     std::string direccion;
     int columna = 0;
