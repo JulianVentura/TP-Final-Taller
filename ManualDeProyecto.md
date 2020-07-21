@@ -95,6 +95,11 @@ Dentro de los puntos pendientes del trabajo podemos mencionar:
 
 * Confección de un instalador propiamente dicho, más amigable a usuarios generales.
 
+
+* Organizar las clases del servidor en distintos directorio. Se intento realizar esto en los dias previos a la entrega, sin embargo se debio retroceder dada la cantidad de archivos que el servidor maneja. Se aprendio la leccion, el trabajo debe ser dividido en directorios desde el comienzo.
+
+* Optimizar ciertas cuestiones del servidor que permitan mejorar la performance. Cabe aclarar que el trabajo no presenta problemas de rendimiento.
+
   
 
 

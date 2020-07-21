@@ -735,20 +735,6 @@ Se decidió mantener el namespace de las bibliotecas y su idioma original para q
 
 Cabe aclarar que la biblioteca de `quadtree` necesita ser compilada en C++17, esto avalado por nuestros tutores del trabajo.
 
-### Problemas encontrados
-
-Las parte mas desafiante del servidor fue sin lugar a dudas, el diseño del mismo, tarea que llevo varios dias de análisis en la primer semana de desarrollo.
-Se puede mencionar también a la relación entre las entidades y el diseño del mapa como dos problemas importantes atravesar a lo largo del desarrollo.
-
-Llegados a la primera entrega fue muy evidente la necesidad de una refactorización de las relaciones de las entidades y del mapa, ya que el programa entregado no era escalable. Se considera que tras la refactorización el código resulto ser mucho mas amigable, prolijo y extensible.
-
-Debido a los problemas antes mencionados el tiempo comenzó a jugar en contra, y sumado a la cantidad de errores surgidos al intentar unir los trabajos realizados en el cliente y servidor, fue imposible llegar a la primera fecha de entrega con un trabajo solido que demuestre realmente el esfuerzo invertido.
-
-Dicho esto, se cree que el trabajo mejoro notablemente una vez superados estos problemas, ya que la base de desarrollo comenzó a ser bastante mas clara.
-
-
-
-
 ### Fuentes
 
 
