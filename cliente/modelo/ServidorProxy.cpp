@@ -19,6 +19,7 @@ ServidorProxy::ServidorProxy(DatosPersonaje& datos_personaje,
 	salir = false;
 	se_recibio_mapa = false;
 	esta_logueado = false;
+	comenzo_recepcion_concurrente = false;
 	Uint32 tipo_evento = SDL_RegisterEvents(1);
 	if (tipo_evento != ((Uint32) - 1)) {
 		SDL_memset(&evento_salida, 0, sizeof(evento_salida));
@@ -155,12 +156,14 @@ void ServidorProxy::recibirMensajeConOperacion(uint32_t operacion) {
 
 void ServidorProxy::comenzarRecepcionConcurrente() {
 	hilo_recepcion = std::thread(&ServidorProxy::recibirMensaje, this);	
+	comenzo_recepcion_concurrente = true;
 }
 
 void ServidorProxy::terminar() {
 	salir = true;
 	socket.cerrar_canal(SHUT_RDWR);
-	hilo_recepcion.join();
+	if (comenzo_recepcion_concurrente)
+		hilo_recepcion.join();
 }
 
 // Manejo de mapa
