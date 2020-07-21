@@ -505,7 +505,7 @@ Dicho esto, se cree que el trabajo mejoro notablemente una vez superados estos p
 A continuacion se presentan los diagramas que acompañan al informe, cabe aclarar que por la complejidad del trabajo se decidio dividir a los mismos en categorias, similares a las que se encuentran en este informe.
 Ademas es necesario destacar que todos los diagramas tienen un alto nivel de abstraccion y buscan transmitir la idea del modelo de la forma mas sencilla posible, se recomienda acompañar a los mismos con la lectura de las secciones previas.
 
-##### Diagramas de clases
+#### Diagramas de clases
 
 ![Diagrama de clases](/documentacion/diagramaDeClasesClienteSala)
 
@@ -515,7 +515,7 @@ Ademas es necesario destacar que todos los diagramas tienen un alto nivel de abs
 
 ![Diagrama de clases](/documentacion/diagramaDeClasesPersistencia)
 
-##### Diagramas de secuencia
+#### Diagramas de secuencia
 
 ![Diagrama de secuencia](/documentacion/diagramaDeSecuenciaAtaque)
 
