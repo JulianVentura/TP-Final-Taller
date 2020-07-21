@@ -45,7 +45,10 @@ void PersonajeParser::parsear(EntornoGrafico& entorno, nlohmann::json& parser,
                                         const imagenes_t setDeImagenesBase) {
     if (clase == ENTIDADPARSER_BASE) return;
     std::string color_fondo;
+    setDeImagenes = setDeImagenesBase;
     for (auto& valor: parser["razas"][raza]["variantes"][clase]["estructura"].items()) {        
+        if (valor.value().size() && setDeImagenes[valor.key()].size())
+            setDeImagenes[valor.key()].clear();
         for (auto& parte: valor.value())
             parsearImagen(entorno, raiz, setDeImagenes, valor.key(), parte, color_fondo);
     }

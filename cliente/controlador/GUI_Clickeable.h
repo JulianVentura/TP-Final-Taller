@@ -10,7 +10,7 @@
 
 class GUI_Clickeable{
 protected:
-	SDL_Rect rect;
+	SDL_Rect rect = {};
 	virtual bool enClick() = 0;
 public:
 	GUI_Clickeable(SDL_Rect rect);

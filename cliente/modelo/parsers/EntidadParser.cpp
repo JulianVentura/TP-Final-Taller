@@ -22,11 +22,6 @@ void EntidadParser::parsearRazas() {
     for (auto& raza: parser["razas"].items()) {
         auto clases = raza.value()["variantes"];
         std::string raza_s = raza.key();
-        
-        if (raza.value().count("copiar")) {
-            raza.value()["copiar"].get_to(raza_s);
-            clases = parser["razas"][raza_s]["variantes"];
-        }
         imagenes_t setDeImagenesBase;
         for (auto& campos: clases[ENTIDADPARSER_BASE]["estructura"].items()) {
             for (auto& imagen: campos.value()) {
@@ -165,17 +160,13 @@ const std::vector<Imagen*>& EntidadParser::getImagenes(const std::string& raza,
 
 int EntidadParser::getAnchoReal(DatosApariencia& apariencia) {
     std::string id = idReal(apariencia);
-    printf("ancho real de %s: ", id.c_str());
     if (!entidades.count(id)) return 0;
-    printf("%d\n", entidades.at(id).getAncho());
     return entidades.at(id).getAncho();
 }
 
 int EntidadParser::getAltoReal(DatosApariencia& apariencia) {
     std::string id = idReal(apariencia);
-    printf("alto real de %s: ", id.c_str());
     if (!entidades.count(id)) return 0;
-    printf("%d\n", entidades.at(id).getAlto());
     return entidades.at(id).getAlto();
 }
 

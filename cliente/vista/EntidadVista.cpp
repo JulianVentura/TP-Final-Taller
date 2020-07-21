@@ -24,6 +24,10 @@ EntidadVista::EntidadVista(EntornoGrafico& entorno, IPosicionable* modelo,
 
 void EntidadVista::actualizar(unsigned int delta_t) {
     if (!esta_apariencia || !modelo || !modelo->esta_actualizado()) return;
+    // if (!esta_apariencia)printf ("no hay apariencia\n");
+    // if (!modelo)printf ("no hay modelo\n");
+    // if (!modelo->esta_actualizado()) printf ("modelo no actualizado\n");
+    
     int ultimo_x = x;
     int ultimo_y = y;
     x = modelo->getX();

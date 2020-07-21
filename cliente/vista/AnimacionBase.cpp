@@ -14,6 +14,7 @@ void AnimacionBase::getMascara(Animacion& animacion, std::string& direccion_ante
     if (!parser) return;
     if (parser->getColumnas() == 0) return;
     std::string direccion(getDireccion(delta_x, delta_y));
+    if (!direccion_anterior.size()) direccion_anterior = parser->getDireccionInicial();
     if (!direccion.size()) direccion = direccion_anterior;
     animacion.setMascara(parser, mascara, direccion, estaQuieto(delta_x, delta_y));
 }

@@ -4,8 +4,9 @@
 #include "GUI_Boton_Controlador.h"
 
 GUI_BotonControlador::GUI_BotonControlador(GUI_Boton& uvista) :
-GUI_Clickeable(uvista.obtenerMarco()), vista(uvista){
+GUI_Clickeable(uvista.obtenerMarco()), vista(uvista) {
 	actualizarDimension();
+	rect = {};
 }
 
 void GUI_BotonControlador::actualizarDimension(){
@@ -13,6 +14,7 @@ void GUI_BotonControlador::actualizarDimension(){
 }
 
 bool GUI_BotonControlador::operator()(SDL_Event& evento){
+	if (evento.type != SDL_MOUSEBUTTONDOWN) return false;
 	SDL_Point punto = {evento.button.x, evento.button.y};
 	if(!SDL_PointInRect(&punto, &rect)) return false;
 	return enClick();

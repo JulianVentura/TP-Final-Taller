@@ -39,6 +39,7 @@ void MapaVista::agregarRendereable(std::string& id, IRendereable* rendereable) {
 }
 
 void MapaVista::render() {
+    if (!conjuntosTiles) return;
     int columna_inicial = frontera.x;
     int fila_inicial = frontera.y;
     int columna_final = columna_inicial + frontera.w;
