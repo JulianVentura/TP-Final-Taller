@@ -721,8 +721,8 @@
                 "idTCP": 101
             },
             "ArmaduraDePlacas": {
-                "DefensaMax": 30,
-                "DefensaMin": 15,
+                "DefensaMax": 20,
+                "DefensaMin": 10,
                 "Precio": 40,
                 "idTCP": 102
             },
@@ -735,19 +735,19 @@
         },
         "Cascos": {
             "Capucha": {
-                "DefensaMax": 4,
+                "DefensaMax": 3,
                 "DefensaMin": 1,
                 "Precio": 20,
                 "idTCP": 201
             },
             "CascoDeHierro": {
-                "DefensaMax": 8,
-                "DefensaMin": 4,
+                "DefensaMax": 6,
+                "DefensaMin": 3,
                 "Precio": 40,
                 "idTCP": 202
             },
             "SombreroMagico": {
-                "DefensaMax": 12,
+                "DefensaMax": 10,
                 "DefensaMin": 4,
                 "Precio": 80,
                 "idTCP": 203

@@ -71,6 +71,7 @@ void BolsaDeItems::comprar(unsigned int pos, Personaje *personaje, Cliente *clie
         //No hay nada que entregarle
         return;
     }
+    Item *temp = items[pos];
     personaje->almacenar(items[pos]);
     //Si falla al almacenar no se pisa el puntero
     items[pos] = itemNulo;
@@ -78,6 +79,9 @@ void BolsaDeItems::comprar(unsigned int pos, Personaje *personaje, Cliente *clie
     if (elementos <= 0) bolsaVacia = true;
     cliente -> enviarInventario();
     cliente -> enviarContenedor(std::move(this->serializarBolsa()));
+
+    std::string mensaje = "Se recibio " + temp->obtenerId();
+    cliente->enviarMensaje(mensaje, false);
 }
 void BolsaDeItems::vender(Item* item, Personaje *personaje, Cliente *cliente){
     //No se puede almacenar un item en una bolsa de items.
