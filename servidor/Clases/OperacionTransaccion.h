@@ -14,6 +14,10 @@ class OperacionTransaccion : public Operacion{
     public:
     OperacionTransaccion(Cliente *cliente, Mapa *mapa, std::string idObjetivo, bool esDeposito);
     ~OperacionTransaccion() override;
+    /*
+    Ejecuta la operacion de transaccion, accediendo al mapa para buscar al objetivo.
+    Lanza la cadena de llamados para realizar la transaccion, delegando en el objetivo.
+    */
     void ejecutar() override;
 };
 

@@ -18,6 +18,10 @@ class Persistidor : public Thread{
     Persistidor(Persistidor &&otro) = delete;
     Persistidor& operator=(Persistidor &otro) = delete;
     Persistidor& operator=(Persistidor &&otro) = delete;
+    /*
+    Desencola de la cola de operaciones los datos de clientes serializados y delega en la
+    BaseDeDatos para persistirlos.
+    */
     void procesar();
     ~Persistidor();
 };

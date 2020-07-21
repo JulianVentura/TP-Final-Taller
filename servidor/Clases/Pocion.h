@@ -13,7 +13,14 @@ class Pocion : public Item{
            std::string unId,
            uint16_t idTCP,
            unsigned int unPrecio);
+    /*
+    Utiliza la pocion, curando al personaje segun los niveles de curacion de la misma.
+    Elimina la pocion de la posicion pos del inventario del personaje.
+    */
     void utilizar(Personaje *personaje, unsigned int pos) override;
+    /*
+    No realiza accion alguna
+    */
     void desequipar(Personaje *personaje, unsigned int pos) override;
 };
 

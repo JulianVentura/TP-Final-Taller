@@ -16,6 +16,9 @@ class OperacionMover : public Operacion{
     public:
     OperacionMover(Personaje *personaje, DireccionMovimiento direccion);
     ~OperacionMover() override;
+    /*
+    Ejecuta la operacion de mover, delegando en el Personaje la accion de mover.
+    */
     void ejecutar() override;
 };
 

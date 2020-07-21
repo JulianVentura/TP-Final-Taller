@@ -77,23 +77,3 @@ Mapa* Sala::obtenerMapa(){
 ColaOperaciones* Sala::obtenerCola(){
     return &colaOperaciones;
 }
-
-/*
-El GameLoop va a iterar constantemente y le pedira a la sala que le fowardee las posiciones a todos los clientes.
-Cuando eso suceda el gameloop quedara bloqueado dentro de Sala::actualizarClientes() ya que el metodo sera atomico.
-Si justo algun cliente intenta loguearse entonces el GameLoop se quedara bloqueado hasta que este cliente se haya cargado
-correctamente tanto en el mapa como en la lista de clientes.
-Si justo algun cliente intenta desloguearse sucedera lo mismo.
-Por lo tanto la sala debera encargarse de solicitarle al mapa las posiciones de las entidades, no el GameLoop.
-
-*/
-
-/*
-Persistencia periodica en cada sala.
-Cada sala recibira el pedido de persisencia de los clientes que tiene.
-Serializara a cada uno, creando un vector de serializacion de clientes.
-Luego encolara dicho vector en una ColaDeSerializacion.
-
-Otro hilo se encargara de levantar de dicha cola el vector y utilizando la base de datos guardara los datos del cliente.
-
-*/

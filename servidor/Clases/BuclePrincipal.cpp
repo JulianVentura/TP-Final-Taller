@@ -27,8 +27,6 @@ void BuclePrincipal::procesar(){
         try{
             transcurrido = reloj.actualizar();
             lag += transcurrido;
-            //Descomentar para ver FPS
-            //fprintf(stderr, "FPS: %f\n", 1000/transcurrido);
             //Proceso las operaciones de la cola
             procesarOperaciones();
             while (lag >= msPorActualizacion){

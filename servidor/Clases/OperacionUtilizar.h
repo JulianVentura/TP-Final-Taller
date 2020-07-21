@@ -11,6 +11,10 @@ class OperacionUtilizar : public Operacion{
     public:
     OperacionUtilizar(Cliente *cliente, uint16_t pos);
     ~OperacionUtilizar() override;
+    /*
+    Ejecuta la operacion de utilizacion, delegando en el personaje.
+    Se utilizara el item almacenado en el inventario en la posicion pos.
+    */
     void ejecutar() override;
 };
 

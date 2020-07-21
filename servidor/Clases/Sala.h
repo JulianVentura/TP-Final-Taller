@@ -27,9 +27,22 @@ class Sala{
     Sala(Sala &otro) = delete;
     Sala& operator=(Sala &otro) = delete;
     Sala& operator=(Sala &&otro) = delete;
+    /*
+    Carga un nuevo cliente a la sala y a su personaje al mapa
+    */
     void cargarCliente(Cliente *cliente);
+    /*
+    Envia informacion de las posiciones de las entidades, dibujado de los personajes a los
+    clientes conectados
+    */
     void actualizarClientes(double tiempo);
+    /*
+    Elimina el cliente de id de la sala y a su personaje del mapa
+    */
     void eliminarCliente(const std::string &id);
+    /*
+    Persiste todos los clientes conectados a la sala, sin bloquearse.
+    */
     void persistirClientes(double tiempo);
     Mapa *obtenerMapa();
     std::string& obtenerNombre();

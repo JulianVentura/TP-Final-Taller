@@ -10,6 +10,9 @@ class OperacionMeditar : public Operacion{
     public:
     OperacionMeditar(Cliente *cliente);
     ~OperacionMeditar() override;
+    /*
+    Ejecuta la operacion de meditacion, delegando en el Personaje la accion de meditar.
+    */
     void ejecutar() override;
 };
 

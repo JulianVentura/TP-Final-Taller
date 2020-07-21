@@ -32,11 +32,17 @@ class Personaje : public Entidad{
     std::unique_ptr<Estado> estado;
     Inventario inventario;
     std::vector<Item*> almacen;
-
+    /*
+    Actualiza todos los atributos del usuario, accediendo a Configuraciones para obtenerlos segun su nivel.
+    */
     void actualizarAtributos();
+    /* Cambia el estado a Normal */
     void estadoNormal();
+    /* Cambia el estado a Fantasma */
     void estadoFantasma();
+    /* Cambia el estado a Meditacion */
     void estadoMeditacion();
+    /* Cambia el estado a Inmovilizado */
     void estadoInmovilizado(double tiempo);
 
     public:
@@ -52,6 +58,9 @@ class Personaje : public Entidad{
     
 
     void curar(float curVida, float curMana);
+    /*
+    Sana completamente al personaje, delegando en el Estado.
+    */
     void sanar();
     std::vector<Item*>& obtenerAlmacen();
     uint32_t& obtenerOroAlmacen();

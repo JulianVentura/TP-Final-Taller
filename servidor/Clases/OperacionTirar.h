@@ -11,6 +11,10 @@ class OperacionTirar : public Operacion{
     public:
     OperacionTirar(Cliente *cliente, unsigned int pos);
     ~OperacionTirar() override;
+    /*
+    Ejecuta la operacion de tirar, delegando en el personaje la accion de tirar un item del inventario
+    almacenado en la posicion pos.
+    */
     void ejecutar() override;
 };
 

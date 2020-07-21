@@ -14,6 +14,10 @@ class OperacionComprar : public Operacion{
     public:
     OperacionComprar(Cliente *cliente, Mapa *mapa, unsigned int pos, std::string idObjetivo);
     ~OperacionComprar() override;
+    /*
+    Ejecuta la operacion de ocmpra, accediendo al mapa para obtener el objetivo e inicializando
+    la cadena de compra, en la cual se determinara si la operacion es posible.
+    */
     void ejecutar() override;
 };
 

@@ -51,7 +51,6 @@ bool Entidad::haFinalizado(){
 const struct PosicionEncapsulada Entidad::serializarPosicion() const{
     struct PosicionEncapsulada pos = std::move(posicion.serializarPosicion());
     const char *buff = this->obtenerId().c_str();
-    //memcpy(pos.id, buff, TAM_ID);
     strncpy(pos.id, buff, TAM_ID);
     pos.id[TAM_ID - 1] = 0;
     return pos;

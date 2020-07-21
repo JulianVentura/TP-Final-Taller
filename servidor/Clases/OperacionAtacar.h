@@ -12,8 +12,12 @@ class OperacionAtacar : public Operacion{
     std::string idObjetivo;
 
     public:
-    OperacionAtacar(Cliente *cliente, Mapa *mapa, std::string idObjetivo);
+     OperacionAtacar(Cliente *cliente, Mapa *mapa, std::string idObjetivo);
     ~OperacionAtacar() override;
+    /*
+    Ejecuta la operacion de ataque, accediendo al mapa para obtener el objetivo e inicializando
+    la cadena de ataques.
+    */
     void ejecutar() override;
 };
 

@@ -14,6 +14,10 @@ class OperacionVender : public Operacion{
     public:
     OperacionVender(Cliente *cliente, Mapa *mapa, unsigned int pos, std::string idObjetivo);
     ~OperacionVender() override;
+    /*
+    Ejecuta la operacion de venta, accediendo al mapa para obtener el objetivo e inicializando
+    la cadena de venta, en la cual se determinara si la operacion es posible.
+    */
     void ejecutar() override;
 };
 
