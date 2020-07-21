@@ -47,23 +47,26 @@ El servidor no conoce el modo en el que el cliente enseña cada componente, much
 
 # Cliente
 
+
+
+#### Dibujado
+El sistema cuenta con una clase `EntornoGrafico`, que  centraliza las operaciones de dibujado y manejo de eventos. El mismo está relacionado con `BuclePrincipal`, que este brinda el despachado de eventos junto con la actualización de `IRendereables` (es decir, objetos que se pueden dibujar), así como también lo actualizará cuando corresponda.
+
+
+
 ## Interfaz de Usuario
 
 ### Descripción general
 
 Aunque dentro del ámbito académico se practican fuertemente las habilidades vinculadas al desarrollo de modelos óptimos y flexibles, la prioridad principal es siempre lograr que el usuario final se sienta cómodo con el producto, y esto es especialmente cierto cuando se trabaja en un programa destinado al ocio. Siguiendo esta noción, y con el permiso de los correctores, se optó por distanciarse de los comandos por texto en favor de botones y paneles interactuables.
 
-Cuando se realiza un click con el ratón o se presiona alguna tecla, un evento se dispara y llega a una primer capa (`GUI_Principal` / `GUI_Login`), integrada por todos los botones que desencadenan alguna operación (abrir el inventario, comprar o vender, etc). Los botones y paneles se recorren uno a uno hasta que el evento puede ser respondido por uno de ellos. De no ser así, se alcanza la segunda capa, en donde se averigua si existe en el mapa una entidad en la posición marcada y de ser así, se interactúa con ella.
 
-Todas las partes de la interfaz ajustan su posición según el tamaño de la ventana, pero a excepción de las barras y el estante, no se redimensionan. Existe por ende un tamaño de ventana mínimo, debajo del cual colapsan todos los elementos.
 
-Considerando que la simultaneidad de clientes se evalúa en la misma computadora se decidió no restringir el área de la ventana, para facilitar la depuración del código y su corrección.
-
-El sistema cuenta con una clase `EntornoGrafico`, que permite tener centralizada las operaciones de dibujado y de eventos. El mismo está relacionado con `BuclePrincipal`, que este brinda el despachado de eventos junto con la actualización de `IRendereables` (es decir, objetos que se pueden dibujar), así como también lo actualizará cuando corresponda.
+#### Mapa y Entidades
 
 En cuanto a lo que corresponde con el resto del juego, se cuantan con una clase principal `Juego`, que a a su vez contiene una `Escena`, `MapaVista` y un mapa de `EntidadeVista`, con su correspondiente modelo `IPosicionable`. El servidor se comunicará con la clase `Juego` para actualizar la información de cada una de sus partes. El mismo responderá cuando aparezca una nueva entidad en el mapa, cambie alguna característica de sus partes o se cambie directamente del mapa cuando el personaje se teletransporta.
 
-La `Escena`, cuenta con dos capas, una será `MapaVista`, que actuará como la capa de fondo, y otro `CapaFrontal`, que está última se dibujará según un orden inducido para poder dar el efecto de sobrelapamiento. Ordenar las capas es costoso, o lo sería si se lo hace sobre todo el mapa, acá es donde resulta útil que `Escena` tenga una referencia de la `Camara` para poder acotar lo que dibujará a solamente lo visible, esto, una cantidad relativamente pequeña y constante, sin importar si el usuario redimensiona la pantalla o si el mapa es inmenso.
+La `Escena`, cuenta con dos capas, una será `MapaVista`, que actuará como la capa de fondo, y otro `CapaFrontal`, que está última se dibujará según un orden inducido para poder dar el efecto de solapamiento. Ordenar las capas es costoso, o lo sería si se lo hace sobre todo el mapa, acá es donde resulta útil que `Escena` tenga una referencia de la `Camara` para poder acotar lo que dibujará a solamente lo visible, esto, una cantidad relativamente pequeña y constante, sin importar si el usuario redimensiona la pantalla o si el mapa es inmenso.
 
 Para crear cada una de las partes del `Juego` se cuentan con clases específicas de parseo de archivos, (principalmente de `imagenes.json`), lo que permite, hacer modificaciones de forma dinámica sin tener que recompilar el proyecto.
 
@@ -83,6 +86,16 @@ La estructura básica del proyecto de una forma primitiva consiste en las clases
 
 - `BuclePrincipal`: Juega el papel de `GameLoop`, que estará escuchando a eventos y cuando recibe alguno, lo despachará a los `IInteractivos` que tiene almacenado. La propagación del evento será líneal, además de de que cortará la propagación cuando el primer interactivo haya consumido el evento. Cada interactivo puede subscribirse a más de un evento. Una vez despachado el evento, se procede a actualizar la ventana (y por consiguiente a los rendereables que contiene) y llama a `Ventana::render`. Una vez finalizado, se cuenta el tiempo que tardo todo el proceso, y se duermo un tiempo hasta completar un tiempo constante, permitiendo así, tener un framerate más estable.
 
+
+
+
+#### Interfaz de Usuario
+
+Aunque dentro del ámbito académico se practican fuertemente las habilidades vinculadas al desarrollo de modelos óptimos y flexibles, la prioridad principal es siempre lograr que el usuario final se sienta cómodo con el producto, y esto es especialmente cierto cuando se trabaja en un programa destinado al ocio. Siguiendo esta noción, y con el permiso de los correctores, se optó por distanciarse de los comandos por texto en favor de botones y paneles interactuables.
+
+Cuando se realiza un click con el ratón o se presiona alguna tecla, un evento se dispara y llega a una primer capa (`GUI_Principal` / `GUI_Login`), integrada por todos los botones que desencadenan alguna operación (abrir el inventario, comprar o vender, etc). Los botones y paneles se recorren uno a uno hasta que el evento puede ser respondido por uno de ellos. De no ser así, se alcanza la segunda capa, en donde se averigua si existe en el mapa una entidad en la posición marcada y de ser así, se interactúa con ella.
+
+Todas las partes de la interfaz ajustan su posición según el tamaño de la ventana, pero a excepción de las barras y el estante, no se redimensionan. Existe por ende un tamaño de ventana mínimo, debajo del cual colapsan todos los elementos. Considerando que la simultaneidad de clientes se evalúa en la misma computadora se decidió no restringir el área de la ventana, para facilitar la depuración del código y su corrección.
 
 El modelo subyacente aprovecha las virtudes del patrón MVC, las clases fundamentales son:
 
@@ -214,8 +227,6 @@ Donde `ancho` y `alto`, serán la dimensión del cuadro de la animación, `tiemp
 el tiempo entre que termina la animación y se reproduce nuevamente; `Direcciones` cantidad de direcciones (si hay 0 será una animación estática, si hay 4 será de 4 direcciones y si vale 8 será animación de 8 direcciones); `Columna` será la columna desde que se empieza a contar el sprite; `Columnas` cantidad _total_ de columnas que tiene el sprite (sería la máxima cantidad de filas ocupadas por fila); luego en cada estado, se definen la cantidad de columnas partículares que tiene esa animación en específico.
 
 #### Comunicación con el Servidor
-
-
 
 La comunicación cliente-servidor suele plantearse como dos interlocutores conversando, pero seguir esta interpretación tan natural, puede llevar a la proliferación de referencias y dependencias cruzadas, muy dificiles de refactorizar en el futuro.
 
