@@ -65,7 +65,8 @@ private:
     void agregarEntidad(std::string& id);
     void borrarEntidad(const std::string& id);
     void actualizarMapa();
-
+    void actualizarPosciones();
+    bool despacharEventoClick(SDL_Event& evento);
     std::pair<IPosicionable*, EntidadVista*> crearEntidad(std::string& id);
 };
 #endif

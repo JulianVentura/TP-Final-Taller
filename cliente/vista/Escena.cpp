@@ -4,7 +4,8 @@
 #include "CapaFrontal.h"
 
 #define RADIO 16.0f
-SDL_Rect frontera = {};
+#define BUFFER 16
+
 Escena::Escena(EntornoGrafico& entorno, Camara& camara, MapaVista& mapa, 
         CapaFrontal& capaFrontal, LibreriaConjuntoTiles& conjuntoTiles): 
             camara(&camara),
@@ -17,10 +18,10 @@ Escena::Escena(EntornoGrafico& entorno, Camara& camara, MapaVista& mapa,
 void Escena::render() {
     camara->centrar(renderer, mapa->getAnchoTile(), RADIO);
     camara->getFrontera(frontera);
-    int columnas_visibles = frontera.w / mapa->getAnchoTile() + 1;
-    int filas_visibles = frontera.h / mapa->getAltoTile() + 1;
-    int columna_inicial = frontera.x / mapa->getAnchoTile();
-    int fila_inicial = frontera.y / mapa->getAltoTile();
+    int columnas_visibles = frontera.w / mapa->getAnchoTile() + BUFFER;
+    int filas_visibles = frontera.h / mapa->getAltoTile() + BUFFER;
+    int columna_inicial = frontera.x / mapa->getAnchoTile() - BUFFER / 2;
+    int fila_inicial = frontera.y / mapa->getAltoTile() - BUFFER / 2;
 
     frontera = { columna_inicial, fila_inicial, 
                 columnas_visibles, filas_visibles };

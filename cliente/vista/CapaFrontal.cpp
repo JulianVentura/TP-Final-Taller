@@ -43,10 +43,10 @@ void CapaFrontal::setFrontera(SDL_Rect& frontera) {
 }
 
 void CapaFrontal::render() {
-    int columna_inicial = frontera.x;
-    int fila_inicial = frontera.y;
-    int columna_final = columna_inicial + frontera.w;
-    int fila_final = fila_inicial + frontera.h;
+    int columna_inicial = std::max(frontera.x, 0);
+    int fila_inicial = std::max(frontera.y, 0);
+    int columna_final = std::min(columna_inicial + frontera.w, columnas);
+    int fila_final = std::min(fila_inicial + frontera.h, filas);
     for (int x = columna_inicial; x <= columna_final; x++) {
         for (int y = fila_inicial; y <= fila_final; y++) {
             int indice = y * columnas + x;
@@ -54,7 +54,7 @@ void CapaFrontal::render() {
                 int id = capa.second[indice];
                 if (id == 0) continue;
                 Imagen* tile = tiles->getTile(id);
-                if (tile == nullptr) continue;
+                if (!tile) continue;
                 tile->setPosicion(x * tiles->getAnchoTile(),
                                   y * tiles->getAltoTile());
                 tile->render();
@@ -67,8 +67,9 @@ void CapaFrontal::render() {
 void CapaFrontal::renderearObstruiblesVisibles() {
     SDL_Rect frontera_real = { frontera.x * tiles->getAnchoTile(), 
                                frontera.y * tiles->getAltoTile(), 
-                               frontera.w * tiles->getAnchoTile() * 2, 
-                               frontera.h * tiles->getAltoTile() * 2 };
+                               frontera.w * tiles->getAnchoTile(), 
+                               frontera.h * tiles->getAltoTile() };
+    
     std::vector<IObstruible*> obstruibles_visibles;
     for (auto& obstruible: obstruibles) {
         if (!obstruible.second) continue;
