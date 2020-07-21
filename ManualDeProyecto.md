@@ -43,7 +43,7 @@ Pruebas, balance y mejoras de estabilidad - Ventura Julian, Barreneche Franco, M
 
 El desarrollo del mapa y la lógica de comunicación llevo mucho más de lo esperado.
 Hasta la semana 3 no fue posible conectar cliente y servidor exitosamente. No obstante
-el trabajo previo sentó una base fuerte, sobre la que ráìdamente se construyó la lógica
+el trabajo previo sentó una base fuerte, sobre la que rápidamente se construyó la lógica
 de ataque, enemigos, drops y restricciones de "fair play" durante la semana 4 y 5.
 La sexta semana se reservó para afinar la persistencia y salvar problemas emergentes
 de gran importancia.
@@ -54,7 +54,7 @@ A diferencia del servidor, durante las primeras 3 semanas se pudo cumplir con el
 cronograma propuesto, es decir, pudo formularse velozmente la estructura general
 del cliente. El tiempo restante se invirtió en adaptar dicha estructura a la
 información que efectivamente se obtenía desde el servidor y resolver condiciones
-de carrera. También se debió reservar parte del cronograma a la adquicision de recursos
+de carrera. También se debió reservar parte del cronograma a la adquisición de recursos
 audiovisuales compatibles con la estética y la atmósfera esperada.
 
 ### Inconvenientes encontrados
@@ -91,7 +91,7 @@ Dentro de los puntos pendientes del trabajo podemos mencionar:
 
 * Mejorar el sprite de los arcos.
 
-* Cambiar la filosofia de desconexion polite del lado del servidor por una violenta. Al principio pareció una buena idea seguir esta filosofia ya que fue la implementada en el TP3 y sobre la cual mas conocimiento se tenia, sin embargo en los últimos momentos del trabajo se hizo notar el principal error de la, que obviamente, el servidor no tiene control sobre la desconexión de un cliente, por lo tanto un cliente que no se desconecte puede dejar esperando al servidor ante un necesario apagado. La única solución en ese caso seria cancelar la ejecución del servidor violentamente.
+* Cambiar la filosofía de desconexión polite del lado del servidor por una violenta. Al principio pareció una buena idea seguir esta filosofia ya que fue la implementada en el TP3 y sobre la cual mas conocimiento se tenia, sin embargo en los últimos momentos del trabajo se hizo notar el principal error de la, que obviamente, el servidor no tiene control sobre la desconexión de un cliente, por lo tanto un cliente que no se desconecte puede dejar esperando al servidor ante un necesario apagado. La única solución en ese caso seria cancelar la ejecución del servidor violentamente.
 
 * Confección de un instalador propiamente dicho, más amigable a usuarios generales.
 
