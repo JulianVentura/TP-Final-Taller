@@ -39,7 +39,6 @@ void Aceptador::procesar(){
             organizadorClientes.incorporarCliente(std::move(cliente));
         }catch(const FallaConexionException &e){
             //No me interesa imprimir una excepcion propia ni cortar el loop.
-            //std::cerr << e.what() << std::endl;
         }catch(const std::exception &e){
             //Si me interesa imprimir una excepcion mas generica y cortar el loop.
             std::cerr << e.what() << std::endl;

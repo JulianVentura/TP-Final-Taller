@@ -104,6 +104,8 @@ void Cliente::procesar(){
         while(continuar){
             continuar = clienteProxy.recibirOperacion();
         }
+    }catch(const FallaConexionException &e){
+        //No me interesa imprimir este tipo de error, no aporta. Pero si quiero atraparlo
     }catch(const std::exception &e){
         std::cerr << e.what() << std::endl;
     }catch(...){

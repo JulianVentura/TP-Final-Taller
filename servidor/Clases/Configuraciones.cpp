@@ -53,7 +53,7 @@ Configuraciones* Configuraciones::obtenerInstancia(){
 
 /* METODOS AUXILIARES */
 
-static bool floatComp(float a, float b, float epsilon = 0.0001){
+static bool floatComp(float a, float b, float epsilon = 0.01){
     return fabs(a - b) < epsilon;
 }
 
@@ -468,7 +468,10 @@ float Configuraciones::calcularRecuperacionVida(const Personaje *personaje, doub
 }
 
 unsigned int Configuraciones::calcularManaMax(const Personaje *personaje){
-    return personaje->inteligencia * personaje->clase.FClaseMana * 
+    //Esto sirve para que los guerreros tengan mana cero.
+    if (personaje->clase.FClaseMana == 0) return 0;
+    uint32_t manaBase = json.at("Personaje").at("ManaBase").get<uint32_t>();
+    return manaBase + personaje->inteligencia * personaje->clase.FClaseMana * 
            personaje->raza.FRazaMana * personaje->nivel;
 }
 
