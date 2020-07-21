@@ -40,14 +40,15 @@ void MapaVista::agregarRendereable(std::string& id, IRendereable* rendereable) {
 
 void MapaVista::render() {
     if (!conjuntosTiles) return;
-    int columna_inicial = std::max(frontera.x, 0);
-    int fila_inicial = std::max(frontera.y, 0);
-    int columna_final = std::min(columna_inicial + frontera.w, columnas);
-    int fila_final = std::min(fila_inicial + frontera.h, filas);
+    int columna_inicial = frontera.x;
+    int fila_inicial = frontera.y;
+    int columna_final = columna_inicial + frontera.w;
+    int fila_final = fila_inicial + frontera.h;
     for (int x = columna_inicial; x <= columna_final; x++) {
         for (int y = fila_inicial; y <= fila_final; y++) {
-            int indice = y * columnas + x;
+            unsigned int indice = y * columnas + x;
             for (auto& capa: capasFondo) {
+                if (capa.size() <= indice) continue; 
                 int id = capa[indice];
                 Imagen* tile = conjuntosTiles->getTile(id);
                 if (!tile) continue;

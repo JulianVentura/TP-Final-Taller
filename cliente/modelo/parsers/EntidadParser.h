@@ -10,7 +10,6 @@
 #include "AnimacionParser.h"
 #include "EquipableParser.h"
 #include "DatosApariencia.h"
-// #include "PersonajeParser.h"
 #include "PersonajeParser.h"
 #include "../IPosicionable.h"
 #include "../../vista/Imagen.h"

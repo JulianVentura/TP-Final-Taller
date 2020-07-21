@@ -86,7 +86,6 @@ void Sprite::setDimension(int x, int y, int ancho, int alto) {
 
 void Sprite::setMascara(SDL_Rect& mascara) {
     if (!capa) return;
-    // capa->setMascara(mascara);
     this->mascara = mascara;
 }
 

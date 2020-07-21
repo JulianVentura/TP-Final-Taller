@@ -48,7 +48,7 @@ void GUI_PanelTienda::render(){
 void GUI_PanelTienda::actualizarDimension(){
 	marco.x = ventana->getAncho()*0.8 - (marco.w)*(SEPARACION + LADO_CASILLA)
 	 + (marco.w/2)*(SEPARACION + LADO_CASILLA);
-	marco.y = ventana->getAlto()*0.9 - marco.h*(SEPARACION + LADO_CASILLA)
-	 - 4*SEPARACION;
+	marco.y = ventana->getAlto() - marco.h*(SEPARACION + LADO_CASILLA)
+	 - 4*SEPARACION - 50;
 	oro_almacenado.actualizarDimension();
 }

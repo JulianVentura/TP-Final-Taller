@@ -18,9 +18,9 @@ public:
 
 private:
     std::vector<TileConjunto> conjuntosTiles;
-    int columnas;
-    int ancho_tile;
-    int alto_tile;
+    int columnas = 0;
+    int ancho_tile = 0;
+    int alto_tile = 0;
 };
 
 #endif

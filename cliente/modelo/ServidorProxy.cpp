@@ -158,9 +158,11 @@ void ServidorProxy::comenzarRecepcionConcurrente() {
 	hilo_recepcion = std::thread(&ServidorProxy::recibirMensaje, this);	
 	comenzo_recepcion_concurrente = true;
 }
-
+void ServidorProxy::terminarJuego() {
+	std::unique_lock<std::mutex> lock(mtx);
+	juego = nullptr;
+}
 void ServidorProxy::terminar() {
-	// std::unique_lock<std::mutex> lock(mtx);
 	salir = true;
 	socket.cerrar_canal(SHUT_RDWR);
 	if (comenzo_recepcion_concurrente)
@@ -177,7 +179,6 @@ std::string ServidorProxy::obtenerMapa() {
 }
 
 void ServidorProxy::actualizarPosiciones() {
-	// std::unique_lock<std::mutex> lock(mtx);
 	std::unordered_map<std::string, std::pair<int, int>> posiciones;
 	uint32_t longitud = protocolo.recibirUint32(socket);
 	posiciones.reserve(longitud);
@@ -187,8 +188,9 @@ void ServidorProxy::actualizarPosiciones() {
 		posiciones[id] = { protocolo.recibirUint32(socket),
 						   protocolo.recibirUint32(socket)};
 	}
+	std::unique_lock<std::mutex> lock(mtx);
 	if (!juego) return;
-	juego->actualizarPosiciones(std::move(posiciones));
+	juego->actualizarPosiciones((posiciones));
 }
 
 void ServidorProxy::enviarMovimiento(uint32_t movimiento) {
@@ -198,7 +200,6 @@ void ServidorProxy::enviarMovimiento(uint32_t movimiento) {
 }
 
 void ServidorProxy::recibir_estados() {
-	// std::unique_lock<std::mutex> lock(mtx);
 	uint32_t largo = protocolo.recibirUint32(socket);
 	std::vector<serializacionDibujado> resultado;
 	for (std::size_t i = 0; i < largo; i++) {
@@ -215,8 +216,9 @@ void ServidorProxy::recibir_estados() {
 		actual.idEstado = protocolo.recibirUint16(socket);
 		resultado.push_back(std::move(actual));
 	}
+	std::unique_lock<std::mutex> lock(mtx);
 	if (!juego) return;
-	juego->actualizarEstados(std::move(resultado));
+	juego->actualizarEstados((resultado));
 }
 
 // Chat
@@ -301,6 +303,7 @@ void ServidorProxy::enviarResucitacion(){
 
 
 void ServidorProxy::setJuego(Juego* juego) {
+	std::unique_lock<std::mutex> lock(mtx);
 	this->juego = juego;
 }
 

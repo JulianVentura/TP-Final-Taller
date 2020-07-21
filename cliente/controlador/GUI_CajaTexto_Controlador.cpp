@@ -1,7 +1,9 @@
 #include "GUI_CajaTexto_Controlador.h"
 
 GUI_CajaTextoControlador::GUI_CajaTextoControlador(GUI_CajaTexto& vista): 
- GUI_Clickeable(vista.marco_entrada), caja_vista(vista) {}
+ GUI_Clickeable(vista.marco_entrada), caja_vista(vista) {
+	actualizarDimension();
+ }
 
 void GUI_CajaTextoControlador::darFoco(bool enFoco) {
 	this->enFoco = enFoco;

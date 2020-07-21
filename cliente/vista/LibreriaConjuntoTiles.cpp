@@ -36,6 +36,7 @@ void LibreriaConjuntoTiles::parse(EntornoGrafico& entorno,
         conjuntosTiles.push_back(std::move(tile_conjunto));
     }
 }
+
 Imagen* LibreriaConjuntoTiles::getTile(int id) {
     Imagen* tile = nullptr;
     for (auto& conjunto_tile: conjuntosTiles) {

@@ -68,6 +68,7 @@ public:
 	void recibirMensaje();
 	void comenzarRecepcionConcurrente();
 	void terminar();
+	void terminarJuego();
 	void encolarMensaje(Mensaje&& mensaje);
 
 	// Chat

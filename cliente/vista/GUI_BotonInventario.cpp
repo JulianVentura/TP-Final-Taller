@@ -1,10 +1,12 @@
 #include "../vista/GUI_BotonInventario.h"
 
 GUI_BotonInventario::GUI_BotonInventario(EntornoGrafico& entorno,
- Colores& paleta) : GUI_Boton(entorno, "assets/gui/botonInventario.png"){}
+ Colores& paleta) : GUI_Boton(entorno, "assets/gui/botonInventario.png"){
+	actualizarDimension();
+ }
 
 void GUI_BotonInventario::actualizarDimension(){
 	x = ventana->getAncho()*0.2 + 4;
-	y =  ventana->getAlto() - imagen.getAlto() - 20;
+	y = ventana->getAlto() - imagen.getAlto() - 20;
 	imagen.setPosicion(x, y);
 }

@@ -119,9 +119,8 @@ bool Juego::despacharEventoClick(SDL_Event& evento) {
 
 bool Juego::manejarEvento(SDL_Event& evento) {
     if (evento.type == SDL_MOUSEBUTTONDOWN) {
-        mtx.lock();
+        std::lock_guard<std::mutex> l(mtx);
         if (hay_que_actualizar_mapa) return false;
-        mtx.unlock();
         return despacharEventoClick(evento);
     } else if (evento.type == SDL_KEYDOWN || evento.type == SDL_KEYUP) {
         return personajeManejable.manejarEvento(evento);
@@ -160,23 +159,26 @@ void Juego::cambiarMapa(const std::string& mapa_s) {
 
 Juego::~Juego() {
     std::lock_guard<std::mutex> l(mtx);
+    servidor.terminarJuego();
     for (auto& entidad: entidades) {
         delete entidad.second.first;
         delete entidad.second.second;
     }
 }
 
-void Juego::actualizarPosiciones(std::unordered_map<std::string, std::pair<int, 
+void Juego::actualizarPosiciones(const std::unordered_map<std::string, std::pair<int, 
                                                             int>> posiciones) {
     std::lock_guard<std::mutex> l(mtx);
     if (hay_que_actualizar_mapa) return;
-    this->posiciones_temp = (posiciones);
+    for (const auto& posicion: posiciones) {
+        posiciones_temp[posicion.first] = posicion.second;
+    }
 }
 
-void Juego::actualizarEstados(std::vector<SerializacionDibujado> dibujados) {
+void Juego::actualizarEstados(const std::vector<SerializacionDibujado> dibujados) {
     std::lock_guard<std::mutex> l(mtx);
     if (hay_que_actualizar_mapa) return;
-    for (auto& dibujado: dibujados) {
+    for (const auto& dibujado: dibujados) {
         if (!entidades.count(dibujado.id)) continue;
         DatosApariencia apariencia;
         apariencia.raza = std::to_string(dibujado.idRaza);
