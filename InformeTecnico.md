@@ -2,7 +2,7 @@
 
 ### Materia: Taller de programación I
 
-### Autores: Ventura Julian, Barreneche Franco, More Agustin
+### Autores: Ventura Julian, Barreneche Franco, More Agustín
 
 
 
@@ -47,47 +47,73 @@ El servidor no conoce el modo en el que el cliente enseña cada componente, much
 
  # Cliente
 
-#### Interfaz de Usuario
 
-##### Descripción general
+
+#### Dibujado
+El sistema cuenta con una clase `EntornoGrafico`, que  centraliza las operaciones de dibujado y manejo de eventos. El mismo está relacionado con `BuclePrincipal`, que este brinda el despachado de eventos junto con la actualización de `IRendereables` (es decir, objetos que se pueden dibujar), así como también lo actualizará cuando corresponda.
+
+
+
+## Interfaz de Usuario
+
+### Descripción general
 
 Aunque dentro del ámbito académico se practican fuertemente las habilidades vinculadas al desarrollo de modelos óptimos y flexibles, la prioridad principal es siempre lograr que el usuario final se sienta cómodo con el producto, y esto es especialmente cierto cuando se trabaja en un programa destinado al ocio. Siguiendo esta noción, y con el permiso de los correctores, se optó por distanciarse de los comandos por texto en favor de botones y paneles interactuables.
 
-Cuando se realiza un click con el ratón o se presiona alguna tecla, un evento se dispara y llega a una primer capa (`GUI_Principal` / `GUI_Login`), integrada por todos los botones que desencadenan alguna operación (abrir el inventario, comprar o vender, etc). Los botones y paneles se recorren uno a uno hasta que el evento puede ser respondido por uno de ellos. De no ser así, se alcanza la segunda capa, en donde se averigua si existe en el mapa una entidad en la posición marcada y de ser así, se interactúa con ella.
 
-Todas las partes de la interfaz ajustan su posición según el tamaño de la ventana, pero a excepción de las barras y el estante, no se redimensionan. Existe por ende un tamaño de ventana mínimo, debajo del cual colapsan todos los elementos.
 
-Considerando que la simultaneidad de clientes se evalúa en la misma computadora se decidió no restringir el área de la ventana, para facilitar la depuración del código y su corrección.
-
-El sistema cuenta con una clase `EntornoGrafico`, que permite tener centralizada las operaciones de dibujado y de eventos. El mismo está relacionado con `BuclePrincipal`, que este brinda el despachado de eventos junto con la actualización de `IRendereables` (es decir, objetos que se pueden dibujar), así como también lo actualizará cuando corresponda.
+#### Mapa y Entidades
 
 En cuanto a lo que corresponde con el resto del juego, se cuantan con una clase principal `Juego`, que a a su vez contiene una `Escena`, `MapaVista` y un mapa de `EntidadeVista`, con su correspondiente modelo `IPosicionable`. El servidor se comunicará con la clase `Juego` para actualizar la información de cada una de sus partes. El mismo responderá cuando aparezca una nueva entidad en el mapa, cambie alguna característica de sus partes o se cambie directamente del mapa cuando el personaje se teletransporta.
 
-La `Escena`, cuenta con dos capas, una será `MapaVista`, que actuará como la capa de fondo, y otro `CapaFrontal`, que está última se dibujará según un orden inducido para poder dar el efecto de sobrelapamiento. Ordenar las capas es costoso, o lo sería si se lo hace sobre todo el mapa, acá es donde resulta útil que `Escena` tenga una referencia de la `Camara` para poder acotar lo que dibujará a solamente lo visible, esto, una cantidad relativamente pequeña y constante, sin importar si el usuario redimensiona la pantalla o si el mapa es inmenso.
+La `Escena`, cuenta con dos capas, una será `MapaVista`, que actuará como la capa de fondo, y otro `CapaFrontal`, que está última se dibujará según un orden inducido para poder dar el efecto de solapamiento. Ordenar las capas es costoso, o lo sería si se lo hace sobre todo el mapa, acá es donde resulta útil que `Escena` tenga una referencia de la `Camara` para poder acotar lo que dibujará a solamente lo visible, esto, una cantidad relativamente pequeña y constante, sin importar si el usuario redimensiona la pantalla o si el mapa es inmenso.
 
 Para crear cada una de las partes del `Juego` se cuentan con clases específicas de parseo de archivos, (principalmente de `imagenes.json`), lo que permite, hacer modificaciones de forma dinámica sin tener que recompilar el proyecto.
 
 Para el apartado de animaciones, se cuentan con las clases `Sprite`, `Animacion`y sus derivados que serán detallados en el siguiente apartado.
 
-Se cuenta, además, con un contralador que se encardará de manejar las solicitudes de movimiento que requiera el usuario, este es `MovibleControlador`.
+Se cuenta, además, con un contralador que se encargará de manejar las solicitudes de movimiento que requiera el usuario, este es `MovibleControlador`.
+
+### Clases
+
+La estructura básica del proyecto de una forma primitiva consiste en las clases genéricas:
+
+- `EntornoGrafico`: Almacenará la información de ventana y renderer, que se utilizarán en el resto del programa. El mismo, se encarga de iniciar `SDL` y sus componentes secuencialmente, como así también destruirlos correctamente. También cumple la función de almacen de recursos, permitiendo así, tener una suerte de proxy entre los recursos del sistema (imagenes, fuentes) y el resto de clases, este intermediario, se asegurará de no cargar dos veces el mismo recurso (salvo que se lo fuerce por alguna razón). Intenamente, conoce tanto a la `Ventana` y al `Renderer`, información útil para todo objeto `IRenderable`, por tal motivo, es común ver que los `IRendereables` reciba por parámetro en el constructor, una referencia a este entorno.
+
+- `Ventana`: Inmediatamente cuando se crea el entorno, también se crea el objeto ventana, la misma encapsula las funciones de `SDL_Window`. Esta clase contará con una un vector de `IRendereables`. Cuando se llama a `Ventana::render` también se llamará al render de los correspondientes elementos dentro de la ventana, previamente actualizados.
+
+- `Renderer`: Será el encargado de manejar las funciones de dibujo. Además, cuenta con funciones de tranformaciones (translado y escalado). Cuenta con las operaciones de dibujar rectas, rectangulos, texturas, texto. Los mismos pueden modificar tamaño, colores y posiciones.
+
+- `BuclePrincipal`: Juega el papel de `GameLoop`, que estará escuchando a eventos y cuando recibe alguno, lo despachará a los `IInteractivos` que tiene almacenado. La propagación del evento será líneal, además de de que cortará la propagación cuando el primer interactivo haya consumido el evento. Cada interactivo puede subscribirse a más de un evento. Una vez despachado el evento, se procede a actualizar la ventana (y por consiguiente a los rendereables que contiene) y llama a `Ventana::render`. Una vez finalizado, se cuenta el tiempo que tardo todo el proceso, y se duermo un tiempo hasta completar un tiempo constante, permitiendo así, tener un framerate más estable.
+
+
+
+
+#### Interfaz de Usuario
+
+Aunque dentro del ámbito académico se practican fuertemente las habilidades vinculadas al desarrollo de modelos óptimos y flexibles, la prioridad principal es siempre lograr que el usuario final se sienta cómodo con el producto, y esto es especialmente cierto cuando se trabaja en un programa destinado al ocio. Siguiendo esta noción, y con el permiso de los correctores, se optó por distanciarse de los comandos por texto en favor de botones y paneles interactuables.
+
+Cuando se realiza un click con el ratón o se presiona alguna tecla, un evento se dispara y llega a una primer capa (`GUI_Principal` / `GUI_Login`), integrada por todos los botones que desencadenan alguna operación (abrir el inventario, comprar o vender, etc). Los botones y paneles se recorren uno a uno hasta que el evento puede ser respondido por uno de ellos. De no ser así, se alcanza la segunda capa, en donde se averigua si existe en el mapa una entidad en la posición marcada y de ser así, se interactúa con ella.
+
+Todas las partes de la interfaz ajustan su posición según el tamaño de la ventana, pero a excepción de las barras y el estante, no se redimensionan. Existe por ende un tamaño de ventana mínimo, debajo del cual colapsan todos los elementos. Considerando que la simultaneidad de clientes se evalúa en la misma computadora se decidió no restringir el área de la ventana, para facilitar la depuración del código y su corrección.
 
 El modelo subyacente aprovecha las virtudes del patrón MVC, las clases fundamentales son:
 
-`GUI_Principal :` Reúne la vista de los componentes que integran la interfaz de la pantalla de juego principal.  Sus métodos más importantes son actualizarDimension() y render() que llaman de modo ordenado a los mismos métodos de las clases que ésta instancia.
+- `GUI_Principal`: Reúne la vista de los componentes que integran la interfaz de la pantalla de juego principal.  Sus métodos más importantes son actualizarDimension() y render() que llaman de modo ordenado a los mismos métodos de las clases que ésta instancia.
 
-`GUI_Principal_Controlador :` Su responsabilidad es análoga a `GUI_Principal`, pero con los diversos controladores que agrupa.
+- `GUI_Principal_Controlador`: Su responsabilidad es análoga a `GUI_Principal`, pero con los diversos controladores que agrupa.
 
-`GUI_Clickeable`: Clase base de todo elemento  de la interfaz con el que puede interactuarse, define un área de interacción en su construcción y verifica si la posición absoluta del ratón está contenida en ella al usar su operador (). De ser así llama a enClick, que es un método puramente virtual.
+- `GUI_Clickeable`: Clase base de todo elemento  de la interfaz con el que puede interactuarse, define un área de interacción en su construcción y verifica si la posición absoluta del ratón está contenida en ella al usar su operador (). De ser así llama a enClick, que es un método puramente virtual.
 
-`GUI_BotonControlador`, `GUI_PanelControlador` ,`GUI_SelectorListaControlador` y `GUI_CajaTexto_Controlador` heredan de `GUI_Clickeable` e implementan la mayor parte de la lógica que compete a la interfaz en el método enClick. `GUI_BotonControlador` implementa el método actualizarDimension, que se ajusta automáticamente a la posición y dimensión de la vista.
+- `GUI_BotonControlador`, `GUI_PanelControlador` ,`GUI_SelectorListaControlador` y `GUI_CajaTexto_Controlador` heredan de `GUI_Clickeable` e implementan la mayor parte de la lógica que compete a la interfaz en el método enClick. `GUI_BotonControlador` implementa el método actualizarDimension, que se ajusta automáticamente a la posición y dimensión de la vista.
 
-`GUI_Boton`, `GUI_Panel`, `GUI_SelectorLista` y `GUI_CajaTexto` : Son responsables de mostrar la apariencia que se deduce de sus nombres.
+- `GUI_Boton`, `GUI_Panel`, `GUI_SelectorLista` y `GUI_CajaTexto`: Son responsables de mostrar la apariencia que se deduce de sus nombres.
 
 Existen además un gran número de clases que heredan de los controladores y vistas citadas, especificando su comportamiento, su ubicación en la pantalla y su oportuna redimensión ante alguna modificación de la ventana, respectivamente.
 
-`GUI_Chat_Controlador:` Quizás el componente más interesante de la interfaz, pues es el único que simultáneamente envía y recibe mensajes desde el servidor. Los detalles de la implementación se discuten en la sección de Comunicación con el Servidor.
+- `GUI_Chat_Controlador`: Quizás el componente más interesante de la interfaz, pues es el único que simultáneamente envía y recibe mensajes desde el servidor. Los detalles de la implementación se discuten en la sección de Comunicación con el Servidor.
 
-`GUI_Chat`: Al igual que su controlador presenta un desafío particular, no poder determinar su aspecto a priori. Renderiza los últimos *n* mensajes en una textura adicional, que se estampa cuadro a cuadro hasta que la llegada de un nuevo mensaje precise actualizar su contenido. A los beneficios en rendimiento de este método se suma la posibilidad de desplazarse verticalmente por la textura (scroll) y así poder mostrar por pantalla una mayor cantidad de mensajes.
+- `GUI_Chat`: Al igual que su controlador presenta un desafío particular, no poder determinar su aspecto a priori. Renderiza los últimos *n* mensajes en una textura adicional, que se estampa cuadro a cuadro hasta que la llegada de un nuevo mensaje precise actualizar su contenido. A los beneficios en rendimiento de este método se suma la posibilidad de desplazarse verticalmente por la textura (scroll) y así poder mostrar por pantalla una mayor cantidad de mensajes.
 
 
 
@@ -97,11 +123,31 @@ Existen además un gran número de clases que heredan de los controladores y vis
 
 ![](documentacion/dia_clases_interfaz2.png)
 
+Una vez terminada la sesión del login, el cliente se queda a la espera de que el servidor envíe el primer mapa. Esta espera se implementa con una `contion_variable`. Una vez recibido el mapa comienta la construcción de `Juego`.
+
+- `Juego`: Contendrá toda la información necesaria apara mostrar el mapa, mostrar los personajes y que puedan interactuar. Al recibir el mapa, comienza el parseo. La estructura del mapa consiste en un archivo `.json` que cuenta con una serie de capas (vectores unidimensionables mapeables a una matriz) y también con un conjunto de tiles que cuantan con la información de imágenes que presenta el mapa. Este archivo es generado por Tiled. Para parsear este archivo, un tanto complicado, se separa el parseo en distintas clases:
+  - `LibreriaConjuntoTileParser`: Lee e interpreta la información de imagenes que tiene el mapa, además de cargar las imágenes. Cada conjunto de tile tiene columnas, primer id global (es un id incremental compartido por todos los conjuntos de tiles), una imágen, la cantidad de tiles que tiene, el ancho y alto del mismo.
+  - `CapaFrontalParser`: Para permitir el sobrelapamiento entre sprites del juego, en el mapa, por cada entidad obstruible (es decir que alguien se puede poner detras de esta entidad y este debería ser tapado por la entidad), se agrega un rectangulo sobre el área del sprite. Este paserser será el encargado de leer esta información y convertirla en información útil para el rendereo.
+  - `MapaParser`: El mapa en sí, consiste, en una serie de capas que tiene un vector conteniendo un id global (`guid`) que identifica a un tile en específico el parser se encargará de leer esta información.
+
+Con la información rescatada por los parsers, se procede a crear `LibreriaConjuntoTiles`, `CapaFrontal` y `MapaVista`. 
+
+Se tiene la clase `TileConjunto` que es creado con la información que brinda `LibreriaConjuntoTileParser`, esto simplica el acceso por `guids` a la imagen en concreto.
+
+La capa frontal, cuenta con una serie de objetos `IObstruible` que fueron parseados previamente, tienen la particularidad de que de una imagen, solo se van a mostrar ciertos cuadros. Dentro de capa frontal, se filtran los obstaculos que están en el campo de visión, y se les aplica un `std::stable_sort` con una funcion de comparacion (en pseudo-código): 
+``` python
+def comparar(unObstruible, otroObstruible):
+    return unObstruible.y + unObstruible.alto < otro.y + otro.alto
+```
+
+Esto permite que los obstruibles que se encuentren más abajo del mapa se muestren al frente. Gracias a la acotación, se reduce el tamaño de obstruibles (en un mapa mediano) de ~300 a ~20.
+
+Adicionalmente se crean la `Camara` (que se encargará de centrar y redimensionar la imagen al centro del personaje y además brindar esta información para acotar el rando de rendereado), la `Escena` que orquestará la disposición de la cámara (y su reincio) y el rendereabo de la capa y del mapa. Además se crea el controlador `MovibleControlador` que escuchará los eventos de teclado y cuando detecte alguna tecla ligada al moviento, enviará la solicitud al servidor. 
+
+A medida que el servidor va a notificando las posiciones de las entidades (personaje, enemigo, npc, objetos), en `Juego`, se verificará si esa entidad es una entidad es conocida, en tal caso, le actualizará la posición. Caso contrario, se creará tanto el modelo `IPosicionable` y la vista `EntidadVista`. El modelo encapsula la posición de la entidad y si esa posición está actualizada (información útil al animar en direcciones); la vista, contendrá toda la información relacionada con el dibujo de la entidad, incluyendo la/s imágen/es que correspondan con la entidad como la animación del mismo. La información a cer
 
 
 #### Comunicación con el Servidor
-
-
 
 La comunicación cliente-servidor suele plantearse como dos interlocutores conversando, pero seguir esta interpretación tan natural, puede llevar a la proliferación de referencias y dependencias cruzadas, muy dificiles de refactorizar en el futuro.
 
@@ -111,15 +157,15 @@ Para el componente del chat no hubo otra alternativa, la entrada y salida de men
 
 Las clases más importantes que componen este módulo son:
 
-`Protocolo`: Permite independizarse de las nociones de endianness, sockets y , precisamente, el protocolo. Inicialmente enviaba directamente por socket algún tipo de dato preestablecido, no obstante conforme evolucionó el proyecto surgió la necesidad de incorporar medidas contra el desborde del buffer interno de la operación `send` de los sockets. Por lo que recibe datos directamente del socket, pero para enviar compone primero una tira de bytes, que devuelve en su métodofinalizarEnvio().
+- `Protocolo`: Permite independizarse de las nociones de endianness, sockets y , precisamente, el protocolo. Inicialmente enviaba directamente por socket algún tipo de dato preestablecido, no obstante conforme evolucionó el proyecto surgió la necesidad de incorporar medidas contra el desborde del buffer interno de la operación `send` de los sockets. Por lo que recibe datos directamente del socket, pero para enviar compone primero una tira de bytes, que devuelve en su métodofinalizarEnvio().
 
-`Mensaje`: Encapsula la tira de bytes que compone un mensaje. Permite conocer su tamaño o agregar más bytes al final.
+- `Mensaje`: Encapsula la tira de bytes que compone un mensaje. Permite conocer su tamaño o agregar más bytes al final.
 
-`ColaBloqueanteMensajes:` Especialización de una cola bloqueante que permite conocer la cantidad total de bytes almacenados.
+- `ColaBloqueanteMensajes`: Especialización de una cola bloqueante que permite conocer la cantidad total de bytes almacenados.
 
-`ProxyEnviador:` Encapsula un hilo que desencola mensajes y los envía. De este modo se aliviana el funcionamiento del ciclo (gameloop) en situaciones extremas, como una conexión lenta.
+- `ProxyEnviador`: Encapsula un hilo que desencola mensajes y los envía. De este modo se aliviana el funcionamiento del ciclo (gameloop) en situaciones extremas, como una conexión lenta.
 
-`ServidorProxy`:  Su responsabilidad fue especificada en la descripción general. Adicionalmente vale la pena notar que la salida del ServidorProxy es redireccionable. En un primer momento se conecta con `ServidorAlerta` para comunicar al usuario cualquier problema en el inicio de sesión, mientras que durante el tiempo de juego se conecta al Chat.
+- `ServidorProxy`:  Su responsabilidad fue especificada en la descripción general. Adicionalmente vale la pena notar que la salida del ServidorProxy es redireccionable. En un primer momento se conecta con `ServidorAlerta` para comunicar al usuario cualquier problema en el inicio de sesión, mientras que durante el tiempo de juego se conecta al Chat.
 
 ##### Protocolo
 
