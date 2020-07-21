@@ -48,6 +48,7 @@ void Juego::actualizar(unsigned int delta_t) {
     // std::lock_guard<std::mutex> l(mtx);
     mtx.lock();
     if (hay_que_actualizar_mapa) actualizarMapa();
+
     if (posiciones_temp.size()) {
         for (auto& posicion: posiciones_temp) {
             if (!entidades.count(posicion.first)) {
@@ -81,6 +82,7 @@ void Juego::actualizar(unsigned int delta_t) {
         entidades[dibujado.first].second->actualizarApariencia(dibujado.second);
     }
     mtx.unlock();
+
     escena.actualizar(delta_t);
 }
 
@@ -162,12 +164,12 @@ void Juego::cambiarMapa(const std::string& mapa_s) {
 
 
 Juego::~Juego() {
+    std::lock_guard<std::mutex> l(mtx);
     for (auto& entidad: entidades) {
         delete entidad.second.first;
         delete entidad.second.second;
     }
 }
-
 
 void Juego::actualizarPosiciones(std::unordered_map<std::string, std::pair<int, 
                                                             int>> posiciones) {
@@ -176,6 +178,7 @@ void Juego::actualizarPosiciones(std::unordered_map<std::string, std::pair<int,
     if (hay_que_actualizar_mapa) return;
     this->posiciones_temp = std::move(posiciones);
     mtx.unlock();
+}
     // for (auto& posicion: posiciones) {
     // 	if (!entidades.count(posicion.first)) {
 	// 		std::string id(posicion.first);
@@ -197,7 +200,6 @@ void Juego::actualizarPosiciones(std::unordered_map<std::string, std::pair<int,
     // }
     // for (auto& entidad: paraBorrar)
     //     borrarEntidad(entidad);
-}
 
 void Juego::actualizarEstados(std::vector<SerializacionDibujado> dibujados) {
     // std::lock_guard<std::mutex> l(mtx);
