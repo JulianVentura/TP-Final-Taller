@@ -6,7 +6,7 @@
 #include "../common/Mensaje.h"
 #include "../common/commonSocket.h"
 
-#define LIMITE_COLA_ENVIADOR 4000
+#define LIMITE_COLA_ENVIADOR 20000
 #define MUESTRAS 20
 
 class ProxyEnviador final : public Thread{
