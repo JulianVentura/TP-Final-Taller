@@ -47,51 +47,6 @@ El servidor no conoce el modo en el que el cliente enseña cada componente, much
 
 # Cliente
 
-
-
-#### Dibujado
-El sistema cuenta con una clase `EntornoGrafico`, que  centraliza las operaciones de dibujado y manejo de eventos. El mismo está relacionado con `BuclePrincipal`, que este brinda el despachado de eventos junto con la actualización de `IRendereables` (es decir, objetos que se pueden dibujar), así como también lo actualizará cuando corresponda.
-
-
-
-## Interfaz de Usuario
-
-### Descripción general
-
-Aunque dentro del ámbito académico se practican fuertemente las habilidades vinculadas al desarrollo de modelos óptimos y flexibles, la prioridad principal es siempre lograr que el usuario final se sienta cómodo con el producto, y esto es especialmente cierto cuando se trabaja en un programa destinado al ocio. Siguiendo esta noción, y con el permiso de los correctores, se optó por distanciarse de los comandos por texto en favor de botones y paneles interactuables.
-
-
-
-#### Mapa y Entidades
-
-En cuanto a lo que corresponde con el resto del juego, se cuantan con una clase principal `Juego`, que a a su vez contiene una `Escena`, `MapaVista` y un mapa de `EntidadeVista`, con su correspondiente modelo `IPosicionable`. El servidor se comunicará con la clase `Juego` para actualizar la información de cada una de sus partes. El mismo responderá cuando aparezca una nueva entidad en el mapa, cambie alguna característica de sus partes o se cambie directamente del mapa cuando el personaje se teletransporta.
-
-La `Escena`, cuenta con dos capas, una será `MapaVista`, que actuará como la capa de fondo, y otro `CapaFrontal`, que está última se dibujará según un orden inducido para poder dar el efecto de solapamiento. Ordenar las capas es costoso, o lo sería si se lo hace sobre todo el mapa, acá es donde resulta útil que `Escena` tenga una referencia de la `Camara` para poder acotar lo que dibujará a solamente lo visible, esto, una cantidad relativamente pequeña y constante, sin importar si el usuario redimensiona la pantalla o si el mapa es inmenso.
-
-Para crear cada una de las partes del `Juego` se cuentan con clases específicas de parseo de archivos, (principalmente de `imagenes.json`), lo que permite, hacer modificaciones de forma dinámica sin tener que recompilar el proyecto.
-
-Para el apartado de animaciones, se cuentan con las clases `Sprite`, `Animacion`y sus derivados que serán detallados en el siguiente apartado.
-
-Se cuenta, además, con un contralador que se encargará de manejar las solicitudes de movimiento que requiera el usuario, este es `MovibleControlador`.
-
-### Clases
-
-La estructura básica del proyecto de una forma primitiva consiste en las clases genéricas:
-
-- `EntornoGrafico`: Almacenará la información de ventana y renderer, que se utilizarán en el resto del programa. El mismo, se encarga de iniciar `SDL` y sus componentes secuencialmente, como así también destruirlos correctamente. También cumple la función de almacen de recursos, permitiendo así, tener una suerte de proxy entre los recursos del sistema (imagenes, fuentes) y el resto de clases, este intermediario, se asegurará de no cargar dos veces el mismo recurso (salvo que se lo fuerce por alguna razón). Intenamente, conoce tanto a la `Ventana` y al `Renderer`, información útil para todo objeto `IRenderable`, por tal motivo, es común ver que los `IRendereables` reciba por parámetro en el constructor, una referencia a este entorno.
-
-- `Ventana`: Inmediatamente cuando se crea el entorno, también se crea el objeto ventana, la misma encapsula las funciones de `SDL_Window`. Esta clase contará con una un vector de `IRendereables`. Cuando se llama a `Ventana::render` también se llamará al render de los correspondientes elementos dentro de la ventana, previamente actualizados.
-
-- `Renderer`: Será el encargado de manejar las funciones de dibujo. Además, cuenta con funciones de tranformaciones (translado y escalado). Cuenta con las operaciones de dibujar rectas, rectangulos, texturas, texto. Los mismos pueden modificar tamaño, colores y posiciones.
-
-- `BuclePrincipal`: Juega el papel de `GameLoop`, que estará escuchando a eventos y cuando recibe alguno, lo despachará a los `IInteractivos` que tiene almacenado. La propagación del evento será líneal, además de de que cortará la propagación cuando el primer interactivo haya consumido el evento. Cada interactivo puede subscribirse a más de un evento. Una vez despachado el evento, se procede a actualizar la ventana (y por consiguiente a los rendereables que contiene) y llama a `Ventana::render`. Una vez finalizado, se cuenta el tiempo que tardo todo el proceso, y se duermo un tiempo hasta completar un tiempo constante, permitiendo así, tener un framerate más estable.
-
-
-<p align="center"> 
-   <img src="documentacion/dc-entornografico.jpg" alt="Dirección derecha">
-</p>
-
-
 #### Interfaz de Usuario
 
 Aunque dentro del ámbito académico se practican fuertemente las habilidades vinculadas al desarrollo de modelos óptimos y flexibles, la prioridad principal es siempre lograr que el usuario final se sienta cómodo con el producto, y esto es especialmente cierto cuando se trabaja en un programa destinado al ocio. Siguiendo esta noción, y con el permiso de los correctores, se optó por distanciarse de los comandos por texto en favor de botones y paneles interactuables.
@@ -126,18 +81,46 @@ Existen además un gran número de clases que heredan de los controladores y vis
 
 ![](documentacion/dia_clases_interfaz2.png)
 
-Una vez terminada la sesión del login, el cliente se queda a la espera de que el servidor envíe el primer mapa. Esta espera se implementa con una `contion_variable`. Una vez recibido el mapa comienta la construcción de `Juego`.
+#### Mapa y Entidades
 
-- `Juego`: Contendrá toda la información necesaria apara mostrar el mapa, mostrar los personajes y que puedan interactuar. Al recibir el mapa, comienza el parseo. La estructura del mapa consiste en un archivo `.json` que cuenta con una serie de capas (vectores unidimensionables mapeables a una matriz) y también con un conjunto de tiles que cuantan con la información de imágenes que presenta el mapa. Este archivo es generado por Tiled. Para parsear este archivo, un tanto complicado, se separa el parseo en distintas clases:
+Se cuenta con una clase principal `Juego`, que a su vez contiene una `Escena`, `MapaVista` y un mapa de `EntidadeVista`, con su correspondiente modelo `IPosicionable`. El servidor se comunicará con la clase `Juego` para actualizar la información de cada una de sus partes. El mismo responderá cuando aparezca una nueva entidad en el mapa, cambie alguna característica de sus partes o se cambie directamente del mapa cuando el personaje se teletransporta.
+
+La `Escena`, cuenta con dos capas, una será `MapaVista`, que actuará como la capa de fondo, y el otro será `CapaFrontal`. está última se dibujará según un orden inducido para poder dar el efecto de solapamiento. Ordenar las capas es costoso, o lo sería si se lo hace sobre todo el mapa. Aquí  es donde resulta útil que `Escena` tenga una referencia a la `Camara` para poder acotar lo que dibujará a solamente lo visible, esto, una cantidad relativamente pequeña y constante, sin importar que el usuario redimensione la pantalla o si el mapa es inmenso.
+
+Para crear cada una de las partes del `Juego` se cuentan con clases específicas de parseo de archivos, (principalmente de `imagenes.json`), lo que permite, hacer modificaciones de forma dinámica sin tener que recompilar el proyecto.
+
+Para el apartado de animaciones, se cuentan con las clases `Sprite`, `Animacion`y sus derivados que serán detallados en el siguiente apartado.
+
+Se cuenta, además, con un controlador que se encargará de manejar las solicitudes de movimiento que requiera el usuario, este es `MovibleControlador`.
+
+La estructura básica del proyecto de una forma primitiva consiste en las clases genéricas:
+
+- `EntornoGrafico`: Almacenará la información de ventana y renderer, que se utilizarán en el resto del programa. El mismo, se encarga de iniciar `SDL` y sus componentes secuencialmente, como así también destruirlos correctamente. También cumple la función de almacén de recursos, permitiendo así, tener una suerte de proxy entre los recursos del sistema (imágenes, fuentes) y el resto de clases, este intermediario, se asegurará de no cargar dos veces el mismo recurso (salvo que se lo fuerce por alguna razón). Internamente, conoce tanto a la `Ventana` y al `Renderer`, información útil para todo objeto `IRenderable`, por tal motivo, es común ver que los `IRendereables` reciba por parámetro en el constructor, una referencia a este entorno.
+
+- `Ventana`: Inmediatamente cuando se crea el entorno, también se crea el objeto ventana, la misma encapsula las funciones de `SDL_Window`. Esta clase contará con una un vector de `IRendereables`. Cuando se llama a `Ventana::render` también se llamará al render de los correspondientes elementos dentro de la ventana, previamente actualizados.
+
+- `Renderer`: Será el encargado de manejar las funciones de dibujo. Además, cuenta con funciones de transformaciones (traslado y escalado). Cuenta con las operaciones de dibujar rectas, rectángulos, texturas, texto. Los mismos pueden modificar tamaño, colores y posiciones.
+
+- `BuclePrincipal`: Juega el papel de `GameLoop`, que estará escuchando a eventos y cuando recibe alguno, lo despachará a los `IInteractivos` que tiene almacenado. La propagación del evento será lineal, además de de que cortará la propagación cuando el primer interactivo haya consumido el evento. Cada interactivo puede subscribirse a más de un evento. Una vez despachado el evento, se procede a actualizar la ventana (y por consiguiente a los rendereables que contiene) y llama a `Ventana::render`. Una vez finalizado, se cuenta el tiempo que tardo todo el proceso, y se duermo un tiempo hasta completar un tiempo constante, permitiendo así, tener un framerate más estable.
+
+
+<p align="center"> 
+   <img src="documentacion/dc-entornografico.jpg" alt="Dirección derecha">
+</p>
+
+
+Una vez terminada la sesión del login, el cliente se queda a la espera de que el servidor envíe el primer mapa. Esta espera se implementa con una `contion_variable`. Una vez recibido el mapa comieza la construcción de `Juego`.
+
+- `Juego`: Contendrá toda la información necesaria apara mostrar el mapa, mostrar los personajes y que puedan interactuar. Al recibir el mapa, comienza el parseo. La estructura del mapa consiste en un archivo `.json` que cuenta con una serie de capas (vectores unidimensionables mapeables a una matriz) y también con un conjunto de tiles que cuentan con la información de imágenes que presenta el mapa. Este archivo es generado por Tiled. Para parsear este archivo, un tanto complicado, se separa el parseo en distintas clases:
   - `LibreriaConjuntoTileParser`: Lee e interpreta la información de imagenes que tiene el mapa, además de cargar las imágenes. Cada conjunto de tile tiene columnas, primer id global (es un id incremental compartido por todos los conjuntos de tiles), una imágen, la cantidad de tiles que tiene, el ancho y alto del mismo.
-  - `CapaFrontalParser`: Para permitir el sobrelapamiento entre sprites del juego, en el mapa, por cada entidad obstruible (es decir que alguien se puede poner detras de esta entidad y este debería ser tapado por la entidad), se agrega un rectangulo sobre el área del sprite. Este paserser será el encargado de leer esta información y convertirla en información útil para el rendereo.
+  - `CapaFrontalParser`: Para permitir el solapamiento entre sprites del juego, en el mapa, por cada entidad obstruible (es decir que alguien se puede poner detrás de esta entidad y este debería ser tapado por la entidad), se agrega un rectángulo sobre el área del sprite. Este paserser será el encargado de leer esta información y convertirla en información útil para el rendereo.
   - `MapaParser`: El mapa en sí, consiste, en una serie de capas que tiene un vector conteniendo un id global (`guid`) que identifica a un tile en específico el parser se encargará de leer esta información.
 
 Con la información rescatada por los parsers, se procede a crear `LibreriaConjuntoTiles`, `CapaFrontal` y `MapaVista`. 
 
-Se tiene la clase `TileConjunto` que es creado con la información que brinda `LibreriaConjuntoTileParser`, esto simplica el acceso por `guids` a la imagen en concreto.
+Se tiene la clase `TileConjunto` que es creado con la información que brinda `LibreriaConjuntoTileParser`, esto simplifica el acceso por `guids` a la imagen en concreto.
 
-La capa frontal, cuenta con una serie de objetos `IObstruible` que fueron parseados previamente, tienen la particularidad de que de una imagen, solo se van a mostrar ciertos cuadros. Dentro de capa frontal, se filtran los obstaculos que están en el campo de visión, y se les aplica un `std::stable_sort` con una funcion de comparacion (en pseudo-código): 
+La capa frontal, cuenta con una serie de objetos `IObstruible` que fueron parseados previamente, tienen la particularidad de que de una imagen, solo se van a mostrar ciertos cuadros. Dentro de capa frontal, se filtran los obstaculos que están en el campo de visión, y se les aplica un `std::stable_sort` con una funcion de comparación (en pseudo-código): 
 ``` python
 def comparar(unObstruible, otroObstruible):
     return unObstruible.y + unObstruible.alto < otro.y + otro.alto
@@ -145,19 +128,19 @@ def comparar(unObstruible, otroObstruible):
 
 Esto permite que los obstruibles que se encuentren más abajo del mapa se muestren al frente. Gracias a la acotación, se reduce el tamaño de obstruibles (en un mapa mediano) de ~300 a ~20.
 
-Adicionalmente se crean la `Camara` (que se encargará de centrar y redimensionar la imagen al centro del personaje y además brindar esta información para acotar el rando de rendereado), la `Escena` que orquestará la disposición de la cámara (y su reincio) y el rendereabo de la capa y del mapa. Además se crea el controlador `MovibleControlador` que escuchará los eventos de teclado y cuando detecte alguna tecla ligada al moviento, enviará la solicitud al servidor. 
+Adicionalmente se crean la `Camara` (que se encargará de centrar y redimensionar la imagen al centro del personaje y además brindar esta información para acotar el rango de rendereado), la `Escena` que orquestará la disposición de la cámara (y su reinicio) y el rendereado de la capa y del mapa. Además se crea el controlador `MovibleControlador` que escuchará los eventos de teclado y cuando detecte alguna tecla ligada al movimiento, enviará la solicitud al servidor. 
 
 A medida que el servidor va a notificando las posiciones de las entidades (personaje, enemigo, npc, objetos), en `Juego`, se verificará si esa entidad es una entidad es conocida, en tal caso, le actualizará la posición. Caso contrario, se creará tanto el modelo `IPosicionable` y la vista `EntidadVista`. El modelo encapsula la posición de la entidad y si esa posición está actualizada (información útil al animar en direcciones); la vista, contendrá toda la información relacionada con el dibujo de la entidad, incluyendo la/s imágen/es que correspondan con la entidad como la animación del mismo. La información acerca de la vista, será levantada y parseada del archivo `imagenes.json`, en el mismo se tiene cómo se compone cada entidad, qué imágenes cuenta y qué animacion le corresponde.
 
 Se cuentan con tres tipos de animaciones: 
 - `AnimacionEstática`: La misma corresponde a una entidad que no se moverá o que el moviento no afecta en nada a la animación. 
-- `AnimacionCuatroDirecciones`: La entidad cuenta con cuatro estados: arriba, derecha, abajo e izquierda. La dirección se determinará con la información que brinda el modelo. En base a eso, se calcula un delta x y un delta y, mapeandolo a una dirección en particular. Para evitar, que los cambios pequeños en la dirección generen una animación erratica, se disminuye la tolerancia de los rangos del ángulo, quedando así regiones vacías cerca de las uniones, en caso de que el ángulo se encuentre en ese rango, no se actualiza la dirección y se usa la dirección anterior. Por ejemplo, en vez de tomar como derecha [-pi/2, pi/2], se toma un rango más pequeño que se ilustra en la siguiente imagen.
+- `AnimacionCuatroDirecciones`: La entidad cuenta con cuatro estados: arriba, derecha, abajo e izquierda. La dirección se determinará con la información que brinda el modelo. En base a eso, se calcula un delta x y un delta y, mapeándolo a una dirección en particular. Para evitar, que los cambios pequeños en la dirección generen una animación errática, se disminuye la tolerancia de los rangos del ángulo, quedando así regiones vacías cerca de las uniones, en caso de que el ángulo se encuentre en ese rango, no se actualiza la dirección y se usa la dirección anterior. Por ejemplo, en vez de tomar como derecha [-pi/2, pi/2], se toma un rango más pequeño que se ilustra en la siguiente imagen.
 
 <p align="center"> 
    <img src="documentacion/animacion_angulo.jpg" alt="Dirección derecha">
 </p>
 
-- `AnimacionOchoDirecciones`: idem anterior salvo por que los intervalos se encuentra sobrelapados porque aumentan las combinaciones de direcciones a 8.
+- `AnimacionOchoDirecciones`: idem anterior salvo por que los intervalos se encuentra solapados porque aumentan las combinaciones de direcciones a 8.
 
 Si bien, solamente se diseñaron e implementaron estas tres animaciones, se pueden agregar más tipos de animaciones, sin modificar código preexistente, respetando el principio open-closed.
 
