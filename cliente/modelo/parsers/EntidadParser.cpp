@@ -18,7 +18,6 @@ void EntidadParser::aMinuscula(std::string& cadena) {
 }
 
 void EntidadParser::parsearRazas() {
-    // todo: levantar ancho, alto, base
     for (auto& raza: parser["razas"].items()) {
         auto clases = raza.value()["variantes"];
         std::string raza_s = raza.key();
@@ -113,7 +112,6 @@ CapaSprite* EntidadParser::getCapaSprite(DatosApariencia& apariencia) {
 CapaSprite* EntidadParser::getCapaSprite(std::string& id) {
     std::string index(id);
     aMinuscula(index);
-    printf("->>>%s\n", id.c_str());
     if (entidades.count(index))
         return entidades.at(index).getCapaSprite();
     return nullptr;
@@ -176,6 +174,12 @@ int EntidadParser::getAltoReal(DatosApariencia& apariencia) {
     std::string id = idReal(apariencia);
     if (!entidades.count(id)) return 0;
     return entidades.at(id).getAlto();
+}
+
+float EntidadParser::getFactor(DatosApariencia& apariencia) {
+    std::string id = idReal(apariencia);
+    if (!entidades.count(id)) return 0;
+    return entidades.at(id).getFactor();
 }
 
 bool EntidadParser::esObstruible(DatosApariencia& apariencia) {

@@ -111,7 +111,6 @@ void ServidorProxy::recibirMensajeConOperacion(uint32_t operacion) {
 		case CODIGO_ERROR:
 		protocolo.recibirString(socket, mensaje);
 		salida -> agregarMensaje(mensaje, mensaje_publico);
-			// throw ErrorServidor("Error de servidor: %s\n", mensaje.c_str());
 		break;
 
 		case CODIGO_INVENTARIO:

@@ -20,6 +20,7 @@ public:
                                                             setDeImagenesBase);
     int getAncho();
     int getAlto();
+    float getFactor();
     bool esObstruible();
 
     const std::vector<Imagen*>& getImagenes(const std::string& parte);
@@ -37,6 +38,7 @@ private:
     std::string animacion_s;
     AnimacionBase* animacion;
     bool es_obstruible = true;
+    float factor = 1.0f;
     int ancho;
     int alto;
 };
