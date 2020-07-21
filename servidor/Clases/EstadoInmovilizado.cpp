@@ -64,8 +64,7 @@ void EstadoInmovilizado::interactuar(Entidad *entidad){
 }
 
 void EstadoInmovilizado::sanar(){
-    personaje->curar(personaje->vidaMaxima, personaje->manaMaximo);
-    personaje->estadoNormal();
+    throw Excepcion("No puedo sanarme mientras estoy inmovilizado");
 }
 
 bool EstadoInmovilizado::curar(float curVida, float curMana){

@@ -30,9 +30,19 @@ class Divulgador : public Thread{
 	public:
 	void procesar();
 	void finalizar();
+	/*
+	Permite encolar un nuevo mensaje en el cual se especifica un origen y un destinatario.
+	*/
 	void encolarMensaje(std::string origen, std::string destino,
 	std::string mensaje);
+	/*
+	Permite encolar un nuevo mensaje en el cual se especifica un destinatario y se
+	toma como origen al propio servidor.
+	*/
 	void encolarMensaje(std::string destino, std::string mensaje);
+	/*
+	Inicializa la instancia del singleton.
+	*/
 	static void inicializarInstancia(OrganizadorClientes* clientes);
 	static Divulgador* obtenerInstancia();
 };

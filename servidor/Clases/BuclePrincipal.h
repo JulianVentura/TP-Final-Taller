@@ -30,6 +30,10 @@ class BuclePrincipal : public Thread{
     BuclePrincipal& operator=(BuclePrincipal &otro) = delete;
     BuclePrincipal& operator=(BuclePrincipal &&otro) = delete;
     virtual ~BuclePrincipal();
+    /*
+    Procesa el mismo bucle principal, manteniendo un frame-rate constante y ordenando a 
+    sala y mapa la actualizacion de clientes y entidades.
+    */
     void procesar() override;
     void finalizar();
 };
