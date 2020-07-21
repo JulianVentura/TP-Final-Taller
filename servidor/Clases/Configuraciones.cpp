@@ -53,7 +53,7 @@ Configuraciones* Configuraciones::obtenerInstancia(){
 
 /* METODOS AUXILIARES */
 
-static bool floatComp(float a, float b, float epsilon = 0.0001){
+static bool floatComp(float a, float b, float epsilon = 0.01){
     return fabs(a - b) < epsilon;
 }
 
@@ -452,7 +452,9 @@ const double   Configuraciones::obtenerPenalizacionRevivir(Mapa *mapaActual, Per
 const double   Configuraciones::obtenerSalaTiempoPersistencia() const{
     return json.at("Varios").at("SalaTiempoPersistencia").get<double>();
 }
-
+const uint32_t Configuraciones::obtenerOroInicial() const{
+    return json.at("Varios").at("OroInicial").get<uint32_t>();
+}
 
 /* FORMULAS DEL JUEGO */
 
@@ -468,7 +470,10 @@ float Configuraciones::calcularRecuperacionVida(const Personaje *personaje, doub
 }
 
 unsigned int Configuraciones::calcularManaMax(const Personaje *personaje){
-    return personaje->inteligencia * personaje->clase.FClaseMana * 
+    //Esto sirve para que los guerreros tengan mana cero.
+    if (personaje->clase.FClaseMana == 0) return 0;
+    uint32_t manaBase = json.at("Personaje").at("ManaBase").get<uint32_t>();
+    return manaBase + personaje->inteligencia * personaje->clase.FClaseMana * 
            personaje->raza.FRazaMana * personaje->nivel;
 }
 
@@ -504,7 +509,7 @@ const uint32_t Configuraciones::calcularExpPorMatar(const Entidad *objetivo, con
 }
 
 const uint32_t Configuraciones::calcularDanioAtaque(const Entidad *objetivo, const Entidad *atacante, const Arma *arma){
-    return atacante->fuerza * numeroRandom(arma->danioMin, arma->danioMax);
+    return std::max(atacante->fuerza, atacante->inteligencia/2) * numeroRandom(arma->danioMin, arma->danioMax);
 }
 
 const uint32_t Configuraciones::calcularCuracion(const Entidad *objetivo, 
