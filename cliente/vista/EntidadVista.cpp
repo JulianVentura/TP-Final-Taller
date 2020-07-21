@@ -24,10 +24,6 @@ EntidadVista::EntidadVista(EntornoGrafico& entorno, IPosicionable* modelo,
 
 void EntidadVista::actualizar(unsigned int delta_t) {
     if (!esta_apariencia || !modelo || !modelo->esta_actualizado()) return;
-    // if (!esta_apariencia)printf ("no hay apariencia\n");
-    // if (!modelo)printf ("no hay modelo\n");
-    // if (!modelo->esta_actualizado()) printf ("modelo no actualizado\n");
-    
     int ultimo_x = x;
     int ultimo_y = y;
     x = modelo->getX();
@@ -46,8 +42,6 @@ void EntidadVista::render() {
     sprite.setMascara(mascara);
     sprite.setDimension(getX() + ancho / 2, getY() + alto, mascara.w, mascara.h);
     sprite.render(parser, equipables);
-    // renderer->setColor(51, 0, 51);
-    // renderer->rect(getX(), getY(), getAncho(), getAlto());
 }
 
 void EntidadVista::actualizarApariencia(DatosApariencia& apariencia) {

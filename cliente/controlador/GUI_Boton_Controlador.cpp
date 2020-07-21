@@ -5,6 +5,7 @@
 
 GUI_BotonControlador::GUI_BotonControlador(GUI_Boton& uvista) :
 GUI_Clickeable(uvista.obtenerMarco()), vista(uvista) {
+	rect = {};
 	actualizarDimension();
 }
 

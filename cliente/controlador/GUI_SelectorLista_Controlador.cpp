@@ -5,6 +5,7 @@ GUI_SelectorListaControlador::GUI_SelectorListaControlador
 GUI_Clickeable({vista.x, vista.y, vista.imagen.getAncho(),
   vista.imagen.getAlto()}), vista(vista), lista(lista){
 	i = 0;
+	actualizarDimension();
 }
 
 bool GUI_SelectorListaControlador::enClick(){

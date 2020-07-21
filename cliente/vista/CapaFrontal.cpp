@@ -49,12 +49,13 @@ void CapaFrontal::render() {
     int fila_final = fila_inicial + frontera.h;
     for (int x = columna_inicial; x <= columna_final; x++) {
         for (int y = fila_inicial; y <= fila_final; y++) {
-            int indice = y * columnas + x;
+            unsigned int indice = y * columnas + x;
             for (auto& capa: capas) {
+                if (capa.second.size() <= indice) continue;
                 int id = capa.second[indice];
                 if (id == 0) continue;
                 Imagen* tile = tiles->getTile(id);
-                if (tile == nullptr) continue;
+                if (!tile) continue;
                 tile->setPosicion(x * tiles->getAnchoTile(),
                                   y * tiles->getAltoTile());
                 tile->render();
@@ -67,8 +68,9 @@ void CapaFrontal::render() {
 void CapaFrontal::renderearObstruiblesVisibles() {
     SDL_Rect frontera_real = { frontera.x * tiles->getAnchoTile(), 
                                frontera.y * tiles->getAltoTile(), 
-                               frontera.w * tiles->getAnchoTile() * 2, 
-                               frontera.h * tiles->getAltoTile() * 2 };
+                               frontera.w * tiles->getAnchoTile(), 
+                               frontera.h * tiles->getAltoTile() };
+    
     std::vector<IObstruible*> obstruibles_visibles;
     for (auto& obstruible: obstruibles) {
         if (!obstruible.second) continue;

@@ -39,6 +39,7 @@ private:
 	bool salir;
 	bool se_recibio_mapa;
 	bool esta_logueado;
+	bool comenzo_recepcion_concurrente;
 	Socket socket;
 	DatosPersonaje& datos_personaje;
 	DatosTienda& datos_tienda;
@@ -67,6 +68,7 @@ public:
 	void recibirMensaje();
 	void comenzarRecepcionConcurrente();
 	void terminar();
+	void terminarJuego();
 	void encolarMensaje(Mensaje&& mensaje);
 
 	// Chat

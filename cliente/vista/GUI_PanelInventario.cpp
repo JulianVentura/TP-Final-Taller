@@ -17,8 +17,8 @@ mueca_equipado(entorno, "assets/gui/mueca.png"), equipados(equipados){
 
 void GUI_PanelInventario::actualizarDimension(){
 	marco.x = ventana->getAncho()*0.2 - (marco.w/2)*(SEPARACION + LADO_CASILLA);
-	marco.y = ventana->getAlto()*0.9 - marco.h*(SEPARACION + LADO_CASILLA)
-	 - 4*SEPARACION;
+	marco.y = ventana->getAlto() - marco.h*(SEPARACION + LADO_CASILLA)
+	 - 4*SEPARACION - 50;
 }
 
 void GUI_PanelInventario::render(){

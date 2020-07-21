@@ -68,6 +68,7 @@ struct serializacionPersonaje{
     uint32_t oroEnAlmacen;
     uint16_t inventario[18];
     uint16_t almacen[18];
+    uint32_t equipados[4];
     uint32_t penalidad;
 }__attribute__((packed, aligned(4)));
 

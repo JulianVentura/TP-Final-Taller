@@ -46,8 +46,9 @@ void MapaVista::render() {
     int fila_final = fila_inicial + frontera.h;
     for (int x = columna_inicial; x <= columna_final; x++) {
         for (int y = fila_inicial; y <= fila_final; y++) {
-            int indice = y * columnas + x;
+            unsigned int indice = y * columnas + x;
             for (auto& capa: capasFondo) {
+                if (capa.size() <= indice) continue; 
                 int id = capa[indice];
                 Imagen* tile = conjuntosTiles->getTile(id);
                 if (!tile) continue;

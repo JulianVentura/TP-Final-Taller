@@ -76,10 +76,6 @@ Personaje::Personaje(float x, float y, std::string id, std::string idClase, std:
 Personaje::Personaje(std::string idPersonaje, std::string idRaza,
     std::string idClase, serializacionPersonaje& datos):
                                        Entidad(idPersonaje),
-                                       arma(NO_EQUIPADO),
-                                       armadura(NO_EQUIPADO),
-                                       escudo(NO_EQUIPADO),
-                                       casco(NO_EQUIPADO),
                                        raza(idRaza),
                                        clase(idClase),
                                        estado(nullptr){
@@ -118,6 +114,11 @@ Personaje::Personaje(std::string idPersonaje, std::string idRaza,
         almacen[i] = fabricaItems
          -> obtenerItemIDTCP(datos.almacen[i]);
     }
+
+    arma     = datos.equipados[0];
+    armadura = datos.equipados[1];
+    escudo   = datos.equipados[2];
+    casco    = datos.equipados[3];
 }
 
 Personaje& Personaje::operator=(Personaje &&otro){
@@ -461,6 +462,11 @@ serializacionPersonaje Personaje::serializar(){
     for(unsigned int i = 0; i < almacen.size();i++){
         datos.almacen[i] = almacen[i] -> obtenerIDTCP();
     }
+
+    datos.equipados[0]= arma;
+    datos.equipados[1]= armadura;
+    datos.equipados[2]= escudo;
+    datos.equipados[3]= casco;
 
     return datos;
 }

@@ -19,6 +19,7 @@ ServidorProxy::ServidorProxy(DatosPersonaje& datos_personaje,
 	salir = false;
 	se_recibio_mapa = false;
 	esta_logueado = false;
+	comenzo_recepcion_concurrente = false;
 	Uint32 tipo_evento = SDL_RegisterEvents(1);
 	if (tipo_evento != ((Uint32) - 1)) {
 		SDL_memset(&evento_salida, 0, sizeof(evento_salida));
@@ -155,12 +156,17 @@ void ServidorProxy::recibirMensajeConOperacion(uint32_t operacion) {
 
 void ServidorProxy::comenzarRecepcionConcurrente() {
 	hilo_recepcion = std::thread(&ServidorProxy::recibirMensaje, this);	
+	comenzo_recepcion_concurrente = true;
 }
-
+void ServidorProxy::terminarJuego() {
+	std::unique_lock<std::mutex> lock(mtx);
+	juego = nullptr;
+}
 void ServidorProxy::terminar() {
 	salir = true;
 	socket.cerrar_canal(SHUT_RDWR);
-	hilo_recepcion.join();
+	if (comenzo_recepcion_concurrente)
+		hilo_recepcion.join();
 }
 
 // Manejo de mapa
@@ -182,8 +188,9 @@ void ServidorProxy::actualizarPosiciones() {
 		posiciones[id] = { protocolo.recibirUint32(socket),
 						   protocolo.recibirUint32(socket)};
 	}
+	std::unique_lock<std::mutex> lock(mtx);
 	if (!juego) return;
-	juego->actualizarPosiciones(std::move(posiciones));
+	juego->actualizarPosiciones((posiciones));
 }
 
 void ServidorProxy::enviarMovimiento(uint32_t movimiento) {
@@ -209,8 +216,9 @@ void ServidorProxy::recibir_estados() {
 		actual.idEstado = protocolo.recibirUint16(socket);
 		resultado.push_back(std::move(actual));
 	}
+	std::unique_lock<std::mutex> lock(mtx);
 	if (!juego) return;
-	juego->actualizarEstados(std::move(resultado));
+	juego->actualizarEstados((resultado));
 }
 
 // Chat
@@ -295,13 +303,14 @@ void ServidorProxy::enviarResucitacion(){
 
 
 void ServidorProxy::setJuego(Juego* juego) {
+	std::unique_lock<std::mutex> lock(mtx);
 	this->juego = juego;
 }
 
 void ServidorProxy::encolarMensaje(Mensaje&& mensaje){
-        if(enviador.envioBloqueado()){
-            SDL_PushEvent(&evento_salida);
-        }else{
-            colaEnvio.push(std::move(mensaje));
-        }
+	if(enviador.envioBloqueado()){
+		SDL_PushEvent(&evento_salida);
+	}else{
+		colaEnvio.push(std::move(mensaje));
+	}
 }

@@ -35,9 +35,9 @@ public:
     void render() override;
     void actualizar(unsigned int delta_t) override;
     void setObjetivoCamara(ITargeteable& objetivo);
-    void actualizarPosiciones(std::unordered_map<std::string, std::pair<int, 
+    void actualizarPosiciones(const std::unordered_map<std::string, std::pair<int, 
                                                             int>> posiciones);
-    void actualizarEstados(std::vector<SerializacionDibujado> dibujados);
+    void actualizarEstados(const std::vector<SerializacionDibujado> dibujados);
     void cambiarMapa(const std::string& mapa_s);
 
 private:
@@ -65,7 +65,8 @@ private:
     void agregarEntidad(std::string& id);
     void borrarEntidad(const std::string& id);
     void actualizarMapa();
-
+    void actualizarPosciones();
+    bool despacharEventoClick(SDL_Event& evento);
     std::pair<IPosicionable*, EntidadVista*> crearEntidad(std::string& id);
 };
 #endif

@@ -10,7 +10,7 @@ class GUI_TiendaControlador : public GUI_PanelControlador{
 private:
 	GUI_PanelTienda& vista_tienda;
 	ServidorProxy& servidor;
-	bool enClick();
+	bool enClick() override;
 public:
 	GUI_TiendaControlador(GUI_PanelTienda& vista_tienda,
 	 ServidorProxy& servidor);
