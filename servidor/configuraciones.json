@@ -502,7 +502,7 @@
             "FClaseRecuperacion": 3,
             "FClaseMeditacion": 5,
             "MejoraFuerzaEnSubida": 1,
-            "MejoraInteligenciaEnSubida": 3,
+            "MejoraInteligenciaEnSubida": 2,
             "MejoraAgilidadEnSubida": 2,
             "MejoraConstitucionEnSubida": 1,
             "idTCP": 1
@@ -635,7 +635,7 @@
             "BaculoNudoso": {
                 "DanioMax": 8,
                 "DanioMin": 4,
-                "Rango": 50,
+                "Rango": 350,
                 "ConsumoMana": 15,
                 "TiempoAtaque": 1000,
                 "Proyectil": "Misil",
@@ -645,7 +645,7 @@
             "BaculoEngarzado": {
                 "DanioMax": 20,
                 "DanioMin": 8,
-                "Rango": 50,
+                "Rango": 250,
                 "ConsumoMana": 30,
                 "TiempoAtaque": 1000,
                 "Proyectil": "Explosion",

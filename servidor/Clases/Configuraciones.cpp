@@ -509,7 +509,7 @@ const uint32_t Configuraciones::calcularExpPorMatar(const Entidad *objetivo, con
 }
 
 const uint32_t Configuraciones::calcularDanioAtaque(const Entidad *objetivo, const Entidad *atacante, const Arma *arma){
-    return std::max(atacante->fuerza, atacante->inteligencia/2) * numeroRandom(arma->danioMin, arma->danioMax);
+    return std::log10(std::max(atacante->fuerza, atacante->inteligencia/2)) * numeroRandom(arma->danioMin, arma->danioMax);
 }
 
 const uint32_t Configuraciones::calcularCuracion(const Entidad *objetivo, 
