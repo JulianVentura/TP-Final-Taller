@@ -47,7 +47,7 @@
 	    "CiudadMasCercana": "ciudad",
             "PosicionSpawnInicial": [
                 100,
-                2000
+                2100
             ]
         }
     },
@@ -64,8 +64,8 @@
         "AgilidadBase": 5,
         "ConstitucionBase": 5,
         "VelDesplazamiento": 0.118,
-        "Ancho": 6,
-        "Alto": 6
+        "Ancho": 10,
+        "Alto": 10
     },
     "Estados": {
         "EstadoNormal": {
@@ -80,8 +80,8 @@
     },
     "Ciudadanos": {
         "Sacerdote": {
-            "Ancho": 6,
-            "Alto": 6,
+            "Ancho": 10,
+            "Alto": 10,
             "StockVenta": {
                 "Armas": ["VaraDeFresno"],
                 "Armaduras": [],
@@ -91,8 +91,8 @@
             }
         },
         "Comerciante": {
-            "Ancho": 6,
-            "Alto": 6,
+            "Ancho": 10,
+            "Alto": 10,
             "StockVenta": {
                 "Armas": ["Espada", "ArcoSimple"],
                 "Armaduras": [],
@@ -102,8 +102,8 @@
             }
         },
         "Banquero": {
-            "Ancho": 6,
-            "Alto": 6,
+            "Ancho": 10,
+            "Alto": 10,
 	    "LimiteTransaccion": 100,
 	    "FraccionTransaccion": 0.2
         }
@@ -122,8 +122,8 @@
             "RadioVisibilidad": 300,
             "RadioAgresividad": 500,
             "TiempoDespawn": 600,
-            "Ancho": 8,
-            "Alto": 8,
+            "Ancho": 14,
+            "Alto": 14,
             "Drops": {
                 "Tipo": {
                     "Item": 0.2,
@@ -213,11 +213,11 @@
             "RadioVisibilidad": 300,
             "RadioAgresividad": 500,
             "TiempoDespawn": 600,
-            "Ancho": 6,
-            "Alto": 6,
+            "Ancho": 14,
+            "Alto": 14,
             "Drops": {
                 "Tipo": {
-                    "Item": 0.2,
+                    "Item": 0.5,
                     "Oro": 0.3
                 },
                 "Armas": {
@@ -296,11 +296,11 @@
             "RadioVisibilidad": 300,
             "RadioAgresividad": 500,
             "TiempoDespawn": 600,
-            "Ancho": 8,
-            "Alto": 8,
+            "Ancho": 14,
+            "Alto": 14,
             "Drops": {
                 "Tipo": {
-                    "Item": 0.3,
+                    "Item": 0.5,
                     "Oro": 0.3
                 },
                 "Armas": {
@@ -387,11 +387,11 @@
             "RadioVisibilidad": 300,
             "RadioAgresividad": 500,
             "TiempoDespawn": 600,
-            "Ancho": 8,
-            "Alto": 8,
+            "Ancho": 16,
+            "Alto": 16,
             "Drops": {
                 "Tipo": {
-                    "Item": 0.3,
+                    "Item": 0.5,
                     "Oro": 0.3
                 },
                 "Armas": {
@@ -583,8 +583,8 @@
         },
         "Armas": {
             "Espada": {
-                "DanioMax": 5,
-                "DanioMin": 2,
+                "DanioMax": 8,
+                "DanioMin": 4,
                 "Rango": 30,
                 "ConsumoMana": 0,
                 "TiempoAtaque": 800,
@@ -593,7 +593,7 @@
                 "idTCP": 1
             },
             "Hacha": {
-                "DanioMax": 5,
+                "DanioMax": 10,
                 "DanioMin": 4,
                 "Rango": 100,
                 "ConsumoMana": 0,
@@ -603,8 +603,8 @@
                 "idTCP": 2
             },
             "Martillo": {
-                "DanioMax": 9,
-                "DanioMin": 1,
+                "DanioMax": 14,
+                "DanioMin": 8,
                 "Rango": 120,
                 "ConsumoMana": 0,
                 "TiempoAtaque": 1800,
@@ -613,8 +613,8 @@
                 "idTCP": 3
             },
             "VaraDeFresno": {
-                "DanioMax": 4,
-                "DanioMin": 2,
+                "DanioMax": 6,
+                "DanioMin": 3,
                 "Rango": 300,
                 "ConsumoMana": 50,
                 "TiempoAtaque": 1500,
@@ -633,8 +633,8 @@
                 "idTCP": 5
             },
             "BaculoNudoso": {
-                "DanioMax": 8,
-                "DanioMin": 4,
+                "DanioMax": 9,
+                "DanioMin": 5,
                 "Rango": 350,
                 "ConsumoMana": 15,
                 "TiempoAtaque": 1000,
@@ -653,8 +653,8 @@
                 "idTCP": 7
             },
             "ArcoSimple": {
-                "DanioMax": 4,
-                "DanioMin": 1,
+                "DanioMax": 6,
+                "DanioMin": 3,
                 "Rango": 150,
                 "ConsumoMana": 0,
                 "TiempoAtaque": 1000,

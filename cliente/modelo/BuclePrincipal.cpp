@@ -4,10 +4,6 @@
 #include <SDL2/SDL_timer.h>
 #include <thread>
 
-// #define FPS 60
-// #define SEG_A_MILLI 1000
-// #define MILLIS_POR_FRAME SEG_A_MILLI / FPS
-
 BuclePrincipal::BuclePrincipal(Ventana& ventana) : ventana(&ventana) {
     agregarInteractivo(SDL_WINDOWEVENT, &ventana);
     agregarInteractivo(SDL_KEYDOWN, &ventana);

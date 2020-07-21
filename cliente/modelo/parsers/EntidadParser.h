@@ -37,6 +37,7 @@ public:
     bool esObstruible(DatosApariencia& apariencia);
     CapaSprite* getCapaSprite(DatosApariencia& apariencia);
     CapaSprite* getCapaSprite(std::string& id);
+    float getFactor(DatosApariencia& apariencia);
     static void aMinuscula(std::string& cadena);
     
 private:

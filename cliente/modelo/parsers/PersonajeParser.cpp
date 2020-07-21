@@ -37,6 +37,7 @@ void PersonajeParser::setAnimacion(std::unordered_map<std::string, AnimacionPars
     }
     capa->setAnimacion(this->animacion);
 }
+float PersonajeParser::getFactor() { return factor; }
 
 bool PersonajeParser::esObstruible() { return es_obstruible; }
 
@@ -55,7 +56,7 @@ void PersonajeParser::parsear(EntornoGrafico& entorno, nlohmann::json& parser,
     capa = new CapaSpritePersonaje(setDeImagenes);
     id = raza + ENTIDADPARSER_DELIMITADOR + clase;
     animacion_s = ENTIDADPARSER_BASE;
-    float factor = parser["razas"][raza]["escala"];
+    factor = parser["razas"][raza]["escala"];
     ancho = parser["ancho"].get<int>() * factor;
     alto = parser["alto"].get<int>() * factor;
     EntidadParser::aMinuscula(id);

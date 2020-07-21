@@ -1,4 +1,4 @@
-![logo](documentacion/logo.png)
+    ![logo](documentacion/logo.png)
 
 # MANUAL DE USUARIO
 

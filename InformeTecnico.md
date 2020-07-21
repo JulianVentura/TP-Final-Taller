@@ -49,17 +49,27 @@ El servidor no conoce el modo en el que el cliente enseña cada componente, much
 
 #### Interfaz de Usuario
 
-Aunque dentro del ámbito académico se practican fuertemente las habilidades vinculadas
+##### Descripción general
 
-al desarrollo de modelos óptimos y flexibles, la prioridad principal es siempre lograr
-
-que el usuario final se sienta cómodo con el producto, y esto es especialmente cierto cuando se trabaja en un programa destinado al ocio. Siguiendo esta noción, y con el permiso de los correctores, se optó por distanciarse de los comandos por texto en favor de botones y paneles interactuables.
+Aunque dentro del ámbito académico se practican fuertemente las habilidades vinculadas al desarrollo de modelos óptimos y flexibles, la prioridad principal es siempre lograr que el usuario final se sienta cómodo con el producto, y esto es especialmente cierto cuando se trabaja en un programa destinado al ocio. Siguiendo esta noción, y con el permiso de los correctores, se optó por distanciarse de los comandos por texto en favor de botones y paneles interactuables.
 
 Cuando se realiza un click con el ratón o se presiona alguna tecla, un evento se dispara y llega a una primer capa (`GUI_Principal` / `GUI_Login`), integrada por todos los botones que desencadenan alguna operación (abrir el inventario, comprar o vender, etc). Los botones y paneles se recorren uno a uno hasta que el evento puede ser respondido por uno de ellos. De no ser así, se alcanza la segunda capa, en donde se averigua si existe en el mapa una entidad en la posición marcada y de ser así, se interactúa con ella.
 
 Todas las partes de la interfaz ajustan su posición según el tamaño de la ventana, pero a excepción de las barras y el estante, no se redimensionan. Existe por ende un tamaño de ventana mínimo, debajo del cual colapsan todos los elementos.
 
 Considerando que la simultaneidad de clientes se evalúa en la misma computadora se decidió no restringir el área de la ventana, para facilitar la depuración del código y su corrección.
+
+El sistema cuenta con una clase `EntornoGrafico`, que permite tener centralizada las operaciones de dibujado y de eventos. El mismo está relacionado con `BuclePrincipal`, que este brinda el despachado de eventos junto con la actualización de `IRendereables` (es decir, objetos que se pueden dibujar), así como también lo actualizará cuando corresponda.
+
+En cuanto a lo que corresponde con el resto del juego, se cuantan con una clase principal `Juego`, que a a su vez contiene una `Escena`, `MapaVista` y un mapa de `EntidadeVista`, con su correspondiente modelo `IPosicionable`. El servidor se comunicará con la clase `Juego` para actualizar la información de cada una de sus partes. El mismo responderá cuando aparezca una nueva entidad en el mapa, cambie alguna característica de sus partes o se cambie directamente del mapa cuando el personaje se teletransporta.
+
+La `Escena`, cuenta con dos capas, una será `MapaVista`, que actuará como la capa de fondo, y otro `CapaFrontal`, que está última se dibujará según un orden inducido para poder dar el efecto de sobrelapamiento. Ordenar las capas es costoso, o lo sería si se lo hace sobre todo el mapa, acá es donde resulta útil que `Escena` tenga una referencia de la `Camara` para poder acotar lo que dibujará a solamente lo visible, esto, una cantidad relativamente pequeña y constante, sin importar si el usuario redimensiona la pantalla o si el mapa es inmenso.
+
+Para crear cada una de las partes del `Juego` se cuentan con clases específicas de parseo de archivos, (principalmente de `imagenes.json`), lo que permite, hacer modificaciones de forma dinámica sin tener que recompilar el proyecto.
+
+Para el apartado de animaciones, se cuentan con las clases `Sprite`, `Animacion`y sus derivados que serán detallados en el siguiente apartado.
+
+Se cuenta, además, con un contralador que se encardará de manejar las solicitudes de movimiento que requiera el usuario, este es `MovibleControlador`.
 
 El modelo subyacente aprovecha las virtudes del patrón MVC, las clases fundamentales son:
 
@@ -113,7 +123,7 @@ Las clases más importantes que componen este módulo son:
 
 ##### Protocolo
 
-El protocolo requiere del envío de enteros de 8,16 y 32 bits y cadenas de texto. Todo entero se transmite en formato Big Endian y a las cadenas de texto las encabezan un entero de 32 bits que marca su longitud. 
+El protocolo requiere del envío de enteros de 8, 16 y 32 bits y cadenas de texto. Todo entero se transmite en formato Big Endian y a las cadenas de texto las encabezan un entero de 32 bits que marca su longitud. 
 
 A cada operación le precede un identificador único de 32 bits que permite conocer cómo se deben interpretar los bytes recibidos. Si el código de operación no es conocido no puede determinarse cuales de los bytes subsiguientes se corresponderán con la operación fallida y cuáles con la siguiente operación, por lo que no queda más remedio que interrumpir la comunicación entre servidor y cliente.
 

@@ -154,7 +154,7 @@ void Renderer::renderTexturaTexto(SDL_Surface* superficie, int x, int y) {
     render_mascara.w = textura_mascara.w;
     render_mascara.h = textura_mascara.h;
     renderTextura(textura, textura_mascara, render_mascara);
-    SDL_DestroyTexture(textura); // TODO: Se podría bufferear
+    SDL_DestroyTexture(textura);
 }
 
 void Renderer::texto(const std::string& text) {
