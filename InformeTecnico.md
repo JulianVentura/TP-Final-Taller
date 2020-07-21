@@ -1,3 +1,50 @@
+# Trabajo Práctico Final
+
+### Materia: Taller de programación I
+
+### Autores: Ventura Julian, Barreneche Franco, More Agustin
+
+
+
+## Introducción
+
+El presente es un informe que acompaña a la resolución del TP Final de la materia Taller de programación I de la Facultad de Ingeniería de la Universidad de Buenos Aires.
+
+Se adjunta el link al repositorio del TP:
+
+https://github.com/JulianVentura/TP-Final-Taller
+
+
+
+## Requisitos
+
+- Probado en Ubuntu 64 bits y Linux Mint 32 bits.
+
+- Biblioteca SDL2, SLD_Image, SDL_TTF 
+```
+sudo apt install -y libsdl2-dev libsdl2-image-dev libsdl2-ttf-dev
+```
+
+- Biblioteca Nlohman dev_3.7.0-2: http://mirrors.kernel.org/ubuntu/pool/universe/n/nlohmann-json3/nlohmann-json3-dev_3.7.0-2_all.deb
+
+(Se puede instalar también con ```sudo apt install nlohmann-json3-dev```, pero en algunas versiones de ubuntu, se instala la versión 2, que no funciona para el tp).
+
+- Biblioteca de audio incorporada en el propio código, no requiere instalación adicional.
+
+  
+
+## Descripción general
+
+Se parte de un servidor con un hilo aceptador que se encuentra a la espera de nuevas conexiones y múltiples hilos (uno por mapa) que comienzan a gestionar la aparición de criaturas. A medida que se conectan clientes se desencadenan hilos para cada uno, que escuchan los códigos de operaciones que éstos mandan.
+
+Una vez establecida la conexión y resuelto el inicio de sesión, la tarea del servidor se  divide en dos partes: Un módulo activo que actualiza el estado del juego y envía datos de actualización a los clientes. Y múltiples módulos reactivos que procesan las solicitudes de los cliente, modificando el estado del juego.
+
+Por su parte, el cliente se limita a mostrar por pantalla los distintos cambios que ocurren y a proveer una interfaz amigable al usuario para el envío de las operaciones. Dos hilos bastan para ello.
+
+El servidor no conoce el modo en el que el cliente enseña cada componente, mucho menos la interfaz. Sin embargo, para garantizar cierto nivel de sincronización los archivos que describen los mapas se transmiten durante el tiempo de juego.
+
+
+
  # Cliente
 
 #### Interfaz de Usuario
@@ -120,14 +167,28 @@ Por ultimo, el mapa recibe la orden de actualizar los estados de las entidades, 
 Los metodos mas importantes son:
 
 * actualizarPosicion(): Actualiza la posicion de una entidad en el mapa, si es que la nueva posicion es valida. 
+
 * recolectarPosiciones(): Devuelve informacion de las posiciones de cada entidad del mapa
+
 * obtener(): Devuelve un puntero a entidad en base a un id.
+
 * obtenerEntidades(): Devuelve todas las entidades que abarcan un area del mapa.
+
 * entidadesActualizarEstados(): Actualiza el estado de todas las entidades del mapa, ejecuta la carga de entidades y carga criaturas al mapa, si es posible.
+
 * eliminarEntidad(): Elimina una entidad del mapa
+
 * eliminarEntidadNoColisionable(): Elimina una entidad no colisionable del mapa (util para proyectiles)
+
 * cargarEntidad(): Carga una entidad al mapa
+
 * cargarEntidadNoColisionable(): Carga una entidad al mapa, la cual no sera colisionable (util para proyectiles)
+
+  
+
+![Diagrama de clases](/documentacion/diagramaDeClasesClienteSala)
+
+
 
 #### Entidades
 
@@ -183,6 +244,12 @@ Puntualizando en el personaje se pueden agregar unos metodos mas:
 Puntualizando en el caso de criatura se puede agregar otro metodo:
 
 * actualizarEstado(): Ejecuta la IA de la criatura, donde buscara a un objetivo para atacar.
+
+  
+
+  ![Diagrama de clases](/documentacion/diagramaDeClasesEntidades)
+
+  
 
 
 #### Combate y drops.
@@ -343,6 +410,11 @@ La interacción con la `BolsaDeItems` es exactamente la misma a la de un `Banque
 La interacción con un `Portal`, como se menciono anteriormente, teletransporta automáticamente al jugador a un nuevo mapa. El como de la tele transportación se detallara en la seccion de cliente.
 
 
+
+![Diagrama de secuencia](/documentacion/diagramaDeSecuenciaComerciante)
+
+
+
 #### Sistema de comunicación
 
 La comunicación entre el servidor y el cliente consiste en las siguientes clases:
@@ -397,6 +469,10 @@ Los mensajes de chat que llegan al servidor contienen 3 cadenas: destinatario, r
 Ésta clase lanza un hilo al momento de su creación, que se encarga de desencolar una a una las tuplas, interpretar su contenido y en base a los lineamientos expuestos, enviar el contenido a los destinatarios adecuados. Si el nombre del destinatario o el remitente no coincide con el de un usuario activo, se descarta.
 
 Los clientes reciben un mensaje compuesto y se basan en un valor booleano adicional para determinar si mostrar la cadena como una charla privada o pública. Esta última medida es desde ya, puramente estética.
+
+
+
+![Diagrama de clases](/documentacion/diagramaDeClasesConexion)
 
 #### Persistencia
 
@@ -470,7 +546,9 @@ En este momento es que se llamara a la `BaseDeDatos` para persistir la informaci
 En una tele transportación, ya sea por interactuar con un portal, o por utilizar el comando `revivir`, el cliente recibirá la orden de cambio de mapa.
 El cambio de mapa consiste en la descarga del cliente de la sala actual, el cambio de posicion del personaje a la zona de spawn del mapa destino (configurable en el archivo de configuraciones), la carga del cliente a la nueva sala y el cambio de cola de operaciones a cliente proxy.
 
-![Diagrama de secuencia](/documentacion/diagramaDeSecuenciaComerciante)
+![Diagrama de secuencia](/documentacion/diagramaDeSecuenciaCambioMapa)
+
+
 
 
 #### Bibliotecas externas y Tiled
@@ -501,29 +579,6 @@ Llegados a la primera entrega fue muy evidente la necesidad de una refactorizaci
 Debido a los problemas antes mencionados el tiempo comenzó a jugar en contra, y sumado a la cantidad de errores surgidos al intentar unir los trabajos realizados en el cliente y servidor, fue imposible llegar a la primera fecha de entrega con un trabajo solido que demuestre realmente el esfuerzo invertido.
 
 Dicho esto, se cree que el trabajo mejoro notablemente una vez superados estos problemas, ya que la base de desarrollo comenzó a ser bastante mas clara.
-
-### Diagramas
-
-A continuación se presentan los diagramas que acompañan al informe, cabe aclarar que por la complejidad del trabajo se decidió dividir a los mismos en categorías, similares a las que se encuentran en este informe.
-Además es necesario destacar que todos los diagramas tienen un alto nivel de abstracción y buscan transmitir la idea del modelo de la forma mas sencilla posible, se recomienda acompañar a los mismos con la lectura de las secciones previas.
-
-#### Diagramas de clases
-
-![Diagrama de clases](/documentacion/diagramaDeClasesClienteSala)
-
-![Diagrama de clases](/documentacion/diagramaDeClasesConexion)
-
-![Diagrama de clases](/documentacion/diagramaDeClasesEntidades)
-
-
-
-#### Diagramas de secuencia
-
-
-
-
-
-![Diagrama de secuencia](/documentacion/diagramaDeSecuenciaCambioMapa)
 
 
 
