@@ -53,10 +53,8 @@ void CapaSpritePersonaje::render(EntidadParser& parser, std::unordered_map<
             renderImagen(imagen_mostrar, x, y, ancho, alto);
             continue;
         }
-        for (auto& imagen: setDeImagenes[parte]) {
+        for (auto& imagen: setDeImagenes[parte]) 
             renderImagen(imagen, x, y, ancho, alto);
-        }
-
     }
     for (auto& equipable: equipables) 
         renderImagen(equipable.second, x, y, ancho, alto);

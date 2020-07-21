@@ -110,6 +110,14 @@ CapaSprite* EntidadParser::getCapaSprite(DatosApariencia& apariencia) {
     return nullptr;
 }
 
+CapaSprite* EntidadParser::getCapaSprite(std::string& id) {
+    std::string index(id);
+    aMinuscula(index);
+    printf("->>>%s\n", id.c_str());
+    if (entidades.count(index))
+        return entidades.at(index).getCapaSprite();
+    return nullptr;
+}
 const std::vector<Imagen*>& EntidadParser::getImagenes(
                                                 DatosApariencia& apariencia) {
     std::string id = apariencia.tipo;

@@ -108,6 +108,7 @@ public:
      */
     SDL_Texture* texturaDesdeArchivoImagen(const std::string& ruta);
     
+    void setViewport(SDL_Rect& viewport);
 private:
     SDL_Rect transformar(SDL_Rect& rect);
     SDL_Rect transformar(int x, int y, int ancho, int alto);

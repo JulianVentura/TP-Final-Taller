@@ -11,7 +11,19 @@ EntornoMusical::EntornoMusical(){
 	initAudio();
 	NUEVO_AUDIO("musicaMenu", "assets/audio/musicaMenu.wav");
 	NUEVO_AUDIO("musicaJuego", "assets/audio/musicaJuego.wav");
-	NUEVO_AUDIO("musicaJuego2", "assets/audio/musicaJuego2.wav");
+	NUEVO_AUDIO("Cuerpo", "assets/audio/cuerpo.wav");
+	NUEVO_AUDIO("Curar", "assets/audio/Curar.wav");
+	NUEVO_AUDIO("Explosion", "assets/audio/explosion.wav");
+	NUEVO_AUDIO("Flechazo", "assets/audio/flechazo.wav");
+	NUEVO_AUDIO("FlechaM", "assets/audio/explosion.wav");
+	NUEVO_AUDIO("Misil", "assets/audio/explosion.wav");
+	NUEVO_AUDIO("Zombie", "assets/audio/zombie.wav");
+	NUEVO_AUDIO("Esqueleto", "assets/audio/zombie3.wav");
+	NUEVO_AUDIO("Goblin", "assets/audio/zombie3.wav");
+	NUEVO_AUDIO("Ambiente1", "assets/audio/birds2.wav");
+	NUEVO_AUDIO("100-101", "assets/audio/fantasma.wav");
+	NUEVO_AUDIO("101-100", "assets/audio/fantasma-a-vivo.wav");
+	NUEVO_AUDIO("CambioMapa", "assets/audio/teletransportar.wav");
 }
 
 EntornoMusical* EntornoMusical::obtenerInstancia(){
@@ -19,6 +31,7 @@ EntornoMusical* EntornoMusical::obtenerInstancia(){
 }
 
 void EntornoMusical::reproducirSonido(std::string nombre){
+	if (!sonidos.count(nombre)) return;
 	try{
 		playSoundFromMemory(sonidos.at(nombre),
 			VOLUMEN/2);
@@ -26,6 +39,7 @@ void EntornoMusical::reproducirSonido(std::string nombre){
 }
 
 void EntornoMusical::reproducirMusica(std::string nombre){
+	if (!sonidos.count(nombre)) return;
 	try{
 		playMusicFromMemory(sonidos.at(nombre),
 			VOLUMEN);

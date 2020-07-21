@@ -1,8 +1,11 @@
 #include "MapaVista.h"
 #include "TileConjunto.h"
+#include "EntornoMusical.h"
+#include <cstdlib>
 #include <iostream>
 #include <string>
 #include <utility>
+#define PROB_SONIDO 1
 
 int MapaVista::getColumnas() { return columnas; }
 int MapaVista::getFilas() { return filas; }
@@ -26,6 +29,7 @@ void MapaVista::parse(const MapaParser& parser,
     alto_tile = parser.getAltoTile();
     ancho = columnas * ancho_tile;
     alto = filas * alto_tile;
+    EntornoMusical::obtenerInstancia()->reproducirSonido("CambioMapa");
 }
 
 void MapaVista::actualizar(unsigned int delta_t) {
@@ -59,6 +63,8 @@ void MapaVista::render() {
     }
     for (auto& rendereable: rendereables)
         rendereable.second->render();
+    if (std::rand() % 1000 < PROB_SONIDO)
+        EntornoMusical::obtenerInstancia()->reproducirSonido("Ambiente1");
 }
 
 void MapaVista::setFrontera(SDL_Rect& frontera) {

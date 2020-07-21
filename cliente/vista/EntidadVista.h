@@ -19,16 +19,20 @@ public:
     void actualizarApariencia(DatosApariencia& apariencia);
     void render() override;
     void actualizar(unsigned int delta_t) override;
-    
+    void reproducirSonido(IPosicionable* foco);
+
 private:
     Sprite sprite;
+    EntornoGrafico& entorno;
     std::string ultimo_estado;
+    std::string estado_anterior;
     IPosicionable* modelo;
     EntidadParser& parser;
     Animacion animacion;
     AnimacionBase* infoAnimacion;
     DatosApariencia apariencia;
     bool esta_apariencia;
+    bool reprodujo_sonido = false;
     SDL_Rect mascara = {};
 };
 

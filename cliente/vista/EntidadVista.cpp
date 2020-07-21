@@ -12,14 +12,34 @@
 #include <utility>
 #include <unordered_map>
 
+#include "EntornoMusical.h"
+
+#define RADIO_SONIDO 15000
+
 EntidadVista::EntidadVista(EntornoGrafico& entorno, IPosicionable* modelo, 
                                                         EntidadParser& parser): 
-       modelo(modelo), parser(parser) {
+       entorno(entorno), modelo(modelo), parser(parser) {
     entorno.agregarRendereable(this);
     x = modelo->getX();
     y = modelo->getY();
     ultimo_estado = ANIMACION_BASE;
     esta_apariencia = false;
+    reprodujo_sonido = false;
+}
+
+void EntidadVista::reproducirSonido(IPosicionable* foco) {
+    if (reprodujo_sonido || !foco) return;
+    if (std::pow(modelo->getX() - foco->getX(), 2) + 
+        std::pow (modelo->getY() - foco->getY(), 2) > RADIO_SONIDO) return;
+    std::string id;
+    if (estado_anterior.size()){
+        id = apariencia.estado + "-" + estado_anterior;
+        estado_anterior = "";
+    } else {
+        id = apariencia.tipo;
+    }
+    EntornoMusical::obtenerInstancia()->reproducirSonido(id);
+    reprodujo_sonido = true;
 }
 
 void EntidadVista::actualizar(unsigned int delta_t) {
@@ -47,6 +67,10 @@ void EntidadVista::render() {
 void EntidadVista::actualizarApariencia(DatosApariencia& apariencia) {
     if (this->apariencia == apariencia) return;
     sprite.actualizar(parser, apariencia);
+    if (!estado_anterior.size()) {
+        estado_anterior = this->apariencia.estado;
+        reprodujo_sonido = estado_anterior != apariencia.estado;
+    }
     this->apariencia = apariencia;
     ancho = parser.getAnchoReal(apariencia);
     alto = parser.getAltoReal(apariencia);

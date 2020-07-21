@@ -36,7 +36,9 @@ public:
     int getAltoReal(DatosApariencia& apariencia);
     bool esObstruible(DatosApariencia& apariencia);
     CapaSprite* getCapaSprite(DatosApariencia& apariencia);
+    CapaSprite* getCapaSprite(std::string& id);
     static void aMinuscula(std::string& cadena);
+    
 private:
     std::string idReal(DatosApariencia& apariencia);
     const std::vector<Imagen*>& getImagenes(const std::string& raza, 

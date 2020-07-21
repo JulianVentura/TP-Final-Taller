@@ -222,3 +222,8 @@ void Renderer::renderTexturaExpandida(SDL_Texture* texture,
     SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_BLEND);
     SDL_RenderCopy(renderer, texture, &origen_mascara, NULL);
 }
+
+
+void Renderer::setViewport(SDL_Rect& viewport) {
+    SDL_RenderSetViewport(renderer, &viewport);
+}   

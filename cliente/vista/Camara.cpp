@@ -32,7 +32,7 @@ void Camara::transformar(int& x, int& y) const {
 
 void Camara::centrar(Renderer* renderer, int ancho_unidad, float radio) {
     if (!objetivo || !marco) return;
-    zoom = marco->getAncho() / (ancho_unidad * radio);
+    zoom = std::max(marco->getAncho(), marco->getAlto()) / (ancho_unidad * radio);
     zoom = round(zoom * ancho_unidad) / ancho_unidad;
     renderer->escalar(zoom);
 

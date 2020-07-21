@@ -10,7 +10,6 @@ using json = nlohmann::json;
 
 void Juego::agregarEntidad(std::string& id) {
     if (!id.size()) return;
-    printf("Se agrega %s\n", id.c_str());
     auto posicion_identificador = id.find(NPC_DELIMITADOR);
     DatosApariencia apariencia;
     if (posicion_identificador != std::string::npos) 
@@ -95,6 +94,9 @@ void Juego::actualizarMapa() {
 
 void Juego::render() {
     if (hay_que_actualizar_mapa) return;
+    for (auto& entidad: entidades) {
+        entidad.second.second->reproducirSonido(entidades.at(datos_personaje.id).first);
+    }
     escena.render();
 }
 

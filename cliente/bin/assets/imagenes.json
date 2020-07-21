@@ -411,12 +411,12 @@
 				"8": {
 					"nombre": "Arco simple",
 					"descripcion": "arma a distancia, tiene un daño de 1 a 4. Las flechas son infinitas.",
-					"imagen": "bow.png"
+					"imagen": "arco.png"
 				},
 				"9": {
 					"nombre": "Arco compuesto",
 					"descripcion": "arma a distancia, tiene un daño de 4 a 16. Las flechas son infinitas.",
-					"imagen": "6.png"
+					"imagen": "arco.png"
 				}
 			}
 		},
@@ -631,6 +631,12 @@
 			"alto": 113,
 			"imagen": ["3797.png"], 
 			"animacion": "meditar"
+		},
+		"Cuerpo": {
+			"ancho": 48,
+			"alto": 48,
+			"imagen": ["cuerpo.png"], 
+			"animacion": "cuerpo-attack"
 		}
 	},
 	"animacion": {
@@ -803,6 +809,23 @@
 				}
 			}
 		},
+		"cuerpo-attack": {
+			"Ancho": 48,
+			"Alto": 48,
+			"tiempo_por_cuadro": 100,
+			"tiempo_entre_ciclo": 0,
+			"Direcciones": 0,
+			"Columnas": 9,
+			"Columna": 0,
+			"Estado-Inicial": "attack",
+			"Direccion-Inicial": "",
+			"Estados": {
+				"attack": {
+					"fila": 0,
+					"cantidad": 9
+				}
+			}
+		},		
 		"flechamagica": {
 			"Ancho": 64,
 			"Alto": 64,

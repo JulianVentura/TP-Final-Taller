@@ -4,12 +4,13 @@
 #include <SDL2/SDL_timer.h>
 #define ANCHO_VENTANA_INIT 650
 #define ALTO_VENTANA_INIT 500
+
 Ventana::~Ventana() {
     SDL_DestroyWindow(ventana);
 }
 
 Ventana::Ventana(EntornoGrafico& entorno, const char* title): 
-        entorno(entorno) {
+                                                            entorno(entorno) {
     this->ancho = ANCHO_VENTANA_INIT;
     this->alto = ALTO_VENTANA_INIT;
     ventana = SDL_CreateWindow(title, 
