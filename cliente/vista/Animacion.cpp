@@ -30,7 +30,6 @@ void Animacion::setInfo(AnimacionBase* infoAnimacion) {
 }
 void Animacion::actualizar(unsigned int delta_t) {
     if (!infoAnimacion) return;
-    // ultimo_delta_t = DELTA_T;
     ultimo_delta_t = delta_t;
 }
 
